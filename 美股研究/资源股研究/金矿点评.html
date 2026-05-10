@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>黄金矿企深度对比 综合版 · 16 家同框架横比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF9F6; --paper-warm:#F5F2EA;
+  --ink:#0E2A47; --ink-soft:#2C3E5A; --muted:#6B7689;
+  --line:#E2DDD0; --line-soft:#EDE8DB;
+  --bronze:#8B6F35; --bronze-soft:#C9A961;
+  --bull:#1F6B4A; --bear:#A8331F;
+  --highlight:#FFF1B8; --highlight-soft:#FFF8DC;
+  --neutral:#3E5C7E;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1320px;margin:0 auto;padding:36px 40px 60px;}
+.hero{border-top:3px solid var(--ink);border-bottom:1px solid var(--line);padding:28px 0 24px;margin-bottom:28px;}
+.hero-meta{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--bronze);text-transform:uppercase;margin-bottom:18px;padding-bottom:14px;border-bottom:1px dotted var(--line);}
+.hero-meta span:last-child{color:var(--muted);}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:32px;line-height:1.18;letter-spacing:-0.015em;margin:0 0 12px;color:var(--ink);max-width:1080px;}
+h1 em{font-style:italic;color:var(--bronze);font-weight:500;}
+.hero-sub{font-size:14.5px;color:var(--ink-soft);max-width:1000px;line-height:1.55;margin:0 0 20px;}
+.hero-sub strong{color:var(--ink);font-weight:600;}
+.hero-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--paper-warm);}
+.hero-stat{padding:14px 16px;border-right:1px solid var(--line);}
+.hero-stat:last-child{border-right:none;}
+.hero-stat .lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:var(--bronze);text-transform:uppercase;margin-bottom:6px;}
+.hero-stat .val{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.2;}
+.hero-stat .sub{font-size:11.5px;color:var(--muted);margin-top:3px;}
+.section{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);}
+.section:first-of-type{border-top:none;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--bronze);text-transform:uppercase;margin-bottom:6px;}
+.section-head{background:linear-gradient(90deg,#0E2A47 0%,#143655 100%);padding:18px 22px;border-left:4px solid var(--bronze);margin:0 0 18px -2px;color:#fff;}
+.section-head .sec-num{color:#D4B070;font-size:11.5px;letter-spacing:.22em;margin-bottom:5px;}
+.section-head h2{color:#fff;margin:0;font-size:22px;}
+.section-head h2 em{color:#D4B070;font-style:italic;font-weight:500;}
+h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:23px;line-height:1.25;letter-spacing:-0.01em;margin:0 0 14px;color:var(--ink);}
+h2 em{font-style:italic;color:var(--bronze);font-weight:500;}
+h3{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;margin:0 0 8px;color:var(--ink);}
+.lead{color:var(--ink-soft);font-size:13.5px;line-height:1.6;margin:0 0 16px;max-width:1020px;}
+.lead strong{color:var(--ink);font-weight:600;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.35;background:var(--paper);border:1px solid var(--line);}
+thead th{background:var(--ink);color:var(--paper);text-align:left;padding:10px 11px;font-weight:600;font-size:11px;letter-spacing:.04em;border-right:1px solid rgba(255,255,255,.08);white-space:nowrap;vertical-align:middle;}
+thead th:last-child{border-right:none;}
+tbody td{padding:10px 11px;border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft);}
+tbody td:last-child{border-right:none;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:nth-child(even) td{background:rgba(229,222,206,.18);}
+tbody td.tk{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;}
+.num{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--ink);}
+.bull{color:var(--bull);font-weight:600;}
+.bear{color:var(--bear);font-weight:600;}
+.bronze-text{color:var(--bronze);font-weight:600;}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;padding:2px 7px;border:1px solid var(--line);background:var(--paper-warm);color:var(--bronze);border-radius:2px;white-space:nowrap;text-transform:uppercase;}
+.tag.bull{color:var(--bull);border-color:#C5DCCB;background:#EEF5F0;}
+.tag.bear{color:var(--bear);border-color:#E2C7C0;background:#F8EDE9;}
+.tag.neutral{color:var(--neutral);border-color:#CCD9E5;background:#EDF2F8;}
+.tag.gold{color:var(--bronze);border-color:#E0CFA3;background:var(--highlight-soft);}
+.updates{background:var(--highlight-soft);border-left:3px solid var(--bronze);padding:16px 20px;margin:18px 0 22px;}
+.updates-title{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:600;font-size:15px;color:var(--ink);margin-bottom:10px;}
+.updates-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 24px;}
+.update-item{font-size:12.5px;color:var(--ink-soft);padding-left:14px;position:relative;line-height:1.5;}
+.update-item:before{content:'▸';position:absolute;left:0;color:var(--bronze);font-size:10px;top:1px;}
+.update-item strong{color:var(--ink);font-weight:600;}
+.update-item .tk-inline{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--ink);font-size:11.5px;}
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px;}
+.profile{border:1px solid var(--line);border-left:3px solid var(--bronze);background:var(--paper);padding:14px 16px;}
+.profile.bull{border-left-color:var(--bull);}
+.profile.bear{border-left-color:var(--bear);}
+.profile.neutral{border-left-color:var(--neutral);}
+.profile-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;padding-bottom:7px;border-bottom:1px dotted var(--line);}
+.profile-name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:14.5px;color:var(--ink);}
+.profile-tk{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--bronze);letter-spacing:.04em;}
+.profile-body{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+.profile-body p{margin:0 0 6px;}
+.profile-body p:last-child{margin-bottom:0;}
+.profile-body strong{color:var(--ink);font-weight:600;}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin:14px 0;}
+.data-cell{padding:12px 14px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:var(--paper);}
+.data-cell:nth-child(4n){border-right:none;}
+.data-cell .lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--bronze);text-transform:uppercase;margin-bottom:4px;}
+.data-cell .val{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;color:var(--ink);line-height:1.2;}
+.data-cell .sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.calendar{border:1px solid var(--line);background:var(--paper);margin:14px 0;}
+.cal-quarter{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--line-soft);}
+.cal-quarter:last-child{border-bottom:none;}
+.cal-q-label{background:var(--paper-warm);padding:14px;border-right:1px solid var(--line);font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:600;font-size:14px;color:var(--bronze);}
+.cal-q-label small{display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:9.5px;color:var(--muted);letter-spacing:.08em;margin-top:3px;text-transform:uppercase;}
+.cal-events{padding:8px 14px;}
+.cal-event{display:grid;grid-template-columns:60px 1fr 90px;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line);font-size:12.5px;align-items:baseline;}
+.cal-event:last-child{border-bottom:none;}
+.cal-tk{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11.5px;color:var(--ink);}
+.cal-desc{color:var(--ink-soft);}
+.cal-desc strong{color:var(--ink);font-weight:600;}
+.cal-impact{font-family:'JetBrains Mono',monospace;font-size:9.5px;text-align:right;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
+.cal-impact.high{color:var(--bear);}
+.cal-impact.med{color:var(--bronze);}
+.cal-impact.low{color:var(--muted);}
+.note{border:1px solid var(--line);border-left:3px solid var(--bronze);background:var(--paper-warm);padding:12px 16px;font-size:12.5px;color:var(--ink-soft);margin:14px 0;line-height:1.55;}
+.note strong{color:var(--ink);font-weight:600;}
+.note .lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:var(--bronze);text-transform:uppercase;font-weight:600;margin-right:8px;}
+.heat-cell{display:inline-block;padding:2px 7px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;text-align:center;min-width:36px;}
+.h5{background:#0F4D2D;color:white;}
+.h4{background:#1F6B4A;color:white;}
+.h3{background:#7AA68A;color:#0E2A47;}
+.h2{background:#D9C99A;color:#0E2A47;}
+.h1{background:#C9A961;color:white;}
+.h0{background:#A8331F;color:white;}
+.tier-divider td{font-family:'Fraunces',serif !important;font-style:italic !important;font-size:11.5px !important;color:var(--bronze) !important;background:rgba(199,169,97,.10) !important;padding:6px 11px !important;}
+.footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--muted);text-align:center;text-transform:uppercase;}
+@media (max-width:1100px){
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hero-stat{border-right:none;border-bottom:1px solid var(--line);}
+  .cards-2{grid-template-columns:1fr;}
+  .data-grid{grid-template-columns:repeat(2,1fr);}
+  .data-cell:nth-child(4n){border-right:1px solid var(--line-soft);}
+  .data-cell:nth-child(2n){border-right:none;}
+  .updates-grid{grid-template-columns:1fr;}
+  .wrap{padding:24px 18px 40px;}
+  h1{font-size:24px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-meta">
+    <span>Equity Research · Precious Metals · Comprehensive Edition</span>
+    <span>Merged v2 + v3 · 2026.05.09</span>
+  </div>
+  <h1>黄金矿企深度对比 <em>综合版</em>：16 家同框架横比<br>—— 把 v2 (10 家) 与 v3 (6 家) 合并为<em>统一可决策研报</em></h1>
+  <p class="hero-sub">本报告把此前两份独立分析合并为一份完整对照——v2 覆盖的<strong>核心生产商 + 开发者 (10 家)</strong>与 v3 增补的<strong>流权益 / 巨型项目 / 小盘双叙事 (6 家)</strong>放回同一坐标系。<strong>三大集成视角</strong>：(1) 16 家在估值矩阵、M&A 矩阵、催化剂日历、管理层质量、下行敏感度的同尺度对照；(2) 跨类型分桶——核心生产商 / 防御 / 长周期期权 / 高 beta / 主题敞口 / 观察避开六类标的的资金分配；(3) 错位建仓视图——四大开发者 (DC / SA / NG / WRN) 催化剂时点错开，避免单一时点拥挤。<strong>核心结论：在金价 $4,400+/oz 环境下，估值差异比资源差异更能预测未来 12 个月回报；TFPM 是唯一真正的下行防御资产，EGO/CGAU/BTG 是核心生产商三角，SA/WRN/NG/DC 是错位的长周期期权。</strong></p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="lbl">Total Coverage</div><div class="val">16 Names</div><div class="sub">v2 10 + v3 6</div></div>
+    <div class="hero-stat"><div class="lbl">Spot Au</div><div class="val">~$4,500/oz</div><div class="sub">vs FS 假设 $1,700–2,350</div></div>
+    <div class="hero-stat"><div class="lbl">Cohort EV</div><div class="val">~$50B+</div><div class="sub">16 家合计</div></div>
+    <div class="hero-stat"><div class="lbl">Top Picks</div><div class="val bronze-text">EGO · CGAU · TFPM</div><div class="sub">事件 + 估值 + 防御</div></div>
+    <div class="hero-stat"><div class="lbl">Avoid / Watch</div><div class="val bronze-text">IAUX · PZG · IDR</div><div class="sub">资本结构 / 估值过热</div></div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 01 — Cohort Overview & Material Updates</div>
+    <h2>队列总览：16 家在<em>价值链不同节点</em>的同框架定位</h2>
+  </div>
+  <p class="lead">把 v2 与 v3 合并后，16 家按价值链阶段划分为<strong>六类</strong>：(1) <strong>大型/中型生产商</strong>——HMY / EGO / CGAU / BTG，规模生产 + 现金流稳定；(2) <strong>多金属/特殊生产商</strong>——BVN / DRD，下行场景隐藏价值；(3) <strong>小盘高弹性生产商</strong>——CMCL / IAUX / ITRG / IDR，单矿/双矿组合，催化剂 / 风险敞口集中；(4) <strong>巨型未开发项目</strong>——NG / SA / WRN，世界级资源 + 长周期期权；(5) <strong>中后期开发者</strong>——DC / PZG，PFS/FS 阶段，距离投产 2-4 年；(6) <strong>流权益</strong>——TFPM，唯一非运营标的，下行场景核心防御。</p>
+
+  <table>
+    <thead>
+      <tr><th>票</th><th>类型</th><th>核心资产</th><th>地区</th><th>市值<br>(USD)</th><th>当前阶段</th><th>综合标签</th></tr>
+    </thead>
+    <tbody>
+      <tr class="tier-divider"><td colspan="7">━━ 大型 / 中型生产商 ━━</td></tr>
+      <tr><td class="tk">HMY</td><td>大型纯金 + 铜转型</td><td>南非地下金矿组合 + Eva Copper（澳洲）</td><td>南非 / 澳洲</td><td><span class="num">~$15B</span></td><td>2026 产 ~1.4Moz Au</td><td><span class="tag neutral">高 beta 周期</span></td></tr>
+      <tr><td class="tk">EGO</td><td>多元生产 + 铜金</td><td>Lamaque / Kisladag / Olympias / Skouries</td><td>加 / 土 / 希</td><td><span class="num">~$5.5B</span></td><td>Skouries 2026 Q3 第一精矿</td><td><span class="tag bull">核心 Top Pick</span></td></tr>
+      <tr><td class="tk">CGAU</td><td>金铜生产 + 长寿命</td><td>Mount Milligan + Öksüt</td><td>加拿大 / 土耳其</td><td><span class="num">~$3.0B</span></td><td>Mount Milligan 寿命延伸至 2045</td><td><span class="tag bull">核心 Top Pick</span></td></tr>
+      <tr><td class="tk">BTG</td><td>4 矿生产商</td><td>Fekola / Goose / Masbate / Otjikoto</td><td>马里 / 加拿大 / 菲 / 纳米</td><td><span class="num">~$7.0B</span></td><td>2026 产 820–970koz</td><td><span class="tag gold">事件驱动</span></td></tr>
+      <tr class="tier-divider"><td colspan="7">━━ 多金属 / 特殊生产商 ━━</td></tr>
+      <tr><td class="tk">BVN</td><td>秘鲁多金属</td><td>San Gabriel / Yumpag + Cerro Verde 19.58%</td><td>秘鲁</td><td><span class="num">~$3.5B</span></td><td>San Gabriel 持续 ramp-up</td><td><span class="tag bull">隐藏资产防御</span></td></tr>
+      <tr><td class="tk">DRD</td><td>南非尾矿处理</td><td>Vision 2028 + Far West Gold Recoveries</td><td>南非</td><td><span class="num">~$2.0B</span></td><td>FY25 盈利创纪录</td><td><span class="tag neutral">确定性溢价</span></td></tr>
+      <tr><td class="tk">TFPM</td><td>Streamer / Royalty</td><td>239 项流权益 (16 streams + 223 royalties)</td><td>全球（重澳/秘）</td><td><span class="num">~$6.5B</span></td><td>2030 GEOs +45% 目标</td><td><span class="tag bull">防御核心</span></td></tr>
+      <tr class="tier-divider"><td colspan="7">━━ 小盘高弹性生产商 ━━</td></tr>
+      <tr><td class="tk">CMCL</td><td>津巴布韦高品位</td><td>Blanket + Bilboes（开发）</td><td>津巴布韦</td><td><span class="num">~$350M</span></td><td>Bilboes 融资是关键</td><td><span class="tag neutral">二元事件</span></td></tr>
+      <tr><td class="tk">IAUX</td><td>Nevada 多项目平台</td><td>Granite Creek / Lone Tree 等</td><td>美国 Nevada</td><td><span class="num">~$400M</span></td><td>资本结构持续承压</td><td><span class="tag bear">避免</span></td></tr>
+      <tr><td class="tk">ITRG</td><td>美国生产 + 开发</td><td>Florida Canyon + DeLamar</td><td>美国 NV / ID</td><td><span class="num">~$350M</span></td><td>FC 高 AISC 拖累</td><td><span class="tag neutral">耐心观察</span></td></tr>
+      <tr><td class="tk">IDR</td><td>Idaho 金 + REE 双叙事</td><td>Golden Chest + Lemhi Pass / Mineral Hill</td><td>美国 Idaho</td><td><span class="num">~$0.58B</span></td><td>2025 产 12.5koz Au + REE 探勘</td><td><span class="tag neutral">主题溢价</span></td></tr>
+      <tr class="tier-divider"><td colspan="7">━━ 巨型未开发项目 (Mega-Project Developers) ━━</td></tr>
+      <tr><td class="tk">NG</td><td>Donlin 世界级金矿</td><td>Donlin（NG 60% 经济权益）</td><td>美国 Alaska</td><td><span class="num">~$3.0B</span></td><td>2027 BFS 完成</td><td><span class="tag bull">长周期期权</span></td></tr>
+      <tr><td class="tk">SA</td><td>KSM 巨型 Au-Cu</td><td>KSM (47 Moz Au + 7.3 Blbs Cu P&P)</td><td>BC, Canada</td><td><span class="num">~$3.1B</span></td><td>BC 优先项目，找 JV partner</td><td><span class="tag bull">长周期期权</span></td></tr>
+      <tr><td class="tk">WRN</td><td>Casino Au-Cu 项目</td><td>Casino (21 Moz Au + 11 Blbs Cu)</td><td>Yukon, Canada</td><td><span class="num">~$0.62B</span></td><td>YESAB 评估推进</td><td><span class="tag bull">Rio Tinto 收购候选</span></td></tr>
+      <tr class="tier-divider"><td colspan="7">━━ 中后期开发者 (Mid-Stage Developers) ━━</td></tr>
+      <tr><td class="tk">DC</td><td>南达科他 Homestake</td><td>Richmond Hill + Maitland Unionville</td><td>美国 SD</td><td><span class="num">~$700M</span></td><td>2026 H2 PFS + 储量首报</td><td><span class="tag bull">事件驱动 + M&A</span></td></tr>
+      <tr><td class="tk">PZG</td><td>Grassy Mountain</td><td>FS 完成 + Federal ROD 已签</td><td>美国 Oregon</td><td><span class="num">~$0.18B</span></td><td>Shovel-ready，更新 FS H1 2026</td><td><span class="tag bear">融资关键</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="updates" style="margin-top:18px;">
+    <div class="updates-title">2026 H1 关键事实速览（v2 + v3 合并）</div>
+    <div class="updates-grid">
+      <div class="update-item"><span class="tk-inline">EGO</span> · <strong>Skouries 时间表锁定</strong>：第一精矿 2026 Q3、商业化生产 Q4 2026；2027 跃升至 620–720koz Au + 50–70Mlbs Cu，<strong>+40% vs 2025</strong>；Skouries Capex 上修至 $1.06B（+15.5%）。</div>
+      <div class="update-item"><span class="tk-inline">NG</span> · <strong>BFS 已实质启动</strong>：Fluor 主承包商，BFS 锁定 2027；现金 $392.5M，<strong>未来 18 个月无稀释风险</strong>；2025 Nov 阿拉斯加最高法院维持水权 + 管道通行权。</div>
+      <div class="update-item"><span class="tk-inline">DC</span> · <strong>PFS 推迟至 H2 2026</strong>，同时<strong>首次报告储量</strong>；2025 IACF 用 $2,350 金价测算 IRR <strong>59%</strong>、年产 150koz Au；当前 $4,400+ NPV 已远超原数值；2026 Feb 完成 $75M 股权融资。</div>
+      <div class="update-item"><span class="tk-inline">SA</span> · <strong>BC 优先项目认定</strong>（4/30）+ Snip North <strong>9.2 Moz Au 首次资源量</strong>（4/15）；Courageous Lake 分拆 Valor Gold 上市，释放 SA 估值聚焦 KSM 主线。</div>
+      <div class="update-item"><span class="tk-inline">WRN</span> · <strong>2 月完成 C$80M 融资</strong>（C$4.15/股）：未来 18 个月无稀释；新 COO Robert Dirk（前 Suncor 37 年）+ VP Tech Christian Roldan（前 Newmont）；Rio + Mitsubishi 持股 + IRA 延续至 2026 H2。</div>
+      <div class="update-item"><span class="tk-inline">PZG</span> · <strong>Federal ROD 已签</strong>（1/29）：Oregon 首个走完 NEPA 的金矿项目，<strong>shovel-ready</strong>；Ausenco 更新 FS H1 2026 完成；但 SEC 文件含 going-concern 表述，融资缺口 $200-300M。</div>
+      <div class="update-item"><span class="tk-inline">BTG</span> · <strong>Q1 2026 大超预期</strong>：营收 $1.16B / EPS $0.19 / FCF $362M，4 矿全部超指引，3 日股价涨 25%；Goose 5 月火灾 Q2 产量下调；$325M 卖 Fingold 给 AEM；CEO transition 进行中。</div>
+      <div class="update-item"><span class="tk-inline">TFPM</span> · <strong>Q1 2026 创纪录</strong>：营收 $147M / 30,166 GEOs / 调整 EBITDA $129M（+67% YoY）/ 资产毛利率 <strong>93%</strong>；2026 GEOs 95-105koz；2030 目标 140-150koz；Hope Bay 5 月建设决策。</div>
+      <div class="update-item"><span class="tk-inline">IDR</span> · <strong>2025 业绩创纪录</strong>：营收 $42.4M（+64.6%）/ 净利润 $16.7M（+89.2%）/ EPS $1.14；产 12,538 oz Au @ 10.14 g/t；2025 加入 Russell 3000 + GDXJ；<strong>客户集中度 98%</strong>（H&H Metals）。</div>
+      <div class="update-item"><span class="tk-inline">CMCL</span> · Bilboes 融资是核心变量；当前 Blanket AISC 偏高承压；2026 内融资落地是触发跃迁的唯一关键事件。</div>
+      <div class="update-item"><span class="tk-inline">HMY</span> · FY25 EBITDA 创纪录；H1 FY26 AISC $2,115/oz 偏高；Eva Copper 2027 投产是核心叙事，铜业务估值重估贡献 $3-5B 上修空间。</div>
+      <div class="update-item"><span class="tk-inline">IAUX</span> · 资本结构持续承压；Lone Tree 工厂重启融资仍未明朗；融资缺口 $200-300M，未来 12 月可能多轮稀释。</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Methodology</span> 本报告统一沿用财经卖方研报标准框架：估值矩阵 → M&A 矩阵 → 催化剂日历 → 管理层质量 → 下行敏感度 → 公司深度 → 组合建议。所有市值 / 估值数据为 2026.05.08 公开披露 + 卖方一致预期估算，仅供参考。<strong>16 家中：4 家为 Top Pick / 防御核心（EGO / CGAU / TFPM / BVN），4 家为长周期期权（NG / SA / WRN / DC），3 家为高 beta 弹性（HMY / CMCL / BTG），3 家为观察 / 避免（IAUX / PZG / IDR），其余为均衡 / 主题敞口。</strong>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 02 — Valuation Matrix · 16 Names Unified</div>
+    <h2>估值横比：16 家在<em>同一坐标系</em>下的便宜与贵</h2>
+  </div>
+  <p class="lead">本表用四个标准化估值倍数（EV/Resource oz、EV/Reserve oz、P/NAV、EV/EBITDA 或 P/CF）对 16 家做横比，并按类型分组以便同类对比。<strong>关键判断准则</strong>：(1) EV/Resource 衡量"地下价值买入价"，越低越便宜但需结合品位/管辖区折现；(2) P/NAV 衡量"市场对项目执行的信任度"，&lt;1× 通常意味着折价；(3) EV/EBITDA 反映"现金流回报率"，&lt;5× 通常意味着估值偏低；(4) Streamer 不可用矿企指标，应看 P/CF 与 P/E。<strong>核心结论</strong>：在金价 $4,400+ 环境下，任何 EV/Resource &lt; $100/oz 的成熟生产商都值得深入研究；任何 EV/Resource &lt; $50/oz 的开发资产都可能存在重估机会。</p>
+
+  <table>
+    <thead>
+      <tr><th>公司</th><th>类型</th><th>市值<br>(USD)</th><th>净现金<br>(债)</th><th>EV<br>(USD)</th><th>EV/Resource<br>(M&I+Inf Au)</th><th>EV/Reserve<br>(P&P Au)</th><th>P/NAV<br>(估)</th><th>EV/EBITDA<br>or P/CF</th><th>估值评价</th></tr>
+    </thead>
+    <tbody>
+      <tr class="tier-divider"><td colspan="10">━━ 大型 / 中型生产商 ━━</td></tr>
+      <tr><td class="tk">HMY</td><td>大型纯金</td><td><span class="num">~$15B</span></td><td><span class="num bull">+$1.0B</span></td><td><span class="num">~$14B</span></td><td><span class="num">~$103</span></td><td><span class="num">~$380</span></td><td><span class="num">~0.8×</span></td><td><span class="num">~3-4×</span></td><td><span class="tag bull">便宜</span> 南非折价 + Eva 重估</td></tr>
+      <tr><td class="tk">EGO</td><td>多元生产</td><td><span class="num">~$5.5B</span></td><td><span class="num bull">+$0.4B</span></td><td><span class="num">~$5.1B</span></td><td><span class="num">~$200</span></td><td><span class="num">~$408</span></td><td><span class="num">~1.0×</span></td><td><span class="num">~5×</span></td><td><span class="tag gold">合理</span> Skouries NAV 折价待释放</td></tr>
+      <tr><td class="tk">CGAU</td><td>金铜生产</td><td><span class="num">~$3.0B</span></td><td><span class="num bull">+$0.6B</span></td><td><span class="num">~$2.4B</span></td><td><span class="num">~$220</span></td><td><span class="num">~$436</span></td><td><span class="num">~0.85×</span></td><td><span class="num">~3-4×</span></td><td><span class="tag bull">便宜</span> Streaming 折价被过度定价</td></tr>
+      <tr><td class="tk">BTG</td><td>4 矿生产商</td><td><span class="num">~$7.0B</span></td><td><span class="num bull">+$0.4B</span></td><td><span class="num">~$6.6B</span></td><td><span class="num">~$365</span></td><td><span class="num">~$945</span></td><td><span class="num">~0.7×</span></td><td><span class="num">~3-3.5×</span></td><td><span class="tag bull">便宜</span> Goose ramp + AEM 协同未定价</td></tr>
+      <tr class="tier-divider"><td colspan="10">━━ 多金属 / 特殊生产商 ━━</td></tr>
+      <tr><td class="tk">BVN</td><td>多金属</td><td><span class="num">~$3.5B</span></td><td><span class="num bear">-$0.3B</span></td><td><span class="num">~$3.8B</span></td><td><span class="num">N/A 多金属</span></td><td><span class="num">~$1,000+</span></td><td><span class="num">~0.7×</span></td><td><span class="num">~5×</span></td><td><span class="tag bull">便宜</span> Cerro Verde 19.58% 被严重低估</td></tr>
+      <tr><td class="tk">DRD</td><td>南非尾矿</td><td><span class="num">~$2.0B</span></td><td><span class="num bull">+$0.2B</span></td><td><span class="num">~$1.8B</span></td><td><span class="num">~$272</span></td><td><span class="num">~$314</span></td><td><span class="num">~1.2×</span></td><td><span class="num">~5-6×</span></td><td><span class="tag neutral">已定价</span> 确定性溢价完全反映</td></tr>
+      <tr><td class="tk">TFPM</td><td>Streamer</td><td><span class="num">~$6.5B</span></td><td><span class="num bull">+$1.0B</span></td><td><span class="num">~$5.5B</span></td><td><span class="num">N/A 流权益</span></td><td><span class="num">N/A 流权益</span></td><td><span class="num">~1.4×</span></td><td><span class="num">P/E 31.5×<br>P/CF ~14×</span></td><td><span class="tag bull">合理偏贵</span> Streamer premium 已反映</td></tr>
+      <tr class="tier-divider"><td colspan="10">━━ 小盘高弹性生产商 ━━</td></tr>
+      <tr><td class="tk">CMCL</td><td>津巴布韦</td><td><span class="num">~$350M</span></td><td><span class="num bear">-$0.1B</span></td><td><span class="num">~$450M</span></td><td><span class="num">~$80</span></td><td><span class="num">~$176</span></td><td><span class="num">~0.6×</span></td><td><span class="num">~6-7×</span></td><td><span class="tag gold">合理</span> Bilboes 融资明朗前不重估</td></tr>
+      <tr><td class="tk">IAUX</td><td>Nevada</td><td><span class="num">~$400M</span></td><td><span class="num bear">-$0.4B</span></td><td><span class="num">~$800M</span></td><td><span class="num">~$57</span></td><td><span class="num">无储量</span></td><td><span class="num">~0.3×</span></td><td><span class="num">N/A</span></td><td><span class="tag bear">折价合理</span> 资本结构脆弱压制估值</td></tr>
+      <tr><td class="tk">ITRG</td><td>美国生产+开发</td><td><span class="num">~$350M</span></td><td><span class="num bear">-$0.05B</span></td><td><span class="num">~$400M</span></td><td><span class="num">~$155</span></td><td><span class="num">~$205</span></td><td><span class="num">~0.5×</span></td><td><span class="num">~7×</span></td><td><span class="tag gold">合理</span> Florida Canyon 高 AISC 拖累</td></tr>
+      <tr><td class="tk">IDR</td><td>Idaho 金+REE</td><td><span class="num">~$0.58B</span></td><td><span class="num bull">+$0.07B</span></td><td><span class="num">~$0.51B</span></td><td><span class="num">N/A 资源小</span></td><td><span class="num">N/A 资源小</span></td><td><span class="num">~3.5×</span></td><td><span class="num">EV/EBITDA<br>~20×</span></td><td><span class="tag bear">很贵</span> REE 叙事溢价压倒金矿基本面</td></tr>
+      <tr class="tier-divider"><td colspan="10">━━ 巨型未开发项目 (Mega-Projects) ━━</td></tr>
+      <tr><td class="tk">NG</td><td>Donlin 巨型</td><td><span class="num">~$3.0B</span></td><td><span class="num bull">+$0.4B</span></td><td><span class="num">~$2.6B</span></td><td><span class="num">~$108</span></td><td><span class="num">~$132</span></td><td><span class="num">~0.15×</span></td><td><span class="num">N/A</span></td><td><span class="tag bull">便宜</span> NPV $24B 估值，市值 $3B = 88% 折价</td></tr>
+      <tr><td class="tk">SA</td><td>KSM 巨型</td><td><span class="num">~$3.1B</span></td><td><span class="num bear">-$0.35B</span></td><td><span class="num">~$3.45B</span></td><td><span class="num">~$50</span></td><td><span class="num">~$73</span></td><td><span class="num">~0.20×</span></td><td><span class="num">N/A</span></td><td><span class="tag bull">便宜</span> 47 Moz P&P @ $73/oz 全球罕见</td></tr>
+      <tr><td class="tk">WRN</td><td>Casino</td><td><span class="num">~$0.62B</span></td><td><span class="num bull">+$0.12B</span></td><td><span class="num">~$0.50B</span></td><td><span class="num">~$24</span></td><td><span class="num">无储量</span></td><td><span class="num">~0.15×</span></td><td><span class="num">N/A</span></td><td><span class="tag bull">极便宜</span> 但 C$3.6B Capex 是巨大门槛</td></tr>
+      <tr class="tier-divider"><td colspan="10">━━ 中后期开发者 ━━</td></tr>
+      <tr><td class="tk">DC</td><td>Homestake</td><td><span class="num">~$700M</span></td><td><span class="num bull">+$0.1B</span></td><td><span class="num">~$600M</span></td><td><span class="num">~$96</span></td><td><span class="num">无储量</span></td><td><span class="num">~0.4×</span></td><td><span class="num">N/A</span></td><td><span class="tag gold">合理</span> PFS 出来后才会真正定价</td></tr>
+      <tr><td class="tk">PZG</td><td>Grassy Mountain</td><td><span class="num">~$0.18B</span></td><td><span class="num bear">~$0</span></td><td><span class="num">~$0.18B</span></td><td><span class="num">~$120</span></td><td><span class="num">~$474</span></td><td><span class="num">~0.5×</span></td><td><span class="num">N/A</span></td><td><span class="tag bear">折价反映</span> 融资风险</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="lbl">三个判断准则</span> (1) <strong>Streamer 的 EV/Resource 不可比</strong>——TFPM 持有的是流权益现金流权，无法用矿企指标衡量；用 P/E、P/CF、NAV 即可。(2) <strong>SA 与 NG 估值结构相似</strong>——都是巨型未开发资产，市场都给了 0.15-0.20× P/NAV 的极端折价，反映资本支出 + 时间价值；SA 优势是 BC 司法管辖区 + Snip North 新发现，NG 优势是 32.8 Moz @ 2.0 g/t 更高品位 + Barrick 历史买家可能。(3) <strong>WRN 是估值最离谱的标的</strong>——$24/oz EV/Resource 几乎只反映纸面资源价值，但 Casino 项目要等 YESAB 完成 + JV partner 出现才能真正定价。
+  </div>
+
+  <h3 style="margin-top:18px;">16 家中最被低估的 6 家与最贵 / 风险偏高的 5 家</h3>
+  <div class="cards-2">
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">最值得深挖的低估值标的</span><span class="profile-tk">UNDERVALUED · TOP 6</span></div>
+      <div class="profile-body">
+        <p><strong>NG</strong>：Donlin NPV ~$24B vs NG 市值 $3B（即使按 60% 权益、40% 风险折扣，也低估约 50-60%），但要等 2027 年 BFS 才会重新定价。</p>
+        <p><strong>WRN</strong>：EV/Resource $24/oz 在所有金铜开发标的中最便宜；Rio Tinto + Mitsubishi 双背书是稀缺的 endorsement；用 $4,400 金价 + $5 Cu 重算 NPV 可能突破 C$8B。</p>
+        <p><strong>SA</strong>：47.3 Moz P&P + 7.3 Blbs Cu 在全球未开发资产中独一无二；BC 优先项目 + Snip North 9.2 Moz 让 KSM 不再是孤立资产；用 0.30× P/NAV 重估，市值上行空间约 50-80%。</p>
+        <p><strong>BVN</strong>：Cerro Verde 19.58% 权益按市价估算就有 $1.2-1.5B 价值，相当于 BVN 市值 35-40%；其余 San Gabriel + Yumpag 等于市场赠送。</p>
+        <p><strong>HMY</strong>：EV/EBITDA 3-4× 是十大金矿股最便宜，Eva Copper 2027 投产后铜业务估值溢价可贡献 $3-5B 估值上修空间。</p>
+        <p><strong>BTG</strong>：EV/EBITDA ~3-3.5× 是 mid-cap producer 中最便宜之一；Q1 2026 大超预期 + Goose 投产 + AEM 收购 Fingold 完成简化资产组合。</p>
+      </div>
+    </div>
+    <div class="profile bear">
+      <div class="profile-head"><span class="profile-name">短期估值已充分定价或风险偏高</span><span class="profile-tk">RICHLY/RISKY PRICED</span></div>
+      <div class="profile-body">
+        <p><strong>IDR</strong>：EV/EBITDA ~20× 在小型生产商中明显偏贵；金矿基本面（12.5koz/年）支撑不了当前估值；溢价完全建立在 REE 探勘叙事 + Russell 3000/GDXJ 被动买入；H&H Metals 占 98% 销售是单点失败风险。</p>
+        <p><strong>DRD</strong>：地质风险低带来的"确定性溢价"已完全反映，EV/Resource $272 在尾矿处理类公司中偏高，金价回落时 multiple 难再扩张。</p>
+        <p><strong>IAUX</strong>：表面 EV/Resource 便宜，但<strong>资本结构脆弱</strong>，融资差距 $200-300M，未来 12 个月可能多轮稀释；折价是合理的。</p>
+        <p><strong>PZG</strong>：表面 EV/Resource $120/oz 不算贵，但<strong>融资缺口是结构性问题</strong>——市值 $184M vs 旧 Capex $136M，新 FS 出来后 Capex 大概率上修。</p>
+        <p><strong>TFPM</strong>：P/E 31.5× 反映 streamer 应有 premium 但当前已偏贵；2026 是过渡年（Cerro Lindo + Northparkes 减档）；除非有大型 streaming 收购触发增长重估，近期 catalyst 偏弱。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 03 — M&A Probability Matrix · 16 Names</div>
+    <h2>M&A 矩阵：金价 $4,400 环境下，<em>谁在买，谁会被买</em></h2>
+  </div>
+  <p class="lead">2024–2025 年金价突破 $3,000 后，全球金矿并购加速。<strong>NEM、AEM、Barrick、GFI、Rio Tinto 等大型生产商手握巨额现金流，正在主动收购中小开发资产以补充未来 5-10 年的资源管线。</strong>下表把 16 家放在 M&A 视角下评估被收购概率、潜在买家、可能溢价空间。<strong>关键判断</strong>：(1) <strong>WRN</strong> 几乎必然被 Rio Tinto 行权（已是 9.7% 股东 + 持有 TSC 席位）；(2) <strong>DC</strong> 是 NEM/AEM 的天然战略目标（Homestake 历史 + Quartermain 履历）；(3) <strong>SA</strong> 主动选择 JV 而非整体出售，对小股东不一定是清算溢价；(4) <strong>BTG</strong> 反而是潜在主动买家。</p>
+
+  <table>
+    <thead>
+      <tr><th>公司</th><th>被收购概率</th><th>核心吸引力</th><th>潜在买家（top 3）</th><th>可能溢价区间</th><th>主要障碍</th></tr>
+    </thead>
+    <tbody>
+      <tr class="tier-divider"><td colspan="6">━━ 极高/高概率被收购 ━━</td></tr>
+      <tr><td class="tk">WRN</td><td><span class="heat-cell h5">极高</span></td><td>Casino 21 Moz Au + 11 Blbs Cu，Rio Tinto 已 9.7% + Mitsubishi 5%</td><td>Rio Tinto（最可能）、Newmont、AEM</td><td><span class="num bronze-text">+50-80%</span></td><td>Rio 当前选择"延后行权"等更明确许可</td></tr>
+      <tr><td class="tk">DC</td><td><span class="heat-cell h4">高</span></td><td>南达科他 Homestake 矿区 + 私人土地无 NEPA + Quartermain 团队</td><td>NEM（Homestake 历史拥有者）、AEM、Barrick</td><td><span class="num bronze-text">+30-50%</span></td><td>PFS 未发布前估值不清晰，买方等数据</td></tr>
+      <tr><td class="tk">CMCL</td><td><span class="heat-cell h4">高</span></td><td>Bilboes 1.75Moz @ 2.26 g/t 露天 + Tier 1 buyer 可解决 Zimbabwe 风险</td><td>HMY（南部非洲专家）、Endeavour、Perseus</td><td><span class="num bronze-text">+40-70%</span></td><td>Zimbabwe 政治风险使大型买家犹豫</td></tr>
+      <tr><td class="tk">IAUX</td><td><span class="heat-cell h4">高</span></td><td>Nevada 高品位地下矿组合 + Lone Tree 工厂 + 邻近 NEM/B 产能</td><td>NEM（Nevada Gold Mines 整合）、KGC、AEM</td><td><span class="num bronze-text">+50-80%</span></td><td>资本结构需先重组，可能"困境出售"折价</td></tr>
+      <tr><td class="tk">PZG</td><td><span class="heat-cell h4">高</span></td><td>Grassy Mountain shovel-ready + Oregon 首个 NEPA + 高品位 6.5 g/t</td><td>SSR Mining、Coeur、Hecla</td><td><span class="num bronze-text">+40-70%</span></td><td>市值小，但融资压力可能让其"困境出售"</td></tr>
+      <tr class="tier-divider"><td colspan="6">━━ 中高 / 中概率 ━━</td></tr>
+      <tr><td class="tk">ITRG</td><td><span class="heat-cell h3">中高</span></td><td>DeLamar 1.26Moz Au + 52Moz Ag 双金属 + 美国本土项目</td><td>SSRM、Coeur、PAAS</td><td><span class="num bronze-text">+30-50%</span></td><td>Florida Canyon AISC 拖累整体估值</td></tr>
+      <tr><td class="tk">NG</td><td><span class="heat-cell h3">中高</span></td><td>Donlin 32.8Moz P&P @ 2.0 g/t 是全球最大未开发金矿之一</td><td>Barrick（已退出但可回购）、NEM、AEM</td><td><span class="num bronze-text">+20-40%</span></td><td>$7-9B Capex 让大型买家也犹豫；Paulson 持股结构</td></tr>
+      <tr><td class="tk">SA</td><td><span class="heat-cell h3">中高</span></td><td>KSM 47 Moz Au + 7.3 Blbs Cu 全球罕见铜金资产</td><td>Newmont、Freeport-McMoRan、Rio Tinto</td><td><span class="num bronze-text">+30-50%</span></td><td>$8B Capex + 已明确策略为<strong>找 JV partner</strong>而非整体出售</td></tr>
+      <tr><td class="tk">CGAU</td><td><span class="heat-cell h3">中</span></td><td>Mount Milligan 长寿命金铜矿 + Öksüt 高现金流</td><td>AEM、Lundin Gold、KGC</td><td><span class="num bronze-text">+25-40%</span></td><td>Royal Gold streaming 协议是结构性障碍</td></tr>
+      <tr class="tier-divider"><td colspan="6">━━ 中低 / 低概率 ━━</td></tr>
+      <tr><td class="tk">EGO</td><td><span class="heat-cell h2">中低</span></td><td>Skouries 是稀缺铜金资产 + 多元地理</td><td>NEM、AEM、Newcrest（已被 NEM 并）</td><td><span class="num bronze-text">+20-35%</span></td><td>市值 $5.5B 已经偏大，且希腊政治敏感度</td></tr>
+      <tr><td class="tk">BVN</td><td><span class="heat-cell h2">中低</span></td><td>多金属组合 + Cerro Verde 战略股权 + 秘鲁旗舰</td><td>南方铜业（Grupo Mexico）、Hochschild</td><td><span class="num bronze-text">+25-45%</span></td><td>Benavides 家族控股结构 + 资产复杂度</td></tr>
+      <tr><td class="tk">IDR</td><td><span class="heat-cell h2">中低</span></td><td>美国本土金矿 + REE 战略价值 + DOE/DoD 关注</td><td>Calibre Mining、Hecla、战略买家（DoD/DoE 资助）</td><td><span class="num bronze-text">+25-40%</span></td><td>REE 资产分拆 vs 整体出售路径不明确</td></tr>
+      <tr><td class="tk">DRD</td><td><span class="heat-cell h2">低</span></td><td>独特尾矿处理资产 + 南非现金流</td><td>SBSW（已持 50%）私有化潜在买家</td><td><span class="num bronze-text">+20-30%</span></td><td>SBSW 私有化是唯一路径，门槛高</td></tr>
+      <tr class="tier-divider"><td colspan="6">━━ 极低概率（自身已是潜在买家） ━━</td></tr>
+      <tr><td class="tk">HMY</td><td><span class="heat-cell h1">极低</span></td><td>资产规模过大，并购难度高</td><td>无现实买家</td><td><span class="num bronze-text">N/A</span></td><td>市值 $15B + 南非劳工 + 深部矿复杂度</td></tr>
+      <tr><td class="tk">BTG</td><td><span class="heat-cell h1">极低</span></td><td>4 矿组合、市值已 $7B、Goose ramp 中</td><td>无现实买家，更可能<strong>主动收购</strong>方</td><td><span class="num bronze-text">N/A</span></td><td>规模过大，且 Mali 政治风险使大型买家犹豫</td></tr>
+      <tr><td class="tk">TFPM</td><td><span class="heat-cell h1">极低</span></td><td>239 资产组合很难分拆，全球第 4 大独立 streamer</td><td>无现实买家</td><td><span class="num bronze-text">N/A</span></td><td>规模 $6.5B，且独立 streamer 战略价值在被动持有</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="lbl">M&A Logic 关键洞察</span> 大型生产商在金价高位主动收购的逻辑是<strong>"用现金流+股票补充未来 5-10 年资源管线"</strong>。<strong>(1) WRN 是教科书级"已锁定买家"案例</strong>——Rio Tinto 9.7% + 持 TSC 席位 + 已延续 IRA 至 2026 年底 + 持续技术合作，几乎不可能不行权。Rio 选择"延后"而非立即行权的逻辑是：等 YESAB 完成、获得环境许可后再以更便宜价格全资收购。<strong>(2) NEM 在 Newmont-Newcrest 合并后产生大量协同节余正在寻找下一个标的</strong>；AEM 历史上是<strong>最积极的 Tier-1 买家</strong>（已收购 Yamana、O3 Mining 等）；Barrick 退出 Donlin 后 Capex 释放可能转向其他项目。<strong>(3) SA 主动选择 JV 而非整体出售</strong>——这是 Rudi Fronk 长期一致的策略，意味着 SA 股东在 partner 公布后获得的可能不是 30-50% 现金溢价，而是<strong>项目权益保留 + 资本支出共担</strong>。<strong>(4) BTG 反而是潜在买家</strong>——Q1 2026 强劲业绩 + $325M Fingold 现金 + $800M 未动用循环信贷，让 BTG 有能力在 2026-2027 主动收购小型开发者。<strong>四个真正高概率被收购候选：WRN（Rio 行权）、DC（NEM 战略目标）、CMCL（南非矿企可承担 Zimbabwe 风险）、IAUX（Nevada 整合者天然标的）</strong>。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 04 — Catalyst Calendar 2026-2027 · Unified</div>
+    <h2>催化剂日历:把 16 家的<em>事件</em>放进同一时间轴</h2>
+  </div>
+  <p class="lead">事件驱动型矿业股的回报<strong>极度依赖催化剂的时点</strong>——错过一个季度可能少赚 30%。下表把 v2 + v3 的 16 家催化剂按季度合并排列 2026-2027 的关键节点，标记重要性（高/中/低对应 stock-moving 程度）。<strong>关键观察</strong>：(1) <strong>2026 Q3-Q4 是双重催化剂集中季</strong>——EGO Skouries 投产、DC PFS、CMCL Bilboes 融资、PZG updated FS、SA JV partner 公告可能集中落地；(2) <strong>2027 H2 是长周期定价窗口</strong>——NG BFS、HMY Eva 投产、SA KSM FS、WRN Casino EAC 都在该季度。</p>
+
+  <div class="calendar">
+    <div class="cal-quarter">
+      <div class="cal-q-label">2026 Q2<small>已发生 / 进行中</small></div>
+      <div class="cal-events">
+        <div class="cal-event"><span class="cal-tk">EGO</span><span class="cal-desc"><strong>Q1 2026 财报</strong>已发布：Q1 产 100,358 oz，全年指引 weighted to H2；Skouries 工程仍 on track</span><span class="cal-impact med">中 · 已反应</span></div>
+        <div class="cal-event"><span class="cal-tk">BTG</span><span class="cal-desc"><strong>Q1 2026 财报</strong>（5/6）：营收 $1.16B 大超预期 + $362M FCF；3 日股价涨 25%</span><span class="cal-impact med">中 · 已反应</span></div>
+        <div class="cal-event"><span class="cal-tk">BTG</span><span class="cal-desc"><strong>Goose 火灾</strong>（5/8）：Q2 产量下调；C$10M 维修；Q3 末完全恢复</span><span class="cal-impact med">中 · 已反应</span></div>
+        <div class="cal-event"><span class="cal-tk">SA</span><span class="cal-desc"><strong>BC 优先项目认定</strong>（4/30）+ Snip North 9.2 Moz Au 资源（4/15）</span><span class="cal-impact high">高 · 已反应</span></div>
+        <div class="cal-event"><span class="cal-tk">DC</span><span class="cal-desc"><strong>Richmond Hill 钻探收官</strong>（Q3 完成）：109 个钻孔结果将全部纳入 PFS</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">NG</span><span class="cal-desc"><strong>BFS 详细预算/时间表更新</strong>（mid-2026）：第一次给出 Capex 范围将是关键定价事件</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">TFPM</span><span class="cal-desc"><strong>Hope Bay 5 月建设决策</strong>（Agnico Eagle 操盘）：决定 TFPM 流权益现金流时点</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">PZG</span><span class="cal-desc">Federal ROD 已签（1/29）+ 等待 Oregon 最终州许可（H1 2026）</span><span class="cal-impact med">中</span></div>
+      </div>
+    </div>
+
+    <div class="cal-quarter">
+      <div class="cal-q-label">2026 Q3<small>关键季度 · 双重催化剂集中</small></div>
+      <div class="cal-events">
+        <div class="cal-event"><span class="cal-tk">EGO</span><span class="cal-desc"><strong>Skouries 第一精矿生产</strong>：从开发到生产的拐点，市场情绪转折点</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">PZG</span><span class="cal-desc"><strong>Ausenco 更新 FS 完成</strong>（H1 末）：用 $4,400+ 金价重算 NPV/IRR/Capex，预计 NPV 至少翻 3 倍</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">CMCL</span><span class="cal-desc">Bilboes 项目<strong>融资方案</strong>（如能在 2026 内敲定将是重大重估）</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">DC</span><span class="cal-desc"><strong>Maitland Unionville 高品位地下资源首次发布</strong>（年底前）：拓展 DC 估值故事</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">CGAU</span><span class="cal-desc">Mount Milligan 资源更新 / 寿命延伸至 2045 后续披露</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">BTG</span><span class="cal-desc">Goose 破碎线维修完成 + 全产能恢复（Q3 末）</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">SA</span><span class="cal-desc">Mitchell-Treaty Tunnel（MTT）许可解决（之前因 Tudor 法律挑战推迟）</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">TFPM</span><span class="cal-desc">Northparkes E44 streams 部署 $84.3M：长期 GEOs 增长替换</span><span class="cal-impact med">中</span></div>
+      </div>
+    </div>
+
+    <div class="cal-quarter">
+      <div class="cal-q-label">2026 Q4<small>多重事件 · 开发者集中定价</small></div>
+      <div class="cal-events">
+        <div class="cal-event"><span class="cal-tk">EGO</span><span class="cal-desc"><strong>Skouries 商业化生产</strong>：正式纳入产量表，2027 指引上修可能性大</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">DC</span><span class="cal-desc"><strong>Richmond Hill PFS 发布 + 储量首次报告</strong>：从"资源故事"升级为"经济性 + 储量"故事</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">PZG</span><span class="cal-desc"><strong>融资 / 战略买家公告</strong>（推测时点）：updated FS 出来后是 PZG 解决融资缺口的关键窗口</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">SA</span><span class="cal-desc"><strong>JV partner 公告</strong>（推测时点）：Rudi Fronk 长期目标，2026 年内可能落地</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">BVN</span><span class="cal-desc">San Gabriel ramp-up 全产能验证</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">HMY</span><span class="cal-desc">FY26 中期业绩 + Eva Copper 详细工程更新</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">BTG</span><span class="cal-desc">Q3 2026 财报 + Fekola Regional 开采许可 + Goose 全产能验证</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">WRN</span><span class="cal-desc">Casino YESAB 评估持续推进（关键里程碑：环境评估证书）</span><span class="cal-impact med">中</span></div>
+      </div>
+    </div>
+
+    <div class="cal-quarter">
+      <div class="cal-q-label">2027 H1<small>开发拐点</small></div>
+      <div class="cal-events">
+        <div class="cal-event"><span class="cal-tk">EGO</span><span class="cal-desc"><strong>Skouries 全产能爬坡</strong>：2027 全年指引 620–720koz Au + 50–70Mlbs Cu，<strong>+40% vs 2025</strong></span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">DC</span><span class="cal-desc"><strong>Richmond Hill FS 发布</strong>（H1 2027）：进入"建设决策"窗口期</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">PZG</span><span class="cal-desc"><strong>建设决策（如融资落地）</strong>：从开发者升级为 in-construction，估值有望重估 60-100%</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">IAUX</span><span class="cal-desc">Granite Creek 满产 + Lone Tree 工厂重启关键进展</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">BTG</span><span class="cal-desc">Goose 满产年（2027 全年）+ Gramalote 推进可能性</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">ITRG</span><span class="cal-desc">DeLamar 许可推进 + Florida Canyon 资源更新</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">TFPM</span><span class="cal-desc">Arthur PFS（NV）+ Kemess PEA（BC）：管线现金流可见度提高</span><span class="cal-impact med">中</span></div>
+      </div>
+    </div>
+
+    <div class="cal-quarter">
+      <div class="cal-q-label">2027 H2<small>长周期定价 · BFS / EAC / 投产</small></div>
+      <div class="cal-events">
+        <div class="cal-event"><span class="cal-tk">NG</span><span class="cal-desc"><strong>Donlin BFS 发布</strong>：Capex / Opex / IRR 首次官方披露，决定 NG 估值未来 5 年走向</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">HMY</span><span class="cal-desc"><strong>Eva Copper 投产</strong>：HMY 从纯金转型为铜金组合的关键节点，铜业务估值重估</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">SA</span><span class="cal-desc"><strong>KSM Final Feasibility Study 启动</strong>：从 PFS 升级为 FS 是建设决策前最后一步</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">WRN</span><span class="cal-desc"><strong>Casino 环境评估证书（EAC）目标获取</strong>（如 YESAB 2-3 年完成）</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">DC</span><span class="cal-desc">Richmond Hill 建设决策（CD）+ 融资 / 项目融资敲定</span><span class="cal-impact high">高</span></div>
+        <div class="cal-event"><span class="cal-tk">CMCL</span><span class="cal-desc">Bilboes 建设进度 / 首次浇筑（如融资 2026 落地）</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">TFPM</span><span class="cal-desc">2030 GEOs 目标 140-150koz 路径可见度提升（多个 development stage 资产爬坡）</span><span class="cal-impact med">中</span></div>
+        <div class="cal-event"><span class="cal-tk">IDR</span><span class="cal-desc">Murray Mill 建设进展 + 2027 30,000m 钻探计划首批结果</span><span class="cal-impact low">低</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">读法 · 错位建仓视图</span> <strong>四大开发者催化剂错位排列：DC（2026 Q4 PFS）→ SA（2026 H2-2027 H1 JV partner）→ NG（2027 H2 BFS）→ WRN（2027 H2 EAC）</strong>，可分批建仓避免单一时点拥挤。投资节奏：(1) <strong>EGO</strong> 应在 2026 Q2 内逐步建仓，Q3 拐点重仓；(2) <strong>DC</strong> 应在 PFS 发布前 1-2 月开始建仓，PFS + 储量首报双重利好可能驱动 30-50% 阶段涨幅；(3) <strong>NG</strong> 是 2027 故事，2026 内主要是耐心持有 + 借机加仓；(4) <strong>SA</strong> 应在 JV 公告前 6 月开始建仓，公告后视溢价决定加减；(5) <strong>BTG</strong> 已涨 25%，等回调；(6) <strong>PZG</strong> 应在 updated FS 发布前 1-2 月开始小仓位试探；(7) <strong>WRN</strong> + <strong>TFPM</strong> 是长期持有，不需要择时。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 05 — Management & Governance Quality · 16 Names</div>
+    <h2>管理层质量:矿业小盘股的<em>最大隐藏变量</em></h2>
+  </div>
+  <p class="lead">同一份资源在不同 CEO 手里执行结果差距巨大。下表按"CEO 行业声誉、过往项目交付记录、资本配置纪律、信息披露质量"四维度评估 16 家管理层质量，分数为 A（最佳）到 C（最弱）。<strong>关键判断</strong>：(1) <strong>DC 的 Quartermain 是十六家公司里行业声誉最强的 CEO</strong>——Pretium / Brucejack 项目从勘探到投产他全程操盘；(2) <strong>TFPM 的 Vanderkooy 是 streamer 行业出身高管</strong>——deal-making 能力是 streamer 的本质核心竞争力；(3) <strong>BTG 处于 CEO transition 期</strong>是潜在执行风险；(4) <strong>IAUX / PZG 管理层质量最弱</strong>，资本结构问题与融资能力存疑是核心原因。</p>
+
+  <table>
+    <thead>
+      <tr><th>公司</th><th>CEO</th><th>背景与亮点</th><th>声誉</th><th>项目交付</th><th>资本纪律</th><th>披露质量</th><th>综合</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tk">DC</td><td>Robert Quartermain</td><td>Pretium Resources / Brucejack 创始人，行业级 dealmaker，南达科他在地团队</td><td><span class="heat-cell h4">A</span></td><td><span class="heat-cell h4">A</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h4">A</span></td><td><span class="bronze-text">A</span></td></tr>
+      <tr><td class="tk">EGO</td><td>George Burns</td><td>Centerra / Goldcorp 资深，Skouries 大型项目交付经验</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h4">A</span></td><td><span class="bronze-text">A-</span></td></tr>
+      <tr><td class="tk">NG</td><td>Greg Lang</td><td>前 Barrick 北美 COO，Donlin 项目 14 年经验，对资产了解深入</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h4">A</span></td><td><span class="bronze-text">A-</span></td></tr>
+      <tr><td class="tk">TFPM</td><td>Sheldon Vanderkooy</td><td>Triple Flag CEO，前 GMP 投行 + Vale 高管，streamer 行业 deal-making 经验丰富</td><td><span class="heat-cell h4">A</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h4">A</span></td><td><span class="heat-cell h4">A</span></td><td><span class="bronze-text">A-</span></td></tr>
+      <tr><td class="tk">CGAU</td><td>Paul Tomory</td><td>前 Newmont 技术服务高管，Mount Milligan 寿命延伸是其代表作</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="bronze-text">B+</span></td></tr>
+      <tr><td class="tk">HMY</td><td>Beyers Nel</td><td>2025 接任，前 COO 出身，Eva Copper 收购的实际操盘者</td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="bronze-text">B+</span></td></tr>
+      <tr><td class="tk">SA</td><td>Rudi Fronk</td><td>SA 长期 CEO + Chairman，KSM 26 年的"项目守护者"，但<strong>缺乏建设运营经验</strong></td><td><span class="heat-cell h4">A</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h4">A</span></td><td><span class="bronze-text">B+</span></td></tr>
+      <tr><td class="tk">BTG</td><td>过渡期</td><td>2026 Q1 提及 CEO transition；前 CEO Clive Johnson 是行业级 dealmaker，新 CEO 待公布</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="bronze-text">B+ 待观察</span></td></tr>
+      <tr><td class="tk">CMCL</td><td>Mark Learmonth</td><td>财务出身，Bilboes 收购操盘者，融资能力是核心考验</td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="bronze-text">B</span></td></tr>
+      <tr><td class="tk">ITRG</td><td>George Salamis</td><td>连续创业者，Integra Gold（卖给 Eldorado）创始人，DeLamar 是第二程</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B</span></td><td><span class="bronze-text">B</span></td></tr>
+      <tr><td class="tk">WRN</td><td>Sandeep Singh</td><td>WRN CEO + 前金融背景，融资和 IR 强项；新增 COO Robert Dirk（前 Suncor 37 年）+ VP Tech Christian Roldan（前 Newmont）补强技术</td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="bronze-text">B</span></td></tr>
+      <tr><td class="tk">IDR</td><td>John Swallow</td><td>IDR 长期 CEO，本土经验深 + 区域专家；但<strong>缺乏机构资本市场经验</strong>，对 REE 主题的资本化能力是核心考验</td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="bronze-text">B</span></td></tr>
+      <tr><td class="tk">DRD</td><td>Niël Pretorius</td><td>南非本土，DRD 长期 CEO，运营稳健但缺乏并购扩张视角</td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h3">B+</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="bronze-text">B</span></td></tr>
+      <tr><td class="tk">BVN</td><td>Leandro García</td><td>Buenaventura 内部提拔，多金属运营经验，但执行节奏偏慢</td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B</span></td><td><span class="bronze-text">B-</span></td></tr>
+      <tr><td class="tk">PZG</td><td>Rachel Goldman</td><td>PZG CEO，IR 出身，Grassy Mountain 许可推进她是核心操盘者；但<strong>融资能力存疑</strong>（multiple SEC filings 含 going-concern 表述）</td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h3">B</span></td><td><span class="bronze-text">B-</span></td></tr>
+      <tr><td class="tk">IAUX</td><td>Richard Young</td><td>2024 接任 turnaround，前 Teranga 转型经验，但资本结构难度大</td><td><span class="heat-cell h2">B-</span></td><td><span class="heat-cell h2">C+</span></td><td><span class="heat-cell h0">C-</span></td><td><span class="heat-cell h2">B-</span></td><td><span class="bronze-text">C+</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="lbl">关键判断</span> <strong>DC 的 Quartermain</strong> 是 16 家公司里行业声誉最强的 CEO——Pretium / Brucejack 项目从勘探到投产他全程操盘，Brucejack 后来卖给 Newcrest 是行业标志性交易。<strong>NG 的 Greg Lang</strong> 来自 Barrick 北美，对 Donlin 资产理解深，是 BFS 顺利推进的关键。<strong>TFPM 的 Vanderkooy</strong> 是 streamer 行业本质——capital allocator 出身，他在 GMP/Vale 的并购经验让 TFPM 的 deal pipeline 持续。<strong>SA 的 Fronk 是"项目守护者"型 CEO</strong>——26 年坚持推进 KSM 让项目从被遗忘走到 BC 优先项目，是 SA 估值的核心 narrative 来源；但缺乏建设运营经验意味着 KSM 必须依赖 JV partner 才能投产。<strong>BTG CEO transition 是潜在的执行风险</strong>——Clive Johnson 退休前 BTG 已是 mid-cap producer，新 CEO 的资本配置风格 + 是否继续 dividend 是需要密切关注的变量。<strong>IAUX / PZG 管理层质量最弱</strong>——前者前 CEO Ewan Downie 因资本结构问题被换；后者 Goldman 在许可推进上表现优异，但融资能力是 PZG 当前估值压制的核心原因。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 06 — Downside Sensitivity · 16 Names</div>
+    <h2>下行情景敏感度：金价回到 <em>$3,000/oz</em> 谁能扛住</h2>
+  </div>
+  <p class="lead">真正的风险管理需要测试下行——如果金价从当前 $4,400+ 回落到 $3,000 甚至 $2,500/oz，每家公司的盈利能力会怎样？哪些会破产？哪些反而可能变得更值得买入？这张表是判断<strong>下行 beta</strong> 的关键工具，开发者类标的不仅利润压缩，建设决策本身可能被推迟。</p>
+
+  <table>
+    <thead>
+      <tr><th>公司</th><th>当前 AISC<br>(2026E)</th><th>$4,400 金价<br>毛利/oz</th><th>$3,500 金价<br>毛利/oz</th><th>$3,000 金价<br>毛利/oz</th><th>$2,500 金价<br>毛利/oz</th><th>下行抗压性</th><th>下行场景核心风险</th></tr>
+    </thead>
+    <tbody>
+      <tr class="tier-divider"><td colspan="8"><strong>大型/中型生产商</strong></td></tr>
+      <tr><td class="tk">EGO</td><td><span class="num">~$1,770</span></td><td><span class="num bull">+$2,630</span></td><td><span class="num bull">+$1,730</span></td><td><span class="num bull">+$1,230</span></td><td><span class="num bull">+$730</span></td><td><span class="heat-cell h4">强</span></td><td>Skouries 投产前 Capex 仍在；铜业务下行可对冲</td></tr>
+      <tr><td class="tk">CGAU</td><td><span class="num">~$1,700</span></td><td><span class="num bull">+$2,700</span></td><td><span class="num bull">+$1,800</span></td><td><span class="num bull">+$1,300</span></td><td><span class="num bull">+$800</span></td><td><span class="heat-cell h4">强</span></td><td>Streaming 协议下行更敏感，铜价同步下跌放大风险</td></tr>
+      <tr><td class="tk">HMY</td><td><span class="num">~$2,115</span></td><td><span class="num bull">+$2,285</span></td><td><span class="num bull">+$1,385</span></td><td><span class="num bull">+$885</span></td><td><span class="num bull">+$385</span></td><td><span class="heat-cell h2">中</span></td><td>深部矿成本弹性差，$2,500 时利润率压缩 80%+</td></tr>
+      <tr><td class="tk">BTG</td><td><span class="num bear">$2,400-2,580</span></td><td><span class="num bull">+$1,900</span></td><td><span class="num bull">+$1,000</span></td><td><span class="num bull">+$500</span></td><td><span class="num bear">+$0 至 $100</span></td><td><span class="heat-cell h2">中</span></td><td>Mali 政治风险 + Goose ramp 期高 Capex；<strong>下行 beta 最大</strong></td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>多金属/特殊</strong></td></tr>
+      <tr><td class="tk">TFPM</td><td><span class="num">N/A 流权益</span></td><td><span class="num bull">93% 毛利率</span></td><td><span class="num bull">~85% 毛利率</span></td><td><span class="num bull">~75% 毛利率</span></td><td><span class="num bull">~65% 毛利率</span></td><td><span class="heat-cell h5">极强</span></td><td>2030 GEOs 增长目标可能下修，但<strong>当前现金流不会断</strong></td></tr>
+      <tr><td class="tk">BVN</td><td><span class="num">N/A 多金属</span></td><td><span class="num bull">高</span></td><td><span class="num bull">中高</span></td><td><span class="num bull">中</span></td><td><span class="num bear">低</span></td><td><span class="heat-cell h3">中强</span></td><td>Cerro Verde 分红是<strong>下行场景下的核心保护</strong></td></tr>
+      <tr><td class="tk">DRD</td><td><span class="num">~$2,034</span></td><td><span class="num bull">+$2,366</span></td><td><span class="num bull">+$1,466</span></td><td><span class="num bull">+$966</span></td><td><span class="num bull">+$466</span></td><td><span class="heat-cell h3">中强</span></td><td>南非电力 / 兰特汇率波动放大成本</td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>小盘高弹性生产商</strong></td></tr>
+      <tr><td class="tk">CMCL</td><td><span class="num">~$2,200</span></td><td><span class="num bull">+$2,200</span></td><td><span class="num bull">+$1,300</span></td><td><span class="num bull">+$800</span></td><td><span class="num bull">+$300</span></td><td><span class="heat-cell h2">中</span></td><td>$3,000 以下 Bilboes 融资几乎不可能完成</td></tr>
+      <tr><td class="tk">IDR</td><td><span class="num">~$1,800 估</span></td><td><span class="num bull">+$2,600</span></td><td><span class="num bull">+$1,700</span></td><td><span class="num bull">+$1,200</span></td><td><span class="num bull">+$700</span></td><td><span class="heat-cell h3">中强</span></td><td>金矿基本面强，但<strong>REE 叙事溢价可能被打 50%+</strong></td></tr>
+      <tr><td class="tk">ITRG</td><td><span class="num">~$2,000</span></td><td><span class="num bull">+$2,400</span></td><td><span class="num bull">+$1,500</span></td><td><span class="num bull">+$1,000</span></td><td><span class="num bull">+$500</span></td><td><span class="heat-cell h2">中</span></td><td>$3,000 下 DeLamar 融资困难，开发延期</td></tr>
+      <tr><td class="tk">IAUX</td><td><span class="num">~$2,200</span></td><td><span class="num bull">+$2,200</span></td><td><span class="num bull">+$1,300</span></td><td><span class="num bear">+$800</span></td><td><span class="num bear">+$300</span></td><td><span class="heat-cell h0">弱</span></td><td>资本结构脆弱，$3,500 以下可能困境出售</td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>巨型未开发项目</strong></td></tr>
+      <tr><td class="tk">SA</td><td><span class="num">未投产</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bear">N/A</span></td><td><span class="heat-cell h3">中强</span></td><td>$3,000 以下 KSM 经济性恶化但 Cu 副产支撑；JV 谈判更难</td></tr>
+      <tr><td class="tk">WRN</td><td><span class="num">未投产</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bear">N/A</span></td><td><span class="heat-cell h3">中强</span></td><td>Casino 是<strong>铜驱动项目</strong>，金价下行影响相对小；Rio 收购意愿降</td></tr>
+      <tr><td class="tk">NG</td><td><span class="num">未投产</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bear">N/A</span></td><td><span class="heat-cell h2">中</span></td><td>$3,000 以下 Donlin Capex 回收期延长，BFS 经济性恶化</td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>中后期开发者</strong></td></tr>
+      <tr><td class="tk">DC</td><td><span class="num">未投产</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bear">N/A</span></td><td><span class="heat-cell h2">中</span></td><td>$3,000 以下项目融资条件恶化，建设决策推迟</td></tr>
+      <tr><td class="tk">PZG</td><td><span class="num">未投产</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bull">N/A</span></td><td><span class="num bear">N/A</span></td><td><span class="heat-cell h0">弱</span></td><td>$3,500 以下融资几乎不可能完成；going-concern 风险加剧</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="lbl">关键判断</span> <strong>下行场景真正的赢家：TFPM、CGAU、EGO、DRD</strong>。TFPM 是 16 家中唯一真正的"防御资产"——93% 资产毛利率 + 无运营杠杆 + $1B+ 现金 + 239 资产分散，即使 $2,500/oz 仍能保持 60-70% 毛利率；CGAU/EGO 的铜业务在金价下跌时通常仍贡献正现金流；DRD 即使 $2,500 仍有 $466/oz 毛利且无地质风险。<strong>下行场景真正的输家：PZG、IAUX、BTG</strong>。PZG 融资缺口 $200-300M + 市值 $184M + going-concern 风险，$3,500 以下几乎一定稀释或被低价收购；IAUX 资本结构脆弱，$3,500 以下可能困境出售；BTG 因 AISC $2,400-2,580 偏高，$2,500 金价下 Fekola 几乎无利润，加上 Mali 政治风险，是 16 家中下行 beta 最大的中型生产商。<strong>下行 alpha 被低估的：BVN、WRN</strong>。BVN 的 Cerro Verde 分红即使铜价回落仍能贡献 $100-200M 年度分红，是被严重低估的"防御资产"；WRN 的 Casino 项目 65%+ 经济性来自铜，相比纯金标的下行抗压性强（虽然 Rio 收购意愿可能下降）。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 07 — Updated Core Metrics · 16 Names</div>
+    <h2>核心指标整合：<em>16 家全部</em>关键数据合并视图</h2>
+  </div>
+  <p class="lead">综合 v2 + v3 两份报告的核心指标，按公司类型分组，提供 16 家黄金矿企的资源、产量、AISC、估值倍数、催化剂的统一对比视图。这张表是<strong>组合配置决策的基础矩阵</strong>。</p>
+
+  <table>
+    <thead>
+      <tr><th>公司</th><th>资产性质</th><th>资源 / 储量</th><th>2026E 产量</th><th>2026E AISC</th><th>EV / Resource</th><th>下次重大催化剂</th><th>核心叙事</th></tr>
+    </thead>
+    <tbody>
+      <tr class="tier-divider"><td colspan="8"><strong>大型/中型生产商</strong></td></tr>
+      <tr><td class="tk">EGO</td><td>多元生产 + 铜金</td><td><span class="num">资源 25.6Moz<br>储量 12.5Moz</span></td><td><span class="num bull">490-590koz</span></td><td><span class="num">$1,670-1,870</span></td><td><span class="num">~$200</span></td><td>2026 Q3 Skouries 第一精矿</td><td><span class="tag bull">+40% 增长 by 2027</span></td></tr>
+      <tr><td class="tk">CGAU</td><td>金铜生产 + 长寿命</td><td><span class="num">资源 10.9Moz<br>储量 5.5Moz<br>+1.7B lb Cu</span></td><td><span class="num">~430koz</span></td><td><span class="num">$1,650-1,750</span></td><td><span class="num">~$220</span></td><td>Mount Milligan 资源更新</td><td><span class="tag gold">Streaming 折价被过度定价</span></td></tr>
+      <tr><td class="tk">HMY</td><td>南非生产 + 铜转型</td><td><span class="num">资源 135.5Moz<br>储量 36.8Moz</span></td><td><span class="num">~1.4Moz</span></td><td><span class="num bear">$2,115</span></td><td><span class="num">~$103</span></td><td>2026 Q4 中报 + Eva 工程</td><td><span class="tag bull">Eva Copper 2027 投产</span></td></tr>
+      <tr><td class="tk">BTG</td><td>4 矿生产商</td><td><span class="num">资源 ~12-15Moz<br>储量 ~7Moz</span></td><td><span class="num">820-970koz</span></td><td><span class="num bear">$2,400-2,580</span></td><td><span class="num">~$365</span></td><td>Q3 2026 Goose 全产能恢复</td><td><span class="tag gold">$5,000 Au 假设 + AEM 协同</span></td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>多金属/特殊</strong></td></tr>
+      <tr><td class="tk">TFPM</td><td>Streaming + Royalty</td><td><span class="num">239 资产<br>16 streams + 223 royalties<br>34 producing mines</span></td><td><span class="num bull">95-105koz GEOs</span></td><td><span class="num">N/A 流权益</span></td><td><span class="num">N/A 流权益</span></td><td>Hope Bay 5 月建设决策 + E44</td><td><span class="tag bull">2030 +45% GEOs 增长</span></td></tr>
+      <tr><td class="tk">BVN</td><td>秘鲁多金属</td><td><span class="num">金 3.77Moz<br>+ 银/铜/锌铅<br>+ Cerro Verde 19.58%</span></td><td><span class="num">~250koz Au</span></td><td><span class="num">N/A</span></td><td><span class="num">N/A</span></td><td>San Gabriel 全产能</td><td><span class="tag bull">Cerro Verde 权益被低估</span></td></tr>
+      <tr><td class="tk">DRD</td><td>南非尾矿处理</td><td><span class="num">资源 6.62Moz<br>储量 5.73Moz</span></td><td><span class="num">~190koz</span></td><td><span class="num bear">~$2,034</span></td><td><span class="num">~$272</span></td><td>Vision 2028 进展</td><td><span class="tag neutral">确定性溢价已定价</span></td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>小盘高弹性生产商</strong></td></tr>
+      <tr><td class="tk">CMCL</td><td>津巴布韦高品位</td><td><span class="num">Blanket 812koz<br>Bilboes 1.75Moz</span></td><td><span class="num">~75koz</span></td><td><span class="num bear">$2,100-2,300</span></td><td><span class="num">~$80</span></td><td>Bilboes 融资敲定</td><td><span class="tag bull">融资落地后跃迁</span></td></tr>
+      <tr><td class="tk">IDR</td><td>Idaho 金矿 + REE 探勘</td><td><span class="num">Golden Chest 资源小<br>+ Lemhi Pass / Mineral Hill REE</span></td><td><span class="num">~13-15koz Au</span></td><td><span class="num">~$1,800 估</span></td><td><span class="num">N/A</span></td><td>2026 Lemhi Pass 钻探</td><td><span class="tag neutral">REE 主题溢价 + 美国本土</span></td></tr>
+      <tr><td class="tk">ITRG</td><td>美国生产 + 开发</td><td><span class="num">FC 685koz<br>DeLamar 1.26Moz<br>+ 52Moz Ag</span></td><td><span class="num">~70koz</span></td><td><span class="num bear">~$2,000</span></td><td><span class="num">~$155</span></td><td>DeLamar 许可推进</td><td><span class="tag gold">均衡但需耐心</span></td></tr>
+      <tr><td class="tk">IAUX</td><td>Nevada 多项目平台</td><td><span class="num">M&I 6.50Moz<br>Inf 7.48Moz<br>无储量</span></td><td><span class="num">~50koz</span></td><td><span class="num bear">~$2,200</span></td><td><span class="num">~$57</span></td><td>Lone Tree 工厂决策</td><td><span class="tag bear">融资缺口压制估值</span></td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>巨型未开发项目</strong></td></tr>
+      <tr><td class="tk">SA</td><td>KSM 巨型 Au-Cu</td><td><span class="num">P&P 47.3Moz Au<br>+ 7.3Blbs Cu<br>Snip North 9.2Moz</span></td><td><span class="num">未投产</span></td><td><span class="num">N/A</span></td><td><span class="num">~$50-73</span></td><td>2026 H2 JV partner 公告</td><td><span class="tag bull">$8B Capex + Rio/Newmont 潜在</span></td></tr>
+      <tr><td class="tk">WRN</td><td>Casino Au-Cu 项目</td><td><span class="num">21Moz Au + 11Blbs Cu<br>(M&I&I)<br>无储量</span></td><td><span class="num">未投产</span></td><td><span class="num">N/A</span></td><td><span class="num">~$24</span></td><td>Casino YESAB 推进</td><td><span class="tag bull">Rio Tinto 9.7% + Mitsubishi</span></td></tr>
+      <tr><td class="tk">NG</td><td>Donlin 世界级</td><td><span class="num">P&P 32.8Moz (100%)<br>NG 60% 经济权益</span></td><td><span class="num">未投产</span></td><td><span class="num">N/A</span></td><td><span class="num">~$108</span></td><td>2027 BFS 完成</td><td><span class="tag bull">NPV $24B vs 市值 $3B</span></td></tr>
+
+      <tr class="tier-divider"><td colspan="8"><strong>中后期开发者</strong></td></tr>
+      <tr><td class="tk">DC</td><td>南达科他 Homestake</td><td><span class="num">M&I 3.65Moz Au<br>+ 38.1Moz Ag<br>无储量</span></td><td><span class="num">未投产</span></td><td><span class="num">N/A</span></td><td><span class="num">~$96</span></td><td>2026 H2 PFS + 储量</td><td><span class="tag bull">PFS 后将真正定价</span></td></tr>
+      <tr><td class="tk">PZG</td><td>Grassy Mountain shovel-ready</td><td><span class="num">P&P 380koz Au + 554koz Ag<br>M&I 755koz Au<br>+ Sleeper / Bald Peak</span></td><td><span class="num">未投产</span></td><td><span class="num">~$815 旧 FS</span></td><td><span class="num">~$120</span></td><td>2026 H1 Ausenco 更新 FS</td><td><span class="tag bear">融资是核心障碍</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="lbl">数据要点</span> <strong>(1) EV/Resource 区间分布</strong>：最便宜 WRN $24 / IAUX $57 / SA $50-73 / CMCL $80 / DC $96 / NG $108；最贵 BTG $365 / DRD $272 / CGAU $220 / EGO $200 / ITRG $155 / PZG $120。<strong>这个 ranking 是组合配置的核心信号</strong>——便宜不代表买入，但贵的标的需要更强催化剂支撑估值。<strong>(2) BTG $5,000 Au 假设下 AISC $2,400-2,580</strong>——royalties + production taxes ~$525/oz；每 $100 金价变动 AISC 变 $12/oz；$4,400 实际 AISC 约 $2,330-2,510/oz。<strong>(3) SA EV/Resource 取 $50-73 区间</strong>：只算 KSM 47Moz P&P 是 $73；加 Snip North + KSM 资源量则 $50。<strong>(4) PZG 旧 AISC $815 是 2022 FS</strong>——updated FS 应大幅下修单位成本（金价分母大幅上升、成本分子小幅上涨），新 NPV 可能从 $114M 跃升至 $400-600M。<strong>(5) 三家"未投产"开发者的 EV/Resource 大相径庭</strong>：WRN $24（最便宜，因 Casino 还在 YESAB 早期+ 流动性差）/ NG $108（最贵，因 Fluor BFS + Barrick 担保已锁定）/ DC $96（中间，等待 PFS 2026 H2 即可重估）。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 08 — Company Deep-Dives · 16 Names</div>
+    <h2>公司深度：16 家全部的<em>变化点</em>与决策建议</h2>
+  </div>
+  <p class="lead">每家公司聚焦"核心更新 / 关键判断 / 建议节奏"三段式。绿色边框为<strong>看多偏好（Top Pick / Long Hold）</strong>，灰色边框为<strong>中性持有（Neutral / Cyclical）</strong>，红色边框为<strong>规避或观察（Avoid / Watch）</strong>。按公司类型分组，便于在投资组合内做横向比较。</p>
+
+  <h3 style="margin-top:22px;">8.1 大型/中型生产商（4 家）</h3>
+  <div class="cards-2">
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">EGO · Eldorado Gold</span><span class="profile-tk">Top Pick · Tier 1</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：2026 Q3 第一精矿、Q4 商业化生产；2027 产量跃升至 620–720koz Au + 50–70Mlbs Cu，<strong>+40% vs 2025</strong>。</p>
+        <p><strong>关键决策</strong>：Skouries 是 16 家公司里<strong>最清晰的"事件驱动"标的</strong>。Q3 第一精矿前后 4-8 周是核心定价窗口；2027 全年产量上修将拉动 EV/EBITDA multiple 重新评级。</p>
+        <p><strong>建议节奏</strong>：2026 Q2 内逐步建仓，Q3 拐点重仓；2027 H1 视情况减仓获利或继续持有等待铜业务估值重估。</p>
+      </div>
+    </div>
+
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">CGAU · Centerra Gold</span><span class="profile-tk">Top Pick · Underrated</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Mount Milligan 寿命延长至 2045，资源扩边持续；Öksüt 高现金流稳定；2026 by-product AISC $1,650–1,750。</p>
+        <p><strong>关键判断</strong>：Royal Gold streaming 折价被市场<strong>过度反映</strong>——streaming 实际只覆盖 35% 黄金 + 18.75% 铜，剩余 65%/81.25% 仍是 CGAU 完全所有。当前 EV/EBITDA 3-4× 是 16 家里最便宜之一。</p>
+        <p><strong>建议节奏</strong>：长期持有，下行场景下也是最好的"防御性金矿"之一。</p>
+      </div>
+    </div>
+
+    <div class="profile">
+      <div class="profile-head"><span class="profile-name">HMY · Harmony Gold</span><span class="profile-tk">Cyclical Beta</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：FY25 EBITDA 创纪录；H1 FY26 AISC $2,115/oz 偏高；Eva Copper 2027 投产是核心叙事。</p>
+        <p><strong>关键判断</strong>：HMY 是 16 家里<strong>金价最大的 beta</strong>之一——金价上行时盈利杠杆 3-4×，但下行时同样 3-4×。当前 EV/EBITDA 3-4× 反映南非折价但忽略 Eva Copper 重估潜力。</p>
+        <p><strong>建议节奏</strong>：金价高位环境下持有，但需要严格设置下行止损（金价跌破 $3,500 时大幅减仓）。</p>
+      </div>
+    </div>
+
+    <div class="profile">
+      <div class="profile-head"><span class="profile-name">BTG · B2Gold</span><span class="profile-tk">Cyclical Quality · Goose Recovery</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Q1 2026 大超预期（$1.16B 营收 + $0.19 EPS + $362M FCF + 4 矿全部超指引）；3 个交易日股价涨 25%；Goose 5 月火灾 Q2 产量下调（18-20koz vs 29koz）但全年指引不变；$325M 卖 Fingold 给 AEM；CEO transition 进行中。</p>
+        <p><strong>关键判断</strong>：BTG 是<strong>16 家里 EV/EBITDA 最便宜的生产商之一</strong>（~3-3.5×），AEM 战略合作 + Goose ramp + Gramalote 推进意味着<strong>未来 2-3 年是产量增长 + 资产组合简化的双击期</strong>。但 AISC $2,400-2,580 偏高（Mali 政治风险 + Goose 启动期成本）让 BTG 是金价 beta 最大的标的之一——金价上行 3-4× 杠杆，下行同样 3-4×。</p>
+        <p><strong>建议节奏</strong>：股价已涨 25%，建议等回调；下一个建仓窗口是 Goose 维修完成 + Q3 财报；下行场景下严格止损（金价跌破 $3,500 大幅减仓）。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px;">8.2 多金属/特殊（3 家）</h3>
+  <div class="cards-2">
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">TFPM · Triple Flag Precious Metals</span><span class="profile-tk">Top Pick · Defensive Core</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Q1 2026 创纪录（$147M 营收 + 30,166 GEOs + $129M 调整 EBITDA + 67% YoY 现金流增长）；2026 GEOs 指引 95-105koz；2030 目标 140-150koz（+45%）；Northparkes E44 部署 $84.3M streams；Hope Bay 5 月建设决策。</p>
+        <p><strong>关键判断</strong>：TFPM 是 16 家中<strong>唯一真正的"防御资产"</strong>——93% 资产毛利率 + $1B+ 流动性 + 无负债 + 全球 239 资产分散。当前 P/E 31.5× 已反映 streamer premium，但<strong>2026 是过渡年</strong>（Cerro Lindo 减档 + Northparkes 高品位耗减）。如果 Hope Bay / Arthur / Kemess 进展顺利，2027-2028 可能再次提速。</p>
+        <p><strong>建议节奏</strong>：长期持有，是 portfolio 的 streamer 配置首选；不需要择时，但近期 catalyst 偏弱可在金价回调时低位加仓。</p>
+      </div>
+    </div>
+
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">BVN · Buenaventura</span><span class="profile-tk">Hidden Asset Play</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：San Gabriel 持续 ramp-up；Yumpag 投产；Trapiche 铜项目推进。</p>
+        <p><strong>关键判断</strong>：<strong>Cerro Verde 19.58% 权益被严重低估</strong>——按市值估算 $1.2-1.5B，相当于 BVN 市值 35-40%；其余 San Gabriel + Yumpag + Trapiche 等于市场赠送。下行场景下 Cerro Verde 分红是核心保护。</p>
+        <p><strong>建议节奏</strong>：长期持有，多金属敞口在金/银/铜共振时收益最大。</p>
+      </div>
+    </div>
+
+    <div class="profile neutral">
+      <div class="profile-head"><span class="profile-name">DRD · DRDGOLD</span><span class="profile-tk">Defensive · Capped Upside</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Vision 2028 扩产持续；FY25 盈利创纪录但 AISC 已达 $2,034/oz。</p>
+        <p><strong>关键判断</strong>：<strong>"零地质风险"溢价已完全反映</strong>。EV/Resource $272 在尾矿类公司中偏高，缺乏新增长逻辑。下行场景下表现稳健，但金价上行时弹性弱于其他生产商。</p>
+        <p><strong>建议节奏</strong>：作为防御性配置，TFPM 加入后可减持部分 DRD 仓位但保留作为南非纯金敞口。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px;">8.3 小盘高弹性生产商（4 家）</h3>
+  <div class="cards-2">
+    <div class="profile">
+      <div class="profile-head"><span class="profile-name">CMCL · Caledonia Mining</span><span class="profile-tk">Binary Outcome</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Blanket AISC 偏高承压；Bilboes 融资是核心变量。</p>
+        <p><strong>关键判断</strong>：CMCL 当前是<strong>"Bilboes 融资 vs 不融资"的二元事件</strong>。融资落地后从 75koz 跃升至 200koz+，估值可能重估 80-150%；融资延误则股价继续承压。</p>
+        <p><strong>建议节奏</strong>：仓位控制在小盘高弹性配置，融资进展是唯一关键监控点。</p>
+      </div>
+    </div>
+
+    <div class="profile neutral">
+      <div class="profile-head"><span class="profile-name">IDR · Idaho Strategic Resources</span><span class="profile-tk">Theme Premium · Concentration Risk</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：2025 创纪录（营收 $42.4M + 净利润 $16.7M + EPS $1.14 + 12,538 oz Au @ 10.14 g/t）；2025 加入 Russell 3000 + GDXJ；现金 $73.3M + 投资；H&H Metals 占 98% 销售；Lemhi Pass / Mineral Hill / Diamond Creek REE 探勘持续。</p>
+        <p><strong>关键判断</strong>：IDR 当前估值<strong>完全建立在 REE 主题叙事 + 被动资金涌入</strong>——金矿基本面（13koz/年、AISC ~$1,800）支撑不了 EV/EBITDA ~20×；REE 业务实际仍处<strong>早期探勘期</strong>，距离 PFS 还有 2-3 年；<strong>客户集中度 98%</strong>（H&H Metals）是单点失败风险。</p>
+        <p><strong>建议节奏</strong>：当前估值偏贵，<strong>不建议追高</strong>。REE 主题热度回落或大盘金价回调时是更好的建仓机会。监控点：(1) Lemhi Pass 钻探结果；(2) 多元化客户基础；(3) DOE / DoD 资金落地。</p>
+      </div>
+    </div>
+
+    <div class="profile neutral">
+      <div class="profile-head"><span class="profile-name">ITRG · Integra Resources</span><span class="profile-tk">Patience Required</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Florida Canyon 维持产出但 AISC 偏高；DeLamar 许可推进缓慢。</p>
+        <p><strong>关键判断</strong>：均衡但<strong>缺乏短期催化剂</strong>。CEO Salamis 履历强但当前周期内难以驱动重估。</p>
+        <p><strong>建议节奏</strong>：观察为主，等 DeLamar 许可有突破或 Florida Canyon 资源更新后再考虑。</p>
+      </div>
+    </div>
+
+    <div class="profile bear">
+      <div class="profile-head"><span class="profile-name">IAUX · i-80 Gold</span><span class="profile-tk">Avoid · Capital Stress</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：资本结构持续承压；Lone Tree 工厂重启融资仍未明朗；2024 起多次告急。</p>
+        <p><strong>关键判断</strong>：表面资源弹性吸引人，但<strong>融资缺口 $200-300M</strong>意味着未来 12 个月可能多轮稀释。$3,500 以下金价可能被迫困境出售。</p>
+        <p><strong>建议节奏</strong>：当前避免；如出现"困境收购"事件可作为事件驱动机会研究。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px;">8.4 巨型未开发项目（3 家）</h3>
+  <div class="cards-2">
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">SA · Seabridge Gold</span><span class="profile-tk">Long Hold · JV Catalyst</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：BC 优先项目认定（4/30）+ Snip North 9.2 Moz Au 首次资源量（4/15）+ Tudor 撤回上诉（3/19）+ Courageous Lake 分拆 Valor Gold；CFO 退休 + 财务团队重组为 KSM JV push 准备。</p>
+        <p><strong>关键判断</strong>：KSM 47.3 Moz Au + 7.3 Blbs Cu 是<strong>全球最大未开发铜金资产之一</strong>，EV/Resource $50-73/oz 在所有金铜开发标的中最便宜；Rudi Fronk 26 年项目守护让 KSM 走到 BC 优先项目；但<strong>$8B Capex 是巨大障碍</strong>，必须依赖 JV partner。最可能的 partner 是 Newmont（已是 BC 玩家）、Freeport-McMoRan（铜战略）、Rio Tinto（已经在 WRN 持股）。</p>
+        <p><strong>建议节奏</strong>：耐心持有 12-18 月。JV partner 公告（推测 2026 H2-2027 H1）是最重要的定价事件。<strong>注意：JV deal 不一定给小股东带来现金溢价</strong>——更可能是 partner 持股 30-50% + 共担 Capex，对小股东是项目权益保留而非清算溢价。</p>
+      </div>
+    </div>
+
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">WRN · Western Copper and Gold</span><span class="profile-tk">Hidden Asset · Rio Tinto Endgame</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：2 月完成 C$80M 融资（C$4.15/股，Stifel Canada 主承）；新 COO Robert Dirk（前 Suncor 37 年）+ VP Tech Christian Roldan（前 Newmont）入职；Rio Tinto IRA 延续至 2026 年底；YESAB 评估持续推进。</p>
+        <p><strong>关键判断</strong>：Casino 项目 21 Moz Au + 11 Blbs Cu 在 EV/Resource $24/oz 几乎是<strong>最便宜的金铜开发资产</strong>；2022 FS 用 $1,700 金价 + $3.60 Cu 测算 NPV C$2.33B + 27 年 LOM + 3 年 payback；用 $4,400 金价 + $5 Cu 重算<strong>NPV 可能突破 C$8B</strong>。<strong>Rio Tinto 已 9.7% + 持 TSC 席位 + 延续 IRA</strong>，几乎一定是最终买家——选择"延后"是等 YESAB 完成 + 环境许可后再以更便宜价格全资收购的策略。</p>
+        <p><strong>建议节奏</strong>：耐心持有 18-24 月。融资已解决意味着无稀释压力；YESAB 完成（2027 H2 估）是关键里程碑。Rio Tinto 行权时点（2026 年底 IRA 到期前后）是潜在 trigger。</p>
+      </div>
+    </div>
+
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">NG · NovaGold</span><span class="profile-tk">Long Hold · BFS Catalyst</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Fluor 担任 BFS 主承包商（Feb 2026），BFS 2027 完成；现金 $392.5M 足以覆盖 BFS + Barrick 票据偿还，<strong>未来 18 个月无稀释风险</strong>。</p>
+        <p><strong>关键判断</strong>：Donlin NPV ~$24B vs NG 市值 $3B（市场暗含 ~88% 折价）；即使按 60% 权益 + 50% 风险折扣计算，仍有显著重估空间。但需要等到 2027 BFS 才会真正反映。</p>
+        <p><strong>建议节奏</strong>：耐心持有 18-24 个月。2026 mid-year 详细预算/时间表是第一个定价窗口；2027 H2 BFS 完成是真正的重估事件。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px;">8.5 中后期开发者（2 家）</h3>
+  <div class="cards-2">
+    <div class="profile bull">
+      <div class="profile-head"><span class="profile-name">DC · Dakota Gold</span><span class="profile-tk">Inflection Pick · PFS Catalyst</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Richmond Hill PFS 推迟至 H2 2026，但同时<strong>首次报告储量</strong>；2025 IACF 在 $2,350 金价下 IRR 59%、年产 150koz，当前 $4,400+ 金价下 NPV 已远超原数值。</p>
+        <p><strong>关键判断</strong>：Quartermain 是 16 家公司里<strong>行业声誉最强的 CEO</strong>，Pretium / Brucejack 履历是核心信任来源。被 NEM 收购的概率显著高于市场认知。</p>
+        <p><strong>建议节奏</strong>：2026 Q3 PFS 发布前 1-2 月开始建仓；PFS 数据 + 储量首报双重利好可能驱动 30-50% 阶段涨幅。</p>
+      </div>
+    </div>
+
+    <div class="profile bear">
+      <div class="profile-head"><span class="profile-name">PZG · Paramount Gold Nevada</span><span class="profile-tk">Avoid · Capital Stress</span></div>
+      <div class="profile-body">
+        <p><strong>核心更新</strong>：Federal ROD 已签（1/29）+ FAST-41 项目 + Oregon 首个 NEPA 完成的金矿 + Ausenco 更新 FS H1 2026 完成；多份 SEC 文件含 going-concern 表述；融资缺口 $200-300M。</p>
+        <p><strong>关键判断</strong>：Grassy Mountain 是<strong>真正的好项目</strong>——6.5 g/t 入磨品位、shovel-ready、$4,400+ 金价下 NPV 可能从 $114M 跃升至 $400-600M；但<strong>融资缺口是结构性问题</strong>——市值 $184M vs 旧 Capex $136M（新 FS 出来后大概率上修）。最可能结局是被 SSR / Coeur / Hecla 等中型生产商以"困境收购"价格拿下，或被迫多轮稀释。</p>
+        <p><strong>建议节奏</strong>：当前避免；关注 H1 2026 updated FS 出来后融资公告——如出现"无稀释战略买家"事件可作为<strong>事件驱动短线机会</strong>研究；如出现大规模稀释则继续避免。</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="sec-num">§ 09 — Portfolio Construction · v2 + v3 Integrated</div>
+    <h2>组合建议：v2 + v3 集成的<em>16 家资金分配框架</em></h2>
+  </div>
+  <p class="lead">v2 把 10 家分成核心 / 防御 / 事件驱动 / 高 beta 四桶。v3 队列加入后调整：<strong>TFPM 应作为新的"防御核心"加入（替换部分 DRD 仓位）</strong>，<strong>SA / WRN 加入"长周期期权"桶（与 NG / DC 错位建仓）</strong>，<strong>BTG 加入"中型生产商"桶</strong>，<strong>IDR / PZG 是规模过小或风险过高的"卫星仓位"</strong>。</p>
+
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="lbl">Core Producer 35-45%</div>
+      <div class="val">EGO + CGAU + BTG</div>
+      <div class="sub">规模生产 + 清晰催化剂</div>
+    </div>
+    <div class="data-cell">
+      <div class="lbl">Defensive 15-25%</div>
+      <div class="val">TFPM + DRD + BVN</div>
+      <div class="sub">流权益 + 尾矿 + 隐藏资产</div>
+    </div>
+    <div class="data-cell">
+      <div class="lbl">Long-Cycle Options 15-25%</div>
+      <div class="val">SA + WRN + NG + DC</div>
+      <div class="sub">巨型项目 / 错位建仓</div>
+    </div>
+    <div class="data-cell">
+      <div class="lbl">High Beta 10-15%</div>
+      <div class="val">HMY + CMCL</div>
+      <div class="sub">金价 / 项目 binary 弹性</div>
+    </div>
+    <div class="data-cell">
+      <div class="lbl">Theme Satellite ≤5%</div>
+      <div class="val">IDR</div>
+      <div class="sub">REE 叙事，仅小仓位</div>
+    </div>
+    <div class="data-cell">
+      <div class="lbl">Watch / Avoid</div>
+      <div class="val bear">PZG · IAUX · ITRG</div>
+      <div class="sub">融资 / 资本结构压力</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">v2 + v3 集成关键调整</span> <strong>(1) TFPM 替代 DRD 部分仓位</strong>——TFPM 在下行场景下抗压性远强于 DRD（DRD 在 $2,500 仍有 $466/oz 但 TFPM 在 $2,500 仍有 65% 毛利率 + 全球分散）；DRD 保留小部分仓位作为南非纯金 exposure。<strong>(2) SA + WRN + NG + DC 应错位建仓</strong>——4 个长周期开发者催化剂时点：DC 2026 Q4 PFS、SA 2026 H2-2027 H1 JV partner、NG 2027 H2 BFS、WRN 2027 H2 EAC，可分批建仓避免单一时点拥挤。<strong>(3) BTG 加入核心生产商桶</strong>——但建议在当前 25% 涨幅后等回调；<strong>(4) IDR 仅作为小仓位主题敞口</strong>——REE 主题热度可能持续，但金矿基本面不支撑当前估值。
+  </div>
+
+  <h3 style="margin-top:24px;">9.1 综合报告最终结论：5 个最重要的判断</h3>
+  <table style="margin-top:8px;">
+    <thead>
+      <tr><th style="width:50px;">No.</th><th>核心判断</th><th>含义与可操作性</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tk">01</td><td><strong>$4,400+/oz 环境下，估值差异比资源差异更能预测 12 个月回报</strong></td><td>EV/Resource 矩阵是核心 ranking 工具；昂贵标的（BTG $365 / DRD $272 / CGAU $220）必须有强催化剂支撑；便宜标的（WRN $24 / IAUX $57 / SA $50-73 / CMCL $80）需识别"便宜的原因"是结构性问题还是被低估</td></tr>
+      <tr><td class="tk">02</td><td><strong>TFPM 是 16 家中唯一真正的"防御资产"</strong></td><td>93% 毛利率 + $1B+ 流动性 + 无负债 + 239 资产分散 = 下行场景核心配置；建议将 TFPM 提升至 defensive 桶最高权重，部分替换 DRD</td></tr>
+      <tr><td class="tk">03</td><td><strong>EGO / CGAU / BTG 构成核心生产商三角</strong></td><td>EGO 是 Skouries 事件驱动；CGAU 是 streaming 折价被过度反映；BTG 是 EV/EBITDA 最便宜但下行 beta 大；三者催化剂时点错位，组合配置最高效</td></tr>
+      <tr><td class="tk">04</td><td><strong>SA / WRN / NG / DC 是错位的长周期期权</strong></td><td>4 个开发者催化剂时点完全错开（DC 2026 Q4 → SA 2026 H2-2027 H1 → NG 2027 H2 → WRN 2027 H2），分批建仓避免拥挤；WRN 是 Rio Tinto 行权 endgame，SA 是 JV partner narrative，DC 是 PFS + 储量重估，NG 是 BFS 终点</td></tr>
+      <tr><td class="tk">05</td><td><strong>PZG / IDR / IAUX 是"看起来便宜但有结构性问题"的标的</strong></td><td>PZG 融资缺口 $200-300M + going-concern；IDR 客户集中度 98% + REE 估值溢价高；IAUX 资本结构脆弱可能被迫困境出售；都需要先解决结构性问题再考虑估值修复</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:24px;">9.2 v2 + v3 整合后 16 名标的总览</h3>
+  <table>
+    <thead>
+      <tr><th>桶</th><th>标的</th><th>核心叙事 / 角色</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="tag bull">Core Producer</span></td><td class="tk">EGO · CGAU · BTG</td><td>规模生产、清晰催化剂；EGO Skouries 投产 + CGAU 长寿命 + BTG Goose ramp</td></tr>
+      <tr><td><span class="tag bull">Defensive</span></td><td class="tk">TFPM · DRD · BVN</td><td>下行保护；TFPM 流权益 + DRD 零地质风险尾矿 + BVN 多金属隐藏资产</td></tr>
+      <tr><td><span class="tag gold">Long-Cycle Options</span></td><td class="tk">SA · WRN · NG · DC</td><td>巨型项目期权；催化剂错位（DC 2026 Q4 → SA 2026 H2-2027 H1 → NG 2027 H2 → WRN 2027 H2）</td></tr>
+      <tr><td><span class="tag neutral">High Beta</span></td><td class="tk">HMY · CMCL</td><td>金价 beta 最大 + Bilboes 项目 binary outcome</td></tr>
+      <tr><td><span class="tag neutral">Theme Satellite</span></td><td class="tk">IDR</td><td>REE 主题敞口，仅小仓位</td></tr>
+      <tr><td><span class="tag bear">Watch / Avoid</span></td><td class="tk">PZG · IAUX · ITRG</td><td>融资 / 资本结构压力，建议等结构性问题解决</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note" style="margin-top:18px;">
+    <span class="lbl">最终风险警告</span> 整体配置应注意三条结构性风险线：<strong>(1) 开发者集中度</strong>——16 名标的中有 5 家纯开发者（SA / WRN / NG / DC / PZG），合计仓位不应超过 25-30%，否则金价下行时整组 NAV 同步压制；<strong>(2) 非洲集中度</strong>——HMY + DRD + CMCL + BTG 都有非洲业务（南非 / Mali / 津巴布韦），合计仓位也应控制在 25% 以内，建议用美国本土（IDR + DC + IAUX + ITRG + PZG）对冲非洲风险；<strong>(3) 中国资本市场情绪传导</strong>——A 股黄金板块（中金黄金 / 山东黄金 / 紫金矿业等）与美加上市标的存在一定情绪联动，海外标的相对独立但波动放大时可能出现"非理性同步杀跌"，建议监控 LBMA / COMEX 持仓 + ETF 资金流（GDX / GDXJ）作为先行指标。
+  </div>
+</section>
+
+<div class="footer">
+  Equity Research · Comprehensive Edition · Merged v2 + v3 · Updated 2026.05.09 · For Research Only · Not Investment Advice<br>
+  Sources: Company filings, technical reports, sell-side consensus, public disclosures · Valuation data approximate, verify before trading
+</div>
+
+</div>
+</body>
+</html>

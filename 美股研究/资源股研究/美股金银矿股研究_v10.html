@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股金银矿股投资逻辑深度研究</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Karla:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2635;
+  --navy-light:#253347;
+  --bronze:#B8870A;
+  --bronze-light:#D4A017;
+  --warm-white:#F4F2ED;
+  --cream:#EEEBE3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Karla",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--warm-white);color:#1a1a1a;padding:0 0 32px;line-height:1.6;overflow-x:hidden}
+.page{max-width:1400px;margin:0 auto;padding:0 24px}
+
+/* ── SPROTT MASTHEAD ── */
+.page-header{
+  position:relative;
+  background:var(--navy);
+  border-bottom:3px solid var(--bronze);
+  overflow:hidden;
+  margin-bottom:32px;
+  width:100vw;
+  margin-left:calc(-50vw + 50%);
+}
+.page-header::after{
+  content:'PRECIOUS METALS';
+  position:absolute;
+  right:-12px;
+  bottom:-28px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:150px;
+  font-weight:700;
+  color:rgba(255,255,255,0.04);
+  line-height:1;
+  pointer-events:none;
+  white-space:nowrap;
+  letter-spacing:-0.02em;
+}
+.mast-inner{
+  max-width:1400px;
+  margin:0 auto;
+  padding:40px 40px 32px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.mast-content{flex:1;min-width:0}
+.h-eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  letter-spacing:.22em;
+  color:var(--bronze-light);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.h-title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:52px;
+  font-weight:700;
+  color:#fff;
+  line-height:1.08;
+  margin-bottom:14px;
+  letter-spacing:-0.02em;
+}
+.h-title em{
+  color:var(--bronze-light);
+  font-style:italic;
+}
+.h-desc{
+  font-size:14.5px;
+  color:rgba(255,255,255,.58);
+  font-weight:300;
+  max-width:760px;
+  line-height:1.65;
+  margin-bottom:18px;
+}
+.h-pills{display:flex;flex-wrap:wrap;gap:7px}
+.h-pill{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  padding:4px 11px;
+  border-radius:3px;
+  border:1px solid rgba(255,255,255,.13);
+  color:rgba(255,255,255,.6);
+  letter-spacing:.05em;
+}
+.mast-controls{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  flex-shrink:0;
+  padding-bottom:4px;
+}
+.btn-add{font-size:12px;font-weight:500;padding:7px 14px;border-radius:7px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);cursor:pointer;color:#fff;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:background .15s,border-color .15s;font-family:inherit}
+.btn-add:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
+.btn-add .icon{font-size:13px;line-height:1}
+.btn-primary{background:var(--bronze);color:#fff;border-color:var(--bronze)}
+.btn-primary:hover{background:var(--bronze-light);border-color:var(--bronze-light)}
+
+/* ── ANALYSIS SECTION ── */
+.analysis{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;margin-bottom:28px;overflow:hidden}
+.analysis-head{
+  background:var(--navy);
+  border-left:4px solid var(--bronze);
+  padding:14px 24px;
+  display:flex;align-items:center;gap:12px;
+}
+.analysis-head h2{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:600;color:#fff;letter-spacing:-.01em;margin:0}
+.analysis-head .sec-num{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--bronze-light);font-weight:500}
+.analysis-body{padding:22px 24px}
+.mainline{margin-bottom:16px;padding-left:12px;border-left:3px solid #e0ddd6}
+.mainline:last-child{margin-bottom:0}
+.ml-stream{border-left-color:#7C3AED}
+.ml-senior{border-left-color:#0F766E}
+.ml-mid{border-left-color:#D4A017}
+.ml-restart{border-left-color:#EA580C}
+.ml-silver{border-left-color:#6B7280}
+.ml-title{font-size:13px;font-weight:500;color:#111;margin-bottom:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ml-badge{font-size:10.5px;padding:2px 8px;border-radius:6px;font-weight:500}
+.badge-stream{background:#EDE9FE;color:#5B21B6}
+.badge-senior{background:#CCFBF1;color:#115E59}
+.badge-mid{background:#FEF3C7;color:#92400E}
+.badge-restart{background:#FED7AA;color:#9A3412}
+.badge-silver{background:#F3F4F6;color:#374151}
+.ml-text{font-size:12.5px;color:#555;line-height:1.65}
+
+.section-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;letter-spacing:.04em;text-transform:uppercase;font-family:"JetBrains Mono",monospace}
+.section-title span{font-size:11px;color:#9ca3af;font-weight:400;text-transform:none;letter-spacing:0;font-family:"Karla",sans-serif}
+/* ── SECTION HEADING (Sprott style) ── */
+.s-head{margin:8px 0 22px}
+.s-label{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--bronze);text-transform:uppercase;letter-spacing:.18em;margin-bottom:7px}
+.s-title{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:10px;letter-spacing:-.01em}
+.s-divider{width:44px;height:2px;background:var(--bronze);margin-bottom:10px}
+.s-sub{font-size:12px;color:#9ca3af}
+
+/* ── Category tabs ── */
+.category-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding:14px 16px;background:#fff;border:0.5px solid #e0ddd6;border-radius:12px}
+.cat-tab{font-size:12px;font-weight:500;padding:6px 13px;border-radius:7px;border:1px solid #e8e5dd;background:#fff;cursor:pointer;color:#555;transition:all .15s;display:inline-flex;align-items:center;gap:7px;font-family:inherit;white-space:nowrap}
+.cat-tab:hover{background:var(--cream);border-color:#c8c4ba}
+.cat-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cat-tab .tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cat-tab .tab-count{font-size:11px;opacity:.55;font-weight:400}
+.cat-tab.active .tab-count{opacity:.75}
+
+/* ── Sort controls ── */
+.sort-controls{display:flex;gap:6px;align-items:center;margin-left:auto}
+.sort-label{font-size:11.5px;color:#9ca3af}
+.sort-btn{font-size:11.5px;padding:5px 10px;border-radius:6px;border:1px solid #e8e5dd;background:#fff;cursor:pointer;color:#555;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:3px}
+.sort-btn:hover{background:#f9f8f5;border-color:#c8c4ba}
+.sort-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sort-arrow{font-size:9px;opacity:.7;display:inline-block;width:8px;text-align:center}
+
+/* ── Search ── */
+.search-wrap{position:relative;display:flex;align-items:center;flex:1;min-width:180px;max-width:280px}
+.search-input{width:100%;font-size:12.5px;padding:7px 30px 7px 32px;border-radius:8px;border:1px solid #e8e5dd;background:#fff;color:#1a1a1a;font-family:inherit;outline:none;transition:border-color .15s}
+.search-input:focus{border-color:#9ca3af}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:#9ca3af;pointer-events:none}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:16px;color:#9ca3af;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;display:none}
+.search-clear:hover{color:#555;background:#f0ede6}
+.search-clear.visible{display:block}
+.search-result-info{font-size:11.5px;color:#9ca3af;margin-bottom:8px;padding-left:4px}
+.search-result-info strong{color:#374151;font-weight:500}
+.no-results{text-align:center;padding:48px 20px;color:#9ca3af;font-size:13px;background:#fff;border:0.5px dashed #d1d5db;border-radius:12px}
+
+/* ── Horizontal cards ── */
+.drag-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:32px}
+
+.card{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;padding:18px 22px;cursor:grab;position:relative;transition:box-shadow .2s,transform .15s;user-select:none}
+.card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.07)}
+.card.dragging{opacity:.4;transform:scale(0.99);cursor:grabbing;box-shadow:0 6px 24px rgba(0,0,0,0.12)}
+.card.drag-over{border:1.5px dashed #9ca3af;background:#f9f8f5}
+
+.drag-handle{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:3px;padding:4px;opacity:.3;cursor:grab;z-index:2}
+.drag-handle span{display:block;width:14px;height:1.5px;background:#555;border-radius:2px}
+.card:hover .drag-handle{opacity:.55}
+
+/* Inner horizontal grid: header | catalysts | logics */
+.card-grid{display:grid;grid-template-columns:280px 1fr 1fr;gap:22px;align-items:stretch}
+.card-header{display:flex;flex-direction:column;gap:10px;padding-right:20px;border-right:0.5px solid #f0ede6}
+.card-section{display:flex;flex-direction:column;gap:6px;min-width:0}
+.card-risk-row{margin-top:14px;padding-top:12px;border-top:0.5px solid #f0ede6;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.ticker{font-family:"SF Mono","Fira Code","Menlo",monospace;font-size:12px;font-weight:500;padding:3px 9px;border-radius:6px;white-space:nowrap;display:inline-block}
+.company{font-size:14px;font-weight:500;color:#111;margin-top:6px;line-height:1.35}
+.exchange{font-size:10.5px;color:#9ca3af;margin-top:2px;font-family:"SF Mono","Fira Code","Menlo",monospace}
+
+/* Performance compact tags (in risk row) */
+.perf-mini{display:flex;gap:6px;flex-shrink:0;align-items:center;flex-wrap:wrap}
+.perf-tag{display:inline-flex;align-items:baseline;gap:5px;background:#f9f8f5;border:0.5px solid #ece9e0;border-radius:5px;padding:3px 8px;font-size:11px;line-height:1.3;white-space:nowrap}
+.perf-tag .plabel{color:#9ca3af;font-size:10px;font-weight:500}
+.perf-tag .pvalue{font-family:"SF Mono","Fira Code","Menlo",monospace;font-weight:600;font-size:11.5px}
+.pvalue.up{color:#dc2626}
+.pvalue.down{color:#059669}
+.pvalue.flat{color:#9ca3af}
+
+.theme-tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:10px;align-self:flex-start;margin-top:2px}
+.metric-row{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.metric{font-size:10px;color:#6b7280;background:#f0ede6;padding:2px 7px;border-radius:5px;font-weight:500;white-space:nowrap}
+.metric strong{color:#1a1a1a}
+.divider{border:none;border-top:0.5px solid #f0ede6}
+.slabel{font-size:10px;font-weight:600;color:var(--bronze);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-family:"JetBrains Mono",monospace}
+.items{display:flex;flex-direction:column;gap:6px}
+.item{display:flex;gap:7px;align-items:flex-start}
+.dot{width:5px;height:5px;border-radius:50%;margin-top:7px;flex-shrink:0}
+.itext{font-size:12px;color:#555;line-height:1.58}
+.itext strong{color:#1a1a1a;font-weight:500}
+.risk{background:#f9f8f5;border-radius:8px;padding:9px 12px;font-size:11.5px;color:#6b7280;line-height:1.6;flex:1;min-width:0}
+.risk strong{color:#1a1a1a;font-weight:500}
+
+/* Responsive */
+@media (max-width:900px){
+  .card-grid{grid-template-columns:1fr;gap:14px}
+  .card-header{padding-right:0;border-right:none;padding-bottom:12px;border-bottom:0.5px solid #f0ede6}
+}
+
+/* color themes — gold/silver edition */
+.t-stream{background:#EDE9FE;color:#5B21B6}
+.d-stream{background:#7C3AED}
+.tag-stream{background:#EDE9FE;color:#5B21B6}
+
+.t-senior{background:#CCFBF1;color:#115E59}
+.d-senior{background:#0F766E}
+.tag-senior{background:#CCFBF1;color:#115E59}
+
+.t-mid{background:#FEF3C7;color:#92400E}
+.d-mid{background:#D4A017}
+.tag-mid{background:#FEF3C7;color:#92400E}
+
+.t-restart{background:#FED7AA;color:#9A3412}
+.d-restart{background:#EA580C}
+.tag-restart{background:#FED7AA;color:#9A3412}
+
+.t-silver{background:#F3F4F6;color:#374151}
+.d-silver{background:#6B7280}
+.tag-silver{background:#F3F4F6;color:#374151}
+
+.footer{text-align:center;font-size:11.5px;color:#9ca3af;padding-top:16px;border-top:0.5px solid #e0ddd6;margin-top:16px}
+
+.toast{position:fixed;top:20px;right:20px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;z-index:1000;opacity:0;transform:translateY(-10px);transition:opacity .25s,transform .25s;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.error{background:#dc2626}
+.toast.success{background:#059669}
+
+/* ── Dark Mode ── */
+body.dark{background:#141414;color:#e5e5e5}
+body.dark .page-header{border-bottom-color:rgba(184,135,10,.4)}
+body.dark .h-eyebrow{color:rgba(212,160,23,.7)}
+body.dark .h-pill{border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.45)}
+body.dark .btn-add{background:#1e1e1e;border-color:#333;color:#ccc}
+body.dark .btn-add:hover{background:#2a2a2a}
+body.dark .btn-primary{background:#e5e5e5;color:#111;border-color:#e5e5e5}
+body.dark .btn-primary:hover{background:#fff;border-color:#fff}
+body.dark .analysis{background:#1a1a1a;border-color:#2a2a2a}
+body.dark .analysis-head{background:#0f1a26;border-left-color:rgba(184,135,10,.6)}
+body.dark .analysis h2{color:#e5e5e5;border-bottom-color:#2a2a2a}
+body.dark .ml-text,.dark .itext{color:#aaa}
+body.dark .ml-title{color:#e5e5e5}
+body.dark .card{background:#1a1a1a;border-color:#2a2a2a}
+body.dark .card.drag-over{background:#222;border-color:#555}
+body.dark .company{color:#e5e5e5}
+body.dark .perf-tag{background:#222;border-color:#2f2f2f}
+body.dark .perf-tag .plabel{color:#777}
+body.dark .pvalue.flat{color:#777}
+body.dark .divider{border-top-color:#2a2a2a}
+body.dark .itext{color:#aaa}
+body.dark .itext strong{color:#e5e5e5}
+body.dark .risk{background:#222;color:#999}
+body.dark .risk strong{color:#ddd}
+body.dark .footer{color:#555;border-top-color:#2a2a2a}
+body.dark .category-tabs{background:#1a1a1a;border-color:#2a2a2a}
+body.dark .cat-tab{background:#222;border-color:#333;color:#bbb}
+body.dark .cat-tab:hover{background:#2a2a2a;border-color:#444}
+body.dark .cat-tab.active{background:#e5e5e5;color:#111;border-color:#e5e5e5}body.dark .card-header{border-right-color:#2a2a2a}
+body.dark .card-risk-row{border-top-color:#2a2a2a}
+body.dark .sort-btn{background:#222;border-color:#333;color:#bbb}
+body.dark .sort-btn:hover{background:#2a2a2a}
+body.dark .sort-btn.active{background:#e5e5e5;color:#111;border-color:#e5e5e5}
+body.dark .metric{background:#262626;color:#aaa}
+body.dark .metric strong{color:#e5e5e5}
+body.dark .search-input{background:#222;border-color:#333;color:#e5e5e5}
+body.dark .search-input:focus{border-color:#666}
+body.dark .search-icon{color:#666}
+body.dark .search-clear{color:#666}
+body.dark .search-clear:hover{color:#bbb;background:#2a2a2a}
+body.dark .search-result-info{color:#666}
+body.dark .search-result-info strong{color:#bbb}
+body.dark .no-results{background:#1a1a1a;border-color:#333;color:#666}
+@media (max-width:900px){
+  body.dark .card-header{border-bottom-color:#2a2a2a}
+}
+/* ── ANALYSIS TABS ── */
+.atab-group{display:flex;gap:4px;margin-left:auto;flex-shrink:0}
+.atab{font-family:"JetBrains Mono",monospace;font-size:9.5px;padding:5px 14px;border-radius:3px;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .15s;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.atab:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
+.atab.active{background:var(--bronze);color:#fff;border-color:var(--bronze)}
+.apanel{display:none}.apanel.show{display:block}
+/* ── RECO CARDS ── */
+.reco-section{margin-bottom:22px}
+.reco-section:last-child{margin-bottom:0}
+.reco-sec-label{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--bronze);text-transform:uppercase;letter-spacing:.18em;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid #e8e5dd}
+.reco-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:900px){.reco-grid{grid-template-columns:1fr}}
+.reco-card{display:flex;gap:14px;padding:13px 15px;background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;border-left-width:3px;border-left-style:solid}
+.reco-card.full{grid-column:1/-1}
+.reco-left{flex-shrink:0;width:76px;display:flex;flex-direction:column;gap:3px;padding-right:10px;border-right:0.5px solid #f0ede6}
+.reco-cname{font-size:9.5px;color:#9ca3af;line-height:1.3;margin-top:1px}
+.reco-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block;white-space:nowrap;line-height:1.4}
+.reco-text{font-size:12px;color:#555;line-height:1.65;flex:1;min-width:0}
+.reco-text strong{color:#1a1a1a;font-weight:500}
+.reco-text p{margin-bottom:9px}
+.reco-text p:last-child{margin-bottom:0}
+.opus-banner{font-size:11.5px;color:#555;margin-bottom:18px;padding:11px 16px;background:#f5f1e8;border-radius:6px;border-left:3px solid var(--bronze);line-height:1.65}
+.opus-banner strong{color:var(--navy);font-weight:600;font-family:"Cormorant Garamond",serif;font-size:14px}
+body.dark .opus-banner{background:#1a1a1a;color:#bbb}
+body.dark .opus-banner strong{color:#e5e5e5}
+body.dark .atab{color:rgba(255,255,255,.35);border-color:rgba(255,255,255,.1)}
+body.dark .atab.active{background:var(--bronze);color:#fff}
+body.dark .reco-card{background:#1a1a1a;border-color:#2a2a2a}
+body.dark .reco-left{border-right-color:#2a2a2a}
+body.dark .reco-text{color:#aaa}
+body.dark .reco-text strong{color:#e5e5e5}
+body.dark .reco-sec-label{border-bottom-color:#2a2a2a}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="page-header">
+  <div class="mast-inner">
+    <div class="mast-content">
+      <div class="h-eyebrow">Equity Research &nbsp;·&nbsp; Precious Metals &nbsp;·&nbsp; 2026.05</div>
+      <h1 class="h-title">美股<em>金银矿股</em>投资逻辑深度研究</h1>
+      <p class="h-desc">覆盖 52 只 NYSE / Nasdaq 主板上市标的 &nbsp;·&nbsp; 已纳入主要公司 26Q1 财报数据 &nbsp;·&nbsp; 五条核心投资逻辑 &nbsp;·&nbsp; 卡片可拖动排序</p>
+      <div class="h-pills">
+        <span class="h-pill">流权利金</span>
+        <span class="h-pill">大型生产商</span>
+        <span class="h-pill">中型成长</span>
+        <span class="h-pill">开发期事件驱动</span>
+        <span class="h-pill">白银矿企</span>
+      </div>
+    </div>
+    <div class="mast-controls">
+      <button class="btn-add" onclick="downloadTemplate()"><span class="icon">⬇</span> 下载模板</button>
+      <button class="btn-add btn-primary" onclick="document.getElementById('uploadInput').click()"><span class="icon">⬆</span> 上传涨幅数据</button>
+      <input type="file" id="uploadInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleUpload(event)">
+      <button class="btn-add" id="theme-btn" onclick="toggleTheme()" style="gap:6px">
+        <span id="theme-icon">🌙</span> Dark
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 横向主线分析 -->
+<div class="analysis">
+  <div class="analysis-head">
+    <span class="sec-num">§01</span>
+    <h2>横向对比：金银矿股的五条核心投资逻辑</h2>
+    <div class="atab-group">
+      <button class="atab active" onclick="switchATab('logic',this)">五条核心逻辑</button>
+      <button class="atab" onclick="switchATab('reco',this)">核心推荐</button>
+      <button class="atab" onclick="switchATab('reco-opus',this)">Opus推荐</button>
+    </div>
+  </div>
+  <div class="apanel show" id="apanel-logic">
+  <div class="analysis-body">
+
+  <div class="mainline ml-stream">
+    <div class="ml-title"><span class="ml-badge badge-stream">逻辑一</span>流权利金 / Streaming → 采购成本固定 × 金价高弹性，矿业版"软件公司"&nbsp;—&nbsp;WPM、FNV、RGLD、TFPM、OR、GROY</div>
+    <div class="ml-text">核心机制：流权利金公司向矿企预付现金，换取以固定低价（通常为现货的10-20%）长期购买未来产量的权利，自身不参与任何运营。这一结构带来三重优势：<strong>①成本不随通胀走</strong>——WPM的金/银采购成本约$473/oz和$5.75/oz，与2016年签约时几乎相同，而当前现货金价$4,800+、银价$73+，每GEO利润率已超过$4,000；<strong>②EBITDA率极高</strong>——FNV 2025年全年EBITDA率达91%（行业最高），WPM 2026Q1创纪录收入$9.01亿（GEOs +22% YoY），利润率机制在高金价环境下近乎"打印现金"；<strong>③资产分散风险低</strong>——FNV管理400+资产仅~40名员工，单一资产收入占比不超过13%。格局层面：RGLD完成对Sandstorm+Horizon Copper收购后组合资产从248个扩至393个，与FNV、WPM形成<em>"三巨头"格局</em>；TFPM、OR体量较小，成长弹性高于三巨头。当前估值EV/EBITDA 22-30x，看似偏贵，但以FCF收益率衡量，在金价高位环境下仍具吸引力——关键是这一商业模式无劳工成本、无能源暴露、无对冲损失，金价每上涨$100/oz几乎100%转化为增量FCF。</div>
+  </div>
+
+  <div class="mainline ml-senior" style="margin-top:14px">
+    <div class="ml-title"><span class="ml-badge badge-senior">逻辑二</span>大型生产商 → 利润率历史性扩张 + ETF被动配置锚&nbsp;—&nbsp;NEM、AEM、B、KGC、AU、GFI、HMY、SBSW、DRD</div>
+    <div class="ml-text">当前行业正处于<strong>1990年代以来从未出现的利润率周期</strong>：黄金现货$4,800+/oz vs 行业均值AISC $1,500-1,800/oz，每盎司利润率$2,800-3,200+/oz，是2019年（约$1,300/oz）的两倍以上。在此背景下，大型生产商的逻辑已从"通胀对冲"升级为"高利润率制造商"——NEM连续四个季度FCF超$10亿，并完成组合瘦身（出售Telfer、Musselwhite、Éléonore、Cripple Creek等非核心资产，回归聚焦）；AEM代表行业"质量基准"（90%+加拿大/芬兰资产，AISC常年处于行业最低四分位，~$1,100-1,300/oz）；Barrick（NYSE: B）深度重塑Tier-1资产组合，Nevada矿区是全球最高品质金矿群之一；KGC在简化资产结构后，Bald Mountain（Nevada）和Tasiast（毛里塔尼亚）提供稳定产量基础。<br>结构面：2025年9月GDX ETF切换至MarketVector指数（更精确反映流通市值），被动资金结构改善；央行连续17个季度净购金，建立了对金价价格不敏感的机构买盘底座。FCF部署方向正从"修复资产负债表"转向"股东回报"——股息提升+回购计划是2026年主线叙事。当前行业Forward P/E 13-24x，P/B ~3x，历史上在此利润率水平曾出现更高估值倍数。</div>
+  </div>
+
+  <div class="mainline ml-mid" style="margin-top:14px">
+    <div class="ml-title"><span class="ml-badge badge-mid">逻辑三</span>中型生产商 → "三击"Alpha机会：产量增长 × AISC下降 × 金价杠杆&nbsp;—&nbsp;AGI、EGO、EQX、IAG、ORLA、AUGO、CGAU、BTG、SSRM、ARIS、FSM、BVN、MUX、ITRG、TRX、IDR</div>
+    <div class="ml-text">在$4,800+/oz金价下，中型生产商的投资逻辑从"双击"升级为<strong>"三击"</strong>：产量增长提升分子，AISC下降扩大单位利润率，再乘以高基数金价，FCF增长近乎指数级。当前最值得追踪的案例：<strong>AGI（Alamos Gold）</strong>——Island Gold Phase 3整合预计2026年达411,000 oz/年，AISC目标~$915/oz（行业最低四分位之一），Q3 2025已实现141,700 oz季度产量；<strong>EGO（Eldorado Gold）</strong>——Skouries（希腊）完成首次产金，项目品位高（金+铜副产品收入），AISC大幅拉低公司整体成本曲线；<strong>IAG（IAMGOLD）</strong>——Côté Gold（安大略）爬产中，预计满产年均25万oz，AISC $900-1,000/oz；<strong>EQX（Equinox Gold）</strong>——Greenstone（安大略）+Valentine（纽芬兰）双矿满产路径清晰，转型为加拿大核心生产商；<strong>ORLA Mining</strong>——Camino Rojo（墨西哥）AISC低至$600-700/oz区间，是同类中成本最低的资产之一。筛选框架：①AISC是否有可信的未来下降路径（新低成本矿投产or工艺改进）；②未来12-18个月是否有具体的产量催化剂可观察；③资产集中度——单矿vs多矿对风险曲线影响巨大。目前该类EV/EBITDA 7-14x，与流权利金22-30x的折价有收窄空间，是Sector内alpha最密集的细分。</div>
+  </div>
+
+  <div class="mainline ml-restart" style="margin-top:14px">
+    <div class="ml-title"><span class="ml-badge badge-restart">逻辑四</span>开发期 / 重启项目 → NPV非线性杠杆 + 里程碑事件驱动估值重估&nbsp;—&nbsp;SKE、HYMC、NG、PPTA、IAUX、SA、NEWP、THM、DC、USAU、PZG、VGZ</div>
+    <div class="ml-text">开发期项目的估值逻辑与生产商根本不同：市场用<strong>P/NAV（市值/项目净现值）</strong>定价，而非P/E或EV/EBITDA。核心机制是<strong>NPV的非线性杠杆</strong>——固定建设资本条件下，金价每上涨$500/oz，项目税后NPV可翻倍甚至翻三倍（取决于矿山品位、矿山寿命和AISC结构）。当前Goldman Sachs年末目标$5,400/oz、JPMorgan $6,300/oz，而多数开发商的NPV折现仍使用$2,000-2,500/oz假设——这意味着以现价NPV衡量，当前P/NAV普遍处于0.2-0.5x的深度折价区间。<br>里程碑驱动的重估路径清晰：<em>许可证获批 → 融资完成 → 建设决定（FID）→ 首次产金 → 满产</em>，每个节点对应P/NAV跳升。具体标的：SKE（Skeena Resources）完成所有许可+建设推进，Eskay Creek（BC）是加拿大最高品位开发项目之一；NG（NovaGold）完成Donlin项目整合，Alaska最大未开发金矿，NPV对金价高度敏感；PPTA（Perpetua Resources）——锑+金战略矿产，获联邦贷款担保背书，美国国防相关战略加持；IAUX（i-80 Gold）整合Nevada Lone Tree高压氧化重启，正逐步构建内华达垂直一体化产业链。核心风险：单矿集中、建设超支、环境许可延误、融资稀释——个股分化极大，行业逻辑支持但需个案深度尽调。</div>
+  </div>
+
+  <div class="mainline ml-silver" style="margin-top:14px">
+    <div class="ml-title"><span class="ml-badge badge-silver">逻辑五</span>白银矿企 → 工业需求结构性锚 + 金银比修复 + 贵金属牛市Beta放大&nbsp;—&nbsp;PAAS、AG、HL、CDE、EXK</div>
+    <div class="ml-text">白银兼具<strong>货币属性（40-50%）与工业属性（50-60%）</strong>，使其在贵金属牛市中的Beta特征明显高于纯黄金标的（历史金银股Beta ~1.5-2x vs 金价），但下行波动同样放大。<strong>供需结构</strong>：Silver Institute预测2026年为第四个连续年度供给短缺（缺口约149-200Moz）；过去5年需求持续超过年度矿产量，且>70%白银为铜金铅锌副产品——这意味着银价上涨并不能独立刺激银矿增产，供给曲线极度缺乏弹性。<strong>工业需求三大增量引擎</strong>：①太阳能光伏2026年估计消耗120-125Moz（2020年仅约50Moz），全球665GW新增装机支撑；②电动车70-75Moz（每辆EV用银~25-50g，是传统燃油车2倍）；③AI数据中心及电网基础设施15-20Moz。三项合计已接近全球年矿产量的1/3，且均为多年期结构性增长。<strong>估值锚</strong>：当前银价$73-76/oz（从2026年1月近$95高点回落约22%），GSR约62-64x，高于55-60x长期均值，白银相对黄金仍处于修复空间——GSR从64回归55意味着白银需相对黄金上涨约16%。<strong>核心标的</strong>：PAAS（已合并MAG Silver，获得Juanicipio高品位矿山，是最大综合矿企）；AG（First Majestic，最高纯度白银玩家，San Dimas+Santa Elena，银价弹性最直接）；HL（Hecla，美国最大银矿商，科达伦矿区深厚历史积淀）；CDE（Coeur，多元化美洲布局）；EXK（Endeavour Silver，小盘高弹性，墨西哥多矿场）。</div>
+  </div>
+  </div>
+  </div><!-- /apanel-logic -->
+
+  <div class="apanel" id="apanel-reco">
+  <div class="analysis-body">
+
+  <!-- ── 大盘 · Senior Producers ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">大盘 · Senior Producers</div>
+    <div class="reco-grid">
+
+      <div class="reco-card" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">AEM</span>
+          <div class="reco-cname">Agnico Eagle</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">旗舰首选</span>
+        </div>
+        <div class="reco-text">逻辑闭环最干净：90%+加拿大资产零地缘折价，AISC $1,483/oz行业最低四分位，26Q1净利润$17亿（EPS $3.41）、每盎司营业利润率$3,144创纪录，连续三季度超预期执行。成长管线Odyssey地下+Detour扩建+Upper Beaver+<strong>Hope Bay建设决定预计2026年5月公告</strong>。机构定义的贵金属股"无需择时"核心持仓，唯一风险是估值不便宜。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">NEM</span>
+          <div class="reco-cname">Newmont</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">大盘折价</span>
+        </div>
+        <div class="reco-text">AEM的估值更合理替代：P/E 15-17x，26Q1单季FCF $31亿（年化$120亿），AISC仅$1,029/oz（含铜银副产品对冲）。剥离Telfer/Musselwhite等非核心资产后进入<strong>"重组后首个完整高金价年"</strong>收获期；$60亿史上最大回购授权+GDX第一大权重持续引入被动资金。选NEM是选"同质量基础+更低入场估值"。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">KGC</span>
+          <div class="reco-cname">Kinross Gold</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">最便宜大盘</span>
+        </div>
+        <div class="reco-text">大型金矿股中<strong>估值最低（P/E ~12x）</strong>。连续四季度FCF创纪录，Tasiast（毛利塔尼亚）是成本曲线核心引擎；Manh Choh+Round Mountain两个美国资产提供可见产量增量。$39亿流动性充裕，提升回购/股息的空间在同类中最大。逻辑简单：执行稳定+便宜+回购空间充足。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">GFI</span>
+          <div class="reco-cname">Gold Fields</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">低成本新矿</span>
+        </div>
+        <div class="reco-text">大型股中罕见的"AISC下行+产量增长"双击：Salares Norte（智利）AISC $825-875/oz，2026年首个完整稳态生产年；Windfall（魁北克）同年投产。两个低成本新矿集中达产，将系统性拉低公司整体成本曲线。<strong>2025年盈利+110%</strong>，FCF $8亿；资产分布南非/加纳/澳洲/智利/加拿大/秘鲁，多元化程度高。</div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">AU</span>
+          <div class="reco-cname">AngloGold Ashanti</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">估值范式切换</span>
+        </div>
+        <div class="reco-text">核心逻辑不是当期AISC，而是<strong>迁册事件带来的重新定价</strong>：2024年从南非迁至英国、加入富时100，从"南非折价"切换为"英国大型矿企"估值框架，机构超配空间显著打开。表面上2026年AISC指引$1,780-1,990/oz，但其中约$525/oz为税费权利金（金价$5,000下的提成），经营成本本身并不高；2025年FCF已创纪录$29亿并派发特别股息$1.73/股。真正的长线催化剂是<strong>Arthur Gold（内华达）</strong>：年产50万oz @ AISC $954/oz，DFS推进中，建设决定落地将触发显著估值重估——这是当前最大的未定价催化剂。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 中盘成长 · Mid-Tier ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">中盘成长 · Mid-Tier Growth</div>
+    <div class="reco-grid">
+
+      <div class="reco-card" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">AGI</span>
+          <div class="reco-cname">Alamos Gold</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">质量之选</span>
+        </div>
+        <div class="reco-text">中盘成长执行力最可信：Island Gold Phase 3竖井已达计划深度，采矿速率1,423 t/d创纪录；2025→2028产量545k→755-835k oz（<strong>+46%</strong>），AISC从$1,200降至目标$915/oz，双击组合有基本面支撑。88% NAV来自加拿大，接近零地缘风险。估值EV/EBITDA ~14x属于质量溢价，2028年FCF预计$10亿+验证长线逻辑。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">EGO</span>
+          <div class="reco-cname">Eldorado Gold</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">事件驱动</span>
+        </div>
+        <div class="reco-text">中盘最清晰的单一事件催化剂：<strong>Skouries（希腊铜金矿）Q3 2026投产</strong>，铜副产品使单矿净AISC降至$300-500/oz，将公司整体AISC从$1,500拉低至~$1,000-1,100/oz，2028年产量80万oz+（+50% vs 2025）。市场对希腊仍有历史折价，但近年监管环境显著改善。"投产前1-2季度市场开始重新定价"是标准轨迹，当前仍在窗口期。</div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">ORLA</span>
+          <div class="reco-cname">Orla Mining</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">成长最快</span>
+        </div>
+        <div class="reco-text">Camino Rojo（墨西哥）AISC $600-700/oz，是同类中成本最低的资产之一；Musselwhite收购完成后3年产量增长110%（200k→450k oz）。<strong>100%美国+加拿大+墨西哥资产</strong>，完全规避非洲亚洲地缘风险。管理层以0.7x P/NAV收购Musselwhite即刻创造价值，并购纪律严格；体量$50亿市值相对灵活，是中盘里成长速度与资产质量兼顾的选项。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 白银矿企 ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">白银矿企 · Silver Miners</div>
+    <div class="reco-grid">
+
+      <div class="reco-card" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">PAAS</span>
+          <div class="reco-cname">Pan American Silver</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">主线首选</span>
+        </div>
+        <div class="reco-text">银段AISC仅<strong>$6.63/oz vs 银价$89</strong>（毛利率92%）；Juanicipio（44%权益）全球最高品位在产银矿之一，2026年首次贡献完整年度数据是核心alpha来源。26Q1净利润$4.56亿、现金创纪录$18亿，$10亿总回报计划已启动。机构做银矿主题时的核心必选标的，体量$30B流动性充裕。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">HL</span>
+          <div class="reco-cname">Hecla Mining</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">美国本土溢价</span>
+        </div>
+        <div class="reco-text">Casa Berardi出售后<strong>美国+加拿大NAV占比95%+</strong>，上市银矿公司中本土资产比重最高；地缘风险溢价在当前环境下持续强化。26Q1 FCF $1.44亿创纪录，EBITDA $2.65亿（持续经营+230% YoY）。Keno Hill（育空）2026-2027年完全爬产后新增~400万oz银/年。美国纯本土银矿+成长催化+银牛市，三重逻辑共振。</div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">CDE</span>
+          <div class="reco-cname">Coeur Mining</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">并购重组爆发</span>
+        </div>
+        <div class="reco-text">26Q1 EBITDA $4.75亿创纪录（<strong>同比+4倍</strong>）；Las Chispas（墨西哥，世界级低成本银矿）+Rochester（内华达）双引擎，叠加New Afton（BC，2025年底收购）铜副产品6,000万磅/年提供成本对冲。FCF $2.67亿单季历史第二，现金$8.43亿（+11倍 YoY）提供回购弹药。New Afton整合执行是当前主要跟踪点。资产组合平衡（银+金+铜），银价弹性+金价基础+铜工业价值三重组合。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 开发期 · 事件驱动 ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">开发期 · Event-Driven</div>
+    <div class="reco-grid">
+
+      <div class="reco-card" style="border-left-color:#EA580C">
+        <div class="reco-left">
+          <span class="ticker t-restart">SKE</span>
+          <div class="reco-cname">Skeena Resources</div>
+          <span class="reco-tag" style="background:#FED7AA;color:#9A3412">BC Tier-1</span>
+        </div>
+        <div class="reco-text">Eskay Creek（BC省）是加拿大开发管线中<strong>品位最高的金银矿</strong>（金4+ g/t，银175+ g/t）；所有许可证已获批，Tier-1司法管辖区，建设决定已作出。当前金价$4,800+下项目税后NPV大幅高于市值，P/NAV折价显著。里程碑路径：建设推进→首产（预计2028年）→满产，每步触发估值重估。开发期中监管风险最低、里程碑最清晰的标的之一。</div>
+      </div>
+
+      <div class="reco-card" style="border-left-color:#EA580C">
+        <div class="reco-left">
+          <span class="ticker t-restart">PPTA</span>
+          <div class="reco-cname">Perpetua Resources</div>
+          <span class="reco-tag" style="background:#FED7AA;color:#9A3412">战略矿产</span>
+        </div>
+        <div class="reco-text"><strong>锑+金战略矿产组合</strong>，美国本土Tier-1资产。2025年锑被列入关键矿产清单、中国限制出口后PPTA成为美国少数国内锑供应方案之一；联邦贷款担保背书，美国国防供应链角度具有政策护城河。许可获批+建设推进中，政策催化×矿产稀缺性×项目推进三重逻辑。当前金价下项目NPV显著高于历史评估基准。</div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+  </div><!-- /apanel-reco -->
+
+  <div class="apanel" id="apanel-reco-opus">
+  <div class="analysis-body">
+
+  <div class="opus-banner">
+    <strong>深度分析版 · Layered Analysis</strong><br>
+    增加价格预期分层（已定价 vs 未定价催化）、跨标对比框架（AEM vs NEM、AGI vs EGO 的双击形态差异）、场景化配置定位（每只对应特定市场观点）、可验证跟踪节点、隐性期权识别。所有泛化褒义词替换为可观察的具体数据点。
+  </div>
+
+  <!-- ── 大盘 · Senior Producers ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">大盘 · Senior Producers</div>
+    <div class="reco-grid">
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">AEM</span>
+          <div class="reco-cname">Agnico Eagle</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">旗舰首选</span>
+        </div>
+        <div class="reco-text">
+          <p>在五大盘里，AEM是<strong>唯一没有"组合修复期"包袱</strong>的——不需要剥离非核心、不需要消化整合后遗症、不需要重建市场信任。它是当前周期里按基本面看最干净的大型组合：90%+加拿大资产、AISC $1,483/oz行业前四分位、26Q1 EPS $3.41超共识7%、连续三季度财报超预期。每盎司营业利润率$3,144/oz是行业最高，且<strong>这个数字不依赖副产品对冲</strong>（不像NEM）——是经营本身产生的。</p>
+          <p>代价是估值溢价已被充分定价（EV/EBITDA ~12x vs 同类9-10x），意味着AEM在金价继续上涨情景下相对其他senior names的alpha有限——它更像"金价Beta+0"的长持仓而非α源。<strong>真正还没定价的是Hope Bay（努纳武特）建设决定</strong>，预计2026年5月公告，已有正面预期但若官宣可触发组合再定价。Upper Beaver+Detour地下扩建提供2027-2030年有机增长曲线，让2030年400万oz目标具备可信度。</p>
+          <p>风险点不在基本面，而在<strong>配置层面</strong>：AEM在GDX中权重仅次于NEM，机构超配比例已较高，边际买盘空间相对有限。适合作为"无需择时、长期持有"的基础仓——但不要期待它在senior里跑出最大alpha。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">NEM</span>
+          <div class="reco-cname">Newmont</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">大盘最大Δ</span>
+        </div>
+        <div class="reco-text">
+          <p>NEM的故事是"<strong>重组后的第一年</strong>"。Newcrest收购整合的痛苦——资产质量参差、文化冲突、运营混乱——已在2023-2024年充分暴露并出清；剥离Telfer/Musselwhite/Éléonore/Cripple Creek完成后组合质量显著提升。新CEO Natascha Viljoen（前Anglo American Platinum CEO）2024年4月上任后每个季度都在交付：26Q1单季FCF $31亿（年化$124B）、AISC $1,029/oz、EPS $2.90 超预期28%。</p>
+          <p>关键不在当期数字，而在<strong>估值范式转换的可能性</strong>：NEM当前 P/E 15-17x 是因为市场仍带着"整合执行存疑"的折价；如果Q2-Q3继续验证执行力，市场可能将NEM重新归类到"AEM类质量名"，对应估值倍数有20-30%的上修空间。$60亿史上最大回购授权+$24亿单季股东回报已落地，是管理层"已不需要囤现金"的明确信号。</p>
+          <p>需要看清的细节：AISC $1,029比指引低很多，<strong>部分原因是铜银副产品价格高</strong>——若铜价/银价回调AISC会反弹至$1,500+。Cadia地震恢复进度（4月发生，目前80%产能）+Boddington山火影响是Q2-Q3财报的可观察变量。地缘组合（印尼、加纳、苏里南）本身风险中性，但比AEM分散度更高。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">KGC</span>
+          <div class="reco-cname">Kinross Gold</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">高Beta大盘</span>
+        </div>
+        <div class="reco-text">
+          <p>P/E ~12x 是senior里最低，但这不是"价值陷阱"——KGC正在<strong>用四季度连续FCF创纪录证明执行力</strong>：26Q1 FCF $8.38亿、运营现金流$11.39亿、利润率 $3,476/GEO（同比+92%）、流动性$39亿。FCF生成质量在senior里仅次于NEM。</p>
+          <p>关键差异：KGC是senior里<strong>金价Beta最高的</strong>——portfolio里没有铜对冲（不像NEM）、没有AEM的quality premium、没有GFI的低成本新矿故事。它就是简单的多元化金矿生产商，对金价上行最敏感。如果你信2026-2027年金价继续向 $5,500+，KGC的P/E压缩+回购增厚会带来双击。</p>
+          <p>反过来如果金价见顶回调，KGC也是senior里跌得快的——2022年俄罗斯Kupol折价至今没完全修复，市场对"非Tier-1资产组合"敏感度高。Tasiast（毛利塔尼亚）是核心引擎但毛利塔尼亚长期政治风险存在。Manh Choh（阿拉斯加）+Round Mountain Phase X 增量较小（合计~45万oz/年），不是大故事。</p>
+          <p>定位：senior配置里的"杠杆部分"，押金价继续上行+P/E修复双击，愿意接受非Tier-1组合的Beta成本。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">GFI</span>
+          <div class="reco-cname">Gold Fields</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">低成本新矿叠加</span>
+        </div>
+        <div class="reco-text">
+          <p>GFI在senior里独树一帜的点是<strong>两个世界级低成本新矿同时进入稳态</strong>：Salares Norte（智利）2026年首个完整稳态生产年，AISC $825-875/oz是全球前10%；Windfall（魁北克，与Osisko Mining JV）2026年投产，AISC ~$800/oz。这两个矿合计贡献~70万oz/年。</p>
+          <p>但GFI不是干净的成长故事——<strong>legacy资产是真负担</strong>：South Deep（南非）是世界最深金矿之一、产能利用率长期低于设计、AISC $2,000+；Tarkwa（加纳）进入decline阶段、品位下滑；Damang（加纳）矿权2026年到期需续约。新矿增量被老矿衰减部分抵消，<strong>净AISC下行幅度可能不如纸面数字</strong>。</p>
+          <p>正确评估方式：把GFI看作"Salares Norte+Windfall对冲South Deep+Tarkwa"的组合，而不是简单"低成本生产商"。如果两个新矿如期满产，2026-2027年公司平均AISC可降至 $1,500-1,600/oz（vs 2025年 $1,750），叠加金价上行，FCF可能从2025年 $8亿翻倍至 $15亿+。</p>
+          <p>跟踪节点：Salares Norte 2026年Q1-Q3的稳态产量数据（确认$825-875 AISC可持续）、Windfall首产时间、Damang矿权续约结果。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#0F766E">
+        <div class="reco-left">
+          <span class="ticker t-senior">AU</span>
+          <div class="reco-cname">AngloGold Ashanti</div>
+          <span class="reco-tag" style="background:#CCFBF1;color:#115E59">范式切换+长期催化</span>
+        </div>
+        <div class="reco-text">
+          <p>AU的故事最特别：它<strong>不是"运营改善"故事，而是"重新归类"故事</strong>。2024年迁册英国、加入FTSE 100，机构持仓从"南非折价名"切换为"英国大型矿企"——这一估值范式转换的部分价值已被市场认知，但完整释放需要时间（通常2-3年的指数纳入+机构重配周期）。</p>
+          <p>表面看2026年AISC指引 $1,780-1,990/oz 很高，但<strong>这个数字结构上被夸大</strong>：金价 $5,000下 royalties占~$525/oz（按比例税费），剔除税费后经营性现金成本约 $1,250-1,450/oz，并不比同行高多少。2025年FCF已创纪录 $29亿、Q4派发特别股息 $1.73/股，证明现金生成能力没问题。</p>
+          <p>真正没被市场充分定价的是 <strong>Arthur Gold（内华达）</strong>：DFS推进中（2026年DFS费用 $1.11亿），满产后年贡献50万oz @ LOM AISC $954/oz、Cash Cost $778/oz。这将是公司未来5-10年最大的降本引擎，把组合权重从非洲（约50%占比）拉回美洲。<strong>Arthur建设决定（预计2027年）是当前最大的未定价催化</strong>。</p>
+          <p>地缘组合是关键考量：加纳/几内亚/坦桑尼亚/DRC（Kibali，与Barrick JV）/阿根廷/巴西/澳洲——分散度高但每个国家都有特定风险。Geita（坦桑）和Tropicana（澳洲）是稳定现金牛提供基础。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 中盘成长 · Mid-Tier ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">中盘成长 · Mid-Tier Growth</div>
+    <div class="reco-grid">
+
+      <div class="reco-card full" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">AGI</span>
+          <div class="reco-cname">Alamos Gold</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">质量基准</span>
+        </div>
+        <div class="reco-text">
+          <p>AGI是中盘里<strong>估值最贵但最值得</strong>的——EV/EBITDA ~14x、P/NAV ~1.2x，比同类高30-50%。但溢价有清晰的基本面支撑：Island Gold Phase 3的执行已经在交付<strong>可观察的里程碑</strong>——竖井已达计划深度、采矿速率1,423 t/d 创纪录、品位9.4 g/t符合指引。这是中盘里<strong>唯一一个"已开始执行的扩产正在按时间表交付数据点"的项目</strong>。</p>
+          <p>数字层面：2025→2028年产量从545k oz增至 755-835k oz（+46%），2030年目标100万oz/年；同期AISC从 ~$1,200降至目标 $915/oz——双击的两个维度同时验证。88% NAV来自加拿大三矿（Island Gold/Young-Davidson/Lynn Lake），地缘风险接近零。<strong>2028年FCF预计 $10亿+</strong>（金价 $4,500假设下），按当前 $17B市值计算FCF yield约6%——对成长矿企而言极具吸引力。</p>
+          <p>风险层面：Young-Davidson 26Q1产量低于计划（采矿顺序调整），需观察Q2恢复；Lynn Lake（曼尼托巴北部偏远地区）2029年首产，建设期天气+资本超支风险。但相对Phase 3的清晰执行，这些是次要风险。</p>
+          <p>定位：中盘里的"基础持仓"——可能不是涨幅最大的，但是确定性最高的，让组合不会因执行黑天鹅崩盘。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">EGO</span>
+          <div class="reco-cname">Eldorado Gold</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">阶跃双击+凸性</span>
+        </div>
+        <div class="reco-text">
+          <p>EGO是中盘里<strong>单一催化剂最强</strong>的标的。<strong>Skouries（希腊）铜金项目预计Q3 2026投产</strong>——过去十年新建的最大铜金项目之一，达产后单矿净AISC仅 $300-500/oz（铜副产品credit后），将公司组合AISC从 $1,500/oz拉低至 $1,000-1,100/oz；同期产量2028年达80万oz+（vs 2025年52万oz，+50%）。</p>
+          <p>EGO的特殊性在于<strong>双击+事件驱动同时存在</strong>——AGI的双击是渐进式的（Phase 3逐季交付数据），EGO是阶跃式的（Skouries投产前后估值跳升）。这意味着EGO的风险收益曲线<strong>凸性更强</strong>：投产顺利则估值显著重估，投产延期/事故则深度回调。</p>
+          <p>希腊的监管历史是关键变量：Hellas Gold项目曾因许可争议陷入多年停滞，2019年解决后市场对希腊维持折价。但近5年希腊政治稳定（中右派政府连任）+欧盟支持关键矿产+Skouries建设期没有重大监管干扰，这些都在<strong>系统性降低希腊折价</strong>。</p>
+          <p>其他资产是基础但不是故事：Olympias（希腊）+Lamaque（魁北克）+Kişladağ（土耳其，堆浸）。Kişladağ是当前最大现金贡献矿，但土耳其汇率+矿业政策是结构性风险——这是EGO的"非故事侧"风险。</p>
+          <p>跟踪节点：Skouries 2026年Q2-Q3建设进度报告、首次产金确认、铜+金品位实际数据 vs FS。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#D4A017">
+        <div class="reco-left">
+          <span class="ticker t-mid">ORLA</span>
+          <div class="reco-cname">Orla Mining</div>
+          <span class="reco-tag" style="background:#FEF3C7;color:#92400E">最高成长率+干净地缘</span>
+        </div>
+        <div class="reco-text">
+          <p>ORLA核心吸引力：<strong>3年产量增长110%（200k→450k oz）+ 100%美国/加拿大/墨西哥资产</strong>——这个组合在中盘里独一无二。Camino Rojo（墨西哥）AISC仅 $600-700/oz是全行业前5%低成本稳定现金牛；2024年从Newmont收购Musselwhite（安大略）以0.7x P/NAV立即增值；South Railroad（内华达）2026年投产新增 ~10万oz/年。</p>
+          <p>管理层背景值得关注：CEO Jason Simpson 前Goldcorp出身，并购纪律体现在Musselwhite以折价收购+整合执行顺利。ORLA是中盘里<strong>少有的"管理层已经证明会做正确并购"的标的</strong>。</p>
+          <p>具体风险：Cerro Quema（巴拿马）项目已因巴拿马反矿业氛围（2023年Cobre Panama事件后）受阻，相关资本投入可能减计；South Railroad建设进度风险（2026年首产时间窗口压力较大）；快速增长意味着持续融资需求可能稀释。</p>
+          <p>体量上ORLA市值 ~$50亿是中盘里偏小的，意味着两个特点：（1）流动性相对差，机构进出有冲击成本；（2）弹性高，金价上行时表现可能比AGI/EGO更激进。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 白银矿企 ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">白银矿企 · Silver Miners</div>
+    <div class="reco-grid">
+
+      <div class="reco-card full" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">PAAS</span>
+          <div class="reco-cname">Pan American Silver</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">主线+隐性期权</span>
+        </div>
+        <div class="reco-text">
+          <p>PAAS当期数据已足够强：26Q1银段AISC $6.63/oz vs 银价 $89.43（毛利率92%）、净利润 $4.56亿、现金创纪录 $18亿。Juanicipio（44%权益，Fresnillo运营）是全球最高品位在产银矿之一，<strong>2026年首次贡献完整年度数据是最确定性的alpha来源</strong>——预计权益贡献净利润 $3亿+。</p>
+          <p>但PAAS的真正特色是<strong>有一个"不在估值里"的期权</strong>：<strong>Escobal（危地马拉）</strong>。这是世界级在产银矿被强制停产，年产能2,000-2,500万oz。重启需要完成原住民咨询程序（ILO 169要求），程序已持续5+年没完成。<strong>当前估值完全没给Escobal任何价值</strong>——如果未来某天程序完成（无法预测时点），可能是单一最大股价催化。市场理性地不定价它，但它的存在是免费的看涨期权。</p>
+          <p>需要看清的细节：金段AISC $1,851/oz偏高，公司不是纯银——是综合矿企。墨西哥资产占比~60%，矿业税收政策持续收紧（2024年新税法）。La Colorada Skarn更新PEA已批准 $2.65亿五年开发预算，未来再融资可能稀释。</p>
+          <p>定位：<strong>"配银矿就买PAAS"的默认选项</strong>——体量最大、流动性最好、综合质量最高、外加Escobal免费看涨期权。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">HL</span>
+          <div class="reco-cname">Hecla Mining</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">地缘溢价+银价Beta</span>
+        </div>
+        <div class="reco-text">
+          <p>HL在2026年3月完成出售Casa Berardi（魁北克金矿）后<strong>资产组合质变</strong>——美国+加拿大NAV占比95%+，剩下Greens Creek（阿拉斯加，与Kennecott JV）+ Lucky Friday（爱达荷）+ Keno Hill（育空）。这是上市银矿公司中<strong>美国本土纯度最高的</strong>。</p>
+          <p>26Q1运营数据强劲：FCF $1.44亿创纪录、调整EBITDA $2.65亿（+230% YoY，持续经营）、所有在产矿均贡献FCF。但GAAP结果有 $1.92亿非现金减值（Casa Berardi），导致表观亏损——市场需要消化这个噪音，<strong>这可能是当前估值不充分定价的原因之一</strong>。</p>
+          <p>成长引擎是<strong>Keno Hill（育空）</strong>：2024年收购，2026-2027年完全爬产后新增 ~400万oz银/年，使公司2026E银产量 ~17 Moz。Keno Hill爬产期资本支出仍较高，是当前现金流的主要拖累。</p>
+          <p>跟HL最相关的市场场景是<strong>地缘风险+银价上行</strong>——任何加剧关键矿产保护主义的事件都强化HL的稀缺性溢价（美国本土银矿没有第二个有HL规模的标的）。这意味着HL在<strong>银价Beta之外还多一层政策Beta</strong>，是PAAS无法提供的。</p>
+          <p>代价：估值不便宜（已包含质量溢价）、Keno Hill仍在爬产期（执行风险）、纯度高意味着银价回调时跟跌。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#6B7280">
+        <div class="reco-left">
+          <span class="ticker t-silver">CDE</span>
+          <div class="reco-cname">Coeur Mining</div>
+          <span class="reco-tag" style="background:#F3F4F6;color:#374151">三商品Beta+并购重组</span>
+        </div>
+        <div class="reco-text">
+          <p>CDE的故事在2025年底发生了根本变化——以 $1.74B收购<strong>SilverCrest（已完成2024）+ New Afton + Rainy River</strong>（2025年底完成），把公司从"美洲银金生产商"重组为"银+金+铜多元化生产商"。26Q1 EBITDA $4.75亿（+4倍 YoY）、FCF $2.67亿（公司历史第二），<strong>但需要注意：New Afton+Rainy River仅贡献了Q1的11天数据</strong>——Q2-Q3才是观察整合效果的真实窗口。</p>
+          <p>商品组合：~50%银+~30%金+~20%铜（按收入）。Las Chispas（墨西哥）是世界级低成本银矿，Rochester（内华达）满产中，New Afton（BC）贡献铜6,000万磅/年作为副产品对冲，Rainy River（安大略）增加加拿大金产量。这种<strong>银+金+铜三重组合</strong>在白银sector里独一无二——银价弹性+金价基础+铜工业Beta三重共振。</p>
+          <p>财务上债务从2023年高峰快速下降，现金 $8.43亿（+11倍 YoY）提供回购弹药。但<strong>管理层并购历史评价mixed</strong>——CEO Mitch Krebs过去5年做了3-4次重大并购，整合执行能力仍在被市场观察。</p>
+          <p>定位：如果你想要白银主题但<strong>不想纯粹押银价</strong>、希望铜+金提供分散，CDE是组合内最好的"白银plus"选项。但如果整合在Q2-Q3出问题，会跌得比HL/PAAS更厉害。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 开发期 · Event-Driven ── -->
+  <div class="reco-section">
+    <div class="reco-sec-label">开发期 · Event-Driven</div>
+    <div class="reco-grid">
+
+      <div class="reco-card full" style="border-left-color:#EA580C">
+        <div class="reco-left">
+          <span class="ticker t-restart">SKE</span>
+          <div class="reco-cname">Skeena Resources</div>
+          <span class="reco-tag" style="background:#FED7AA;color:#9A3412">三重稀缺组合</span>
+        </div>
+        <div class="reco-text">
+          <p>SKE的Eskay Creek（BC省西北）拥有开发管线中的<strong>三重稀缺组合</strong>：（1）<strong>品位极高</strong>——金4+ g/t、银175+ g/t，对比同类开发项目（金1-2 g/t是常态）属于完全不同的层级；（2）<strong>所有许可证已获批</strong>，包括省级Mines Act+联邦环境评估；（3）<strong>BC省Tier-1司法管辖区</strong>，与Tahltan Nation的IBA已签署。</p>
+          <p>经济性极强：2023年Feasibility Study显示After-tax NPV5%约 $1.4B（金价 $1,800假设）、IRR 50%+。<strong>当前金价 $4,800+下按相同模型重估，NPV可能达 $3-5B vs 当前市值 $2-3B</strong>——P/NAV折价约0.5-0.7x，是开发组合中折价最显著的。</p>
+          <p>关键观察点：（1）建设进度，2025-2026年是建设核心阶段，资本支出 $750M+，超支风险存在；（2）首产时间，管理层指引2027年Q4，过往项目通常滑坡6个月-1年；（3）首产后爬产到稳态需要1-2年，期间产量数据是估值锚点。</p>
+        </div>
+      </div>
+
+      <div class="reco-card full" style="border-left-color:#EA580C">
+        <div class="reco-left">
+          <span class="ticker t-restart">PPTA</span>
+          <div class="reco-cname">Perpetua Resources</div>
+          <span class="reco-tag" style="background:#FED7AA;color:#9A3412">关键矿产政策护城河</span>
+        </div>
+        <div class="reco-text">
+          <p>PPTA与其他开发期项目的根本区别：<strong>它不只是金矿，是关键矿产政策故事</strong>。Stibnite项目（爱达荷）有金（30万oz年产能 @ AISC ~$435/oz极低）+ <strong>锑</strong>（年产1,500吨）双重组合。锑是2024年中国限制出口后被列入美国关键矿产清单的战略物资——用于弹药、电池、半导体——美国本土完全没有原生供应，<strong>PPTA将成为美国唯一的国内锑矿</strong>。</p>
+          <p>政策催化叠加非矿业资本：（1）美国DoD通过Title III法案授予 $15.4M 用于环境技术；（2）EXIM Bank批准最高 $1.84B 贷款（创纪录）；（3）Stibnite被FAST-41 critical mineral process加速许可。<strong>这种政策护城河在传统金矿项目中不存在</strong>。</p>
+          <p>经济性：根据2020年FS（金价 $1,600下）After-tax NPV $1.3B / IRR 28.6%。当前金价 $4,800+ + 锑价历史高位（中国限出后），重估NPV显著高于当前 $1.5-2B市值。<strong>关键变化是锑的战略溢价应该如何定价</strong>——这是市场尚未充分消化的部分。</p>
+          <p>需要注意：Stibnite是历史矿区，存在<strong>环境清理义务</strong>（作为重启许可的条件），增加资本和合规复杂度。建设期2025-2027年，首产2028年。但相对其他开发期项目，PPTA有<strong>政策×矿产稀缺×双商品</strong>的三重逻辑，独特性最强。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+  </div><!-- /apanel-reco-opus -->
+</div>
+
+<div class="s-head">
+  <div class="s-label">§02 &nbsp;·&nbsp; Sector Coverage</div>
+  <div class="s-title">52只标的逐一深度分析</div>
+  <div class="s-divider"></div>
+  <div class="s-sub">每只覆盖未来增量、AISC路径、推荐逻辑 &nbsp;·&nbsp; 输入代码或公司名搜索 &nbsp;·&nbsp; 点击排序按钮可切换升降序 &nbsp;·&nbsp; 已纳入26Q1财报</div>
+</div>
+
+<div class="category-tabs" id="categoryTabs"></div>
+
+<div style="margin-bottom:14px">
+  <div class="search-wrap" style="max-width:none;width:100%">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" 
+           placeholder="搜索股票代码、公司名、标签或关键词（如 AISC、加拿大、银矿、Skouries）..." 
+           oninput="onSearchInput(event)" autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+  </div>
+</div>
+
+<div class="search-result-info" id="searchInfo" style="display:none"></div>
+
+<div class="drag-grid" id="cardGrid"></div>
+
+<div class="footer">
+  数据整理自公开市场信息（截至2026年5月） &nbsp;·&nbsp; 已纳入主要公司26Q1财报数据（NEM/AEM/WPM/KGC/PAAS/HL/CDE/AGI等）&nbsp;·&nbsp; FNV结果5/12发布、Barrick结果5/11发布（尚待报）<br>
+  仅供研究参考，不构成投资建议 &nbsp;·&nbsp; 上传涨幅数据：使用"下载模板"→填入涨幅→上传后自动填充到卡片
+</div>
+
+</div><!-- /page -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const DOT_CLASS={
+  't-stream':'d-stream','t-senior':'d-senior','t-mid':'d-mid',
+  't-restart':'d-restart','t-silver':'d-silver'
+};
+
+// Category tabs config
+const CATEGORIES=[
+  {key:'all',         label:'全部',           dotColor:'#9ca3af'},
+  {key:'tag-stream',  label:'流权利金公司',    dotColor:'#7C3AED'},
+  {key:'tag-senior',  label:'大型金矿生产商',  dotColor:'#0F766E'},
+  {key:'tag-mid',     label:'中型金矿生产商',  dotColor:'#D4A017'},
+  {key:'tag-restart', label:'开发期/重启',    dotColor:'#EA580C'},
+  {key:'tag-silver',  label:'白银矿企',       dotColor:'#6B7280'}
+];
+
+let currentCategory='all';
+let currentSort='default';
+let currentSortDir='desc'; // 'desc' or 'asc'
+let searchKeyword='';
+
+const CARDS=[
+  /* ─── 流权利金公司 STREAMING/ROYALTY ─── */
+  {id:'fnv',ticker:'FNV',company:'Franco-Nevada',exchange:'NYSE',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·行业标杆',
+   metrics:['市值 ~$51B','2025收入$18.23亿(+64%)·EBITDA率91%','Q1 2026结果5月12日发布(待报)·2026E GEO 51-57万'],
+   catalysts:[
+     '<strong>2025全年创纪录业绩</strong>：收入$18.23亿(+64%)、净利润$11.12亿(+101%)、调整EBITDA $16.56亿(+74%)、EBITDA率91%(行业最高)；GEO销售519,106 oz(+12%)达指引上限；<em>Q1 2026结果将于5月12日发布</em>',
+     '<strong>2026指引GEO 510,000-570,000</strong>：贵金属占90%；驱动因素包括Côté Gold、Porcupine、Casa Berardi、i-80、Valentine Gold满产+Greenstone、Salares Norte继续爬产；Q4 2025 GEO 127,959 oz(+34% YoY)已提前显示强劲增长势头',
+     '<strong>Cobre Panama政府批准处理堆存矿石</strong>：每GEO利润率从2020年$1,528升至2025年$3,110(+204%)；零债务+$31亿可用资金；2030年展望GEO 55.5-61.5万',
+     '<strong>2026年股息增加16%(连续第19年增长)</strong>：超出常规增幅；北美金价$4,500+下Antapaccay、Côté Gold、Detour Lake、Castle Mountain扩建均有增量贡献'
+   ],
+   logics:[
+     '"矿业版软件公司"——只需40人管理400+资产组合，EBITDA率91%，无运营成本暴露。FNV是机构定义的"金矿股质量之王"：零债务+$31亿可用资金+全球最分散组合，任何单一资产收入不超过13%',
+     '增量来自现有矿场扩产(自然增长)+新交易(外延增长)，纪律极强；2025年GEO +12%同时EBITDA率+4个百分点，体现规模杠杆；5月12日Q1结果将确认2026年增长轨道',
+     '85% 2025收入来自贵金属，88%来自美洲；估值最贵(EV/EBITDA 25-30x)，但相对同类股的"质量溢价"长期稳定，机构愿意为安全性付溢价'
+   ],
+   risk:'估值已包含大量质量溢价(P/NAV ~2.5x)；如金价大跌或核心矿场停产，短期可能大幅回调；5月12日Q1结果若GEO低于预期可能引发获利了结；Cobre Panama重启时间表仍不确定'},
+
+  {id:'wpm',ticker:'WPM',company:'Wheaton Precious Metals',exchange:'NYSE',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·白银主导',
+   metrics:['市值 ~$75B','26Q1收入$9.01亿(创纪录)·GEO 21.2万(+22%)','26Q1净利润$5.82亿·EPS $1.28(超预期)'],
+   catalysts:[
+     '<strong>26Q1全面创纪录</strong>：收入$9.01亿(+92% YoY)、净利润$5.82亿(+129%)、运营现金流$7.66亿；EPS $1.28超预期$1.21；GEO 21.2万oz(+22%)；由Salobo+Peñasquito领涨、Blackwater+Aljustrel新贡献',
+     '<strong>股息$0.195/季(+18% YoY)</strong>：$22亿现金储备；2026全年GEO指引86-94万oz维持不变；Antamina($43亿大交易，4月1日生效)预计前5年年均银600万oz，大幅提升2026年后产量曲线',
+     '<strong>2030+长期展望95万GEO/年</strong>：新增Koné和Kurmuk项目；流权利金质量继续提升(最低四分位资产占比2026年升至76%)',
+     '<strong>银价$89.43/oz均价</strong>：WPM白银占比近40%，银牛市受益最大；采购成本约$5.75/oz，毛利率超过93%'
+   ],
+   logics:[
+     '采购成本极低：$473/oz买金、$5.75/oz买银，对比市价(金$4,800+/银$89)毛利率超过90%。26Q1印证了这一点——收入翻倍但资产本身几乎无新增资本投入',
+     'Salobo(巴西Vale运营)Q1贡献6.9万oz金，超预期；Antamina生效后是最大单笔增量；Blackwater(BC)首季贡献验证加拿大新资产质量',
+     'WPM是流权利金中白银敞口最高(近40%)，银价上行时收益弹性领先FNV/RGLD；2030年95万GEO指引锁定成长曲线'
+   ],
+   risk:'估值贵(EV/EBITDA ~30x)；Antamina交易短期增加债务($15亿定期+$9亿循环)；白银价格波动放大业绩波动性；Salobo单矿仍占约25%收入'},
+
+  {id:'rgld',ticker:'RGLD',company:'Royal Gold',exchange:'Nasdaq',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·美股唯一',
+   metrics:['市值 ~$25B','2025收入$1.03B','2026E GEO 290-320k oz金'],
+   catalysts:[
+     '<strong>2025全年创纪录</strong>：收入$10.3亿、运营现金流$7.05亿、调整净利润$5.10亿(均创纪录);Q4单季收入$3.75亿(+85% YoY,含Kansanshi $32M+Sandstorm/Horizon $49M首次贡献);Q4 GEOs 90,800 oz(+19%)',
+     '<strong>2025年10月20日完成Sandstorm + Horizon Copper收购</strong>:组合资产从248个跃升至393个(+58%);其中80在产+47开发;Q4 stream segment首次包括Sandstorm(单位成本$496/GEO,远低于RGLD原有$809/GEO)',
+     '<strong>2026年指引</strong>:黄金29-32万oz、白银300-350万oz、铜2,100-2,500万磅;Q1 2026 GEO预计为全年最低季度(后端加重模式);DD&A $339-379M、税率17-22%',
+     '<strong>2030年五年展望430,000-480,000 GEO</strong>:首次发布!驱动包括Khoemacau扩建+Platreef(南非)新产+Corani+Great Bear+Hod Maden NSR等;2026年3月12日已偿还$1.25亿循环信贷,继续降低杠杆'
+   ],
+   logics:[
+     '美国唯一注册的流权利金巨头——加拿大注册的FNV/WPM被某些只投美股的基金回避,而RGLD不受这个限制,享受额外的"美股专属基金"潜在买盘',
+     '增量来自Sandstorm并购组合的整合释放,2026-2027年是"故事兑现"期。新增高质量开发资产Hod Maden(土耳其,超高品位)、Platreef(南非,PGM+金)、MARA(阿根廷,铜金)将在未来3-5年逐步贡献;Q4 EBITDA率82%(虽略低于FNV的91%但仍极强)',
+     '相对FNV/WPM估值略低(折价约10-15%),是流权利金中"性价比"选项;Q4 EPS $1.16,调整EPS $1.92'
+   ],
+   risk:'整合执行风险(393项资产管理复杂度提升);新增的Hod Maden(土耳其)、Platreef(南非)地缘风险高于原有组合;估值仍属偏贵(EV/EBITDA ~22-25x)'},
+
+
+  {id:'tfpm',ticker:'TFPM',company:'Triple Flag Precious Metals',exchange:'NYSE',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·新生代成长',
+   metrics:['市值 ~$7B','2025收入$388.7M','2026E GEO 95-105k'],
+   catalysts:[
+     '<strong>2025年创纪录</strong>:收入$3.887亿、净利润$2.40亿、GEO 113,237 oz(指引上半区间);**连续9年GEO增长**;Q4单季$1.189亿收入+28,757 GEOs;Q4销售实现金价$4,135/oz(远低于当前$5,000+现货)',
+     '<strong>Q1 2026创纪录开局</strong>：单季收入$1.47亿+30,166 GEOs(均为历史最高);坚定2026指引95,000-105,000 GEOs;关键里程碑包括Arthur(内华达)PFS、Kemess(BC)PEA、Gunnison(亚利桑那)更新PEA;Hope Bay预计2026年5月正面建设决定',
+     '<strong>2030 GEO展望140,000-150,000 oz</strong>:从2026指引中值上行约45%;有$10亿+可用流动性继续并购;管理层"sweet spot"是$2-5亿规模交易,2026是过渡年(因Northparkes矿序+Cerro Lindo流权利率从65%降至25%)',
+     '<strong>78项资产组合</strong>:Arcata、Koné、Eskay Creek、Era Dorado、Goldfield、Arthur、Kemess、Hope Bay等增长项目;每GEO利润率 92%(资产margin),与FNV/WPM相当'
+   ],
+   logics:[
+     '"小规模成长版的WPM"——估值倍数(EV/EBITDA ~22x)较FNV/WPM更便宜;TFPM体量较小,在金价上行周期相对弹性更大',
+     '管理层来自Glencore和Barrick等大型矿企背景,并购纪律严格;专注于黄金白银,不像FNV那样涉及石油天然气,是"纯贵金属敞口"',
+     '相对短的运营历史(2021年IPO)意味着仍处于"被市场重新定价"阶段,机构覆盖率较低,存在被发现的机会;持续股息+回购双重股东回报'
+   ],
+   risk:'2026年是过渡年(Northparkes矿序+Cerro Lindo流权降级),如果替代volume或新资产不及预期,产量可能短期承压;ATO持续诉讼下管理层从指引中暂时移除其贡献(虽然最终可能成为额外利好);规模相对小,组合分散度不及FNV/WPM;上市时间短,未经历完整的金价熊市考验;流动性低于头部公司'},
+
+  {id:'groy',ticker:'GROY',company:'Gold Royalty Corp',exchange:'NYSE American',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·小盘高弹性',
+   metrics:['市值 ~$0.6B','200+权利金组合','Borborema/Côté Gold贡献'],
+   catalysts:[
+     '<strong>持有Aura Minerals的Borborema项目2% NSR</strong>:该矿2025年9月投产,2026年起每季度贡献现金流;Borborema是巴西高品位金矿,LOM 10+年',
+     '<strong>Côté Gold(加拿大)NSR</strong>:IAMGOLD运营,2024年投产持续爬产,2026年贡献显著增加;同时持有Canadian Malartic、Borden等多个北美主流矿NSR',
+     '<strong>组合中有200+权利金权益</strong>:绝大多数处于早期勘探/开发阶段,这是"长期看涨期权"组合;每年新增10-20项权益,持续扩展'
+   ],
+   logics:[
+     '"小盘流权利金高弹性"——市值远小于头部,意味着每一笔新交易或矿场达产对GROY的相对影响巨大;机构开始系统性配置黄金股时,小市值流权利金往往涨幅最大',
+     '商业模式优势与大盘流权利金一致(资本轻、高利润率),但折价交易(P/NAV约0.5-0.7x,远低于FNV/WPM的1.5-2x)',
+     '潜在并购标的——大型流权利金公司(FNV、WPM、RGLD)可能为获取增量收购小盘玩家;OR(Osisko)和TFPM也可能成为收购者'
+   ],
+   risk:'流动性差,波动剧烈;个别矿场延期会显著影响业绩;未达到FNV/WPM的"质量门槛",可能长期估值折价;净亏损状态(尚未盈利),依赖未来矿场达产兑现'},
+
+  {id:'or',ticker:'OR',company:'Osisko Gold Royalties',exchange:'NYSE',color:'t-stream',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-stream',tagText:'流权利金·加拿大中型',
+   metrics:['市值 ~$8B','2025收入$277M','2026E GEO 80,000-90,000·零债务'],
+   catalysts:[
+     '<strong>持有Canadian Malartic 5% NSR</strong>：加拿大最大金矿之一(Agnico运营)，提供长期稳定现金流；NSR寿命20年+',
+     '<strong>Windfall（魁北克）NSR受益2026投产</strong>：Gold Fields+Osisko Mining合资项目，年产15万oz @ AISC ~$800/oz；OR持有该矿2-3% NSR',
+     '<strong>2024年Spin-off开发arm</strong>：分拆Osisko Development后，OR成为100%纯流权利金公司；战略简化使估值倍数有望提升'
+   ],
+   logics:[
+     '"加拿大资产专注的中盘流权利金"——80%+组合在加拿大，地缘风险最低；估值(EV/EBITDA ~16x)便宜于FNV/WPM但高于RGLD折价区',
+     'Canadian Malartic + Mantos Blancos + Eagle Mine + Renard四个核心NSR + 大量勘探阶段权益；2026-2028年Windfall等投产驱动现金流增长',
+     '近期重新聚焦核心策略：减少非核心持仓、增加股息+回购；管理层执行力恢复'
+   ],
+   risk:'2024年Spin-off前历史包袱（Osisko Development运营复杂度）；规模小于FNV/WPM/RGLD三巨头，机构覆盖较少；Mantos Blancos(智利铜)运营风险'},
+
+  /* ─── 大型金矿生产商 SENIOR PRODUCERS ─── */
+  {id:'aem',ticker:'AEM',company:'Agnico Eagle',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'全球质量之王',
+   metrics:['市值 ~$94B','26Q1产量82.5万oz·AISC $1,483','26Q1净利润$1.706B ($3.41/股·超预期)'],
+   catalysts:[
+     '<strong>26Q1创纪录调整净利润$17.06亿($3.41/股)</strong>：收入$41亿(+66% YoY)，EBITDA $30.1亿；金价均价$4,861/oz；营业利润率$3,144/oz创纪录；连续3季超预期',
+     '<strong>26Q1 AISC $1,483/oz，2026全年指引维持$1,400-1,550</strong>：产量82.5万oz(全年指引24%，Q2加重)；领跑Detour Lake+Canadian Malartic+Fosterville；H1/H2各占48%/52%',
+     '<strong>Hope Bay(努纳武特)建设决定预计2026年5月公告</strong>：已有正面预期；Upper Beaver(安大略)开发稳步推进；Finnish资产重组(拟收购Rupert Oberon+Nordic Gold)带来芬兰增长选项',
+     '<strong>净现金提升至$29亿</strong>：Q1支付$18亿税款后FCF仍达$7.32亿；股息提升12.5%，2026全年预计回购+股息约$20亿'
+   ],
+   logics:[
+     '全球第二大金矿+90%加拿大资产+行业最低AISC之一+15年储量寿命。Q1即便是产量偏弱的季度，净利率仍超过40%。"唯一无脑长持"的金矿股',
+     '26Q1实现金价$4,861/oz vs 25Q1 $2,892/oz，+68%，EBITDA直接从$16亿跳升至$30亿；杠杆效应充分体现；2030年目标400万oz有机增长路径清晰(20-30%)',
+     '成长管线中Canadian Malartic Odyssey地下进度+Detour地下扩建+Upper Beaver+Hope Bay，估值溢价有基本面支撑；加拿大政治稳定'
+   ],
+   risk:'Q1产量YoY下降5.6%（LaRonde、Macassa、Kittila采矿顺序问题），H2加权需稳步执行；AISC行业通胀压力持续；体量过大，增量主要靠金价杠杆'},
+
+  {id:'nem',ticker:'NEM',company:'Newmont Corporation',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'全球第一大金矿·FCF印钞机',
+   metrics:['市值 ~$124B','26Q1产量130万oz·FCF创纪录$31亿','26Q1调整EPS $2.90(超预期33%)·现金$88亿'],
+   catalysts:[
+     '<strong>26Q1创纪录单季FCF $31亿</strong>：经营现金流$38亿、净利润$33亿（$3.00/股摊薄）、调整净利润$32亿（$2.90/股）大幅超预期$2.18-2.24（+30%以上）；调整EBITDA $52亿、EBITDA率64%；产量130万oz金+9百万oz银+30,000吨铜',
+     '<strong>新增$60亿回购授权（双倍叠加）</strong>：在完成上一轮$60亿回购后立即翻倍——这是矿业行业史上最大单次回购授权之一；上轮自上次电话以来执行$24亿回购；总股东回报上次电话以来$27亿；Q1 2026股息$0.26/股',
+     '<strong>2026全年指引维持530万oz金、AISC $1,680/oz</strong>：Cadia 4月地震恢复至80%产能、Boddington山火+Tanami异常降雨已计入、Cadia PC2-3扩建2026年底按计划完工；Peñasquito锌银铜联产组合提供副产品对冲',
+     '<strong>资产负债表全面优化</strong>：现金$88亿、净现金$32亿；Sustaining CapEx $381M、Development CapEx $239M；总债务/股本仅0.15、流动比率2.3；CEO Natascha Viljoen（前Anglo American Platinum）"重组后第一个完整高金价年"持续兑现协同'
+   ],
+   logics:[
+     'NEM是金矿行业的"指数代理"——GDX第一大持仓，被动资金持续流入；26Q1 FCF $31亿单季创纪录，按年化~$120亿FCF vs $124B市值，FCF yield ~10%——在传统大盘股中极罕见',
+     '剥离Telfer/Musselwhite/Éléonore/Cripple Creek完成后Tier 1资产组合质量显著提升；AISC $1,029/oz（含铜银副产品对冲）远低于全年指引$1,680，若金价维持$4,500+将持续产生超额自由现金流',
+     '相对AEM估值更便宜(P/E约15-17x)，是"大盘+折价"保守配置的最优解；$60亿新回购授权+股息$0.26/季+$11亿/年股息目标，股东回报力度行业最强'
+   ],
+   risk:'产量受Boddington山火+Tanami异常降雨等自然事件影响；地缘风险分散（印尼、加纳、苏里南等）；Cadia地震后恢复进度需持续观察；AISC低点受副产品价格支撑，若铜银价回调将上升至接近$1,500-1,600/oz'},
+
+  {id:'b',ticker:'B',company:'Barrick Mining (前GOLD)',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'重塑中的巨头·IPO+CEO双换轨',
+   metrics:['市值 ~$72B','2025 OCF $77亿·FCF $39亿创纪录·股东回报$24亿','Q1 2026结果5月11日发布(待报)'],
+   catalysts:[
+     '<strong>2025年全年创纪录业绩</strong>：经营现金流$77亿、自由现金流$39亿、归属股东回报$24亿(含$15亿回购完整执行)；Loulo-Gounkoto（马里）关系正常化、$21亿资产剥离完成、Fourmile资源量翻倍——五大里程碑同时兑现',
+     '<strong>"北美Barrick"（NewCo）IPO 2026年底前完成</strong>：2026年4月正式推进，纽约主板+多伦多副板上市；NewCo含Nevada Gold Mines（Carlin/Cortez/Turquoise Ridge与Newmont JV权益）+Pueblo Viejo+全资Fourmile发现；2025年这些资产合计产金~200万oz；Barrick保留控股，是金矿行业近10年最大战略事件',
+     '<strong>新CEO Mark Hill 2025年Q4上任</strong>：替代Mark Bristow；管理层重组+独立NewCo管理团队建立；2026年股东大会5月8日已召开；Q1 2026结果5月11日发布',
+     '<strong>Reko Diq（巴基斯坦）建设CapEx上调</strong>：Phase 1 $5.6-6.0B、Phase 2 $3.3-3.6B（合计$8.9-9.6B vs 原指引~$70亿）；首产推迟至2028年底；安全环境恶化是主因；2026年指引基于金价$4,500假设，AISC $1,760-1,950/oz（vs 2025实际$1,637）'
+   ],
+   logics:[
+     'Barrick是"巨头转型+北美资产解锁"双逻辑——2026年最大战略事件是NewCo IPO，市场认为可能释放$100亿以上隐含折价；2025年记录显示运营修复已经发生（FCF $39亿创纪录），但市场仍按"地缘风险组合"折价交易',
+     'Tier 1核心资产（Carlin/Cortez/Turquoise Ridge/Pueblo Viejo）产量质量不输AEM；通过NewCo IPO让北美资产摆脱"巴基斯坦+马里+DRC折价"包袱，估值倍数有显著重定价空间',
+     '当前EV/EBITDA ~7x是大型金矿股中最便宜的；IPO+Reko Diq 2028投产+Pueblo Viejo扩建2026完成，2026-2028年是催化剂集中兑现期'
+   ],
+   risk:'2026年无新回购授权（vs 2025年$15亿已执行），近期股东回报弹性下降；Reko Diq CapEx上调+安全风险（巴基斯坦Balochistan省安全形势恶化）；2025年4起致命事故引发独立安全审查；NewCo IPO时间表+条款仍需SEC注册+市场窗口；地缘风险组合最复杂(马里/PNG/DRC)'},
+
+  {id:'kgc',ticker:'KGC',company:'Kinross Gold',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'简化版多元化',
+   metrics:['市值 ~$37B','26Q1产量49.3万GEO·收入$24.1亿','26Q1 FCF $8.38亿(连续四季创纪录)'],
+   catalysts:[
+     '<strong>26Q1第四季连续FCF创纪录$8.38亿</strong>：运营现金流$11.39亿；利润率+92% YoY达$3,476/GEO创纪录；现金$22亿、总流动性$39亿',
+     '<strong>2026全年产量指引200万GEO维持不变</strong>：26Q1产量49.3万oz；Tasiast(毛利塔尼亚)作为最低成本矿持续发挥引擎作用',
+     '<strong>Manh Choh(阿拉斯加)+Round Mountain Phase X</strong>：美国本土两个增量项目稳步推进，分别贡献20万和25万oz/年；2026年AISC $1,730维持',
+     '<strong>股票价格+7.17%预市反应</strong>：尽管EPS $0.71/收入$24.1亿略低于预期，市场对FCF创纪录+流动性充沛反应热烈'
+   ],
+   logics:[
+     '大型金矿股中估值最便宜之一(P/E ~12x)，26Q1四季连续FCF创纪录验证执行力；$39亿流动性为资产组合优化和分红提升提供充足空间',
+     '资产组合干净：美国(Bald Mountain/Round Mountain/Manh Choh/Fort Knox)+巴西(Paracatu)+智利(La Coipa)+毛利塔尼亚(Tasiast)；Tasiast是公司成本曲线的关键降本引擎',
+     '2022年俄罗斯Kupol折价仍未完全修复；FCF持续创纪录是最强的重新定价催化剂；美国资产比重持续上升'
+   ],
+   risk:'26Q1 EPS/收入轻微未达预期(差额小)；毛利塔尼亚长期政治风险仍存；Manh Choh产量受气候影响；与AEM相比规模和质量差距较大'},
+
+  {id:'au',ticker:'AU',company:'AngloGold Ashanti',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'全球第三大金矿·英国注册',
+   metrics:['市值 ~$54B','2026E 280-317万oz','2026E AISC $1,780-1,990'],
+   catalysts:[
+     '<strong>Arthur Gold项目（内华达）DFS推进</strong>：年产50万oz、LOM AISC仅$954/oz、Cash Cost $778/oz；是公司未来5-10年最大降本引擎，2026年DFS费用$1.11亿',
+     '<strong>2025年自由现金流创纪录$29亿</strong>：金价高位+成本控制带来超强现金生成；2025年Q4派发$1.73/股的特别股息',
+     '<strong>2024年迁册英国</strong>：从南非迁出，加入伦敦100指数，提升机构基础和ESG评级；可显著降低估值折价'
+   ],
+   logics:[
+     '2024年迁册英国是估值范式改变的事件——之前作为南非公司被给予大幅折价，现在按英美大型矿企估值；机构超配空间大',
+     '虽然2026年AISC升至$1,780-1,990(+50%)看起来吓人,但50%升幅来自税费(金价$5,000下royalties占$525/oz)；按净利润和现金流看仍持续改善',
+     '资产分散度高：加纳、几内亚、坦桑尼亚、DRC(Kibali)、阿根廷、巴西、澳洲；Geita(坦桑)和Tropicana(澳洲)为现金奶牛'
+   ],
+   risk:'AISC基数较高且持续上涨；非洲业务占比高(约50%)；Arthur项目执行风险（首产前4-5年）；2026是过渡年（产量持平+成本上升）'},
+
+  {id:'gfi',ticker:'GFI',company:'Gold Fields',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'Salares Norte满产+Windfall投产',
+   metrics:['市值 ~$40B','2026E 225-245万oz','Salares AISC $825-875'],
+   catalysts:[
+     '<strong>Salares Norte（智利）2026年首个完整稳态生产年</strong>：年产55-58万oz @ AISC $825-875/oz（行业最低四分位）；2025年实际397koz超指引！自由现金流$8.08亿是集团第一',
+     '<strong>Windfall（加拿大魁北克）2026年投产</strong>：与Osisko Mining合资，年产15万oz @ AISC ~$800/oz；GFI出资$4.15亿建设',
+     '<strong>2025年股息+回购显著提升</strong>：盈利同比+110%；South Deep(南非)持续优化、Tarkwa(加纳)爬产'
+   ],
+   logics:[
+     '"双重低成本新矿投产"双击逻辑：Salares Norte+Windfall两个新矿全是世界级低成本资产，在2026-2027年集中爬产期，将拉低集团整体AISC',
+     '资产组合：南非(South Deep)+加纳(Tarkwa, Damang)+澳洲(St Ives, Granny Smith, Agnew)+智利(Salares Norte)+加拿大(Windfall)+秘鲁(Cerro Corona)，多元化优秀',
+     '2025年资本投入15亿美元、35%用于Salares Norte剥采；2026年降低后自由现金流将大幅提升'
+   ],
+   risk:'南非South Deep老矿成本压力；智利Salares Norte地处高海拔阿塔卡马，冬季气候风险；加纳Damang矿矿权将在2026年到期需续约'},
+
+  {id:'hmy',ticker:'HMY',company:'Harmony Gold',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'南非金+澳洲铜双引擎转型',
+   metrics:['市值 ~$12B','2026E产量~140万oz','MAC Copper已贡献+Eva 2028投产'],
+   catalysts:[
+     '<strong>2025年5月以$1.01B收购MAC Copper（澳洲CSA铜矿）</strong>：交易已于2025年下半年完成；CSA是高品位地下铜矿（澳洲新南威尔士），2024年产铜约41,000吨，立即贡献现金流（不像Eva需等2028）；这是Harmony从"金主导"向"金+铜双引擎"转型的关键加速',
+     '<strong>Eva Copper（澳洲昆士兰）2025年11月完成FS+EPC招标</strong>：CapEx约$2.3-2.6B，年产5-6万吨铜+黄金副产品，AISC约$2.50/磅，15年寿命；2028年下半年首产；CSA+Eva合计目标5年内年产铜~10万吨',
+     '<strong>南非业务持续优化</strong>：Mponeng（世界最深金矿）、Doornkop、Tshepong等矿持续机械化升级；2025财年EBITDA创纪录$25亿（南非兰特+金价+成本控制三重共振）',
+     '<strong>2026年战略平衡推进</strong>：CSA持续运营优化、Eva最终投资决定（FID）已作出、迁出"南非纯金"标签；管理层Beyers Nel CEO明确"高质量、低成本组合"目标'
+   ],
+   logics:[
+     '"金+铜双引擎转型"——CSA收购改变了Harmony的故事：从"南非高成本金矿"标签升级为"南非金+澳洲铜金"组合；CSA立即贡献FCF（41kt铜年产能在铜价高位下盈利显著），缓解了Eva建设期现金流压力',
+     'Harmony历史上是"高成本+高地缘风险"标签，但金价大涨后AISC虽高仍能产生大量现金流；"高经营杠杆"逻辑——金价每涨10%，HMY EBITDA可能涨30%；铜业务进入后估值溢价重新定价',
+     '澳洲资产（CSA + Eva）将占未来5年EBITDA约30-40%，显著降低南非折价；当前估值（EV/EBITDA ~3-4x）仍反映旧"南非纯金"标签，转型完成后估值修复空间大'
+   ],
+   risk:'南非电力危机Eskom运营不稳；劳工关系复杂(频发罢工)；矿井深度极深(4公里)安全风险高；汇率(兰特)波动影响成本端美元报价；CSA高品位地下矿运营成本不低；Eva CapEx $2.3-2.6B建设期资本压力大'},
+
+  {id:'sbsw',ticker:'SBSW',company:'Sibanye-Stillwater',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'PGM+黄金+电池金属·多元化',
+   metrics:['市值 ~$10B','PGM占60%+','黄金20-25%'],
+   catalysts:[
+     '<strong>PGM价格2025年触底反弹</strong>：钯价从$900反弹至$1,400+，铂价突破$1,200；公司是全球最大PGM生产商之一，盈利杠杆极大',
+     '<strong>美国Stillwater矿2024年部分关停</strong>：成功削减高成本产能，2026年成本结构显著改善；如PGM价格继续上涨可恢复满产',
+     '<strong>电池金属多元化</strong>：欧洲Keliber（芬兰锂）、Sandouville（法国镍精炼）；构建未来电动车上游供应链'
+   ],
+   logics:[
+     '"困境反转+周期反转"双重逻辑：2024年股价跌至历史低点（PGM熊市+成本压力），2025年开始基本面好转——PGM价格反弹+成本削减+黄金贡献现金流',
+     '黄金业务（南非Driefontein, Kloof, Beatrix；美国Cripple Creek；通过DRD持50%金尾矿处理）是稳定现金流来源',
+     '是少数同时受益"PGM周期反转+黄金牛市+电池金属长期需求"三重叙事的标的'
+   ],
+   risk:'南非电力问题对深井PGM矿打击最大；PGM价格波动剧烈（汽车催化转化器需求随EV替代下降）；高净债务($25亿)；电池金属业务仍亏损中'},
+
+  {id:'drd',ticker:'DRD',company:'DRDGOLD',exchange:'NYSE',color:'t-senior',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-senior',tagText:'南非金尾矿处理·零采矿风险',
+   metrics:['市值 ~$2.5B','纯尾矿处理','Sibanye 50%母公司'],
+   catalysts:[
+     '<strong>独特商业模式：处理已采矿石尾矿提取黄金</strong>——无需采矿、无井下风险、无地质风险；只需化学+物理工艺；行业内最低运营复杂度模式',
+     '<strong>Far West Gold Recoveries Phase 2扩产</strong>：投资约R20亿南非兰德，将集团年产能提升20-30%；2026-2027年完成',
+     '<strong>2025年金价高位下盈利创纪录</strong>：尾矿成本主要是化学品+电力，固定成本占比高，金价上涨直接非线性放大利润'
+   ],
+   logics:[
+     '"无矿山的金矿股"——风险结构完全不同：无地质勘探、无井下事故、无矿权延期风险；最大风险其实只是电力成本和金价',
+     '南非有数十亿吨历史金尾矿可处理，资源寿命极长（30+年）；DRD是该领域龙头',
+     'Sibanye-Stillwater持有50%股权，战略协调；可视为"小盘+尾矿专注"版的Sibanye'
+   ],
+   risk:'AISC高($1,500-1,800/oz)反映电力+化学品成本；南非Eskom电力供应不稳定直接影响生产；金价下跌时利润压缩比传统矿企更快'},
+
+
+  {id:'agi',ticker:'AGI',company:'Alamos Gold',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'加拿大成长之星·IGD扩产已定价',
+   metrics:['市值 ~$17B','26Q1产量12.4万oz·收入创纪录$596.7M','IGD扩产NPV $122亿(at $4,500金价)'],
+   catalysts:[
+     '<strong>26Q1产量123,900 oz符合指引、收入创纪录$596.7M</strong>：Island Gold District贡献61,200 oz(略高于Q4)；Magino磨机过去6周提速至9,200 t/d；管理层确认Q2产量+20%、H2持续提升、AISC后续显著下降',
+     '<strong>2026年2月3日发布IGD Expansion Study</strong>：Island Gold District 2028年起前10年平均年产<strong>534,000 oz @ AISC $1,025/oz</strong>；金价$4,500下IGD单矿税后NPV5%达<strong>$122亿</strong>，是加拿大最有价值的金矿之一；竖井+磨机扩建2026-2027年完成',
+     '<strong>Island Gold地下采矿速率创纪录1,423 t/d</strong>(+23% vs Q4)；目标2026年底达2,000 t/d、2027年初竖井投产后升至2,400 t/d；品位9.4 g/t稳定符合指引',
+     '<strong>Lynn Lake（曼尼托巴）2029年投产接续</strong>：与IGD扩产形成"双重成长曲线"；加拿大三矿(Island Gold/Young-Davidson/Lynn Lake)100%无地缘风险'
+   ],
+   logics:[
+     '<strong>"产量翻倍+AISC下降至$1,025"</strong>双击组合——IGD Expansion Study是估值重新定价的最强信号：单矿NPV $122亿(at $4,500金价)接近公司当前市值；2025→2028产量+46%(545k→755-835k)，2030年目标100万oz/年',
+     '88% NAV来自加拿大，几乎无地缘风险折价；创始人John McCluskey稳定执掌，内部持股保证利益一致；Magino+Island Gold合并后规模效应+加工弹性显著',
+     '2028年FCF预计>$10亿(金价$4,500下)，对当前~$170亿市值FCF yield约6%；EV/EBITDA ~14x是中盘成长溢价的代价，但IGD扩产已经在交付里程碑——执行确定性优于其他同类'
+   ],
+   risk:'估值不便宜(EV/EBITDA ~14x)；Young-Davidson 26Q1低于计划需Q2追回；Lynn Lake(曼尼托巴偏远北部)建设有天气+资本风险；IGD扩产前期资本支出高（竖井+磨机扩建）；2028年目标执行期较长'},
+
+  {id:'ego',ticker:'EGO',company:'Eldorado Gold',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Skouries投产改变命运',
+   metrics:['市值 ~$8B','2025产量48.8万oz·收入$1.8B','2026E 49-59万oz·Skouries Q3 2026投产'],
+   catalysts:[
+     '<strong>Skouries（希腊）大型铜金项目即将投产</strong>：2027年达产后年贡献~14万oz黄金+6万吨铜，是近10年新建的最大铜金项目之一',
+     '<strong>铜副产品大幅降低净AISC</strong>：Skouries单矿LOM AISC估计仅$300-500/oz，将公司整体AISC从$1,500降至$1,000-1,100',
+     '<strong>2027年起加上Olympias/Lamaque/Kişladağ稳定贡献</strong>，公司总产量从2025年52万oz增至2028年80万oz+（+50%）'
+   ],
+   logics:[
+     '"双击程度最强"的中型金矿之一：3年产量+50%、AISC -30%。Skouries投产是清晰的"事件驱动"催化剂，市场会在投产前1-2季度开始重新定价',
+     '当前估值仍未充分反映Skouries投产后的盈利潜力（市场对希腊监管历史有折价）；但近年希腊政治稳定+欧盟支持，监管风险已大幅下降',
+     '土耳其的Kişladağ矿是"长期价值矿"，10年+寿命，提供基础现金流；地理多元化降低单一国家风险'
+   ],
+   risk:'希腊有过监管延期历史；土耳其矿政策可能变化；Skouries投产时间表执行风险；未来需要持续达成里程碑维持估值'},
+
+  {id:'eqx',ticker:'EQX',company:'Equinox Gold',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'巴西剥离+加拿大双旗舰满产',
+   metrics:['市值 ~$11B','26Q1产量197,628 oz·收入$861.6M','净债务$252M(从$1.15B急速降负)·首发股息已支付'],
+   catalysts:[
+     '<strong>26Q1业绩亮眼</strong>：产量197,628 oz（Greenstone 60,338+Valentine 27,064+Mesquite 13,174+Nicaragua 81,280+Castle 2,299+巴西剥离13,473）；收入$861.6M、净利润$310M（$0.39/股）、调整EBITDA $527M；AISC $1,950/oz（H2因加拿大爬产将下降）',
+     '<strong>2026年1月23日完成出售巴西业务（最高$1.015B）</strong>：用收益+经营现金流偿还$988.6M债务；<strong>净债务从年末$1.147B急速降至Q1末$251.8M、4月底$77M</strong>——这是中盘里资产负债表修复速度最快的案例；2026年3月26日支付首发股息$0.015/股，5月6日批准第二次',
+     '<strong>2026年3月30日发布加拿大双矿10年技术报告</strong>：Greenstone+Valentine 2026-2036年合计平均年产<strong>543,000 oz</strong>（Greenstone 320k + Valentine 223k含Phase 2扩产）；2026年全年指引700,000-800,000 oz',
+     '<strong>Valentine Phase 2扩产决定 H2 2026开建</strong>：CapEx $414M（含20% contingency），处理量从2.5 Mtpa翻倍至5 Mtpa；24个月建设期，自筹现金流+信贷额度，无需股权融资；同期Valentine 2月发现高品位Minotaur矿体（距磨机仅8km）；Castle Mountain Phase 2获FAST-41加速许可身份'
+   ],
+   logics:[
+     '"巴西剥离+加拿大双旗舰满产+债务清零"三重转型——2026是过渡年（AISC $1,950高位反映Greenstone/Valentine爬产期），但2027起Greenstone+Valentine两个低成本旗舰将主导成本曲线；公司已从"美洲多元化高成本"重塑为"加拿大Tier 1+ Nicaragua现金牛"',
+     'Greenstone 26Q1磨机吞吐量24,544 tpd，51%交易日超过设计能力27,000 tpd（vs Q4 2025的36%）；Valentine 26Q1处理量6,192 tpd（90%设计能力，2-3月达101%）——两个矿都在按计划爬产；Phase 2完成后Valentine年产从~13万→22.3万oz',
+     'Castle Mountain Phase 2+Los Filos（墨西哥）合计可贡献额外45万oz/年——长线产量增量超100万oz水平；当前估值（P/NAV ~0.8x）反映了爬产期执行风险，但债务清零后再融资风险消失'
+   ],
+   risk:'2026年AISC $1,950/oz反映加拿大冬季气候对采矿/磨机效率影响；Valentine爬产仍需季度数据验证；Greenstone自启动以来产量低于设计需持续优化；管理层过去并购整合记录有改善但仍被持续观察；Phase 2 CapEx $414M虽自筹，但同期沉重投入压力FCF'},
+
+  {id:'iag',ticker:'IAG',company:'IAMGOLD',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Côté扩产+Gosselin整合·净现金+评级上调',
+   metrics:['市值 ~$11B','26Q1产量183,600 oz·收入$10.3亿(连续2季破$10亿)','净现金$1.05亿·26Q1回购$2.6亿(年初至今+$3亿)'],
+   catalysts:[
+     '<strong>26Q1业绩强劲</strong>：归属产量183,600 oz（Essakane 95,100+Côté 52,300+Westwood 36,200）；收入$10.3亿连续两季破$10亿；调整EBITDA $6.66亿、矿场FCF $5.25亿；EPS $0.65；现金$5.5亿、净债务从一年前>$8亿降至$1.05亿；2026全年指引720k-820k oz维持',
+     '<strong>2026年Q4 Côté Gold更新技术报告</strong>：将<strong>整合Gosselin资源(合计M&I 18.2 Moz + Inferred 2.2 Moz)</strong>，处理量从36,000 tpd扩至<strong>50,000-55,000 tpd</strong>；Q2 2026先发布更新资源估算；这将彻底改写Côté规模——一旦扩产完成可能贡献40-50万oz/年',
+     '<strong>26Q1回购$2.6亿(1290万股)+偿还$1亿信贷</strong>，截至4月底再回购$4,000万+还清剩余$1亿；Fitch 3月底将B+评级展望从Stable升至Positive、Moody\'s 4月初将评级从B2升至B1；管理层称2026下半年或2027初可能引入股息',
+     '<strong>Côté 26Q1产量受输送带故障影响</strong>：第二台圆锥破碎机调试后输送带超载；5月计划停机更换；H2产量将显著加速；Cash cost $1,301/oz、AISC $2,124/oz反映金价$4,859下高royalties；CFO确认H2 throughput稳态后单位成本回归指引'
+   ],
+   logics:[
+     '"净现金转折+Côté规模重定义"双重故事——一年前还在$8亿净债务，现在已是净现金$1.05亿+评级上调；Côté扩产至50,000-55,000 tpd（含Gosselin）将使其成为加拿大最大金矿之一，单矿可贡献~40-50万oz/年',
+     'Essakane（布基纳法索，85%权益）26Q1单矿FCF $3.03亿——非洲资产虽地缘风险高但现金生成极强，是支撑回购的核心引擎；Westwood（魁北克）扩产研究中，Nelligan Mining Complex（魁北克，100%）2027年PEA是中长期增量',
+     '当前估值仍偏低反映Côté历史执行问题+Essakane布基纳法索折价；但Q1已是连续两个$10亿收入季度+$2.6亿单季回购，市场重定价正在发生'
+   ],
+   risk:'Q1 AISC $2,124/oz远高于全年指引$1,775-1,925——royalties随金价上升、Côté 26Q1输送带故障+5月停机；Essakane（布基纳法索）地缘风险持续；Côté扩产决定预计Q4 2026技术报告，建设CapEx尚未公布；西非Sahel地区政变风险'},
+
+  {id:'orla',ticker:'ORLA',company:'Orla Mining',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Musselwhite整合者·北美干净组合',
+   metrics:['市值 ~$5B','26Q1产量81,206 oz·26全年指引340-360k','26Q1净现金$96M·南方铁路2026年中开工'],
+   catalysts:[
+     '<strong>26Q1产量81,206 oz、销售81,540 oz</strong>：Musselwhite贡献62,985 oz(矿石品位6.29 g/t、回收率95.91%)；Camino Rojo贡献18,221 oz；坚定2026全年指引340-360k oz、AISC $1,550-1,750/oz；产量H2加权(H1 150-160k → H2 190-200k)',
+     '<strong>26Q1拿到Camino Rojo SEMARNAT环评许可</strong>：可完整开采露天剥离区；同时1月发布South Railroad更新可行性研究、Camino Rojo地下PEA、加拿大勘探正面结果；2026年定义为"催化剂密集年"',
+     '<strong>South Railroad（内华达）2026年中开建</strong>：等待最终许可；2026年规划CapEx $215M用于该项目；公司用现有运营现金流自筹，无外部债务融资压力',
+     '<strong>2025年12月启动首次季度股息$0.015/股</strong>(年化$0.06)；2025全年产量30.1万oz（创纪录），其中Musselwhite归属Orla 20.4万oz超指引上限；现金$427M、净现金$96M'
+   ],
+   logics:[
+     '"3年产量增长110%（200k→450k+）+100%北美/墨西哥资产"双重稀缺组合；Musselwhite收购（2024年9月以$8.5亿从Newmont收购、0.7x P/NAV）已被验证为价值创造交易，2025年贡献产量超指引上限',
+     '三大材料项目：(1) Camino Rojo（墨西哥，AISC低位现金牛）+ (2) Musselwhite（安大略，已25年开采+600万oz累计产量）+ (3) South Railroad（内华达，开发期，2026年开工）；完全规避非洲/亚洲风险',
+     'CEO Jason Simpson前Goldcorp出身，并购纪律是同类中最强之一；当前估值中枢未充分反映South Railroad投产后的产量再次跳升+加拿大资产质量溢价'
+   ],
+   risk:'2026年AISC指引$1,550-1,750/oz中位数偏高(产量H2加权)；South Railroad最终建设许可仍待获批；Musselwhite 2026年sustaining capex $120M较高；Cerro Quema（巴拿马）已因2023年Cobre Panama事件导致的反矿业氛围而事实搁置，相关投入可能减计'},
+
+  {id:'cgau',ticker:'CGAU',company:'Centerra Gold',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'估值最便宜的成长股',
+   metrics:['市值 ~$5B','2026E产量~31-35万oz·AISC $1,400-1,500','EV/EBITDA <5x·零债务'],
+   catalysts:[
+     '<strong>Goldfield项目（内华达，2028投产）</strong>：贡献10万oz/年，是公司未来增长引擎；2026年开始重大资本投入',
+     '<strong>Thompson Creek钼矿2027年重启</strong>：钼是关键军工金属，重启后增加副产品收入和铜的多元化敞口',
+     '<strong>Mount Milligan（BC加拿大）持续优化</strong>：2026年AISC $1,200-1,300/oz（同行最低之一）；铜副产品对冲金价'
+   ],
+   logics:[
+     '估值最便宜的中型金矿股之一（EV/EBITDA <5x），原因是Öksüt（土耳其）的地缘风险折价 + 公司规模较小机构覆盖少',
+     'Mount Milligan + Goldfield + Thompson Creek三个北美资产逐步成为主导，土耳其Öksüt的地缘折价将随时间消化',
+     '净现金资产负债表（$5.29亿现金）+ 持续股票回购，是金矿股中罕见的"价值+成长"组合'
+   ],
+   risk:'Öksüt（土耳其）AISC上升至$1,850-1,950/oz（高于行业平均），且土耳其经济和政治不稳定；Goldfield是新建项目，执行风险存在；规模较小机构覆盖有限'},
+
+  {id:'augo',ticker:'AUGO',company:'Aura Minerals',exchange:'Nasdaq',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Era Dorada建设决定+高股息',
+   metrics:['市值 ~$7B','26Q1收入$382.6M·EBITDA $243.9M','26产量指引340-390k GEO·26Q1产量82,137 GEO'],
+   catalysts:[
+     '<strong>26Q1创纪录业绩</strong>：净收入$382.6M、调整EBITDA $243.9M（创纪录）、归属净利润$120.8M（+253% YoY）；Borborema首满产+MSG首次完整季度贡献是主要增量；产量82,137 GEO；AISC $1,865/oz（H2预计降低，因MSG成本优化+产量爬升）',
+     '<strong>2026年4月14日董事会批准Era Dorada（危地马拉）建设决定</strong>：CapEx $382M、首4年年产111k GEO、H1 2028投产；2026年1月已收到建设许可、动工早期工程；Bluestone收购（2025年1月完成）已转化为最大未开发管线',
+     '<strong>2026年4月CAPEX指引上调</strong>：从原指引上调以反映Era Dorada建设节奏；2025年12月已上修2030产量目标至600k GEO（vs 之前450k，+33%）；2025年12月发布Era Dorada可研显示1.75M GEO储量',
+     '<strong>26Q1宣布~$65M股息（$0.78/股）</strong>：股息率约4-5%是金矿股中较高水平；Borborema 2026年2月储量上修至1.5 Moz（Probable Reserves 40.7Mt @ 1.13 g/t），LOM延至20.5年'
+   ],
+   logics:[
+     '"6座运营矿+清晰开发管线"：Minosa（洪都拉斯）+Almas/Apoena/Borborema/MSG（巴西）+Aranzazu（墨西哥铜金银），加上Era Dorada（危地马拉，2028）+Matupá（巴西，开发中）；过去2年通过Borborema（2025/9投产）+MSG收购（2025夏从AngloGold以低价收购）+Bluestone并入快速做大',
+     'CEO Rodrigo Barbosa执行力突出：2025年1月迁册百慕达至英属维京群岛、9月Borborema商业投产、夏季MSG收购、12月Era Dorada FS、2026年1月动工——里程碑密集兑现；2025年4月从TSX迁至Nasdaq后流动性从200万/天跃升至1亿/天，已被58个ETF纳入',
+     'MSG（Mineração Serra Grande，巴西）是核心反转故事：从AngloGold手上以高成本矿身份接手，管理层目标3年内将AISC从$3,000降至$2,000以下；如成功是估值重定价的最大单一驱动'
+   ],
+   risk:'100%拉美资产（巴西+洪都拉斯+墨西哥+危地马拉）地缘集中；Era Dorada位于危地马拉边境9公里萨尔瓦多，跨境环保压力存在；26Q1 AISC $1,865偏高反映MSG高成本+Borborema爬产；CapEx上调对自由现金流短期承压；股本扩大及Bluestone并购整合'},
+
+  {id:'btg',ticker:'BTG',company:'B2Gold',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Goose投产+Fekola剥离过渡',
+   metrics:['市值 ~$8B','2025收入$3.06B(创纪录)·产量97.96万oz','2026E 82-97万oz·AISC $2,400-2,580'],
+   catalysts:[
+     '<strong>Goose矿（加拿大Nunavut）2025年10月商业投产</strong>：2026年贡献17-23万oz；2026年Q3末预计达到3,200吨/天产能；首个加拿大Tier 1资产',
+     '<strong>2026年是过渡年，2027年正常化</strong>：Fekola(马里)剥采Phase 8深度推进、Goose爬产；2027年AISC预计回到正常水平$1,400-1,500',
+     '<strong>2025年总收入超$30亿创纪录</strong>：尽管2025年产量略低于指引中值(979,604 oz)，但金价高位带来的现金流极强'
+   ],
+   logics:[
+     '"伪AISC高"陷阱——2026年AISC $2,400-2,580看起来吓人，但其中$525/oz是金价$5,000下的royalties；剔除影响后实际AISC升幅有限',
+     '资产组合从"Mali+Namibia+Philippines"过渡到"Mali+Philippines+Canada"——加拿大Goose显著提升资产质量+地缘风险下降',
+     '当前估值反映了2026过渡年担忧+CEO离职不确定性，是逆向投资机会(P/CF ~5x行业最低之一)'
+   ],
+   risk:'马里Fekola地缘风险持续(税务争议+矿权续约)；2026年Q2 Goose发生crusher火灾导致产量下降；新CEO战略仍待确认；2026年AISC高位可能持续到2027上半年'},
+
+  {id:'ssrm',ticker:'SSRM',company:'SSR Mining',exchange:'Nasdaq',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Çöpler剥离+Hod Maden开发',
+   metrics:['市值 ~$7B','2026E 45-53.5万oz GEO·AISC $2,360-2,440','Hod Maden NPV $1.7B·IRR 39%'],
+   catalysts:[
+     '<strong>Çöpler（土耳其）2026年Q3前以$15亿现金出售</strong>：2024年事故停产至今，公开协议在Q3 2026完成；剥离后SSR成为"纯北美+阿根廷"业务',
+     '<strong>Hod Maden（土耳其）大型铜金项目DFS发布</strong>：NPV5% $17亿、IRR 39%、LOM 1.6 Moz金+209 Mlb铜、年均自由现金流$3.28亿；总CapEx $9.1亿，SSR分摊$4.69亿；2026年中决定建设',
+     '<strong>4个稳定运营矿继续贡献现金流</strong>：Marigold(NV)、CC&V(CO)、Seabee(SK)、Puna(阿根廷银)；储量+40% YoY至11.0 Moz GEO'
+   ],
+   logics:[
+     '"困境反转的二次催化"——2024年Çöpler事故后股价跌70%，2025-2026年通过出售Çöpler获得$15亿现金+消除地缘隐患；同时Hod Maden提供长期增长',
+     '2026年AISC偏高反映Çöpler care费用($35-40M/季)，Q3完成出售后AISC将立即下降$200/oz以上',
+     '管理层近期完成大量战略动作：股票回购、Çöpler出售、Hod Maden DFS；执行力恢复'
+   ],
+   risk:'Hod Maden需要2.5-3年建设，长期投入($15M/月preCapEx)；土耳其管辖区风险（虽然已剥离Çöpler，Hod Maden仍在土耳其）；2026年是高AISC过渡年；Marigold和Seabee各有执行问题'},
+
+  {id:'aris',ticker:'ARIS',company:'Aris Mining',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'哥伦比亚Marmato扩建',
+   metrics:['市值 ~$2.5B','2025产量25.65万oz·收入$909M','2026E 30-35万oz·Marmato Q4 2026首产'],
+   catalysts:[
+     '<strong>Marmato Lower Mine扩建2026年完成</strong>：新建年产能20万oz，使Marmato成为哥伦比亚最大金矿之一；地下机械化采矿大幅降本',
+     '<strong>Segovia（哥伦比亚）持续优化</strong>：高品位地下矿(10+ g/t)+低成本运营；是公司现金奶牛',
+     '<strong>Soto Norte（哥伦比亚）合资</strong>：与Newmont 50:50合资的大型未开发金银项目；环评推进中'
+   ],
+   logics:[
+     '"哥伦比亚黄金整合者"——南美西部金矿带最大上市公司，规模化运营优势在分散竞争中明显',
+     '2026-2027年随Marmato扩建完成，公司年产量从25万oz增至40万oz+，AISC同时下降；典型的"双击"案例',
+     '哥伦比亚虽有地缘风险，但矿业法律框架相对清晰；Aris已在该国运营20+年，管理团队经验丰富'
+   ],
+   risk:'哥伦比亚Petro政府对采矿业不友好；Soto Norte项目环评长期延期；Marmato扩建超支风险；非法采矿和社区争议持续'},
+
+  {id:'fsm',ticker:'FSM',company:'Fortuna Mining',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'非洲+拉美多元化',
+   metrics:['市值 ~$3.5B','2025收入$947M(+40%)·净利润$287M','FCF $3.30亿·Diamba Sud开发'],
+   catalysts:[
+     '<strong>Séguéla（科特迪瓦）2023年投产持续优化</strong>：低成本(AISC $900-1,000)露天金矿，公司主力增长资产',
+     '<strong>Diamba Sud（塞内加尔）开发中</strong>：2027年投产，年产15万oz；进一步加强西非业务',
+     '<strong>San Jose（墨西哥）银矿生产</strong>：作为白银副产品提供成本对冲；规模较小但稳定'
+   ],
+   logics:[
+     '业务多元化：拉美(Lindero阿根廷, Caylloma秘鲁, San Jose墨西哥) + 西非(Yaramoko布基纳法索, Séguéla科特迪瓦, Diamba Sud塞内加尔)；地缘+矿种多元化',
+     '从拉美中型转型为"非洲+拉美双引擎"，西非业务正成为更大利润贡献',
+     '管理团队执行力强，过去10年从单一矿企成长为多元化中型生产商；Séguéla建设按时按预算完成'
+   ],
+   risk:'布基纳法索地缘风险（西非政治环境恶化）；阿根廷Lindero汇率/外汇管制风险；Diamba Sud建设期资本支出压力；矿种分散度高需要管理能力强'},
+
+  {id:'bvn',ticker:'BVN',company:'Buenaventura',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'秘鲁金银铜锌多元化',
+   metrics:['市值 ~$9.5B','秘鲁金银铜锌多元化','San Gabriel 2025投产·Cerro Verde 19.58%权益'],
+   catalysts:[
+     '<strong>San Gabriel（秘鲁）2025年投产</strong>：高品位地下金银矿，年产13万oz金+200万oz银；是公司未来5年最大产量增量',
+     '<strong>持有Cerro Verde 19.58%股权</strong>：秘鲁最大铜矿之一(由Freeport-McMoRan运营)；铜价高位下分红贡献巨大',
+     '<strong>Yanacocha（与Newmont合资）持续运营</strong>：南美最大金矿之一，BVN持40%；提供稳定现金流'
+   ],
+   logics:[
+     '"秘鲁矿业旗舰"——上市最久(自1996年)的秘鲁矿企，与全球巨头(Newmont, Freeport, Anglo American)合资模式经验丰富',
+     '金+银+铜+锌多元化：单一商品价格波动影响有限，铜价高位+金价高位+银价高位共振受益',
+     '估值偏低(P/B ~1x)反映了秘鲁地缘风险溢价，但秘鲁矿业法律框架较拉美其他国家成熟'
+   ],
+   risk:'秘鲁政治不稳定（频发政变）；社区抗议导致矿山停产历史；Yanacocha老化矿山，未来寿命有限；秘鲁货币索尔(PEN)波动影响成本'},
+
+  {id:'mux',ticker:'MUX',company:'McEwen Mining',exchange:'NYSE',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'Los Azules铜+小盘金矿',
+   metrics:['市值 ~$2.5B','2025年产量~14万oz','Rob McEwen 21%'],
+   catalysts:[
+     '<strong>Los Azules铜矿（阿根廷）DFS推进</strong>：全球前10未开发铜矿，~92亿磅铜储量；阿根廷RIGI(投资激励法)项目加速；MUX持85%',
+     '<strong>Fox Complex（加拿大安大略）满产</strong>：Stock Mine 2024年投产，2026年完成扩建到3,500 t/d；公司主力金矿',
+     '<strong>San José矿(阿根廷,与Hochschild合资49%)持续贡献</strong>：高品位银金矿，提供稳定现金流'
+   ],
+   logics:[
+     'Rob McEwen（Goldcorp创始人）创办并持股21%——内部利益高度一致，是矿业圈最有名的创始人之一',
+     'Los Azules是"金矿股+铜矿期权"——按当前股价，铜业务几乎是免费送的，铜价高位下任何DFS推进都是上行催化剂',
+     '近期股价表现极强（2024-2025年涨幅超4倍），反映市场重新认识Los Azules价值'
+   ],
+   risk:'阿根廷地缘风险（虽然米莱政府改善了环境）；Los Azules建设需要$30亿+资本，融资稀释风险大；当前业务规模小(14万oz/年)；过去10年股价波动巨大'},
+
+  {id:'itrg',ticker:'ITRG',company:'Integra Resources',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'内华达Florida Canyon+开发管线',
+   metrics:['市值 ~$1B','2026E产量70-75k oz','2026E AISC $2,750-2,950'],
+   catalysts:[
+     '<strong>Florida Canyon矿(内华达)爬产</strong>：2026年产量70-75k oz @ AISC $2,750-2,950/oz;2025年Q1新增6台Caterpillar 785矿用卡车,矿石处理量创纪录76,800 tpd',
+     '<strong>2027-2028产量提升至80-90k oz/年</strong>:Phase II 浸出垫扩建+剥离强度提升;矿山寿命延长至2030年代',
+     '<strong>DeLamar(爱达荷)+Nevada North双开发管线</strong>:DeLamar是过去生产矿的重启,2026年投入$3,500-4,000万推进工程+许可+长周期采购;Nevada North含Wildcat+Mountain View两个矿床'
+   ],
+   logics:[
+     '"Great Basin美国本土生产+开发组合"——同时拥有内华达+爱达荷资产,无地缘风险折价;2024年合并整合后形成独特"现金流+开发"双引擎',
+     '虽然AISC高($2,750-2,950),但金价$5,000+下毛利仍可观;关键变量是DeLamar最终投产后AISC将大幅下降',
+     '小盘($6亿)在金矿股中相对低估;3年产量增长15-25% + AISC路径取决于DeLamar开发进度'
+   ],
+   risk:'AISC高位($2,750+),金价回调影响极大;Florida Canyon品位较低(0.19 g/t)依赖大规模处理;DeLamar+Nevada North执行风险高;持续融资需求'},
+
+  {id:'trx',ticker:'TRX',company:'Tanzanian Gold',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,tag:'tag-mid',ytd:null,
+   tagText:'坦桑尼亚Buckreef 高品位金矿',
+   metrics:['市值 ~$0.6B','2026E产量25-30k oz','Buckreef NPV $1.9B'],
+   catalysts:[
+     '<strong>Buckreef金矿(坦桑尼亚)持续生产</strong>:55%权益由Tanzanian Gold持有,45%由坦桑尼亚国家矿业公司持有;矿石品位高(2-3 g/t),露天+地下混合开采',
+     '<strong>2025-2026 资源量更新</strong>:扩展矿权区勘探,Buckreef Main Zone+附近卫星矿体;长期目标年产5-10万oz',
+     '<strong>金价超级周期高弹性</strong>:小盘($6亿)+生产中+地缘折价的组合,在金价上行下贝塔约2倍'
+   ],
+   logics:[
+     '"非洲高弹性金矿股"——市值小但已生产,具备对金价的最高杠杆;过去几年坦桑尼亚矿业税收虽严格但已稳定',
+     'Buckreef是世界级矿权区,品位远高于行业平均;55%权益结构虽然不是100%控股但与坦桑尼亚政府关系绑定,降低了"国有化"风险',
+     '相对Almonty/Aris等其他非洲/拉美中型金矿,TRX估值最便宜(EV/产量比同行低40%)'
+   ],
+   risk:'坦桑尼亚地缘风险(矿业税收+外汇管制+审计争议);规模极小(年产数万oz),管理层执行力不及大型同行;股价波动剧烈;非洲国家政府关系复杂'},
+
+  {id:'idr',ticker:'IDR',company:'Idaho Strategic Resources',exchange:'NYSE American',color:'t-mid',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-mid',tagText:'金矿现金流+美国最大REE/钍资源',
+   metrics:['市值 ~$580M','2025年收入$42.4M(+64.6%)','净利润$16.7M·EPS $1.14'],
+   catalysts:[
+     '<strong>Golden Chest金矿(爱达荷)创纪录生产</strong>:2025年产量12,538 oz(+5.2% YoY);**入矿品位10.14 g/t**(行业平均1-2 g/t,极高);P&P储量同比+53.2%(转换钻探);2025年钻探19,162米创历史最高',
+     '<strong>2025年财报创纪录</strong>:收入$42.4M(+64.6% YoY)、净利润$16.7M、EPS $1.14、**毛利率61.8%、EBITDA margin 43.2%**、零债务+净现金;在小盘金矿中是少有的"真正盈利"标的',
+     '<strong>Lemhi Pass REE项目 - 美国最大REE土地包</strong>:12,000+英亩,钻探返回**5% TREO**+**磁性REE占70%+**(Nd 58% + Pr 8% + Sm 8% + Dy 2%);Mineral Hill的Upper Roberts点位表面采样达**20-34% TREO**;USGS+DOE认可Lemhi Pass为**全美最大钍(Th)资源**',
+     '<strong>2025年3月特朗普"立即增加美国矿产生产"行政命令直接受益者</strong>:行政命令包括联邦土地矿业激励+许可程序简化+国防部/能源部联合采购;IDR完美对位,2025年REE勘探季计划包括Lemhi Pass radiometric+土壤采样,后续转入钻探阶段',
+     '<strong>Murray Mill 加工厂建设中</strong>:许可+设备采购阶段,投产后预计**节省$50万/年运营成本**;Paste Backfill建筑已完工,**额外节省$80万/年**',
+     '<strong>2026年5月18日Q1业绩发布</strong>:管理层目标"安全增产Golden Chest+推进Murray Mill+加快REE勘探";产量增长+REE项目里程碑双重催化'
+   ],
+   logics:[
+     '<strong>"产收+蓝天"独特模式(Production-Backed Exploration)</strong>——CEO John Swallow提出的商业模式:用黄金生产现金流养稀土勘探,**股东不被稀释**;这与99%的纯REE开发期公司(USAR、CRML等)形成鲜明对比,后者依赖不断发新股融资',
+     '<strong>磁性REE比例70%是关键经济性优势</strong>:多数REE矿主要含低价值的镧/铈,IDR的Lemhi Pass却富含**Nd(钕,永磁电机)+ Dy(镝,EV/风电关键)**;经济性远高于普通REE矿,是中国之外少数提供高价值REE的资源',
+     '<strong>钍资源是核能复兴的"国防级期权"</strong>:钍熔盐反应堆是新一代核反应堆候选燃料;美国DOE和USGS认可Lemhi Pass为**全美最大钍资源**;在国家安全+能源转型双重叙事下,这是免费的看涨期权',
+     '<strong>"美国本土+战略矿产+小盘"三重稀缺组合</strong>:与PPTA(锑+金)、USAU(金+铜)、PRM(钨)同属"美国战略矿产"主题,但IDR是其中**唯一已盈利**的标的;Beta仅0.27(波动性低于行业)',
+     '<strong>Coeur d\'Alene 矿区地质背景顶级</strong>:Murray Gold Belt位于世界级金银矿区,累计产量超12亿oz银+黄金;Golden Chest周边Paymaster、Red Star、H-Vein等矿区仍有大量未钻探区域(蓝天)'
+   ],
+   risk:'估值已计入大量REE预期(P/S 13.7x、P/E 32x偏高,行业平均5-8x);REE项目仍处早期勘探阶段(无PEA、无PFS、无矿权许可),商业化时间表至少8-10年;股价波动剧烈(从$36跌到$28仅一周-15%),小盘流动性问题;黄金业务规模相对小(年产12,538 oz),现金流难以支撑大型REE项目建设(可能仍需融资);REE价格受中国出口政策影响极大;管理层注意力分散在金矿+REE+钍三条线可能影响执行效率'},
+
+
+  {id:'ske',ticker:'SKE',company:'Skeena Resources',exchange:'NYSE',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'Eskay Creek 2027 Q2投产',
+   metrics:['市值 ~$4.4B','项目NPV C$20亿+','$7.5亿债券融资完成'],
+   catalysts:[
+     '<strong>Eskay Creek（BC加拿大）2027 Q2投产</strong>：建设已完成49%，66%成本已签合同；首产前1-2季度市场会重新定价',
+     '<strong>项目DFS指标极优秀</strong>：税后NPV C$20亿、IRR 43%、回收期1.2年、LOM AISC仅$684/oz（行业最低5%）',
+     '<strong>2026年1-2月所有许可获批</strong>：环境评估证书+矿业法许可+环境管理法许可；项目已进入纯执行阶段'
+   ],
+   logics:[
+     '前Barrick运营矿山复活，已有基础设施降低建设成本；矿石品位5.5 g/t AuEq（行业平均1-2 g/t），单位成本结构性优势',
+     '当前金价$4,400 vs DFS基础假设$1,800，实际NPV可能超过C$60亿，远高于当前~$55亿市值；投产后将快速产生大量自由现金流',
+     '潜在并购标的——这种Tier 1资产是大型矿企（Newmont、Agnico、Barrick）的天然收购目标'
+   ],
+   risk:'2025年12月CAPEX已上调18%(从$5.6亿到$6.59亿)，进一步超支风险存在；单一项目集中度100%，任何重大事故就完了；BC省原住民关系是双刃剑'},
+
+  {id:'hymc',ticker:'HYMC',company:'Hycroft Mining',exchange:'Nasdaq',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'内华达 银主导重塑',
+   metrics:['市值 ~$3.7B','零债务','Sprott ~40%·91M流通股'],
+   catalysts:[
+     '<strong>2026年Q1 PEA即将发布</strong>：将整合M&I资源量+55%增长（16.4M oz金 + 562.6M oz银，全球第一大原生银项目），是最重要定价锚催化剂；技术报告含经济性评估',
+     '<strong>2026年4月聘请RESPEC评估地下开采</strong>：Brimstone系统起始于露天坑下方仅30米，开发坡道可同时进行地下钻探和早期生产；未来可能"先地下高品位+后露天堆浸"双轨开发',
+     '<strong>2025-2026钻探不断超预期</strong>：Vortex最新孔H25D-6072返回30.8米438.58 g/t银+0.41 g/t金；最高单孔0.9米2,890 g/t银+33.7 g/t金；矿体在多方向仍开放'
+   ],
+   logics:[
+     '从"破产候选黄金堆浸矿"完全重塑为"高品位银矿开发商"——CEO明确表示"我们的交易行为更像银公司"，资产性质重塑+银价突破$80/oz是非线性放大效应',
+     '2025年完成债务清零（净筹$2.35亿，提前还清$1.36亿债务，2026 Q1持有$1.89亿净现金），从"生存焦虑"转为"专注勘探+开发"；Eric Sprott持股43%是矿业圈最强机构背书',
+     '位于内华达Winnemucca（Tier 1美国管辖区），无地缘风险折价；潜在战略价值高（POX工艺已建成，复用已有基础设施）'
+   ],
+   risk:'仍处于勘探/开发阶段，无营业收入，PEA结果可能低于市场预期；POX(高压氧化)工艺规模化重启资本开支大；银价剧烈波动直接影响估值；持续钻探消耗现金'},
+
+  {id:'ng',ticker:'NG',company:'NovaGold Resources',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'Donlin 美国最大未开发金矿',
+   metrics:['市值 ~$5B','60% Donlin','40M oz Au资源'],
+   catalysts:[
+     '<strong>2025年6月以10亿美元收购Barrick的50% Donlin权益</strong>：NG持股从50%升至60%（出$2亿购10%），剩余40%由Paulson基金以$8亿购入；管理层称这是"自Barrick 1986年收购Goldstrike以来黄金资产最优秀的并购"',
+     '<strong>BFS可银行融资可行性研究2026年Q1选定主承包商</strong>：将设计成"美国最大单一金矿"；详细设计包预计2026年底/2027年初完成，水坝安全证书2028年签发',
+     '<strong>2025年11月阿拉斯加最高法院裁决支持Donlin</strong>：确认水权许可+316英里天然气管道路权；与Glenfarne签署LNG供能LOI，潜在大幅降低运营成本'
+   ],
+   logics:[
+     'Donlin资源量4000万oz M&I黄金、平均品位2.22 g/t（是行业平均2倍以上）——是全球最大、最高品位、最长寿命的未开发金矿之一；位于阿拉斯加（美国Tier 1管辖区），政治稳定',
+     '"对金价杠杆最大的纯敞口"——NG除Donlin外几乎没有其他重要资产，金价上涨直接对应NPV非线性放大；金价$4,500下Donlin NPV可能远超$200亿（NG 60%权益对应$120亿），远高于当前$40亿市值',
+     'Paulson基金作为完全对齐的合作伙伴，加速决策推进；公司持有$3.93亿现金足以完成BFS+回购Barrick票据，2026年中将公布下一阶段开发预算'
+   ],
+   risk:'Donlin距离最近港口数百英里，建设和运营物流复杂；预计资本开支$70-100亿+（虽然Paulson分摊40%）；从BFS到投产需要4-6年；阿拉斯加施工窗口短；金价大跌则NPV收缩'},
+
+  {id:'ppta',ticker:'PPTA',company:'Perpetua Resources',exchange:'Nasdaq',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'美国唯一锑+金 战略资产',
+   metrics:['市值 ~$5B','美国唯一锑矿','EXIM $27亿贷款'],
+   catalysts:[
+     '<strong>2025年10月开始早期建设</strong>：Stibnite Gold项目（爱达荷）正式动工；Hatch被任命EPCM承包商；最终投资决策预计2026年春季；前4年年产黄金45万oz、锑148M磅',
+     '<strong>2026年3月申请EXIM银行$27亿贷款</strong>：通过"Make More in America"项目支持；加上手头$7.14亿现金，可覆盖$25.76亿建设总成本；川普政府将该项目列为"关键矿产快速通道"',
+     '<strong>美国唯一锑矿储量+中国出口禁令</strong>：可供应美国前6年35%锑需求；锑是穿甲弹、火箭推进剂、半导体不可替代材料；中国2024年禁运后锑价从$13,000/吨涨至$60,000/吨'
+   ],
+   logics:[
+     '"金矿+战略矿产+地缘溢价"三重定价逻辑——既享受金价上涨带来的收入弹性，又获得国防战略资产的额外溢价；锑收入约占总收入30-40%，且锑价远高于历史均值',
+     '位于爱达荷州（美国Tier 1管辖区），政府支持力度极强：DPA $24.8M Title III资金 + DOTC累计$22.4M资助 + EXIM贷款承诺；这种"政府背书"水平在美国矿业近30年罕见',
+     '储量4.8M oz黄金+148M磅锑，开采寿命15年+，是美国本世纪建成的最大金矿之一；管理层近期招聘多名经验丰富项目高管（VP Projects、VP Technical Services），执行力可期'
+   ],
+   risk:'项目建设期2-3年，2027-2028年才有首产；总CAPEX $25.76亿对当前市值压力大，可能需要额外股权融资稀释股东；锑价波动剧烈；爱达荷偏远施工环境复杂'},
+
+  {id:'iaux',ticker:'IAUX',company:'i-80 Gold',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'内华达整合 Lone Tree 重启',
+   metrics:['市值 ~$1B','5个内华达项目','Lone Tree翻新中'],
+   catalysts:[
+     '<strong>Granite Creek地下矿2026年商业投产</strong>：2025年20-30k oz产量；满产后稳态年产60k oz、峰值80k oz；PEA税后NPV $155M（金价$2,175下）/$344M（金价$2,900下）',
+     '<strong>2028年Lone Tree高压氧化（POX）厂翻新完成</strong>：将所有矿点（Granite Creek+Archimedes+Cove）矿石集中到Lone Tree加工；告别第三方代加工，AISC从$1,597大幅下降到$800-1,000',
+     '<strong>水管理问题已解决</strong>：2025年Q3安装永久脱水系统，可访问深部高品位矿体；2025年初新建水处理厂，运营障碍清除'
+   ],
+   logics:[
+     '"内华达整合者"——5个内华达资产形成完整网络，未来5年从小型生产者转型为内华达中型金矿，目标年产25万+oz；金价$3,000下整体PEA NPV $373M（vs 当前$5亿市值）',
+     '当前估值反映了执行风险充分（管理层多次重组，2024年股价曾跌至$1以下），如果Lone Tree按计划2028年完工，估值修复空间巨大；新CEO Richard Young来自Barrick内华达运营背景',
+     '资源储量丰富：5个项目合计储量+资源量超800万oz；位于全球最优秀的Carlin Trend黄金成矿带'
+   ],
+   risk:'Lone Tree翻新延期是最大风险（已多次延期）；当前AISC高（$1,597），如金价回调影响现金流；管理层执行力曾被市场质疑；持续融资需求；股本稀释历史严重'},
+
+  {id:'sa',ticker:'SA',company:'Seabridge Gold',exchange:'NYSE',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'KSM·全球最大未开发金铜项目',
+   metrics:['市值 ~$3.5B','47.3M oz Au','7.3B lb Cu储量'],
+   catalysts:[
+     '<strong>KSM (Kerr-Sulphurets-Mitchell, BC加拿大) - 全球最大未开发金铜项目</strong>：探明+概率储量47.3M oz黄金+73亿磅铜+214M oz银+385M lb钼；PFS NPV $7B、AISC $730/oz',
+     '<strong>2024年获BC省"实质性开始"地位</strong>：永久许可保留，无需重新申请环评；这是开发期项目最关键的监管里程碑',
+     '<strong>主动寻找战略合作伙伴</strong>：CEO Rudi Fronk明确表示不会自建（CapEx $63亿过大），等大型矿企合资或收购；Newmont、Barrick、Glencore是潜在买家'
+   ],
+   logics:[
+     '"地缘最优秀的Tier 1金铜项目"——位于BC省Tier 1管辖区，无政治风险；这种规模+品位+地缘组合的未开发项目全球罕见',
+     '商业模式独特：Seabridge选择"不开发"而是孵化项目至投资决定阶段，然后被大公司收购；公司零债务+持续股权融资完成里程碑',
+     '当前估值约$30亿，相对于KSM PFS NPV $70亿是显著折价(0.4x)；如果出现并购传闻或战略合作伙伴宣布，估值可快速提升'
+   ],
+   risk:'KSM建设CapEx巨大($63亿)，如果没有大型合作伙伴可能永远无法投产；BC省原住民关系复杂；铜+金价格双重敞口下行风险；Seabridge其他项目(Iskut, 3 Aces)规模相对小'},
+
+  {id:'newp',ticker:'NEWP',company:'New Pacific Metals',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'玻利维亚Silver Sand开发',
+   metrics:['市值 ~$1.5B','PEA 32 Moz银/年','13年寿命'],
+   catalysts:[
+     '<strong>Silver Sand项目（玻利维亚）大型未开发银矿</strong>：PEA显示年产银32 Moz、13年寿命、AISC $11/oz银；储量+资源量5亿oz银+',
+     '<strong>与玻利维亚国营COMIBOL合作</strong>：减少地缘风险；玻利维亚是全球第二大银生产国但少有上市投资敞口',
+     '<strong>Carangas项目（玻利维亚）扩展资源</strong>：另一个高品位银矿，处于早期勘探阶段；进一步加强玻利维亚业务版图'
+   ],
+   logics:[
+     '"玻利维亚白银纯敞口"——玻利维亚本国白银矿企很少在NYSE上市，NEWP是少数提供该国白银暴露的标的',
+     '银价超级牛市中，纯白银开发商弹性最高；如Silver Sand按计划2028-2029年投产，可能成为全球最大单矿之一',
+     'PEA经济性极佳(NPV $1B+ at $25/oz银)，按当前银价$80+ NPV远高于市值'
+   ],
+   risk:'玻利维亚地缘风险高（国有化历史+频发政变+外汇管制）；项目仍在PEA阶段（DFS未发布），CapEx估算可能上调；玻利维亚电力/物流基础设施薄弱；与COMIBOL分成模式分散收益'},
+
+  {id:'thm',ticker:'THM',company:'International Tower Hill Mines',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'阿拉斯加Livengood·北美最大未开发金矿之一',
+   metrics:['市值 ~$688M','13.6M oz黄金资源','261.6M流通股·股价 $2.53'],
+   catalysts:[
+     '<strong>2026年1月完成$1.148亿超额认购融资</strong>：包括$7,480万公开发行(33.67M股@$2.22)+$4,000万Paulson私募+$330万额外认购；这是公司历史上最大融资,资金充足推进可行性研究+环评+土地支付,预计可覆盖2026-2028年开支',
+     '<strong>Livengood项目13.6M oz黄金资源</strong>：北美最大非主流公司持有的纯金矿床；位于阿拉斯加费尔班克斯北70英里,沿铺装公路可达,基础设施成熟；2023年PFS显示NPV $23.5亿(金价$2,500下)、IRR 18.5%、回收期3.9年;**金价$5,000下NPV超$70亿**',
+     '<strong>2026年2月任命Andrew Cole进入董事会</strong>：前Donlin Gold项目总经理(获得了关键许可证)、Barrick Goldstrike矿前总经理；强化了项目执行+许可证经验。同年BMO第35届全球矿业大会上,CEO Karl Hanneman公开宣布"进入新开发阶段"',
+     '<strong>2026年3月启动可行性研究(FS)</strong>：基于2023 PFS的更新经济性研究,预计2027年完成;FS数据将基于当前金价($5,000)重新建模,IRR可能从18.5%升至30%+'
+   ],
+   logics:[
+     '<strong>"Donlin的姊妹项目"</strong>——Paulson基金同时持有NG的Donlin 40%和THM的Livengood ~35%,这两个阿拉斯加大型金矿协同开发是其策略核心;可能利用相似的物流/许可基础设施',
+     '<strong>多重顶级机构股东叠加</strong>:Paulson & Co.(对冲基金巨头)+Electrum Group(矿业资源集中投资)+Sprott Inc.(黄金信仰投资人)+Kopernik Global Investors;这种"Smart Money 集体重仓"在矿业开发期股中极为罕见',
+     '<strong>金价杠杆效应巨大</strong>——按$45 billion储量价值(13.6 Moz × $5,000),相对$1.93亿初始CapEx的回报率非线性放大;Livengood的"低品位+大规模+露天"模式在金价高位下经济性最强',
+     '<strong>战略矿产副产品</strong>:Livengood矿石含锑(antimony)副产品,可受益美国战略矿产政策;与Stibnite项目(PPTA)逻辑相似但金资源规模约为3倍',
+     '<strong>位于Tintina黄金带</strong>:与Kinross的Fort Knox矿(已生产900万oz黄金)、Pogo矿、Donlin等北美最大金矿都在同一矿带;地质背景顶级'
+   ],
+   risk:'阿拉斯加偏远地理位置CapEx巨大($19亿初始);项目历史上多次因金价下跌停滞(2017年研究显示低金价不经济);FS仍需完成、然后是许可证(2-3年)、然后建设(3-4年),首产至少要5-7年;品位较低(0.6 g/t)使大规模投资风险高;股本极大(261.6M股)反映多年稀释历史,未来仍有再融资可能'},
+
+  {id:'dc',ticker:'DC',company:'Dakota Gold',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'南达科他Homestake历史矿区',
+   metrics:['市值 ~$1.5B','Richmond Hill PFS 2026 Q2','2029首产'],
+   catalysts:[
+     '<strong>Richmond Hill项目PFS即将发布</strong>：2026年Q1-Q2完成PFS；位于私人土地上，无联邦许可程序，可显著加快开发；目标2029年首产',
+     '<strong>位于Homestake历史金矿区</strong>：该区从1876年到2002年累计产量超4,000万oz黄金，是北美最大金矿之一；Dakota Gold控制大量历史矿权和地质数据',
+     '<strong>CEO Robert Quartermain背景</strong>：Pretium Resources创始人(Brucejack金矿)，成功开发并卖给Newcrest；执行力极强'
+   ],
+   logics:[
+     '"美国本土+私人土地"双重优势——避免了联邦土地的NEPA环评程序(通常需要10-15年)，3年内首产是NYSE/Nasdaq开发期股中最快的',
+     'Homestake历史矿区有大量未开采矿体被前矿主放弃（因当时金价低）；当前金价下经济性完全不同',
+     '位于南达科他州Lead，是美国最古老的金矿区之一；现有基础设施(电力、道路、水)完善'
+   ],
+   risk:'仍在PFS阶段，DFS和融资仍需完成；矿石品位较低(0.5-1 g/t)需要大规模露天采+堆浸；CEO之前Pretium成功不保证Dakota也成功；建设期仍可能延期'},
+
+  {id:'usau',ticker:'USAU',company:'U.S. Gold Corp',exchange:'Nasdaq',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'怀俄明CK Gold·FS已完成',
+   metrics:['市值 ~$0.28B','CK储量1.67M AuEq oz','AISC $937·FS NPV $1.30B(现货)'],
+   catalysts:[
+     '<strong>2026年3月31日FS完成</strong>：CK Gold项目(怀俄明，Cheyenne 20英里西)，储量1.672M AuEq oz、AISC $937/oz、PFS NPV $4.59亿；2026年开建、2027-2028年首产',
+     '<strong>怀俄明州唯一全许可、可立即建设的金铜项目</strong>：100%州属土地，无NEPA联邦环评，5年完成许可（同类项目通常需10-15年）；该许可不可复制',
+     '<strong>FS之外仍有约90万AuEq oz矿体未纳入开发计划</strong>：通过未来许可调整可纳入；金回收率从~70%提升至~95%通过氰化浸出，可增加~25万oz可回收金'
+   ],
+   logics:[
+     '"美国战略矿产政策的最大受益者之一"——CK Gold是少数完全许可、立即可建的美国金矿；当前金价$5,000+下PFS NPV远高于$4.59亿(可能达$15-20亿)',
+     '小盘($2.8亿市值)+清晰开发路径+低执行风险=高弹性；如果首产按计划2027-2028年实现，估值可能5-10倍',
+     '副产品含铜(20-30%收入)，铜价高位下进一步增强经济性；位于怀俄明东南部，紧邻基础设施(I-80, 30 MW电力, 1.5小时到丹佛)'
+   ],
+   risk:'CK Gold需要建设资本约$2.4亿(管理层称"manageable")，对$2.8亿市值公司来说仍需重大融资；副产品铜价波动；矿区品位较低(露天)需大规模开采；过去公司多次稀释股本'},
+
+  {id:'pzg',ticker:'PZG',company:'Paramount Gold Nevada',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'内华达Sleeper高品位历史金矿',
+   metrics:['市值 ~$0.2B','5,400万吨堆浸资源','Sleeper IA 2026 Q2'],
+   catalysts:[
+     '<strong>Sleeper Gold项目(内华达Humboldt县)</strong>:历史高品位金矿(已生产),Paramount 100%所有权;2026年4月启动SEC S-K 1300初步评估(IA),预计2026年Q2末完成',
+     '<strong>分阶段堆浸开发方案</strong>:不再追求大规模硬岩开采,转向低成本堆浸只:5,400万吨经济材料+oxide混合矿,大幅降低初始CapEx',
+     '<strong>历史矿权区+大土地包+多百万oz资源量</strong>:位于内华达"世界级矿业管辖区";SLR担任合格人(Forte Dynamics提供浸出动力学专长)'
+   ],
+   logics:[
+     '"小市值美国本土历史矿重启"——市值仅$2亿,但占有Sleeper这样的Tier-1资产;"小盘+早期阶段+清晰催化剂"组合具备高弹性',
+     'Q2 2026 IA发布是关键定价锚——如经济性强劲(NPV+IRR双指标好),股价可能2-3倍重估',
+     '相对其他开发期股(USAU $2.8亿、SA $35亿、HYMC $37亿),PZG估值最便宜的内华达开发期标的'
+   ],
+   risk:'IA是初步评估而非PFS/DFS,经济性数据不严格;矿石品位有限(转向低品位堆浸);Sleeper历史关停可能反映原项目经济性不佳;融资稀释风险高(市值小+CapEx需求未知)'},
+
+  {id:'vgz',ticker:'VGZ',company:'Vista Gold',exchange:'NYSE American',color:'t-restart',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-restart',tagText:'澳洲Mt Todd大型金矿',
+   metrics:['市值 ~$0.4B','FS NPV $1.1B','Mt Todd澳洲'],
+   catalysts:[
+     '<strong>Mt Todd项目(澳洲北领地)2025年7月完成新FS</strong>:15,000 tpd规模,税后NPV $11亿(@$2,500金价),IRR 27.8%;按$3,000-3,300金价NPV升至$22亿,IRR ~45%',
+     '<strong>2026年3月完成 $4,485万 增发</strong>:超额认购,机构需求强劲;现金升至 $5,550万;无债务,可独立推进2026工作计划',
+     '<strong>2027年初启动详细工程设计</strong>:之后27个月建设期,2029-2030年首产;LOM AISC ~$1,500/oz(中等成本),首15年AISC ~$1,450/oz'
+   ],
+   logics:[
+     '"澳洲Tier-1管辖区+大型未开发项目"——Mt Todd规模可扩展(15,000 → 22,500 → 30,000 → 45,000 tpd),为大型矿企收购预留空间',
+     '当前市值$4亿 vs 同行澳洲初级金矿生产商市值$10亿+(SLR re-rating opportunity);CEO Earnest明确表示当前价位反映折价,预期升级估值',
+     '基础设施完善(铺装路+天然气管道+电力线+水库+尾矿设施),可大幅缩短建设期;Wheaton Precious Metals已签流权利金协议,锁定部分融资'
+   ],
+   risk:'FS基于$2,500金价,如果金价回调影响估值;澳洲监管虽稳但许可证仍需2026完成;CapEx融资约65-70%债务+30-35%股权,稀释风险存在;144.9M股本数量大(与之前融资有关)'},
+
+  /* ─── 白银矿企 SILVER MINERS ─── */
+  {id:'paas',ticker:'PAAS',company:'Pan American Silver',exchange:'Nasdaq',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'最大综合白银+Juanicipio',
+   metrics:['市值 ~$24B','26Q1收入$11.54亿(+49%)·净利润$4.56亿','26Q1银AISC $6.63/oz·现金创纪录$18亿'],
+   catalysts:[
+     '<strong>26Q1全面超预期</strong>：收入$11.54亿(+49% YoY)、净利润$4.56亿($1.08/股，+171%)、调整EPS $1.09超预期$1.03；FCF $4.88亿；现金+短期投资创纪录$18亿；银价均价$89.43/oz、金价$4,859/oz',
+     '<strong>银段AISC仅$6.63/oz</strong>：较2025Q1 $13.88大幅下降，主要受益于Juanicipio-$3.05/oz超低AISC+Cerro Moro高品位贡献；金段AISC $1,851因多矿维修资本支出升高',
+     '<strong>Juanicipio(44%权益)Q1贡献$8,800万权益净利润+175万oz白银</strong>：Fresnillo运营稳定；2026年全年Juanicipio完整贡献是最大业绩增量',
+     '<strong>股东回报框架升级至$10亿总回报计划</strong>：包括回购+股息；La Colorada Skarn更新PEA批准$2.65亿五年开发预算(588 Decline扩建)'
+   ],
+   logics:[
+     'PAAS是"白银+黄金双牛"最大受益的综合矿企；银AISC仅$6.63/oz对比银价$89.43/oz，毛利率92%；Juanicipio"皇冠资产"完整年贡献是2026年核心alpha来源',
+     '金银比由约80向长期均值65修复，白银相对升值将显著放大PAAS白银段盈利；$18亿现金为La Colorada Skarn+Escobal潜在重启提供资本',
+     '机构首选综合银矿配置标的：$30B市值+全球多元化+Juanicipio世界级资产；估值EV/EBITDA ~8x相对合理'
+   ],
+   risk:'金段AISC $1,851/oz偏高；墨西哥资产占比约60%，矿业税收政策持续收紧；Escobal(危地马拉)重启时间表仍不确定；La Colorada Skarn建设资本$2.65亿再融资可能稀释'},
+
+  {id:'ag',ticker:'AG',company:'First Majestic Silver',exchange:'NYSE',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'最纯白银玩家',
+   metrics:['市值 ~$8B','2025收入$1.26B(+124%)·银15.4Moz(+84%)','现金$9.38亿(创纪录)'],
+   catalysts:[
+     '<strong>白银收入占比80%+</strong>，是上市公司中最纯的白银生产商；银价上涨时弹性最大',
+     '<strong>Jerritt Canyon（内华达）重启</strong>：曾是公司最大金矿，2023年因品位问题停产；2025-2026年重启可贡献10万oz金',
+     '<strong>2025年Q4产量同比+30%</strong>：San Dimas和Santa Elena两个旗舰矿产能持续释放'
+   ],
+   logics:[
+     '白银/黄金比当前~80（历史均值65），白银相对低估；银价向上修复对AG的收入弹性最大（80% vs PAAS 35-40%）',
+     '光伏行业银需求持续增长（每GW光伏需要约30吨银），叠加EV、电子设备需求，银的工业基本面强于黄金',
+     '小规模意味着任何利好都可能引发剧烈反弹（贝塔约2倍）'
+   ],
+   risk:'墨西哥矿业税务环境恶化（2024年新增多项税费）；CEO Keith Neumeyer的并购纪律有时被质疑；纯银敞口意味着银价回调时跌幅最大'},
+
+  {id:'hl',ticker:'HL',company:'Hecla Mining',exchange:'NYSE',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'美国最老白银矿',
+   metrics:['市值 ~$13B','26Q1收入$4.11亿(持续经营+100% YoY)','26Q1 FCF创纪录$1.44亿·EBITDA $2.65亿'],
+   catalysts:[
+     '<strong>26Q1创纪录结果(持续经营)</strong>：收入$4.11亿(+100% YoY)、净利润$1.65亿($0.25/股)、调整EBITDA $2.65亿(持续经营+230% YoY)、FCF $1.44亿(创纪录)；所有在产矿均贡献FCF',
+     '<strong>2026年3月25日完成出售Casa Berardi(魁北克金矿)</strong>：剥离非核心资产，"纯化"为美国+加拿大银矿公司；现金余额升至$5.88亿；Casa Berardi出售产生$1.92亿非现金减值但与运营无关',
+     '<strong>Keno Hill(育空)银矿爬产</strong>：2024年收购，2026-2027年完全爬产后贡献~400万oz银/年；2026E银产量~17 Moz，P&P储量231 Moz',
+     '<strong>Lucky Friday(爱达荷)恢复满产+Greens Creek(阿拉斯加)稳定</strong>：2025年罢工解决后产量快速回升；美国本土核心资产享受地缘溢价'
+   ],
+   logics:[
+     '"美国本土银矿"在地缘风险升温下享受溢价——Casa Berardi出售后，美国+加拿大资产占NAV 95%+，几乎无地缘风险；FCF $1.44亿单季创纪录证明盈利能力',
+     '历史悠久(1891年)，美国最古老贵金属矿企；Greens Creek(阿拉斯加)30+年寿命；银储备231 Moz是行业最大美国本土储量之一；2026E EBITDA预计超$8亿',
+     '剥离Casa Berardi后战略更聚焦：纯白银定位+美国资产+Keno Hill增长；银价超级牛市下FCF杠杆显著'
+   ],
+   risk:'26Q1含Casa Berardi $1.92亿非现金减值导致GAAP亏损(-$0.03/股)；Keno Hill爬产期资本支出仍高；估值已包含质量溢价；产量需持续执行2026全年指引'},
+
+  {id:'cde',ticker:'CDE',company:'Coeur Mining',exchange:'NYSE',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'美洲多元化银金',
+   metrics:['市值 ~$14B','26Q1收入$8.56亿·EBITDA $4.75亿(创纪录)','26Q1现金$8.43亿(+11倍YoY)'],
+   catalysts:[
+     '<strong>26Q1 EBITDA $4.75亿创纪录</strong>：环比+12%、同比+4倍；收入$8.56亿含New Afton+Rainy River新矿11天贡献；FCF $2.67亿(公司历史第二高)；现金$8.43亿(+11倍YoY)',
+     '<strong>银产量+18%、金产量+11% YoY</strong>：Las Chispas(墨西哥)+Rochester(内华达)双引擎；26全年指引75万oz金+2,000万oz银+6,000万磅铜维持不变',
+     '<strong>2025年底收购New Afton(BC)+Rainy River(安大略)</strong>：大幅提升加拿大资产比重+增加铜副产品组合；铜预期贡献6,000万磅/年',
+     '<strong>债务持续快速下降</strong>：2023年高峰~$5亿降至可控水平；Las Chispas(墨西哥)世界级低成本银矿是核心现金牛'
+   ],
+   logics:[
+     '"双击+并购整合"三重驱动：Las Chispas降本+Rochester满产+New Afton铜副产品；26Q1 EBITDA同比4倍暴涨验证了并购逻辑；FCF $2.67亿单季历史第二',
+     '资产分布美国(Rochester/Wharf/Kensington)+墨西哥(Palmarejo/Las Chispas)+加拿大(New Afton/Rainy River)；地缘分散且铜副产品对冲成本',
+     '业务平衡(约50%银+50%金+铜)：银价弹性+金价基础+铜工业价值三重组合；26Q1现金$8.43亿提供未来并购/回购弹药'
+   ],
+   risk:'New Afton+Rainy River整合风险(收购仅完成11天即计入Q1)；墨西哥矿业税务压力对Las Chispas影响；并购历史评价mixed；管理层执行力仍在被观察'},
+
+  {id:'exk',ticker:'EXK',company:'Endeavour Silver',exchange:'NYSE',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'Terronera满产+Kolpa扩产·Q1暴增',
+   metrics:['市值 ~$2.5B','26Q1收入$209.7M(+230% YoY)·AgEq 3.34 Moz(+78%)','Terronera AISC $22.31/oz·现金$231.8M'],
+   catalysts:[
+     '<strong>26Q1全面破纪录</strong>：收入$209.7M（vs Q1 2025 $63.5M，+230%）；银产量1.875M oz+金11,740 oz合计AgEq 3.34M oz（+78% YoY）；矿场经营利润$93.5M（Q1 2025: $12.9M）；净利润$64.9M含Bolañitos出售$35.6M收益',
+     '<strong>Terronera（墨西哥）已接近设计满产</strong>：26Q1贡献$38.4M经营利润；<strong>cash cost负$2.14/oz、AISC $22.31/oz</strong>——金副产品credits后超低成本，是行业最优秀的银矿资产之一；将在2026年下半年继续爬产',
+     '<strong>Kolpa（秘鲁）扩产完成</strong>：3月新破碎机+14×24球磨机投运，2026 Q2起处理量2,500 tpd；26Q1贡献53万oz银+铅锌副产品；AISC $36.12/oz；2026年共$26.5M投入',
+     '<strong>Pitarrilla（墨西哥）2026年推进可研</strong>：2026年总投入$65.8M（FS $15M+勘探$2.8M+CapEx $48M）；如FS积极，2027-2028年建设决定，2030年投产可使公司产量翻倍至15M+ oz银/年',
+     '<strong>2026全年指引：银8.3-8.9 Moz + 金46-48k oz</strong>；CapEx $157.8M（$65.8M Pitarrilla + $26.5M Kolpa + 其他）'
+   ],
+   logics:[
+     '"白银爬产+多元化"——从单矿企（Guanaceví+Bolañitos）转型为多矿组合：Terronera（墨西哥，新满产）+Guanaceví（墨西哥，老矿）+Kolpa（秘鲁，2024收购）+Pitarrilla（墨西哥，开发期）；公司性质从小盘高弹性升级为中型生产商',
+     '银价上涨弹性最大的中型标的之一：Terronera AISC $22.31 vs 银价$73-89——单位毛利率$50+/oz，每多产1 Moz银就是$50M+ EBITDA增量；金属价格继续上行下，盈利非线性放大',
+     'Bolañitos出售（$35.6M收益）实现资产组合优化；现金$231.8M为Pitarrilla开发提供初始资本，无需股权稀释；CEO Dan Dickson团队持续兑现里程碑（Terronera 2024投产→Kolpa收购+扩产→Pitarrilla推进）'
+   ],
+   risk:'墨西哥矿业税务恶化对纯墨西哥风险敞口（占60%）打击大；Guanaceví AISC $48.47偏高（第三方矿石占27%）；Kolpa受Huancavelica（秘鲁）异常降雨影响Q1爬产；Pitarrilla CapEx估计$2.7亿，规模大需要分阶段融资；银价回调风险敞口最大'},
+
+  {id:'svm',ticker:'SVM',company:'Silvercorp Metals',exchange:'NYSE American',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'中国白银+铅锌主导',
+   metrics:['市值 ~$2B','中国Ying矿群','银+铅+锌混合'],
+   catalysts:[
+     '<strong>河南Ying矿群（中国）持续运营</strong>：公司主力矿，年产约6 Moz银+30k吨铅+10k吨锌；25+年开采寿命',
+     '<strong>厄瓜多尔Condor项目开发</strong>：高品位金银矿，规模化转向南美；2026-2028年开发推进',
+     '<strong>2024年完成对Adventus Mining收购</strong>：获得厄瓜多尔El Domo铜锌金银项目；多元化国家+矿种'
+   ],
+   logics:[
+     '"中国白银纯敞口的少数标的"——美股中提供中国境内矿业敞口的标的极少；SVM是其中规模最大、合规最完整的',
+     '银价+铅锌价格三重敞口：当工业金属（铅锌）和银价同时上涨时，SVM现金流非线性放大',
+     '中国矿业管辖区在矿业法律上稳定，但作为外资公司运营有管理复杂度；过去20年成功运营记录支持'
+   ],
+   risk:'中美关系恶化可能影响海外资金对中国资产的兴趣；中国矿业税收和环保要求逐步收紧；汇率（人民币）波动；厄瓜多尔Condor项目地缘风险'},
+
+  {id:'usas',ticker:'USAS',company:'Americas Gold and Silver',exchange:'NYSE American',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'北美多金属·重组中',
+   metrics:['市值 ~$2.1B','2025收入$118M','2026E银 3.2-3.6 Moz·322M流通股'],
+   catalysts:[
+     '<strong>Galena Complex（爱达荷州，美国）重启升级</strong>：百年历史银铅矿，正在进行机械化升级；目标2026-2027年成为公司主要现金流来源',
+     '<strong>Cosalá运营（墨西哥）持续优化</strong>：San Rafael矿生产银+锌+铅；EC120项目可能扩建增加产能',
+     '<strong>2024年Paul Huet（前Karora CEO）任CEO</strong>：被市场视为正面信号，他在Karora成功带领股价从$1涨到被收购的$0.74加币(C$股)'
+   ],
+   logics:[
+     '"困境反转的小盘多金属"——市值~$21亿，过去5年股价跌80%+后2024-2025年大幅反弹，2024年新CEO Paul Huet执行重组计划',
+     '美国Galena Complex是关键资产——美国本土矿业资产享受"国家安全溢价"；爱达荷州正成为关键矿产中心(参考PPTA Stibnite)',
+     '小盘高弹性：体量不大，任何业务好消息都可能引发剧烈反弹'
+   ],
+   risk:'高执行风险（重组中公司）；持续融资稀释股东（市值小但CapEx需求大）；多金属敞口意味着多个商品价格同时变动影响巨大；管理层近期变动多'},
+
+  {id:'goro',ticker:'GORO',company:'Gold Resource Corp',exchange:'NYSE American',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'墨西哥小盘·银主导转型',
+   metrics:['市值 ~$0.3B','Don David矿','Q4银售$55/oz·金售$4,234'],
+   catalysts:[
+     '<strong>2025年Q4运营反转成功</strong>：销售白银66.35万oz（创纪录）+黄金1,785 oz，季度AuEq总产量10,413 oz；占全年产量45%；标志着Don David矿运营从困境走向恢复',
+     '<strong>Three Sisters高品位矿体投产</strong>：2025年下半年开始，NSR价值$1,512/吨（高于模型129%）；2026年银生产占比预计40%来自该矿体；产品组合从金主导转型为银主导',
+     '<strong>2025年底现金$2,500万、零债务</strong>：成功的运营反转下资产负债表大幅改善；准备推进密歇根州Back Forty项目作为下一个增长点'
+   ],
+   logics:[
+     '"困境反转+银价杠杆"双重逻辑——2024年股价跌至$0.30以下，2025年Q4反弹反映成功反转；当前市值仅$3亿，对银价超级周期高弹性',
+     'Q4 2025实际银售价$55/oz、金售价$4,234/oz——所有金属价格上涨直接放大利润率；过去年报告平均售价远低于此',
+     'Back Forty项目(密歇根)是潜在美国本土增长引擎，符合"美国本土战略矿产"主题；CEO Allen Palmiere之前在多家中型矿企任职，执行力可靠'
+   ],
+   risk:'Oaxaca非法封锁事件历史(2026年初仍发生)反映当地社区关系复杂；规模极小（年产仅~2.3万AuEq oz）；如银价回调影响极大；Back Forty项目进展缓慢'},
+
+  {id:'asm',ticker:'ASM',company:'Avino Silver & Gold Mines',exchange:'NYSE American',color:'t-silver',
+   m1:null,m3:null,ytd:null,
+   tag:'tag-silver',tagText:'墨西哥Durango·扩产中型银矿',
+   metrics:['市值 ~$1.1B','2025收入 $92.2M','现金 $101.7M'],
+   catalysts:[
+     '<strong>2025年财务创纪录</strong>：收入 $9,220万(+39% YoY)，净利润 $2,660万，现金从 $5,500万增至 $1.017亿；过去12月股价 +250%',
+     '<strong>La Preciosa 项目爬产</strong>：2025年开始开发期物料处理；是墨西哥最大未开发原生银矿之一；2025年回购权利金获得 100% 所有权',
+     '<strong>三矿增长计划</strong>：从1个生产矿(Avino)扩展到3个；2026年指引 2.4-2.7M AgEq oz；分析师共识目标价 $9.88(50%上行空间)'
+   ],
+   logics:[
+     '"中型稳健生产+扩产引擎"——区别于纯生产商和纯开发商,ASM兼具两者优势:有现金流支撑+有清晰增长路径;2025年 EBITDA 转正后估值范式从开发期股转向生产商',
+     '银+金+铜三重金属敞口:2025年产 1.16 Moz Ag + 7,621 oz Au + 5.67 Mlb Cu;铜副产品在当前铜价高位下显著降低单位银成本',
+     '财务质量极优:零债务+$1亿现金+创纪录利润;FY2026 EPS 共识 $0.31(净利润预计$15-44M),P/E 仅 18-30x,在白银生产商中估值合理'
+   ],
+   risk:'墨西哥矿业税收政策恶化对ASM这种纯墨西哥公司打击大;La Preciosa爬产时间表延期可能;过去12月涨250%后估值已不便宜;铜价回调影响成本端'}
+
+];
+
+// ── 渲染函数 ──
+function buildCard(d){
+  const dc=DOT_CLASS[d.color];
+  const cats=d.catalysts.map(c=>`<div class="item"><div class="dot ${dc}"></div><div class="itext">${c}</div></div>`).join('');
+  const logs=d.logics.map(l=>`<div class="item"><div class="dot ${dc}"></div><div class="itext">${l}</div></div>`).join('');
+  const metrics=(d.metrics||[]).map(m=>`<span class="metric">${m}</span>`).join('');
+  
+  const fmtPerf=(v)=>{
+    if(v===null||v===undefined||v===''||isNaN(v))return '<span class="pvalue flat">—</span>';
+    const num=parseFloat(v);
+    if(num>0)return `<span class="pvalue up">+${num}</span>`;
+    if(num<0)return `<span class="pvalue down">${num}</span>`;
+    return `<span class="pvalue flat">${num}</span>`;
+  };
+  
+  return `<div class="card" draggable="true" data-id="${d.id}"
+    ondragstart="onDragStart(event)" ondragover="onDragOver(event)"
+    ondrop="onDrop(event)" ondragend="onDragEnd(event)" ondragleave="onDragLeave(event)">
+    <div class="drag-handle"><span></span><span></span><span></span></div>
+    <div class="card-grid">
+      <div class="card-header">
+        <div class="card-top">
+          <div>
+            <span class="ticker ${d.color}">${d.ticker}</span>
+            <div class="company">${d.company}</div>
+            <div class="exchange">${d.exchange||''}</div>
+          </div>
+        </div>
+        <span class="theme-tag ${d.tag}">${d.tagText}</span>
+        ${metrics?`<div class="metric-row">${metrics}</div>`:''}
+      </div>
+      <div class="card-section">
+        <div class="slabel">核心催化剂 / 未来增量</div>
+        <div class="items">${cats}</div>
+      </div>
+      <div class="card-section">
+        <div class="slabel">推荐逻辑 / AISC 路径</div>
+        <div class="items">${logs}</div>
+      </div>
+    </div>
+    <div class="card-risk-row">
+      <div class="risk"><strong>主要风险：</strong>${d.risk}</div>
+      <div class="perf-mini">
+        <span class="perf-tag"><span class="plabel">近1月</span>${fmtPerf(d.m1)}</span>
+        <span class="perf-tag"><span class="plabel">近3月</span>${fmtPerf(d.m3)}</span>
+        <span class="perf-tag"><span class="plabel">YTD</span>${fmtPerf(d.ytd)}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTabs(){
+  const tabsHtml=CATEGORIES.map(cat=>{
+    const count=cat.key==='all'?CARDS.length:CARDS.filter(c=>c.tag===cat.key).length;
+    if(count===0&&cat.key!=='all')return '';
+    const active=currentCategory===cat.key?'active':'';
+    return `<button class="cat-tab ${active}" data-cat="${cat.key}" onclick="setCategory('${cat.key}')">
+      <span class="tab-dot" style="background:${cat.dotColor}"></span>
+      ${cat.label}
+      <span class="tab-count">${count}</span>
+    </button>`;
+  }).join('');
+  
+  const sortLabel={m1:'近1月',m3:'近3月',ytd:'YTD'};
+  const sortBtn=(key,label)=>{
+    const isActive=currentSort===key;
+    const arrow=isActive?(currentSortDir==='desc'?'↓':'↑'):'';
+    return `<button class="sort-btn ${isActive?'active':''}" onclick="setSort('${key}')">${label}<span class="sort-arrow">${arrow}</span></button>`;
+  };
+  
+  const sortHtml=`
+    <div class="sort-controls">
+      <span class="sort-label">排序：</span>
+      <button class="sort-btn ${currentSort==='default'?'active':''}" onclick="setSort('default')">默认</button>
+      ${sortBtn('m1','近1月')}
+      ${sortBtn('m3','近3月')}
+      ${sortBtn('ytd','YTD')}
+    </div>
+  `;
+  
+  document.getElementById('categoryTabs').innerHTML=tabsHtml+sortHtml;
+}
+
+function setCategory(cat){
+  currentCategory=cat;
+  renderTabs();
+  renderCards();
+}
+
+function setSort(s){
+  if(s==='default'){
+    currentSort='default';
+    currentSortDir='desc';
+  }else if(currentSort===s){
+    // 相同排序键：切换方向
+    currentSortDir=currentSortDir==='desc'?'asc':'desc';
+  }else{
+    // 切换到新的排序键：默认降序
+    currentSort=s;
+    currentSortDir='desc';
+  }
+  renderTabs();
+  renderCards();
+}
+
+// ── 搜索 ──
+function onSearchInput(e){
+  searchKeyword=e.target.value.trim().toLowerCase();
+  document.getElementById('searchClear').classList.toggle('visible',searchKeyword.length>0);
+  renderCards();
+}
+
+function clearSearch(){
+  searchKeyword='';
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchClear').classList.remove('visible');
+  renderCards();
+}
+
+// 检查 card 是否匹配搜索关键词
+function matchesSearch(card,kw){
+  if(!kw)return true;
+  const haystack=[
+    card.ticker,
+    card.company,
+    card.exchange||'',
+    card.tagText||'',
+    (card.metrics||[]).join(' '),
+    (card.catalysts||[]).join(' '),
+    (card.logics||[]).join(' '),
+    card.risk||''
+  ].join(' ').toLowerCase();
+  // 移除 HTML 标签以避免误匹配
+  const cleaned=haystack.replace(/<[^>]+>/g,' ');
+  return cleaned.includes(kw);
+}
+
+function renderCards(){
+  // 1. 分类筛选
+  let filtered=currentCategory==='all'?CARDS.slice():CARDS.filter(c=>c.tag===currentCategory);
+  
+  // 2. 搜索筛选
+  if(searchKeyword){
+    filtered=filtered.filter(c=>matchesSearch(c,searchKeyword));
+  }
+  
+  // 3. 排序
+  if(currentSort!=='default'){
+    const dir=currentSortDir==='desc'?-1:1;
+    filtered.sort((a,b)=>{
+      const av=a[currentSort],bv=b[currentSort];
+      // 缺失值始终放在最后
+      const aMissing=(av===null||av===undefined||av==='');
+      const bMissing=(bv===null||bv===undefined||bv==='');
+      if(aMissing&&bMissing)return 0;
+      if(aMissing)return 1;
+      if(bMissing)return -1;
+      return (parseFloat(av)-parseFloat(bv))*dir;
+    });
+  }
+  
+  // 4. 渲染搜索结果信息
+  const info=document.getElementById('searchInfo');
+  if(searchKeyword){
+    info.style.display='block';
+    info.innerHTML=`搜索 "<strong>${escapeHtml(searchKeyword)}</strong>" — 命中 <strong>${filtered.length}</strong> 只 / 共 ${CARDS.length} 只`;
+  }else{
+    info.style.display='none';
+  }
+  
+  // 5. 渲染卡片或无结果提示
+  if(filtered.length===0){
+    document.getElementById('cardGrid').innerHTML=`<div class="no-results">
+      ${searchKeyword?`未找到匹配 "${escapeHtml(searchKeyword)}" 的标的，请尝试其他关键词`:'当前筛选下没有标的'}
+    </div>`;
+  }else{
+    document.getElementById('cardGrid').innerHTML=filtered.map(buildCard).join('');
+  }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+renderTabs();
+renderCards();
+
+// ── 拖动 ──
+let dragSrcId=null;
+function onDragStart(e){dragSrcId=e.currentTarget.dataset.id;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move'}
+function onDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.classList.add('drag-over')}
+function onDragLeave(e){e.currentTarget.classList.remove('drag-over')}
+function onDragEnd(e){document.querySelectorAll('.card').forEach(c=>c.classList.remove('dragging','drag-over'))}
+function onDrop(e){
+  e.preventDefault();
+  const tid=e.currentTarget.dataset.id;
+  if(!tid||tid===dragSrcId)return;
+  const si=CARDS.findIndex(c=>c.id===dragSrcId),ti=CARDS.findIndex(c=>c.id===tid);
+  if(si<0||ti<0)return;
+  const tmp=CARDS.splice(si,1)[0];
+  CARDS.splice(ti,0,tmp);
+  renderCards();
+}
+
+// ── Toast ──
+function toast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type==='error'?'error':type==='success'?'success':'')+' show';
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── 下载模板 ──
+function switchATab(key, btn){
+  document.querySelectorAll('.apanel').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('apanel-'+key).classList.add('show');
+  btn.classList.add('active');
+}
+
+function downloadTemplate(){
+  const data=[
+    ['ticker','company','m1_pct','m3_pct','ytd_pct'],
+    ['说明','请填入数字（涨幅%），保留小数点前数字（如+15、-8、120）','正数=涨','负数=跌','留空=暂无数据'],
+    ...CARDS.map(c=>[c.ticker,c.company,c.m1??'',c.m3??'',c.ytd??''])
+  ];
+  
+  const ws=XLSX.utils.aoa_to_sheet(data);
+  
+  // 设置列宽
+  ws['!cols']=[
+    {wch:12},{wch:30},{wch:12},{wch:12},{wch:12}
+  ];
+  
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'涨幅数据');
+  
+  XLSX.writeFile(wb,'美股金银矿股_涨幅数据模板.xlsx');
+  toast('模板已下载，请填写后上传','success');
+}
+
+// ── 上传涨幅数据 ──
+function handleUpload(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  
+  const reader=new FileReader();
+  reader.onload=function(evt){
+    try{
+      const data=new Uint8Array(evt.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      
+      // 找到表头行（包含ticker的行）
+      let headerIdx=-1;
+      for(let i=0;i<rows.length;i++){
+        const row=rows[i].map(v=>String(v).toLowerCase().trim());
+        if(row.includes('ticker')){
+          headerIdx=i;
+          break;
+        }
+      }
+      
+      if(headerIdx===-1){
+        toast('未找到表头行（需包含"ticker"列）','error');
+        return;
+      }
+      
+      const headers=rows[headerIdx].map(v=>String(v).toLowerCase().trim());
+      const tickerCol=headers.indexOf('ticker');
+      const m1Col=headers.findIndex(h=>h==='m1_pct'||h==='近1月'||h==='近一月'||h==='1m');
+      const m3Col=headers.findIndex(h=>h==='m3_pct'||h==='近3月'||h==='近三月'||h==='3m');
+      const ytdCol=headers.findIndex(h=>h==='ytd_pct'||h==='今年以来'||h==='ytd');
+      
+      let updated=0,notFound=[];
+      
+      for(let i=headerIdx+1;i<rows.length;i++){
+        const row=rows[i];
+        if(!row[tickerCol])continue;
+        
+        const ticker=String(row[tickerCol]).trim().toUpperCase();
+        // 跳过说明行
+        if(ticker==='说明'||ticker.length>10)continue;
+        
+        const card=CARDS.find(c=>c.ticker.toUpperCase()===ticker);
+        if(!card){
+          notFound.push(ticker);
+          continue;
+        }
+        
+        if(m1Col>=0&&row[m1Col]!==''&&row[m1Col]!==null){
+          const v=parseFloat(row[m1Col]);
+          if(!isNaN(v))card.m1=v;
+        }
+        if(m3Col>=0&&row[m3Col]!==''&&row[m3Col]!==null){
+          const v=parseFloat(row[m3Col]);
+          if(!isNaN(v))card.m3=v;
+        }
+        if(ytdCol>=0&&row[ytdCol]!==''&&row[ytdCol]!==null){
+          const v=parseFloat(row[ytdCol]);
+          if(!isNaN(v))card.ytd=v;
+        }
+        
+        updated++;
+      }
+      
+      renderCards();
+      
+      let msg=`成功更新 ${updated} 只股票`;
+      if(notFound.length>0){
+        msg+=`，未找到代码：${notFound.slice(0,3).join(', ')}${notFound.length>3?` 等${notFound.length}个`:''}`;
+      }
+      toast(msg,'success');
+      
+    }catch(err){
+      console.error(err);
+      toast('解析文件失败：'+err.message,'error');
+    }
+    
+    // 清空 input 以允许再次上传同一文件
+    e.target.value='';
+  };
+  
+  reader.onerror=function(){
+    toast('读取文件失败','error');
+  };
+  
+  reader.readAsArrayBuffer(file);
+}
+
+// ── 主题切换 ──
+function toggleTheme(){
+  const isDark=document.body.classList.toggle('dark');
+  const btn=document.getElementById('theme-btn');
+  const icon=document.getElementById('theme-icon');
+  icon.textContent=isDark?'☀️':'🌙';
+  btn.childNodes[1].textContent=isDark?' Light':' Dark';
+  try{localStorage.setItem('theme',isDark?'dark':'light')}catch(e){}
+}
+
+// 记忆主题
+(function(){
+  try{
+    if(localStorage.getItem('theme')==='dark'){
+      document.body.classList.add('dark');
+      document.addEventListener('DOMContentLoaded',()=>{
+        const btn=document.getElementById('theme-btn');
+        const icon=document.getElementById('theme-icon');
+        if(icon)icon.textContent='☀️';
+        if(btn)btn.childNodes[1].textContent=' Light';
+      });
+    }
+  }catch(e){}
+})();
+
+</script>
+</body>
+</html>
