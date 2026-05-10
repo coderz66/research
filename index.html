@@ -159,8 +159,30 @@
   }
   .s-divider { width: 44px; height: 2px; background: var(--amber); margin: 10px 0 22px; }
 
+  /* ── TWO-COLUMN LAYOUT ── */
+  .report-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .report-col-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--amber);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .col-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+
   /* ── REPORT CARDS ── */
-  .report-grid { display: flex; flex-direction: column; gap: 12px; }
+  .report-grid { display: flex; flex-direction: column; gap: 10px; }
 
   .report-card {
     display: flex; align-items: stretch;
@@ -304,83 +326,101 @@
 
   <!-- ── MAIN ── -->
   <main class="main">
-    <div class="s-divider"></div>
+    <div class="report-columns">
 
-    <div class="report-grid" id="report-grid">
-
-      <!-- 美股金银矿股研究 v10 -->
-      <a href="美股研究/资源股研究/美股金银矿股研究_v10.html" class="report-card" data-category="us-equity">
-        <div class="card-accent us-equity"></div>
-        <div class="card-body">
-          <div class="card-meta">
-            <div class="card-type">美股研究 · 资源股</div>
-            <div class="card-title">美股金银矿股研究 v10</div>
-            <div class="card-desc">金银矿股全景梳理 · 估值体系 · 个股对比</div>
-          </div>
-          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
-          <span class="card-arrow">→</span>
+      <!-- 周报 栏 -->
+      <div class="report-col" id="col-weekly">
+        <div class="report-col-header">
+          <span class="col-dot" style="background:#2563EB"></span>
+          周报
         </div>
-      </a>
+        <div class="report-grid">
 
-      <!-- 未开采黄金矿企深度专题 -->
-      <a href="美股研究/资源股研究/未开采黄金矿企深度专题.html" class="report-card" data-category="us-equity">
-        <div class="card-accent us-equity"></div>
-        <div class="card-body">
-          <div class="card-meta">
-            <div class="card-type">美股研究 · 资源股</div>
-            <div class="card-title">未开采黄金矿企深度专题</div>
-            <div class="card-desc">Royalty & Streaming 模式 · 资产期权价值 · 开发阶段矿企梳理</div>
-          </div>
-          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
-          <span class="card-arrow">→</span>
+          <!-- 美股周报 260509 -->
+          <a href="US weekly/美股周报_260509.html" class="report-card" data-category="us-weekly">
+            <div class="card-accent us-weekly"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">US Weekly · 美股周报</div>
+                <div class="card-title">美股周报 — 2026-05-09</div>
+                <div class="card-desc">NDX / SPX 周度归因 · 异动筛选 · 主题供应链健康度</div>
+              </div>
+              <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+
+          <!-- A股映射 260509 -->
+          <a href="US weekly/A股映射_260509.html" class="report-card" data-category="a-share">
+            <div class="card-accent a-share"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">A股研究 · 供应链映射</div>
+                <div class="card-title">A股映射 — 2026-05-09</div>
+                <div class="card-desc">美股主题 → A股供应链映射 · Direct / Indirect / Sentiment 分类</div>
+              </div>
+              <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+
         </div>
-      </a>
+      </div>
 
-      <!-- 金矿点评 -->
-      <a href="美股研究/资源股研究/金矿点评.html" class="report-card" data-category="us-equity">
-        <div class="card-accent us-equity"></div>
-        <div class="card-body">
-          <div class="card-meta">
-            <div class="card-type">美股研究 · 资源股</div>
-            <div class="card-title">中小型金矿研究</div>
-            <div class="card-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理</div>
-          </div>
-          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Quick Note</span></div>
-          <span class="card-arrow">→</span>
+      <!-- 研究 栏 -->
+      <div class="report-col" id="col-research">
+        <div class="report-col-header">
+          <span class="col-dot" style="background:#7C3AED"></span>
+          研究
         </div>
-      </a>
+        <div class="report-grid">
 
-      <!-- A股映射 260509 -->
-      <a href="US weekly/A股映射_260509.html" class="report-card" data-category="a-share">
-        <div class="card-accent a-share"></div>
-        <div class="card-body">
-          <div class="card-meta">
-            <div class="card-type">A股研究 · 供应链映射</div>
-            <div class="card-title">A股映射 — 2026-05-09</div>
-            <div class="card-desc">美股主题 → A股供应链映射 · Direct / Indirect / Sentiment 分类</div>
-          </div>
-          <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
-          <span class="card-arrow">→</span>
+          <!-- 美股金银矿股研究 v10 -->
+          <a href="美股研究/资源股研究/美股金银矿股研究_v10.html" class="report-card" data-category="us-equity">
+            <div class="card-accent us-equity"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">美股研究 · 资源股</div>
+                <div class="card-title">美股金银矿股研究 v10</div>
+                <div class="card-desc">金银矿股全景梳理 · 估值体系 · 个股对比</div>
+              </div>
+              <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+
+          <!-- 未开采黄金矿企深度专题 -->
+          <a href="美股研究/资源股研究/未开采黄金矿企深度专题.html" class="report-card" data-category="us-equity">
+            <div class="card-accent us-equity"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">美股研究 · 资源股</div>
+                <div class="card-title">未开采黄金矿企深度专题</div>
+                <div class="card-desc">Royalty & Streaming 模式 · 资产期权价值 · 开发阶段矿企梳理</div>
+              </div>
+              <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+
+          <!-- 中小型金矿研究 -->
+          <a href="美股研究/资源股研究/金矿点评.html" class="report-card" data-category="us-equity">
+            <div class="card-accent us-equity"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">美股研究 · 资源股</div>
+                <div class="card-title">中小型金矿研究</div>
+                <div class="card-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理</div>
+              </div>
+              <div class="card-date">2026-05-09<br><span style="color:var(--border)">Quick Note</span></div>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+
         </div>
-      </a>
+      </div>
 
-      <!-- US Weekly 260509 -->
-      <a href="US weekly/美股周报_260509.html" class="report-card" data-category="us-weekly">
-        <div class="card-accent us-weekly"></div>
-        <div class="card-body">
-          <div class="card-meta">
-            <div class="card-type">US Weekly · 美股周报</div>
-            <div class="card-title">美股周报 — 2026-05-09</div>
-            <div class="card-desc">NDX / SPX 周度归因 · 异动筛选 · 主题供应链健康度</div>
-          </div>
-          <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
-          <span class="card-arrow">→</span>
-        </div>
-      </a>
-
-    </div>
-
-    <div class="empty" id="empty-state">该分类下暂无报告</div>
+    </div><!-- .report-columns -->
   </main>
 
 </div><!-- .page-layout -->
@@ -417,7 +457,12 @@
         if (match) visible++;
       });
       counter.textContent = visible;
-      empty.style.display = visible === 0 ? 'block' : 'none';
+      // show/hide columns based on whether they have visible cards
+      ['col-weekly', 'col-research'].forEach(id => {
+        const col = document.getElementById(id);
+        const hasVisible = [...col.querySelectorAll('.report-card')].some(c => c.style.display !== 'none');
+        col.style.display = hasVisible ? '' : 'none';
+      });
     });
   });
 </script>
