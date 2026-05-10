@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>美股周报A股映射 · W19 · 260509</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #F4F2ED;
+  --bg-card: #FFFFFF;
+  --navy: #1B2635;
+  --navy-light: #2D3D52;
+  --amber: #B8870A;
+  --amber-light: #D4A017;
+  --bull: #1F6B4A;
+  --bear: #A8331F;
+  --highlight: #FFF1B8;
+  --ink: #1A1A1A;
+  --ink-soft: #4A4A4A;
+  --rule: #D9D4C7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Karla', -apple-system, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+.wrap { max-width: 1340px; margin: 0 auto; }
+
+/* ========== MASTHEAD ========== */
+.masthead {
+  background: var(--navy);
+  color: #fff;
+  padding: 56px 60px 44px 60px;
+  border-bottom: 3px solid var(--amber);
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+.masthead::after {
+  content: 'A-SHARE MAPPING';
+  position: absolute;
+  bottom: -22px;
+  right: -10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 150px;
+  font-weight: 700;
+  font-style: italic;
+  color: rgba(255,255,255,0.04);
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.h-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--amber-light);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.h-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+.h-title em { color: var(--amber-light); font-style: italic; }
+.h-desc {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  max-width: 1080px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+.h-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  padding: 5px 12px;
+  border: 1px solid rgba(212,160,23,0.4);
+  color: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+}
+.pill.bull { color: #6FD4A1; border-color: rgba(31,107,74,0.5); }
+.pill.bear { color: #E89884; border-color: rgba(168,51,31,0.5); }
+
+/* ========== SECTIONS ========== */
+.section { padding: 52px 60px 24px 60px; }
+.s-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--amber);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.s-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+}
+.s-title em { font-style: italic; color: var(--amber); }
+.s-divider {
+  width: 44px; height: 2px; background: var(--amber);
+  margin: 18px 0 26px 0;
+}
+.s-lead {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+.s-lead strong { color: var(--ink); font-weight: 600; }
+.s-lead em { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--amber); font-size: 1.05em; }
+
+p { font-size: 13.5px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 14px; }
+p strong { color: var(--ink); font-weight: 600; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ========== DATA GRID (TABLES) ========== */
+.dgrid {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  font-size: 12.5px;
+  margin: 14px 0 22px 0;
+  border: 1px solid var(--rule);
+}
+.dgrid thead th {
+  background: var(--navy);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  text-align: left;
+  border-right: 1px solid var(--navy-light);
+}
+.dgrid thead th:last-child { border-right: none; }
+.dgrid tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  vertical-align: top;
+  line-height: 1.4;
+}
+.dgrid tbody td:last-child { border-right: none; }
+.dgrid tbody tr:last-child td { border-bottom: none; }
+.dgrid tbody tr:nth-child(even) { background: rgba(244,242,237,0.5); }
+.dgrid .num { font-family: 'JetBrains Mono', monospace; text-align: right; font-size: 12px; }
+.dgrid .ticker { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--navy); }
+.bull-c { color: var(--bull); font-weight: 600; }
+.bear-c { color: var(--bear); font-weight: 600; }
+.amb-c { color: var(--amber); font-weight: 600; }
+.hl { background: var(--highlight); padding: 1px 4px; border-radius: 2px; }
+
+/* ========== PROFILE CARDS ========== */
+.pcard {
+  background: var(--bg-card);
+  border-left: 3px solid var(--amber);
+  padding: 16px 20px 14px 22px;
+  margin-bottom: 12px;
+  border-top: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.pcard.new { border-left-color: var(--bull); }
+.pcard.warn { border-left-color: var(--bear); }
+.pcard-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.pcard-tk {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.pcard-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.pcard-name em { font-style: italic; color: var(--amber); }
+.pcard-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--navy);
+  padding: 2px 7px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+.pcard-tag.new { background: var(--bull); }
+.pcard-tag.amber { background: var(--amber); }
+.pcard-body { font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); }
+.pcard-body strong { color: var(--ink); }
+
+/* ========== TWO COL ========== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 14px 0 22px 0;
+}
+.col-box {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 18px 22px;
+  border-top: 3px solid var(--navy);
+}
+.col-box.bull-box { border-top-color: var(--bull); }
+.col-box.bear-box { border-top-color: var(--bear); }
+.col-box h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.col-box.bull-box h4 { color: var(--bull); }
+.col-box.bear-box h4 { color: var(--bear); }
+.col-box p { font-size: 12.5px; }
+.col-box ul { list-style: none; padding-left: 0; }
+.col-box li {
+  font-size: 12.5px;
+  padding: 5px 0 5px 18px;
+  position: relative;
+  color: var(--ink-soft);
+  border-bottom: 1px dotted var(--rule);
+}
+.col-box li:last-child { border-bottom: none; }
+.col-box li::before {
+  content: '◆'; position: absolute; left: 0; top: 5px;
+  color: var(--amber); font-size: 9px;
+}
+
+/* ========== KPI ROW ========== */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 14px 0 22px 0;
+}
+.kpi-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--amber);
+  padding: 14px 16px;
+}
+.kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.kpi-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.1;
+}
+.kpi-val.bull { color: var(--bull); }
+.kpi-val.bear { color: var(--bear); }
+.kpi-sub {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.6);
+  padding: 30px 60px;
+  margin-top: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  border-top: 3px solid var(--amber);
+}
+.footer .f-line { margin-bottom: 6px; }
+.footer em { color: var(--amber-light); font-style: normal; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ========== MASTHEAD ========== -->
+<div class="masthead">
+  <div class="h-eyebrow">Weekly Cross-Market Mapping · Vol. 19 · 2026.05.09</div>
+  <h1 class="h-title">从美股周内涨幅<br>看 A 股 <em>映射方向</em></h1>
+  <div class="h-desc">本周美股 watchlist 最强主题集中于存储芯片超级周期、AI 数据中心电力供给与算力基建、半导体设备小盘，叠加比特币矿机与商业航天的二阶共振。本报告将这些信号反向折射回 A 股，按"直接 / 间接 / 纯情绪"三档归类映射方向，并对次新股进行专项扫描，给出未来 2-3 周交易窗口的可观察标的清单。</div>
+  <div class="h-pills">
+    <span class="pill bull">5 大主线 · 上行</span>
+    <span class="pill bear">1 反向信号 · ANET-18%</span>
+    <span class="pill">算力链 · 海外×国产 双线</span>
+    <span class="pill">次新股 5 只标记</span>
+    <span class="pill">交易框架 · 3 周</span>
+  </div>
+</div>
+
+<!-- ========== §01 行情综述 ========== -->
+<div class="section">
+  <div class="s-label">§ 01  ·  Weekly Pulse</div>
+  <h2 class="s-title">美股 watchlist 一周 <em>核心读数</em></h2>
+  <div class="s-divider"></div>
+
+  <div class="kpi-row">
+    <div class="kpi-cell">
+      <div class="kpi-label">Top Gainer</div>
+      <div class="kpi-val bull">+101%</div>
+      <div class="kpi-sub">INOD · 数据标注 · AI 训练数据二阶</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">FLNC Energy</div>
+      <div class="kpi-val bull">+98%</div>
+      <div class="kpi-sub">数据中心储能 · 极端读数</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Top Loser</div>
+      <div class="kpi-val bear">-42%</div>
+      <div class="kpi-sub">PRIM · 传统建筑工程 · 反向</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">ANET Alert</div>
+      <div class="kpi-val bear">-18%</div>
+      <div class="kpi-sub">数据中心交换机龙头破位</div>
+    </div>
+  </div>
+
+  <p class="s-lead">本周 watchlist 呈现典型的 <em>risk-on + 主题共振</em> 结构：<strong>存储芯片集体爆发</strong>（MU+44 / SNDK+42 / STX+16 / WDC+10 / SMCI+29）确认 AI 算力 capex 第二阶段已经从 GPU 扩散到 HBM/NAND 端；<strong>电气储能与数据中心电源</strong>板块由 FLNC 单周 98% 的极端读数引领（POWL+12 / NVT+19 / EOSE+19），叠加 NRG-11% 的传统电力反向，市场已经把"算力背后是电力"的叙事从一句口号变成定价。</p>
+
+  <p class="s-lead">第二条主线是 <strong>半导体设备小盘的轮动</strong>（AXTI+47 / SITM+48 / HIMX+51 / KLIC+20 / ACMR+16 / ACLS+17 / VECO+19），区别于龙头平台型公司（AMAT+10 / LRCX+14 / ASML+11）的相对温和涨幅，小盘弹性远高于龙头，意味着这是 <em>主题扩散末段的鸡犬升天</em>，而非估值修复初段。第三条是 <strong>比特币挖矿/数字资产</strong>（RIOT+40 / IREN+34 / HUT+30 / BTDR+19 / CIFR+16 / CORZ+15 / CLSK+13 / MSTR+13），矿机公司全线大涨说明 BTC 价格上行已被市场消化为收入端兑现。</p>
+
+  <p class="s-lead">关键反向信号：<strong>ANET（Arista Networks）单周 -18%</strong>。作为 AI 数据中心交换机龙头，在整体 AI 主题强势背景下罕见破位，对照 MTSI（光通信半导体）+27% 与 CPO 概念国内的强势，可能暗示 <em>市场预期从铜缆/可插拔光模块向 CPO/硅光迁移</em> 的拐点正在加速 —— 对 A 股需对应观察传统交换机厂商相对硅光厂商的相对强弱。</p>
+</div>
+
+<!-- ========== §02 主题映射地图 ========== -->
+<div class="section">
+  <div class="s-label">§ 02  ·  Theme Mapping Atlas</div>
+  <h2 class="s-title">五条 A 股 <em>映射主线</em> 全景</h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">将本周美股观察到的强弱主题按"美股代表股 → 映射类型 → A 股核心标的 → 次新股标记"进行归集。映射类型采用三档分类：<strong>直接</strong>（业务/产品高度同构，业绩兑现路径一致）、<strong>间接</strong>（产业链上下游传导，受益但延迟）、<strong>纯情绪</strong>（仅概念关联，无实质业绩弹性）。</p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:18%">主线 / 周表现</th>
+        <th style="width:22%">美股代表 (周涨幅)</th>
+        <th style="width:8%">映射类型</th>
+        <th style="width:42%">A 股核心标的</th>
+        <th style="width:10%">次新股</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>① 存储超级周期</strong><br><span class="mono bull-c">★★★★★</span></td>
+        <td><span class="ticker">MU</span> +44 · <span class="ticker">SNDK</span> +42<br><span class="ticker">STX</span> +16 · <span class="ticker">WDC</span> +10<br><span class="ticker">SMCI</span> +29</td>
+        <td><span class="amb-c">直接</span></td>
+        <td>兆易创新 · 澜起科技 · 北京君正 · 东芯股份 · 江波龙 · 佰维存储 · 德明利 · 香农芯创 · 聚辰股份 · 普冉股份 · 深科技 · 紫光国微 · <span class="hl">大普微</span></td>
+        <td><span class="bull-c mono">大普微<br>301666</span></td>
+      </tr>
+      <tr>
+        <td><strong>② AI 算力基建</strong><br><span class="mono bull-c">★★★★★</span><br><span class="mono" style="font-size:10px;color:var(--ink-soft);">海外×国产 双线</span></td>
+        <td><span class="ticker">DOCN</span> +70 · <span class="ticker">NBIS</span> +28<br><span class="ticker">APLD</span> +20 · <span class="ticker">ORCL</span> +21<br><span class="ticker">FROG</span> +52 · <span class="ticker">MTSI</span> +27</td>
+        <td><span class="amb-c">直接 / 间接</span></td>
+        <td><strong>【海外链】</strong>光模块[中际旭创·新易盛·天孚·华工科技]｜光芯片[源杰·仕佳·长光华芯]｜<span class="hl">PCB</span>[沪电·胜宏·深南·生益·广合·景旺]｜<span class="hl">铜连接</span>[沃尔核材·神宇]｜液冷[英维克·高澜·飞荣达·中石科技]｜代工[工业富联·紫光股份]｜IDC[润泽·利通·协创·光环新网]<br><strong>【国产链】</strong>芯片[海光·寒武纪·龙芯·景嘉微]｜昇腾[中科曙光·拓维信息·神州数码·高新发展·烽火通信]｜配套[紫光国微·复旦微电]</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>③ 储能 / AIDC 电源</strong><br><span class="mono bull-c">★★★★★</span></td>
+        <td><span class="ticker">FLNC</span> <span class="hl">+98</span> · <span class="ticker">POWL</span> +12<br><span class="ticker">NVT</span> +19 · <span class="ticker">EOSE</span> +19<br><span class="ticker">RUN</span> +15</td>
+        <td><span class="amb-c">直接</span></td>
+        <td>阳光电源 · 上能电气 · 科华数据 · 金盘科技 · 麦格米特 · 欧陆通 · 中恒电气 · 良信股份 · 四方股份 · 英维克 · 同飞股份 · 申菱环境</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>④ 半导体设备国产替代</strong><br><span class="mono bull-c">★★★★</span></td>
+        <td><span class="ticker">AXTI</span> +47 · <span class="ticker">KLIC</span> +20<br><span class="ticker">ACMR</span> +16 · <span class="ticker">ACLS</span> +17<br><span class="ticker">VECO</span> +19 · <span class="ticker">SITM</span> +48</td>
+        <td><span class="amb-c">直接</span></td>
+        <td>北方华创 · 中微公司 · 拓荆科技 · 华海清科 · 芯源微 · 盛美上海 · 中科飞测 · 精测电子 · 长川科技 · 富创精密 · 新莱应材 · 华峰测控 · 微导纳米 · <span class="hl">屹唐股份</span></td>
+        <td><span class="bull-c mono">屹唐股份<br>688729</span></td>
+      </tr>
+      <tr>
+        <td><strong>⑤ 商业航天 / 卫星</strong><br><span class="mono bull-c">★★★</span></td>
+        <td><span class="ticker">RKLB</span> +27 · <span class="ticker">FLY</span> +14<br><span class="ticker">LUNR</span> +14 · <span class="ticker">MRCY</span> +14<br><span class="ticker">ACHR</span> +12 · <span class="ticker">JOBY</span> +18</td>
+        <td><span class="amb-c">间接 / 情绪</span></td>
+        <td>中国卫星 · 航天电子 · 中国卫通 · 雷科防务 · 海格通信 · 北斗星通 · 铖昌科技 · 臻镭科技 · 航天环宇 · 紫光国微 · 中科星图 · 陕西华达</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>⑥ BTC 矿机 / 数字资产</strong><br><span class="mono bull-c">★★★</span></td>
+        <td><span class="ticker">RIOT</span> +40 · <span class="ticker">IREN</span> +34<br><span class="ticker">HUT</span> +30 · <span class="ticker">BTDR</span> +19<br><span class="ticker">MSTR</span> +13</td>
+        <td><span class="amb-c">情绪 / 港股</span></td>
+        <td>港股：<span class="ticker">嘉楠科技 CAN.US</span> · <span class="ticker">比特小鹿 BTDR.US</span> · 博雅互动(0434.HK) · 国富创新(0290.HK)<br>A 股纯情绪：四方精创 · 朗新集团（无矿机业务）</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="s-lead"><strong>读法：</strong>★ 数密度反映映射强度。①②③ 三条主线属于本周必须配置的方向，业绩与估值双击概率高；④ 设备方向需要配合存储扩产订单兑现；⑤ 航天/卫星本周事件催化弱于前期，但板块仍在筹码消化期；⑥ BTC 矿机在 A 股缺直接对应，建议关注港股或纳斯达克标的本身。</p>
+</div>
+
+<!-- ========== §03 存储链 ========== -->
+<div class="section">
+  <div class="s-label">§ 03  ·  Memory Super-Cycle</div>
+  <h2 class="s-title">主线一：存储芯片 <em>超级周期</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">本周美股存储链确认了"AI 驱动的存储超级周期"已经进入 <em>价格全面失控的兑现阶段</em>。MU 单周 +44%（市值 8400 亿人民币）、SNDK +42%、STX +16%、WDC +10%，对应背景是：DDR5 16Gb 季度涨幅 50%+、512Gb NAND 涨幅 300%+、HBM 产能锁定至 2027 年、SK 海力士与三星库存仅 4 周。MU 财报后渠道商收到的涨价通知是 20%-30%，且 2026 年合约价已经预期再涨 30%-40%。</p>
+
+  <p class="s-lead">A 股映射逻辑非常干净：<strong>存储是周期与成长的双重共振</strong>，模组厂(江波龙/佰维/德明利)直接吃涨价 Beta，设计厂(兆易/澜起/北京君正)吃 HBM 配套与 DDR5 接口的 Alpha，封测设备(拓荆/芯源微/华海清科)吃长鑫长江存储扩产的二阶订单。本周一(5/6) A 股已经反应过一波 —— 江波龙、兆易创新涨停，佰维 +17%，但相对 MU 单周 +44%，A 股链条仍有补涨空间。</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--navy);margin:20px 0 10px 0;">A 股核心标的对照</h3>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:18%">环节定位</th>
+        <th style="width:24%">2026Q1 业绩</th>
+        <th style="width:30%">核心逻辑</th>
+        <th style="width:14%">映射强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ticker">603986</span> 兆易创新</td>
+        <td>NOR Flash + 利基 DRAM</td>
+        <td class="num">净利 14.6 亿 · <span class="bull-c">+523%</span></td>
+        <td>NOR 全球第三国内第一，绑定长鑫存储，HBM 接口与车规存储双线放量</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688008</span> 澜起科技</td>
+        <td>DDR5 / HBM 接口芯片</td>
+        <td class="num">净利 8.5 亿 · <span class="bull-c">+61%</span></td>
+        <td>DDR5 RCD 全球 40-45% 份额，HBM3 接口送样英伟达，PCIe 卡位</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300223</span> 北京君正</td>
+        <td>车规 SRAM/DRAM</td>
+        <td class="num">预增 +300-400%</td>
+        <td>车规 SRAM 全球第一(29%)，车规 DRAM 全球第二(15%)，绑定头部车企</td>
+        <td><span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688110</span> 东芯股份</td>
+        <td>SLC NAND 设计</td>
+        <td class="num">扭亏放量</td>
+        <td>SLC NAND 国产第一(30%+)，中小容量存储龙头，车规认证齐</td>
+        <td><span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">301308</span> 江波龙</td>
+        <td>企业级 SSD + 模组</td>
+        <td class="num">净利 38.6 亿 · <span class="bull-c">+2644%</span></td>
+        <td>自有品牌 Lexar，企业级 SSD 配 AI 服务器，与英伟达合作 HBM 模组</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688525</span> 佰维存储</td>
+        <td>NAND+DRAM 全流程</td>
+        <td class="num">净利 29 亿 · <span class="bull-c">+1568%</span></td>
+        <td>ePOP 独家供 Apple Watch，AI 端侧+HBM 封测双轮，全流程稀缺</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">001309</span> 德明利</td>
+        <td>SSD 主控+模组</td>
+        <td class="num">预告 +4659-5383%</td>
+        <td>主控自研+模组+囤货涨价三重弹性，业绩弹性冠居存储链</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603861</span> 香农芯创</td>
+        <td>HBM 分销+企业级</td>
+        <td class="num">预增 +6714-8747%</td>
+        <td>SK 海力士国内核心代理商，2026Q1 净利 11.4-14.8 亿，分销路径稀缺</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688123</span> 聚辰股份</td>
+        <td>EEPROM + DDR5 SPD</td>
+        <td class="num">预增 +400%+</td>
+        <td>DDR5 SPD 全球前列，HBM VPD 配套，EEPROM 国内龙头</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr style="background:rgba(255,241,184,0.4);">
+        <td><span class="ticker">301666</span> <strong>大普微</strong> <span class="pcard-tag new" style="margin-left:4px;">次新</span></td>
+        <td>企业级 SSD 主控</td>
+        <td class="num">2026Q1 +144-165%</td>
+        <td><strong>2026.4 上市，A 股企业级 SSD 自研主控唯一标的</strong>，对标 MU 端到端能力，绑定字节/华为</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">000021</span> 深科技</td>
+        <td>存储封测代工</td>
+        <td class="num">高增延续</td>
+        <td>金士顿/SK 海力士封测代工，HBM 后段封装受益</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002409</span> 雅克科技</td>
+        <td>前驱体材料</td>
+        <td class="num">高增</td>
+        <td>绑定 SK 海力士/长鑫，HBM 前驱体国产替代核心</td>
+        <td><span class="amb-c">间接 ★★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="two-col">
+    <div class="col-box bull-box">
+      <h4>多头逻辑（本周强化）</h4>
+      <ul>
+        <li><strong>价格端</strong>：DDR5 季度环涨 50%+，NAND 涨 38%，HBM 充足率仅 2%，2026 全年合约已售罄</li>
+        <li><strong>供给端</strong>：三星 SK 90% 先进产能转 HBM，挤压通用 DRAM 与消费 NAND，扩产周期 18-24 个月</li>
+        <li><strong>需求端</strong>：北美 4 大云厂 2026 capex 6000 亿美元历史新高，AI 服务器存储用量是传统 8 倍</li>
+        <li><strong>美股映射</strong>：MU 单周 +44% 验证，HBM 是 GPU 之后下一个 picks &amp; shovels</li>
+        <li><strong>业绩兑现</strong>：A 股 Q1 江波龙 +2644%、佰维 +1568%、香农 +8000%+ —— 不再是预期，是实打实的利润</li>
+      </ul>
+    </div>
+    <div class="col-box bear-box">
+      <h4>需观察的拐点</h4>
+      <ul>
+        <li><strong>拥挤度</strong>：本周一 A 股存储已涨停一波，江波龙/兆易/佰维均创新高，<em>短期跟风资金高位</em></li>
+        <li><strong>韩国共振过热</strong>：SK 海力士 +10.6%、三星 +14.4% 同日历史新高，本周已经跑完 KOSPI +6.45% 单日大涨，海外端边际催化弱化</li>
+        <li><strong>价格预期高位</strong>：2026Q1 涨 40-50% / Q2 再涨 20%，已经隐含到大多数业绩预测中</li>
+        <li><strong>退出信号</strong>：HBM 充足率从 2% 回升到 10% 以上 / 三星减少 HBM 转产标准品 / 现货价格连续两周下跌</li>
+        <li><strong>非退出信号</strong>：股价回调 ≠ 周期顶部，回调反而是加仓窗口（按用户多头框架）</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--navy);margin:24px 0 10px 0;">次新股专项 — 大普微 (301666)</h3>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">301666.SZ</span>
+      <span class="pcard-name">大普微 <em>DapuStor</em></span>
+      <span class="pcard-tag new">次新</span>
+      <span class="pcard-tag amber">直接映射</span>
+      <span class="pcard-tag">企业级 SSD</span>
+    </div>
+    <div class="pcard-body">
+      <p style="font-size:12.5px;margin-bottom:8px;"><strong>上市日期：2026.4 创业板</strong> · <strong>映射对应：MU/SNDK 企业级 SSD 业务</strong> · 2026Q1 净利预告 0.55-0.80 亿元 (+144-165%)，未来两年 CAGR 预测 120%+。</p>
+      <p style="font-size:12.5px;margin-bottom:8px;"><strong>稀缺性：A 股目前唯一同时具备"自研 SSD 主控芯片 + 企业级 SSD 整机"端到端能力的标的</strong>。江波龙偏模组品牌，德明利偏消费级主控，佰维做封测代工，<em>只有大普微做的是与 MU/SNDK/SAMSUNG 直接对标的企业级 SSD 完整产品</em>，绑定字节、华为、阿里等头部数据中心客户。</p>
+      <p style="font-size:12.5px;margin-bottom:0;"><strong>关键检查点</strong>：(1) 2026 中报 PCIe 5.0 SSD 出货占比；(2) 字节 AIDC 算力扩张订单兑现节奏；(3) 主控芯片与长江存储 NAND 的国产配套验证；(4) 解禁与限售压力（按用户框架，唯一可能触发短期价格压力的因素）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== §04 AI 算力 ========== -->
+<div class="section">
+  <div class="s-label">§ 04  ·  AI Compute Build-Out</div>
+  <h2 class="s-title">主线二：AI 算力基建 — <em>海外 × 国产 双线映射</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">本周美股 AI 算力链强势，但映射回 A 股需要拆开看。<strong>DOCN +70 / NBIS +28 / APLD +20 / ORCL +21</strong> 是云端基础设施扩张，<strong>MTSI +27 / FROG +52</strong> 是光通信半导体与算力工具链，背后驱动是<em>北美 4 大云厂 2026 capex 6000 亿美元历史新高</em>。这条美股链对 A 股的直接映射，<strong>主要走"海外英伟达/超大云厂供应链"路径</strong>——光模块、光芯片、PCB、铜连接、液冷、服务器代工、IDC，业绩与海外巨头资本开支节奏直接挂钩。</p>
+
+  <p class="s-lead">但 A 股还有一条独立的 <strong>国产算力链</strong> ——华为昇腾、海光寒武纪、信创整机、国产 GPU。它有自己的催化（昇腾 910C/B 放量、信创集采订单、海光 K100/K200 量产），<em>不是被英伟达驱动的</em>。本周美股共振对国产链是间接的情绪传导，不是业绩传导，<strong>两条线必须分开映射</strong>。</p>
+
+  <p class="s-lead">因此本主线按"海外链 vs 国产链"两条独立子树呈现：<strong>海外链拆 7 个子模块</strong>（光模块 / 光芯片 / PCB / 铜连接 / 液冷 / 服务器代工 / IDC），<strong>国产链拆 3 个子模块</strong>（国产芯片 / 昇腾产业链 / 配套生态）。客户结构、估值锚、催化节奏均不同步，需独立追踪。</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin:24px 0 8px 0;border-left:3px solid var(--amber);padding-left:14px;">A. 海外算力供应链 <em style="color:var(--amber);font-size:0.78em;font-style:italic;">— 跟随英伟达 / 超大规模云厂资本开支</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:6px 0 12px 0;">本周美股直接驱动。客户结构集中于英伟达 / 谷歌 / Meta / 微软 / 亚马逊 / 字节海外业务，业绩与海外 capex 同步。<strong>关键边际变化：4 月底光模块板块拥挤度已消化（新易盛 -14、天孚 -17）+ MTSI +27 + ANET -18 → 叙事从"铜缆/可插拔光模块"向"硅光/CPO"切换的拐点信号在加强；同时 PCB / 铜连接 / 液冷 这三个被市场过度聚焦光模块而忽视的环节，是本周轮动洼地。</strong></p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:14%">子模块定位</th>
+        <th style="width:22%">业绩 / 订单</th>
+        <th style="width:34%">核心逻辑</th>
+        <th style="width:16%">美股对标 / 强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A1 · 光模块  (800G / 1.6T)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300308</span> 中际旭创</td>
+        <td>800G/1.6T 光模块</td>
+        <td class="num">25 净利 108 亿 +109% · 26Q1 +262%</td>
+        <td>易中天龙头，绑定谷歌/亚马逊/英伟达直供，硅光产能加速</td>
+        <td>COHR · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300502</span> 新易盛</td>
+        <td>800G/1.6T 光模块</td>
+        <td class="num">26Q1 净利 27.8 亿 +77%</td>
+        <td>4 月底回调 17% 已消化拥挤度，MTSI +27 给反弹催化</td>
+        <td>COHR · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300394</span> 天孚通信</td>
+        <td>光器件 / 光引擎</td>
+        <td class="num">25 净利 20 亿 +50%</td>
+        <td>CPO 核心合作伙伴，A+H 在即，硅光集成 + TFLN 布局</td>
+        <td>AAOI · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">000988</span> 华工科技</td>
+        <td>联接业务 + 激光</td>
+        <td class="num">联接 + 激光双轮</td>
+        <td>800G 光模块批量交付，激光设备业务对冲，估值锚低于易中天</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A2 · 光芯片  (国产替代卡脖子环节)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688498</span> 源杰科技</td>
+        <td>EML / CW 激光器芯片</td>
+        <td class="num">26Q1 净利 +1153%</td>
+        <td>10G DFB 全球第一，CW70mW 量产，本周直接对标 MTSI +27%</td>
+        <td><span class="ticker">MTSI</span>+27 · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688313</span> 仕佳光子</td>
+        <td>EML / PON 芯片</td>
+        <td class="num">25 净利 3.72 亿 +473%</td>
+        <td>EML 国产替代核心，光模块行业增速第一，卡脖子环节</td>
+        <td>LITE · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688048</span> 长光华芯</td>
+        <td>VCSEL / 高功率激光器</td>
+        <td class="num">高功率激光转产</td>
+        <td>VCSEL 转产 EML 路径打开，光通信弹性补充位</td>
+        <td>COHR · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A3 · PCB  (服务器主板 / HDI / 高速 CCL) — <span style="color:var(--amber-light);">本周轮动洼地</span></td>
+      </tr>
+      <tr style="background:rgba(255,241,184,0.4);">
+        <td><span class="ticker">002463</span> <strong>沪电股份</strong></td>
+        <td>AI 服务器 PCB 龙头</td>
+        <td class="num">25 业绩高增 · AI 占比快速提升</td>
+        <td><strong>英伟达 GB200/300 主板核心供应商</strong>，HDI + 高多层板双线，AI 业务占比 60%+</td>
+        <td>TTM · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr style="background:rgba(255,241,184,0.4);">
+        <td><span class="ticker">300476</span> <strong>胜宏科技</strong></td>
+        <td>HDI / AI 高速主板</td>
+        <td class="num">26Q1 业绩高弹性</td>
+        <td><strong>英伟达 HGX 平台 PCB 核心供应</strong>，AI HDI 良率领先，单板价值量上行</td>
+        <td>TTM · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002916</span> 深南电路</td>
+        <td>高端 PCB + 封装基板</td>
+        <td class="num">服务器主板 + IC 基板</td>
+        <td>服务器主板国内龙头，FCBGA / ABF 基板国产化稀缺</td>
+        <td>Sanmina · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">600183</span> 生益科技</td>
+        <td>覆铜板 / 高速 CCL</td>
+        <td class="num">M6 / M8 高速 CCL 放量</td>
+        <td>高速 CCL 国内份额第一，800G/1.6T 升级直接受益，量价双升</td>
+        <td>ITEQ · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">001389</span> 广合科技</td>
+        <td>服务器 PCB · 次新</td>
+        <td class="num">次新放量</td>
+        <td>服务器 PCB 专精，海外大客户突破，次新流通盘弹性</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603228</span> 景旺电子</td>
+        <td>HDI / 服务器 PCB</td>
+        <td class="num">服务器份额提升</td>
+        <td>HDI 综合实力前列，服务器板出货比重抬升</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A4 · 铜连接  (NVLink 铜缆 / 高速线束) — <span style="color:var(--amber-light);">被低估的隐性受益方向</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002130</span> 沃尔核材</td>
+        <td>高速铜连接 / 热缩</td>
+        <td class="num">NVLink 铜缆订单</td>
+        <td><strong>英伟达 NVL72 铜缆方案核心供应商</strong>，机柜内铜对光的份额维持是关键</td>
+        <td>AMPH · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300563</span> 神宇股份</td>
+        <td>高速数据线缆</td>
+        <td class="num">高速铜缆放量</td>
+        <td>服务器内连接铜缆国产替代，单机柜价值量随机柜功率提升</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A5 · 液冷与散热  (单机柜 30-40kW 必备配套)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002837</span> 英维克</td>
+        <td>液冷温控龙头</td>
+        <td class="num">液冷渗透率提升</td>
+        <td>液冷温控龙头，PUE ≤1.2 必备配套，单机柜功率提升直接受益（亦见主线③）</td>
+        <td>VRT · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300499</span> 高澜股份</td>
+        <td>液冷专精</td>
+        <td class="num">数据中心液冷</td>
+        <td>液冷板 / CDU 专精，AIDC 客户验证中</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300602</span> 飞荣达</td>
+        <td>散热模组 / EMI</td>
+        <td class="num">散热模组放量</td>
+        <td>VC 均热板 / 液冷板综合方案，AI 服务器散热价值量上行</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300684</span> 中石科技</td>
+        <td>导热界面材料 (TIM)</td>
+        <td class="num">TIM 国产替代</td>
+        <td>导热硅脂 / 凝胶 / 相变材料，AI 服务器散热基础材料</td>
+        <td>—  · <span class="amb-c">间接 ★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A6 · 服务器代工 / ODM</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">601138</span> 工业富联</td>
+        <td>NVL72 机柜 + AI 服务器</td>
+        <td class="num">26Q1 业绩高增</td>
+        <td><strong>全球 AI 服务器主代工</strong>，NVL72 整机柜级别集成核心，体量+弹性并存</td>
+        <td>SMCI · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">000938</span> 紫光股份</td>
+        <td>新华三 · 服务器+交换机</td>
+        <td class="num">服务器+交换机双线</td>
+        <td>国内服务器/交换机龙头，但交换机受 ANET -18% 反向信号牵制</td>
+        <td><span class="ticker">ANET</span>反向 · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">A7 · IDC / 算力租赁  (云厂资本开支落地)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300442</span> 润泽科技</td>
+        <td>AIDC / 算力租赁</td>
+        <td class="num">26Q1 营收 +54% · 在手订单 60 亿+</td>
+        <td>字节最大供应商(60% 收入)，廊坊 32 万机柜，2026 AIDC 收入将超 IDC，REIT 扩募</td>
+        <td>DOCN/APLD · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603629</span> 利通电子</td>
+        <td>纯算力租赁</td>
+        <td class="num">26 净利预增 +1100% · 订单 70 亿</td>
+        <td>纯租赁规模冠军，3.3 万 P 高端算力，绑定腾讯/英伟达，订单排至 2028</td>
+        <td>NBIS/CRWV · <span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300857</span> 协创数据</td>
+        <td>算力调度 + 集群</td>
+        <td class="num">26Q1 净利 +284-402%</td>
+        <td>20cm 弹性王，绑定阿里/字节/腾讯，累计算力采购 322 亿</td>
+        <td>APLD · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300383</span> 光环新网</td>
+        <td>传统 IDC 转 AIDC</td>
+        <td class="num">AIDC 转型</td>
+        <td>北京/上海/廊坊 IDC 龙头，AIDC 转型节奏待观察</td>
+        <td>EQIX/DLR · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin:30px 0 8px 0;border-left:3px solid var(--bull);padding-left:14px;">B. 国产算力供应链 <em style="color:var(--bull);font-size:0.78em;font-style:italic;">— 信创 / 昇腾 / 海光寒武纪 独立催化</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:6px 0 12px 0;"><strong>不被本周美股直接驱动</strong>。客户结构集中于运营商/政企/金融/政府，催化节奏取决于：(1) 昇腾 910C/B 实际出货量；(2) 信创集采订单量级；(3) 海光 K100/K200 量产时间表；(4) 国产 GPU 整机出货。本周可视为情绪共振期，下一波主升浪取决于上述 4 个独立事件落地。</p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:14%">子模块定位</th>
+        <th style="width:22%">业绩 / 订单</th>
+        <th style="width:34%">核心逻辑</th>
+        <th style="width:16%">独立催化 / 强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">B1 · 国产算力芯片  (GPU / DCU / NPU)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688041</span> 海光信息</td>
+        <td>DCU + CPU</td>
+        <td class="num">高增延续</td>
+        <td><strong>国产 DCU 龙头</strong>，K100/K200 量产推进，信创主力，市值锚高</td>
+        <td>K100量产 · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688256</span> 寒武纪</td>
+        <td>AI 训练芯片</td>
+        <td class="num">扭亏放量</td>
+        <td>国产 AI 训练旗舰，思元系列出货放量，科创权重</td>
+        <td>思元出货 · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688047</span> 龙芯中科</td>
+        <td>LoongArch CPU</td>
+        <td class="num">信创放量</td>
+        <td>自主指令集 CPU，党政信创主力供应</td>
+        <td>信创集采 · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300474</span> 景嘉微</td>
+        <td>国产 GPU</td>
+        <td class="num">JM 系列出货</td>
+        <td>国产图形 GPU 龙头，AI 加速卡延伸，弹性配置</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">B2 · 华为昇腾产业链  (910C / 384 超节点 / Atlas 整机)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603019</span> 中科曙光</td>
+        <td>昇腾整机 + IDC + 海光大股东</td>
+        <td class="num">25 业绩稳健</td>
+        <td><strong>海光实控方</strong> + 曙光昇腾整机 + IDC 三业务同框，昇腾链最稀缺标的</td>
+        <td>910C 放量 · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002261</span> 拓维信息</td>
+        <td>华为兆瀚 AI 服务器</td>
+        <td class="num">湘江鲲鹏整机放量</td>
+        <td>子公司湘江鲲鹏华为系核心整机厂，AI 服务器订单弹性大</td>
+        <td>昇腾出货 · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">000034</span> 神州数码</td>
+        <td>鲲鹏 + 昇腾代理</td>
+        <td class="num">信创主力</td>
+        <td>华为生态最大代理商，鲲鹏服务器 + 昇腾算力分销，渠道厚度</td>
+        <td>信创集采 · <span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">000628</span> 高新发展</td>
+        <td>华鲲振宇昇腾整机</td>
+        <td class="num">华鲲振宇并表</td>
+        <td>华鲲振宇昇腾整机控股，弹性最大但确定性低于曙光</td>
+        <td>910C 放量 · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">600498</span> 烽火通信</td>
+        <td>昇腾配套 + 光网</td>
+        <td class="num">信创网络</td>
+        <td>昇腾配套交换 + 光通信，传统通信厂商 AI 转型</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">B3 · 配套芯片 + 生态  (FPGA / 特种存储)</td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002049</span> 紫光国微</td>
+        <td>FPGA + 特种存储</td>
+        <td class="num">国产替代核心</td>
+        <td>FPGA + 特存双线，军工 + 算力配套，亦见主线⑤</td>
+        <td>—  · <span class="amb-c">间接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688385</span> 复旦微电</td>
+        <td>FPGA</td>
+        <td class="num">国产 FPGA 第一</td>
+        <td>国产 FPGA 龙头，AI 加速卡 + 工控双线，估值锚低</td>
+        <td>—  · <span class="amb-c">间接 ★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="two-col">
+    <div class="col-box bull-box">
+      <h4>多头逻辑（本周强化）</h4>
+      <ul>
+        <li><strong>capex 端</strong>：北美 4 大云厂 2026 capex 6000 亿美元历史新高，AI 投资增速继续加速</li>
+        <li><strong>美股共振</strong>：DOCN +70 / NBIS +28 / APLD +20 / ORCL +21 全线，FROG +52 / MTSI +27 工具链与光半导体侧确认</li>
+        <li><strong>业绩兑现</strong>：26Q1 中际旭创 +262%、源杰 +1153%、利通 +1100%、协创 +402%——实打实的利润不是预期</li>
+        <li><strong>拥挤度消化</strong>：光模块 4 月底已回调（新易盛 -14 / 天孚 -17），不是顶部信号是中段加仓窗口</li>
+        <li><strong>洼地轮动</strong>：PCB（沪电 / 胜宏）+ 铜连接（沃尔核材）被市场过度聚焦光模块而忽视，弹性溢出未定价</li>
+        <li><strong>国产链独立</strong>：昇腾 910C 放量、信创集采、海光 K100 是独立催化，与海外不同步——多一条不相关回报来源</li>
+      </ul>
+    </div>
+    <div class="col-box bear-box">
+      <h4>需观察的拐点</h4>
+      <ul>
+        <li><strong>海外 capex 拐点</strong>：北美云厂 capex 增速放缓信号，英伟达 GTC China / Computex 后产业链订单兑现节奏</li>
+        <li><strong>ANET 反向扩散</strong>：交换机厂商在 CPO 切换中是否持续承压，紫光股份/星网锐捷需观察</li>
+        <li><strong>PCB 行业指标</strong>：M6 / M8 高速 CCL 价格走势，原材料铜价对价值量的边际影响</li>
+        <li><strong>铜光路线之争</strong>：NVLink 5 / 6 是否继续维持铜方案，光对铜的替代节奏关乎沃尔核材定价</li>
+        <li><strong>国产链节奏</strong>：昇腾 910C 实际出货量、信创集采量级、海光 K100 量产时间表——前两者本周尚未明朗</li>
+        <li><strong>退出信号</strong>：仅当海外 capex 增速首次负增长 / 昇腾出货指引下修 → 才是周期拐点，单纯股价回调不是退出信号</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);margin-top:8px;"><strong>读法：</strong>本周配置优先级——<em>海外链 PCB（沪电 / 胜宏）+ 铜连接（沃尔核材）轮动洼地</em> > 光芯片（源杰 / 仕佳）拥挤度低位弹性 > 服务器代工（工业富联）大体量配置 > 光模块（中际旭创 / 新易盛）回补 > IDC（润泽 / 利通）。国产链作为独立配置仓位：<em>中科曙光（最稀缺）+ 拓维信息（弹性最大）+ 神州数码（确定性最高）</em>三角组合。两条线节奏不同步是好事——给组合更多不相关回报来源。</p>
+</div>
+
+<!-- ========== §05 储能/电源 ========== -->
+<div class="section">
+  <div class="s-label">§ 05  ·  Power × AIDC</div>
+  <h2 class="s-title">主线三：储能与 AIDC 电源 — <em>FLNC +98% 的极端读数</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead"><strong>FLNC（Fluence Energy）单周 +98% 是本周 watchlist 最极端读数</strong>。Fluence 是西门子与 AES 合资的电网级储能系统集成商，业务核心是给数据中心、电网侧、可再生能源配套提供 BESS 系统。一周翻倍的背后逻辑：(1) 市场已经把"AI 算力的瓶颈是电力"从一句口号变成定价；(2) AIDC 电源架构升级（800V HVDC、液冷、构网型储能）开始在订单端兑现；(3) NRG -11% / UGI -10% 等传统电力反向，资金从传统公用事业向新型电力设备迁移。配合 POWL +12 / NVT +19 / EOSE +19 / RUN +15，主题确认。</p>
+
+  <p class="s-lead">A 股映射的特殊性：<strong>本主题在 A 股的对应不止是储能集成商，而要重点看 AIDC 电源/HVDC/构网型 PCS 这一更细分的链条</strong>。东方证券近期重申国内数据中心 2025 年 3180 亿元规模、2030 年 1.2 万亿，HVDC/SST 价值量提升明显。本主线下的 A 股标的需要按"电力侧 → 配电环节 → 末端电源 → 储能 PCS → 散热/液冷"五段拆解。</p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:18%">环节</th>
+        <th style="width:18%">本周关键</th>
+        <th style="width:36%">核心逻辑</th>
+        <th style="width:14%">映射强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ticker">300274</span> 阳光电源</td>
+        <td>储能 PCS + 逆变器</td>
+        <td>全球 PCS 出货第一</td>
+        <td>构网型储能技术领先，中东 7.8GWh + 英国 4.4GWh 大单，对标 FLNC 业务</td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300827</span> 上能电气</td>
+        <td>储能 PCS + 逆变器</td>
+        <td>储能营收占比 37%</td>
+        <td>地面电站大功率领先，构网型出货量同比高增</td>
+        <td><span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr style="background:rgba(255,241,184,0.4);">
+        <td><span class="ticker">002335</span> <strong>科华数据</strong></td>
+        <td>UPS + HVDC + IDC</td>
+        <td><span class="bull-c">25Q3 净利 +711%</span></td>
+        <td><strong>A 股算电协同唯一全链条标的</strong>，HVDC 在腾讯份额 40%，UPS 国内第一连续 20 年，<em>本周必看</em></td>
+        <td><span class="amb-c">直接 ★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688676</span> 金盘科技</td>
+        <td>变压器 / SST</td>
+        <td>HVDC 受益</td>
+        <td>SST 产业趋势核心，AIDC 配电环节价值量提升</td>
+        <td><span class="amb-c">间接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002851</span> 麦格米特</td>
+        <td>AIDC 电源</td>
+        <td>东方证券推荐</td>
+        <td>持续关注 AIDC 电源板块，模组化电源</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300870</span> 欧陆通</td>
+        <td>服务器电源</td>
+        <td>AIDC 关注</td>
+        <td>服务器电源国内龙头，AI 服务器单台功率提升直接受益</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002364</span> 中恒电气</td>
+        <td>HVDC / 直流供电</td>
+        <td>电源板块核心</td>
+        <td>HVDC 国内核心标的，800V 趋势主受益</td>
+        <td><span class="amb-c">间接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002706</span> 良信股份</td>
+        <td>高压断路器 / 配电</td>
+        <td>东方证券推荐</td>
+        <td>AIDC 配电变换核心，断路器单价提升</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002837</span> 英维克</td>
+        <td>AIDC 液冷</td>
+        <td>液冷需求提升</td>
+        <td>液冷温控龙头，PUE ≤1.2 必备配套，单机柜 30-40kW 功率推动</td>
+        <td><span class="amb-c">直接 ★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300990</span> 同飞股份</td>
+        <td>储能 + AIDC 温控</td>
+        <td>AIDC 关注</td>
+        <td>储能温控+数据中心散热双线，绑定宁德/阳光/海博思创</td>
+        <td><span class="amb-c">直接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">301018</span> 申菱环境</td>
+        <td>数据中心环境控制</td>
+        <td>液冷+精密空调</td>
+        <td>数据中心精密环境龙头，绑定字节/华为，AIDC 单瓦价值量提升</td>
+        <td><span class="amb-c">直接 ★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">601126</span> 四方股份</td>
+        <td>电网级储能</td>
+        <td>构网型储能</td>
+        <td>构网型储能 + 微网，电力电子全链条，对标 FLNC 业务模型</td>
+        <td><span class="amb-c">间接 ★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);"><strong>读法：</strong>FLNC 单周 +98% 这种极端读数在历史上很难持续，但它把市场对储能与数据中心电源的认知阈值彻底打开。<em>科华数据是本主线最纯粹的"算电协同"标的</em>（HVDC + 储能 PCS + IDC 三业务，腾讯/字节客户），25Q3 净利 +711% 的业绩底已经成立。阳光电源是大体量配置，弹性看上能/中恒；液冷英维克/同飞/申菱本周可能联动。</p>
+</div>
+
+<!-- ========== §06 半导体设备 ========== -->
+<div class="section">
+  <div class="s-label">§ 06  ·  Semi-Equipment</div>
+  <h2 class="s-title">主线四：半导体设备国产替代 — <em>小盘弹性映射</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">本周美股半导体设备链的特征非常清晰：<strong>小盘弹性远高于平台龙头</strong>。AXTI（化合物半导体衬底）+47%、SITM（高端时钟）+48%、HIMX（显示驱动+CIS）+51%、KLIC（封装设备）+20%、ACMR（盛美半导体, 母公司在A股）+16%、ACLS（离子注入）+17%、VECO（量测/MOCVD）+19%、MKSI（精密仪器）+10%；龙头方面 AMAT +10%、LRCX +14%、ASML +11%。<em>小盘相对龙头 +30-40 个百分点的超额收益</em>，是典型的主题扩散末段特征 —— 这意味着资金在龙头估值消化后向二三线扩散，<strong>对应 A 股策略：北方华创/中微做底仓，弹性配置看长川/华海清科/拓荆/精测等</strong>。</p>
+
+  <p class="s-lead">国产替代节奏支撑：半导体设备国产化率 2024 年 20% → 2026 年预计 29%；头部整机设备 2025 年订单增长 20-30%；东吴证券预测 2026 年新签订单增速 30-50%。本周一(5/6) A 股北方华创、中微公司、拓荆科技、华海清科都创新高或接近新高，本主线 <em>暂时仍在主升浪中，但弹性应该向二线扩散</em>。</p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:14%">环节定位</th>
+        <th style="width:18%">2025 业绩</th>
+        <th style="width:36%">核心逻辑</th>
+        <th style="width:18%">美股对标 / 强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ticker">002371</span> 北方华创</td>
+        <td>平台型 · 多品类</td>
+        <td class="num">25 净利 53 亿 +120%</td>
+        <td>覆盖刻蚀/薄膜沉积/清洗/炉管，先进封装战略高地，整合芯源微</td>
+        <td>AMAT · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688012</span> 中微公司</td>
+        <td>刻蚀龙头</td>
+        <td class="num">营收 124 亿 +37%</td>
+        <td>并购众硅补 CMP，"刻蚀+薄膜+量测+湿法"四大前道矩阵</td>
+        <td>LRCX · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688072</span> 拓荆科技</td>
+        <td>薄膜沉积 ALD</td>
+        <td class="num">25H1 营收 19.5 亿 +54%</td>
+        <td>大基金三期注资 4.5 亿入拓荆键科，混合键合突破 BESI</td>
+        <td>VECO/AMAT · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688120</span> 华海清科</td>
+        <td>CMP 设备</td>
+        <td class="num">25H1 营收 19.5 亿 +30%</td>
+        <td>CMP 国产唯一规模化龙头，长江存储深度绑定</td>
+        <td>AMAT(CMP) · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688082</span> 盛美上海</td>
+        <td>清洗 / 电镀</td>
+        <td class="num">25H1 净利 7 亿 +57%</td>
+        <td>清洗设备国产第二（仅次迪恩士），<strong>母公司 ACMR 本周 +16%</strong></td>
+        <td><span class="ticker">ACMR</span> · <span class="amb-c">★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688030</span> 芯源微</td>
+        <td>涂胶显影 / 湿法</td>
+        <td class="num">高增延续</td>
+        <td>北方华创整合后湿法生态全局重构，工艺覆盖度 97%</td>
+        <td>SCREEN/TEL · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688361</span> 中科飞测</td>
+        <td>量检测设备</td>
+        <td class="num">高增</td>
+        <td>量测国产化最薄弱环节突破，2025 年同比增长前三</td>
+        <td>KLAC · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300567</span> 精测电子</td>
+        <td>量检测设备</td>
+        <td class="num">高增</td>
+        <td>量测设备份额提升，毛利率行业前列</td>
+        <td>KLAC · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">300604</span> 长川科技</td>
+        <td>测试机后道</td>
+        <td class="num">业绩兑现</td>
+        <td>SOC 测试机国产突破，存储测试+AI 芯片测试受益</td>
+        <td><span class="ticker">KLIC</span>+20% · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688409</span> 华峰测控</td>
+        <td>模拟测试机</td>
+        <td class="num">高增</td>
+        <td>模拟测试国内龙头，对标 SITM/HIMX 模拟方向</td>
+        <td><span class="ticker">SITM</span>+48 · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688409</span> 富创精密</td>
+        <td>设备零部件</td>
+        <td class="num">订单饱满</td>
+        <td>国产替代最薄弱环节补缺，零部件平台</td>
+        <td>MKSI/Ichor · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr style="background:rgba(255,241,184,0.4);">
+        <td><span class="ticker">688729</span> <strong>屹唐股份</strong> <span class="pcard-tag new" style="margin-left:4px;">次新</span></td>
+        <td>去胶 / 热处理</td>
+        <td class="num">25H1 营收 24.8 亿 +19%</td>
+        <td><strong>2025.7 上市</strong>，去胶设备国产第一，热处理 28%，干法刻蚀放量</td>
+        <td>MKSI/AMAT · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr style="background:var(--navy-light);">
+        <td colspan="5" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">C · 半导体洁净室工程  <span style="color:var(--amber-light);">| 半导体扩产 + AIDC 建设双受益</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603929</span> 亚翔集成</td>
+        <td>洁净室工程 (台资)</td>
+        <td class="num">24 营收 53.8 亿 +68% / 净利 6.36 亿 +122%</td>
+        <td>国内最早大型芯片厂洁净室工程商之一，绑定台积电南京/中芯国际/三安/福建晋华，新加坡联电大单贡献境外收入</td>
+        <td>—  · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">601133</span> 柏诚股份</td>
+        <td>洁净室工程</td>
+        <td class="num">在手订单充足</td>
+        <td>长鑫存储深度合作包商（连续 23/24 年度卓越运营奖），半导体 + 显示 + 数据中心多产业布局</td>
+        <td>—  · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">603163</span> 圣晖集成</td>
+        <td>洁净室工程 (台资)</td>
+        <td class="num">25 末在手订单 25.4 亿 +46%</td>
+        <td>国内中高端洁净室市场领军企业之一，绑定中芯国际/晶合集成/三安/华润微，泰国越南海外业务双轮</td>
+        <td>—  · <span class="amb-c">★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--navy);margin:20px 0 10px 0;">次新股专项 — 屹唐股份 (688729)</h3>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">688729.SH</span>
+      <span class="pcard-name">屹唐股份 <em>Mattson</em></span>
+      <span class="pcard-tag new">次新</span>
+      <span class="pcard-tag amber">直接映射</span>
+      <span class="pcard-tag">设备国产替代</span>
+    </div>
+    <div class="pcard-body">
+      <p style="font-size:12.5px;margin-bottom:8px;"><strong>上市日期：2025.7 科创板</strong> · <strong>映射对应：MKS Instruments / AMAT 干法去胶业务</strong> · 25H1 营收 24.8 亿(+19%)，归母净利 3.48 亿(+40%)，扣非 +17%。</p>
+      <p style="font-size:12.5px;margin-bottom:8px;"><strong>稀缺性：去胶设备国产化率最高(国产第一)，热处理设备国产化率 28% 国内前三</strong>。原 Mattson Technology 是全球去胶设备龙头，2015 年被亦庄国投收购后实现技术国产化，目前是 A 股<em>少数同时具备"高国产化率细分龙头"+"次新股流动性"+"业绩兑现"三重属性的设备标的</em>。在主题扩散末段（小盘弹性 > 龙头）可作为弹性补充。</p>
+      <p style="font-size:12.5px;margin-bottom:0;"><strong>关键检查点</strong>：(1) Q3 干法刻蚀订单兑现节奏；(2) 长江存储/长鑫扩产订单跟进；(3) 大基金三期是否纳入投资名单；(4) 解禁压力（次新股标准要素）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== §07 商业航天 ========== -->
+<div class="section">
+  <div class="s-label">§ 07  ·  Commercial Space</div>
+  <h2 class="s-title">主线五：商业航天与卫星 — <em>事件催化期</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">美股本周航天链的表现是 <strong>RKLB +27 / FLY +14 / LUNR +14 / MRCY +14 / ACHR +12 / JOBY +18</strong>，eVTOL 与商业航天联动。但需要客观判断：A 股商业航天板块自 2025 年 11 月至 2026 年 1 月已经走过一轮 <em>主升浪</em>（航天环宇 +109%、中国卫星 +136%、雷科防务 +117%、航天电子 +100%），目前处于 <strong>板块筹码消化期 + 等待事件催化</strong> 阶段。</p>
+
+  <p class="s-lead">2026 年最关键的事件催化包括：(1) 朱雀三号已成功入轨，未来 3 个月多型重复使用火箭密集飞行验证；(2) 神舟二十三号载人任务；(3) 千帆星座组网加速；(4) 三大运营商卫星互联网经营许可后资本开支启动；(5) 浙江"三体计算星座"、北京"晨昏轨道 GW 级太空数据中心"等新场景。<em>本周美股共振只是边际催化，不是行情起点</em>，A 股对应建议聚焦核心标的而非二三线题材。</p>
+
+  <table class="dgrid">
+    <thead>
+      <tr>
+        <th style="width:14%">代码 / 简称</th>
+        <th style="width:18%">环节</th>
+        <th style="width:46%">核心逻辑</th>
+        <th style="width:22%">美股对标 / 强度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ticker">600118</span> 中国卫星</td>
+        <td>卫星制造总体</td>
+        <td>航天五院上市平台，小卫星/微小卫星全谱型号，GW 星座核心供应商</td>
+        <td>RKLB · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">600879</span> 航天电子</td>
+        <td>火箭/卫星配套</td>
+        <td>长征系列+神舟配套，星间链路激光通信单星价值量高</td>
+        <td>RKLB/FLY · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">601698</span> 中国卫通</td>
+        <td>卫星运营服务</td>
+        <td>航空互联+海洋通信+应急保障，终端直连卫星大众市场</td>
+        <td>—  · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002465</span> 海格通信</td>
+        <td>卫星通信芯片+终端</td>
+        <td>射频/基带芯片自主研发，车载卫星终端进比亚迪测试，"九天"无人机中东 20 亿美元订单</td>
+        <td>—  · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002413</span> 雷科防务</td>
+        <td>测控/导航</td>
+        <td>北斗导航+雷达测控，前期主升浪龙头之一</td>
+        <td>—  · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688271</span> 联特科技/铖昌科技</td>
+        <td>卫星元器件</td>
+        <td>射频元器件，高单星价值量，但已被警示交易风险</td>
+        <td>—  · <span class="amb-c">★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688362</span> 航天环宇</td>
+        <td>结构件/复材</td>
+        <td>火箭结构件核心，前期主升浪 +109% 标的，需观察筹码</td>
+        <td>—  · <span class="amb-c">★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">002049</span> 紫光国微</td>
+        <td>核心芯片/特种存储</td>
+        <td>军工特种存储龙头，商业航天+军工双驱动</td>
+        <td>—  · <span class="amb-c">★★★★</span></td>
+      </tr>
+      <tr>
+        <td><span class="ticker">688568</span> 中科星图</td>
+        <td>遥感/低空</td>
+        <td>空天信息服务+低空经济双线，公司主动提示"涨幅与基本面不匹配"</td>
+        <td>—  · <span class="amb-c">★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);"><strong>读法：</strong>本主线给"间接 / 情绪"评级，不是因为基本面差，而是 <em>美股共振强度低于其他主线</em>（RKLB +27 远不及 FLNC +98 或 INOD +101），且 A 股已经走过一轮主升浪。建议作为配置型仓位（中国卫星/航天电子/紫光国微），而非主攻方向。</p>
+</div>
+
+<!-- ========== §08 反向信号 ========== -->
+<div class="section">
+  <div class="s-label">§ 08  ·  Reverse Signal</div>
+  <h2 class="s-title">反向信号 — <em>ANET -18% 与 PRIM -42%</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">在整体 risk-on 行情中，本周有两个值得标记的反向信号：</p>
+
+  <div class="two-col">
+    <div class="col-box bear-box">
+      <h4>ANET -18% · 数据中心交换机龙头破位</h4>
+      <p style="font-size:12.5px;"><strong>含义：</strong>Arista Networks 是 AI 数据中心以太网交换机绝对龙头，超大规模云厂商核心供应商。在整体 AI 主题强势、MTSI(光通信半导体) +27%、CRWD/PANW(网安) 上涨的背景下罕见暴跌，可能反映：</p>
+      <ul style="font-size:12px;">
+        <li>Q1 财报或指引低于市场预期，AI 收入增速边际放缓</li>
+        <li>市场对"铜缆/可插拔光模块"叙事的折价加速，资金转向 CPO/硅光</li>
+        <li>大型客户(Meta/Microsoft)采购节奏调整，库存去化期临近</li>
+      </ul>
+      <p style="font-size:12.5px;"><strong>A 股对应观察：</strong>紫光股份(新华三)、星网锐捷、中兴通讯 —— 传统数据中心交换机厂商需观察相对硅光厂商(中际旭创/源杰)的相对强弱。<em>不必直接对应抛售，但需要警惕：当主题叙事从"网络设备"切换到"硅光"时，估值修复方向会反过来</em>。</p>
+    </div>
+    <div class="col-box bear-box">
+      <h4>PRIM -42% · 传统建筑工程崩塌</h4>
+      <p style="font-size:12.5px;"><strong>含义：</strong>Primoris Services 是美国传统电力/管道/能源工程承包商，单周 -42% 是本周最大单周跌幅。背景：传统能源 capex 项目延期、电力工程订单延迟、建设端从"传统电力"向"AI 数据中心定制建设"切换。LGN(Legence) +14% 与 PRIM -42% 的对比说明：<em>市场已经把"建数据中心"和"建电网/管道"完全分开定价</em>。</p>
+      <p style="font-size:12.5px;"><strong>A 股对应：</strong>"基建工程"分化加剧 —— 中国电建 / 中国能建在 AIDC 配套订单上更受益；中国交建 / 中国中铁等纯基建标的相对弱势。<em>原拟纳入此处的柏诚 / 亚翔 / 圣晖经业务核查实为半导体洁净室工程商（IC 半导体客户为主、AIDC 仅为辅业），已重新归类至主线④下"C · 半导体洁净室工程"子模块。</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== §09 次新股专项 ========== -->
+<div class="section">
+  <div class="s-label">§ 09  ·  IPO Watchlist</div>
+  <h2 class="s-title">次新股 <em>专项扫描</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">按你的特别关注，本周梳理与本期主线相关的 A 股次新股。次新股的特殊性在于：(1) 流通盘小，弹性大；(2) 解禁/限售压力是估值压制变量；(3) 新股本身没有历史筹码包袱，主升浪一气呵成的概率高。本期主线相关的核心次新股共 5 只：</p>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">301666.SZ</span>
+      <span class="pcard-name">大普微 <em>DapuStor</em></span>
+      <span class="pcard-tag new">2026.4 上市</span>
+      <span class="pcard-tag amber">主线①</span>
+    </div>
+    <div class="pcard-body">企业级 SSD + 自研主控端到端，A 股稀缺标的，对标 MU/SNDK；2026Q1 净利 +144-165%；绑定字节/华为；<strong>本周必看</strong>。</div>
+  </div>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">688729.SH</span>
+      <span class="pcard-name">屹唐股份 <em>Mattson</em></span>
+      <span class="pcard-tag new">2025.7 上市</span>
+      <span class="pcard-tag amber">主线④</span>
+    </div>
+    <div class="pcard-body">去胶设备国产第一，热处理 28%，原 Mattson 收购整合，对标 MKSI/AMAT；25H1 净利 +40%；主题扩散末段弹性补充。</div>
+  </div>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">688498.SH</span>
+      <span class="pcard-name">源杰科技 <em>Yuanjie</em></span>
+      <span class="pcard-tag new">2022.12 上市，仍属次新</span>
+      <span class="pcard-tag amber">主线②</span>
+    </div>
+    <div class="pcard-body">10G 激光器芯片全球第一，CW70mW 量产，对标 MTSI 本周 +27%；2026Q1 净利 +1153% 业绩弹性冠居光模块链；<em>光芯片国产替代核心</em>。</div>
+  </div>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">688313.SH</span>
+      <span class="pcard-name">仕佳光子 <em>Accelink Photon</em></span>
+      <span class="pcard-tag new">2022.12 上市，仍属次新</span>
+      <span class="pcard-tag amber">主线②</span>
+    </div>
+    <div class="pcard-body">EML/PON 芯片，光器件卡脖子环节；25 净利 +473% 增速光模块行业第一；EML 交期排至 2027 年以后，国产替代窗口黄金期。</div>
+  </div>
+
+  <div class="pcard new">
+    <div class="pcard-head">
+      <span class="pcard-tk">301308.SZ</span>
+      <span class="pcard-name">江波龙 <em>Longsys</em></span>
+      <span class="pcard-tag new">2022.8 上市，仍具次新属性</span>
+      <span class="pcard-tag amber">主线①</span>
+    </div>
+    <div class="pcard-body">企业级 SSD + 模组+品牌 Lexar；2026Q1 净利 38.62 亿 +2644%；对标 SNDK 本周 +42%；与英伟达合作 HBM 模组；存储链最强 Q1 业绩兑现。</div>
+  </div>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);margin-top:8px;"><strong>读法：</strong>大普微和屹唐是 2025 后真正的次新股，弹性最强但流动性需观察；源杰、仕佳、江波龙是 2022 年上市的"成熟次新"，业绩已经兑现，估值与流动性更稳定。本期建议把大普微作为存储链的弹性补充配置，屹唐作为半导体设备链的小盘扩散补充。</p>
+</div>
+
+<!-- ========== §10 节奏与风险 ========== -->
+<div class="section">
+  <div class="s-label">§ 10  ·  Tactical Notes</div>
+  <h2 class="s-title">交易节奏与 <em>风险提示</em></h2>
+  <div class="s-divider"></div>
+
+  <div class="two-col">
+    <div class="col-box bull-box">
+      <h4>未来 2-3 周可观察的兑现节奏</h4>
+      <ul>
+        <li><strong>本周(W19)</strong>：A 股存储链跟随美股 MU/SNDK 补涨；FLNC 极端读数推动 A 股储能/数据中心电源板块（科华数据为核心）情绪共振</li>
+        <li><strong>下周(W20)</strong>：观察 ANET 财报后续指引是否影响 A 股交换机厂商（紫光股份/星网锐捷）；CPO 链回调消化后随 MTSI 反弹（源杰科技/仕佳光子）</li>
+        <li><strong>5 月底</strong>：英伟达 GTC China 与 Computex 期间相关产业链事件催化；半导体设备国产化率年中数据更新</li>
+        <li><strong>6 月初</strong>：南方润泽科技 REIT 扩募申报推进，AIDC 资本闭环验证</li>
+        <li><strong>持续观察</strong>：HBM 充足率（目前 2%，回升至 10%+ 是周期顶部信号）；NAND/DRAM 现货价格周度跟踪</li>
+      </ul>
+    </div>
+    <div class="col-box bear-box">
+      <h4>需要警惕的尾部风险</h4>
+      <ul>
+        <li><strong>韩国/全球过热</strong>：本周 KOSPI +6.45%，SK 海力士+三星+10%/+14% 同日历史新高，海外端边际催化弱化是首位风险</li>
+        <li><strong>FLNC 极端读数</strong>：单周 +98% 历史上很难持续，回吐风险大；A 股映射储能板块需注意短期跟风资金高位的回吐风险</li>
+        <li><strong>光模块拥挤度</strong>：4 月底已经回调一波（新易盛-14/天孚-17），但当前讨论热度与交易热度仍处年内高点，警惕 ROE-TTM 拐点信号</li>
+        <li><strong>存储链同步性</strong>：A 股 5/6 已经反应江波龙/兆易/佰维涨停，部分标的距离创新高仅一步之遥，从"补涨"切换到"跟风"</li>
+        <li><strong>商业航天事件落空</strong>：朱雀三号已经发射，下一波事件催化窗口要等到 6 月以后</li>
+        <li><strong>反向信号扩散</strong>：ANET -18%、PRIM -42% 之外，PPC/EPAM/LDOS/HII 等也有 -12 到 -13% 跌幅，反映部分领域结构性走弱</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="s-lead" style="margin-top:18px;"><strong>结论：</strong>本周映射主线优先级 <em>① 存储 ≈ ③ 储能/AIDC 电源 > ② AI 算力(海外链 PCB+铜连接洼地 / 国产链昇腾独立催化) > ④ 半导体设备 > ⑤ 商业航天</em>。多头框架下，回调即加仓窗口，无需提前止盈；唯一退出信号是产业周期拐点（HBM 充足率回升至 10%+、NAND/DRAM 现货连续两周下跌、SK/三星减少 HBM 转产、北美 capex 增速首次负增长），<em>不是价格信号</em>。次新股标记：大普微(301666)、屹唐(688729) 作为弹性补充。</p>
+</div>
+
+<!-- ========== §11 公司总表 ========== -->
+<div class="section">
+  <div class="s-label">§ 11  ·  Master Roster</div>
+  <h2 class="s-title">公司 <em>总表汇编</em></h2>
+  <div class="s-divider"></div>
+
+  <p class="s-lead">本报告全部覆盖标的的索引清单：<strong>5 主线（②含海外/国产双链）· 27 子线 · 82 只 A 股</strong>。<strong>层级</strong>：主线（深色导航条）→ 子线（浅金色导航条）→ 标的。<strong>列定义</strong>：子模块定位 / 类型（直 = 直接业绩同构，间 = 间接产业链传导，情 = 纯情绪概念）/ 强度（★1-5）/ 业绩亮点 / 标签。同一标的横跨多条主线（紫光国微、英维克）按主归属归类，副归属在备注注明。</p>
+
+  <table class="dgrid" style="font-size:11.8px;">
+    <thead>
+      <tr>
+        <th style="width:8%">代码</th>
+        <th style="width:11%">简称</th>
+        <th style="width:14%">子模块</th>
+        <th style="width:5%">类型</th>
+        <th style="width:9%">强度</th>
+        <th style="width:35%">业绩亮点 / 核心定位</th>
+        <th style="width:18%">标签 / 备注</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 主线① 存储超级周期 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ① · 存储超级周期 · 12 标的 · 4 子线</td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">①a · 设计 / 接口 IP · 5 标的</td></tr>
+      <tr><td><span class="ticker">603986</span></td><td>兆易创新</td><td>NOR + 利基 DRAM</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 净利 14.6 亿 +523%；NOR 全球第三国内第一，HBM 接口 + 车规双线</td><td>—</td></tr>
+      <tr><td><span class="ticker">688008</span></td><td>澜起科技</td><td>DDR5 / HBM 接口</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 +61%；DDR5 RCD 全球 40-45% 份额，HBM3 送样英伟达</td><td>—</td></tr>
+      <tr><td><span class="ticker">300223</span></td><td>北京君正</td><td>车规 SRAM/DRAM</td><td>直</td><td class="amb-c">★★★★</td><td>预增 +300-400%；车规 SRAM 全球 #1 (29%)、车规 DRAM #2 (15%)</td><td>—</td></tr>
+      <tr><td><span class="ticker">688110</span></td><td>东芯股份</td><td>SLC NAND 设计</td><td>直</td><td class="amb-c">★★★★</td><td>扭亏放量；SLC NAND 国产第一 (30%+)，车规认证齐全</td><td>—</td></tr>
+      <tr><td><span class="ticker">688123</span></td><td>聚辰股份</td><td>EEPROM + DDR5 SPD</td><td>间</td><td class="amb-c">★★★</td><td>预增 +400%+；DDR5 SPD 全球前列，HBM VPD 配套</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">①b · 模组 / 主控 / 品牌 · 4 标的</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">301308</span></td><td><strong>江波龙</strong></td><td>企业级 SSD + 模组</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 净利 38.6 亿 <strong>+2644%</strong>；自有品牌 Lexar，与英伟达合作 HBM 模组</td><td><span class="bull-c">次新</span> · 业绩王</td></tr>
+      <tr><td><span class="ticker">688525</span></td><td>佰维存储</td><td>NAND+DRAM 全流程</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 净利 29 亿 +1568%；ePOP 独家供 Apple Watch，全流程稀缺</td><td>业绩王</td></tr>
+      <tr><td><span class="ticker">001309</span></td><td>德明利</td><td>SSD 主控 + 模组</td><td>直</td><td class="amb-c">★★★★★</td><td>预告 <strong>+4659-5383%</strong>；主控自研 + 模组 + 囤货涨价三重弹性</td><td>业绩王</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">301666</span></td><td><strong>大普微</strong></td><td>企业级 SSD 主控</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 +144-165%；A 股唯一"自研主控+企业级 SSD 整机"端到端，对标 MU/SNDK</td><td><span class="bull-c">次新★</span> · 2026.4 上市</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">①c · HBM / 存储分销 · 1 标的</td></tr>
+      <tr><td><span class="ticker">603861</span></td><td>香农芯创</td><td>HBM 分销 + 企业级</td><td>直</td><td class="amb-c">★★★★★</td><td>预增 <strong>+6714-8747%</strong>；SK 海力士国内核心代理商，路径稀缺</td><td>业绩王</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">①d · 封测 / 材料 · 2 标的</td></tr>
+      <tr><td><span class="ticker">000021</span></td><td>深科技</td><td>存储封测代工</td><td>间</td><td class="amb-c">★★★</td><td>高增延续；金士顿 / SK 海力士封测代工，HBM 后段封装受益</td><td>—</td></tr>
+      <tr><td><span class="ticker">002409</span></td><td>雅克科技</td><td>HBM 前驱体材料</td><td>间</td><td class="amb-c">★★★★</td><td>高增；绑定 SK 海力士 / 长鑫，HBM 前驱体国产替代核心</td><td>—</td></tr>
+
+      <!-- 主线② AI算力 海外链 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ② · AI 算力 · A 海外链 · 25 标的 · 7 子线  <span style="color:var(--amber-light);">| 跟随英伟达 / 超大云厂</span></td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A1 · 光模块 800G/1.6T · 4 标的</td></tr>
+      <tr><td><span class="ticker">300308</span></td><td>中际旭创</td><td>800G/1.6T 光模块</td><td>直</td><td class="amb-c">★★★★★</td><td>25 净利 108 亿 +109% / 26Q1 +262%；易中天龙头，谷歌+亚马逊+英伟达直供</td><td>—</td></tr>
+      <tr><td><span class="ticker">300502</span></td><td>新易盛</td><td>800G/1.6T 光模块</td><td>直</td><td class="amb-c">★★★★</td><td>26Q1 净利 27.8 亿 +77%；4 月已消化拥挤度，MTSI +27 给反弹催化</td><td>—</td></tr>
+      <tr><td><span class="ticker">300394</span></td><td>天孚通信</td><td>光器件 / 光引擎</td><td>直</td><td class="amb-c">★★★★</td><td>25 净利 20 亿 +50%；CPO 核心合作伙伴，A+H 在即，硅光集成 + TFLN</td><td>A+H 在即</td></tr>
+      <tr><td><span class="ticker">000988</span></td><td>华工科技</td><td>联接 + 激光</td><td>间</td><td class="amb-c">★★★</td><td>联接 + 激光双轮；800G 批量交付，估值锚低于易中天</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A2 · 光芯片  (国产替代卡脖子) · 3 标的</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">688498</span></td><td><strong>源杰科技</strong></td><td>EML/CW 激光器</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 净利 <strong>+1153%</strong>；10G DFB 全球 #1，CW70mW 量产，对标 MTSI</td><td><span class="bull-c">次新</span> · 业绩王</td></tr>
+      <tr><td><span class="ticker">688313</span></td><td>仕佳光子</td><td>EML / PON 芯片</td><td>直</td><td class="amb-c">★★★★</td><td>25 净利 3.72 亿 +473%；EML 国产替代核心，光模块行业增速 #1</td><td><span class="bull-c">次新</span></td></tr>
+      <tr><td><span class="ticker">688048</span></td><td>长光华芯</td><td>VCSEL / 高功率</td><td>间</td><td class="amb-c">★★★</td><td>VCSEL 转产 EML 路径打开；高功率激光弹性补充位</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A3 · PCB  (服务器主板 / HDI / 高速 CCL) · 6 标的 — <span style="color:var(--amber-light);">本周轮动洼地</span></td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">002463</span></td><td><strong>沪电股份</strong></td><td>AI 服务器 PCB</td><td>直</td><td class="amb-c">★★★★★</td><td>英伟达 GB200/300 主板核心供应；HDI + 高多层板，AI 业务占比 60%+</td><td>洼地轮动</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">300476</span></td><td><strong>胜宏科技</strong></td><td>HDI / AI 主板</td><td>直</td><td class="amb-c">★★★★★</td><td>英伟达 HGX 平台 PCB 核心；AI HDI 良率领先，单板价值量上行</td><td>洼地轮动</td></tr>
+      <tr><td><span class="ticker">002916</span></td><td>深南电路</td><td>PCB + 封基板</td><td>直</td><td class="amb-c">★★★★</td><td>服务器主板国内龙头；FCBGA / ABF 基板国产化稀缺</td><td>—</td></tr>
+      <tr><td><span class="ticker">600183</span></td><td>生益科技</td><td>高速覆铜板</td><td>直</td><td class="amb-c">★★★★</td><td>M6/M8 高速 CCL 国内 #1；800G/1.6T 升级直接受益，量价双升</td><td>—</td></tr>
+      <tr><td><span class="ticker">001389</span></td><td>广合科技</td><td>服务器 PCB</td><td>间</td><td class="amb-c">★★★</td><td>次新放量；服务器 PCB 专精，海外大客户突破</td><td><span class="bull-c">次新</span></td></tr>
+      <tr><td><span class="ticker">603228</span></td><td>景旺电子</td><td>HDI / 服务器 PCB</td><td>间</td><td class="amb-c">★★★</td><td>HDI 综合实力前列；服务器板出货比重抬升</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A4 · 铜连接  (NVLink 铜缆) · 2 标的 — <span style="color:var(--amber-light);">被低估的隐性受益方向</span></td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">002130</span></td><td><strong>沃尔核材</strong></td><td>高速铜连接</td><td>直</td><td class="amb-c">★★★★</td><td>英伟达 NVL72 铜缆方案核心供应；机柜内铜对光的份额维持是关键</td><td>洼地轮动</td></tr>
+      <tr><td><span class="ticker">300563</span></td><td>神宇股份</td><td>高速数据线缆</td><td>间</td><td class="amb-c">★★★</td><td>服务器内连接铜缆国产替代；单机柜价值量随功率提升</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A5 · 液冷与散热 · 4 标的</td></tr>
+      <tr><td><span class="ticker">002837</span></td><td>英维克</td><td>液冷温控龙头</td><td>直</td><td class="amb-c">★★★★</td><td>液冷温控龙头；PUE ≤1.2 必备配套，单机柜功率提升直接受益</td><td>亦见主线 ③</td></tr>
+      <tr><td><span class="ticker">300499</span></td><td>高澜股份</td><td>液冷专精</td><td>间</td><td class="amb-c">★★★</td><td>液冷板 / CDU 专精；AIDC 客户验证中</td><td>—</td></tr>
+      <tr><td><span class="ticker">300602</span></td><td>飞荣达</td><td>散热模组 / EMI</td><td>间</td><td class="amb-c">★★★</td><td>VC 均热板 / 液冷板综合方案；AI 服务器散热价值量上行</td><td>—</td></tr>
+      <tr><td><span class="ticker">300684</span></td><td>中石科技</td><td>导热界面材料</td><td>间</td><td class="amb-c">★★</td><td>TIM 国产替代；导热硅脂 / 凝胶 / 相变材料</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A6 · 服务器代工 / ODM · 2 标的</td></tr>
+      <tr><td><span class="ticker">601138</span></td><td>工业富联</td><td>NVL72 + AI 服务器</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 业绩高增；全球 AI 服务器主代工，NVL72 整机柜级别集成核心</td><td>体量+弹性并存</td></tr>
+      <tr><td><span class="ticker">000938</span></td><td>紫光股份</td><td>新华三 服务器/交换</td><td>间</td><td class="amb-c">★★★</td><td>国内服务器/交换机龙头；交换机受 ANET -18% 反向信号牵制</td><td><span class="bear-c">ANET 反向</span></td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">A7 · IDC / 算力租赁 · 4 标的</td></tr>
+      <tr><td><span class="ticker">300442</span></td><td>润泽科技</td><td>AIDC / 算力租赁</td><td>直</td><td class="amb-c">★★★★★</td><td>26Q1 营收 +54% · 在手订单 60 亿+；字节最大供应商 (60% 收入)，REIT 扩募</td><td>—</td></tr>
+      <tr><td><span class="ticker">603629</span></td><td>利通电子</td><td>纯算力租赁</td><td>直</td><td class="amb-c">★★★★★</td><td>26 净利预增 +1100% · 订单 70 亿；3.3 万 P 高端算力，订单排至 2028</td><td>业绩王</td></tr>
+      <tr><td><span class="ticker">300857</span></td><td>协创数据</td><td>算力调度 + 集群</td><td>直</td><td class="amb-c">★★★★</td><td>26Q1 净利 +284-402%；20cm 弹性王，绑定阿里/字节/腾讯</td><td>20cm 弹性</td></tr>
+      <tr><td><span class="ticker">300383</span></td><td>光环新网</td><td>传统 IDC 转 AIDC</td><td>间</td><td class="amb-c">★★★</td><td>北京/上海/廊坊 IDC 龙头；AIDC 转型节奏待观察</td><td>—</td></tr>
+
+      <!-- 主线② AI算力 国产链 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ② · AI 算力 · B 国产链 · 11 标的 · 3 子线  <span style="color:var(--bull);">| 信创 / 昇腾 / 海光寒武纪</span></td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">B1 · 国产算力芯片  (GPU / DCU / NPU) · 4 标的</td></tr>
+      <tr><td><span class="ticker">688041</span></td><td>海光信息</td><td>DCU + CPU</td><td>直</td><td class="amb-c">★★★★</td><td>高增延续；国产 DCU 龙头，K100/K200 量产推进，信创主力</td><td>K100 量产</td></tr>
+      <tr><td><span class="ticker">688256</span></td><td>寒武纪</td><td>AI 训练芯片</td><td>直</td><td class="amb-c">★★★★</td><td>扭亏放量；国产 AI 训练旗舰，思元系列出货放量，科创权重</td><td>思元出货</td></tr>
+      <tr><td><span class="ticker">688047</span></td><td>龙芯中科</td><td>LoongArch CPU</td><td>间</td><td class="amb-c">★★★</td><td>信创放量；自主指令集 CPU，党政信创主力供应</td><td>信创集采</td></tr>
+      <tr><td><span class="ticker">300474</span></td><td>景嘉微</td><td>国产 GPU</td><td>间</td><td class="amb-c">★★★</td><td>JM 系列出货；国产图形 GPU 龙头，AI 加速卡延伸</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">B2 · 华为昇腾产业链 · 5 标的</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">603019</span></td><td><strong>中科曙光</strong></td><td>昇腾整机+海光大股东</td><td>直</td><td class="amb-c">★★★★</td><td>海光实控方 + 曙光昇腾整机 + IDC 三业务同框，昇腾链最稀缺标的</td><td>昇腾链稀缺</td></tr>
+      <tr><td><span class="ticker">002261</span></td><td>拓维信息</td><td>华为兆瀚 AI 服务器</td><td>直</td><td class="amb-c">★★★★</td><td>湘江鲲鹏整机放量；子公司华为系核心整机厂，AI 订单弹性大</td><td>弹性最大</td></tr>
+      <tr><td><span class="ticker">000034</span></td><td>神州数码</td><td>鲲鹏 + 昇腾代理</td><td>直</td><td class="amb-c">★★★★</td><td>信创主力；华为生态最大代理商，鲲鹏 + 昇腾分销，渠道厚度</td><td>确定性最高</td></tr>
+      <tr><td><span class="ticker">000628</span></td><td>高新发展</td><td>华鲲振宇昇腾整机</td><td>间</td><td class="amb-c">★★★</td><td>华鲲振宇并表；昇腾整机控股，弹性最大但确定性低于曙光</td><td>—</td></tr>
+      <tr><td><span class="ticker">600498</span></td><td>烽火通信</td><td>昇腾配套 + 光网</td><td>间</td><td class="amb-c">★★★</td><td>信创网络；昇腾配套交换 + 光通信，传统通信厂商 AI 转型</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">B3 · 配套芯片 + 生态  (FPGA / 特种存储) · 2 标的</td></tr>
+      <tr><td><span class="ticker">002049</span></td><td>紫光国微</td><td>FPGA + 特种存储</td><td>间</td><td class="amb-c">★★★★</td><td>国产替代核心；FPGA + 特存双线，军工 + 算力配套</td><td>亦见主线 ⑤</td></tr>
+      <tr><td><span class="ticker">688385</span></td><td>复旦微电</td><td>FPGA</td><td>间</td><td class="amb-c">★★★</td><td>国产 FPGA 龙头；AI 加速卡 + 工控双线，估值锚低</td><td>—</td></tr>
+
+      <!-- 主线③ 储能/AIDC电源 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ③ · 储能 / AIDC 电源 · 11 标的 · 4 子线  <span style="color:var(--amber-light);">| FLNC +98% 极端读数</span></td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">③a · 储能 PCS / 逆变器 · 3 标的</td></tr>
+      <tr><td><span class="ticker">300274</span></td><td>阳光电源</td><td>储能 PCS + 逆变器</td><td>直</td><td class="amb-c">★★★★★</td><td>全球 PCS 出货 #1；构网型领先，中东 7.8GWh + 英国 4.4GWh 大单</td><td>大体量配置</td></tr>
+      <tr><td><span class="ticker">300827</span></td><td>上能电气</td><td>储能 PCS + 逆变器</td><td>直</td><td class="amb-c">★★★★</td><td>储能营收占比 37%；地面电站大功率领先，构网型出货高增</td><td>—</td></tr>
+      <tr><td><span class="ticker">601126</span></td><td>四方股份</td><td>电网级储能</td><td>间</td><td class="amb-c">★★★</td><td>构网型储能 + 微网；电力电子全链条，对标 FLNC 业务模型</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">③b · HVDC / UPS / 算电协同 · 3 标的</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">002335</span></td><td><strong>科华数据</strong></td><td>UPS + HVDC + IDC</td><td>直</td><td class="amb-c">★★★★★</td><td>25Q3 净利 <strong>+711%</strong>；A 股算电协同唯一全链条，HVDC 在腾讯份额 40%</td><td>本周必看</td></tr>
+      <tr><td><span class="ticker">002364</span></td><td>中恒电气</td><td>HVDC / 直流供电</td><td>间</td><td class="amb-c">★★★★</td><td>HVDC 国内核心标的；800V 趋势主受益</td><td>—</td></tr>
+      <tr><td><span class="ticker">688676</span></td><td>金盘科技</td><td>变压器 / SST</td><td>间</td><td class="amb-c">★★★★</td><td>HVDC 受益；SST 产业趋势核心，AIDC 配电环节价值量提升</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">③c · AIDC 电源 / 配电 · 3 标的</td></tr>
+      <tr><td><span class="ticker">002851</span></td><td>麦格米特</td><td>AIDC 电源</td><td>间</td><td class="amb-c">★★★</td><td>东方证券推荐；模组化电源，持续关注</td><td>—</td></tr>
+      <tr><td><span class="ticker">300870</span></td><td>欧陆通</td><td>服务器电源</td><td>间</td><td class="amb-c">★★★</td><td>服务器电源国内龙头；AI 服务器单台功率提升直接受益</td><td>—</td></tr>
+      <tr><td><span class="ticker">002706</span></td><td>良信股份</td><td>高压断路器 / 配电</td><td>间</td><td class="amb-c">★★★</td><td>东方证券推荐；AIDC 配电变换核心，断路器单价提升</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">③d · 储能温控 / AIDC 环境 · 2 标的</td></tr>
+      <tr><td><span class="ticker">300990</span></td><td>同飞股份</td><td>储能 + AIDC 温控</td><td>直</td><td class="amb-c">★★★</td><td>储能温控+数据中心散热双线；绑定宁德/阳光/海博思创</td><td>—</td></tr>
+      <tr><td><span class="ticker">301018</span></td><td>申菱环境</td><td>数据中心环境控制</td><td>直</td><td class="amb-c">★★★</td><td>液冷+精密空调；绑定字节/华为，AIDC 单瓦价值量提升</td><td>—</td></tr>
+
+      <!-- 主线④ 半导体设备 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ④ · 半导体设备国产替代 · 15 标的 · 5 子线  <span style="color:var(--amber-light);">| 小盘弹性 > 平台龙头</span></td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">④a · 平台型设备 · 2 标的</td></tr>
+      <tr><td><span class="ticker">002371</span></td><td>北方华创</td><td>平台型 多品类</td><td>直</td><td class="amb-c">★★★★</td><td>25 净利 53 亿 +120%；刻蚀+薄膜+清洗+炉管覆盖，整合芯源微</td><td>底仓</td></tr>
+      <tr><td><span class="ticker">688012</span></td><td>中微公司</td><td>刻蚀龙头</td><td>直</td><td class="amb-c">★★★★</td><td>营收 124 亿 +37%；并购众硅补 CMP，前道矩阵</td><td>底仓</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">④b · 前道工艺设备  (薄膜 / CMP / 清洗 / 涂胶 / 去胶) · 5 标的</td></tr>
+      <tr><td><span class="ticker">688072</span></td><td>拓荆科技</td><td>薄膜沉积 ALD</td><td>直</td><td class="amb-c">★★★★</td><td>25H1 营收 19.5 亿 +54%；大基金三期 4.5 亿入注，混合键合突破 BESI</td><td>—</td></tr>
+      <tr><td><span class="ticker">688120</span></td><td>华海清科</td><td>CMP 设备</td><td>直</td><td class="amb-c">★★★★</td><td>25H1 营收 19.5 亿 +30%；CMP 国产唯一规模化龙头，长存深度绑定</td><td>—</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">688082</span></td><td><strong>盛美上海</strong></td><td>清洗 / 电镀</td><td>直</td><td class="amb-c">★★★★★</td><td>25H1 净利 7 亿 +57%；母公司 ACMR 本周 +16%，直接联动</td><td>ACMR 联动</td></tr>
+      <tr><td><span class="ticker">688030</span></td><td>芯源微</td><td>涂胶显影 / 湿法</td><td>直</td><td class="amb-c">★★★</td><td>高增延续；北方华创整合后湿法生态重构，工艺覆盖度 97%</td><td>—</td></tr>
+      <tr style="background:rgba(255,241,184,0.4);"><td><span class="ticker">688729</span></td><td><strong>屹唐股份</strong></td><td>去胶 / 热处理</td><td>直</td><td class="amb-c">★★★★</td><td>25H1 营收 24.8 亿 +19%；去胶设备国产 #1，热处理 28% 国内前三</td><td><span class="bull-c">次新★</span> · 2025.7 上市</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">④c · 量检测 + 测试机 · 4 标的</td></tr>
+      <tr><td><span class="ticker">688361</span></td><td>中科飞测</td><td>量检测设备</td><td>直</td><td class="amb-c">★★★★</td><td>高增；量测国产化最薄弱环节突破，2025 年增长前三</td><td>—</td></tr>
+      <tr><td><span class="ticker">300567</span></td><td>精测电子</td><td>量检测设备</td><td>直</td><td class="amb-c">★★★</td><td>高增；量测设备份额提升，毛利率行业前列</td><td>—</td></tr>
+      <tr><td><span class="ticker">300604</span></td><td>长川科技</td><td>测试机后道</td><td>直</td><td class="amb-c">★★★★</td><td>业绩兑现；SOC 测试机国产突破，存储+AI 芯片测试受益</td><td>—</td></tr>
+      <tr><td><span class="ticker">688200</span></td><td>华峰测控</td><td>模拟测试机</td><td>直</td><td class="amb-c">★★★★</td><td>高增；模拟测试国内龙头，对标 SITM/HIMX 模拟方向</td><td><span class="bear-c">原文 688409 系笔误</span></td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">④d · 设备零部件 · 1 标的</td></tr>
+      <tr><td><span class="ticker">688409</span></td><td>富创精密</td><td>设备零部件</td><td>间</td><td class="amb-c">★★★</td><td>订单饱满；国产替代最薄弱环节补缺，零部件平台</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">④e · 半导体洁净室工程 · 3 标的 — <span style="color:var(--amber-light);">原§08反向信号配套，业务核查后归类至此</span></td></tr>
+      <tr><td><span class="ticker">603929</span></td><td>亚翔集成</td><td>洁净室工程 (台资)</td><td>间</td><td class="amb-c">★★★★</td><td>24 营收 53.8 亿 +68% / 净利 6.36 亿 +122%；绑定台积电南京/中芯/三安/福建晋华/新加坡联电</td><td>半导体扩产</td></tr>
+      <tr><td><span class="ticker">601133</span></td><td>柏诚股份</td><td>洁净室工程</td><td>间</td><td class="amb-c">★★★</td><td>在手订单充足；长鑫存储深度合作包商（连续 23/24 年度卓越运营奖），半导体+显示+AIDC 多产业</td><td>长鑫合作商</td></tr>
+      <tr><td><span class="ticker">603163</span></td><td>圣晖集成</td><td>洁净室工程 (台资)</td><td>间</td><td class="amb-c">★★★</td><td>25 末在手订单 25.4 亿 +46%；中高端洁净室领军，绑定中芯/晶合/三安/华润微，泰国越南海外双轮</td><td>—</td></tr>
+
+      <!-- 主线⑤ 商业航天 -->
+      <tr style="background:var(--navy-light);">
+        <td colspan="7" style="color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 14px;font-weight:500;border-right:none;">主线 ⑤ · 商业航天 / 卫星 · 8 标的 · 4 子线  <span style="color:var(--amber-light);">| 事件催化期 · 已走过主升浪</span></td>
+      </tr>
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">⑤a · 卫星制造 / 总体 · 2 标的</td></tr>
+      <tr><td><span class="ticker">600118</span></td><td>中国卫星</td><td>卫星制造总体</td><td>间</td><td class="amb-c">★★★★</td><td>航天五院上市平台；小卫星全谱型号，GW 星座核心供应商</td><td>配置型</td></tr>
+      <tr><td><span class="ticker">600879</span></td><td>航天电子</td><td>火箭/卫星配套</td><td>间</td><td class="amb-c">★★★★</td><td>长征+神舟配套；星间链路激光通信单星价值量高</td><td>配置型</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">⑤b · 卫星运营 / 通信 · 2 标的</td></tr>
+      <tr><td><span class="ticker">601698</span></td><td>中国卫通</td><td>卫星运营服务</td><td>情</td><td class="amb-c">★★★</td><td>航空互联+海洋通信+应急保障；终端直连卫星大众市场</td><td>—</td></tr>
+      <tr><td><span class="ticker">002465</span></td><td>海格通信</td><td>卫星通信芯片+终端</td><td>间</td><td class="amb-c">★★★★</td><td>射频/基带自研；车载终端进比亚迪测试，"九天"无人机中东 20 亿美元订单</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">⑤c · 元器件 / 结构件 · 3 标的</td></tr>
+      <tr><td><span class="ticker">002413</span></td><td>雷科防务</td><td>测控/导航</td><td>情</td><td class="amb-c">★★★</td><td>北斗导航+雷达测控；前期主升浪龙头之一</td><td>—</td></tr>
+      <tr><td><span class="ticker">688445</span></td><td>铖昌科技</td><td>卫星射频元器件</td><td>情</td><td class="amb-c">★★</td><td>射频元器件，高单星价值量；<span class="bear-c">已被警示交易风险</span></td><td><span class="bear-c">原文 688271 系笔误</span></td></tr>
+      <tr><td><span class="ticker">688362</span></td><td>航天环宇</td><td>结构件/复材</td><td>情</td><td class="amb-c">★★★</td><td>火箭结构件核心；前期主升浪 +109%，需观察筹码</td><td>—</td></tr>
+
+      <tr style="background:rgba(184,135,10,0.10);"><td colspan="7" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;font-weight:600;border-right:none;">⑤d · 应用 / 遥感服务 · 1 标的</td></tr>
+      <tr><td><span class="ticker">688568</span></td><td>中科星图</td><td>遥感/低空</td><td>情</td><td class="amb-c">★★</td><td>空天信息+低空经济双线；公司主动提示"涨幅与基本面不匹配"</td><td><span class="bear-c">公司风险提示</span></td></tr>
+
+    </tbody>
+  </table>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);margin-top:14px;"><strong>使用说明：</strong>(1) <strong>层级</strong>——主线（深色导航）/ 子线（浅金色导航）/ 标的。(2) <strong>类型列</strong>——直 = 业绩同构（业绩与美股对标公司直接联动）/ 间 = 产业链传导（受益但有时滞）/ 情 = 纯概念关联（无实质业绩弹性）。(3) <strong>强度列</strong>——5 星为本主线核心配置，4 星为重要参与，3 星及以下为弹性补充或情绪标的。(4) <strong>黄色高亮行</strong>——本周必看的核心标的或洼地轮动方向。(5) <strong>"业绩王"标签</strong>——26Q1 净利同比增速 1000%+ 的爆发型标的。(6) <strong>"次新★"标签</strong>——2025-2026 上市的真正次新股；"次新"——2022-2024 上市仍具次新属性。(7) <strong>跨主线标的</strong>——紫光国微（②B3 + ⑤）、英维克（②A5 + ③）按主归属归类。</p>
+
+  <p style="font-size:12.5px;color:var(--ink-soft);margin-top:8px;"><strong>组合搭配建议（按用户多头框架）：</strong>① 5 星直接型作为主仓（中际旭创 / 江波龙 / 香农芯创 / 沪电 / 胜宏 / 阳光电源 / 工业富联 / 大普微 / 利通电子 / 科华数据 / 源杰科技 / 盛美上海）；② 洼地轮动作为加仓窗口（A3 PCB + A4 铜连接 + A5 液冷）；③ 国产链作为不相关回报来源（中科曙光 / 拓维 / 神州数码 三角组合）；④ 半导体扩产闭环（主线①存储设计+主线④a/b 设备+④e 洁净室）形成完整供应链验证；⑤ 间接型作为弹性补充；⑥ 情绪型仅作小仓位题材。</p>
+</div>
+
+<div class="footer">
+  <div class="f-line"><em>Cross-Market Mapping · W19 · 260509</em></div>
+  <div class="f-line">Coverage: 美股 watchlist 周报 ↔ A 股 / 港股映射</div>
+  <div class="f-line">Mapping logic: Direct (业绩同构) / Indirect (产业链传导) / Sentiment (纯概念)</div>
+  <div class="f-line">Framework: 3-week trader horizon · 多头逻辑 · 周期拐点退出</div>
+  <div class="f-line">Disclaimer: 本报告仅供研究讨论，不构成投资建议</div>
+</div>
+
+</div>
+</body>
+</html>
