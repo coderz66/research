@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>黄金矿股专题研究 · Research Series</title>
+<link rel="icon" type="image/svg+xml" href="/research/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Karla:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:     #1B2635;
+  --amber:    #B8870A;
+  --amber-hi: #D4A017;
+  --bg:       #F4F2ED;
+  --muted:    #6B7280;
+  --border:   #DDD8CF;
+  --series:   #7C3AED;
+}
+
+body {
+  background: var(--bg);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Masthead ── */
+.masthead {
+  background: var(--navy);
+  border-bottom: 3px solid var(--amber);
+  padding: 52px 0 44px;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::after {
+  content: 'GOLD';
+  position: absolute;
+  right: -10px; bottom: -24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 160px; font-weight: 700;
+  color: rgba(255,255,255,0.04);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -0.02em;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+
+.series-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.series-eyebrow::before {
+  content: '';
+  display: inline-block; width: 28px; height: 2px;
+  background: var(--amber);
+}
+.series-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.series-title em {
+  font-style: italic;
+  color: var(--amber-hi);
+}
+.series-desc {
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
+  max-width: 620px;
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+.series-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.08em;
+  padding: 4px 10px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.65);
+}
+.pill.hi {
+  background: rgba(184,135,10,0.2);
+  border-color: rgba(184,135,10,0.4);
+  color: var(--amber-hi);
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+.stats-inner {
+  max-width: 860px; margin: 0 auto; padding: 0 40px;
+  display: flex; gap: 36px; align-items: center;
+}
+.stat {
+  display: flex; align-items: baseline; gap: 6px;
+}
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 500;
+  color: var(--navy);
+}
+.stat-label {
+  font-size: 12px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.stat-divider {
+  width: 1px; height: 28px;
+  background: var(--border);
+}
+
+/* ── Report List ── */
+.report-list {
+  max-width: 860px; margin: 0 auto;
+  padding: 40px 40px 80px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.series-card {
+  display: flex; align-items: stretch;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: box-shadow 0.18s, transform 0.15s;
+}
+.series-card:hover {
+  box-shadow: 0 6px 24px rgba(27,38,53,0.1);
+  transform: translateY(-2px);
+}
+
+.card-num {
+  width: 56px; min-height: 100%;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.05em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+.series-card:hover .card-num {
+  color: var(--amber-hi);
+}
+
+.card-accent-strip {
+  width: 4px; background: var(--series); flex-shrink: 0;
+}
+
+.card-body {
+  flex: 1; padding: 22px 24px;
+  display: flex; align-items: center; gap: 20px;
+}
+.card-content { flex: 1; }
+
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--series);
+  margin-bottom: 6px;
+}
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.card-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.06em;
+  padding: 2px 8px; border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--navy);
+}
+
+.card-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: space-between;
+  min-width: 100px; height: 100%;
+}
+.card-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.card-arrow {
+  font-size: 20px; color: var(--border);
+  transition: color 0.15s;
+  margin-top: 12px;
+}
+.series-card:hover .card-arrow { color: var(--amber); }
+
+/* ── Back Button ── */
+.back-btn {
+  position: fixed; top: 16px; left: 16px; z-index: 9999;
+  background: var(--amber-hi); color: var(--navy);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 20px;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+  transition: background 0.15s;
+}
+.back-btn:hover { background: #e8b520; }
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.1em;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<a href="../../index.html" class="back-btn">← Index</a>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="wrap">
+    <div class="series-eyebrow">Research Series · 美股资源股</div>
+    <div class="series-title"><em>黄金矿股</em>专题研究</div>
+    <div class="series-desc">覆盖美股主要金银矿企，从行业框架、估值体系，到个股深度横比与未开采资产期权价值。共 3 篇，持续更新。</div>
+    <div class="series-pills">
+      <span class="pill hi">NEM</span>
+      <span class="pill hi">AEM</span>
+      <span class="pill hi">WPM</span>
+      <span class="pill hi">GOLD</span>
+      <span class="pill hi">KGC</span>
+      <span class="pill">16 家矿企</span>
+      <span class="pill">Gold Royalty</span>
+      <span class="pill">未开采资产</span>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">篇报告</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-num">16</span>
+      <span class="stat-label">家矿企覆盖</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-num">2026-05</span>
+      <span class="stat-label">最新更新</span>
+    </div>
+  </div>
+</div>
+
+<!-- Report List -->
+<div class="report-list">
+
+  <!-- #01 最新 -->
+  <a href="金矿点评.html" class="series-card">
+    <div class="card-num">#01</div>
+    <div class="card-accent-strip"></div>
+    <div class="card-body">
+      <div class="card-content">
+        <div class="card-label">最新 · 个股点评</div>
+        <div class="card-title">中小型金矿研究</div>
+        <div class="card-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理。覆盖市值 $1B 以下中小型矿企，重点看 cost structure 与金价弹性。</div>
+        <div class="card-tags">
+          <span class="tag">KGC</span>
+          <span class="tag">PAAS</span>
+          <span class="tag">AG</span>
+          <span class="tag">小盘矿企</span>
+          <span class="tag">Beta 分析</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <span class="card-date">2026-05-09</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- #02 -->
+  <a href="未开采黄金矿企深度专题.html" class="series-card">
+    <div class="card-num">#02</div>
+    <div class="card-accent-strip"></div>
+    <div class="card-body">
+      <div class="card-content">
+        <div class="card-label">深度专题 · 开发阶段矿企</div>
+        <div class="card-title">未开采黄金矿企深度专题</div>
+        <div class="card-desc">5 家长周期开发者横比 · Royalty & Streaming 模式解构 · 资产期权价值框架。用期权视角重新定价未开采资源量。</div>
+        <div class="card-tags">
+          <span class="tag">WPM</span>
+          <span class="tag">RGLD</span>
+          <span class="tag">FNV</span>
+          <span class="tag">Royalty 模式</span>
+          <span class="tag">资产期权</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <span class="card-date">2026-05-09</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- #03 基础篇 -->
+  <a href="美股金银矿股研究_v10.html" class="series-card">
+    <div class="card-num">#03</div>
+    <div class="card-accent-strip"></div>
+    <div class="card-body">
+      <div class="card-content">
+        <div class="card-label">基础框架 · 全景梳理</div>
+        <div class="card-title">美股金银矿股研究 v10</div>
+        <div class="card-desc">金银矿股投资逻辑全景 · 估值体系建立 · 16 家主要矿企同框架横比。行业入门基础文件，定义核心指标与分析框架。</div>
+        <div class="card-tags">
+          <span class="tag">NEM</span>
+          <span class="tag">AEM</span>
+          <span class="tag">GOLD</span>
+          <span class="tag">16 家横比</span>
+          <span class="tag">估值体系</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <span class="card-date">2026-05-09</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="footer">RESEARCH SERIES · 黄金矿股专题 · coderz66</div>
+
+</body>
+</html>
