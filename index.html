@@ -11,12 +11,14 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy: #1B2635;
-    --amber: #B8870A;
+    --navy:     #1B2635;
+    --amber:    #B8870A;
     --amber-hi: #D4A017;
-    --bg: #F4F2ED;
-    --muted: #6B7280;
-    --border: #DDD8CF;
+    --bg:       #F4F2ED;
+    --sidebar-bg: #ffffff;
+    --muted:    #6B7280;
+    --border:   #DDD8CF;
+    --sidebar-w: 224px;
   }
 
   body {
@@ -33,240 +35,182 @@
     border-bottom: 3px solid var(--amber);
     position: relative;
     overflow: hidden;
-    padding: 48px 0 40px;
+    padding: 44px 0 36px;
   }
-
   .masthead::after {
     content: 'RESEARCH';
     position: absolute;
-    right: -10px;
-    bottom: -30px;
+    right: -10px; bottom: -30px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 160px;
-    font-weight: 700;
+    font-size: 160px; font-weight: 700;
     color: rgba(255,255,255,0.04);
     letter-spacing: -4px;
-    pointer-events: none;
-    user-select: none;
+    pointer-events: none; user-select: none;
   }
-
-  .wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--amber);
-    text-transform: uppercase;
-    margin-bottom: 14px;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 12px;
   }
-
   .masthead h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 52px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.1;
+    font-size: 50px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 12px;
+  }
+  .masthead h1 em { color: var(--amber-hi); font-style: italic; }
+  .masthead p { color: rgba(255,255,255,0.55); font-size: 14px; font-weight: 300; }
+
+  /* ── PAGE LAYOUT ── */
+  .page-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 32px;
+  }
+
+  .sb-card {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 16px;
+  }
+
+  .sb-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber);
     margin-bottom: 14px;
   }
 
-  .masthead h1 em {
-    color: var(--amber-hi);
-    font-style: italic;
-  }
-
-  .masthead p {
-    color: rgba(255,255,255,0.55);
-    font-size: 14px;
-    font-weight: 300;
-    max-width: 540px;
-  }
-
-  /* ── FILTER PILLS ── */
-  .filter-bar {
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  .filter-bar .wrap {
-    display: flex;
-    gap: 8px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-  }
-
-  .pill {
+  /* stats */
+  .sb-stats { display: flex; flex-direction: column; gap: 14px; }
+  .sb-stat { display: flex; justify-content: space-between; align-items: baseline; }
+  .sb-stat-num {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    padding: 5px 14px;
-    border-radius: 20px;
-    border: 1.5px solid var(--border);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    background: transparent;
-    user-select: none;
+    font-size: 20px; font-weight: 500; color: var(--navy);
   }
+  .sb-stat-label { font-size: 11px; color: var(--muted); }
 
-  .pill:hover { border-color: var(--amber); color: var(--amber); }
-  .pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  /* category nav */
+  .sb-nav { display: flex; flex-direction: column; gap: 2px; }
+  .sb-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 4px;
+    cursor: pointer; transition: background 0.12s;
+    font-size: 13px; font-weight: 500;
+    color: var(--navy); border: none; background: transparent;
+    width: 100%; text-align: left;
+  }
+  .sb-nav-item:hover { background: var(--bg); }
+  .sb-nav-item.active { background: var(--navy); color: #fff; }
+  .sb-nav-item.active .nav-dot { opacity: 1; }
+  .nav-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; opacity: 0.5;
+    transition: opacity 0.12s;
+  }
+  .sb-nav-item:hover .nav-dot { opacity: 0.8; }
+  .nav-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+  }
+  .sb-nav-item.active .nav-count { color: rgba(255,255,255,0.6); }
 
-  /* ── MAIN CONTENT ── */
-  .main { padding: 48px 0 80px; }
+  /* recent */
+  .sb-recent { display: flex; flex-direction: column; gap: 12px; }
+  .sb-recent-item { display: flex; flex-direction: column; gap: 2px; }
+  .sb-recent-title {
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    text-decoration: none; line-height: 1.3;
+  }
+  .sb-recent-title:hover { color: var(--amber); }
+  .sb-recent-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; color: var(--muted);
+  }
+  .sb-divider { height: 1px; background: var(--border); }
+
+  /* ── MAIN ── */
+  .main { flex: 1; min-width: 0; padding-top: 32px; }
 
   .section-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 6px;
+    font-size: 9.5px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 6px;
   }
-
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-size: 26px; font-weight: 600; margin-bottom: 4px;
   }
-
-  .s-divider {
-    width: 44px;
-    height: 2px;
-    background: var(--amber);
-    margin: 12px 0 28px;
-  }
+  .s-divider { width: 44px; height: 2px; background: var(--amber); margin: 10px 0 22px; }
 
   /* ── REPORT CARDS ── */
-  .report-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  .report-grid { display: flex; flex-direction: column; gap: 12px; }
 
   .report-card {
-    display: flex;
-    align-items: stretch;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
+    display: flex; align-items: stretch;
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+    text-decoration: none; color: inherit;
     transition: box-shadow 0.15s, transform 0.1s;
   }
-
   .report-card:hover {
-    box-shadow: 0 4px 20px rgba(27,38,53,0.10);
+    box-shadow: 0 4px 18px rgba(27,38,53,0.09);
     transform: translateY(-1px);
   }
 
-  .card-accent {
-    width: 4px;
-    flex-shrink: 0;
-  }
-
-  .card-accent.us-weekly  { background: #2563EB; }
-  .card-accent.a-share    { background: #DC2626; }
-  .card-accent.macro      { background: var(--amber); }
-  .card-accent.us-equity  { background: #7C3AED; }
+  .card-accent { width: 4px; flex-shrink: 0; }
+  .card-accent.us-weekly { background: #2563EB; }
+  .card-accent.a-share   { background: #DC2626; }
+  .card-accent.macro     { background: var(--amber); }
+  .card-accent.us-equity { background: #7C3AED; }
 
   .card-body {
-    padding: 20px 24px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 24px;
+    padding: 18px 22px; flex: 1;
+    display: flex; align-items: center; gap: 20px;
   }
-
-  .card-meta {
-    flex: 1;
-  }
-
+  .card-meta { flex: 1; }
   .card-type {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 5px;
   }
-
   .card-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 6px;
+    font-size: 20px; font-weight: 600; line-height: 1.2; margin-bottom: 5px;
   }
-
-  .card-desc {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 300;
-  }
+  .card-desc { font-size: 12.5px; color: var(--muted); font-weight: 300; }
 
   .card-date {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    text-align: right;
+    font-size: 11px; color: var(--muted);
+    white-space: nowrap; text-align: right;
   }
-
-  .card-arrow {
-    font-size: 18px;
-    color: var(--border);
-    margin-left: 8px;
-    transition: color 0.15s;
-  }
-
+  .card-arrow { font-size: 16px; color: var(--border); margin-left: 8px; transition: color 0.15s; }
   .report-card:hover .card-arrow { color: var(--amber); }
 
-  /* ── EMPTY STATE ── */
+  /* hidden by filter */
+  .report-card[hidden] { display: none; }
+
   .empty {
-    text-align: center;
-    padding: 60px 0;
-    color: var(--muted);
-    font-size: 14px;
-    display: none;
+    text-align: center; padding: 60px 0;
+    color: var(--muted); font-size: 14px; display: none;
   }
-
-  /* ── STATS BAR ── */
-  .stats {
-    display: flex;
-    gap: 32px;
-    margin-bottom: 32px;
-    padding: 18px 24px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-  }
-
-  .stat-item { display: flex; flex-direction: column; gap: 2px; }
-
-  .stat-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--navy);
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* ── FILTER JS ── */
 </style>
 </head>
 <body>
@@ -279,34 +223,87 @@
   </div>
 </header>
 
-<nav class="filter-bar">
-  <div class="wrap">
-    <button class="pill active" data-filter="all">All</button>
-    <button class="pill" data-filter="us-weekly">US Weekly</button>
-    <button class="pill" data-filter="a-share">A股研究</button>
-    <button class="pill" data-filter="us-equity">美股研究</button>
-    <button class="pill" data-filter="macro">宏观</button>
-  </div>
-</nav>
+<div class="page-layout">
 
-<main class="main">
-  <div class="wrap">
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
 
-    <div class="stats">
-      <div class="stat-item">
-        <span class="stat-num" id="total-count">5</span>
-        <span class="stat-label">Total Reports</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">2026</span>
-        <span class="stat-label">Coverage Year</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">US · CN</span>
-        <span class="stat-label">Markets</span>
+    <!-- Stats -->
+    <div class="sb-card">
+      <div class="sb-label">Overview</div>
+      <div class="sb-stats">
+        <div class="sb-stat">
+          <span class="sb-stat-label">Total Reports</span>
+          <span class="sb-stat-num" id="total-count">5</span>
+        </div>
+        <div class="sb-stat">
+          <span class="sb-stat-label">Markets</span>
+          <span class="sb-stat-num" style="font-size:14px">US · CN</span>
+        </div>
+        <div class="sb-stat">
+          <span class="sb-stat-label">Coverage</span>
+          <span class="sb-stat-num" style="font-size:14px">2026</span>
+        </div>
       </div>
     </div>
 
+    <!-- Category Nav -->
+    <div class="sb-card">
+      <div class="sb-label">Categories</div>
+      <div class="sb-nav">
+        <button class="sb-nav-item active" data-filter="all">
+          <span class="nav-dot" style="background:var(--navy)"></span>
+          All
+          <span class="nav-count" id="cnt-all">5</span>
+        </button>
+        <button class="sb-nav-item" data-filter="us-weekly">
+          <span class="nav-dot" style="background:#2563EB"></span>
+          US Weekly
+          <span class="nav-count" id="cnt-us-weekly">1</span>
+        </button>
+        <button class="sb-nav-item" data-filter="a-share">
+          <span class="nav-dot" style="background:#DC2626"></span>
+          A股研究
+          <span class="nav-count" id="cnt-a-share">1</span>
+        </button>
+        <button class="sb-nav-item" data-filter="us-equity">
+          <span class="nav-dot" style="background:#7C3AED"></span>
+          美股研究
+          <span class="nav-count" id="cnt-us-equity">3</span>
+        </button>
+        <button class="sb-nav-item" data-filter="macro">
+          <span class="nav-dot" style="background:var(--amber)"></span>
+          宏观
+          <span class="nav-count" id="cnt-macro">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent -->
+    <div class="sb-card">
+      <div class="sb-label">最近发布</div>
+      <div class="sb-recent">
+        <div class="sb-recent-item">
+          <a href="美股研究/资源股研究/美股金银矿股研究_v10.html" class="sb-recent-title">美股金银矿股研究 v10</a>
+          <span class="sb-recent-meta">2026-05-09 · 美股研究</span>
+        </div>
+        <div class="sb-divider"></div>
+        <div class="sb-recent-item">
+          <a href="美股研究/资源股研究/未开采黄金矿企深度专题.html" class="sb-recent-title">未开采黄金矿企深度专题</a>
+          <span class="sb-recent-meta">2026-05-09 · 美股研究</span>
+        </div>
+        <div class="sb-divider"></div>
+        <div class="sb-recent-item">
+          <a href="US weekly/A股映射_260509.html" class="sb-recent-title">A股映射 — 2026-05-09</a>
+          <span class="sb-recent-meta">2026-05-09 · A股研究</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
     <div class="section-label">Archive</div>
     <div class="section-title">所有报告</div>
     <div class="s-divider"></div>
@@ -322,10 +319,7 @@
             <div class="card-title">美股金银矿股研究 v10</div>
             <div class="card-desc">金银矿股全景梳理 · 估值体系 · 个股对比</div>
           </div>
-          <div class="card-date">
-            2026-05-09<br>
-            <span style="color:var(--border)">Deep Dive</span>
-          </div>
+          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -339,10 +333,7 @@
             <div class="card-title">未开采黄金矿企深度专题</div>
             <div class="card-desc">Royalty & Streaming 模式 · 资产期权价值 · 开发阶段矿企梳理</div>
           </div>
-          <div class="card-date">
-            2026-05-09<br>
-            <span style="color:var(--border)">Deep Dive</span>
-          </div>
+          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Deep Dive</span></div>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -356,10 +347,7 @@
             <div class="card-title">金矿点评</div>
             <div class="card-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理</div>
           </div>
-          <div class="card-date">
-            2026-05-09<br>
-            <span style="color:var(--border)">Quick Note</span>
-          </div>
+          <div class="card-date">2026-05-09<br><span style="color:var(--border)">Quick Note</span></div>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -373,10 +361,7 @@
             <div class="card-title">A股映射 — 2026-05-09</div>
             <div class="card-desc">美股主题 → A股供应链映射 · Direct / Indirect / Sentiment 分类</div>
           </div>
-          <div class="card-date">
-            2026-05-09<br>
-            <span style="color:var(--border)">W19</span>
-          </div>
+          <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -390,10 +375,7 @@
             <div class="card-title">美股周报 — 2026-05-09</div>
             <div class="card-desc">NDX / SPX 周度归因 · 异动筛选 · 主题供应链健康度</div>
           </div>
-          <div class="card-date">
-            2026-05-09<br>
-            <span style="color:var(--border)">W19</span>
-          </div>
+          <div class="card-date">2026-05-09<br><span style="color:var(--border)">W19</span></div>
           <span class="card-arrow">→</span>
         </div>
       </a>
@@ -401,21 +383,35 @@
     </div>
 
     <div class="empty" id="empty-state">该分类下暂无报告</div>
+  </main>
 
-  </div>
-</main>
+</div><!-- .page-layout -->
 
 <script>
-  const pills = document.querySelectorAll('.pill');
-  const cards = document.querySelectorAll('.report-card');
-  const counter = document.getElementById('total-count');
-  const empty = document.getElementById('empty-state');
+  const navItems = document.querySelectorAll('.sb-nav-item');
+  const cards    = document.querySelectorAll('.report-card');
+  const counter  = document.getElementById('total-count');
+  const empty    = document.getElementById('empty-state');
 
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      const filter = pill.dataset.filter;
+  // count per category
+  const counts = { all: 0 };
+  cards.forEach(c => {
+    const cat = c.dataset.category;
+    counts[cat] = (counts[cat] || 0) + 1;
+    counts.all++;
+  });
+  // write sidebar counts
+  Object.entries(counts).forEach(([cat, n]) => {
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = n;
+  });
+  counter.textContent = counts.all;
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      navItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      const filter = item.dataset.filter;
       let visible = 0;
       cards.forEach(card => {
         const match = filter === 'all' || card.dataset.category === filter;
