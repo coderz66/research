@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>锂矿股估值解读 · 市场在告诉你什么</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #F7F2E9;
+    --bg-paper: #FBF7EE;
+    --bg-card: #FFFCF5;
+    --bg-dark: #1B2436;
+    --bg-dark-card: #242E42;
+    --ink-primary: #1B2436;
+    --ink-secondary: #4A5568;
+    --ink-muted: #8B8578;
+    --ink-on-dark: #F7F2E9;
+    --ink-on-dark-muted: rgba(247, 242, 233, 0.6);
+    --accent-gold: #A8824C;
+    --accent-gold-light: #C9A876;
+    --accent-gold-dark: #7A5C2E;
+    --accent-burgundy: #722D3A;
+    --rule: #D4CCB8;
+    --rule-soft: #E8DFC9;
+    --rule-dark: rgba(247, 242, 233, 0.12);
+    --green: #4A6B47;
+    --green-light: #6B8E68;
+    --amber: #B8762E;
+    --orange: #B85C2E;
+    --red: #8B3A3A;
+    --teal: #2C5F5A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Sans', 'Noto Sans SC', sans-serif;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    line-height: 1.6;
+    font-size: 15px;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(168, 130, 76, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(114, 45, 58, 0.03) 0%, transparent 50%);
+  }
+
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 2px solid var(--ink-primary);
+    padding: 24px 0 20px;
+    margin-bottom: 48px;
+    background: var(--bg-paper);
+  }
+  .masthead-inner {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .masthead-inner .brand {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--accent-gold-dark); text-transform: none;
+  }
+
+  /* HERO */
+  .hero { padding: 24px 0 56px; border-bottom: 1px solid var(--rule); margin-bottom: 56px; }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::after {
+    content: ''; height: 1px; flex: 1; max-width: 240px;
+    background: var(--accent-gold); opacity: 0.4;
+  }
+  .hero-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: clamp(38px, 5.2vw, 64px);
+    font-weight: 500; line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--ink-primary); margin-bottom: 24px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent-gold-dark); font-weight: 400; }
+  .hero-subtitle {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 21px; line-height: 1.5; color: var(--ink-secondary);
+    max-width: 920px; font-weight: 400; margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    padding-top: 32px; border-top: 1px solid var(--rule-soft);
+  }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500; color: var(--ink-primary);
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 40px;
+    display: grid; grid-template-columns: 60px 1fr; gap: 24px; align-items: baseline;
+  }
+  .section-number {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 300; line-height: 1;
+    color: var(--accent-gold); font-style: italic;
+  }
+  .section-title-wrap { display: flex; flex-direction: column; }
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 36px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink-primary);
+  }
+  .section-lede {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 17px; line-height: 1.65; color: var(--ink-secondary);
+    margin: 16px 0 48px 84px; max-width: 920px; font-style: italic;
+  }
+  .section-header.dark .section-number { color: var(--accent-gold-light); }
+  .section-header.dark .section-eyebrow { color: var(--accent-gold-light); }
+  .section-header.dark .section-title { color: var(--ink-on-dark); }
+  .section-lede.dark { color: var(--ink-on-dark-muted); }
+
+  /* BENCHMARK TABLE */
+  .benchmark-section { margin-bottom: 64px; }
+  .benchmark-table {
+    margin-top: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+  }
+  .benchmark-row {
+    display: grid;
+    grid-template-columns: 1fr 200px 1fr;
+    gap: 24px;
+    align-items: center;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .benchmark-row:last-child { border-bottom: none; }
+  .benchmark-row.header {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500;
+    padding: 14px 28px;
+  }
+  .benchmark-row.featured {
+    background: rgba(168, 130, 76, 0.08);
+    border-bottom: 1px solid var(--accent-gold);
+    border-top: 1px solid var(--accent-gold);
+  }
+  .benchmark-phase {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .benchmark-row.featured .benchmark-phase {
+    font-weight: 700;
+    color: var(--accent-gold-dark);
+  }
+  .benchmark-multiple {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--accent-gold-dark);
+  }
+  .benchmark-row.featured .benchmark-multiple {
+    font-size: 26px;
+    color: var(--accent-burgundy);
+  }
+  .benchmark-note {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px; color: var(--ink-secondary);
+  }
+
+  /* VALUATION SPECTRUM (CORE VISUAL) */
+  .spectrum-section {
+    background: var(--bg-paper);
+    padding: 64px 0;
+    margin: 0 -48px 80px;
+    border-top: 2px solid var(--ink-primary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .spectrum-inner { padding: 0 48px; }
+  
+  .spectrum-container {
+    margin-top: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 56px 40px 40px;
+  }
+
+  .spectrum-axis {
+    position: relative;
+    height: 80px;
+    margin: 0 60px 60px;
+  }
+  .spectrum-line {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(to right, 
+      var(--green) 0%, 
+      var(--green) 18%,
+      var(--accent-gold) 25%, 
+      var(--accent-gold) 45%,
+      var(--amber) 55%,
+      var(--orange) 75%,
+      var(--red) 90%,
+      var(--red) 100%
+    );
+    border-radius: 2px;
+  }
+  .spectrum-tick {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 16px;
+    background: var(--ink-muted);
+  }
+  .spectrum-tick-label {
+    position: absolute;
+    top: calc(50% + 16px);
+    transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  .spectrum-zone {
+    position: absolute;
+    top: -16px;
+    height: 12px;
+    background: rgba(168, 130, 76, 0.15);
+    border: 1px dashed var(--accent-gold);
+    border-bottom: none;
+  }
+  .spectrum-zone-label {
+    position: absolute;
+    top: -32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent-gold-dark); font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .spectrum-marker {
+    position: absolute;
+    bottom: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .spectrum-marker-stick {
+    width: 2px; height: 32px; background: var(--ink-primary);
+  }
+  .spectrum-marker-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 3px solid var(--bg-card);
+    margin-bottom: -8px;
+  }
+  .spectrum-marker-dot.discount { background: var(--green); }
+  .spectrum-marker-dot.baseline { background: var(--accent-gold); }
+  .spectrum-marker-dot.premium { background: var(--amber); }
+  .spectrum-marker-dot.high-premium { background: var(--orange); }
+  .spectrum-marker-dot.extreme { background: var(--red); }
+  
+  .spectrum-marker-label {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 12px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .spectrum-marker-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px; font-weight: 700;
+    color: var(--accent-burgundy);
+    margin-bottom: 4px;
+  }
+  .spectrum-marker-value {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink-primary);
+  }
+
+  .spectrum-legend {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .spectrum-legend-item {
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  .spectrum-legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+  }
+  .spectrum-legend-dot.discount { background: var(--green); }
+  .spectrum-legend-dot.baseline { background: var(--accent-gold); }
+  .spectrum-legend-dot.premium { background: var(--amber); }
+  .spectrum-legend-dot.high-premium { background: var(--orange); }
+  .spectrum-legend-dot.extreme { background: var(--red); }
+  .spectrum-legend-label {
+    font-family: 'IBM Plex Mono', 'Noto Sans SC', monospace;
+    font-size: 11px; color: var(--ink-secondary);
+  }
+  .spectrum-legend-desc {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  /* PRICE-IN BREAKDOWN CARDS */
+  .breakdown-section { margin-bottom: 80px; }
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 24px;
+  }
+
+  .breakdown-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 0;
+    overflow: hidden;
+  }
+  .breakdown-header {
+    padding: 24px 32px;
+    background: linear-gradient(135deg, var(--bg-paper) 0%, var(--bg-card) 100%);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 200px 200px;
+    gap: 24px;
+    align-items: center;
+  }
+  .breakdown-card.discount .breakdown-header {
+    border-left: 4px solid var(--green);
+  }
+  .breakdown-card.baseline .breakdown-header {
+    border-left: 4px solid var(--accent-gold);
+  }
+  .breakdown-card.premium .breakdown-header {
+    border-left: 4px solid var(--amber);
+  }
+  .breakdown-card.high-premium .breakdown-header {
+    border-left: 4px solid var(--orange);
+  }
+  .breakdown-card.extreme .breakdown-header {
+    border-left: 4px solid var(--red);
+  }
+
+  .breakdown-name-block {
+    display: flex; flex-direction: column;
+  }
+  .breakdown-ticker-row {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 6px;
+  }
+  .breakdown-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px; font-weight: 700;
+    color: var(--accent-burgundy);
+  }
+  .breakdown-name {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .breakdown-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .breakdown-multiple {
+    text-align: center;
+  }
+  .breakdown-multiple-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 4px;
+  }
+  .breakdown-multiple-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 600;
+    color: var(--ink-primary); line-height: 1;
+  }
+  .breakdown-multiple-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  .breakdown-delta {
+    text-align: center;
+  }
+  .breakdown-delta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 4px;
+  }
+  .breakdown-delta-value {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 600;
+    line-height: 1;
+  }
+  .breakdown-delta-value.discount { color: var(--green); }
+  .breakdown-delta-value.baseline { color: var(--accent-gold-dark); }
+  .breakdown-delta-value.premium { color: var(--amber); }
+  .breakdown-delta-value.high-premium { color: var(--orange); }
+  .breakdown-delta-value.extreme { color: var(--red); }
+  .breakdown-delta-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  .breakdown-body {
+    padding: 28px 32px;
+  }
+  .breakdown-factors {
+    display: grid; gap: 14px;
+    margin-bottom: 24px;
+  }
+  .factor-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 80px;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-paper);
+    border-radius: 2px;
+  }
+  .factor-name {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13.5px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .factor-bar-container {
+    position: relative;
+    height: 16px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 2px;
+    overflow: visible;
+  }
+  .factor-bar-baseline {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    left: 50%;
+    width: 1px;
+    background: var(--ink-muted);
+    opacity: 0.4;
+  }
+  .factor-bar {
+    position: absolute;
+    top: 0; bottom: 0;
+    border-radius: 2px;
+  }
+  .factor-bar.positive {
+    background: linear-gradient(90deg, var(--accent-gold-dark), var(--amber));
+    left: 50%;
+  }
+  .factor-bar.negative {
+    background: linear-gradient(270deg, var(--green), var(--green-light));
+    right: 50%;
+  }
+  .factor-value {
+    font-family: 'Fraunces', serif;
+    font-size: 15px; font-weight: 600;
+    text-align: right;
+  }
+  .factor-value.positive { color: var(--amber); }
+  .factor-value.negative { color: var(--green); }
+
+  .breakdown-quote {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+    padding: 24px 32px;
+    margin-top: 8px;
+    border-left: 3px solid var(--accent-gold);
+    position: relative;
+  }
+  .breakdown-quote-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-gold-light); margin-bottom: 12px;
+  }
+  .breakdown-quote-text {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; line-height: 1.5; font-style: italic;
+    color: var(--ink-on-dark);
+  }
+  .breakdown-quote-text strong {
+    color: var(--accent-gold-light); font-style: normal; font-weight: 500;
+  }
+
+  /* MARKET SAYS SECTION (DARK) */
+  .market-says {
+    background: var(--bg-dark);
+    color: var(--ink-on-dark);
+    padding: 80px 0;
+    margin: 0 -48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .market-says::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      radial-gradient(circle at 15% 25%, rgba(168, 130, 76, 0.10) 0%, transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(168, 130, 76, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .market-says-inner { padding: 0 48px; position: relative; z-index: 1; }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .quote-card {
+    background: var(--bg-dark-card);
+    padding: 28px 22px;
+    border-top: 3px solid;
+    display: flex; flex-direction: column;
+  }
+  .quote-card.discount { border-top-color: var(--green-light); }
+  .quote-card.baseline { border-top-color: var(--accent-gold-light); }
+  .quote-card.premium { border-top-color: var(--amber); }
+  .quote-card.high-premium { border-top-color: var(--orange); }
+  .quote-card.extreme { border-top-color: #D49595; }
+
+  .quote-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px; font-weight: 700;
+    color: var(--accent-gold-light);
+    margin-bottom: 6px;
+  }
+  .quote-multiple {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--ink-on-dark);
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  .quote-text {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 14.5px; line-height: 1.55; font-style: italic;
+    color: var(--ink-on-dark);
+    flex: 1;
+  }
+  .quote-text::before {
+    content: '"';
+    font-size: 28px;
+    color: var(--accent-gold-light);
+    font-family: 'Fraunces', serif;
+    line-height: 0;
+    margin-right: 4px;
+  }
+
+  /* THREE WAYS TO PROFIT */
+  .ways-section { margin-bottom: 80px; }
+  .ways-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+  .ways-column {
+    display: flex; flex-direction: column;
+  }
+  .ways-column-header {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 500;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid;
+  }
+  .ways-column.profit .ways-column-header {
+    color: var(--green);
+    border-bottom-color: var(--green);
+  }
+  .ways-column.risk .ways-column-header {
+    color: var(--accent-burgundy);
+    border-bottom-color: var(--accent-burgundy);
+  }
+  .way-item {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+  }
+  .way-item-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .way-item-name {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 600;
+    color: var(--ink-primary);
+  }
+  .way-item-impact {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 600;
+  }
+  .way-item-impact.positive { color: var(--green); }
+  .way-item-impact.negative { color: var(--red); }
+  .way-item-example {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12.5px; line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .way-item-example strong {
+    color: var(--ink-primary);
+  }
+
+  /* RECOMMENDATION TABLE */
+  .recommend-section {
+    background: var(--bg-paper);
+    padding: 64px 0 72px;
+    margin: 0 -48px 80px;
+    border-top: 2px solid var(--ink-primary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .recommend-inner { padding: 0 48px; }
+  .recommend-table {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .recommend-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 140px;
+    gap: 24px;
+    align-items: center;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .recommend-row:last-child { border-bottom: none; }
+  .recommend-row.header {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500;
+    padding: 14px 28px;
+  }
+  .recommend-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px; font-weight: 700;
+    color: var(--accent-burgundy);
+  }
+  .recommend-thesis {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 14.5px; line-height: 1.5;
+    color: var(--ink-primary);
+  }
+  .recommend-thesis strong {
+    color: var(--accent-burgundy);
+  }
+  .recommend-action {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px; line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .recommend-rating {
+    text-align: center;
+  }
+  .rating-pill {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', 'Noto Sans SC', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .rating-pill.buy {
+    background: rgba(74, 107, 71, 0.15);
+    color: var(--green);
+    border: 1px solid rgba(107, 142, 104, 0.3);
+  }
+  .rating-pill.hold {
+    background: rgba(168, 130, 76, 0.12);
+    color: var(--accent-gold-dark);
+    border: 1px solid rgba(168, 130, 76, 0.3);
+  }
+  .rating-pill.reduce {
+    background: rgba(184, 92, 46, 0.12);
+    color: var(--orange);
+    border: 1px solid rgba(184, 92, 46, 0.3);
+  }
+  .rating-pill.sell {
+    background: rgba(139, 58, 58, 0.15);
+    color: var(--red);
+    border: 1px solid rgba(139, 58, 58, 0.3);
+  }
+
+  /* FINAL INSIGHT */
+  .insight-section {
+    background: var(--bg-card);
+    border: 2px solid var(--accent-gold);
+    border-left: 4px solid var(--accent-burgundy);
+    padding: 40px 48px;
+    margin: 0 0 80px;
+  }
+  .insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-burgundy); margin-bottom: 14px;
+  }
+  .insight-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 26px; font-weight: 600; line-height: 1.3;
+    color: var(--ink-primary); margin-bottom: 20px;
+  }
+  .insight-body {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 17px; line-height: 1.7;
+    color: var(--ink-secondary);
+  }
+  .insight-body strong {
+    color: var(--accent-burgundy); font-weight: 600;
+  }
+  .insight-body em {
+    font-style: italic; color: var(--ink-primary);
+  }
+
+  /* DISCLAIMER */
+  .disclaimer { border-top: 2px solid var(--ink-primary); padding: 32px 0 48px; margin-top: 24px; }
+  .disclaimer-text {
+    font-family: 'IBM Plex Mono', 'Noto Sans SC', monospace;
+    font-size: 10.5px; line-height: 1.7; letter-spacing: 0.02em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .disclaimer-meta {
+    display: flex; justify-content: space-between; margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .breakdown-header { grid-template-columns: 1fr 140px 140px; gap: 16px; padding: 20px 24px; }
+    .factor-row { grid-template-columns: 160px 1fr 60px; gap: 12px; padding: 10px 12px; }
+    .quote-grid { grid-template-columns: repeat(3, 1fr); }
+    .quote-grid .quote-card:nth-child(n+4) { grid-column: span 1; }
+    .recommend-row { grid-template-columns: 80px 1fr 1fr 110px; gap: 16px; padding: 16px 20px; }
+    .spectrum-axis { margin: 0 30px 60px; }
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .ways-grid { grid-template-columns: 1fr; }
+    .quote-grid { grid-template-columns: 1fr; }
+    .hero-meta { grid-template-columns: repeat(2, 1fr); }
+    .spectrum-section, .market-says, .recommend-section { margin: 0 -24px 80px; }
+    .spectrum-inner, .market-says-inner, .recommend-inner { padding: 0 24px; }
+    .section-header { grid-template-columns: 40px 1fr; gap: 16px; }
+    .section-number { font-size: 36px; }
+    .section-title { font-size: 26px; }
+    .section-lede { margin-left: 56px; }
+    .breakdown-header { grid-template-columns: 1fr; gap: 16px; }
+    .breakdown-multiple, .breakdown-delta { text-align: left; }
+    .factor-row { grid-template-columns: 1fr 60px; }
+    .factor-bar-container { display: none; }
+    .recommend-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .recommend-row .recommend-action { grid-column: 1 / -1; }
+    .insight-section { padding: 28px 24px; }
+    .spectrum-axis { margin: 0 20px 80px; height: 100px; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes barGrow { from { width: 0 !important; } }
+  
+  .factor-bar { animation: barGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+  .breakdown-card { animation: fadeInUp 0.5s ease backwards; }
+  .breakdown-card:nth-child(1) { animation-delay: 0.05s; }
+  .breakdown-card:nth-child(2) { animation-delay: 0.10s; }
+  .breakdown-card:nth-child(3) { animation-delay: 0.15s; }
+  .breakdown-card:nth-child(4) { animation-delay: 0.20s; }
+  .breakdown-card:nth-child(5) { animation-delay: 0.25s; }
+
+  .quote-card { animation: fadeInUp 0.5s ease backwards; }
+  .quote-card:nth-child(1) { animation-delay: 0.10s; }
+  .quote-card:nth-child(2) { animation-delay: 0.18s; }
+  .quote-card:nth-child(3) { animation-delay: 0.26s; }
+  .quote-card:nth-child(4) { animation-delay: 0.34s; }
+  .quote-card:nth-child(5) { animation-delay: 0.42s; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-inner">
+      <span class="brand">AURUM · 黃金研究</span>
+      <span>Vol. I · No. 07 · Mai · MMXXVI · Lithium Valuation Decoded</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="container hero">
+  <div class="hero-eyebrow">Equity Research · Valuation Analysis</div>
+  <h1 class="hero-title">
+    估值倍数是市场的<em>预期快照</em>——<br>
+    它在告诉你什么？
+  </h1>
+  <p class="hero-subtitle">
+    EV/EBITDA 不是孤立数字，是<strong>市场对未来所有期望的总和</strong>。同样的锂矿行业，五只标的从 6x 到 30x 跨度 5 倍——背后是市场对每只公司"未来兑现完美程度"的不同押注。本报告系统拆解每只标的的溢价/折扣构成。
+  </p>
+
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Coverage</div>
+      <div class="meta-value">五只锂矿 producer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Multiple Range</div>
+      <div class="meta-value">6x – 30x</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Industry Baseline</div>
+      <div class="meta-value">10-12x</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Spread Premium</div>
+      <div class="meta-value">5x 倍差异</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARK SECTION -->
+<section class="container benchmark-section">
+  <div class="section-header">
+    <div class="section-number">i.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Industry Baseline · 行业基准</div>
+      <h2 class="section-title">什么是锂矿行业的"正常估值"？</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    要判断一只标的是"贵"还是"便宜"，必须先知道行业基准在哪里。锂矿股的合理估值随周期阶段大幅波动。
+  </p>
+
+  <div class="benchmark-table">
+    <div class="benchmark-row header">
+      <div>周期阶段</div>
+      <div style="text-align: center;">合理 EV/EBITDA</div>
+      <div>说明</div>
+    </div>
+    <div class="benchmark-row">
+      <div class="benchmark-phase">锂价熊市底部</div>
+      <div class="benchmark-multiple">4-6x</div>
+      <div class="benchmark-note">利润可怜，估值压低</div>
+    </div>
+    <div class="benchmark-row">
+      <div class="benchmark-phase">锂价回升期</div>
+      <div class="benchmark-multiple">8-12x</div>
+      <div class="benchmark-note">现金流改善预期</div>
+    </div>
+    <div class="benchmark-row featured">
+      <div class="benchmark-phase">锂价稳定中位（基准）</div>
+      <div class="benchmark-multiple">10-12x</div>
+      <div class="benchmark-note">行业正常水平 · 任何偏离都是市场期望的反映</div>
+    </div>
+    <div class="benchmark-row">
+      <div class="benchmark-phase">锂价牛市</div>
+      <div class="benchmark-multiple">12-15x</div>
+      <div class="benchmark-note">利润扩张预期</div>
+    </div>
+    <div class="benchmark-row">
+      <div class="benchmark-phase">极端泡沫期（2022）</div>
+      <div class="benchmark-multiple">20-30x</div>
+      <div class="benchmark-note">投机驱动，难持续</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUATION SPECTRUM (CORE VISUAL) -->
+<section class="spectrum-section">
+  <div class="container spectrum-inner">
+    <div class="section-header">
+      <div class="section-number">ii.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Valuation Spectrum · 估值光谱</div>
+        <h2 class="section-title">五只标的在估值数轴上的位置</h2>
+      </div>
+    </div>
+    <p class="section-lede">
+      把五只锂矿股按 EV/EBITDA 倍数沿着同一条数轴排列——你会看到从"深度折扣"到"极端溢价"的完整光谱。10-12x 是基准带（虚线区域）。
+    </p>
+
+    <div class="spectrum-container">
+      <div class="spectrum-axis">
+
+        <!-- Spectrum line -->
+        <div class="spectrum-line"></div>
+
+        <!-- Tick marks at 5x, 10x, 15x, 20x, 25x, 30x -->
+        <div class="spectrum-tick" style="left: 0%;"></div>
+        <div class="spectrum-tick-label" style="left: 0%;">5x</div>
+        
+        <div class="spectrum-tick" style="left: 20%;"></div>
+        <div class="spectrum-tick-label" style="left: 20%;">10x</div>
+        
+        <div class="spectrum-tick" style="left: 40%;"></div>
+        <div class="spectrum-tick-label" style="left: 40%;">15x</div>
+        
+        <div class="spectrum-tick" style="left: 60%;"></div>
+        <div class="spectrum-tick-label" style="left: 60%;">20x</div>
+        
+        <div class="spectrum-tick" style="left: 80%;"></div>
+        <div class="spectrum-tick-label" style="left: 80%;">25x</div>
+        
+        <div class="spectrum-tick" style="left: 100%;"></div>
+        <div class="spectrum-tick-label" style="left: 100%;">30x</div>
+
+        <!-- Baseline zone (10-12x) -->
+        <div class="spectrum-zone" style="left: 20%; width: 8%;">
+          <div class="spectrum-zone-label" style="left: 50%; transform: translateX(-50%);">基准带</div>
+        </div>
+
+        <!-- SGML marker at ~7x -->
+        <div class="spectrum-marker" style="left: 8%;">
+          <div class="spectrum-marker-label">
+            <div class="spectrum-marker-ticker">SGML</div>
+            <div class="spectrum-marker-value">6-8x</div>
+          </div>
+          <div class="spectrum-marker-stick"></div>
+          <div class="spectrum-marker-dot discount"></div>
+        </div>
+
+        <!-- SQM marker at ~11x -->
+        <div class="spectrum-marker" style="left: 24%;">
+          <div class="spectrum-marker-label">
+            <div class="spectrum-marker-ticker">SQM</div>
+            <div class="spectrum-marker-value">10-12x</div>
+          </div>
+          <div class="spectrum-marker-stick"></div>
+          <div class="spectrum-marker-dot baseline"></div>
+        </div>
+
+        <!-- ALB marker at ~13x -->
+        <div class="spectrum-marker" style="left: 32%;">
+          <div class="spectrum-marker-label">
+            <div class="spectrum-marker-ticker">ALB</div>
+            <div class="spectrum-marker-value">12-14x</div>
+          </div>
+          <div class="spectrum-marker-stick"></div>
+          <div class="spectrum-marker-dot premium"></div>
+        </div>
+
+        <!-- LAR marker at ~18.5x -->
+        <div class="spectrum-marker" style="left: 54%;">
+          <div class="spectrum-marker-label">
+            <div class="spectrum-marker-ticker">LAR</div>
+            <div class="spectrum-marker-value">17-20x</div>
+          </div>
+          <div class="spectrum-marker-stick"></div>
+          <div class="spectrum-marker-dot high-premium"></div>
+        </div>
+
+        <!-- ELVR marker at ~25x -->
+        <div class="spectrum-marker" style="left: 80%;">
+          <div class="spectrum-marker-label">
+            <div class="spectrum-marker-ticker">ELVR</div>
+            <div class="spectrum-marker-value">20-30x</div>
+          </div>
+          <div class="spectrum-marker-stick"></div>
+          <div class="spectrum-marker-dot extreme"></div>
+        </div>
+
+      </div>
+
+      <div class="spectrum-legend">
+        <div class="spectrum-legend-item">
+          <div class="spectrum-legend-dot discount"></div>
+          <div class="spectrum-legend-label">深度折扣</div>
+          <div class="spectrum-legend-desc">市场不相信</div>
+        </div>
+        <div class="spectrum-legend-item">
+          <div class="spectrum-legend-dot baseline"></div>
+          <div class="spectrum-legend-label">基准估值</div>
+          <div class="spectrum-legend-desc">市场中性</div>
+        </div>
+        <div class="spectrum-legend-item">
+          <div class="spectrum-legend-dot premium"></div>
+          <div class="spectrum-legend-label">轻微溢价</div>
+          <div class="spectrum-legend-desc">质量加成</div>
+        </div>
+        <div class="spectrum-legend-item">
+          <div class="spectrum-legend-dot high-premium"></div>
+          <div class="spectrum-legend-label">显著溢价</div>
+          <div class="spectrum-legend-desc">利好已 price in</div>
+        </div>
+        <div class="spectrum-legend-item">
+          <div class="spectrum-legend-dot extreme"></div>
+          <div class="spectrum-legend-label">极端溢价</div>
+          <div class="spectrum-legend-desc">完美预期</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE-IN BREAKDOWN CARDS -->
+<section class="container breakdown-section">
+  <div class="section-header">
+    <div class="section-number">iii.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Price-In Breakdown · 估值溢价/折扣拆解</div>
+      <h2 class="section-title">每只股票的"溢价构成"</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    把每只标的的估值偏离基准（10-12x）的部分，拆解成具体的"+x 溢价 / −x 折扣"项。这样你能清楚看到市场为什么愿意付高估值——或者为什么不愿意。
+  </p>
+
+  <div class="breakdown-grid">
+
+    <!-- SGML -->
+    <div class="breakdown-card discount">
+      <div class="breakdown-header">
+        <div class="breakdown-name-block">
+          <div class="breakdown-ticker-row">
+            <span class="breakdown-ticker">SGML</span>
+            <span class="breakdown-name">Sigma Lithium</span>
+          </div>
+          <span class="breakdown-tag">硬岩 · 巴西 · 仅上游</span>
+        </div>
+        <div class="breakdown-multiple">
+          <div class="breakdown-multiple-label">EV/EBITDA</div>
+          <div class="breakdown-multiple-value">6-8x</div>
+          <div class="breakdown-multiple-sub">vs 基准 10-12x</div>
+        </div>
+        <div class="breakdown-delta">
+          <div class="breakdown-delta-label">净 偏 离</div>
+          <div class="breakdown-delta-value discount">−4x</div>
+          <div class="breakdown-delta-sub">深度折扣</div>
+        </div>
+      </div>
+      <div class="breakdown-body">
+        <div class="breakdown-factors">
+          <div class="factor-row">
+            <span class="factor-name">"仅上游"折扣</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 25%;"></div>
+            </div>
+            <span class="factor-value negative">−2.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">中国市场依赖折扣</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value negative">−1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">创始人 / 治理风险</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 6%;"></div>
+            </div>
+            <span class="factor-value negative">−0.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">单一项目集中</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 6%;"></div>
+            </div>
+            <span class="factor-value negative">−0.5x</span>
+          </div>
+        </div>
+        <div class="breakdown-quote">
+          <div class="breakdown-quote-label">市场在说什么</div>
+          <div class="breakdown-quote-text">
+            "<strong>我不相信你能突破上游限制</strong>。即使锂价大涨，你也只能赚到产业链 ~40% 价值——剩下 60% 都给中国化工厂了。"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SQM -->
+    <div class="breakdown-card baseline">
+      <div class="breakdown-header">
+        <div class="breakdown-name-block">
+          <div class="breakdown-ticker-row">
+            <span class="breakdown-ticker">SQM</span>
+            <span class="breakdown-name">SQM</span>
+          </div>
+          <span class="breakdown-tag">盐湖 · 智利 · 国家化代价</span>
+        </div>
+        <div class="breakdown-multiple">
+          <div class="breakdown-multiple-label">EV/EBITDA</div>
+          <div class="breakdown-multiple-value">10-12x</div>
+          <div class="breakdown-multiple-sub">vs 基准 10-12x</div>
+        </div>
+        <div class="breakdown-delta">
+          <div class="breakdown-delta-label">净 偏 离</div>
+          <div class="breakdown-delta-value baseline">≈ 0x</div>
+          <div class="breakdown-delta-sub">行业基准</div>
+        </div>
+      </div>
+      <div class="breakdown-body">
+        <div class="breakdown-factors">
+          <div class="factor-row">
+            <span class="factor-name">业务多元化（碘+钾肥）</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value positive">+1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">LG 长协优势</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value positive">+1.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">智利国家化代价</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value negative">−1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">天齐持股 22% 地缘</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value negative">−1.0x</span>
+          </div>
+        </div>
+        <div class="breakdown-quote">
+          <div class="breakdown-quote-label">市场在说什么</div>
+          <div class="breakdown-quote-text">
+            "<strong>SQM 已经被 Codelco 合作'国家化'了</strong>——未来的增长更多是分钱给智利政府，不是股东。质量好但天花板低。"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALB -->
+    <div class="breakdown-card premium">
+      <div class="breakdown-header">
+        <div class="breakdown-name-block">
+          <div class="breakdown-ticker-row">
+            <span class="breakdown-ticker">ALB</span>
+            <span class="breakdown-name">Albemarle</span>
+          </div>
+          <span class="breakdown-tag">综合化工龙头 · 多元化</span>
+        </div>
+        <div class="breakdown-multiple">
+          <div class="breakdown-multiple-label">EV/EBITDA</div>
+          <div class="breakdown-multiple-value">12-14x</div>
+          <div class="breakdown-multiple-sub">vs 基准 10-12x</div>
+        </div>
+        <div class="breakdown-delta">
+          <div class="breakdown-delta-label">净 偏 离</div>
+          <div class="breakdown-delta-value premium">+2x</div>
+          <div class="breakdown-delta-sub">轻微溢价</div>
+        </div>
+      </div>
+      <div class="breakdown-body">
+        <div class="breakdown-factors">
+          <div class="factor-row">
+            <span class="factor-name">多元化降低风险</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 25%;"></div>
+            </div>
+            <span class="factor-value positive">+2.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">全球资产分散</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value positive">+1.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">机构默认配置 + 股息</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value positive">+1.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">缺乏成长性</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value negative">−1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">Greenbushes 仅 49% 权益</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 6%;"></div>
+            </div>
+            <span class="factor-value negative">−0.5x</span>
+          </div>
+        </div>
+        <div class="breakdown-quote">
+          <div class="breakdown-quote-label">市场在说什么</div>
+          <div class="breakdown-quote-text">
+            "<strong>这是锂行业的 ETF</strong>——你买它就是买行业本身，不是 alpha。多元化业务支撑稳定，但不会跑赢行业。"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAR -->
+    <div class="breakdown-card high-premium">
+      <div class="breakdown-header">
+        <div class="breakdown-name-block">
+          <div class="breakdown-ticker-row">
+            <span class="breakdown-ticker">LAR</span>
+            <span class="breakdown-name">Lithium Argentina</span>
+          </div>
+          <span class="breakdown-tag">阿根廷盐湖 · 七连击 alpha</span>
+        </div>
+        <div class="breakdown-multiple">
+          <div class="breakdown-multiple-label">EV/EBITDA</div>
+          <div class="breakdown-multiple-value">17-20x</div>
+          <div class="breakdown-multiple-sub">vs 基准 10-12x</div>
+        </div>
+        <div class="breakdown-delta">
+          <div class="breakdown-delta-label">净 偏 离</div>
+          <div class="breakdown-delta-value high-premium">+7x</div>
+          <div class="breakdown-delta-sub">显著溢价</div>
+        </div>
+      </div>
+      <div class="breakdown-body">
+        <div class="breakdown-factors">
+          <div class="factor-row">
+            <span class="factor-name">储量 +42% 大幅扩张</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 25%;"></div>
+            </div>
+            <span class="factor-value positive">+2.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">Stage 2 + PPG JV 扩产</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 25%;"></div>
+            </div>
+            <span class="factor-value positive">+2.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">阿根廷宏观改善</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value positive">+1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">达产验证 + 成本下降</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value positive">+1.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">机构资金回归</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value positive">+1.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">赣锋持股（IRA 不受益）</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar negative" style="width: 13%;"></div>
+            </div>
+            <span class="factor-value negative">−1.0x</span>
+          </div>
+        </div>
+        <div class="breakdown-quote">
+          <div class="breakdown-quote-label">市场在说什么</div>
+          <div class="breakdown-quote-text">
+            "<strong>所有积极因素同时兑现的乐观情景已经定价</strong>。继续上涨需要新的催化——任何因素出问题，估值都会大幅下杀。"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ELVR -->
+    <div class="breakdown-card extreme">
+      <div class="breakdown-header">
+        <div class="breakdown-name-block">
+          <div class="breakdown-ticker-row">
+            <span class="breakdown-ticker">ELVR</span>
+            <span class="breakdown-name">Elevra Lithium</span>
+          </div>
+          <span class="breakdown-tag">北美战略 + 经营杠杆 + 转型故事</span>
+        </div>
+        <div class="breakdown-multiple">
+          <div class="breakdown-multiple-label">EV/EBITDA</div>
+          <div class="breakdown-multiple-value">20-30x</div>
+          <div class="breakdown-multiple-sub">vs 基准 10-12x</div>
+        </div>
+        <div class="breakdown-delta">
+          <div class="breakdown-delta-label">净 偏 离</div>
+          <div class="breakdown-delta-value extreme">+15x</div>
+          <div class="breakdown-delta-sub">极端溢价</div>
+        </div>
+      </div>
+      <div class="breakdown-body">
+        <div class="breakdown-factors">
+          <div class="factor-row">
+            <span class="factor-name">经营杠杆爆发（亏损→盈利）</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 50%;"></div>
+            </div>
+            <span class="factor-value positive">+5.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">北美战略叙事 + IRA</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 44%;"></div>
+            </div>
+            <span class="factor-value positive">+4.0x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">Mangrove + Carolina 期权</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 31%;"></div>
+            </div>
+            <span class="factor-value positive">+2.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">投机 / 散户资金推高</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 31%;"></div>
+            </div>
+            <span class="factor-value positive">+2.5x</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-name">合并协同释放期</span>
+            <div class="factor-bar-container">
+              <div class="factor-bar-baseline"></div>
+              <div class="factor-bar positive" style="width: 19%;"></div>
+            </div>
+            <span class="factor-value positive">+1.5x</span>
+          </div>
+        </div>
+        <div class="breakdown-quote">
+          <div class="breakdown-quote-label">市场在说什么</div>
+          <div class="breakdown-quote-text">
+            "<strong>所有最乐观的情景必须同时实现</strong>：锂价继续涨、Mangrove FID 通过、Carolina 投产、IRA 延续……任何一个不成立，估值就会大幅回调。"
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARKET SAYS SECTION (DARK) -->
+<section class="market-says">
+  <div class="container market-says-inner">
+    <div class="section-header dark">
+      <div class="section-number">iv.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Market Whispers · 市场低语</div>
+        <h2 class="section-title">五种估值，五个不同的"市场叙事"</h2>
+      </div>
+    </div>
+    <p class="section-lede dark">
+      估值倍数本质上是市场对每家公司未来的"无声评价"。把这五段评价并排放，能看到市场认知的全貌。
+    </p>
+
+    <div class="quote-grid">
+
+      <div class="quote-card discount">
+        <div class="quote-ticker">SGML</div>
+        <div class="quote-multiple">6-8x</div>
+        <div class="quote-text">
+          我不相信你能突破上游限制——你被永久锁在产业链中游，只能赚 40% 的价值。
+        </div>
+      </div>
+
+      <div class="quote-card baseline">
+        <div class="quote-ticker">SQM</div>
+        <div class="quote-multiple">10-12x</div>
+        <div class="quote-text">
+          你已经被 Codelco "国家化" ——未来更多是分钱给政府，不是股东。
+        </div>
+      </div>
+
+      <div class="quote-card premium">
+        <div class="quote-ticker">ALB</div>
+        <div class="quote-multiple">12-14x</div>
+        <div class="quote-text">
+          你代表整个行业——稳健但不会跑赢，是机构默认的"锂矿 ETF"。
+        </div>
+      </div>
+
+      <div class="quote-card high-premium">
+        <div class="quote-ticker">LAR</div>
+        <div class="quote-multiple">17-20x</div>
+        <div class="quote-text">
+          所有利好已经定价——继续上涨需要新催化，任何意外都会大幅杀估值。
+        </div>
+      </div>
+
+      <div class="quote-card extreme">
+        <div class="quote-ticker">ELVR</div>
+        <div class="quote-multiple">20-30x</div>
+        <div class="quote-text">
+          所有最乐观情景必须全部兑现——这是"完美定价"，极度脆弱。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- THREE WAYS TO PROFIT vs RISK -->
+<section class="container ways-section">
+  <div class="section-header">
+    <div class="section-number">v.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Three Ways · 三种赚钱 vs 三种亏钱</div>
+      <h2 class="section-title">估值差异的三种"催化方向"</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    赚钱 = 市场预期向有利方向修正；亏钱 = 市场预期向不利方向修正。每只标的的方向不同——这决定了你的押注本质。
+  </p>
+
+  <div class="ways-grid">
+
+    <!-- Three Ways to Profit -->
+    <div class="ways-column profit">
+      <h3 class="ways-column-header">+ 赚钱的三种方式</h3>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">1. 估值修复</span>
+          <span class="way-item-impact positive">折扣 → 基准</span>
+        </div>
+        <p class="way-item-example">
+          最佳例子：<strong>SGML 摆脱"仅上游"标签</strong>——签订非中国客户长协，估值从 7x → 12x = <strong>+70% 上涨</strong>
+        </p>
+      </div>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">2. 估值溢价扩张</span>
+          <span class="way-item-impact positive">基准 → 溢价</span>
+        </div>
+        <p class="way-item-example">
+          最佳例子：<strong>ALB 重新成为"成长股"</strong>——锂价持续高位+多元化业务超预期，估值从 13x → 17x = <strong>+30% 上涨</strong>
+        </p>
+      </div>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">3. EBITDA 增长</span>
+          <span class="way-item-impact positive">分子放大</span>
+        </div>
+        <p class="way-item-example">
+          最佳例子：<strong>ELVR 兑现 EBITDA 翻倍</strong>——即使估值倍数从 25x → 20x，市值仍然 <strong>+60% 上涨</strong>（增长跑赢倍数收缩）
+        </p>
+      </div>
+    </div>
+
+    <!-- Three Ways to Lose -->
+    <div class="ways-column risk">
+      <h3 class="ways-column-header">− 亏钱的三种方式</h3>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">1. 溢价坍塌</span>
+          <span class="way-item-impact negative">溢价 → 基准</span>
+        </div>
+        <p class="way-item-example">
+          最大风险：<strong>ELVR 转型故事破灭</strong>——Mangrove FID 取消或 Carolina 延期，估值从 25x → 12x = <strong>−50% 回调</strong>
+        </p>
+      </div>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">2. 基准 → 折扣</span>
+          <span class="way-item-impact negative">隐藏问题暴露</span>
+        </div>
+        <p class="way-item-example">
+          风险例子：<strong>SQM 智利国家化加剧</strong>——新政府提高特许权或外汇管制，估值从 11x → 7x = <strong>−35% 回调</strong>
+        </p>
+      </div>
+
+      <div class="way-item">
+        <div class="way-item-header">
+          <span class="way-item-name">3. EBITDA 收缩</span>
+          <span class="way-item-impact negative">分子缩小</span>
+        </div>
+        <p class="way-item-example">
+          典型例子：<strong>锂价回调 30%</strong>——高 AISC 标的（ELVR）单位毛利大幅压缩，估值即使不变市值也 <strong>−40% 下跌</strong>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RECOMMENDATION TABLE -->
+<section class="recommend-section">
+  <div class="container recommend-inner">
+    <div class="section-header">
+      <div class="section-number">vi.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Action Matrix · 操作矩阵</div>
+        <h2 class="section-title">给每只标的的具体建议</h2>
+      </div>
+    </div>
+    <p class="section-lede">
+      把估值分析转化为操作——不是选择"涨多少"，而是选择"哪种押注最稳"。
+    </p>
+
+    <div class="recommend-table">
+      <div class="recommend-row header">
+        <div>Ticker</div>
+        <div>核心 thesis</div>
+        <div>具体操作</div>
+        <div style="text-align: center;">评级</div>
+      </div>
+
+      <div class="recommend-row">
+        <div class="recommend-ticker">SGML</div>
+        <div class="recommend-thesis">便宜的标的下行有限，<strong>上行靠估值修复</strong>——这是最有价值的押注。</div>
+        <div class="recommend-action">在当前 7x 估值可考虑加仓。<strong>等待催化</strong>：非中国客户长协、被收购传闻、垂直整合公告。</div>
+        <div class="recommend-rating">
+          <span class="rating-pill buy">买入 / 加仓</span>
+        </div>
+      </div>
+
+      <div class="recommend-row">
+        <div class="recommend-ticker">SQM</div>
+        <div class="recommend-thesis">基准估值但<strong>增长最差</strong>——没有 alpha 来源，国家化代价是永久的。</div>
+        <div class="recommend-action">回避或减仓。如果想要稳定收益，更好的选择是 ALB（同基准但有成长性）。</div>
+        <div class="recommend-rating">
+          <span class="rating-pill reduce">回避 / 减仓</span>
+        </div>
+      </div>
+
+      <div class="recommend-row">
+        <div class="recommend-ticker">ALB</div>
+        <div class="recommend-thesis">基准估值 + 行业曝险 + 多元化保护，<strong>"锂矿 ETF"地位</strong>。</div>
+        <div class="recommend-action">作为锂矿组合的"稳健底仓"持有。波动小、流动性好、机构默认配置。</div>
+        <div class="recommend-rating">
+          <span class="rating-pill hold">持有 / 底仓</span>
+        </div>
+      </div>
+
+      <div class="recommend-row">
+        <div class="recommend-ticker">LAR</div>
+        <div class="recommend-thesis">涨幅已经基本兑现（+406%），<strong>未来上涨需要新催化</strong>。</div>
+        <div class="recommend-action">主动获利了结 50-60%。保留小仓位享受 Stage 2 兑现的剩余 upside。</div>
+        <div class="recommend-rating">
+          <span class="rating-pill reduce">减仓获利</span>
+        </div>
+      </div>
+
+      <div class="recommend-row">
+        <div class="recommend-ticker">ELVR</div>
+        <div class="recommend-thesis">极端溢价 + 投机驱动，<strong>风险/回报严重恶化</strong>。完美定价状态极度脆弱。</div>
+        <div class="recommend-action">主动卖出 60-70% 仓位锁定利润。等回调到 $60-70 区间再考虑重新建仓。</div>
+        <div class="recommend-rating">
+          <span class="rating-pill sell">卖出 / 锁利</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL INSIGHT -->
+<section class="container">
+  <div class="insight-section">
+    <div class="insight-label">Core Insight · 核心洞察</div>
+    <h3 class="insight-title">估值倍数差异的本质：你下注在哪种压力上？</h3>
+    <p class="insight-body">
+      估值倍数不是"对错"问题——是"<strong>市场告诉你它在期待什么</strong>"。
+      <br><br>
+      <em>6x 的 SGML</em>：市场说"我不相信你能突破限制"——你押注"市场低估了我"。
+      <br>
+      <em>25x 的 ELVR</em>：市场说"我相信你能完成所有转型"——你押注"市场对我的乐观是对的"。
+      <br><br>
+      你的工作是<strong>判断市场是否对</strong>——而绝大多数时候，<em>市场对超额溢价的标的是错的</em>，因为完美预期很难全部兑现。这是金融学最稳健的实证发现之一：<strong>估值便宜的标的长期跑赢估值贵的标的</strong>。
+      <br><br>
+      ELVR 的 25x 估值要求所有未来预期都正确——这是<strong>极度脆弱的状态</strong>。<br>
+      SGML 的 7x 估值只要求市场低估了一两个因素——这是<strong>极度稳健的状态</strong>。
+      <br><br>
+      <strong>你最终的回报，取决于你下注在哪种估值压力上</strong>。
+    </p>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<footer class="container">
+  <div class="disclaimer">
+    <p class="disclaimer-text">
+      本报告仅供研究和教育目的，不构成投资建议。所有 EV/EBITDA 倍数为分析师估算，基于 2026 年 5 月公开市场数据和 2026 年预期 EBITDA。"溢价/折扣拆解"为定性分析框架，具体数字仅供概念性理解。锂矿股波动剧烈，估值倍数随锂价、产量、并购传闻快速变化。投资决策应基于个人风险承受能力与独立研究。
+    </p>
+    <div class="disclaimer-meta">
+      <span>Aurum Research · Lithium Valuation</span>
+      <span>市场是镜子 · 估值是预期 · 你押注修正方向</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

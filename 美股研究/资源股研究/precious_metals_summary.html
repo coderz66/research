@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贵金属美股投研框架 · Precious Metals Coverage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8F4ED;
+    --bg-card: #FFFFFF;
+    --bg-subtle: #F2EDE3;
+    --ink: #1A1A1A;
+    --ink-secondary: #5A5A5A;
+    --ink-muted: #8A8A8A;
+    --rule: #D9D2C2;
+    --rule-strong: #1A1A1A;
+    --gold: #A07A2E;
+    --gold-soft: #C9A85C;
+    --navy: #1F3A5F;
+    --green: #2D5F3F;
+    --red: #8B2635;
+    --serif-display: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    --serif-body: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(160, 122, 46, 0.04), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(31, 58, 95, 0.03), transparent 60%);
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1180px; margin: 0 auto; padding: 60px 40px 100px; }
+
+  /* MASTHEAD */
+  .masthead {
+    border-top: 3px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0 24px;
+    margin-bottom: 56px;
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    margin-bottom: 24px;
+  }
+  .masthead-top .right { color: var(--gold); }
+  .masthead h1 {
+    font-family: var(--serif-display);
+    font-weight: 500;
+    font-size: clamp(40px, 5.5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    font-variation-settings: "opsz" 144;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .masthead .deck {
+    font-family: var(--serif-body);
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    max-width: 760px;
+    font-style: italic;
+  }
+
+  /* SECTION */
+  .section { margin-top: 72px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-title {
+    font-family: var(--serif-display);
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 80;
+  }
+  .section-intro {
+    font-size: 16px;
+    color: var(--ink-secondary);
+    max-width: 800px;
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  /* FRAMEWORK CARD (executive summary) */
+  .framework {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 40px 44px;
+    position: relative;
+  }
+  .framework::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 60px; height: 3px;
+    background: var(--gold);
+  }
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 24px;
+  }
+  .framework-cell {
+    padding: 0 28px;
+    border-right: 1px solid var(--rule);
+  }
+  .framework-cell:first-child { padding-left: 0; }
+  .framework-cell:last-child { border-right: none; padding-right: 0; }
+  .framework-cell .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .framework-cell .ticker {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .framework-cell .role {
+    font-family: var(--serif-display);
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .framework-cell .desc {
+    font-size: 14px;
+    color: var(--ink-secondary);
+    line-height: 1.55;
+  }
+
+  /* CATEGORY HEADER */
+  .category {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 28px;
+  }
+  .category-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .category-name {
+    font-family: var(--serif-display);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 60;
+  }
+  .category-name .num {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-right: 14px;
+    vertical-align: middle;
+  }
+  .category-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .category-desc {
+    font-size: 15px;
+    color: var(--ink-secondary);
+    margin-bottom: 28px;
+    max-width: 800px;
+    font-style: italic;
+  }
+
+  /* STOCK CARDS GRID */
+  .stocks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .stock-card {
+    background: var(--bg-card);
+    padding: 32px 32px 28px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .stock-card:hover { background: #FBFAF6; }
+
+  .stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .stock-ticker {
+    font-family: var(--serif-display);
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .stock-ticker .exchange {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    margin-left: 8px;
+    font-weight: 400;
+    vertical-align: super;
+  }
+  .stock-name {
+    font-family: var(--serif-body);
+    font-size: 13px;
+    color: var(--ink-secondary);
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+  .stock-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .stock-badge.gold { border-color: var(--gold); color: var(--gold); }
+  .stock-badge.navy { border-color: var(--navy); color: var(--navy); }
+  .stock-badge.green { border-color: var(--green); color: var(--green); }
+  .stock-badge.red { border-color: var(--red); color: var(--red); }
+
+  .stock-role {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .stock-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .metric { text-align: left; }
+  .metric .m-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 3px;
+  }
+  .metric .m-value {
+    font-family: var(--serif-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .stock-thesis {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .stock-thesis strong { color: var(--gold); font-weight: 600; }
+
+  .stock-risk {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    padding-top: 14px;
+    border-top: 1px dotted var(--rule);
+    font-style: italic;
+  }
+  .stock-risk::before {
+    content: '风险 · ';
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+
+  /* MASTER TABLE */
+  .master-table {
+    margin-top: 28px;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    background: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  th {
+    padding: 14px 12px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-right: 1px solid #333;
+  }
+  th:last-child { border-right: none; }
+  td {
+    padding: 13px 12px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  td:last-child { border-right: none; }
+  tbody tr:nth-child(even) { background: var(--bg-subtle); }
+  tbody tr:hover { background: #FBFAF6; }
+  td.ticker-cell {
+    font-family: var(--serif-display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--navy);
+  }
+  td.ticker-cell em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--ink-secondary);
+    margin-top: 2px;
+  }
+
+  /* PORTFOLIO FRAMEWORK */
+  .portfolio {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px 44px;
+    margin-top: 28px;
+    position: relative;
+  }
+  .portfolio::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 60px; height: 3px;
+    background: var(--gold);
+  }
+  .portfolio-title {
+    font-family: var(--serif-display);
+    font-size: 28px;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 8px;
+    color: var(--gold-soft);
+  }
+  .portfolio-deck {
+    font-size: 15px;
+    color: rgba(248, 244, 237, 0.7);
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .alloc {
+    border-left: 1px solid rgba(217, 210, 194, 0.2);
+    padding-left: 24px;
+  }
+  .alloc-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 16px;
+  }
+  .alloc-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dotted rgba(217, 210, 194, 0.15);
+    font-size: 14px;
+  }
+  .alloc-row:last-child { border-bottom: none; }
+  .alloc-row .name {
+    font-family: var(--serif-body);
+    color: rgba(248, 244, 237, 0.95);
+  }
+  .alloc-row .name .ticker-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold-soft);
+    margin-right: 8px;
+  }
+  .alloc-row .pct {
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--gold-soft);
+  }
+
+  /* PHILOSOPHY (closing) */
+  .philosophy {
+    margin-top: 80px;
+    padding: 56px 0;
+    border-top: 3px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .philosophy-quote {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 760px;
+    margin: 0 auto 20px;
+    font-weight: 400;
+    font-variation-settings: "opsz" 120;
+  }
+  .philosophy-quote::before, .philosophy-quote::after {
+    color: var(--gold);
+    font-family: var(--serif-display);
+    font-size: 32px;
+    line-height: 0;
+    vertical-align: -8px;
+  }
+  .philosophy-quote::before { content: '"'; margin-right: 4px; }
+  .philosophy-quote::after { content: '"'; margin-left: 4px; }
+  .philosophy-attr {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* COLOPHON */
+  .colophon {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 880px) {
+    .container { padding: 32px 20px 60px; }
+    .stocks { grid-template-columns: 1fr; }
+    .framework-grid { grid-template-columns: 1fr; gap: 24px; }
+    .framework-cell { border-right: none; border-bottom: 1px solid var(--rule); padding: 0 0 24px; }
+    .framework-cell:last-child { border-bottom: none; padding-bottom: 0; }
+    .portfolio-grid { grid-template-columns: 1fr; gap: 24px; }
+    .alloc { border-left: none; padding-left: 0; border-top: 1px solid rgba(217,210,194,0.2); padding-top: 24px; }
+    .alloc:first-child { border-top: none; padding-top: 0; }
+    .stock-metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <div>VOL. I · 投研框架 No. 01</div>
+      <div class="right">★ 贵金属板块 · PRECIOUS METALS</div>
+      <div>2026 · 05 · 07</div>
+    </div>
+    <h1>大盘金矿与流式公司<br><em>美股投研全景</em></h1>
+    <p class="deck">从"质量复利"到"破产折价并购",从流式公司的"超级债券"到白银板块的"集体清债"——构建一个能在金价高位震荡中长期复利的贵金属组合。<strong style="color: var(--gold); font-style: normal;">本期只覆盖美国主要交易所(NYSE / NASDAQ)直接上市或正式ADR的标的</strong>。</p>
+  </header>
+
+  <!-- EXECUTIVE FRAMEWORK -->
+  <div class="section">
+    <div class="section-label">投研框架 · CORE FRAMEWORK</div>
+    <h2 class="section-title">三位一体的核心仓</h2>
+    <p class="section-intro">在金矿这个充满破产、减值、爆雷的行业里,真正的Alpha不是"找到下一个10倍股",而是"系统性避免死亡"。以下三只构成贵金属组合的核心三角——质量、现金、成长。</p>
+
+    <div class="framework">
+      <div class="framework-grid">
+        <div class="framework-cell">
+          <div class="label">Position 01 · QUALITY</div>
+          <div class="ticker">AEM</div>
+          <div class="role">大盘质量复利</div>
+          <div class="desc">加拿大魁北克工程师文化 + 不犯错的资本配置 + 储量持续替代。金矿股里"compounder"的代表,质量溢价被严重低估。</div>
+        </div>
+        <div class="framework-cell">
+          <div class="label">Position 02 · CASH</div>
+          <div class="ticker">KGC</div>
+          <div class="role">大盘现金债券</div>
+          <div class="desc">主动选择不增长,40% FCF强制返还股东。从两次重大灾难中走出来的纪律性,创伤记忆带来的谨慎。</div>
+        </div>
+        <div class="framework-cell">
+          <div class="label">Position 03 · GROWTH</div>
+          <div class="ticker">AGI</div>
+          <div class="role">中盘下一个AEM</div>
+          <div class="desc">McCluskey执掌29年,Argonaut并购获得Magino战略钥匙,5年产量+83%,有机增长 + 估值修复双引擎。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 1: STREAMING -->
+  <div class="category">
+    <div class="category-row">
+      <h3 class="category-name"><span class="num">I.</span>流式特许权 · 超级债券</h3>
+      <span class="category-tag">Streaming & Royalty</span>
+    </div>
+    <p class="category-desc">资本极轻、毛利率80%+、零运营风险的特殊商业模式。流式公司是矿业里"享受金价上涨 + 免疫运营灾难"的唯一选择。</p>
+
+    <div class="stocks">
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">WPM<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Wheaton Precious Metals Corp.</div>
+          </div>
+          <div class="stock-badge gold">推荐核心</div>
+        </div>
+        <div class="stock-role">流式界的AEM</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$300B</div></div>
+          <div class="metric"><div class="m-label">2030产量目标</div><div class="m-value">1.2M GEOs</div></div>
+          <div class="metric"><div class="m-label">5年增长</div><div class="m-value">+50%</div></div>
+        </div>
+        <div class="stock-thesis">2022-2025年junior矿企融资困境窗口让WPM签下大量优质流式协议(包括Hemlo、Antamina额外stream、Spring Valley等)。<strong>未来3年65%的增长已经锁定</strong>——Salobo III扩建、Antamina爬产、Goose/Platreef/Blackwater投产。质量与成长平衡的最佳标的。</div>
+        <div class="stock-risk">P/NAV 2.0x估值高,任何金价回调都会引起估值压缩;新签流式协议节奏放缓也会冲击叙事。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">FNV<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Franco-Nevada Corporation</div>
+          </div>
+          <div class="stock-badge navy">行业指数</div>
+        </div>
+        <div class="stock-role">流式界的"伯克希尔"</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$500B</div></div>
+          <div class="metric"><div class="m-label">资产数</div><div class="m-value">400+</div></div>
+          <div class="metric"><div class="m-label">EV/EBITDA</div><div class="m-value">25-30x</div></div>
+        </div>
+        <div class="stock-thesis">真正的多元化——400+流式与特许权资产,无单一资产风险。<strong>零债务</strong>(行业唯一),每员工对应市值$5亿+。是流式界的"NEM",最大、最分散、最贵——适合保守资金的"基础配置"。</div>
+        <div class="stock-risk">Cobre Panama已发生$10亿减值;估值倍数从30x压缩到20x意味着-30%回撤;增长率低于WPM。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">RGLD<span class="exchange">NASDAQ</span></div>
+            <div class="stock-name">Royal Gold, Inc.</div>
+          </div>
+          <div class="stock-badge">价值平衡</div>
+        </div>
+        <div class="stock-role">流式界的"KGC"</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$220B</div></div>
+          <div class="metric"><div class="m-label">EV/EBITDA</div><div class="m-value">~15x</div></div>
+          <div class="metric"><div class="m-label">分散度</div><div class="m-value">中</div></div>
+        </div>
+        <div class="stock-thesis">三巨头里估值最便宜,介于FNV(分散)和WPM(集中)之间。还在去杠杆阶段,有<strong>估值修复空间</strong>。如果WPM太贵又想要流式敞口,RGLD是性价比之选。</div>
+        <div class="stock-risk">增长慢于WPM,新签流式协议数量较少;部分资产集中在墨西哥,有政治风险敞口。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">OR<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Osisko Gold Royalties Ltd.</div>
+          </div>
+          <div class="stock-badge">中盘流式</div>
+        </div>
+        <div class="stock-role">加拿大特色流式</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$50B</div></div>
+          <div class="metric"><div class="m-label">核心资产</div><div class="m-value">CMGP</div></div>
+          <div class="metric"><div class="m-label">司法辖区</div><div class="m-value">加拿大</div></div>
+        </div>
+        <div class="stock-thesis">加拿大最大的中盘流式公司,核心资产是Canadian Malartic黄金特许权(<strong>5%净冶炼厂权益</strong>,寿命超过30年)。地理集中于加拿大,与AEM/AGI形成天然协同。</div>
+        <div class="stock-risk">单一资产依赖度高(CMGP占NAV的50%+);相比FNV/WPM/RGLD规模小,流动性较弱。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">SAND<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Sandstorm Gold Royalties Ltd.</div>
+          </div>
+          <div class="stock-badge">小盘流式</div>
+        </div>
+        <div class="stock-role">小盘成长流式</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$30B</div></div>
+          <div class="metric"><div class="m-label">关键资产</div><div class="m-value">Hod Maden</div></div>
+          <div class="metric"><div class="m-label">资产数</div><div class="m-value">~40</div></div>
+        </div>
+        <div class="stock-thesis">流式四巨头中最小但成长性最高。<strong>Hod Maden(土耳其)2026-2027投产</strong>,峰值年产20万oz @ 极低成本,改变公司基本面。组合更激进,新兴市场敞口高于FNV/WPM。</div>
+        <div class="stock-risk">Hod Maden土耳其政治风险;新兴市场资产比例高于同业;规模小,单一资产风险高。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CATEGORY 2: SENIORS -->
+  <div class="category">
+    <div class="category-row">
+      <h3 class="category-name"><span class="num">II.</span>大盘生产商 · 指数与Beta</h3>
+      <span class="category-tag">Senior Producers</span>
+    </div>
+    <p class="category-desc">市值$200亿+的senior生产商,是任何贵金属ETF的基础持仓。质量分化巨大——AEM/KGC一档,NEM/Barrick另一档。</p>
+
+    <div class="stocks">
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">AEM<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Agnico Eagle Mines Limited</div>
+          </div>
+          <div class="stock-badge gold">推荐核心</div>
+        </div>
+        <div class="stock-role">大盘质量之王</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$500B</div></div>
+          <div class="metric"><div class="m-label">AISC</div><div class="m-value">$1,475</div></div>
+          <div class="metric"><div class="m-label">储量寿命</div><div class="m-value">20+年</div></div>
+        </div>
+        <div class="stock-thesis">Sean Boyd留下的"工程师文化" + 加拿大魁北克 + 芬兰/澳洲优质资产组合。<strong>每年储量替代率>100%</strong>,EV/EBITDA溢价Barrick 80-100%。质量复利的代名词,在金矿这个高失败率行业里"反熵的存在"。</div>
+        <div class="stock-risk">P/NAV 1.5x估值已在历史高位;新CEO Ammar Al-Joundi的接班期需要观察;高Beta时代会跑输小盘。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">KGC<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Kinross Gold Corporation</div>
+          </div>
+          <div class="stock-badge gold">推荐核心</div>
+        </div>
+        <div class="stock-role">大盘现金债券</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$400B</div></div>
+          <div class="metric"><div class="m-label">净现金</div><div class="m-value">$14.5B</div></div>
+          <div class="metric"><div class="m-label">FCF返还</div><div class="m-value">40%</div></div>
+        </div>
+        <div class="stock-thesis">主动选择"不增长"——2026-2028稳产200万oz/年。<strong>Q1 2026 FCF $8.38亿(连续第四季度记录)</strong>。从Tasiast减值与俄罗斯被迫退出的两次创伤中走出来,纪律性来自创伤记忆,这种纪律比AEM"从不犯错"的纪律更可靠。</div>
+        <div class="stock-risk">Tasiast仍是地缘风险源(毛利塔尼亚);Great Bear开发延期会冲击长期增长叙事;高Beta时代会显著跑输。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">NEM<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Newmont Corporation</div>
+          </div>
+          <div class="stock-badge navy">指数代理</div>
+        </div>
+        <div class="stock-role">黄金股的"指数"</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$1100B</div></div>
+          <div class="metric"><div class="m-label">年产量</div><div class="m-value">~6M oz</div></div>
+          <div class="metric"><div class="m-label">AISC</div><div class="m-value">$1,700</div></div>
+        </div>
+        <div class="stock-thesis">全球最大金矿公司,资产分布全球,被GDX/GDXJ/所有Tier 1金矿ETF<strong>强制超配</strong>。像SPY——不会让你激动,但也不会让你倾家荡产。适合对冲长期通胀的"基础配置",不要重仓。</div>
+        <div class="stock-risk">资产质量两极分化,被中位数表现拖累;2024年开始的Newcrest整合仍在进行;管理层变更频繁。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">B<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Barrick Mining Corporation</div>
+          </div>
+          <div class="stock-badge red">高Beta</div>
+        </div>
+        <div class="stock-role">铜金混合周期</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$550B</div></div>
+          <div class="metric"><div class="m-label">铜业务</div><div class="m-value">扩张中</div></div>
+          <div class="metric"><div class="m-label">关键项目</div><div class="m-value">Reko Diq</div></div>
+        </div>
+        <div class="stock-thesis">改名+改代码反映铜业务战略升级。<strong>Reko Diq(巴基斯坦)是全球最大未开发铜金矿之一</strong>,2028投产。EBITDA对金价Beta最高,周期低点能涨5倍但高点跌80%。择时高手专属。</div>
+        <div class="stock-risk">Mali、Pakistan、PNG、DRC的地缘风险拖累;CEO Bristow突然离职;"transformational deal"风险高。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">AU<span class="exchange">NYSE</span></div>
+            <div class="stock-name">AngloGold Ashanti plc</div>
+          </div>
+          <div class="stock-badge green">事件驱动</div>
+        </div>
+        <div class="stock-role">英国迁册重估</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$300B</div></div>
+          <div class="metric"><div class="m-label">关键催化</div><div class="m-value">Arthur Gold</div></div>
+          <div class="metric"><div class="m-label">FTSE 100</div><div class="m-value">已加入</div></div>
+        </div>
+        <div class="stock-thesis">2024年从约翰内斯堡迁册到伦敦,加入FTSE 100,<strong>之前的50%南非折价被消除</strong>。Arthur Gold(内华达)LOM AISC仅$954/oz,是公司未来10年最大降本引擎。机构超配空间大。</div>
+        <div class="stock-risk">非洲资产(Ghana、坦桑尼亚)仍占大比例,运营风险存在;迁册后被FTSE机构追捧,估值已部分反映。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">GFI<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Gold Fields Limited</div>
+          </div>
+          <div class="stock-badge green">事件驱动</div>
+        </div>
+        <div class="stock-role">双投产催化</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$300B</div></div>
+          <div class="metric"><div class="m-label">Salares Norte</div><div class="m-value">2026稳态</div></div>
+          <div class="metric"><div class="m-label">Windfall</div><div class="m-value">2026投产</div></div>
+        </div>
+        <div class="stock-thesis">Salares Norte(智利)2026首个完整稳态生产年:55-58万oz,<strong>AISC $825-875(行业最低四分位)</strong>;Windfall(加拿大魁北克)与Osisko合资2026投产。"双重低成本新矿同时投产"在行业里极其罕见。</div>
+        <div class="stock-risk">南非资产(South Deep)长期表现疲软;Salares Norte智利政治风险;Windfall环境许可挑战。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">AGI<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Alamos Gold Inc.</div>
+          </div>
+          <div class="stock-badge gold">推荐核心</div>
+        </div>
+        <div class="stock-role">下一个AEM</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$200B</div></div>
+          <div class="metric"><div class="m-label">2030目标</div><div class="m-value">1M oz</div></div>
+          <div class="metric"><div class="m-label">5年增长</div><div class="m-value">+83%</div></div>
+        </div>
+        <div class="stock-thesis">McCluskey执掌29年,创始人级别的纪律。Island Gold District(IGD)= 加拿大版的"LaRonde + Detour"。<strong>Argonaut并购获得Magino战略钥匙</strong>——付$5.16亿得到$10亿NPV资产 + $5.15亿LOM协同效应。EV/EBITDA 8x vs AEM的11x,有明显估值修复空间。</div>
+        <div class="stock-risk">Lynn Lake执行风险(资本预算从$700M升到$934M);McCluskey年近70岁,接班尚未明朗;储量寿命比AEM短。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CATEGORY 3: MID-CAP & SPECIAL SITUATIONS -->
+  <div class="category">
+    <div class="category-row">
+      <h3 class="category-name"><span class="num">III.</span>中盘成长 · 多金属与转型</h3>
+      <span class="category-tag">Mid-Cap & Special Situations</span>
+    </div>
+    <p class="category-desc">市值$30-150亿区间的中盘标的,具有特定的扩产、转型或多金属暴露故事。属于"卫星仓位"——不是核心,但能提供差异化Alpha。</p>
+
+    <div class="stocks">
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">CGAU<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Centerra Gold Inc.</div>
+          </div>
+          <div class="stock-badge">多金属敞口</div>
+        </div>
+        <div class="stock-role">铜金钼三栖</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$35B</div></div>
+          <div class="metric"><div class="m-label">关键资产</div><div class="m-value">Mt. Milligan</div></div>
+          <div class="metric"><div class="m-label">2030 catalyst</div><div class="m-value">Thompson Creek</div></div>
+        </div>
+        <div class="stock-thesis">在金价高位时,<strong>铜+钼的多元化暴露</strong>能降低单一商品风险。2030年Thompson Creek钼矿重启——钼是国防关键金属,中国占全球供应40%。Goldfield(2028)和Mt. Milligan扩产持续。</div>
+        <div class="stock-risk">Kumtor(吉尔吉斯)历史阴影仍在;铜价波动会显著影响整体EBITDA;Thompson Creek重启的资本预算可能上修。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">IAG<span class="exchange">NYSE</span></div>
+            <div class="stock-name">IAMGOLD Corporation</div>
+          </div>
+          <div class="stock-badge red">高风险高回报</div>
+        </div>
+        <div class="stock-role">Cote爬产的杠杆翻身</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$70B</div></div>
+          <div class="metric"><div class="m-label">Cote资源</div><div class="m-value">18.2M oz</div></div>
+          <div class="metric"><div class="m-label">AISC</div><div class="m-value">$2,124</div></div>
+        </div>
+        <div class="stock-thesis">Cote/Gosselin是<strong>加拿大最大金矿资源之一</strong>(M&I 18.2M oz)。扩产到50,000+ tpd后可达600-700k oz/年。"super pit"潜力可类比Detour Lake级别。Sumitomo持有30%权益。</div>
+        <div class="stock-risk">AISC $2,124极高,金价回调时利润率压缩最快;Essakane(布基纳法索)新版无上限版税侵蚀利润;Cote稳定运营尚未完全实现;CEO是"修复型"而非"复利型"。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">SBSW<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Sibanye-Stillwater Limited</div>
+          </div>
+          <div class="stock-badge red">逆向投资</div>
+        </div>
+        <div class="stock-role">PGM contrarian play</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$80B</div></div>
+          <div class="metric"><div class="m-label">业务</div><div class="m-value">PGM+Au+Ni</div></div>
+          <div class="metric"><div class="m-label">回撤</div><div class="m-value">从$25跌到$5</div></div>
+        </div>
+        <div class="stock-thesis">全球最大铂族 + 美国Stillwater(钯) + 南非黄金 + 锂/镍布局。过去2年股价从$25跌到$5以下,典型的<strong>逆向投资标的</strong>。如果铂族价格反弹,股价3-5倍空间。氢能源 + 内燃机长尾需求是核心upside。</div>
+        <div class="stock-risk">南非Eskom电力危机;AMCU工会关系紧张;铂族需求长期受电动车冲击;管理层信用度低(Froneman时代失败的电池金属投资)。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">HMY<span class="exchange">NYSE · ADR</span></div>
+            <div class="stock-name">Harmony Gold Mining Co. Ltd.</div>
+          </div>
+          <div class="stock-badge red">高Beta</div>
+        </div>
+        <div class="stock-role">南非高Beta + Eva铜金催化</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$130B</div></div>
+          <div class="metric"><div class="m-label">2026 catalyst</div><div class="m-value">Eva Copper</div></div>
+          <div class="metric"><div class="m-label">敞口</div><div class="m-value">南非+澳洲</div></div>
+        </div>
+        <div class="stock-thesis">南非最大金矿之一(Mponeng等深矿)。<strong>2025年收购MAC Copper(澳洲)+ 推进Eva Copper(澳洲)</strong>——从纯南非金矿向"金铜混合"转型。地理多元化 + 铜业务转型是估值重估的核心。</div>
+        <div class="stock-risk">南非深井矿运营成本高;Eskom电力危机持续;Wafi-Golpu(PNG)地缘风险;ADR对ZAR汇率敏感。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CATEGORY 4: SILVER -->
+  <div class="category">
+    <div class="category-row">
+      <h3 class="category-name"><span class="num">IV.</span>白银专项 · 集体清债后的重估</h3>
+      <span class="category-tag">Silver Sector</span>
+    </div>
+    <p class="category-desc">银价上涨 + 管理纪律,让整个白银板块的资产负债表发生结构性变化——主要白银公司全部转为净现金。这种"全行业去杠杆"是2024-2026年白银投资最重要的叙事。</p>
+
+    <div class="stocks">
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">PAAS<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Pan American Silver Corp.</div>
+          </div>
+          <div class="stock-badge gold">推荐核心</div>
+        </div>
+        <div class="stock-role">白银界的AEM</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$170B</div></div>
+          <div class="metric"><div class="m-label">净现金</div><div class="m-value">$6.79B</div></div>
+          <div class="metric"><div class="m-label">2026股东回报</div><div class="m-value">$10B</div></div>
+        </div>
+        <div class="stock-thesis">白银界唯一能称为"质量"的标的。Q1 2026营收$11.54亿同比+49%,净利润$4.56亿同比+170%。<strong>La Colorada Skarn峰值年产1900万oz银,矿山寿命37年</strong>——单矿改变全球银市场供需格局。双重Alpha:银价Beta + La Colorada扩产。</div>
+        <div class="stock-risk">La Colorada Skarn总投资$19亿,执行延期会冲击叙事;Jacobina金矿仍是优化对象;墨西哥/秘鲁政治环境持续承压。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">CDE<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Coeur Mining, Inc.</div>
+          </div>
+          <div class="stock-badge gold">价值修复</div>
+        </div>
+        <div class="stock-role">Rochester爬产的"价值发现"</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$40B</div></div>
+          <div class="metric"><div class="m-label">2026转型</div><div class="m-value">净现金</div></div>
+          <div class="metric"><div class="m-label">2025净利润</div><div class="m-value">$586M</div></div>
+        </div>
+        <div class="stock-thesis">2026年初转净现金,完成<strong>SilverCrest + New Gold两笔战略并购</strong>。Rochester(内华达)扩建完成 + 美国本土资产组合 + 银金混合敞口。$1B调整后EBITDA,$666M FCF。估值修复故事尚未充分计入。</div>
+        <div class="stock-risk">SilverCrest和New Gold整合风险;Rochester需要持续证明产能稳定;管理层历史上有M&A过激倾向。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">HL<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Hecla Mining Company</div>
+          </div>
+          <div class="stock-badge">美国战略</div>
+        </div>
+        <div class="stock-role">美国白银之王</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$110B</div></div>
+          <div class="metric"><div class="m-label">P/E</div><div class="m-value">29x</div></div>
+          <div class="metric"><div class="m-label">2026事件</div><div class="m-value">赎回senior notes</div></div>
+        </div>
+        <div class="stock-thesis">美国最大银生产商(Greens Creek、Lucky Friday、Keno Hill),100%北美资产。2026年4月赎回$2.63亿7.25% senior notes,<strong>大幅去杠杆</strong>。如果发生白银被认定为关键矿物等地缘事件,HL是唯一受益的"美国本土"标的。</div>
+        <div class="stock-risk">P/E 29x估值已贵(过去6个月+54.4%);Casa Berardi出售后产量下降;爱达荷州运营成本上升。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">AG<span class="exchange">NYSE</span></div>
+            <div class="stock-name">First Majestic Silver Corp.</div>
+          </div>
+          <div class="stock-badge red">高Beta</div>
+        </div>
+        <div class="stock-role">高弹性白银纯玩家</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$50B</div></div>
+          <div class="metric"><div class="m-label">现金"war chest"</div><div class="m-value">$938M</div></div>
+          <div class="metric"><div class="m-label">股息策略</div><div class="m-value">2% revenue</div></div>
+        </div>
+        <div class="stock-thesis">$9.38亿净现金"war chest",<strong>股息翻倍至2% of revenue</strong>。2026年pivots to "margin over volume"——主动减产求高利润率。墨西哥四个银矿 + 内华达Jerritt Canyon。最高的银价Beta。</div>
+        <div class="stock-risk">墨西哥版税与劳工政策日益苛刻;Jerritt Canyon多次减值,管理信用度受损;高Beta意味着银价回调时跌幅最大。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">EXK<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Endeavour Silver Corp.</div>
+          </div>
+          <div class="stock-badge">中盘银金</div>
+        </div>
+        <div class="stock-role">墨西哥老牌银矿</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$15B</div></div>
+          <div class="metric"><div class="m-label">关键催化</div><div class="m-value">Terronera</div></div>
+          <div class="metric"><div class="m-label">投产</div><div class="m-value">2024-2025</div></div>
+        </div>
+        <div class="stock-thesis">Terronera(墨西哥Jalisco)2024-2025爬产,<strong>大幅提升产量与利润率</strong>。是中盘银矿里少有的"扩产+净现金"组合。Pitarrilla开发提供长期upside。</div>
+        <div class="stock-risk">墨西哥版税环境恶化;Terronera爬产速度低于预期;现有矿(Guanaceví, Bolañitos)处于成熟期,产量自然下滑。</div>
+      </div>
+
+      <div class="stock-card">
+        <div class="stock-header">
+          <div>
+            <div class="stock-ticker">FSM<span class="exchange">NYSE</span></div>
+            <div class="stock-name">Fortuna Mining Corp.</div>
+          </div>
+          <div class="stock-badge">银金混合</div>
+        </div>
+        <div class="stock-role">多元化中盘银金</div>
+        <div class="stock-metrics">
+          <div class="metric"><div class="m-label">市值</div><div class="m-value">~$25B</div></div>
+          <div class="metric"><div class="m-label">关键资产</div><div class="m-value">Séguéla</div></div>
+          <div class="metric"><div class="m-label">2025产量</div><div class="m-value">~370koz</div></div>
+        </div>
+        <div class="stock-thesis">Séguéla(科特迪瓦)2023年投产后<strong>显著降低成本结构</strong>。秘鲁、阿根廷、墨西哥多元化矿区。银金混合敞口与PAAS互补,但更小、更激进。</div>
+        <div class="stock-risk">科特迪瓦地缘风险;阿根廷Lindero矿成熟,产量下降;墨西哥San José矿运营成本上升。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MASTER COMPARISON TABLE -->
+  <div class="section">
+    <div class="section-label">总览对比 · MASTER MATRIX</div>
+    <h2 class="section-title">全部覆盖标的速查</h2>
+    <p class="section-intro">按市值与角色排序的完整覆盖列表,用于快速决策与组合管理。</p>
+
+    <div class="master-table">
+      <table>
+        <thead>
+          <tr>
+            <th>代码</th>
+            <th>类别</th>
+            <th>角色</th>
+            <th>市值 (USD)</th>
+            <th>关键特征</th>
+            <th>仓位定位</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">NEM<em>Newmont</em></td>
+            <td>大盘</td>
+            <td>行业指数</td>
+            <td>$1100亿+</td>
+            <td>全球最大,被动资金强制持仓</td>
+            <td>5% 底仓</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">B<em>Barrick</em></td>
+            <td>大盘</td>
+            <td>铜金高Beta</td>
+            <td>$550亿</td>
+            <td>Reko Diq + 铜业务转型</td>
+            <td>0-5% 战术</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">FNV<em>Franco-Nevada</em></td>
+            <td>流式</td>
+            <td>流式之王</td>
+            <td>$500亿</td>
+            <td>400+资产,零债务</td>
+            <td>5-10% 保守</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AEM<em>Agnico Eagle</em></td>
+            <td>大盘</td>
+            <td>质量复利</td>
+            <td>$500亿</td>
+            <td>魁北克工程师文化</td>
+            <td>20-25% 核心</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">KGC<em>Kinross</em></td>
+            <td>大盘</td>
+            <td>现金债券</td>
+            <td>$400亿</td>
+            <td>$14.5B净现金 + 40% FCF返还</td>
+            <td>15-20% 核心</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">WPM<em>Wheaton</em></td>
+            <td>流式</td>
+            <td>流式AEM</td>
+            <td>$300亿</td>
+            <td>50%产量增长到2030</td>
+            <td>15-20% 核心</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AU<em>AngloGold</em></td>
+            <td>大盘</td>
+            <td>事件驱动</td>
+            <td>$300亿</td>
+            <td>FTSE迁册 + Arthur Gold</td>
+            <td>5-8% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">GFI<em>Gold Fields</em></td>
+            <td>大盘</td>
+            <td>事件驱动</td>
+            <td>$300亿</td>
+            <td>Salares Norte + Windfall双投产</td>
+            <td>5-8% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">RGLD<em>Royal Gold</em></td>
+            <td>流式</td>
+            <td>价值平衡</td>
+            <td>$220亿</td>
+            <td>三巨头中估值最便宜</td>
+            <td>3-5% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AGI<em>Alamos</em></td>
+            <td>中盘</td>
+            <td>下一个AEM</td>
+            <td>$200亿</td>
+            <td>5年产量+83%,Magino协同</td>
+            <td>10-15% 核心</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PAAS<em>Pan American</em></td>
+            <td>白银</td>
+            <td>白银AEM</td>
+            <td>$170亿</td>
+            <td>$10B股东回报 + La Colorada Skarn</td>
+            <td>10-15% 核心</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HMY<em>Harmony Gold</em></td>
+            <td>大盘ADR</td>
+            <td>南非高Beta</td>
+            <td>$130亿</td>
+            <td>Eva Copper转型 + 深矿资产</td>
+            <td>3-5% 战术</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HL<em>Hecla</em></td>
+            <td>白银</td>
+            <td>美国战略</td>
+            <td>$110亿</td>
+            <td>美国本土银矿龙头</td>
+            <td>3-5% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SBSW<em>Sibanye</em></td>
+            <td>PGM</td>
+            <td>逆向投资</td>
+            <td>$80亿</td>
+            <td>铂族 + 氢能源期权</td>
+            <td>2-5% 投机</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IAG<em>IAMGOLD</em></td>
+            <td>中盘</td>
+            <td>杠杆翻身</td>
+            <td>$70亿</td>
+            <td>Cote 18.2M oz资源</td>
+            <td>5-8% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">OR<em>Osisko Royalties</em></td>
+            <td>流式</td>
+            <td>加拿大特色</td>
+            <td>$50亿</td>
+            <td>CMGP核心特许权</td>
+            <td>3-5% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AG<em>First Majestic</em></td>
+            <td>白银</td>
+            <td>高Beta</td>
+            <td>$50亿</td>
+            <td>$938M现金 + 高弹性</td>
+            <td>2-5% 战术</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CDE<em>Coeur</em></td>
+            <td>白银</td>
+            <td>价值修复</td>
+            <td>$40亿</td>
+            <td>转净现金 + 银金混合</td>
+            <td>5-8% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CGAU<em>Centerra</em></td>
+            <td>中盘</td>
+            <td>多金属</td>
+            <td>$35亿</td>
+            <td>金+铜+钼三栖</td>
+            <td>3-5% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SAND<em>Sandstorm</em></td>
+            <td>流式</td>
+            <td>小盘成长流式</td>
+            <td>$30亿</td>
+            <td>Hod Maden Turkey + ~40资产</td>
+            <td>3-5% 卫星</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">FSM<em>Fortuna Mining</em></td>
+            <td>白银</td>
+            <td>多元化银金</td>
+            <td>$25亿</td>
+            <td>Séguéla低成本 + 多地区</td>
+            <td>2-3% 战术</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EXK<em>Endeavour</em></td>
+            <td>白银</td>
+            <td>中盘银金</td>
+            <td>$15亿</td>
+            <td>Terronera爬产</td>
+            <td>2-3% 投机</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO FRAMEWORK -->
+  <div class="section">
+    <div class="section-label">组合配置 · ALLOCATION FRAMEWORK</div>
+    <h2 class="section-title">两种组合范式</h2>
+    <p class="section-intro">基于风险偏好与持有期的两种典型配置范式——质量核心型适合5-10年长期持有,平衡进取型在保留质量底仓的同时获得更多Beta敞口。</p>
+
+    <div class="portfolio">
+      <div class="portfolio-title">两种推荐组合范式</div>
+      <div class="portfolio-deck">质量核心型(左)适合长期资金;平衡进取型(右)适合在金价高位震荡期捕捉中盘扩产alpha。</div>
+
+      <div class="portfolio-grid">
+        <div class="alloc">
+          <div class="alloc-title">A · 质量核心型 (5-10年)</div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AEM</span>Agnico Eagle</span><span class="pct">28%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">KGC</span>Kinross</span><span class="pct">22%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">WPM</span>Wheaton</span><span class="pct">20%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AGI</span>Alamos</span><span class="pct">12%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">PAAS</span>Pan American</span><span class="pct">10%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AU</span>AngloGold (ADR)</span><span class="pct">5%</span></div>
+          <div class="alloc-row"><span class="name">现金 / 机会预留</span><span class="pct">3%</span></div>
+        </div>
+
+        <div class="alloc">
+          <div class="alloc-title">B · 平衡进取型 (3-7年)</div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AEM</span>Agnico Eagle</span><span class="pct">18%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">KGC</span>Kinross</span><span class="pct">15%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">WPM</span>Wheaton</span><span class="pct">15%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AGI</span>Alamos</span><span class="pct">15%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">PAAS</span>Pan American</span><span class="pct">12%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">CDE</span>Coeur</span><span class="pct">8%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">AU</span>AngloGold</span><span class="pct">7%</span></div>
+          <div class="alloc-row"><span class="name"><span class="ticker-tag">IAG</span>IAMGOLD / 战术仓</span><span class="pct">10%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING PHILOSOPHY -->
+  <div class="philosophy">
+    <p class="philosophy-quote">在一个95%的公司10年后会让你失望的行业里,找到那5%能持续复利的公司,远比找到下一个10倍股重要。</p>
+    <div class="philosophy-attr">— 投研框架的核心信念 —</div>
+  </div>
+
+  <!-- COLOPHON -->
+  <div class="colophon">
+    <div>贵金属投研 · Equity Research</div>
+    <div>Issue 01 · May 2026</div>
+    <div>仅供学习交流 · Not Investment Advice</div>
+  </div>
+
+</div>
+</body>
+</html>

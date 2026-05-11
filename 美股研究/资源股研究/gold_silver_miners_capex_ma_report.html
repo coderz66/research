@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金银矿美股 | Capex 与 M&A 周期对比研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF9F6;
+  --bg-alt: #F2EFE8;
+  --bg-card: #FFFFFF;
+  --navy: #0E2A47;
+  --navy-light: #1B3D5F;
+  --navy-soft: #4A5F7A;
+  --bronze: #8B6F35;
+  --bronze-light: #B89058;
+  --bull: #1F6B4A;
+  --bear: #A8331F;
+  --highlight: #FFF1B8;
+  --rule: #D9D3C5;
+  --rule-soft: #E8E2D2;
+  --text: #1A1A1A;
+  --text-mute: #5C5C5C;
+  --shadow: 0 1px 3px rgba(14,42,71,0.06), 0 4px 12px rgba(14,42,71,0.04);
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ============ MASTHEAD ============ */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  padding: 36px 0 28px;
+}
+.masthead-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--bronze);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.brand-mark::before {
+  content: "◆ ";
+}
+.headline {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.headline em {
+  font-style: italic;
+  color: var(--bronze);
+  font-weight: 400;
+}
+.dek {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--navy-soft);
+  font-weight: 400;
+  max-width: 720px;
+}
+.meta-stamp {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-align: right;
+  color: var(--text-mute);
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+}
+.meta-stamp .label {
+  color: var(--bronze);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.meta-stamp .val {
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* ============ NAVIGATION ============ */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  background: rgba(250, 249, 246, 0.92);
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  text-decoration: none;
+  padding: 14px 18px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.nav-link .num {
+  color: var(--bronze);
+  margin-right: 6px;
+}
+.nav-link:hover {
+  color: var(--navy);
+}
+.nav-link.active {
+  color: var(--navy);
+  border-bottom-color: var(--bronze);
+  font-weight: 600;
+}
+
+/* ============ MAIN LAYOUT ============ */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* ============ EXEC SUMMARY ============ */
+.exec {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FBF9F3 100%);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--bronze);
+  padding: 28px 32px;
+  margin-bottom: 56px;
+  box-shadow: var(--shadow);
+}
+.exec-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--bronze);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.exec-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 36px;
+}
+.exec-thesis {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--navy);
+  font-weight: 400;
+}
+.exec-thesis em {
+  font-style: italic;
+  color: var(--bronze);
+}
+.exec-thesis .key {
+  background: var(--highlight);
+  padding: 1px 4px;
+  font-style: normal;
+}
+.exec-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-content: start;
+}
+.stat-tile {
+  background: var(--bg);
+  border: 1px solid var(--rule-soft);
+  padding: 14px 16px;
+  transition: all 0.2s;
+  cursor: default;
+}
+.stat-tile:hover {
+  border-color: var(--bronze);
+  transform: translateY(-1px);
+}
+.stat-tile .lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.stat-tile .val {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.1;
+}
+.stat-tile .unit {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  font-weight: 500;
+  margin-left: 3px;
+}
+.stat-tile .delta {
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-top: 4px;
+  color: var(--text-mute);
+}
+.stat-tile.bull .val { color: var(--bull); }
+.stat-tile.bear .val { color: var(--bear); }
+
+/* ============ SECTION ============ */
+.section {
+  margin-bottom: 64px;
+  scroll-margin-top: 60px;
+}
+.section-head {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 24px;
+  align-items: end;
+  border-bottom: 2px solid var(--navy);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+  cursor: pointer;
+  user-select: none;
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bronze);
+  letter-spacing: 0.1em;
+  padding-bottom: 4px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--bronze);
+}
+.section-toggle {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  padding-bottom: 6px;
+  transition: transform 0.3s;
+}
+.section.collapsed .section-toggle {
+  transform: rotate(-90deg);
+}
+.section-body {
+  max-height: 30000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s;
+  opacity: 1;
+}
+.section.collapsed .section-body {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ============ TYPOGRAPHY ============ */
+.lead {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--navy);
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+.lead em {
+  font-style: italic;
+  color: var(--bronze);
+}
+p {
+  margin-bottom: 14px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text);
+}
+p strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+.highlight {
+  background: var(--highlight);
+  padding: 1px 4px;
+}
+.mono { font-family: var(--mono); font-size: 0.92em; }
+h3 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--navy);
+  margin: 26px 0 12px;
+  letter-spacing: -0.005em;
+}
+h3 .h3-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--bronze);
+  font-weight: 700;
+  margin-right: 10px;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+}
+h4 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 18px 0 10px;
+  letter-spacing: 0.01em;
+}
+
+/* ============ PROFILE CARD ============ */
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--bronze);
+  padding: 18px 22px;
+  margin: 16px 0;
+  transition: all 0.2s;
+}
+.profile-card:hover {
+  border-left-color: var(--navy);
+  box-shadow: var(--shadow);
+}
+.profile-card.bull { border-left-color: var(--bull); }
+.profile-card.bear { border-left-color: var(--bear); }
+.profile-card.navy { border-left-color: var(--navy); }
+.profile-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.profile-card-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.profile-card-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--bronze);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--bronze);
+  padding: 2px 8px;
+}
+
+/* ============ DATA TABLES & GRIDS ============ */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 16px 0;
+}
+.data-cell {
+  background: var(--bg-card);
+  padding: 14px 16px;
+  transition: background 0.2s;
+}
+.data-cell:hover { background: #FBF9F3; }
+.data-cell .k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.data-cell .v {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.data-cell .v.bull { color: var(--bull); }
+.data-cell .v.bear { color: var(--bear); }
+
+table.facts {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13.5px;
+}
+table.facts th, table.facts td {
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+table.facts thead th {
+  background: var(--bg-alt);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--navy);
+}
+table.facts td.num {
+  font-family: var(--mono);
+  font-weight: 500;
+  text-align: right;
+}
+table.facts tr:hover td { background: #FBF9F3; }
+table.facts td.bull { color: var(--bull); font-weight: 600; }
+table.facts td.bear { color: var(--bear); font-weight: 600; }
+
+/* ============ CALLOUT ============ */
+.callout {
+  background: var(--bg-alt);
+  border-left: 3px solid var(--navy);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-style: italic;
+  font-family: var(--serif);
+  color: var(--navy);
+  line-height: 1.55;
+}
+.callout strong {
+  font-style: normal;
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--navy);
+}
+.callout.bronze { border-left-color: var(--bronze); background: #FBF6E8; }
+.callout.bull { border-left-color: var(--bull); background: #EAF3EE; }
+.callout.bear { border-left-color: var(--bear); background: #F5E8E5; }
+
+/* ============ TAB SYSTEM ============ */
+.tab-bar {
+  display: flex;
+  border-bottom: 2px solid var(--navy);
+  margin-bottom: 0;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.tab-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--text-mute);
+  transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--navy); }
+.tab-btn.active {
+  color: var(--navy);
+  border-bottom-color: var(--bronze);
+}
+.tab-btn .ct {
+  color: var(--bronze);
+  font-weight: 700;
+  margin-left: 4px;
+}
+.tab-content { display: none; padding-top: 4px; }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ CASE CARD ============ */
+.case-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--bronze);
+  padding: 18px 22px;
+  margin: 14px 0;
+  transition: all 0.25s;
+  position: relative;
+}
+.case-card:hover {
+  border-left-color: var(--navy);
+  box-shadow: var(--shadow);
+  transform: translateX(2px);
+}
+.case-card-head {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--rule);
+}
+.case-num {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--bronze);
+  font-style: italic;
+}
+.case-deal {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: -0.005em;
+}
+.case-deal .arrow {
+  color: var(--bronze);
+  margin: 0 8px;
+  font-style: italic;
+}
+.case-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.05em;
+}
+.case-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  margin: 10px 0 12px;
+  border: 1px solid var(--rule);
+}
+.case-stat {
+  background: var(--bg);
+  padding: 8px 10px;
+}
+.case-stat .lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+.case-stat .val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.case-stat .val.bull { color: var(--bull); }
+.case-stat .val.bear { color: var(--bear); }
+.case-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.case-body .takeaway {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule);
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--navy);
+  font-size: 13.5px;
+}
+.case-body .takeaway::before {
+  content: "▸ ";
+  color: var(--bronze);
+  font-style: normal;
+}
+
+/* ============ NUMBERED LIST ============ */
+.num-list {
+  counter-reset: nlist;
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+}
+.num-list > li {
+  counter-increment: nlist;
+  position: relative;
+  padding-left: 36px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.num-list > li::before {
+  content: counter(nlist, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bronze);
+  letter-spacing: 0.08em;
+}
+.num-list > li strong { color: var(--navy); font-weight: 600; }
+
+/* ============ FLOW DIAGRAM ============ */
+.flow {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 20px 24px;
+  margin: 18px 0;
+}
+.flow-step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  align-items: center;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  width: 2px;
+  height: calc(100% - 14px);
+  background: var(--bronze);
+  opacity: 0.4;
+}
+.flow-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--navy);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0;
+  z-index: 2;
+  position: relative;
+}
+.flow-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.flow-text strong { color: var(--navy); }
+
+/* ============ CITE ============ */
+cite {
+  font-style: normal;
+  border-bottom: 1px dotted var(--bronze);
+  cursor: help;
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 30px 32px;
+  margin-top: 40px;
+  background: var(--bg-alt);
+}
+.footer-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-mute);
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+}
+.footer-text .lbl {
+  color: var(--bronze);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.footer-mark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--navy-soft);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 880px) {
+  .masthead-inner { grid-template-columns: 1fr; }
+  .meta-stamp { text-align: left; }
+  .headline { font-size: 32px; }
+  .exec-grid { grid-template-columns: 1fr; }
+  .section-head { grid-template-columns: 50px 1fr 30px; }
+  .section-title { font-size: 22px; }
+  .case-stats { grid-template-columns: repeat(2, 1fr); }
+  .case-card-head { grid-template-columns: 28px 1fr; }
+  .case-card-head .case-meta { grid-column: 1 / -1; }
+  .container { padding: 32px 18px 60px; }
+  .masthead-inner, .nav-inner { padding: 0 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="brand-mark">Sector Deep-Dive · Precious Metals Equities</div>
+      <h1 class="headline">为什么本轮金银矿不再大举 <em>Capex</em>，<br>而是 <em>M&A</em> 接管资本配置？</h1>
+      <p class="dek">2012-2015 创伤复盘 · 当下并购套利逻辑 · 十大案例与股价传导机制</p>
+    </div>
+    <div class="meta-stamp">
+      <span class="label">Report</span><br>
+      <span class="val">Trader's Framework Note</span><br><br>
+      <span class="label">Issued</span><br>
+      <span class="val">2026-05-09</span><br><br>
+      <span class="label">Universe</span><br>
+      <span class="val">NEM · GOLD · CDE · PAAS<br>AEM · KGC · HL · WPM · RGLD</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a class="nav-link active" data-target="sec-summary"><span class="num">00</span>Thesis</a>
+    <a class="nav-link" data-target="sec-01"><span class="num">01</span>Capex 收敛原因</a>
+    <a class="nav-link" data-target="sec-02"><span class="num">02</span>2012-2015 复盘</a>
+    <a class="nav-link" data-target="sec-03"><span class="num">03</span>M&A 套利逻辑</a>
+    <a class="nav-link" data-target="sec-04"><span class="num">04</span>十大案例</a>
+    <a class="nav-link" data-target="sec-05"><span class="num">05</span>股价传导机制</a>
+    <a class="nav-link" data-target="sec-06"><span class="num">06</span>实操要点</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ============ EXECUTIVE SUMMARY ============ -->
+  <div class="exec" id="sec-summary">
+    <div class="exec-label">Executive Thesis</div>
+    <div class="exec-grid">
+      <div class="exec-thesis">
+        本轮金银矿美股的资本配置逻辑与 2011-2012 周期 <em>形成根本分野</em>：
+        <span class="key">capital discipline 不是周期性克制，而是被 2013-2018 灾难焊死的制度性约束</span>。
+        Greenfield 大型新建被全面冻结，资本通过分红、回购、并购三个出口流出。其中
+        M&A 已成为主导路径——senior 用 <em>0.75x P/NAV 的纸</em>买入 <em>0.51x P/NAV 的资产</em>，
+        每一笔交易在公告瞬间已 per-share accretive。这一估值剪刀差是过去三十年从未出现过的。
+      </div>
+      <div class="exec-stats">
+        <div class="stat-tile bull">
+          <div class="lbl">2025 Mining M&A</div>
+          <div class="val">$89<span class="unit">B</span></div>
+          <div class="delta">180 笔 · 2010-12 以来新高</div>
+        </div>
+        <div class="stat-tile">
+          <div class="lbl">Senior P/NAV</div>
+          <div class="val">0.75<span class="unit">x</span></div>
+          <div class="delta">远低于长期均值</div>
+        </div>
+        <div class="stat-tile">
+          <div class="lbl">Junior P/NAV</div>
+          <div class="val">0.51<span class="unit">x</span></div>
+          <div class="delta">套利空间核心</div>
+        </div>
+        <div class="stat-tile bull">
+          <div class="lbl">FCF 返还比例</div>
+          <div class="val">40-50<span class="unit">%</span></div>
+          <div class="delta">分红 + 回购</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 01 -->
+  <section class="section" id="sec-01">
+    <div class="section-head">
+      <div class="section-num">§01</div>
+      <h2 class="section-title">本轮 Capex <em>不积极</em> 的四个核心原因</h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">金价突破 5,000 美元、矿企现金流爆表，<em>但没有任何 major 宣布 Pascua 级别的新建项目</em>。这不是巧合，是过去十年市场训练出来的制度性反射。</p>
+
+      <h3><span class="h3-num">01·1</span>2012-2015 创伤记忆压在董事会决策桌上</h3>
+      <p>那一轮金价从 1900 跌到 1050，行业付出极大代价。Barrick 市值从 640 亿美元掉到 138 亿（约 <span class="mono" style="color:var(--bear);font-weight:600;">-78%</span>），背了 <span class="mono">$13B+</span> 美元债务；Pascua-Lama 一盎司未产出却几乎全额减记；Pueblo Viejo 持续超支。</p>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="k">2011-2012 CAPEX/Rev</div>
+          <div class="v">33%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">vs Homestake 1978-79</div>
+          <div class="v">6%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">Top 4 Capex 2012 峰值</div>
+          <div class="v">$14.3B</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">Top 4 Capex 2016 低点</div>
+          <div class="v bear">$3.6B</div>
+        </div>
+      </div>
+
+      <p><cite index="24-1">2011-2012 年 Barrick、Newmont、AngloGold 三家 CAPEX/Revenue 比例达 33%，是 Homestake 1978-79 年同业 6% 比例的五倍多</cite>。<cite index="25-1">四大金矿合计 CAPEX 从 2012 年 143 亿美元的峰值塌方到 2016 年 36 亿美元的低点</cite>——这就是当年大举建产留下的疤。机构股东（多元化矿业基金、ETF）现在的硬约束就是 <strong>capital discipline 第一，growth 第二</strong>。</p>
+
+      <h3><span class="h3-num">01·2</span>现金流分配的"游戏规则"已经改了</h3>
+
+      <div class="callout bronze">
+        <strong>新规则</strong> · <cite index="2-1">2025 年大型分散化矿企新的再投资率定在经营性现金流的 50%+，分红约 45%，回购同步压缩</cite>；<cite index="3-1">本轮金矿公司将 FCF 的 40-50% 通过分红和回购返还股东，杠杆率维持在目标区间内，避免"懒惰资产负债表"</cite>。也就是说现金流的去向有了 <em>硬性比例</em>，留给新建产能的份额本身就有限。
+      </div>
+
+      <h3><span class="h3-num">01·3</span>Greenfield 经济性不如十年前——成本通胀 + 品位下降 + 许可周期</h3>
+
+      <table class="facts">
+        <thead><tr><th>项</th><th>2024</th><th>vs 2019</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>Total Cash Cost</td><td class="num mono">$987/oz</td><td class="num bear">+31%</td><td>持续抬升的成本中枢</td></tr>
+          <tr><td>劳动力成本</td><td class="num mono">—</td><td class="num bear">+7%</td><td>vs 2019-23 平均</td></tr>
+          <tr><td>能源成本</td><td class="num mono">—</td><td class="num bear">+15%</td><td>vs 2019-23 平均</td></tr>
+          <tr><td>Greenfield 周期</td><td class="num mono">10-15 年</td><td class="num">—</td><td>含 ESG / 原住民 / 许可</td></tr>
+        </tbody>
+      </table>
+
+      <p><cite index="10-1">2024 年黄金 TCC 为 987 美元/盎司，相比 2019 年仍高 31%；劳动力成本相比 2019-23 平均高 7%，能源成本高 15%</cite>。叠加 ESG 审批、原住民同意权、资源国民族主义，新的 tier-1 露天矿从勘探到投产需要 <strong>10-15 年</strong>。同样的金价上涨幅度，IRR 提升远不如表面看起来明显。</p>
+
+      <h3><span class="h3-num">01·4</span>Brownfield 优于 Greenfield 的产业共识已形成</h3>
+
+      <div class="callout">
+        <cite index="9-1">2026 欧洲矿业论坛上一个清晰的共识：brownfield 每盎司 capex 远低于同辖区任何新建露天矿；多个开发项目在第一阶段刻意把资本强度做到最低——"在当前价格环境下，<em>更简单更快比更大更好更值钱</em>"</cite>。
+      </div>
+
+      <p><cite index="8-1">很多生产商优先考虑 brownfield 扩产和有纪律的资本回报方式，而不是降低截断品位、追逐边际盎司——这与 2000 年代上一轮黄金牛市中矿企失去纪律、损害股东利益形成鲜明对比</cite>。<strong>没有任何 CEO 想第二个 Pascua-Lama 写进自己的简历</strong>，这是一笔涉及职业生涯的算术。</p>
+    </div>
+  </section>
+
+  <!-- SECTION 02 -->
+  <section class="section" id="sec-02">
+    <div class="section-head">
+      <div class="section-num">§02</div>
+      <h2 class="section-title">2012-2015 复盘：教科书级别的 <em>Greenfield 灾难</em></h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">这一段历史在今天的董事会上是 <em>写在墙上的禁止清单</em>。理解这段历史，才能理解为什么本轮 capital discipline 不会松动。</p>
+
+      <h3><span class="h3-num">02·1</span>Pascua-Lama：$8.5B 投入，一盎司未产出</h3>
+
+      <div class="profile-card bear">
+        <div class="profile-card-head">
+          <div class="profile-card-title">Pascua-Lama Project · Barrick Gold</div>
+          <div class="profile-card-tag">Total Loss</div>
+        </div>
+
+        <div class="data-grid" style="margin-top:8px;">
+          <div class="data-cell">
+            <div class="k">原始预算上限</div>
+            <div class="v">$5.0B</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">2012 修正后预算</div>
+            <div class="v bear">$7-8B</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">最终投入</div>
+            <div class="v bear">$8.5B+</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">实际产出</div>
+            <div class="v bear">0 oz</div>
+          </div>
+        </div>
+
+        <p style="margin-top:10px;"><cite index="50-1">Barrick 2012 年宣布资本开支较 47-50 亿美元上限再增加 50-60%（推升至 70-80 亿区间），当时已花掉约 30 亿</cite>；<cite index="38-1">最终投入超过 85 亿美元，2018 年被智利环境监管机构 SMA 命令最终关闭</cite>。</p>
+      </div>
+
+      <h4>失败的资本超支归因（Barrick 自己披露的结构）</h4>
+      <table class="facts">
+        <thead><tr><th>归因</th><th>占比</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>承包商生产率低于预期</td><td class="num bear">30%</td><td>跨境项目人员协调失败</td></tr>
+          <tr><td>工程和规划缺口</td><td class="num bear">25%</td><td>FID 前可行性研究不充分</td></tr>
+          <tr><td>成本通胀</td><td class="num bear">25%</td><td>大宗商品超级周期反噬</td></tr>
+          <tr><td>工期延长</td><td class="num bear">20%</td><td>营地、隧道、选厂建设延误</td></tr>
+        </tbody>
+      </table>
+
+      <h4>但更致命的是社会与环境层面的彻底误判</h4>
+      <ul class="num-list">
+        <li><strong>冰川问题</strong> · 原矿计划要影响智利安第斯山区的三座小冰川（Toro 1、Toro 2、Esperanza）——这是一开始就埋下的雷。</li>
+        <li><strong>原住民诉讼</strong> · 智利 Atacama 地区 Diaguita 社区以"Huasco 河水源被污染、违反环境评估决议"起诉，法院 2013 年下令暂停建设直到水资源保护工作完成。</li>
+        <li><strong>国际融资链断裂</strong> · <cite index="31-1">2012 年 3 月加拿大 EDC 和美国 EXIM 银行宣布退出对 Pascua-Lama 的项目融资（原计划提供约 5 亿美元启动融资），主要因环保 NGO 持续提交合规质疑</cite>——融资断裂是项目崩塌的直接催化剂。</li>
+        <li><strong>法律终局</strong> · 智利 SMA 因 33 项指控（冰川监测不到位、Estrecho 河水质破坏等）下令永久关闭智利侧；<cite index="32-1">2016 年 Barrick 同意支付 1.4 亿美元和解美国集体诉讼；同期把阿根廷 Veladero 矿 50% 卖给中国山东黄金，作价 9.6 亿美元</cite>。</li>
+      </ul>
+
+      <h3><span class="h3-num">02·2</span>Pueblo Viejo：连"皇冠资产"都要被减值</h3>
+
+      <p><cite index="48-1">Pueblo Viejo（多米尼加共和国）是 Barrick 与 Goldcorp 的合资项目，最终建设成本 37 亿美元</cite>——而原始预算只有约 30 亿美元，超支幅度同样可观。这个项目本身后来成了 Barrick 最优质资产之一（AISC 长期 &lt;600/oz），但建设期减值照样发生：</p>
+
+      <div class="callout bear">
+        <cite index="41-1">2015 年 Barrick 计提 31 亿美元减值，其中 22 亿来自商誉减值，主要涉及 Goldstrike、Zaldívar 和 Pueblo Viejo；另外 9.47 亿资产减值主要来自 Pascua-Lama 和 Pueblo Viejo</cite>。<br><br>
+        <strong>关键含义：</strong>连后来公认的"皇冠资产"在建设期也要被减值——只要资本强度过高，金价一回调，会计上就一定要爆雷。这件事让所有矿企 CFO 都明白了。
+      </div>
+
+      <h3><span class="h3-num">02·3</span>Barrick $13B 债务怎么还的——不是靠金价回升，是靠卖家底</h3>
+
+      <p>Barrick 2015 年把 130 亿美元债务定为头号 KPI。<cite index="41-1">2015 年总债务从 131 亿降到 100 亿，减少 31 亿（24%），超额完成 30 亿目标</cite>。但这个数字是一系列"出血式"操作堆出来的——<strong>不是"挣钱还债"，是"用未来现金流和优质资产置换债务"</strong>。</p>
+
+      <h4>$3B 减债目标的拆解（数据：Barrick 2015 年 8 月披露）</h4>
+
+      <table class="facts">
+        <thead><tr><th>路径</th><th>金额</th><th>占比</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>资产出售 + JV + Streaming</td><td class="num mono">$2.45B</td><td class="num">82%</td><td>核心抓手</td></tr>
+          <tr><td>直接债务赎回</td><td class="num mono">$0.25B</td><td class="num">8%</td><td>实际花的现金</td></tr>
+          <tr><td>合计完成 / 目标</td><td class="num mono bull">$2.7B / $3B</td><td class="num bull">90%</td><td>截至 2015-08</td></tr>
+        </tbody>
+      </table>
+
+      <h4>具体动作清单（按重要性排序）</h4>
+
+      <div class="profile-card navy">
+        <div class="profile-card-head">
+          <div class="profile-card-title">① 资产剥离 — 最快但最痛</div>
+          <div class="profile-card-tag">Asset Sales</div>
+        </div>
+        <p style="font-size:13.5px;line-height:1.6;"><cite index="42-1">2015 年下半年正式启动出售 Bald Mountain、Round Mountain、Spring Valley、Ruby Hill、Hilltop 和 Golden Sunlight 等内华达和蒙大拿的非核心矿山和项目</cite>。澳洲 Cowal 矿 <span class="mono">$550M</span>；巴新 Porgera 50% 股权 <span class="mono">$298M</span> 卖给中国紫金；2017 年阿根廷 Veladero 50% 卖给山东黄金 <span class="mono">$960M</span>。</p>
+      </div>
+
+      <div class="profile-card navy">
+        <div class="profile-card-head">
+          <div class="profile-card-title">② 合资分摊 — Zaldívar 案例</div>
+          <div class="profile-card-tag">Joint Venture</div>
+        </div>
+        <p style="font-size:13.5px;line-height:1.6;"><cite index="45-1">2015 年 7 月 30 日 Barrick 以 10.05 亿美元现金把 50% Zaldívar 铜矿卖给智利 Antofagasta</cite>——这个动作本质是<strong>把多元化战略原地撤回</strong>，承认 2010 年代初的"金铜平台"叙事是错的。</p>
+      </div>
+
+      <div class="profile-card bronze" style="border-left-color:var(--bronze);">
+        <div class="profile-card-head">
+          <div class="profile-card-title">③ Streaming — 行业自此被改写的工具</div>
+          <div class="profile-card-tag">Royal Gold Deal</div>
+        </div>
+        <p style="font-size:13.5px;line-height:1.6;"><cite index="43-1">2015 年 8 月 Barrick 与 Royal Gold 签订 Pueblo Viejo 60% 权益的金银流式协议，Royal Gold 一次性预付 6.10 亿美元；条款是 Barrick 在 99 万盎司金交付前以 7.5% 比例向 Royal Gold 出售其权益份额黄金，之后降至 3.75%；白银则在 5000 万盎司前以 75% 比例交付，之后 37.5%</cite>。</p>
+        <p style="font-size:13.5px;line-height:1.6;margin-top:8px;"><strong>划时代的工具</strong>：预付现金 = 隐性债务，但<strong>不上资产负债表</strong>，会计上记为"递延销售合约"。Wheaton、Royal Gold、Franco-Nevada 这一类 streaming/royalty 公司的崛起，<em>本质上吃的就是 2015 年金矿生产商被迫让渡未来现金流的红利</em>。</p>
+      </div>
+
+      <div class="profile-card navy">
+        <div class="profile-card-head">
+          <div class="profile-card-title">④ 削开支 + 砍分红 — 让股东共担</div>
+          <div class="profile-card-tag">Cost Discipline</div>
+        </div>
+        <p style="font-size:13.5px;line-height:1.6;"><cite index="42-1">季度分红下调 60%，每年节省 1.4 亿美元；目标到 2016 年底削减 20 亿美元开支；2015 年 Capex 削至 16-19 亿，比 2014 年下降 20%</cite>。<cite index="46-1">G&amp;A 削减 9000 万美元，目标在金属价格周期中获得 10-15% ROIC</cite>。</p>
+      </div>
+
+      <h3><span class="h3-num">02·4</span>这段历史给当下的硬约束</h3>
+
+      <ul class="num-list">
+        <li><strong>没有任何 CEO 想第二个 Pascua-Lama 写进简历</strong> · 即便金价 4500-5000，没人愿意在敏感司法区域上 50 亿美元+ 的 greenfield。Brownfield 资本强度是 greenfield 的 1/2-1/3 而周期短一半。</li>
+        <li><strong>不允许再被迫卖皇冠资产</strong> · 杠杆率被严控（通常 <span class="mono">net debt/EBITDA &lt; 1x</span>，行业普遍 <span class="mono">0.3-0.5x</span>），现金缓冲池厚到夸张。</li>
+        <li><strong>Streaming 从应急工具变成 Capex 结构</strong> · 但是是主动用而不是被迫用。新项目融资里把一部分白银副产品流式预售，结构性变化。</li>
+        <li><strong>股东对管理层的约束机制写进薪酬</strong> · 很多金矿管理层薪酬已经把 <span class="mono">FCF/share</span> 和 <span class="mono">reserves/share</span> 作为核心 KPI——增产但每股 FCF 不增，CEO 拿不到全额奖金。</li>
+        <li><strong>永久性怀疑"上一轮的报告 IRR 假设"</strong> · 这一轮所有重大项目的 IRR 测试都用 <span class="mono">金价 $2200-2500、油价 $70-80</span> 的保守情景，远低于现货价。<strong>过审门槛比上轮高一个量级</strong>。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 03 -->
+  <section class="section" id="sec-03">
+    <div class="section-head">
+      <div class="section-num">§03</div>
+      <h2 class="section-title">M&A 频繁的 <em>核心套利逻辑</em></h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">本轮金银矿 M&A 的核心数学：<em>用 0.75x P/NAV 的纸去买 0.51x P/NAV 的资产</em>——每一笔交易在董事会批准的瞬间就已经是增值的。</p>
+
+      <h3><span class="h3-num">03·1</span>三个 per-share 维度的累计效应</h3>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="k">FCF/Share Accretion</div>
+          <div class="v bull">+20-40%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">储量/Share Accretion</div>
+          <div class="v bull">5-10x</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">EBITDA/Share Accretion</div>
+          <div class="v bull">+15-30%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">2025 全行业 M&A 总额</div>
+          <div class="v">$89B</div>
+        </div>
+      </div>
+
+      <p>这是过去三十年金矿行业从未出现过的估值剪刀差，本质上是<strong>"上一轮的赢家在割上一轮的输家的肉"</strong>——熬过 2013-2018 寒冬的生产商现在收购被资本市场抛弃的 developer/junior。</p>
+
+      <h3><span class="h3-num">03·2</span>四个驱动 M&A 加速的产业层因素</h3>
+
+      <ul class="num-list">
+        <li><strong>估值剪刀差给了套利空间</strong> · <cite index="8-1">大型金矿 EV/EBITDA 约 8x，远低于科技板块 22x+ 和美股大盘 18x；按 P/NAV，主要金矿在 0.75x，远低于长期均值；中小盘和初级矿企更只有 0.51x</cite>。Senior 用 0.75x P/NAV 的纸买 0.51x P/NAV 的资产，每一笔都是高度增值的。</li>
+        <li><strong>时间套利</strong> · Greenfield 10-15 年 + 政治许可不确定性；M&A 拿来的 brownfield，资源已知、许可已批，2-3 年就能投产甚至当下就在产。<em>在金价 4000-5000 美元的窗口期内，时间就是 NPV</em>。</li>
+        <li><strong>Majors 缺新发现</strong> · <cite index="11-1">Gold Fields CEO 直言"持续扫描机会，因为改善组合意味着我们必须找到补充资源和储量的路径以创造长期持续性"——他们 2024 年以 16 亿美元买 Osisko Mining，2025 年以 26 亿美元买 Gold Road Resources，并表示对西澳还有进一步整合空间</cite>。这是行业普遍状况。</li>
+        <li><strong>战略性买家入场抬高博弈强度</strong> · <cite index="16-1">中国买家在私人市场已经在抢矿，不用 DCF 估值，而是为国家安全战略锁定金属——"如果是为了锁定金属，价格不是估值模型"；预计美国政府最终也会通过直接投资和支持本土公司收购关键金属源加入这场竞争</cite>。给西方矿企施加了"现在不抢就抢不到了"的紧迫感。</li>
+      </ul>
+
+      <div class="callout bronze">
+        <strong>核心 Takeaway</strong> · 在当前估值结构下，并购的每盎司储量获取成本远低于自建。这是一个清晰的、可重复的、高度可量化的产业级套利。<cite index="13-1">2025 年矿业 M&A 创下 2010-2012 超级周期以来最强的一年，180 笔 &gt;$25M 交易总额 $89B；股权融资 174 家公司通过 222 次发行融资 $27.3B</cite>。
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 04 -->
+  <section class="section" id="sec-04">
+    <div class="section-head">
+      <div class="section-num">§04</div>
+      <h2 class="section-title">十大案例池：<em>类型 / 溢价 / 股价反应</em></h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">下表汇总 2024-2025 年金银矿板块代表性交易，<em>按规模与类型分类</em>。点击 Tab 筛选；点击表头排序。</p>
+
+      <h3><span class="h3-num">04·1</span>交易概览（可排序）</h3>
+      <table class="facts">
+        <thead>
+          <tr>
+            <th data-sort="text">收购方</th>
+            <th data-sort="text">标的</th>
+            <th data-sort="num">规模</th>
+            <th data-sort="num">溢价</th>
+            <th data-sort="text">类型</th>
+            <th data-sort="text">Acquirer Day 1</th>
+            <th data-sort="text">Target Day 1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Coeur Mining</td><td>New Gold</td><td class="num">$7.0B</td><td class="num">16%</td><td>全美州整合</td><td class="bear">-11.8%</td><td class="bear">-1.0%</td></tr>
+          <tr><td>Northern Star</td><td>De Grey Mining</td><td class="num">$3.3B</td><td class="num bull">37.1%</td><td>Greenfield 接管</td><td class="bear">-5.0%</td><td class="bull">+28.0%</td></tr>
+          <tr><td>Equinox Gold</td><td>Calibre Mining</td><td class="num">$2.8B</td><td class="num">2%</td><td>中型抱团</td><td>—</td><td>—</td></tr>
+          <tr><td>Gold Fields</td><td>Gold Road Res.</td><td class="num">$2.6B</td><td class="num">—</td><td>地区整合</td><td>—</td><td>—</td></tr>
+          <tr><td>Pan American</td><td>MAG Silver</td><td class="num">$2.1B</td><td class="num bull">21%</td><td>白银稀缺资产</td><td class="bear">-7.2%</td><td class="bull">+7.6%</td></tr>
+          <tr><td>Coeur Mining</td><td>SilverCrest</td><td class="num">$1.7B</td><td class="num bull">22%</td><td>白银整合</td><td class="bear">-11.6%</td><td>—</td></tr>
+          <tr><td>Gold Fields</td><td>Osisko Mining</td><td class="num">$1.6B</td><td class="num">—</td><td>地区整合</td><td>—</td><td>—</td></tr>
+          <tr><td>Harmony Gold</td><td>MAC Copper</td><td class="num">$1.0B</td><td class="num">—</td><td>金铜多元化</td><td>—</td><td>—</td></tr>
+          <tr><td>Agnico Eagle</td><td>O3 Mining</td><td class="num">$0.20B</td><td class="num bull">57-58%</td><td>Junior 全现金</td><td>—</td><td>—</td></tr>
+          <tr><td>Silvercorp</td><td>ZAAV 70%</td><td class="num">$0.16B</td><td class="num">—</td><td>新司法区</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:32px;"><span class="h3-num">04·2</span>分类深读（点击 Tab 切换）</h3>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-group="cases" data-tab="mega">Mega <span class="ct">3</span></button>
+        <button class="tab-btn" data-group="cases" data-tab="silver">白银整合 <span class="ct">2</span></button>
+        <button class="tab-btn" data-group="cases" data-tab="midcap">中型 / 地区 <span class="ct">3</span></button>
+        <button class="tab-btn" data-group="cases" data-tab="small">Junior &amp; Tuck-in <span class="ct">2</span></button>
+      </div>
+
+      <!-- TAB: MEGA -->
+      <div class="tab-content active" data-group="cases" data-tab="mega">
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">01</div>
+            <div class="case-deal">Coeur Mining <span class="arrow">acquires</span> New Gold</div>
+            <div class="case-meta">2025-11-03 · ALL-STOCK · $7.0B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">交换比例</div><div class="val">0.4959</div></div>
+            <div class="case-stat"><div class="lbl">隐含价格</div><div class="val">$8.51/sh</div></div>
+            <div class="case-stat"><div class="lbl">溢价</div><div class="val bull">16%</div></div>
+            <div class="case-stat"><div class="lbl">合并市值</div><div class="val">$20B</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="59-1">合并后 2026E EBITDA 约 30 亿，FCF 约 20 亿，FCF/share accretion 约 40%；2026E 单盎司成本预计两位数下降；管理层目标投资级信用评级</cite>。</p>
+            <p><strong>股价反应——典型"先跌后涨"：</strong><cite index="52-1">Coeur 当日跌 11.8%（全股票交易导致溢价被股价下跌抵消）；New Gold 在多伦多跌 1%</cite>。但市场情绪后续反转，<cite index="51-1">New Gold 上涨约 25%，Coeur 上涨约 26%；Roth Capital 等多家投行上调 Coeur 目标价</cite>。
+            <span class="takeaway">Day 1 -11.8% 是稀释焦虑的本能反应，市场用 3 个月完成对 $200 亿新巨头的 re-rating。这是 short-term P&L noise vs medium-term per-share accretion 的教科书。</span></p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">02</div>
+            <div class="case-deal">Northern Star <span class="arrow">acquires</span> De Grey Mining</div>
+            <div class="case-meta">2024-12-02 · ALL-STOCK · $3.3B (A$5B)</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">交换比例</div><div class="val">0.119</div></div>
+            <div class="case-stat"><div class="lbl">隐含价格</div><div class="val">A$2.08</div></div>
+            <div class="case-stat"><div class="lbl">溢价</div><div class="val bull">37.1%</div></div>
+            <div class="case-stat"><div class="lbl">资源估值</div><div class="val">$445/oz</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="89-1">Hemi 项目预计前 5 年年均产 55.3 万盎司</cite>；<cite index="82-1">交易对 Hemi 资源的隐含估值约 445 美元/盎司，高于行业近期平均 300-350 美元/盎司——溢价反映 Hemi 的资产质量和并购竞价压力</cite>。</p>
+            <p><strong>股价反应：</strong><cite index="89-1">Northern Star 当日下跌 5%，De Grey 上涨 28%</cite>。仔细看：De Grey 涨 28% &lt; 37.1% 公告溢价，<em>说明市场认为 NST 后续股价会进一步上涨，长期持有 NST 反而更划算</em>。
+            <span class="takeaway">Greenfield 开发商最理想的退出路径已经从"自己建产"改写为"卖给 major"——De Grey 拿到 37.1% 溢价立刻退出，比自己花 4 年走完 FID + 建设 + 投产的不确定路径回报率更确定。</span></p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">03</div>
+            <div class="case-deal">Equinox Gold <span class="arrow">+</span> Calibre Mining</div>
+            <div class="case-meta">2025-02-23 · ALL-STOCK · $2.8B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">交换比例</div><div class="val">0.35</div></div>
+            <div class="case-stat"><div class="lbl">溢价 (20-day VWAP)</div><div class="val">2%</div></div>
+            <div class="case-stat"><div class="lbl">Pro-forma 持股</div><div class="val">65/35</div></div>
+            <div class="case-stat"><div class="lbl">完成日</div><div class="val">2025-06-17</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="71-1">交易公告时溢价较 Calibre 20 日 VWAP 仅 2%；pro-forma 持股 65% Equinox / 35% Calibre</cite>——<strong>这是"低溢价合并"的典型，本质是两家中型生产商抱团做大</strong>，目的是进入 senior 估值梯队。
+            <span class="takeaway">合并后 Equinox 体量翻倍，被纳入更多机构持仓，估值重新定位。这种"中型抱团"相比 Coeur+New Gold 的 16% 溢价更便宜，因为没有控制权博弈。</span></p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: SILVER -->
+      <div class="tab-content" data-group="cases" data-tab="silver">
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">04</div>
+            <div class="case-deal">Pan American Silver <span class="arrow">acquires</span> MAG Silver</div>
+            <div class="case-meta">2025-05-11 · CASH + STOCK · $2.1B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">报价</div><div class="val">$20.54/sh</div></div>
+            <div class="case-stat"><div class="lbl">溢价 (close)</div><div class="val bull">21%</div></div>
+            <div class="case-stat"><div class="lbl">溢价 (20d VWAP)</div><div class="val bull">27%</div></div>
+            <div class="case-stat"><div class="lbl">现金部分</div><div class="val">$500M</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="63-1">$20.54/股报价由 5 亿现金 + 0.755 PAAS 股票组成；MAG 持有墨西哥 Juanicipio 银矿 44% 权益（Fresnillo 运营，56% 权益）</cite>。</p>
+            <p><strong>股价反应及板块连锁：</strong><cite index="65-1">Pan American 当日跌 7.2%，MAG 涨 7.6%</cite>。<cite index="61-1">RBC 指出该交易凸显高质量银矿资产的稀缺性，并隐含 Fresnillo 持有的 56% Juanicipio 权益价值约 25 亿美元，远高于市场共识</cite>。
+            <span class="takeaway">"光环效应"：一笔交易公告对未被整合的同类资产做隐性估值锚定——Fresnillo 因此被市场重新评估。每一笔板块内大型 M&A 都是全板块的 alpha 催化剂。</span></p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">05</div>
+            <div class="case-deal">Coeur Mining <span class="arrow">acquires</span> SilverCrest Metals</div>
+            <div class="case-meta">2024-10-04 · ALL-STOCK · $1.7B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">交换比例</div><div class="val">1.6022</div></div>
+            <div class="case-stat"><div class="lbl">隐含价格</div><div class="val">$11.34</div></div>
+            <div class="case-stat"><div class="lbl">溢价 (close)</div><div class="val bull">22%</div></div>
+            <div class="case-stat"><div class="lbl">合并产银</div><div class="val">21M oz</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="74-1">交易后 Coeur 股东持股 63%、SilverCrest 股东持股 37%；合并后 2025E EBITDA 约 7 亿、FCF 约 3.5 亿；Las Chispas 矿是全球成本最低、品位最高的银金矿之一</cite>。<cite index="79-1">收购方明确指出"显著的 re-rate 机会"——pro forma 实体定位为白银投资标的</cite>。</p>
+            <p><strong>股价反应：</strong><cite index="77-1">Coeur 宣布后立即跌约 11.6%</cite>。但合并完成后到 2025 年底，Coeur 由于白银价格突破历史高位 + Rochester 选厂放量 + 协同显现，叠加后续宣布收购 New Gold，股价 YTD 大幅跑赢板块。
+            <span class="takeaway">两笔连续大型 M&A（SilverCrest → New Gold）让 Coeur 完成了从中型银矿生产商到 $200 亿全美州金银巨头的跃迁——这是 Day 1 跌幅根本看不出来的长期价值创造。</span></p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: MIDCAP -->
+      <div class="tab-content" data-group="cases" data-tab="midcap">
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">06</div>
+            <div class="case-deal">Gold Fields <span class="arrow">acquires</span> Gold Road Resources</div>
+            <div class="case-meta">2025 · CASH · $2.6B (A$3.7B)</div>
+          </div>
+          <div class="case-body">
+            <p><cite index="11-1">Gold Fields CEO Mike Fraser 明确表示"持续扫描机会，因为改善组合意味着我们必须找到补充资源和储量的路径来创造长期持续性"</cite>。Gold Fields 在西澳已有四座矿山，约占其全球产量一半，<em>本次交易是经典的"地区整合"逻辑</em>——在已有运营优势的辖区进一步加大份额。</p>
+            <p class="takeaway">这一笔是结构性必须，不是机会主义。Senior 头部不缺现金流，但储量替代率长期紧张，M&A 是绕不开的路径。</p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">07</div>
+            <div class="case-deal">Gold Fields <span class="arrow">acquires</span> Osisko Mining</div>
+            <div class="case-meta">2024 · CASH · $1.6B (C$2.16B)</div>
+          </div>
+          <div class="case-body">
+            <p><cite index="10-1">Gold Fields 收购 Osisko 是加拿大 pre-production junior 最大宗收购之一，目的是 100% 拿下 Windfall 项目</cite>。Gold Fields 同期还以 3600 万美元买入 Founders Metals 10.5% 股份（Suriname Antino 项目），<em>同时部署"短线整合 + 长线期权"两条战线</em>。</p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">08</div>
+            <div class="case-deal">Harmony Gold <span class="arrow">acquires</span> MAC Copper</div>
+            <div class="case-meta">2025 · $1.02B</div>
+          </div>
+          <div class="case-body">
+            <p><cite index="14-1">Harmony Gold 历史上是南非最大金矿企业之一，本次交易把自己定位为"全球金铜生产商"而非纯金矿企业</cite>。
+            <span class="takeaway">本轮另一个重要主题：金矿企业向铜的延伸，对冲未来 5-10 年的金价周期下行风险。这一类"主题切换式 M&A"是估值再定位的有效手段。</span></p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: SMALL -->
+      <div class="tab-content" data-group="cases" data-tab="small">
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">09</div>
+            <div class="case-deal">Agnico Eagle <span class="arrow">acquires</span> O3 Mining</div>
+            <div class="case-meta">2024-12 · ALL-CASH · $0.20B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">报价</div><div class="val">$1.67/sh</div></div>
+            <div class="case-stat"><div class="lbl">溢价 (20d VWAP)</div><div class="val bull">57%</div></div>
+            <div class="case-stat"><div class="lbl">已锁定</div><div class="val">39%</div></div>
+            <div class="case-stat"><div class="lbl">Gold Fields 持股</div><div class="val">17%</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="93-1">每股 1.67 美元全现金，相对 20 日 VWAP 溢价 57%；约 39% 流通股已锁定支持，包括 Gold Fields 持有的 17% 股份和全部董事高管</cite>。</p>
+            <p class="takeaway">57% 溢价在生产中型 senior 收购勘探/开发型 junior 的案例中属于偏高。原因：(1) 资产质量高，(2) Gold Fields 已经持股 17% 形成竞价压力，(3) 全现金不带稀释焦虑。这是"竞价对手存在"对溢价的放大效应。</p>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-card-head">
+            <div class="case-num">10</div>
+            <div class="case-deal">Silvercorp <span class="arrow">acquires</span> ZAAV 70%</div>
+            <div class="case-meta">2025 · CASH · $0.16B</div>
+          </div>
+          <div class="case-stats">
+            <div class="case-stat"><div class="lbl">现金对价</div><div class="val">$162M</div></div>
+            <div class="case-stat"><div class="lbl">前任投入</div><div class="val">$174M</div></div>
+            <div class="case-stat"><div class="lbl">司法区</div><div class="val">吉尔吉斯</div></div>
+            <div class="case-stat"><div class="lbl">类型</div><div class="val">JV 接管</div></div>
+          </div>
+          <div class="case-body">
+            <p><cite index="18-1">Silvercorp 与 Chaarat Gold 和吉尔吉斯总统国家投资局签订合作协议，收购 ZAAV 70% 权益（Tian Shan 山区 Tulkubash/Kyzyltash 金矿）；总对价 1.62 亿美元；Chaarat 自 2002 年以来已在该项目投入 1.74 亿美元</cite>。</p>
+            <p class="takeaway">买的是"前任开发商的沉没成本"——Silvercorp 用 $162M 拿到了别人花 $174M 打出来的勘探基础和基础设施，还获得吉尔吉斯政府免除优先购买权。这是典型的 junior 政治不确定性下卡死 → 现金流紧张被迫出售的链条。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 05 -->
+  <section class="section" id="sec-05">
+    <div class="section-head">
+      <div class="section-num">§05</div>
+      <h2 class="section-title">股价正面影响的 <em>五级传导机制</em></h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">M&A 不只影响交易双方——它通过五个层级在板块内传导，形成 <em>正反馈飞轮</em>。</p>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-group="impact" data-tab="t1">① Target</button>
+        <button class="tab-btn" data-group="impact" data-tab="t2">② Acquirer</button>
+        <button class="tab-btn" data-group="impact" data-tab="t3">③ 板块锚定</button>
+        <button class="tab-btn" data-group="impact" data-tab="t4">④ Royalty 二阶</button>
+        <button class="tab-btn" data-group="impact" data-tab="t5">⑤ 自我强化飞轮</button>
+      </div>
+
+      <!-- LEVEL 1: TARGET -->
+      <div class="tab-content active" data-group="impact" data-tab="t1">
+        <h3><span class="h3-num">05·1</span>被收购方（Target）：直接价格跳涨</h3>
+        <p>宣布溢价直接 priced-in。范围一般在 <strong>10%-58%</strong>，由四个因素决定：</p>
+
+        <table class="facts">
+          <thead><tr><th>因素</th><th>范围</th><th>典型案例</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>资产稀缺度</td><td class="num">高 21%+</td><td>Pan American/MAG (21%)</td><td>白银矿稀缺度高，溢价天花板高</td></tr>
+            <tr><td>现金 vs 股票成分</td><td class="num">2%~58%</td><td>O3 Mining 全现金 (57%)</td><td>全现金 → 高溢价；全股票 → 低</td></tr>
+            <tr><td>是否有竞价对手</td><td class="num">+10-20%</td><td>O3 Mining (Gold Fields 持股)</td><td>Lockup 形成天然竞价压力</td></tr>
+            <tr><td>资产开发阶段</td><td class="num">递减</td><td>De Grey DFS 完成 (37%)</td><td>生产中 &lt; DFS 完成 &lt; 早期勘探</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bronze">
+          <strong>实操含义</strong> · 重点扫描板块内符合"被并购候选画像"的标的——单一资产或有限资产组合、市值 $2-50亿、所在司法区 tier-1、prefeasibility 或 DFS 完成、流通股集中度高、资产质量在所属梯队前 25%。<em>这类标的即使在不被并购的情况下，单纯因为 M&A 概率上升而获得估值溢价</em>。
+        </div>
+      </div>
+
+      <!-- LEVEL 2: ACQUIRER -->
+      <div class="tab-content" data-group="impact" data-tab="t2">
+        <h3><span class="h3-num">05·2</span>收购方（Acquirer）：先跌后涨，最终 re-rating</h3>
+
+        <div class="data-grid">
+          <div class="data-cell">
+            <div class="k">Day 1 反应</div>
+            <div class="v bear">-5% ~ -12%</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">3-6 月后</div>
+            <div class="v bull">+15-30%</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">Coeur 案例 累计</div>
+            <div class="v bull">+12% 净</div>
+          </div>
+          <div class="data-cell">
+            <div class="k">Day 1 主要原因</div>
+            <div class="v">稀释焦虑 + 套利盘抛压</div>
+          </div>
+        </div>
+
+        <h4>3-6 个月后的 re-rating 路径</h4>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-text"><strong>每股 FCF/储量/EBITDA accretion</strong> 在并表后体现，分析师上调目标价</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-text"><strong>市值跨越流动性门槛</strong>——Coeur 从 $60 亿跳到 $200 亿，进入更多 ETF 篮子和 indexer 视野</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-text"><strong>信用评级提升</strong> 路径打开（Coeur 明确目标投资级），融资成本下降</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-text"><strong>管理层公布扩产 / 协同 / 资本回报新指引</strong>，进一步催化估值</div>
+          </div>
+        </div>
+
+        <p><strong>关键数据：</strong>Coeur (New Gold) 从宣布日 -11.8% 在不到 3 个月内涨 +26%，<em>累计相对宣布日溢价回归 ~+12%</em>——市场最终给了 acquirer 比 target 更大的相对价值。</p>
+      </div>
+
+      <!-- LEVEL 3: SECTOR ANCHOR -->
+      <div class="tab-content" data-group="impact" data-tab="t3">
+        <h3><span class="h3-num">05·3</span>板块内未被整合的同类资产：估值锚定上移</h3>
+        <p>每一笔大型 M&A 都会重新校准板块的资产隐含价值。具体路径：</p>
+
+        <ul class="num-list">
+          <li><strong>可比交易倍数（comp multiples）上移</strong> · sell-side 模型把新交易作为最新比较基准</li>
+          <li><strong>第三方持股价值显性化</strong> · MAG 案例中 Fresnillo 持 56% Juanicipio 权益，<cite index="61-1">这一笔交易把它的价值显式定价至 $25 亿，远超此前共识</cite></li>
+          <li><strong>Passive money 基础上扩</strong> · 板块叙事强化，金矿 ETF（GDX、SIL、GDXJ）资金净流入增加</li>
+        </ul>
+
+        <div class="callout">
+          <strong>给交易框架的含义</strong> · M&A 频次本身就是板块 sentiment 的重要 input。<em>一个月 3 笔以上 &gt;$5 亿交易</em>，意味着行业内部认为当前价格水平之下买矿仍然划算——这是产业资本对板块估值的最强 endorsement。
+        </div>
+      </div>
+
+      <!-- LEVEL 4: ROYALTY -->
+      <div class="tab-content" data-group="impact" data-tab="t4">
+        <h3><span class="h3-num">05·4</span>Royalty / Streaming 公司的二阶受益</h3>
+
+        <p><strong>Wheaton (WPM)、Royal Gold (RGLD)、Franco-Nevada (FNV)</strong> 不直接做 M&A，但每一笔生产商间的 M&A 都把它们的 streaming/royalty 资产价值同步上提——因为他们持有的就是被并购方的未来现金流权益。</p>
+
+        <div class="profile-card bronze" style="border-left-color:var(--bronze);">
+          <div class="profile-card-head">
+            <div class="profile-card-title">Royalty 板块的双重红利</div>
+            <div class="profile-card-tag">Two-Way Beneficiary</div>
+          </div>
+          <ul class="num-list" style="margin:8px 0 0;">
+            <li><strong>存量资产价值上提</strong>——已经持有的流式/特许权权益跟随金价和并购溢价同步上修</li>
+            <li><strong>新部署管线扩张</strong>——并购浪潮促使新建产能更多采用 streaming 融资替代股权稀释，royalty 公司业务管线扩张</li>
+          </ul>
+        </div>
+
+        <p style="margin-top:12px;"><strong>整轮金价牛市 + M&A 浪潮中，royalty 板块通常涨幅最稳健、最少回撤</strong>——是这一轮"低 beta 金矿暴露"的最优工具。</p>
+      </div>
+
+      <!-- LEVEL 5: FLYWHEEL -->
+      <div class="tab-content" data-group="impact" data-tab="t5">
+        <h3><span class="h3-num">05·5</span>整个金银矿板块：资本流入的"自我强化飞轮"</h3>
+
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-text">金价上涨 → <strong>矿企 FCF 暴涨</strong></div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-text">FCF 部分用于 M&A → <strong>板块叙事强化</strong></div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-text">M&A 公告 → <strong>板块波动率/换手率上升</strong> → 流动性溢价</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-text">流动性溢价 → <strong>ETF / 主动多头基金加仓</strong> → 板块整体上涨</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">5</div>
+            <div class="flow-text">板块整体上涨 → <strong>收购方股价 re-rate</strong> → 下一笔 M&A 套利空间放大</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">6</div>
+            <div class="flow-text">回到 Step 2 — <em>正反馈循环启动</em></div>
+          </div>
+        </div>
+
+        <div class="callout bull">
+          <strong>关键判断</strong> · 这是一个正反馈循环，<em>只要金价中枢不向下破位就不会逆转</em>。本轮 M&A 浪潮还在加速期——<cite index="13-1">2025 年矿业 M&A 创下 2010-2012 超级周期以来最强的一年，180 笔 &gt;$25M 交易总额 $89B</cite>，意味着整个产业资本市场的换手率在结构性上升。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 06 -->
+  <section class="section" id="sec-06">
+    <div class="section-head">
+      <div class="section-num">§06</div>
+      <h2 class="section-title">交易实操要点 &amp; <em>退出信号</em></h2>
+      <div class="section-toggle">▼</div>
+    </div>
+    <div class="section-body">
+      <p class="lead">把 M&A 概率纳入持仓决策，<em>把行业纪律松动作为退出信号</em>——而不是金价的某个点位。</p>
+
+      <h3><span class="h3-num">06·1</span>持仓决策的三类 Alpha 来源</h3>
+
+      <div class="profile-card bull">
+        <div class="profile-card-head">
+          <div class="profile-card-title">A · 潜在被收购标的</div>
+          <div class="profile-card-tag">Capture 即时溢价</div>
+        </div>
+        <p style="font-size:13.5px;">画像：单一资产或有限资产组合、市值 $2-50亿、所在司法区 tier-1、prefeasibility 或 DFS 完成、流通股集中度高、资产质量在所属梯队前 25%。</p>
+      </div>
+
+      <div class="profile-card bull">
+        <div class="profile-card-head">
+          <div class="profile-card-title">B · 有 M&A 能力且历史交易记录良好的 Senior</div>
+          <div class="profile-card-tag">Capture re-rating 路径</div>
+        </div>
+        <p style="font-size:13.5px;">代表：Coeur (CDE)、Pan American (PAAS)、Agnico Eagle (AEM)、Gold Fields (GFI)、Northern Star (NST)、Equinox Gold (EQX)。这些标的每完成一笔 accretive 交易都是 EPS/盎司 的正向催化。</p>
+      </div>
+
+      <div class="profile-card bear">
+        <div class="profile-card-head">
+          <div class="profile-card-title">C · 应避开 — 整合执行能力差的 Acquirer</div>
+          <div class="profile-card-tag">Re-rate 风险倒挂</div>
+        </div>
+        <p style="font-size:13.5px;">如有过失败大交易历史 / 文化整合困难 / 高层频繁换人的标的——未来再做 M&A 反而被市场惩罚。</p>
+      </div>
+
+      <h3><span class="h3-num">06·2</span>M&A 公告日的交易规则</h3>
+
+      <table class="facts">
+        <thead><tr><th>事件</th><th>常见反应</th><th>解读</th><th>建议动作</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>收购方下跌 5-12%</td>
+            <td class="bear">Day 1 -X%</td>
+            <td>稀释焦虑 + 套利盘抛压</td>
+            <td class="bull">短期机会，除非交易明显不合理</td>
+          </tr>
+          <tr>
+            <td>收购方下跌 &gt;15%</td>
+            <td class="bear">Day 1 大跌</td>
+            <td>溢价过高 / 资产质量差 / 资本结构破坏</td>
+            <td class="bear">观望，等待合理性确认</td>
+          </tr>
+          <tr>
+            <td>被收购方涨幅 &lt; 公告溢价</td>
+            <td class="bull">差额留有上行空间</td>
+            <td>市场预期 acquirer 股价继续上涨</td>
+            <td>有用的领先信号</td>
+          </tr>
+          <tr>
+            <td>被收购方涨幅 ≈ 公告溢价</td>
+            <td>追平</td>
+            <td>市场对完成概率高度确信</td>
+            <td>基本无套利空间</td>
+          </tr>
+          <tr>
+            <td>溢价 &gt; 80% 或 hostile takeover</td>
+            <td class="bear">FOMO 信号</td>
+            <td>行业进入过热阶段</td>
+            <td class="bear">减仓信号</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3><span class="h3-num">06·3</span>持续监控的领先信号</h3>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="k">Senior 现金余额</div>
+          <div class="v">越高 → 弹药充足</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">GDXJ 资金流向</div>
+          <div class="v">Junior 流动性指标</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">Royalty 资产部署</div>
+          <div class="v">新建产能融资节奏</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">Majors 互相竞价</div>
+          <div class="v bear">过热预警信号</div>
+        </div>
+      </div>
+
+      <h3><span class="h3-num">06·4</span>退出信号 — 不是金价，是 <em>行业纪律</em></h3>
+
+      <p><strong>本轮金银矿牛市的退出信号要看的不是金价的某个数字，而是 capital discipline 何时松动。</strong> 五个具体观察点：</p>
+
+      <ul class="num-list">
+        <li><strong>Greenfield 重启</strong> · 主要金矿宣布 &gt; $30 亿美元的真正新建项目（不是 brownfield 扩产）</li>
+        <li><strong>Capex/Revenue 重新攀升</strong> · 行业平均 capex/revenue 重回 25%+ 区间（当前约 8-12%）</li>
+        <li><strong>并购溢价跳变</strong> · 主流并购溢价从 30-50% 跳到 80%+（FOMO 阶段）</li>
+        <li><strong>薪酬 KPI 切换</strong> · CEO 薪酬 KPI 从 per-share 指标切回 production growth</li>
+        <li><strong>IRR 测试假设上调</strong> · 项目 IRR 测试金价从 $2200 上调到 $3000+，streaming 池子里资金被新建产能挤出</li>
+      </ul>
+
+      <div class="callout bronze">
+        <strong>本轮的核心交易论点</strong> · 在上述五个信号出现之前，<em>M&A 套利 + 现有产能重估</em>仍然是这一轮金银矿主升浪的核心逻辑链，<strong>每一笔大型交易公告都是板块级催化</strong>。<br><br>
+        <em>"产业纪律是这一轮的护城河，金价是这一轮的引擎，M&A 是这一轮的传动机制。三者缺一，逻辑链断裂。"</em>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      <span class="lbl">Methodology</span> · 本研究基于 Trader's Framework（行业趋势 &gt; 情绪映射 &gt; 筹码结构 &gt; 催化时点 ≫ 静态估值）。<br>
+      <span class="lbl">Data Sources</span> · 公司公告 / SEC filings / S&amp;P Global / FactSet / Wood Mackenzie / EY / Sprott / Baker Steel.<br>
+      <span class="lbl">Disclaimer</span> · 本文仅为研究讨论，不构成投资建议。
+    </div>
+    <div class="footer-mark">— end of note —</div>
+  </div>
+</footer>
+
+<script>
+// ============ NAVIGATION HIGHLIGHT ============
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = ['sec-summary', 'sec-01', 'sec-02', 'sec-03', 'sec-04', 'sec-05', 'sec-06'].map(id => document.getElementById(id));
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(link.dataset.target);
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+
+function updateActiveNav() {
+  const scrollPos = window.scrollY + 80;
+  let activeIdx = 0;
+  sections.forEach((sec, idx) => {
+    if (sec && sec.offsetTop <= scrollPos) activeIdx = idx;
+  });
+  navLinks.forEach((link, idx) => link.classList.toggle('active', idx === activeIdx));
+}
+window.addEventListener('scroll', updateActiveNav, {passive: true});
+
+// ============ SECTION COLLAPSE ============
+document.addEventListener('click', (e) => {
+  const head = e.target.closest('.section-head');
+  if (head) {
+    const sec = head.closest('.section');
+    if (sec) sec.classList.toggle('collapsed');
+  }
+});
+
+// ============ TAB SWITCH ============
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const group = btn.dataset.group;
+  if (!group) return;
+  document.querySelectorAll(`.tab-btn[data-group="${group}"]`).forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll(`.tab-content[data-group="${group}"]`).forEach(c => {
+    c.classList.toggle('active', c.dataset.tab === btn.dataset.tab);
+  });
+});
+
+// ============ TABLE SORT ============
+document.addEventListener('click', (e) => {
+  const th = e.target.closest('th[data-sort]');
+  if (!th) return;
+  const table = th.closest('table');
+  const tbody = table.querySelector('tbody');
+  const idx = Array.from(th.parentNode.children).indexOf(th);
+  const isNum = th.dataset.sort === 'num';
+  const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+  th.dataset.dir = dir;
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    let av = a.children[idx].textContent.trim();
+    let bv = b.children[idx].textContent.trim();
+    if (isNum) {
+      av = parseFloat(av.replace(/[^\d.\-]/g, '')) || 0;
+      bv = parseFloat(bv.replace(/[^\d.\-]/g, '')) || 0;
+    }
+    return dir === 'asc' ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+});
+</script>
+</body>
+</html>

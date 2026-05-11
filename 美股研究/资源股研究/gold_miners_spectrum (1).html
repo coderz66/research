@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金矿股中庸度光谱 | Gold Miners Spectrum Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,0,700;9..144,1,400;9..144,1,500&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --bg-subtle: #F3F1EC;
+    --bg-row-alt: #FAFAF7;
+    --bg-spotlight: #FFF8EC;
+    --ink: #14181F;
+    --ink-soft: #3F4754;
+    --ink-muted: #767E8A;
+    --ink-faint: #A8AEB7;
+    --line: #E5E2D9;
+    --line-soft: #EFEDE6;
+    --navy: #0E2A47;
+    --navy-soft: #1B3A5F;
+    --accent: #8B6F35;
+    --accent-soft: #B89868;
+    --bull: #1F6B4A;
+    --bear: #A8331F;
+    --warning: #B68A1E;
+    --silver: #97A1AB;
+    --highlight: #FFF1B8;
+    --alpha: #5B3A6E;     /* 紫色: 极端alpha */
+    --beta: #A8331F;      /* 红色: 极端beta */
+    --middle: #8B6F35;    /* 金色: 中庸 */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.5;
+    font-feature-settings: 'tnum', 'kern', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+
+  /* ================ Header ================ */
+  .header-bar {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-card);
+    padding: 14px 0;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+  .badge-live {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--bull);
+  }
+  .badge-live::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bull); box-shadow: 0 0 0 3px rgba(31,107,74,.18);
+  }
+
+  .masthead {
+    padding: 56px 0 36px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg) 100%);
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 46px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--navy);
+  }
+  .deck {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 820px;
+    font-weight: 400;
+  }
+  .deck strong { color: var(--accent); font-weight: 600; }
+
+  /* ================ Section ================ */
+  section {
+    padding: 36px 0 24px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  section.spotlight {
+    background: var(--bg-spotlight);
+    border-bottom: 2px solid var(--accent);
+  }
+  section.dark-section {
+    background: var(--navy);
+    color: #F0EDE5;
+    border-bottom: none;
+  }
+  section.dark-section h2 { color: #F4EFE0; }
+  section.dark-section h2 em { color: var(--accent-soft); }
+  section.dark-section .section-num { color: var(--accent-soft); }
+  section.dark-section .section-header { border-color: rgba(255,255,255,0.2); }
+  section.dark-section p { color: rgba(244,239,224,0.88); }
+  section.dark-section .section-sub { color: rgba(244,239,224,0.6); }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 20px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em; font-weight: 500;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  h2 em { font-style: italic; color: var(--navy); }
+  .section-sub {
+    font-size: 12.5px; color: var(--ink-muted);
+    margin-left: auto; font-style: italic;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 6px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  p { margin-bottom: 10px; color: var(--ink-soft); }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  mark {
+    background: var(--highlight);
+    padding: 0 3px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ================ Framework Table ================ */
+  .framework {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .framework table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .framework thead {
+    background: var(--navy);
+    color: #FFFFFF;
+  }
+  .framework th {
+    text-align: left;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .framework td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    line-height: 1.4;
+  }
+  .framework tr:last-child td { border-bottom: none; }
+  .framework tr:nth-child(even) { background: var(--bg-row-alt); }
+  .framework td:first-child {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--navy);
+    width: 22%;
+  }
+  .framework .extreme {
+    color: var(--bear);
+    font-weight: 500;
+  }
+  .framework .middle {
+    color: var(--bull);
+    font-weight: 500;
+  }
+
+  /* ================ Spectrum Chart ================ */
+  .spectrum-container {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 32px 28px 22px;
+    margin-top: 14px;
+  }
+  .spectrum-bar {
+    position: relative;
+    height: 8px;
+    background: linear-gradient(90deg,
+      var(--alpha) 0%,
+      var(--alpha) 8%,
+      var(--accent) 25%,
+      var(--middle) 50%,
+      var(--accent) 75%,
+      var(--bear) 92%,
+      var(--bear) 100%
+    );
+    border-radius: 4px;
+    margin: 70px 24px 90px;
+  }
+  .spectrum-tick {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: var(--bg-card);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .spectrum-tick::before {
+    content: attr(data-ticker);
+    position: absolute;
+    top: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .spectrum-tick::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--ink-muted);
+    font-style: italic;
+    white-space: nowrap;
+    line-height: 1.2;
+    text-align: center;
+    width: 90px;
+  }
+  .spectrum-tick.alpha-extreme { border-color: var(--alpha); background: #F4EFF6; }
+  .spectrum-tick.beta-extreme { border-color: var(--bear); background: #FBE9E2; }
+  .spectrum-tick.middle { border-color: var(--accent); background: var(--bg-spotlight); }
+  .spectrum-anchor-left, .spectrum-anchor-right, .spectrum-anchor-mid {
+    position: absolute;
+    top: -42px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .spectrum-anchor-left { left: 0; color: var(--alpha); }
+  .spectrum-anchor-right { right: 0; color: var(--bear); }
+  .spectrum-anchor-mid { left: 50%; transform: translateX(-50%); color: var(--accent); }
+
+  .spectrum-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--line);
+  }
+  .spectrum-meta-item {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+  .spectrum-meta-item strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .outside-spectrum {
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .outside-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .outside-card {
+    background: var(--bg-row-alt);
+    border-left: 3px solid var(--alpha);
+    padding: 14px 18px;
+  }
+  .outside-card.streaming {
+    border-left-color: var(--silver);
+  }
+  .outside-card h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--alpha);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 6px;
+  }
+  .outside-card.streaming h4 { color: var(--navy); }
+  .outside-card p {
+    font-size: 12px;
+    line-height: 1.45;
+    margin-bottom: 6px;
+  }
+  .outside-card .tickers {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ================ Category Cards ================ */
+  .categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .category {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    position: relative;
+  }
+  .category::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .cat-tier1::before { background: var(--bull); }
+  .cat-growth::before { background: var(--accent); }
+  .cat-middle::before { background: var(--middle); }
+  .cat-balanced::before { background: var(--navy-soft); }
+  .cat-mid-cert::before { background: var(--silver); }
+  .cat-beta::before { background: var(--bear); }
+  .cat-stream::before { background: var(--alpha); }
+
+  .cat-header {
+    display: flex; align-items: baseline; gap: 14px;
+    padding-bottom: 12px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--line-soft);
+    flex-wrap: wrap;
+  }
+  .cat-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .cat-tickers {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
+    background: var(--bg-spotlight);
+    padding: 3px 10px;
+    border: 1px solid var(--line);
+    letter-spacing: 0.02em;
+  }
+  .cat-degree {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+  .cat-degree b {
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .cat-body {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 22px;
+  }
+  .cat-narrative p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .cat-attrs {
+    background: var(--bg-row-alt);
+    border: 1px solid var(--line-soft);
+  }
+  .attr-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 11.5px;
+    line-height: 1.35;
+  }
+  .attr-row:last-child { border-bottom: none; }
+  .attr-row > div {
+    padding: 7px 11px;
+  }
+  .attr-key {
+    background: var(--bg-subtle);
+    color: var(--ink-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .attr-val {
+    color: var(--ink-soft);
+  }
+  .attr-val .ext-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    padding: 1px 5px;
+    margin-right: 5px;
+    font-weight: 700;
+    border-radius: 1px;
+  }
+  .ext-extreme { background: #FBE9E2; color: var(--bear); }
+  .ext-mid { background: #E8EFE5; color: var(--bull); }
+  .ext-alpha { background: #F0E6F5; color: var(--alpha); }
+  .ext-soft { background: #F5F0E5; color: var(--accent); }
+
+  /* ================ Strategy Matrix ================ */
+  .strategy {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .strategy-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 14px 14px 16px;
+    border-top: 3px solid var(--navy);
+  }
+  .strategy-card.s-alpha { border-top-color: var(--alpha); }
+  .strategy-card.s-mid-alpha { border-top-color: var(--accent); }
+  .strategy-card.s-mid { border-top-color: var(--middle); }
+  .strategy-card.s-beta { border-top-color: var(--bear); }
+  .strategy-card.s-stream { border-top-color: var(--silver); }
+
+  .strategy-card h4 {
+    font-family: 'Fraunces', serif;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--navy);
+    font-style: italic;
+    font-size: 14px;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .strategy-tickers {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    margin: 6px 0 8px;
+    letter-spacing: 0.02em;
+  }
+  .strategy-card p {
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ================ Closing ================ */
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+    margin-top: 12px;
+  }
+  .takeaway-dark {
+    color: #F0EDE5;
+    padding: 22px 26px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.4;
+    border-left: 3px solid var(--accent-soft);
+    background: rgba(255,255,255,0.03);
+  }
+  .takeaway-dark::before {
+    content: '"';
+    font-size: 42px;
+    line-height: 0.4; vertical-align: -10px;
+    margin-right: 4px;
+    color: var(--accent-soft);
+  }
+  .takeaway-dark strong { color: var(--accent-soft); font-weight: 600; }
+
+  /* ================ Footer ================ */
+  footer {
+    padding: 24px 0 32px;
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    background: var(--bg);
+  }
+  footer .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .disclaimer { font-style: italic; }
+  .disclaimer strong { color: var(--ink-soft); font-weight: 600; }
+
+  @media (max-width: 1100px) {
+    .strategy { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .cat-body, .closing-grid, .outside-grid { grid-template-columns: 1fr; }
+    .strategy { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 32px; }
+    .spectrum-bar { margin: 70px 12px 90px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ Top Header Bar ============ -->
+<div class="header-bar">
+  <div class="container">
+    <span>EQUITY RESEARCH · GOLD MINING SECTOR · FRAMEWORK</span>
+    <span class="badge-live">May 8, 2026 · Gold $4,685/oz</span>
+  </div>
+</div>
+
+<!-- ============ Masthead ============ -->
+<div class="masthead">
+  <div class="container">
+    <div class="eyebrow">Sector Framework · Spectrum Analysis</div>
+    <h1>金矿股<em>"中庸度"光谱分析框架</em></h1>
+    <p class="deck">
+      所有金矿股都被简单分类为"龙头/中型/小型"——这种分法对投资决策几乎没用。
+      本框架按 <strong>6 个维度</strong> 评估每家公司的"中庸 vs 极端"特征, 
+      把行业 14 家主要公司放到一根光谱上, 让你从"哪家最好" 的散户问题
+      升级到 <strong>"我的组合需要什么档的暴露"</strong> 的组合管理思维。
+    </p>
+  </div>
+</div>
+
+<!-- ============ Section 1 - Framework ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01 · FRAMEWORK</span>
+      <h2>"中庸度"<em>判断框架</em></h2>
+      <span class="section-sub">六维度合成判断, 非简单"好或不好"</span>
+    </div>
+
+    <p style="max-width: 920px; margin-bottom: 14px;">
+      "中庸"在矿业股投资里是一个<strong>多维度的合成判断</strong>。一家公司在某个维度极端 (例如 AISC 极低或极高), 
+      不代表它整体不中庸; 关键是看 6 个维度上的<strong>偏移度叠加</strong>。"中庸 = 6 个维度都在中段, 
+      没有任何一个明显偏离"; "不中庸 = 至少有 2-3 个维度严重偏离"。
+    </p>
+
+    <div class="framework">
+      <table>
+        <thead>
+          <tr>
+            <th>判断维度</th>
+            <th>"极端"特征</th>
+            <th>"中庸"特征</th>
+            <th>典型偏移者</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. 资产质量</td>
+            <td class="extreme">单矿质量极顶尖 (例如 Juanicipio 级别) 或极差</td>
+            <td class="middle">矿山组合品质参差, 5-7 矿混合</td>
+            <td>AEM (顶尖) / EQX (参差)</td>
+          </tr>
+          <tr>
+            <td>2. 地缘集中度</td>
+            <td class="extreme">100% 单一国家或单一区域</td>
+            <td class="middle">3-5 国家分散</td>
+            <td>ARMN (哥伦比亚) / AAUC (非洲)</td>
+          </tr>
+          <tr>
+            <td>3. AISC 水平</td>
+            <td class="extreme">极低 ($1,200) 或极高 ($1,900+)</td>
+            <td class="middle">行业中位数 $1,400-1,700</td>
+            <td>AEM (低) / IAG (高)</td>
+          </tr>
+          <tr>
+            <td>4. 增长速度</td>
+            <td class="extreme">年化 +50% 暴增 / 萎缩</td>
+            <td class="middle">±10% 年化变动</td>
+            <td>CDE (3x EBITDA) / NEM (萎缩)</td>
+          </tr>
+          <tr>
+            <td>5. 估值倍数</td>
+            <td class="extreme">EV/EBITDA &gt;9x 或 &lt;5x</td>
+            <td class="middle">EV/EBITDA 5-7x 行业均值</td>
+            <td>AEM (贵) / FSM (便宜)</td>
+          </tr>
+          <tr>
+            <td>6. 业务纯度</td>
+            <td class="extreme">100% 纯金 / 多金属混合</td>
+            <td class="middle">主营金 + 少量副产</td>
+            <td>NEM (铜+银副产) / AEM (纯金)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 2 - The Spectrum ============ -->
+<section class="spotlight">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02 · SPECTRUM</span>
+      <h2>金矿股<em>中庸度光谱图</em></h2>
+      <span class="section-sub">14 family · One axis</span>
+    </div>
+
+    <div class="spectrum-container">
+      <div class="spectrum-bar">
+        <span class="spectrum-anchor-left">极端 Alpha 端</span>
+        <span class="spectrum-anchor-mid">极致中庸</span>
+        <span class="spectrum-anchor-right">极端 Beta 端</span>
+
+        <!-- Spectrum Ticks - Position from left -->
+        <div class="spectrum-tick alpha-extreme" style="left: 5%;" data-ticker="AEM" data-label="顶级确定性"></div>
+        <div class="spectrum-tick alpha-extreme" style="left: 14%;" data-ticker="NEM" data-label="龙头规模"></div>
+        <div class="spectrum-tick" style="left: 27%;" data-ticker="KGC" data-label="中型偏好"></div>
+        <div class="spectrum-tick" style="left: 38%;" data-ticker="AU" data-label="非洲+ Arthur"></div>
+        <div class="spectrum-tick middle" style="left: 50%;" data-ticker="GFI" data-label="极致中庸"></div>
+        <div class="spectrum-tick" style="left: 60%;" data-ticker="AGI" data-label="中型确定性"></div>
+        <div class="spectrum-tick" style="left: 68%;" data-ticker="B" data-label="复杂龙头"></div>
+        <div class="spectrum-tick beta-extreme" style="left: 80%;" data-ticker="EGO" data-label="高β + 开发"></div>
+        <div class="spectrum-tick beta-extreme" style="left: 88%;" data-ticker="IAG" data-label="高β + 爬坡"></div>
+        <div class="spectrum-tick beta-extreme" style="left: 95%;" data-ticker="EQX" data-label="高β + 爬坡"></div>
+      </div>
+
+      <div class="spectrum-meta">
+        <div class="spectrum-meta-item">
+          <strong>Alpha 端特征</strong>
+          AISC 最低 / 估值最贵 / 资产质量顶级 / 增长缓慢 / 龙头溢价
+        </div>
+        <div class="spectrum-meta-item">
+          <strong>中庸端特征</strong>
+          所有维度都在 P40-P60 / 没有亮点也没短板 / 机构默认配置
+        </div>
+        <div class="spectrum-meta-item">
+          <strong>Beta 端特征</strong>
+          AISC 最高 / 估值便宜 / 财务/经营杠杆双高 / 开发期/爬坡 / 弹性最大
+        </div>
+      </div>
+
+      <div class="outside-spectrum">
+        <h4 style="margin-bottom: 8px;">不在光谱内的两类</h4>
+        <div class="outside-grid">
+          <div class="outside-card">
+            <h4>增长机器 — 处于光谱外的"特殊位置"</h4>
+            <div class="tickers" style="margin-bottom: 6px;">CDE / AAUC / ARMN</div>
+            <p>
+              这些标的不在线性光谱上, 因为它们在<strong>多个维度同时极端</strong>:
+              并购整合中 + 增长爆发 + 高 β + 业务结构剧变。属于"事件驱动"而非"框架内"标的。
+              一年回报 +200% 到 +370%, 但波动也最大。
+            </p>
+          </div>
+          <div class="outside-card streaming">
+            <h4>流式融资 — 不适用中庸维度</h4>
+            <div class="tickers" style="margin-bottom: 6px;">FNV / RGLD / WPM</div>
+            <p>
+              不是矿业公司, 是金融合约组合。无 AISC、无 capex、无运营风险。
+              EV/EBITDA 20-23x, EBITDA margin ~89%, β 仅 0.5-0.7。
+              更接近"金矿组合里的债券类配置", 不是"股票类配置"。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 3 - Categories Detail ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03 · CATEGORIES</span>
+      <h2>七档<em>分类深度解析</em></h2>
+      <span class="section-sub">Why each tier is what it is</span>
+    </div>
+
+    <div class="categories">
+
+      <!-- Tier 1 -->
+      <div class="category cat-tier1">
+        <div class="cat-header">
+          <span class="cat-label">龙头确定性</span>
+          <span class="cat-tickers">NEM · AEM</span>
+          <span class="cat-degree"><b>不中庸</b> · 全方位顶配 / 极致规模</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              NEM 的"不中庸"在于<strong>规模和龙头地位</strong>——15+ 矿山, 全球最大金矿生产商, 
+              买它就是买"金矿行业指数"。机构默认配置, 上行 alpha 有限。
+              已宣布 $6B 新回购, 净现金 +$3.2B, 派息+回购双行。
+            </p>
+            <p>
+              AEM 的"不中庸"在于<strong>"全方位顶配"</strong>——AISC $1,200 全行业最低, 
+              资产质量顶尖, 净现金 +$2.92B, Fitch A- 评级, 几乎零负债。
+              代价是 EV/EBITDA 9-10x 行业最贵, 几乎无 alpha 空间。
+              "金矿股的奢侈品"——稳定但不便宜。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">市值</div>
+              <div class="attr-val">NEM ~$90B+ / AEM ~$80B+</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">2025 AISC</div>
+              <div class="attr-val">NEM ~$1,500 / <span class="ext-tag ext-mid">极端</span>AEM $1,200</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EV/EBITDA</div>
+              <div class="attr-val">NEM 7-8x / <span class="ext-tag ext-extreme">极端</span>AEM 9-10x</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">净现金</div>
+              <div class="attr-val">NEM +$3.2B / AEM +$2.92B</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">1Y 回报</div>
+              <div class="attr-val">NEM +90% / AEM +110%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">跨周期持有 · 配置型资金 · 不要 alpha 要确定性</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Growth Engine -->
+      <div class="category cat-growth">
+        <div class="cat-header">
+          <span class="cat-label">增长机器 — 光谱外的特殊位置</span>
+          <span class="cat-tickers">CDE · AAUC · ARMN</span>
+          <span class="cat-degree"><b>不中庸</b> · 多维度同时极端</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              <strong>CDE</strong> 一年内吞 SilverCrest + New Gold 两家, 股本翻倍, 
+              EBITDA 跳升 3 倍 ($1B → $3B), 1 年回报 +360%。从"二线高风险"重估到"北美 senior 龙头"。
+              <strong>买 CDE 就是赌"整合+ 金银铜全部上涨"——回报和风险都被放大</strong>。
+            </p>
+            <p>
+              <strong>AAUC (Allied Gold)</strong> 100% 非洲组合 (马里、科特迪瓦、埃塞), 
+              Kurmuk 投产后产能翻倍, AISC $1,750-1,900 偏高, 估值反映马里政治折扣。
+              是赌非洲地缘+ Kurmuk 兑现的特殊标的。
+            </p>
+            <p>
+              <strong>ARMN (Aris Mining)</strong> 100% 哥伦比亚 + 圭亚那, 
+              Soto Norte 是世界级期权但等环境许可, 1 年涨 +370%。
+              你买的不是稳定生产商, 是"赌哥伦比亚许可+ 多年金价"的组合期权。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">关键特征</div>
+              <div class="attr-val"><span class="ext-tag ext-alpha">Alpha</span>事件驱动 · 多维度极端 · 高赔率高方差</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">CDE</div>
+              <div class="attr-val">$20B 市值 / 7 矿组合 / 银金铜三金属</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">AAUC</div>
+              <div class="attr-val">~$3-4B 市值 / 4 矿全非洲 / Kurmuk 期权</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">ARMN</div>
+              <div class="attr-val">~$4B 市值 / Segovia 主力 / Soto Norte 期权</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">1Y 回报</div>
+              <div class="attr-val"><span class="ext-tag ext-mid">极端</span>+200% 到 +370%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">押注催化剂兑现 · 接受高波动 · 持有期 6-18 月</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extreme Middle -->
+      <div class="category cat-middle">
+        <div class="cat-header">
+          <span class="cat-label">全方位中庸 — 极致中庸</span>
+          <span class="cat-tickers">GFI</span>
+          <span class="cat-degree"><b>极致中庸</b> · 8 维度全踩中位数</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              GFI 的"极致中庸"在于 <strong>8 个维度都精确踩在中位数上</strong>——这本身是一种统计奇迹。
+              市值第 4 名, AISC 中段偏高, 储量寿命第 2-3, 地理分散度第 1-2, 资产质量混合 (South Deep 高 + 
+              Tarkwa 低 + Salares Norte 顶级), 增长 ±5%, EV/EBITDA 6-7x 完美中位, 派息中等。
+            </p>
+            <p>
+              <mark>"中庸"在矿业股里是稀缺品质</mark>——这个行业大多数公司都有一项明显短板, 
+              GFI 没有任何"明显短板"也没有任何"明显亮点"。Salares Norte (智利) 单矿成现金牛 + Windfall 
+              (加拿大) 即将 FID, 正在把 GFI 推向"中庸偏好", 但短期标签不变。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">市值</div>
+              <div class="attr-val">$41B</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">2025 产量</div>
+              <div class="attr-val">2.44 Moz GEO · 7 国家 7 矿</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">2025 AISC</div>
+              <div class="attr-val">$1,645/oz · <span class="ext-tag ext-soft">中段</span>2026E $1,800-2,000</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">P&P 储量</div>
+              <div class="attr-val">48.6 Moz · 寿命 ~19 年</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EV/EBITDA</div>
+              <div class="attr-val">6-7x · <span class="ext-tag ext-soft">中段</span>行业完美中位</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">1Y 回报</div>
+              <div class="attr-val">+123%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">单一金矿股核心配置 · 不深度研究 · 拒绝单点风险</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Balanced -->
+      <div class="category cat-balanced">
+        <div class="cat-header">
+          <span class="cat-label">中庸 + 非洲偏好 + Arthur 期权</span>
+          <span class="cat-tickers">AU</span>
+          <span class="cat-degree"><b>70% 中庸 + 30% Alpha</b> · 真实差异化</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              AU 在大多数维度像 GFI (中庸), 但<strong>在 4 个维度有明显偏离</strong>:
+              非洲集中度 55% (vs GFI 30%), <mark>Arthur Gold Project 是大型金矿股最优质开发期项目之一</mark>
+              (AISC $954, NPV $3.4B at $3,500 金价), 估值便宜 (EV/EBITDA 5-6x), 派息收益率 4% 行业最高之一。
+            </p>
+            <p>
+              负面: Obuasi 致命事故 + ESG 拖累, 几内亚军政府风险, 储量寿命 12 年比 GFI 短。
+              <strong>不是 GFI 的双胞胎</strong>——AU 是"非洲偏向 + 美国 Arthur 增长期权 + 略便宜估值"的特殊组合。
+              如果接受非洲风险换 Arthur 期权 + 派息, AU 比 GFI 更值得。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">市值</div>
+              <div class="attr-val">$35-40B</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">地缘</div>
+              <div class="attr-val"><span class="ext-tag ext-extreme">偏离</span>非洲 55% (Obuasi/Geita/Siguiri/Sukari)</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">2025 AISC</div>
+              <div class="attr-val">$1,709/oz</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">Arthur 项目</div>
+              <div class="attr-val"><span class="ext-tag ext-alpha">Alpha</span>4.9 Moz / AISC $954 / NPV $3.4B</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">净现金</div>
+              <div class="attr-val">+$879M</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EV/EBITDA</div>
+              <div class="attr-val"><span class="ext-tag ext-soft">略低</span>5-6x</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">派息收益率</div>
+              <div class="attr-val"><span class="ext-tag ext-mid">优势</span>~4% 行业最高之一</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">中庸 + Arthur 期权 / 接受非洲风险换 alpha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mid Certainty -->
+      <div class="category cat-mid-cert">
+        <div class="cat-header">
+          <span class="cat-label">中型确定性</span>
+          <span class="cat-tickers">KGC · AGI</span>
+          <span class="cat-degree"><b>偏中庸</b> · 中庸 + 一点 Alpha</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              <strong>KGC (Kinross)</strong> 市值 $25B, 主要资产 Tasiast (毛里塔尼亚) + Paracatu + La Coipa + 
+              Round Mountain, 4 季度连续 FCF 创纪录 ($838M Q1 2026)。Tasiast 是高品位低成本主力, 
+              比 GFI 任何单矿都强。1Y +200%, 估值略便宜, 没有"独特卖点"但<strong>也没有明显短板</strong>。
+            </p>
+            <p>
+              <strong>AGI (Alamos)</strong> 市值 $13B, 加拿大 + 墨西哥纯净组合, AISC $1,300-1,500 中段偏低,
+              <strong>Island Gold Phase 3+ 扩建 = +30% 产能增量</strong>是明确 catalyst。
+              比 GFI 多一些故事, 但比 CDE 少很多戏剧性。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">KGC 市值</div>
+              <div class="attr-val">$25B · 2 Moz/年 · 4-6 矿组合</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">KGC AISC</div>
+              <div class="attr-val">$1,500-1,600 · <span class="ext-tag ext-soft">中段</span></div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">KGC 1Y 回报</div>
+              <div class="attr-val">+200%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">AGI 市值</div>
+              <div class="attr-val">$13B · 加拿大 + 墨西哥</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">AGI AISC</div>
+              <div class="attr-val">$1,300-1,500 · <span class="ext-tag ext-mid">较低</span></div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">AGI Catalyst</div>
+              <div class="attr-val">Island Gold Phase 3+ 扩建 +30% 产能</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">中等弹性 + 明确 catalyst · 比 GFI 略多 alpha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- High Beta -->
+      <div class="category cat-beta">
+        <div class="cat-header">
+          <span class="cat-label">高 β 弹性</span>
+          <span class="cat-tickers">EGO · IAG · EQX</span>
+          <span class="cat-degree"><b>不中庸</b> · 牛市跑赢龙头 50-100%</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              <strong>EGO (Eldorado)</strong> 希腊 Skouries 金铜大型开发, AISC $1,500+, 仍带 debt, 
+              希腊 + 土耳其 + 加拿大特殊地缘组合, β 1.5+ vs 黄金。Skouries 投产是命运变量。
+            </p>
+            <p>
+              <strong>IAG (IAMGOLD)</strong> AISC $1,800+ 行业最高之一, Côté Gold (加拿大) 新投产爬坡,
+              历史上重组多次有信誉折扣, 金价上涨时利润非线性放大, 1Y +250%+。
+            </p>
+            <p>
+              <strong>EQX (Equinox)</strong> AISC $1,800+, 重并购历史仍带债, Greenstone (加拿大) 投产爬坡, 
+              资产组合 (美国 + 巴西 + 墨西哥 + 加拿大) 复杂。
+            </p>
+            <p>
+              <strong>共同特征</strong>: AISC $1,500-1,900 → 金价上行时利润弹性最大; 
+              "建设期 → 投产爬坡"故事 → 执行风险高但 catalyst 明确; β &gt; 1.5; 1Y 回报 +200-350%; 
+              <mark>牛市跑赢龙头 50-100%, 但金价下跌时跌幅也是双重放大</mark>。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">AISC 区间</div>
+              <div class="attr-val"><span class="ext-tag ext-extreme">极高</span>$1,500-1,900</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">Beta</div>
+              <div class="attr-val"><span class="ext-tag ext-extreme">高</span>1.5+ vs 黄金</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EGO Catalyst</div>
+              <div class="attr-val">Skouries (希腊) 金铜开发投产</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">IAG Catalyst</div>
+              <div class="attr-val">Côté Gold 加拿大投产爬坡</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EQX Catalyst</div>
+              <div class="attr-val">Greenstone 加拿大投产爬坡</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">1Y 回报</div>
+              <div class="attr-val">+200% 到 +350%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">押注金价继续 + 项目兑现 · 短中期波段 · 避免 ALL-IN</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streaming -->
+      <div class="category cat-stream">
+        <div class="cat-header">
+          <span class="cat-label">流式融资</span>
+          <span class="cat-tickers">FNV · RGLD · WPM</span>
+          <span class="cat-degree"><b>不适用</b> · 不是矿业公司</span>
+        </div>
+
+        <div class="cat-body">
+          <div class="cat-narrative">
+            <p>
+              FNV / RGLD / WPM 是<strong>流式融资公司</strong>, 不是矿业公司。它们的商业模式根本不同:
+              不挖矿、不雇矿工、不付电费、不承担 capex。给矿业公司预付现金, 换取按低价 ($4-5/oz 银, 
+              $400/oz 金) 购买未来产量的权利。
+            </p>
+            <p>
+              所以"AISC 中庸 / 增长率中庸 / 资产质量中庸"这些维度对它们没意义——FNV 没有 AISC (没运营), 
+              WPM 储量是合同性的不是地质性的, RGLD 增长靠新签合同。<mark>核心估值逻辑是 DCF 和长期合约组合, 
+              更像金融资产, 不是矿业资产</mark>。
+            </p>
+            <p>
+              EV/EBITDA 20-23x 看起来"极端贵", 但对流式公司是合理的——EBITDA margin ~89%, 
+              几乎没有运营风险。它们是<strong>金矿组合里的"债券类"配置, 不是"股票类"配置</strong>。
+            </p>
+          </div>
+
+          <div class="cat-attrs">
+            <div class="attr-row">
+              <div class="attr-key">商业模式</div>
+              <div class="attr-val"><span class="ext-tag ext-alpha">特殊</span>流式融资 / 长期合约组合</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EV/EBITDA</div>
+              <div class="attr-val">20-23x · 表面贵但合理</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">EBITDA Margin</div>
+              <div class="attr-val"><span class="ext-tag ext-mid">极高</span>~89%</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">Beta vs 黄金</div>
+              <div class="attr-val">仅 0.5-0.7 (低于纯运营商)</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">运营风险</div>
+              <div class="attr-val">无 capex / 无 opex / 无地缘运营风险</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">FNV / RGLD / WPM</div>
+              <div class="attr-val">$60B / $20B / $38B</div>
+            </div>
+            <div class="attr-row">
+              <div class="attr-key">买入逻辑</div>
+              <div class="attr-val">"金矿债券" · 跨周期 · 机构无脑配置 · 接受弹性弱</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 4 - Strategy Matrix ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04 · STRATEGY</span>
+      <h2>按目标<em>选位置</em></h2>
+      <span class="section-sub">From "which is best" to "what fits my portfolio"</span>
+    </div>
+
+    <p style="max-width: 920px; margin-bottom: 16px;">
+      没有"一档最好"——只有"和你的目标匹配的档"。GFI 的"中庸"和 AEM 的"顶级"是不同的中庸——前者是
+      "啥都不突出", 后者是"全方位顶配"。<strong>理解这个光谱后, 选股从"哪只更好"升级为
+      "我的组合需要什么档的暴露"</strong>。
+    </p>
+
+    <div class="strategy">
+      <div class="strategy-card s-alpha">
+        <h4>确定性 + 跨周期持有</h4>
+        <div class="strategy-tickers">NEM · AEM</div>
+        <p>
+          配置型资金的默认选择。买金矿行业 beta + 龙头溢价。
+          熊市抗跌, 牛市跑不过中型。
+        </p>
+      </div>
+      <div class="strategy-card s-mid-alpha">
+        <h4>中等弹性 + 中等风险</h4>
+        <div class="strategy-tickers">KGC · GFI · AU · AGI</div>
+        <p>
+          组合中段配置, 接受 +60-150% 牛市回报。
+          适合不深度研究单点风险的长期持有者。
+        </p>
+      </div>
+      <div class="strategy-card s-mid">
+        <h4>金价上行最大弹性</h4>
+        <div class="strategy-tickers">EGO · IAG · EQX</div>
+        <p>
+          赌金价继续涨。AISC 高 = 弹性大。
+          牛市 +250-350%, 但金价回落时跌幅放大。
+        </p>
+      </div>
+      <div class="strategy-card s-beta">
+        <h4>爆发式 Catalysts</h4>
+        <div class="strategy-tickers">CDE · AAUC · ARMN</div>
+        <p>
+          押单一催化剂兑现 (整合 / 投产 / 许可)。
+          高赔率高方差, 持有期 6-18 月。
+        </p>
+      </div>
+      <div class="strategy-card s-stream">
+        <h4>无运营风险敞口</h4>
+        <div class="strategy-tickers">FNV · RGLD · WPM</div>
+        <p>
+          金矿组合里的"债券类"。无 capex / 无运营成本。
+          EBITDA margin 89%, 但弹性 β 仅 0.5-0.7。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 5 - Closing ============ -->
+<section class="dark-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05 · SYNTHESIS</span>
+      <h2>从<em>"哪只最好"</em>到<em>"组合管理"</em></h2>
+      <span class="section-sub">Final framework</span>
+    </div>
+
+    <div class="closing-grid">
+      <div>
+        <p style="font-size: 13.5px; line-height: 1.6;">
+          这个框架的核心价值不是<strong style="color: var(--accent-soft);">告诉你哪个标的好</strong>,
+          而是<strong style="color: var(--accent-soft);">让你看清自己的组合需要补哪一档</strong>。
+          散户的典型问题是"该买哪只"——这个问题在矿业股里没有标准答案, 因为不同档位服务不同目的。
+        </p>
+        <p style="font-size: 13.5px; line-height: 1.6;">
+          专业投资者的问题是"这个档已经覆盖了吗、那个档够不够"。比如: 已有 NEM + AEM 作为核心, 
+          AU 是冗余的 (重叠太多); 但加入 EGO + ARMN 可以提升组合的金价 β 和 catalyst optionality;
+          再配 5-10% FNV 可以平衡运营风险。
+        </p>
+        <p style="font-size: 13.5px; line-height: 1.6;">
+          <strong style="color: var(--accent-soft);">理想的金矿组合可能长这样</strong>:
+          核心 50% NEM/AEM + 中段 25% AU/GFI/KGC + 弹性 15% EGO/IAG + 战术 10% CDE/ARMN。
+          根据对金价的判断和风险偏好, 调整中段和弹性的比例。但<strong style="color: var(--accent-soft);">不要 100% 集中在一档</strong>——
+          每一档都有它独特的失败模式。
+        </p>
+      </div>
+
+      <div class="takeaway-dark">
+        <strong>金矿股没有"最优解"——只有"匹配你的组合管理目标的合理配置"。</strong>
+        中庸不是缺陷, 极端不是优势, 流式不是替代品。
+        把光谱内 14 家公司当作 14 种不同的金矿"风险-回报"包装, 按需组合。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer>
+  <div class="container">
+    <div class="disclaimer">
+      <strong>免责声明</strong>: 本框架基于 2026 年 5 月 8 日各公司 Q1 2026 季报 (8-K / 6-K / 10-Q) 
+      和公开市场数据。"中庸度"是定性合成判断, 维度权重可能因投资者偏好而异。
+      所有 AISC / 储量 / 估值数据均为公司披露原文或行业一致预期。本报告不构成投资建议。
+    </div>
+    <div style="text-align: right;">
+      Sector Framework · Gold Miners Coverage<br>
+      Compiled May 8, 2026<br>
+      Universe: 14 names · 7 categories<br>
+      <span style="color: var(--accent); font-weight: 500;">— END OF FRAMEWORK —</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

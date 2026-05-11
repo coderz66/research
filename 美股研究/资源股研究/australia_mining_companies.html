@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>澳大利亚矿企分布图谱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f0deba;
+    --paper-dark: #d8c191;
+    --ink: #2a1408;
+    --ink-soft: #5e3d20;
+    --rust: #a43a1a;
+    --gold: #b8923a;
+    --copper: #8c4a26;
+    --slate: #5a6878;
+    --coal: #2d2a2e;
+    --bronze: #c4a05a;
+    --line: #8d6a3f;
+    --crimson: #7a1c10;
+    --leaf: #4a6b3a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(164, 58, 26, 0.08) 0%, transparent 45%),
+      radial-gradient(circle at 80% 75%, rgba(120, 70, 30, 0.10) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, transparent 0%, rgba(74, 30, 10, 0.06) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.13'/></svg>");
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    position: relative;
+    z-index: 10;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 36px 32px 60px;
+  }
+
+  /* HEADER */
+  header {
+    border-top: 3px double var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding: 26px 0 18px;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+  }
+
+  .pre-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: clamp(34px, 4.6vw, 54px);
+    letter-spacing: 0.06em;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  /* MAIN GRID */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 980px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* MAP */
+  .map-stage {
+    background: linear-gradient(180deg, #ecd5a8 0%, #d6b884 100%);
+    border: 1px solid var(--line);
+    box-shadow: 
+      inset 0 0 80px rgba(120, 70, 30, 0.18),
+      0 4px 24px rgba(43, 20, 10, 0.18);
+    padding: 16px;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .map-stage::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(141, 106, 63, 0.5);
+    pointer-events: none;
+  }
+
+  .map-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* SVG STYLES */
+  .country-fill {
+    fill: #e9cf9c;
+    stroke: var(--ink);
+    stroke-width: 0.12;
+    stroke-linejoin: round;
+  }
+
+  .zone {
+    transition: opacity 0.3s ease;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .zone-pilbara { fill: rgba(164, 58, 26, 0.6); }
+  .zone-yilgarn { fill: rgba(184, 146, 58, 0.55); }
+  .zone-gawler { fill: rgba(140, 74, 38, 0.6); }
+  .zone-mtisa { fill: rgba(90, 104, 120, 0.55); }
+  .zone-coal { fill: rgba(45, 42, 46, 0.5); }
+  .zone-bauxite { fill: rgba(196, 160, 90, 0.6); }
+
+  .border-thick {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  /* MINE MARKERS */
+  .mine {
+    cursor: pointer;
+    transition: transform 0.18s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .mine:hover { transform: scale(1.3); }
+  .mine.active .mine-shape { 
+    stroke-width: 0.25;
+    filter: drop-shadow(0 0 0.4px var(--ink));
+  }
+
+  .mine-shape {
+    stroke: var(--ink);
+    stroke-width: 0.1;
+    stroke-linejoin: round;
+  }
+
+  .mine-shape-fe { fill: #c44a25; }
+  .mine-shape-au { fill: #d4ae3c; }
+  .mine-shape-li { fill: #4a8b6b; }
+  .mine-shape-co { fill: #2a2a30; }
+  .mine-shape-pb { fill: #6e7d8e; }
+  .mine-shape-cu { fill: #9b3e1f; }
+  .mine-shape-bx { fill: #c4a05a; }
+  .mine-shape-di { fill: #f2e6c8; }
+
+  .mine-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55px;
+    fill: var(--ink);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    font-weight: 600;
+  }
+
+  .city-square {
+    fill: var(--ink);
+  }
+
+  .city-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85px;
+    fill: var(--ink);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .compass-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.0px;
+    fill: var(--ink);
+    text-anchor: middle;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .scale-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6px;
+    fill: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+
+  /* LEGEND BAR (above map) */
+  .symbol-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 22px;
+    justify-content: center;
+    padding: 14px 16px;
+    background: rgba(255, 248, 230, 0.5);
+    border: 1px solid var(--line);
+    margin-bottom: 14px;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+
+  .key-item { display: flex; align-items: center; gap: 7px; }
+
+  .key-shape {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 1.2px solid var(--ink);
+  }
+  .key-shape.fe { background: #c44a25; }
+  .key-shape.au { background: #d4ae3c; transform: rotate(45deg); width: 12px; height: 12px; }
+  .key-shape.li { background: #4a8b6b; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); border: none; height: 14px; width: 16px; }
+  .key-shape.co { background: #2a2a30; }
+  .key-shape.pb { background: #6e7d8e; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); border: none; }
+  .key-shape.cu { background: #9b3e1f; border-radius: 50%; }
+  .key-shape.bx { background: #c4a05a; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); border: none; }
+
+  /* INFO PANEL */
+  .info-panel {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 28px 26px;
+    min-height: 660px;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(43, 20, 10, 0.12);
+  }
+
+  .info-panel::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(141, 106, 63, 0.3);
+    pointer-events: none;
+  }
+
+  .panel-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow-tag {
+    width: 11px;
+    height: 11px;
+    display: inline-block;
+    border: 1px solid var(--ink);
+  }
+
+  .panel-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .panel-subtitle {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .panel-company {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .panel-company-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .panel-company-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 16px;
+    flex: 1;
+  }
+
+  .panel-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .stat {
+    border-left: 2px solid var(--ink);
+    padding-left: 11px;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .stat-value .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  .panel-body {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  .panel-body p { margin-bottom: 12px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+
+  /* RANKINGS TABLE */
+  .ranking-section {
+    margin-top: 44px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 26px;
+  }
+
+  .ranking-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 980px) {
+    .ranking-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .rank-card {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: rgba(255, 248, 230, 0.4);
+    text-align: center;
+  }
+
+  .rank-mineral {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .rank-position {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--rust);
+    line-height: 1;
+    margin: 8px 0;
+  }
+
+  .rank-detail {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* MINES BY COMPANY TABLE */
+  .company-section {
+    margin-top: 44px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 36px;
+  }
+
+  .companies-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 980px) {
+    .companies-list { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .companies-list { grid-template-columns: 1fr; }
+  }
+
+  .company-card {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: rgba(255, 248, 230, 0.4);
+  }
+
+  .company-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .company-name-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(141, 106, 63, 0.3);
+    padding-bottom: 8px;
+  }
+  .company-mines {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .company-mines .focus {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 12px;
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  .ornament {
+    text-align: center;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin: 10px 0;
+    letter-spacing: 1em;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-content { animation: fadeIn 0.35s ease; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="pre-title">— Cartographia Mineralia · No. III —</div>
+    <h1>澳大利亚矿企分布图谱</h1>
+    <div class="subtitle">Mining Operators of Australia · Type & Production</div>
+    <div class="header-meta">
+      <span>25 mines · 13 companies</span>
+      <span>· · ·</span>
+      <span>Latest data 2023 / 2024</span>
+    </div>
+  </header>
+
+  <!-- Symbol key -->
+  <div class="symbol-key">
+    <div class="key-item"><span class="key-shape fe"></span> 铁 Iron</div>
+    <div class="key-item"><span class="key-shape au"></span> 金 Gold</div>
+    <div class="key-item"><span class="key-shape li"></span> 锂 Lithium</div>
+    <div class="key-item"><span class="key-shape co"></span> 煤 Coal</div>
+    <div class="key-item"><span class="key-shape pb"></span> 铅锌银 Pb-Zn-Ag</div>
+    <div class="key-item"><span class="key-shape cu"></span> 铜铀 Cu-U</div>
+    <div class="key-item"><span class="key-shape bx"></span> 铝土 Bauxite</div>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- MAP -->
+    <div class="map-stage">
+      <svg class="map-svg" viewBox="110 9 47 38" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+          <pattern id="grid" width="2" height="2" patternUnits="userSpaceOnUse">
+            <path d="M 2 0 L 0 0 0 2" fill="none" stroke="rgba(141,106,63,0.18)" stroke-width="0.04"/>
+          </pattern>
+          <clipPath id="auClip">
+            <path d="M 126,14 L 128,13.5 L 130,12.5 L 132,12 L 134,12 L 136.5,12 L 136.5,15 L 138,17 L 139.5,17.5 L 140.5,15.5 L 141,12.5 L 142.5,11 L 143.5,13 L 145,16 L 146,19 L 149,22 L 152,25 L 153,27.5 L 152.5,30 L 152,33 L 150,37 L 147.5,38.5 L 146,38.7 L 143,38.5 L 141,38 L 139,37.5 L 138.5,35.5 L 137.5,34.5 L 137,33.2 L 136.3,33.5 L 135.5,34.7 L 134.5,32.7 L 132.5,32.2 L 130,32 L 127,32.2 L 124,33 L 121,34.2 L 117,35 L 115.5,34.5 L 114.7,32 L 115.3,30 L 114.5,27 L 113.5,24 L 113.8,22 L 114.5,21 L 116,21 L 118,20.2 L 120,19.3 L 122,18 L 124,16.5 L 125,14.5 Z"/>
+          </clipPath>
+        </defs>
+
+        <rect x="110" y="9" width="47" height="38" fill="rgba(168,184,180,0.08)"/>
+
+        <g clip-path="url(#auClip)">
+          <rect x="110" y="9" width="47" height="38" fill="url(#grid)"/>
+        </g>
+
+        <path class="country-fill" d="M 126,14 L 128,13.5 L 130,12.5 L 132,12 L 134,12 L 136.5,12 L 136.5,15 L 138,17 L 139.5,17.5 L 140.5,15.5 L 141,12.5 L 142.5,11 L 143.5,13 L 145,16 L 146,19 L 149,22 L 152,25 L 153,27.5 L 152.5,30 L 152,33 L 150,37 L 147.5,38.5 L 146,38.7 L 143,38.5 L 141,38 L 139,37.5 L 138.5,35.5 L 137.5,34.5 L 137,33.2 L 136.3,33.5 L 135.5,34.7 L 134.5,32.7 L 132.5,32.2 L 130,32 L 127,32.2 L 124,33 L 121,34.2 L 117,35 L 115.5,34.5 L 114.7,32 L 115.3,30 L 114.5,27 L 113.5,24 L 113.8,22 L 114.5,21 L 116,21 L 118,20.2 L 120,19.3 L 122,18 L 124,16.5 L 125,14.5 Z"/>
+
+        <path class="country-fill" d="M 144.7,40.7 L 148,41.2 L 148.3,43.5 L 145.5,43.5 L 144.5,42.3 Z"/>
+
+        <!-- Geological zones (background) -->
+        <g clip-path="url(#auClip)">
+          <ellipse class="zone zone-pilbara" cx="118" cy="22" rx="4" ry="2.5"/>
+          <ellipse class="zone zone-yilgarn" cx="120" cy="29.5" rx="6.5" ry="4.5"/>
+          <ellipse class="zone zone-gawler" cx="135" cy="31" rx="3.5" ry="3"/>
+          <ellipse class="zone zone-mtisa" cx="138" cy="18" rx="3.5" ry="4"/>
+          <path class="zone zone-coal" d="M 148,22 L 151,24 L 152,28 L 152,33 L 150,35 L 149,33 L 149,29 L 148,25 Z"/>
+          <ellipse class="zone zone-bauxite" cx="142" cy="13" rx="2" ry="2"/>
+        </g>
+
+        <!-- Borders on top -->
+        <path class="border-thick" d="M 126,14 L 128,13.5 L 130,12.5 L 132,12 L 134,12 L 136.5,12 L 136.5,15 L 138,17 L 139.5,17.5 L 140.5,15.5 L 141,12.5 L 142.5,11 L 143.5,13 L 145,16 L 146,19 L 149,22 L 152,25 L 153,27.5 L 152.5,30 L 152,33 L 150,37 L 147.5,38.5 L 146,38.7 L 143,38.5 L 141,38 L 139,37.5 L 138.5,35.5 L 137.5,34.5 L 137,33.2 L 136.3,33.5 L 135.5,34.7 L 134.5,32.7 L 132.5,32.2 L 130,32 L 127,32.2 L 124,33 L 121,34.2 L 117,35 L 115.5,34.5 L 114.7,32 L 115.3,30 L 114.5,27 L 113.5,24 L 113.8,22 L 114.5,21 L 116,21 L 118,20.2 L 120,19.3 L 122,18 L 124,16.5 L 125,14.5 Z"/>
+        <path class="border-thick" d="M 144.7,40.7 L 148,41.2 L 148.3,43.5 L 145.5,43.5 L 144.5,42.3 Z"/>
+
+        <!-- ============ MINE MARKERS ============ -->
+        <g id="mines">
+
+          <!-- ===== IRON ORE - PILBARA ===== -->
+          <!-- BHP South Flank -->
+          <g class="mine" data-mine="southflank">
+            <rect class="mine-shape mine-shape-fe" x="118.0" y="22.5" width="0.8" height="0.8"/>
+            <text class="mine-label" x="118.4" y="23.9" text-anchor="middle">BHP</text>
+          </g>
+
+          <!-- Rio Tinto Mt Tom Price -->
+          <g class="mine" data-mine="tomprice">
+            <rect class="mine-shape mine-shape-fe" x="116.7" y="22.4" width="0.8" height="0.8"/>
+            <text class="mine-label" x="117.1" y="23.8" text-anchor="middle">RIO</text>
+          </g>
+
+          <!-- Rio Tinto Yandicoogina -->
+          <g class="mine" data-mine="yandicoogina">
+            <rect class="mine-shape mine-shape-fe" x="119.4" y="22.0" width="0.8" height="0.8"/>
+            <text class="mine-label" x="119.8" y="21.7" text-anchor="middle">RIO</text>
+          </g>
+
+          <!-- Fortescue Christmas Creek -->
+          <g class="mine" data-mine="christmascreek">
+            <rect class="mine-shape mine-shape-fe" x="120.6" y="21.7" width="0.8" height="0.8"/>
+            <text class="mine-label" x="121.0" y="21.4" text-anchor="middle">FMG</text>
+          </g>
+
+          <!-- Roy Hill -->
+          <g class="mine" data-mine="royhill">
+            <rect class="mine-shape mine-shape-fe" x="120.9" y="22.6" width="0.8" height="0.8"/>
+            <text class="mine-label" x="121.3" y="24.0" text-anchor="middle">HPP</text>
+          </g>
+
+          <!-- ===== LITHIUM - PILBARA NORTH ===== -->
+          <!-- Pilgangoora -->
+          <g class="mine" data-mine="pilgangoora">
+            <polygon class="mine-shape mine-shape-li" points="119.5,20.2 120.0,21.0 119.0,21.0"/>
+            <text class="mine-label" x="119.5" y="19.9" text-anchor="middle">PLS</text>
+          </g>
+
+          <!-- Wodgina -->
+          <g class="mine" data-mine="wodgina">
+            <polygon class="mine-shape mine-shape-li" points="118.2,20.2 118.7,21.0 117.7,21.0"/>
+            <text class="mine-label" x="118.2" y="19.9" text-anchor="middle">MRL</text>
+          </g>
+
+          <!-- ===== LITHIUM - SW WA & GOLDFIELDS ===== -->
+          <!-- Greenbushes -->
+          <g class="mine" data-mine="greenbushes">
+            <polygon class="mine-shape mine-shape-li" points="116.0,33.4 116.5,34.2 115.5,34.2"/>
+            <text class="mine-label" x="115.4" y="33.9" text-anchor="end">TLS</text>
+          </g>
+
+          <!-- Mt Marion -->
+          <g class="mine" data-mine="mtmarion">
+            <polygon class="mine-shape mine-shape-li" points="121.3,30.6 121.8,31.4 120.8,31.4"/>
+            <text class="mine-label" x="121.3" y="30.3" text-anchor="middle">MRL</text>
+          </g>
+
+          <!-- ===== GOLD ===== -->
+          <!-- Boddington -->
+          <g class="mine" data-mine="boddington">
+            <rect class="mine-shape mine-shape-au" x="116.2" y="32.4" width="0.7" height="0.7" transform="rotate(45 116.55 32.75)"/>
+            <text class="mine-label" x="116.55" y="33.7" text-anchor="middle">NEM</text>
+          </g>
+
+          <!-- KCGM Super Pit (Kalgoorlie) -->
+          <g class="mine" data-mine="kcgm">
+            <rect class="mine-shape mine-shape-au" x="121.2" y="30.5" width="0.7" height="0.7" transform="rotate(45 121.55 30.85)"/>
+            <text class="mine-label" x="120.9" y="30.85" text-anchor="end">NST</text>
+          </g>
+
+          <!-- Tropicana -->
+          <g class="mine" data-mine="tropicana">
+            <rect class="mine-shape mine-shape-au" x="124.3" y="29.0" width="0.7" height="0.7" transform="rotate(45 124.65 29.35)"/>
+            <text class="mine-label" x="124.65" y="30.3" text-anchor="middle">AGA</text>
+          </g>
+
+          <!-- Tanami (Newmont, NT) -->
+          <g class="mine" data-mine="tanami">
+            <rect class="mine-shape mine-shape-au" x="129.4" y="19.7" width="0.7" height="0.7" transform="rotate(45 129.75 20.05)"/>
+            <text class="mine-label" x="129.75" y="21.0" text-anchor="middle">NEM</text>
+          </g>
+
+          <!-- Cadia (NSW) -->
+          <g class="mine" data-mine="cadia">
+            <rect class="mine-shape mine-shape-au" x="148.7" y="33.1" width="0.7" height="0.7" transform="rotate(45 149.05 33.45)"/>
+            <text class="mine-label" x="149.05" y="34.4" text-anchor="middle">NEM</text>
+          </g>
+
+          <!-- ===== Cu-U-Au-Ag (Olympic Dam region) ===== -->
+          <g class="mine" data-mine="olympicdam">
+            <circle class="mine-shape mine-shape-cu" cx="136.9" cy="30.5" r="0.55"/>
+            <text x="136.9" y="30.75" text-anchor="middle" font-family="JetBrains Mono" font-size="0.55" font-weight="700" fill="var(--paper)">U</text>
+            <text class="mine-label" x="136.9" y="29.5" text-anchor="middle">BHP</text>
+          </g>
+
+          <!-- ===== Pb-Zn-Ag ===== -->
+          <!-- Mount Isa (Glencore) -->
+          <g class="mine" data-mine="mountisa">
+            <polygon class="mine-shape mine-shape-pb" points="139.1,20.7 139.65,20.35 140.2,20.7 140.2,21.2 139.65,21.55 139.1,21.2"/>
+            <text class="mine-label" x="139.65" y="22.4" text-anchor="middle">GLN</text>
+          </g>
+
+          <!-- Cannington (South32) -->
+          <g class="mine" data-mine="cannington">
+            <polygon class="mine-shape mine-shape-pb" points="140.4,21.6 140.95,21.25 141.5,21.6 141.5,22.1 140.95,22.45 140.4,22.1"/>
+            <text class="mine-label" x="140.95" y="23.3" text-anchor="middle">S32</text>
+          </g>
+
+          <!-- McArthur River (Glencore) -->
+          <g class="mine" data-mine="mcarthur">
+            <polygon class="mine-shape mine-shape-pb" points="135.6,16.2 136.15,15.85 136.7,16.2 136.7,16.7 136.15,17.05 135.6,16.7"/>
+            <text class="mine-label" x="136.15" y="17.9" text-anchor="middle">GLN</text>
+          </g>
+
+          <!-- ===== COAL ===== -->
+          <!-- BMA Goonyella Riverside (Bowen) -->
+          <g class="mine" data-mine="goonyella">
+            <rect class="mine-shape mine-shape-co" x="147.8" y="21.4" width="0.7" height="0.7"/>
+            <text class="mine-label" x="148.15" y="20.9" text-anchor="middle">BMA</text>
+          </g>
+
+          <!-- BMA Peak Downs (Bowen) -->
+          <g class="mine" data-mine="peakdowns">
+            <rect class="mine-shape mine-shape-co" x="147.8" y="22.4" width="0.7" height="0.7"/>
+            <text class="mine-label" x="147.4" y="22.85" text-anchor="end">BMA</text>
+          </g>
+
+          <!-- Whitehaven Blackwater (Bowen) -->
+          <g class="mine" data-mine="blackwater">
+            <rect class="mine-shape mine-shape-co" x="148.6" y="23.3" width="0.7" height="0.7"/>
+            <text class="mine-label" x="149.0" y="24.5" text-anchor="middle">WHC</text>
+          </g>
+
+          <!-- Yancoal Moolarben (Hunter) -->
+          <g class="mine" data-mine="moolarben">
+            <rect class="mine-shape mine-shape-co" x="149.5" y="32.1" width="0.7" height="0.7"/>
+            <text class="mine-label" x="149.4" y="31.8" text-anchor="end">YAL</text>
+          </g>
+
+          <!-- BHP Mt Arthur (Hunter) -->
+          <g class="mine" data-mine="mtarthur">
+            <rect class="mine-shape mine-shape-co" x="150.5" y="32.5" width="0.7" height="0.7"/>
+            <text class="mine-label" x="151.4" y="32.9" text-anchor="start">BHP</text>
+          </g>
+
+          <!-- ===== BAUXITE ===== -->
+          <!-- Rio Tinto Weipa/Amrun -->
+          <g class="mine" data-mine="weipa">
+            <polygon class="mine-shape mine-shape-bx" points="142.0,12.0 142.55,12.4 142.4,13.0 141.6,13.0 141.45,12.4"/>
+            <text class="mine-label" x="142.0" y="11.6" text-anchor="middle">RIO</text>
+          </g>
+
+          <!-- Alcoa Huntly (WA) -->
+          <g class="mine" data-mine="huntly">
+            <polygon class="mine-shape mine-shape-bx" points="115.7,32.0 116.25,32.4 116.1,33.0 115.3,33.0 115.15,32.4"/>
+            <text class="mine-label" x="115.0" y="32.5" text-anchor="end">ALC</text>
+          </g>
+
+          <!-- Rio Tinto Gove (NT) -->
+          <g class="mine" data-mine="gove">
+            <polygon class="mine-shape mine-shape-bx" points="136.7,11.6 137.25,12.0 137.1,12.6 136.3,12.6 136.15,12.0"/>
+            <text class="mine-label" x="136.7" y="13.4" text-anchor="middle">RIO</text>
+          </g>
+
+          <!-- ===== Argyle (closed) ===== -->
+          <g class="mine" data-mine="argyle">
+            <rect class="mine-shape mine-shape-di" x="128.1" y="16.3" width="0.7" height="0.7" transform="rotate(45 128.45 16.65)"/>
+            <text class="mine-label" x="128.45" y="17.8" text-anchor="middle" font-style="italic">ARGYLE ◇</text>
+          </g>
+
+          <!-- ===== Capital city anchors (faded) ===== -->
+          <g style="cursor:default">
+            <rect class="city-square" x="115.65" y="31.7" width="0.4" height="0.4"/>
+            <text class="city-label" x="115.4" y="31.6" text-anchor="end">PERTH</text>
+          </g>
+          <g style="cursor:default">
+            <rect class="city-square" x="151.0" y="33.65" width="0.4" height="0.4"/>
+            <text class="city-label" x="151.5" y="34.4" text-anchor="start">SYDNEY</text>
+          </g>
+          <g style="cursor:default">
+            <rect class="city-square" x="144.7" y="37.5" width="0.4" height="0.4"/>
+            <text class="city-label" x="144.4" y="38.4" text-anchor="end">MELBOURNE</text>
+          </g>
+          <g style="cursor:default">
+            <rect class="city-square" x="138.4" y="34.7" width="0.4" height="0.4"/>
+            <text class="city-label" x="139.0" y="35.6" text-anchor="start">ADELAIDE</text>
+          </g>
+          <g style="cursor:default">
+            <rect class="city-square" x="130.6" y="12.2" width="0.4" height="0.4"/>
+            <text class="city-label" x="130.0" y="11.8" text-anchor="end">DARWIN</text>
+          </g>
+          <g style="cursor:default">
+            <rect class="city-square" x="152.8" y="27.2" width="0.4" height="0.4"/>
+            <text class="city-label" x="153.5" y="27.7" text-anchor="start">BRISBANE</text>
+          </g>
+
+        </g>
+
+        <!-- Compass -->
+        <g transform="translate(115, 12)">
+          <circle r="1.4" fill="none" stroke="var(--ink)" stroke-width="0.08"/>
+          <circle r="1.0" fill="none" stroke="var(--ink)" stroke-width="0.05"/>
+          <path d="M 0,-1.3 L 0.22,0 L 0,1.3 L -0.22,0 Z" fill="var(--ink)"/>
+          <path d="M -1.3,0 L 0,0.22 L 1.3,0 L 0,-0.22 Z" fill="none" stroke="var(--ink)" stroke-width="0.06"/>
+          <text class="compass-text" y="-1.7">N</text>
+        </g>
+
+        <!-- Scale bar -->
+        <g transform="translate(113.5, 45)">
+          <line x1="0" y1="0" x2="6" y2="0" stroke="var(--ink)" stroke-width="0.12"/>
+          <line x1="0" y1="-0.18" x2="0" y2="0.18" stroke="var(--ink)" stroke-width="0.12"/>
+          <line x1="3" y1="-0.13" x2="3" y2="0.13" stroke="var(--ink)" stroke-width="0.1"/>
+          <line x1="6" y1="-0.18" x2="6" y2="0.18" stroke="var(--ink)" stroke-width="0.12"/>
+          <text class="scale-text" x="0" y="-0.45" text-anchor="start">0</text>
+          <text class="scale-text" x="6" y="-0.45" text-anchor="end">~660 KM</text>
+        </g>
+
+        <!-- Cartouche -->
+        <text x="133" y="26" text-anchor="middle" font-family="Cormorant Garamond" font-size="3" fill="var(--ink)" opacity="0.12" font-style="italic" font-weight="600" letter-spacing="0.3">AUSTRALIA</text>
+
+        <!-- Region labels (geological zones) -->
+        <text x="118" y="26" font-family="Cormorant Garamond" font-style="italic" font-size="0.9" fill="var(--ink)" opacity="0.55" letter-spacing="0.2" text-anchor="middle">PILBARA</text>
+        <text x="119" y="35" font-family="Cormorant Garamond" font-style="italic" font-size="0.9" fill="var(--ink)" opacity="0.55" letter-spacing="0.2" text-anchor="middle">YILGARN</text>
+        <text x="148" y="29" font-family="Cormorant Garamond" font-style="italic" font-size="0.9" fill="var(--ink)" opacity="0.55" letter-spacing="0.2" text-anchor="middle">BOWEN BASIN</text>
+        <text x="151" y="35" font-family="Cormorant Garamond" font-style="italic" font-size="0.9" fill="var(--ink)" opacity="0.55" letter-spacing="0.2" text-anchor="middle">HUNTER VALLEY</text>
+
+      </svg>
+    </div>
+
+    <!-- INFO PANEL -->
+    <aside class="info-panel" id="infoPanel">
+      <div class="panel-content" id="panelContent">
+        <div class="panel-eyebrow">
+          <span class="eyebrow-tag" style="background: var(--ink-soft);"></span>
+          <span>Welcome · 起 始</span>
+        </div>
+        <h2 class="panel-title">点击地图上任一矿点</h2>
+        <p class="panel-subtitle">Tap any mine marker</p>
+
+        <div class="panel-body">
+          <p>地图上标注了 <strong>25 个澳大利亚最重要的在产矿场</strong>(以及一个已关闭的传奇钻石矿)。每个矿点的标记形状代表矿种,小字标签显示运营公司缩写。</p>
+          <p>点击任意矿点,右侧会显示:<strong>运营公司、矿种类型、最新产量、地质背景与战略意义</strong>。底部的"<strong>世界排名</strong>"和"<strong>主要矿企</strong>"两个区块给出整体格局。</p>
+          <p style="font-style: italic; color: var(--ink-soft); padding-top: 8px; border-top: 1px solid var(--line); margin-top: 16px;">缩写说明:BHP / 必和必拓 · RIO / 力拓 · FMG / 福蒂斯丘 · HPP / Hancock · NEM / 纽蒙特 · NST / Northern Star · AGA / AngloGold · TLS / Talison(天齐+雅宝+IGO)· PLS / Pilbara Minerals · MRL / Mineral Resources · GLN / 嘉能可 · S32 / South32 · BMA / 必和必拓-三菱 · WHC / Whitehaven · YAL / Yancoal · ALC / Alcoa</p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- WORLD RANKINGS -->
+  <section class="ranking-section">
+    <div class="section-label">— Global Rank · 世 界 排 名 —</div>
+    <h3 class="section-title">澳大利亚在主要矿种的全球地位</h3>
+    <div class="ranking-grid">
+      <div class="rank-card">
+        <div class="rank-mineral">铁矿石 Iron Ore</div>
+        <div class="rank-position">#1</div>
+        <div class="rank-detail">~960 Mt/年 · 占世界出口约 55%</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">锂 Lithium</div>
+        <div class="rank-position">#1</div>
+        <div class="rank-detail">~47% 全球供应 · 几乎全部硬岩锂</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">铝土矿 Bauxite</div>
+        <div class="rank-position">#1</div>
+        <div class="rank-detail">约占全球三分之一</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">炼焦煤 Met. Coal</div>
+        <div class="rank-position">#1</div>
+        <div class="rank-detail">世界最大出口国</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">金 Gold</div>
+        <div class="rank-position">#2</div>
+        <div class="rank-detail">~290–310 t/年 · 与俄罗斯并列</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">铀 Uranium</div>
+        <div class="rank-position">#3–4</div>
+        <div class="rank-detail">奥林匹克坝是世界最大铀矿体</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">动力煤 Thermal Coal</div>
+        <div class="rank-position">#2</div>
+        <div class="rank-detail">仅次于印度尼西亚</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-mineral">铅锌 Pb-Zn</div>
+        <div class="rank-position">#1–2</div>
+        <div class="rank-detail">坎宁顿是世界最大单体银矿</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAJOR COMPANIES -->
+  <section class="company-section">
+    <div class="section-label">— Operators · 主 要 矿 企 —</div>
+    <h3 class="section-title">在澳运营的核心矿业公司</h3>
+    <div class="companies-list">
+      
+      <div class="company-card">
+        <div class="company-name">必和必拓</div>
+        <div class="company-name-en">BHP Group · ASX:BHP</div>
+        <div class="company-mines">铁矿(WAIO)、铜铀金银(奥林匹克坝)、煤(BMA 合资)、镍(已暂停)
+          <span class="focus">FY24 铁矿创纪录 287 Mt · 世界市值最大矿企</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">力拓</div>
+        <div class="company-name-en">Rio Tinto · ASX:RIO</div>
+        <div class="company-mines">铁矿(皮尔巴拉 17 个矿)、铝土矿(韦帕 Amrun)、铜、铝
+          <span class="focus">2024 铁矿运量约 330 Mt · 全球最大铁矿企业</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">福蒂斯丘</div>
+        <div class="company-name-en">Fortescue · ASX:FMG</div>
+        <div class="company-mines">皮尔巴拉铁矿(Chichester、Solomon、Iron Bridge 三大矿区)
+          <span class="focus">FY24 约 192 Mt · 大力投资绿氢转型</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Hancock Prospecting</div>
+        <div class="company-name-en">Hancock · 私人公司</div>
+        <div class="company-mines">Roy Hill 铁矿(全资)、与力拓合资 Hope Downs
+          <span class="focus">由 Gina Rinehart 全资拥有 · 澳洲首富之一</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">纽蒙特</div>
+        <div class="company-name-en">Newmont · NYSE:NEM</div>
+        <div class="company-mines">Boddington、Cadia、Tanami 三大金矿
+          <span class="focus">2023 年并购 Newcrest 后成为世界最大金矿企业</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Northern Star</div>
+        <div class="company-name-en">Northern Star · ASX:NST</div>
+        <div class="company-mines">KCGM "Super Pit"(Kalgoorlie)、Jundee、Yandal
+          <span class="focus">FY24 售金 162 万盎司 · 澳洲最大本土金企</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">嘉能可</div>
+        <div class="company-name-en">Glencore · LSE:GLEN</div>
+        <div class="company-mines">Mount Isa(Pb-Zn,铜矿 2025 年关闭)、McArthur River(锌)、Hunter Valley 煤
+          <span class="focus">瑞士贸易巨头 · 全球最大锌生产商之一</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">South32</div>
+        <div class="company-name-en">South32 · ASX:S32</div>
+        <div class="company-mines">Cannington(银铅)、Worsley(铝土)、Cannington、Illawarra 煤
+          <span class="focus">2015 年从 BHP 分拆 · 专注非旗舰金属</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Talison Lithium</div>
+        <div class="company-name-en">天齐+雅宝+IGO 合资</div>
+        <div class="company-mines">Greenbushes 锂矿(全球最大硬岩锂矿)
+          <span class="focus">天齐 26% / 雅宝 49% / IGO 25% · 中美澳三国共持</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Pilbara Minerals</div>
+        <div class="company-name-en">Pilbara Minerals · ASX:PLS</div>
+        <div class="company-mines">Pilgangoora 锂矿(全资)
+          <span class="focus">FY24 产 72.5 万吨锂精矿 · 澳洲最大独立锂企</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Mineral Resources</div>
+        <div class="company-name-en">Mineral Resources · ASX:MIN</div>
+        <div class="company-mines">Mt Marion(与赣锋合资)、Wodgina(与雅宝合资)、铁矿
+          <span class="focus">多元化矿企 · 与中国资本深度合作</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">BMA(BHP-三菱)</div>
+        <div class="company-name-en">BHP Mitsubishi Alliance</div>
+        <div class="company-mines">鲍温盆地 5 大冶金煤矿(Goonyella、Peak Downs、Saraji、Caval Ridge、Broadmeadow)
+          <span class="focus">澳洲最大冶金煤生产商 · BHP 与三菱 50/50 合资</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Whitehaven Coal</div>
+        <div class="company-name-en">Whitehaven · ASX:WHC</div>
+        <div class="company-mines">Maules Creek、Narrabri,2024 年从 BMA 收购 Blackwater + Daunia
+          <span class="focus">FY25 目标 14–15 Mt · 转向高品质冶金煤</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Yancoal Australia</div>
+        <div class="company-name-en">Yancoal · ASX:YAL</div>
+        <div class="company-mines">Moolarben(NSW)、HVO(与嘉能可合资)
+          <span class="focus">2024 产 36.9 Mt(应占)· 中国兖矿能源控股</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Alcoa</div>
+        <div class="company-name-en">Alcoa · NYSE:AA</div>
+        <div class="company-mines">Huntly、Willowdale 铝土矿(WA),配套 Pinjarra、Wagerup 氧化铝厂
+          <span class="focus">Huntly 是世界最大铝土矿之一 · 美国铝业巨头</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">AngloGold Ashanti</div>
+        <div class="company-name-en">AngloGold Ashanti · NYSE:AU</div>
+        <div class="company-mines">Tropicana 金矿(70%,与 Regis Resources 合资)
+          <span class="focus">Tropicana 2024 产约 40 万盎司 · 南非籍跨国矿企</span>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-name">Rio Tinto Alcan</div>
+        <div class="company-name-en">Rio Tinto Aluminium</div>
+        <div class="company-mines">Weipa(Amrun + 旧矿)、Gove(关闭中)铝土矿
+          <span class="focus">2024 集团铝土产量约 58 Mt · 配套 Gladstone 氧化铝厂</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="ornament">✦ · ✦ · ✦</div>
+
+  <footer>
+    Compiled with care · 数据来源:公司年报与 Mining Technology · 2023–2024 · 制 图 者 注
+  </footer>
+
+</div>
+
+<script>
+  // Mine data with company, type, production
+  const data = {
+
+    // ============ IRON ORE ============
+    southflank: {
+      eyebrow: '铁 矿 · 皮 尔 巴 拉',
+      tag: '#c44a25',
+      title: 'South Flank',
+      subtitle: 'BHP\'s newest flagship iron ore mine',
+      company: 'BHP Group · 必和必拓',
+      stats: [
+        { label: '类型', value: '露天 · 赤铁矿' },
+        { label: '产量', value: '<span class="num">~80 Mt/年</span>' },
+        { label: '投产', value: '2021' },
+        { label: '寿命', value: '至 2047 年' }
+      ],
+      body: `<p><strong>South Flank</strong> 是 BHP 投资 36 亿美元建成的"新一代旗舰",取代逐步关停的 Yandi 矿。设计产能 80 Mt/年,2024 财年达成增产,助力 BHP WAIO(西澳铁矿)创下 <strong>287 Mt</strong> 的全集团历史纪录。</p>
+             <p>它生产高品位"<strong>Marra Mamba 矿</strong>",属于皮尔巴拉的优质赤铁矿系列。BHP 在 WAIO 的运营涵盖超过 12 个矿、4 条铁路线、黑德兰港 5 个泊位。</p>
+             <p>South Flank + Mt Whaleback + Mining Area C 等矿场共同构成全球成本最低的大型铁矿生产商之一。</p>`
+    },
+    tomprice: {
+      eyebrow: '铁 矿 · 皮 尔 巴 拉',
+      tag: '#c44a25',
+      title: 'Mount Tom Price',
+      subtitle: 'Rio Tinto\'s historic flagship',
+      company: 'Rio Tinto · 力拓',
+      stats: [
+        { label: '类型', value: '露天 · 赤铁矿' },
+        { label: '产量', value: '<span class="num">~52 Mt/年</span>' },
+        { label: '投产', value: '1966' },
+        { label: '寿命', value: '至 2035 年' }
+      ],
+      body: `<p>力拓在皮尔巴拉的旗舰矿,1966 年投产,是澳大利亚铁矿出口产业的奠基石。最新数据约 <strong>52 Mt/年</strong>。</p>
+             <p>力拓在皮尔巴拉总共运营 <strong>17 个矿</strong>,通过自有的 1700 公里铁路网运到丹皮尔港。最新 Gudai-Darri "未来矿"(2022 投产)则是高度自动化、远程控制的新标杆。</p>
+             <p>力拓整体 2024 年皮尔巴拉铁矿运量约 <strong>328 Mt</strong>,长期是世界最大单一铁矿生产商。</p>`
+    },
+    yandicoogina: {
+      eyebrow: '铁 矿 · 皮 尔 巴 拉',
+      tag: '#c44a25',
+      title: 'Yandicoogina',
+      subtitle: 'Rio Tinto · large hematite mine',
+      company: 'Rio Tinto · 力拓',
+      stats: [
+        { label: '类型', value: '露天 · 赤铁矿' },
+        { label: '产量', value: '<span class="num">~51 Mt/年</span>' },
+        { label: '投产', value: '1998' },
+        { label: '寿命', value: '至 2039 年' }
+      ],
+      body: `<p>力拓另一个超级矿,2023 年产量约 <strong>51 Mt</strong>。它生产的"<strong>Pilbara Blend</strong>"基础矿是力拓销往中国和日韩客户的招牌品牌。</p>
+             <p>正在面临矿石品位下降的挑战,力拓近年密集开发 Western Range、Gudai-Darri、Western Turner 等替代矿。</p>`
+    },
+    christmascreek: {
+      eyebrow: '铁 矿 · 皮 尔 巴 拉',
+      tag: '#c44a25',
+      title: 'Christmas Creek',
+      subtitle: 'Fortescue · Chichester Hub',
+      company: 'Fortescue Metals Group · 福蒂斯丘',
+      stats: [
+        { label: '类型', value: '露天 · 赤铁矿' },
+        { label: '产量', value: '<span class="num">FMG 总 ~192 Mt</span>' },
+        { label: '投产', value: '2009' },
+        { label: '客户', value: '主要中国' }
+      ],
+      body: `<p>Fortescue 由 <strong>Andrew Forrest</strong>(澳洲传奇企业家)2003 年创立,在 2006–2011 年间用不到 5 年时间建成了三个 40 Mt 级矿——震惊行业,至今仍是矿业史上的高速成长案例。</p>
+             <p><strong>Christmas Creek</strong> 与 Cloudbreak 同属 <strong>Chichester 矿区</strong>;再加上 Solomon、Eliwana 和高品位的 Iron Bridge 项目,FMG 2024 财年总运量约 <strong>191.6 Mt</strong>。</p>
+             <p>FMG 几乎所有产品销往中国,且因品位略低于必和必拓和力拓,通常以稍低的"<strong>低品位折扣</strong>"定价。其能源子公司 Fortescue Energy 大力投资绿氢和电解槽技术。</p>`
+    },
+    royhill: {
+      eyebrow: '铁 矿 · 皮 尔 巴 拉',
+      tag: '#c44a25',
+      title: 'Roy Hill',
+      subtitle: 'Hancock\'s integrated iron ore project',
+      company: 'Hancock Prospecting · Hancock 私人控股',
+      stats: [
+        { label: '类型', value: '露天 · 赤铁矿' },
+        { label: '产量', value: '<span class="num">~62 Mt/年</span>' },
+        { label: '投产', value: '2015' },
+        { label: '所有者', value: 'Gina Rinehart' }
+      ],
+      body: `<p>Roy Hill 是 <strong>Gina Rinehart</strong>(澳洲首富之一,继承自父亲 Lang Hancock 的铁矿矿权)主导建造的整合型项目——耗资 100 亿美元自建矿、铁路、港口码头。</p>
+             <p>Hancock Prospecting 是私人公司,不上市,Rinehart 家族 100% 拥有 Roy Hill 70%(其余被韩国 POSCO、日本丸红和中国中钢持有),因此 Roy Hill 的现金流直接构成她的庞大私人财富。</p>
+             <p>Hancock 还与力拓合资经营 <strong>Hope Downs</strong> 矿场。</p>`
+    },
+
+    // ============ LITHIUM ============
+    pilgangoora: {
+      eyebrow: '锂 矿 · 皮 尔 巴 拉',
+      tag: '#4a8b6b',
+      title: 'Pilgangoora',
+      subtitle: 'Pilbara Minerals · Australia\'s biggest pure lithium player',
+      company: 'Pilbara Minerals · 全资',
+      stats: [
+        { label: '类型', value: '露天 · 锂辉石伟晶岩' },
+        { label: '产量', value: '<span class="num">725 kt/FY24</span>' },
+        { label: '产能', value: '~1 Mt(扩产中)' },
+        { label: '伴生', value: '钽' }
+      ],
+      body: `<p>Pilgangoora 是澳洲最大的"纯锂"上市公司 Pilbara Minerals(ASX:PLS)的全资旗舰矿。FY24 产 <strong>72.5 万吨锂精矿</strong> + 3.7 万吨氢氧化锂(合资)。</p>
+             <p>产能正从 68 万吨/年扩到 <strong>100 万吨/年</strong>,长期目标可能达 190 万吨。客户包括赣锋、长城汽车、POSCO、通用汽车等。</p>
+             <p>Pilbara Minerals 与 POSCO 在韩国合资建氢氧化锂厂,是澳洲少数尝试向下游一体化的锂矿企业。</p>`
+    },
+    wodgina: {
+      eyebrow: '锂 矿 · 皮 尔 巴 拉',
+      tag: '#4a8b6b',
+      title: 'Wodgina',
+      subtitle: 'MinRes & Albemarle JV (MARBL)',
+      company: 'Mineral Resources / Albemarle 合资',
+      stats: [
+        { label: '类型', value: '露天 · 锂辉石伟晶岩' },
+        { label: '产量', value: '<span class="num">~55 kt Li/2023</span>' },
+        { label: '股权', value: 'MinRes 50% / 雅宝 50%' },
+        { label: '历史', value: '原为锡-钽矿' }
+      ],
+      body: `<p>Wodgina 历史悠久,曾是世界主要钽矿之一。2017 年起转产锂,但 2019 年因价格下跌一度停产。2022 年通过 Mineral Resources 与美国 <strong>Albemarle</strong>(雅宝)的 MARBL 合资重启。</p>
+             <p>是世界已知最大硬岩锂矿之一,矿石品位虽不如 Greenbushes,但储量极大、可长期开采。</p>`
+    },
+    greenbushes: {
+      eyebrow: '锂 矿 · 西 南 澳',
+      tag: '#4a8b6b',
+      title: 'Greenbushes',
+      subtitle: 'World #1 hard-rock lithium mine',
+      company: 'Talison Lithium · 天齐+雅宝+IGO',
+      stats: [
+        { label: '类型', value: '露天+地下 · 伟晶岩' },
+        { label: '产量', value: '<span class="num">~1.4–1.5 Mt/年</span>' },
+        { label: '品位', value: '~2.0% Li₂O(全球最高)' },
+        { label: '股权', value: '天齐 26% / 雅宝 49% / IGO 25%' }
+      ],
+      body: `<p>Greenbushes 是<strong>世界最大也是品位最高的硬岩锂矿</strong>,约供应全球 <strong>40% 的硬岩锂精矿</strong>。1983 年开始产锂,至今扩产从未停止。</p>
+             <p>所有权结构很特别:中国 <strong>天齐锂业</strong>、美国 <strong>Albemarle</strong> 与澳洲 <strong>IGO</strong> 通过两层合资公司(Windfield + Talison)共同持有,中美澳三方都不可单独控盘。</p>
+             <p>所产精矿一部分运往附近 Kwinana 和 Kemerton 加工厂转成电池级氢氧化锂,大部分则运往中国精炼。一座矿同时支撑全球三大锂巨头的供应链。</p>`
+    },
+    mtmarion: {
+      eyebrow: '锂 矿 · 伊 尔 冈',
+      tag: '#4a8b6b',
+      title: 'Mount Marion',
+      subtitle: 'MinRes & Ganfeng JV',
+      company: 'Mineral Resources / 赣锋锂业 合资',
+      stats: [
+        { label: '类型', value: '露天(地下扩产中)' },
+        { label: '产量', value: '<span class="num">~46 kt Li/2023</span>' },
+        { label: '股权', value: 'MinRes 50% / 赣锋 50%' },
+        { label: '产能', value: '900 kt 精矿/年' }
+      ],
+      body: `<p>位于卡尔古利附近,2017 年投产。是 Mineral Resources 与<strong>中国赣锋锂业</strong>50/50 合资项目,精矿全部运往中国加工。</p>
+             <p>是世界第二大已知高品位锂矿石资源之一(仅次于 Greenbushes 储量级别)。2025 年起将转入<strong>地下开采</strong>,延长矿山寿命。</p>`
+    },
+
+    // ============ GOLD ============
+    boddington: {
+      eyebrow: '金 矿 · 西 南 澳',
+      tag: '#d4ae3c',
+      title: 'Boddington',
+      subtitle: 'Newmont · Australia\'s top gold mine',
+      company: 'Newmont · 纽蒙特',
+      stats: [
+        { label: '类型', value: '露天 · 铜金斑岩' },
+        { label: '金产量', value: '<span class="num">590 koz/2024</span>' },
+        { label: '伴生', value: '铜' },
+        { label: '寿命', value: '至 2036 年+' }
+      ],
+      body: `<p>Boddington 是澳大利亚目前产量最大的金矿。<strong>2024 年产 59 万盎司</strong>(因矿区进入低品位段,从 2023 年的 78.6 万盎司下降),预计 2026 年随深部高品位段开放反弹。</p>
+             <p>Newmont 2009 年从 AngloGold Ashanti 收购控股权后大幅扩产。除了金,还副产铜,具备较强的成本抗周期能力。</p>
+             <p>2023 年 11 月 Newmont 以 <strong>168 亿美元</strong>并购澳洲老牌矿企 Newcrest,成为<strong>世界最大金企</strong>,并继承了 Cadia 与 Telfer。</p>`
+    },
+    kcgm: {
+      eyebrow: '金 矿 · 卡 尔 古 利',
+      tag: '#d4ae3c',
+      title: 'KCGM "Super Pit"',
+      subtitle: 'Northern Star · the legendary Fimiston mine',
+      company: 'Northern Star Resources',
+      stats: [
+        { label: '类型', value: '露天+地下 · 绿岩带金' },
+        { label: '金产量', value: '<span class="num">~480 koz/年</span>' },
+        { label: '坑长', value: '3.5 km × 1.5 km × 600 m 深' },
+        { label: '历史产金', value: '>16 Moz' }
+      ],
+      body: `<p>"<strong>Super Pit</strong>"(正式名 Fimiston Open Pit)是把卡尔古利百年老矿坑合并而成的巨型露天坑,大到从太空可见。</p>
+             <p>2019 年 Northern Star 与 Saracen 共同收购 Barrick 与 Newmont 持有的 KCGM 合资股份,2021 年 Northern Star 兼并 Saracen 后<strong>独家拥有</strong> Super Pit。</p>
+             <p>Northern Star FY24 售金 <strong>162 万盎司</strong>(全公司),FY25 目标 165–180 万盎司,是澳洲最大本土金企。</p>`
+    },
+    tropicana: {
+      eyebrow: '金 矿 · 西 澳 内 陆',
+      tag: '#d4ae3c',
+      title: 'Tropicana',
+      subtitle: 'AngloGold Ashanti · Regis JV',
+      company: 'AngloGold Ashanti 70% / Regis 30%',
+      stats: [
+        { label: '类型', value: '露天+地下' },
+        { label: '金产量', value: '<span class="num">~437 koz/2023</span>' },
+        { label: '位置', value: '远离公路网的内陆' },
+        { label: '寿命', value: '至 2033 年' }
+      ],
+      body: `<p>位于伊尔冈克拉通边缘的偏远内陆,2013 年投产。AngloGold Ashanti(南非老牌金企)70% 持股,Regis Resources 持有 30%。</p>
+             <p>2024 年单是第四季度就产 <strong>10 万盎司</strong>,全年约 40 万盎司。是 AngloGold 在澳洲的旗舰资产。</p>`
+    },
+    tanami: {
+      eyebrow: '金 矿 · 北 领 地',
+      tag: '#d4ae3c',
+      title: 'Tanami',
+      subtitle: 'Newmont · in the remote Tanami Desert',
+      company: 'Newmont · 纽蒙特',
+      stats: [
+        { label: '类型', value: '地下' },
+        { label: '金产量', value: '<span class="num">408 koz/2024</span>' },
+        { label: '位置', value: '北领地塔纳米沙漠' },
+        { label: '土地', value: '原住民信托土地' }
+      ],
+      body: `<p>位于澳大利亚最偏远地区之一,矿场和加工厂建在 <strong>瓦尔皮里(Warlpiri)原住民</strong>的部落土地上,通过中央沙漠原住民土地信托管理。</p>
+             <p>纯<strong>飞进飞出(FIFO)</strong>作业,距离最近的小型原住民社区 Yuendumu 约 270 km。Newmont 正在建设 <strong>Tanami Expansion 2</strong>,2027 年投产后将延长矿山寿命到 2040 年。</p>`
+    },
+    cadia: {
+      eyebrow: '金 矿 · 新 南 威 尔 士',
+      tag: '#d4ae3c',
+      title: 'Cadia Valley',
+      subtitle: 'Newmont · low-cost gold-copper porphyry',
+      company: 'Newmont · 纽蒙特(原 Newcrest)',
+      stats: [
+        { label: '类型', value: '地下 · 块体崩落 + 斑岩' },
+        { label: '金产量', value: '<span class="num">464 koz/2024</span>' },
+        { label: '伴生', value: '铜' },
+        { label: '寿命', value: '至 2052 年' }
+      ],
+      body: `<p>位于悉尼以西约 250 公里,曾是澳大利亚最大金矿(2020 年 84.3 万盎司)。近年因品位下降产量回落,但仍位列前三。</p>
+             <p>采用大型<strong>块体崩落法(block caving)</strong>地下开采,是世界级铜金斑岩型矿床。本属老牌澳企 <strong>Newcrest Mining</strong>,2023 年 11 月被 Newmont 并购。</p>
+             <p>同时产铜——Cadia 是 Newmont 在澳洲少数同时产<strong>金 + 铜</strong>的矿场,符合"能源转型金属"叙事。</p>`
+    },
+
+    // ============ Cu-U ============
+    olympicdam: {
+      eyebrow: '多 金 属 · 南 澳',
+      tag: '#9b3e1f',
+      title: 'Olympic Dam',
+      subtitle: 'BHP · world\'s largest single uranium deposit',
+      company: 'BHP Group · 必和必拓',
+      stats: [
+        { label: '类型', value: '地下 · IOCG 多金属' },
+        { label: '铜产量', value: '<span class="num">~316 kt/FY25</span>' },
+        { label: '铀产量', value: '<span class="num">3,189 t/2024</span>' },
+        { label: '同时产', value: '金 · 银' }
+      ],
+      body: `<p>奥林匹克坝是地球上最不寻常的矿——同一个矿体里产<strong>铜、铀、金、银</strong>四种金属,而且每一种都达到世界级规模。</p>
+             <p><strong>2024 年产铀 3,189 吨</strong>(占 BHP 整个业务约 20% 收入),铜产量已连续三年超过 30 万吨。BHP 计划投资 8.4 亿澳元扩产,目标将南澳铜业务从 1.7 Mt 提升到 <strong>2.5 Mt 铜/年</strong>(包括 Carrapateena、Prominent Hill 在内)。</p>
+             <p>奥林匹克坝是<strong>世界最大已知铀矿体</strong>(>250 万吨 U₃O₈),也是 BHP 长期战略核心——既是基础金属又是能源金属,完美契合电气化时代。</p>`
+    },
+
+    // ============ Pb-Zn-Ag ============
+    mountisa: {
+      eyebrow: '铅 锌 银 · 昆 士 兰',
+      tag: '#6e7d8e',
+      title: 'Mount Isa',
+      subtitle: 'Glencore · Pb-Zn-Ag (copper closing 2025)',
+      company: 'Glencore · 嘉能可',
+      stats: [
+        { label: '类型', value: '地下 · SEDEX' },
+        { label: '铅产量', value: '<span class="num">~133 kt Pb/2021</span>' },
+        { label: '同时产', value: '锌 · 银 · 铜(2025 关停)' },
+        { label: '历史', value: '1923 年发现' }
+      ],
+      body: `<p>由 John Campbell Miles 1923 年偶然发现,如今由<strong>嘉能可</strong>运营。Mount Isa 不寻常之处:同一矿区里 <strong>铅锌银</strong>和 <strong>铜</strong>是两个独立矿体,需要分别开采、独立冶炼。</p>
+             <p>2023 年 10 月嘉能可宣布 <strong>2025 年关闭铜矿运营</strong>,只保留铅锌银业务。这是芒特艾萨城市经济的重大转折,可能导致大量矿工岗位流失。</p>
+             <p>嘉能可还运营在新南威尔士的 <strong>Hunter Valley</strong> 煤矿群以及一系列锌冶炼厂。</p>`
+    },
+    cannington: {
+      eyebrow: '铅 锌 银 · 昆 士 兰',
+      tag: '#6e7d8e',
+      title: 'Cannington',
+      subtitle: 'South32 · world\'s largest single silver mine',
+      company: 'South32 · ASX:S32',
+      stats: [
+        { label: '类型', value: '地下 · SEDEX' },
+        { label: '银产量', value: '<span class="num">~6% 全球</span>' },
+        { label: '铅产量', value: '~7% 全球' },
+        { label: '历史', value: '1990 年发现' }
+      ],
+      body: `<p>Cannington 是<strong>世界最大单体银矿</strong>,提供约 <strong>6% 的全球初级银产量</strong>和 7% 的全球铅产量。</p>
+             <p>1990 年由 BHP 发现,2014 年随 South32 从 BHP 分拆出来。运营寿命原计划 25 年,经扩展计划至少到 <strong>2032 年</strong>(降低产量至 180 万吨/年)。</p>
+             <p>南32 同时还运营 <strong>Worsley</strong>(WA 大型铝土矿)、Illawarra 冶金煤矿、肯尼亚 Wessels 锰矿等多元资产。</p>`
+    },
+    mcarthur: {
+      eyebrow: '锌 铅 · 北 领 地',
+      tag: '#6e7d8e',
+      title: 'McArthur River',
+      subtitle: 'Glencore · top-5 zinc mine globally',
+      company: 'Glencore · 嘉能可',
+      stats: [
+        { label: '类型', value: '露天 · SEDEX (HYC)' },
+        { label: '锌产量', value: '<span class="num">~383 kt Zn/年</span>' },
+        { label: '铅产量', value: '~93 kt/年' },
+        { label: '银产量', value: '~110 t/年' }
+      ],
+      body: `<p>McArthur River(原代号 <strong>HYC = "Here\'s Your Chance"</strong>)1955 年发现,但因矿石超细粒、加工困难,沉睡 40 年到 1995 年才靠 IsaMill 超细磨矿技术投产。</p>
+             <p>嘉能可 2012 年通过收购 Xstrata 获得 100% 股权。原为地下矿,后转为<strong>露天开采</strong>。</p>
+             <p>是<strong>世界第五大锌矿</strong>,锌精矿通过 970 km 公路运到 <strong>Bing Bong 港</strong>(在卡奔塔利亚湾),再海运到欧洲、日本、中国。</p>`
+    },
+
+    // ============ COAL ============
+    goonyella: {
+      eyebrow: '冶 金 煤 · 鲍 温 盆 地',
+      tag: '#2a2a30',
+      title: 'Goonyella Riverside',
+      subtitle: 'BMA · largest met coal mine in Australia',
+      company: 'BMA · BHP-三菱合资',
+      stats: [
+        { label: '类型', value: '露天 · 硬冶金煤' },
+        { label: '产量', value: '<span class="num">~17.5 Mt/年</span>' },
+        { label: '股权', value: 'BHP 50% / 三菱 50%' },
+        { label: '客户', value: '日本、印度、中国钢厂' }
+      ],
+      body: `<p>BMA(BHP Mitsubishi Alliance)在昆士兰鲍温盆地运营 <strong>5 大冶金煤矿</strong>:Goonyella Riverside、Peak Downs、Saraji、Caval Ridge、Broadmeadow——其中 Goonyella 是最大的之一。</p>
+             <p>BHP FY24 全集团冶金煤产量约 <strong>23 Mt</strong>。BMA 通过位于 Mackay 附近的 <strong>Hay Point</strong> 煤炭码头出口。</p>
+             <p>炼焦煤(冶金煤)是炼钢不可替代的原料——每吨钢需约 770 kg 冶金煤——这赋予澳大利亚煤炭长期需求基础,即使在能源转型背景下。</p>`
+    },
+    peakdowns: {
+      eyebrow: '冶 金 煤 · 鲍 温 盆 地',
+      tag: '#2a2a30',
+      title: 'Peak Downs',
+      subtitle: 'BMA · premium hard coking coal',
+      company: 'BMA · BHP-三菱合资',
+      stats: [
+        { label: '类型', value: '露天 · 优质硬焦煤' },
+        { label: '产量', value: '<span class="num">~10 Mt+/年</span>' },
+        { label: '深度', value: '>300 m' },
+        { label: '投产', value: '1972' }
+      ],
+      body: `<p>Peak Downs 是 BMA 的优质硬冶金煤旗舰矿之一,1972 年投产。位于 Moranbah 镇东南约 31 km。</p>
+             <p>BMA 在过去十年向昆士兰州政府支付了 <strong>200 亿澳元</strong>矿业特许权使用费,仅 2024 财年就 40 亿澳元——是州政府重要财源。</p>`
+    },
+    blackwater: {
+      eyebrow: '冶 金 煤 · 鲍 温 盆 地',
+      tag: '#2a2a30',
+      title: 'Blackwater',
+      subtitle: 'Whitehaven · acquired from BMA in 2024',
+      company: 'Whitehaven Coal · ASX:WHC',
+      stats: [
+        { label: '类型', value: '露天 · 冶金煤为主' },
+        { label: '产量', value: '<span class="num">~12.4 Mt/年</span>' },
+        { label: '收购价', value: '32 亿美元' },
+        { label: '投产', value: '1967' }
+      ],
+      body: `<p>Blackwater 露天矿走向长达 80 km,使用<strong>南半球最大的拉斗铲机队(7 台)</strong>。</p>
+             <p>2024 年 Whitehaven 从 BMA(BHP+三菱)以 <strong>32 亿美元</strong>整体收购了 Blackwater + Daunia 两矿,成为澳洲第二大独立煤企。</p>
+             <p>这反映了 BHP 的战略转向——出售低品位煤矿,集中资源于<strong>高品位优质冶金煤</strong>(目前 BMA 90% 是溢价产品)。</p>`
+    },
+    moolarben: {
+      eyebrow: '动 力 煤 · 猎 人 谷',
+      tag: '#2a2a30',
+      title: 'Moolarben',
+      subtitle: 'Yancoal · largest single coal mine in Australia',
+      company: 'Yancoal · 中国兖矿能源 控股',
+      stats: [
+        { label: '类型', value: '露天+地下 · 动力煤' },
+        { label: '产量', value: '<span class="num">~17.8 Mt/2023</span>' },
+        { label: '寿命', value: '至 2038 年' },
+        { label: '出口港', value: 'Newcastle' }
+      ],
+      body: `<p>位于新南威尔士猎人谷地区,是<strong>澳大利亚单矿产量最大的煤矿</strong>。Yancoal Australia(澳洲煤业公司)由<strong>中国兖矿能源</strong>控股。</p>
+             <p>Yancoal 2024 年总产煤 <strong>36.9 Mt</strong>(应占),约 96% 为动力煤,主要供日本、韩国、台湾发电厂。</p>
+             <p>从纽卡斯尔港出口——这里是<strong>世界最大的煤炭出口港</strong>,年吞吐能力约 2 亿吨。</p>`
+    },
+    mtarthur: {
+      eyebrow: '动 力 煤 · 猎 人 谷',
+      tag: '#2a2a30',
+      title: 'Mt Arthur',
+      subtitle: 'BHP · scheduled to close in 2030',
+      company: 'BHP Group · 必和必拓',
+      stats: [
+        { label: '类型', value: '露天 · 动力煤' },
+        { label: '产量', value: '<span class="num">~14 Mt/2023</span>' },
+        { label: '关闭', value: '计划 2030 年' },
+        { label: '历史', value: '1968 投产' }
+      ],
+      body: `<p>BHP 在新南威尔士的 Mt Arthur 是澳洲最大动力煤矿之一。BHP 已宣布 <strong>2030 年关闭</strong>,作为其退出动力煤业务的关键步骤——尝试出售但未找到合适买家。</p>
+             <p>这是矿业公司响应低碳转型的典型案例:动力煤(发电用)未来需求下降,但<strong>冶金煤(炼钢用)</strong>因短期内难以替代而仍被保留。</p>`
+    },
+
+    // ============ BAUXITE ============
+    weipa: {
+      eyebrow: '铝 土 · 约 克 角',
+      tag: '#c4a05a',
+      title: 'Weipa (Amrun)',
+      subtitle: 'Rio Tinto · cornerstone of integrated Al chain',
+      company: 'Rio Tinto Aluminium · 力拓铝业',
+      stats: [
+        { label: '类型', value: '露天 · 红土型铝土' },
+        { label: '产量', value: '<span class="num">~22.8 Mt/年</span>' },
+        { label: '集团总', value: '~58 Mt(含其他矿)' },
+        { label: '运营', value: '自 1963' }
+      ],
+      body: `<p>力拓在约克角运营 Weipa 综合体,目前主力是 2018 年投产的 <strong>Amrun 矿</strong>(2024 达到设计产能 22.8 Mt/年)。East Weipa 老矿 2024 年关停。</p>
+             <p>力拓正研究 <strong>Kangwinan 扩产项目</strong>,2029 年起将 Weipa 南部铝土产能<strong>翻倍</strong>(再增 20 Mt/年)。这是为了取代即将关闭的 Andoom 和 Gove 矿。</p>
+             <p>铝土通过力拓在<strong>格莱斯顿</strong>(Yarwun + QAL)的两个氧化铝厂加工,再供给澳洲、新西兰、加拿大的电解铝厂——力拓是世界唯一同时拥有从矿到电解铝完整链条的公司之一。</p>`
+    },
+    huntly: {
+      eyebrow: '铝 土 · 西 澳',
+      tag: '#c4a05a',
+      title: 'Huntly / Willowdale',
+      subtitle: 'Alcoa · in the Darling Range',
+      company: 'Alcoa Corporation · 美国铝业',
+      stats: [
+        { label: '类型', value: '露天 · 红土型铝土' },
+        { label: '位置', value: 'Darling Range, WA' },
+        { label: '配套', value: 'Pinjarra + Wagerup 氧化铝厂' },
+        { label: '排名', value: '世界级' }
+      ],
+      body: `<p>Alcoa 在西澳达令山脉运营 <strong>Huntly</strong> 和 <strong>Willowdale</strong> 两座大型铝土矿——Huntly 是世界最大的铝土矿之一。</p>
+             <p>配套的 <strong>Kwinana</strong>(已 2024 年关闭)、<strong>Pinjarra</strong>、<strong>Wagerup</strong> 三大氧化铝厂构成完整价值链。Alcoa 与 Alumina Ltd 合资公司 AWAC 是世界最大氧化铝产业链运营商之一。</p>`
+    },
+    gove: {
+      eyebrow: '铝 土 · 北 领 地',
+      tag: '#c4a05a',
+      title: 'Gove',
+      subtitle: 'Rio Tinto · scheduled closure',
+      company: 'Rio Tinto Aluminium · 力拓铝业',
+      stats: [
+        { label: '类型', value: '露天 · 红土型铝土' },
+        { label: '产量', value: '正在减产' },
+        { label: '关闭', value: '本十年末' },
+        { label: '配套厂', value: '已关闭(2014)' }
+      ],
+      body: `<p>位于北领地东阿纳姆地的 <strong>Gove 半岛</strong>,1970 年代由 Nabalco 开始铝土矿开采。氧化铝厂 2014 年因经济性问题关停,只保留矿场出口铝土。</p>
+             <p>力拓正在原址进行<strong>澳大利亚最大规模的拆除项目</strong>(相当于 21 座艾菲尔铁塔的钢材),为本十年末矿场关闭做准备。</p>
+             <p>2018 年 Gove 与<strong>本地 Gumatj 部族</strong>合作运营了澳洲第一个 100% 原住民拥有的铝土矿 <strong>Gulkula</strong>。</p>`
+    },
+
+    // ============ Argyle ============
+    argyle: {
+      eyebrow: '历 史 · 钻 石 · 已 关 闭',
+      tag: '#f2e6c8',
+      title: '阿盖尔钻石矿',
+      subtitle: 'Argyle · 1983–2020 · pink diamond legend',
+      company: 'Rio Tinto(已关闭)',
+      stats: [
+        { label: '运营', value: '1983–2020' },
+        { label: '高峰产量', value: '~40 Mct/年' },
+        { label: '特色', value: '全球 90% 粉钻来源' },
+        { label: '母岩', value: '橄榄钾镁煌岩(罕见)' }
+      ],
+      body: `<p>阿盖尔位于东金伯利,是<strong>世界历史上产量最大的钻石矿</strong>(按吨计)。它的母岩不是常见的金伯利岩,而是稀有的<strong>橄榄钾镁煌岩(lamproite)</strong>。</p>
+             <p>2020 年 11 月力拓在矿石枯竭后正式关闭。它产出的钻石以工业级和小颗粒为主,但<strong>稀有粉色和红色钻石</strong>使它享誉全球——曾占全球粉钻供应的 <strong>90%</strong>。</p>
+             <p>关闭后粉钻几乎从市场消失,价格暴涨。剩余库存仍在每年通过<strong>力拓粉钻拍卖会</strong>限量释放。</p>`
+    }
+  };
+
+  const panel = document.getElementById('panelContent');
+  const allMines = document.querySelectorAll('.mine[data-mine]');
+
+  function render(key) {
+    const d = data[key];
+    if (!d) return;
+
+    const statsHtml = d.stats
+      .map(s => `<div class="stat"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`)
+      .join('');
+
+    panel.innerHTML = `
+      <div class="panel-eyebrow">
+        <span class="eyebrow-tag" style="background: ${d.tag};"></span>
+        <span>${d.eyebrow}</span>
+      </div>
+      <h2 class="panel-title">${d.title}</h2>
+      <p class="panel-subtitle">${d.subtitle}</p>
+      <div class="panel-company">
+        <span class="panel-company-label">运营 / Operator</span>
+        <span class="panel-company-name">${d.company}</span>
+      </div>
+      <div class="panel-stats">${statsHtml}</div>
+      <div class="panel-body">${d.body}</div>
+    `;
+
+    panel.style.animation = 'none';
+    requestAnimationFrame(() => {
+      panel.style.animation = '';
+    });
+  }
+
+  function setActive(key) {
+    allMines.forEach(m => {
+      m.classList.remove('active');
+      if (m.dataset.mine === key) m.classList.add('active');
+    });
+  }
+
+  allMines.forEach(m => {
+    m.addEventListener('click', () => {
+      const key = m.dataset.mine;
+      render(key);
+      setActive(key);
+    });
+  });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资源民族主义对美股矿企的影响 | 量化框架 + 标的清单</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Base palette */
+  --bg: #FAF9F6;
+  --bg-card: #FFFFFF;
+  --navy: #0E2A47;
+  --navy-light: #1B3D5F;
+  --navy-soft: #4A5F7A;
+  --bronze: #8B6F35;
+  --bronze-light: #B89058;
+  --bull: #1F6B4A;
+  --bear: #A8331F;
+  --highlight: #FFF1B8;
+  --rule: #D9D3C5;
+  --rule-soft: #E8E2D2;
+  --text: #1A1A1A;
+  --text-mute: #5C5C5C;
+
+  /* Light contrast tints (NEW - subtle backgrounds for variety) */
+  --tint-cream: #FBF9F3;
+  --tint-cream-deep: #F5F2EA;
+  --tint-bronze: #FBF6E8;
+  --tint-navy: #F0F3F7;
+  --tint-bull: #EAF3EE;
+  --tint-bear: #F8EFEC;
+  --tint-neutral: #F4F2EC;
+
+  /* Tier color coding (very subtle) */
+  --tier1-bg: #EAF3EE;
+  --tier1-border: #1F6B4A;
+  --tier2-bg: #FBF6E8;
+  --tier2-border: #8B6F35;
+  --tier3-bg: #FAEDDF;
+  --tier3-border: #C77E2C;
+  --tier4-bg: #F8EFEC;
+  --tier4-border: #A8331F;
+
+  --shadow: 0 1px 3px rgba(14,42,71,0.06), 0 4px 12px rgba(14,42,71,0.04);
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ============ MASTHEAD ============ */
+.masthead {
+  border-bottom: 3px solid var(--bronze);
+  background: linear-gradient(135deg, #061528 0%, var(--navy) 55%, #143655 100%);
+  padding: 44px 0 36px;
+  color: #FFFFFF;
+}
+.masthead-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--bronze-light);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.brand-mark::before { content: "◆ "; }
+.headline {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+.headline em {
+  font-style: italic;
+  color: var(--bronze-light);
+  font-weight: 400;
+}
+.dek {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-style: italic;
+  color: rgba(255,255,255,0.78);
+  font-weight: 400;
+  max-width: 760px;
+}
+.meta-stamp {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-align: right;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+}
+.meta-stamp .label {
+  color: var(--bronze-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.meta-stamp .val { color: #FFFFFF; font-weight: 500; }
+
+/* ============ NAVIGATION ============ */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid var(--rule);
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(250, 249, 246, 0.94);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  text-decoration: none;
+  padding: 14px 18px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.nav-link .num { color: var(--bronze); margin-right: 6px; }
+.nav-link:hover { color: var(--navy); }
+.nav-link.active {
+  color: var(--navy);
+  border-bottom-color: var(--bronze);
+  font-weight: 600;
+}
+
+/* ============ MAIN LAYOUT ============ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 44px 32px 80px;
+}
+
+/* ============ EXEC SUMMARY ============ */
+.exec {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--bronze);
+  padding: 28px 32px;
+  margin-bottom: 56px;
+  box-shadow: var(--shadow);
+}
+.exec-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--bronze);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.exec-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 36px;
+}
+.exec-thesis {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--navy);
+  font-weight: 400;
+}
+.exec-thesis em { font-style: italic; color: var(--bronze); }
+.exec-thesis .key {
+  background: var(--highlight);
+  padding: 1px 4px;
+  font-style: normal;
+}
+.exec-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: start;
+}
+.stat-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 14px 16px;
+  transition: all 0.2s;
+}
+.stat-tile:hover {
+  border-color: var(--bronze);
+  transform: translateY(-1px);
+}
+.stat-tile .lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.stat-tile .val {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.1;
+}
+.stat-tile .unit {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  font-weight: 500;
+  margin-left: 3px;
+}
+.stat-tile .delta {
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-top: 4px;
+  color: var(--text-mute);
+}
+.stat-tile.bull .val { color: var(--bull); }
+.stat-tile.bear .val { color: var(--bear); }
+
+/* ============ SECTION ============ */
+.section {
+  margin-bottom: 60px;
+  scroll-margin-top: 60px;
+}
+.section-head {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 24px;
+  align-items: center;
+  background: linear-gradient(90deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-left: 4px solid var(--bronze);
+  padding: 18px 22px 16px;
+  margin-bottom: 28px;
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bronze-light);
+  letter-spacing: 0.1em;
+  padding-bottom: 0;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.section-title em { font-style: italic; color: var(--bronze-light); }
+.section-side {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 0;
+}
+
+/* ============ TYPOGRAPHY ============ */
+.lead {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--navy);
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+.lead em { font-style: italic; color: var(--bronze); }
+p {
+  margin-bottom: 13px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+}
+p strong { color: var(--navy); font-weight: 600; }
+.highlight { background: var(--highlight); padding: 1px 4px; }
+.mono { font-family: var(--mono); font-size: 0.92em; }
+
+h3 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--navy);
+  margin: 26px 0 12px;
+  letter-spacing: -0.005em;
+}
+h3 .h3-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--bronze);
+  font-weight: 700;
+  margin-right: 10px;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+}
+h4 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 18px 0 10px;
+  letter-spacing: 0.01em;
+}
+
+/* ============ PROFILE CARDS - VARIED BACKGROUNDS ============ */
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--bronze);
+  padding: 16px 20px;
+  margin: 14px 0;
+  transition: all 0.2s;
+}
+.profile-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateX(2px);
+}
+
+/* Card variants - border-left only for semantic differentiation, no tint */
+.card-cream { background: var(--bg-card); border-left-color: var(--bronze); }
+.card-bronze { background: var(--bg-card); border-left-color: var(--bronze-light); }
+.card-navy { background: var(--bg-card); border-left-color: var(--navy); }
+.card-bull { background: var(--bg-card); border-left-color: var(--bull); }
+.card-bear { background: var(--bg-card); border-left-color: var(--bear); }
+.card-neutral { background: var(--bg-card); border-left-color: var(--bronze); }
+
+.profile-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.profile-card-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.profile-card-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--bronze);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--bronze);
+  padding: 2px 8px;
+}
+.profile-card-tag.bull { color: var(--bull); border-color: var(--bull); }
+.profile-card-tag.bear { color: var(--bear); border-color: var(--bear); }
+.profile-card-tag.navy { color: var(--navy); border-color: var(--navy); }
+
+/* ============ TIER-CODED CARDS ============ */
+.tier-card {
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid;
+  padding: 14px 18px;
+  margin: 12px 0;
+  transition: all 0.2s;
+}
+.tier-card:hover { box-shadow: var(--shadow); }
+.tier-1 { background: var(--tier1-bg); border-left-color: var(--tier1-border); }
+.tier-2 { background: var(--tier2-bg); border-left-color: var(--tier2-border); }
+.tier-3 { background: var(--tier3-bg); border-left-color: var(--tier3-border); }
+.tier-4 { background: var(--tier4-bg); border-left-color: var(--tier4-border); }
+
+/* ============ DATA TABLES & GRIDS ============ */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 14px 0;
+}
+.data-cell {
+  background: var(--bg-card);
+  padding: 12px 14px;
+  transition: background 0.2s;
+}
+.data-cell:hover { background: var(--tint-cream); }
+.data-cell .k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.data-cell .v {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.data-cell .v.bull { color: var(--bull); }
+.data-cell .v.bear { color: var(--bear); }
+
+table.facts {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13px;
+  background: var(--bg-card);
+}
+table.facts th, table.facts td {
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+table.facts thead th {
+  background: var(--tint-cream-deep);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--navy);
+  cursor: pointer;
+  user-select: none;
+}
+table.facts thead th:hover { background: var(--tint-bronze); }
+table.facts td.num {
+  font-family: var(--mono);
+  font-weight: 500;
+  text-align: right;
+}
+table.facts tr:hover td { background: var(--tint-cream); }
+table.facts td.bull { color: var(--bull); font-weight: 600; }
+table.facts td.bear { color: var(--bear); font-weight: 600; }
+table.facts td.t1 { color: var(--bull); font-weight: 600; }
+table.facts td.t4 { color: var(--bear); font-weight: 600; }
+
+/* Risk pill in table cells */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+.pill-t1 { background: var(--tier1-bg); color: var(--tier1-border); }
+.pill-t2 { background: var(--tier2-bg); color: var(--tier2-border); }
+.pill-t3 { background: var(--tier3-bg); color: var(--tier3-border); }
+.pill-t4 { background: var(--tier4-bg); color: var(--tier4-border); }
+.pill-low { background: var(--tier1-bg); color: var(--tier1-border); }
+.pill-med { background: var(--tier2-bg); color: var(--tier2-border); }
+.pill-high { background: var(--tier3-bg); color: var(--tier3-border); }
+.pill-extreme { background: var(--tier4-bg); color: var(--tier4-border); }
+
+/* ============ CALLOUT ============ */
+.callout {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--navy);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 13.5px;
+  font-style: italic;
+  font-family: var(--serif);
+  color: var(--navy);
+  line-height: 1.55;
+}
+.callout strong {
+  font-style: normal;
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--navy);
+}
+.callout.bronze { border-left-color: var(--bronze); background: var(--bg-card); }
+.callout.bull { border-left-color: var(--bull); background: var(--bg-card); }
+.callout.bear { border-left-color: var(--bear); background: var(--bg-card); }
+
+/* ============ TAB SYSTEM ============ */
+.tab-bar {
+  display: flex;
+  border-bottom: 2px solid var(--navy);
+  margin-bottom: 0;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.tab-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--text-mute);
+  transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--navy); background: var(--tint-cream); }
+.tab-btn.active {
+  color: var(--navy);
+  border-bottom-color: var(--bronze);
+  background: var(--tint-bronze);
+}
+.tab-btn .ct {
+  color: var(--bronze);
+  font-weight: 700;
+  margin-left: 4px;
+}
+.tab-content { display: none; padding-top: 8px; animation: fadeIn 0.3s; }
+.tab-content.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ SPECTRUM LADDER ============ */
+.spectrum {
+  margin: 20px 0;
+  display: grid;
+  gap: 6px;
+}
+.spectrum-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 2.2fr;
+  gap: 14px;
+  padding: 11px 14px;
+  align-items: center;
+  border: 1px solid var(--rule-soft);
+  border-left-width: 3px;
+  transition: transform 0.15s;
+}
+.spectrum-row:hover { transform: translateX(2px); }
+.spectrum-row .lvl {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bronze);
+  letter-spacing: 0.06em;
+}
+.spectrum-row .form {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.spectrum-row .ex {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-mute);
+  font-style: italic;
+}
+.spectrum-row.l1 { background: var(--tier1-bg); border-left-color: var(--tier1-border); }
+.spectrum-row.l2 { background: var(--tier1-bg); border-left-color: var(--tier1-border); }
+.spectrum-row.l3 { background: var(--tier2-bg); border-left-color: var(--tier2-border); }
+.spectrum-row.l4 { background: var(--tier2-bg); border-left-color: var(--tier2-border); }
+.spectrum-row.l5 { background: var(--tier3-bg); border-left-color: var(--tier3-border); }
+.spectrum-row.l6 { background: var(--tier4-bg); border-left-color: var(--tier4-border); }
+.spectrum-row.l7 { background: var(--tier4-bg); border-left-color: var(--tier4-border); }
+
+/* ============ CASE CARD ============ */
+.case-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--bronze);
+  padding: 16px 20px;
+  margin: 14px 0;
+  transition: all 0.2s;
+}
+.case-card:hover { box-shadow: var(--shadow); transform: translateX(2px); }
+.case-card.bear-event { background: var(--bg-card); border-left-color: var(--bear); }
+.case-card.bull-event { background: var(--bg-card); border-left-color: var(--bull); }
+.case-card.neutral-event { background: var(--bg-card); border-left-color: var(--bronze); }
+
+.case-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--rule);
+}
+.case-deal {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.case-deal .arrow {
+  color: var(--bronze);
+  margin: 0 6px;
+  font-style: italic;
+}
+.case-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-mute);
+  letter-spacing: 0.05em;
+}
+.case-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  margin: 10px 0 12px;
+  border: 1px solid var(--rule);
+}
+.case-stat {
+  background: var(--bg-card);
+  padding: 8px 10px;
+}
+.case-stat .lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+.case-stat .val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.case-stat .val.bull { color: var(--bull); }
+.case-stat .val.bear { color: var(--bear); }
+.case-body {
+  font-size: 13.2px;
+  line-height: 1.6;
+}
+.case-body .takeaway {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule);
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--navy);
+  font-size: 13.2px;
+}
+.case-body .takeaway::before {
+  content: "▸ ";
+  color: var(--bronze);
+  font-style: normal;
+}
+
+/* ============ COMPANY DETAIL PANEL ============ */
+.co-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 18px 22px;
+  margin: 14px 0;
+}
+.co-panel.alt { background: var(--bg-card); }
+.co-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.co-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.co-name .ticker {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bronze);
+  margin-left: 8px;
+  background: var(--tint-bronze);
+  padding: 2px 7px;
+  border: 1px solid var(--bronze-light);
+}
+.co-verdict {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+.co-verdict.low { background: var(--tier1-bg); color: var(--tier1-border); }
+.co-verdict.med { background: var(--tier2-bg); color: var(--tier2-border); }
+.co-verdict.high { background: var(--tier3-bg); color: var(--tier3-border); }
+.co-verdict.extreme { background: var(--tier4-bg); color: var(--tier4-border); }
+
+/* ============ CITE ============ */
+cite {
+  font-style: normal;
+  border-bottom: 1px dotted var(--bronze);
+  cursor: help;
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 30px 32px;
+  margin-top: 40px;
+  background: var(--tint-cream-deep);
+}
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-mute);
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+}
+.footer-text .lbl {
+  color: var(--bronze);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.footer-mark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--navy-soft);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 880px) {
+  .masthead-inner { grid-template-columns: 1fr; }
+  .meta-stamp { text-align: left; }
+  .headline { font-size: 28px; }
+  .exec-grid { grid-template-columns: 1fr; }
+  .section-head { grid-template-columns: 50px 1fr; }
+  .section-side { display: none; }
+  .section-title { font-size: 22px; }
+  .case-stats { grid-template-columns: repeat(2, 1fr); }
+  .spectrum-row { grid-template-columns: 40px 1fr; }
+  .spectrum-row .ex { grid-column: 1 / -1; }
+  .container { padding: 32px 18px 60px; }
+  .masthead-inner, .nav-inner { padding: 0 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="brand-mark">Sector Deep-Dive · Resource Nationalism &amp; US-Listed Miners</div>
+      <h1 class="headline">资源民族主义对美股矿企的影响：<br>从<em>政治冲击</em>到<em>单矿杠杆</em>的量化框架</h1>
+      <p class="dek">谱系 · 案例 · 单矿集中度 × 辖区风险 · 标的清单与组合行动</p>
+    </div>
+    <div class="meta-stamp">
+      <span class="label">Report</span><br>
+      <span class="val">Resource Nationalism Note</span><br><br>
+      <span class="label">Issued</span><br>
+      <span class="val">2026-05-09</span><br><br>
+      <span class="label">Universe</span><br>
+      <span class="val">NEM · B · FCX · AEM · KGC<br>PAAS · HL · CDE · SCCO · BTG</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a class="nav-link active" data-target="sec-summary"><span class="num">00</span>Thesis</a>
+    <a class="nav-link" data-target="sec-01"><span class="num">01</span>谱系 &amp; 案例</a>
+    <a class="nav-link" data-target="sec-02"><span class="num">02</span>六层影响</a>
+    <a class="nav-link" data-target="sec-03"><span class="num">03</span>双因子框架</a>
+    <a class="nav-link" data-target="sec-04"><span class="num">04</span>公司分解</a>
+    <a class="nav-link" data-target="sec-05"><span class="num">05</span>风险排序</a>
+    <a class="nav-link" data-target="sec-06"><span class="num">06</span>案例深读</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ============ EXECUTIVE SUMMARY ============ -->
+  <div class="exec" id="sec-summary">
+    <div class="exec-label">Executive Thesis</div>
+    <div class="exec-grid">
+      <div class="exec-thesis">
+        资源民族主义对个股的真实影响 <em>不是行业层面的统一冲击</em>，而是
+        <span class="key">高度公司特定的单矿杠杆</span>。<br><br>
+        正确的风险评分公式：<em>单矿净风险 = 单矿在公司产量占比 × 该矿所在辖区风险评级</em>。
+        First Quantum × Cobre Panama（40% × T4）= 公司级冲击；
+        AEM × LaRonde（3% × T1）= 可忽略噪音。
+        本报告把美股主要矿企按这两个变量同时打分，给出可操作的标的清单。
+      </div>
+      <div class="exec-stats">
+        <div class="stat-tile bear">
+          <div class="lbl">RNI 高风险铜产出</div>
+          <div class="val">33<span class="unit">%</span></div>
+          <div class="delta">2016 年仅 17%</div>
+        </div>
+        <div class="stat-tile bear">
+          <div class="lbl">FCX Grasberg 营收占比</div>
+          <div class="val">~50<span class="unit">%</span></div>
+          <div class="delta">单点风险最高</div>
+        </div>
+        <div class="stat-tile bull">
+          <div class="lbl">AEM Tier-1 资产占比</div>
+          <div class="val">~95<span class="unit">%</span></div>
+          <div class="delta">最干净的防御标的</div>
+        </div>
+        <div class="stat-tile bear">
+          <div class="lbl">Barrick Mali 减值</div>
+          <div class="val">$1.0<span class="unit">B</span></div>
+          <div class="delta">2024 已实现冲击</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 01 -->
+  <section class="section" id="sec-01">
+    <div class="section-head">
+      <div class="section-num">§01</div>
+      <h2 class="section-title">资源民族主义 <em>七层谱系</em> 与近期标志性案例</h2>
+      <div class="section-side">Spectrum &amp; Cases</div>
+    </div>
+
+    <p class="lead">很多人把资源民族主义等同于"国有化"，但其实是一个 <em>从温和到激烈的连续光谱</em>。理解这个谱系，才能识别每个事件对个股的真实冲击量级。</p>
+
+    <h3><span class="h3-num">01·1</span>七层强度谱系（按渗透深度排序）</h3>
+
+    <div class="spectrum">
+      <div class="spectrum-row l1">
+        <div class="lvl">L1</div>
+        <div class="form">提高版税 / 出口关税</div>
+        <div class="ex">智利 2024 新版税法 · 印尼 2025 累进版税</div>
+      </div>
+      <div class="spectrum-row l2">
+        <div class="lvl">L2</div>
+        <div class="form">暴利税 / 超额利润税</div>
+        <div class="ex">智利、秘鲁、墨西哥多次提议</div>
+      </div>
+      <div class="spectrum-row l3">
+        <div class="lvl">L3</div>
+        <div class="form">强制本地受益 / 下游加工</div>
+        <div class="ex">印尼镍铝矾土禁令 · 津巴布韦锂矿出口禁令</div>
+      </div>
+      <div class="spectrum-row l4">
+        <div class="lvl">L4</div>
+        <div class="form">强制国家持股 / 合资</div>
+        <div class="ex">印尼 Grasberg 51% 国有化 · 蒙古 OT 重谈</div>
+      </div>
+      <div class="spectrum-row l5">
+        <div class="lvl">L5</div>
+        <div class="form">合同重新谈判 / 撤销</div>
+        <div class="ex">蒙古 OT · 刚果（金）2018 新矿业法 · Mali 2023 新矿业法</div>
+      </div>
+      <div class="spectrum-row l6">
+        <div class="lvl">L6</div>
+        <div class="form">项目永久关闭</div>
+        <div class="ex">Pascua-Lama 智利侧 · Cobre Panama 2023</div>
+      </div>
+      <div class="spectrum-row l7">
+        <div class="lvl">L7</div>
+        <div class="form">完全国有化 / 没收</div>
+        <div class="ex">墨西哥锂 2022（LitioMx） · 玻利维亚锂 · 俄罗斯没收西方资产</div>
+      </div>
+    </div>
+
+    <div class="callout bronze">
+      <strong>核心数据</strong> · Verisk Maplecroft RNI 显示全球 33% 的铜产量现在位于"非常高"和"高"风险国家，相比 2016 年的 17% 几乎翻倍；智利过去 5 年下滑 34 名至全球第 69 位，秘鲁下滑 15 名至第 132 位。<em>稳定的"南美铜矿带"叙事正在结构性瓦解</em>。
+    </div>
+
+    <h3><span class="h3-num">01·2</span>过去 3 年标志性事件（点击 Tab 切换）</h3>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-group="cases" data-tab="case1">Cobre Panama</button>
+      <button class="tab-btn" data-group="cases" data-tab="case2">Mali · Loulo</button>
+      <button class="tab-btn" data-group="cases" data-tab="case3">Chile 新版税</button>
+      <button class="tab-btn" data-group="cases" data-tab="case4">印尼版税</button>
+      <button class="tab-btn" data-group="cases" data-tab="case5">墨西哥锂矿</button>
+    </div>
+
+    <div class="tab-content active" data-group="cases" data-tab="case1">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">First Quantum <span class="arrow">→</span> Cobre Panama 关闭</div>
+          <div class="case-meta">2023-11 · L6 永久关闭</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">投资额</div><div class="val">$10B</div></div>
+          <div class="case-stat"><div class="lbl">公司收入占比</div><div class="val bear">40%</div></div>
+          <div class="case-stat"><div class="lbl">FM 股价跌幅</div><div class="val bear">-33%</div></div>
+          <div class="case-stat"><div class="lbl">全球铜供给损失</div><div class="val bear">1.5%</div></div>
+        </div>
+        <div class="case-body">
+          <p>Cobre Panama 是 First Quantum 100 亿美元投资的全球最大铜矿之一，运营后贡献巴拿马 5% GDP、7% 出口收入。2023 年 11 月最高法院裁定合同违宪，矿被关闭，公司被迫暂停分红、大规模债务重组。</p>
+          <span class="takeaway">这不是独裁式没收，是民主国家通过最高法院和宪法机制完成的关闭。74% 巴拿马民众支持国家控制矿产资源。<strong>民主程序本身已经成为资源民族主义的载体</strong>。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-group="cases" data-tab="case2">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">Barrick <span class="arrow">→</span> Mali Loulo-Gounkoto 冻结</div>
+          <div class="case-meta">2024-12 → 2025-11 · L4-L5</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">公司产量占比</div><div class="val bear">~15%</div></div>
+          <div class="case-stat"><div class="lbl">2024 计提减值</div><div class="val bear">$1.0B</div></div>
+          <div class="case-stat"><div class="lbl">没收黄金价值</div><div class="val bear">$245M</div></div>
+          <div class="case-stat"><div class="lbl">事件持续</div><div class="val">~12 月</div></div>
+        </div>
+        <div class="case-body">
+          <p>事件链：2024-12 阻止黄金运输 → 2025-01-11 没收 3 吨黄金 → 2025-01-14 暂停运营 → 2025-06-16 法院将矿置于政府临时管理下 → 2025-09 Bristow 因此被董事会撤换 → 2025-11-24 双方达成和解。</p>
+          <span class="takeaway">15% 单矿占比 + T4 辖区 = 2024 年全年 8-10% 产量损失、$1B 减值、CEO 下台。这是"中等单矿占比 × 极高辖区风险"的教科书冲击。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-group="cases" data-tab="case3">
+      <div class="case-card neutral-event">
+        <div class="case-head">
+          <div class="case-deal">智利 <span class="arrow">→</span> 大型铜矿新版税法</div>
+          <div class="case-meta">2024-01 生效 · L1+L2 组合</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">从价税</div><div class="val">1%</div></div>
+          <div class="case-stat"><div class="lbl">运营利润累进</div><div class="val">8-26%</div></div>
+          <div class="case-stat"><div class="lbl">年度税收</div><div class="val">$1.35B</div></div>
+          <div class="case-stat"><div class="lbl">触发阈值</div><div class="val">5万吨/年</div></div>
+        </div>
+        <div class="case-body">
+          <p>2023-08 智利公布新版税法，2024-01 生效，针对铜销售占比 &gt;50% 且年产精炼铜 &gt;5 万吨的大型矿企。BHP（Escondida）、Antofagasta（Centinela）受影响显著。</p>
+          <span class="takeaway">SCCO 因为矿在秘鲁/墨西哥反而成为相对受益方——这是 SCCO 这两年估值溢价持续扩大的原因之一。同样的"L1 类"事件，对不同地理敞口公司的净影响相反。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-group="cases" data-tab="case4">
+      <div class="case-card neutral-event">
+        <div class="case-head">
+          <div class="case-deal">印尼 <span class="arrow">→</span> 累进版税 + 强制冶炼厂</div>
+          <div class="case-meta">2014→2025 · L1+L3+L4</div>
+        </div>
+        <div class="case-body">
+          <p>事件链延续 10 年：2014 镍出口禁令 → 2020 再次重申 → 2023 铝矾土禁令 → 2025 累进版税方案（税率随全球商品价格变动）。</p>
+          <p>对 FCX 的连锁影响：Grasberg 持股结构 48.76%（FCX）/ 51.24%（印尼 Asahan Aluminum 国有）+ PTFI 印尼下游冶炼厂强制建设（约 32 亿美元）+ 累进版税。<strong>FCX 被迫"垂直整合"，资本结构被东道国重塑</strong>。</p>
+          <span class="takeaway">L3 强制本地化是当今最常见的隐性民族主义形式——表面是"产业升级"，实质是把矿企变成被东道国捆绑的下游加工商。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-group="cases" data-tab="case5">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">墨西哥 <span class="arrow">→</span> 锂矿全面国有化</div>
+          <div class="case-meta">2022 · L7 完全国有化</div>
+        </div>
+        <div class="case-body">
+          <p>2022 年墨西哥总统 AMLO 颁布全面锂国有化，下令成立国有锂公司 LitioMx；他援引 1938 年石油国有化作为参照，认为"只有政府才能防止公司剥削"。</p>
+          <span class="takeaway">在外资还没来得及进入的情况下，新兴关键金属直接被锁定。这是<em>对未来 capex 流向的重大约束信号</em>——投资者看到这种事，会自动把所有"潜在敏感地区的关键矿物投资"都打折扣。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>仲裁的隐性成本</strong> · 国际仲裁统计显示，矿业争端通过正式 ICSID 程序解决平均需要 <span class="mono">3.7 年</span>；即使 First Quantum 2023-11 提交仲裁，最终决议在没有协商和解的情况下也要等到 2027 年中以后。<em>矿企即使最终赢得仲裁，时间价值已经被吃掉</em>。
+    </div>
+  </section>
+
+  <!-- SECTION 02 -->
+  <section class="section" id="sec-02">
+    <div class="section-head">
+      <div class="section-num">§02</div>
+      <h2 class="section-title">六层结构性影响 + <em>西方反制力</em></h2>
+      <div class="section-side">Structural Impact</div>
+    </div>
+
+    <p class="lead">资源民族主义不是"事件性扰动"——它在 <em>六个层级</em> 重塑矿业行业的资本配置、估值、并购和资本结构。理解这六层影响，才能识别哪些标的会结构性受益、哪些会结构性受损。</p>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-group="impact" data-tab="i1">① 估值压缩</button>
+      <button class="tab-btn" data-group="impact" data-tab="i2">② Capex 重塑</button>
+      <button class="tab-btn" data-group="impact" data-tab="i3">③ M&amp;A 倾斜</button>
+      <button class="tab-btn" data-group="impact" data-tab="i4">④ 现金流前置</button>
+      <button class="tab-btn" data-group="impact" data-tab="i5">⑤ Royalty 受益</button>
+      <button class="tab-btn" data-group="impact" data-tab="i6">⑥ 西方反制</button>
+    </div>
+
+    <!-- IMPACT 1 -->
+    <div class="tab-content active" data-group="impact" data-tab="i1">
+      <h3><span class="h3-num">02·1</span>估值多重压缩 — Tier-1 溢价 / Tier-3 折价同步走阔</h3>
+      <p>历史上 Tier-1（美澳加）和 Tier-3（非洲、不稳定拉美）资产的估值差大约 <span class="mono">20-30%</span>，<strong>现在已经扩大到 50-80%</strong>。</p>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="k">Tier-1 IRR 要求</div>
+          <div class="v">≥ 12%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">Tier-3 IRR 要求</div>
+          <div class="v">≥ 18-20%</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">AEM 当前 P/NAV</div>
+          <div class="v bull">1.2-1.5x</div>
+        </div>
+        <div class="data-cell">
+          <div class="k">KGC 当前 P/NAV</div>
+          <div class="v bear">0.6-0.8x</div>
+        </div>
+      </div>
+      <p>同样的产量、同样的品位，AEM（北美 95%）和 KGC（西非 + 美国混合）的估值差距完全来自司法管辖区结构。</p>
+    </div>
+
+    <!-- IMPACT 2 -->
+    <div class="tab-content" data-group="impact" data-tab="i2">
+      <h3><span class="h3-num">02·2</span>Capex 决策框架被重塑 — "建在哪里" 超过 "建什么"</h3>
+      <p>同一笔 capex 在 Nevada vs DRC 创造的市场估值差 30-50%。管理层的真实优化目标变成：</p>
+      <div class="callout bronze">
+        <strong>NPV per geographical risk-unit</strong>，而非纯 NPV。<br>
+        高风险辖区项目即使经济性更好也会被推迟或放弃。
+      </div>
+      <p><strong>Newmont 的 Conga 案例最经典</strong>：Newmont 2016 年放弃秘鲁价值 50 亿美元的 Conga 铜金项目，原因是社区反对持续不断——50 亿美元的项目因为"社会执照"问题被永久搁置。</p>
+    </div>
+
+    <!-- IMPACT 3 -->
+    <div class="tab-content" data-group="impact" data-tab="i3">
+      <h3><span class="h3-num">02·3</span>M&amp;A 溢价向 Tier-1 资产倾斜</h3>
+      <p>本轮 M&amp;A 浪潮的隐性原则：<em>买 tier-1 资产可以付高溢价（市场会奖励），买 tier-3 资产即使便宜也要被打折（市场会惩罚）</em>。</p>
+
+      <table class="facts">
+        <thead><tr><th>交易</th><th>司法区</th><th>溢价</th><th>市场评价</th></tr></thead>
+        <tbody>
+          <tr><td>Northern Star → De Grey</td><td>西澳大利亚</td><td class="num">37.1%</td><td class="bull">奖励（NST 后续上涨）</td></tr>
+          <tr><td>Gold Fields → Osisko Mining</td><td>魁北克 加拿大</td><td class="num">~20%</td><td class="bull">奖励</td></tr>
+          <tr><td>Coeur → New Gold</td><td>美加 80%+</td><td class="num">16%</td><td class="bull">3 个月内 +26%</td></tr>
+          <tr><td>Equinox → Calibre</td><td>尼加拉瓜混合</td><td class="num">2%</td><td>持平（已 priced）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- IMPACT 4 -->
+    <div class="tab-content" data-group="impact" data-tab="i4">
+      <h3><span class="h3-num">02·4</span>现金流结构被强制改变 — 利润前置 + 储备前置</h3>
+      <p>知道未来政治风险会上升的管理层会 <em>前置现金流</em>，表现为：</p>
+
+      <div class="profile-card card-bull">
+        <p style="font-size:13.5px;line-height:1.6;">
+          <strong>更激进的分红和回购</strong>（SCCO 95% 派息率、FCX 50% 派息政策都是这个逻辑）<br>
+          <strong>更短的回收期 IRR 假设</strong>（5-7 年而非传统的 10-15 年）<br>
+          <strong>更厌恶 multi-decade greenfield</strong>（FCX 的 El Abra 评估 7.5B 但要 2033 年才投产）
+        </p>
+      </div>
+
+      <p><strong>本质上是对资源民族主义的提前对冲</strong>：把现金尽快变成股东手里的钱，免得未来被东道国分走。</p>
+    </div>
+
+    <!-- IMPACT 5 -->
+    <div class="tab-content" data-group="impact" data-tab="i5">
+      <h3><span class="h3-num">02·5</span>Streaming / Royalty 公司差异化受益</h3>
+      <p>Wheaton（WPM）、Royal Gold（RGLD）、Franco-Nevada（FNV）的合同结构中通常包含 <em>主权风险隔离条款</em>：</p>
+
+      <div class="profile-card card-bronze">
+        <p style="font-size:13.5px;line-height:1.6;margin:0;">
+          • 现金流与单一资产不挂钩，组合分散在 30-50 个矿<br>
+          • 即使发生没收，合同上的现金流权利通常受国际投资协定保护<br>
+          • Capex 已支付，没有"被迫继续投入"的尾部风险
+        </p>
+      </div>
+
+      <p>结果：在资源民族主义全面上升的背景下，<em>royalty/streaming 板块的相对吸引力反而上升</em>。这是为什么 FNV 长期能享受 30-40x EV/EBITDA 的溢价（vs 矿企 8-10x）——它本质上是 <strong>对资源民族主义对冲后的金属敞口</strong>。</p>
+    </div>
+
+    <!-- IMPACT 6 -->
+    <div class="tab-content" data-group="impact" data-tab="i6">
+      <h3><span class="h3-num">02·6</span>西方反制力 — 改写产业地图的反向力量</h3>
+      <p>资源民族主义引发的 West 反应正在重塑供给端：</p>
+
+      <table class="facts">
+        <thead><tr><th>政策</th><th>形式</th><th>受益标的</th></tr></thead>
+        <tbody>
+          <tr><td>美国 IRA 关键矿物条款</td><td>税收抵免 + DOE 贷款</td><td class="bull">LAC、MP、UEC</td></tr>
+          <tr><td>EU《关键原材料法》</td><td>战略储备 + 加工补贴</td><td class="bull">EU 本地矿企</td></tr>
+          <tr><td>美国 DOD 直接采购</td><td>战略储备购买</td><td class="bull">钴、镍、稀土生产商</td></tr>
+          <tr><td>关税壁垒</td><td>对中国电池金属加征关税</td><td class="bull">本土加工产商</td></tr>
+          <tr><td>联邦股权投资</td><td>政府直接持股</td><td class="bull">MP（15%, 保底价）</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout bull">
+        <strong>结构性 Alpha</strong> · 美国/友好辖区矿企可以获得"政府背书的资本结构"——同样资产，比 China-friendly 辖区的对手享受 30-50% 估值溢价。<em>这是美国版的资源民族主义</em>，用产业政策给本土+盟友辖区的矿企补贴。
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 03 -->
+  <section class="section" id="sec-03">
+    <div class="section-head">
+      <div class="section-num">§03</div>
+      <h2 class="section-title">量化框架：<em>双因子风险评分</em></h2>
+      <div class="section-side">Quantitative Framework</div>
+    </div>
+
+    <p class="lead">资源民族主义的真实风险评估必须同时量化两个变量。<em>没有量化单矿体量的资源民族主义分析就是空话</em>。</p>
+
+    <h3><span class="h3-num">03·1</span>核心公式</h3>
+
+    <div class="profile-card card-navy" style="text-align:center;padding:24px;">
+      <div style="font-family:var(--serif);font-size:22px;color:var(--navy);font-weight:500;line-height:1.3;">
+        <strong>单矿净风险</strong> &nbsp;=&nbsp; 单矿在公司产量/营收占比 &nbsp;<span style="color:var(--bronze);">×</span>&nbsp; 该矿所在辖区风险评级
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);margin-top:14px;letter-spacing:0.05em;">
+        Concentration % × Jurisdiction Risk = Net Single-Asset Exposure
+      </div>
+    </div>
+
+    <h3><span class="h3-num">03·2</span>两个极端例子说明问题</h3>
+
+    <div class="profile-card card-bear">
+      <div class="profile-card-head">
+        <div class="profile-card-title">极端例 A · First Quantum × Cobre Panama</div>
+        <div class="profile-card-tag bear">公司级冲击</div>
+      </div>
+      <p style="font-size:14px;margin:6px 0;">
+        <strong>40% 营收占比</strong> × <strong>T4 极高风险（巴拿马）</strong> = <span class="highlight">FM 股价跌 30%+，没有缓冲</span>
+      </p>
+      <p style="font-size:13px;color:var(--text-mute);margin:0;">单矿政治风险事件 = 公司基本面颠覆性变化</p>
+    </div>
+
+    <div class="profile-card card-bull">
+      <div class="profile-card-head">
+        <div class="profile-card-title">极端例 B · Agnico Eagle × LaRonde（魁北克）</div>
+        <div class="profile-card-tag bull">可忽略噪音</div>
+      </div>
+      <p style="font-size:14px;margin:6px 0;">
+        <strong>~3% 产量占比</strong> × <strong>T1 极低风险（加拿大）</strong> = <span class="highlight">公司级影响 ≈ 0</span>
+      </p>
+      <p style="font-size:13px;color:var(--text-mute);margin:0;">即使该矿出现极端事件，对公司估值影响也在噪音水平</p>
+    </div>
+
+    <h3><span class="h3-num">03·3</span>四级辖区风险评级（Tier 系统）</h3>
+
+    <div class="tier-card tier-1">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--serif);font-weight:600;color:var(--navy);font-size:15px;">T1 · 极低风险</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--tier1-border);font-weight:700;letter-spacing:0.1em;">RISK MULTIPLIER: 1.0x</div>
+      </div>
+      <p style="font-size:13px;margin:6px 0 0;">美国（除部分敏感州）· 加拿大 · 澳大利亚 · 北欧 · 部分欧盟国家。<em>政府稳定、法律框架清晰、合同神圣性高</em>。</p>
+    </div>
+
+    <div class="tier-card tier-2">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--serif);font-weight:600;color:var(--navy);font-size:15px;">T2 · 中等风险</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--tier2-border);font-weight:700;letter-spacing:0.1em;">RISK MULTIPLIER: 2-3x</div>
+      </div>
+      <p style="font-size:13px;margin:6px 0 0;">智利 · 秘鲁 · 墨西哥（成熟项目）· 巴西 · 阿根廷 · 多米尼加 · 摩洛哥。<em>定价已 reflect 风险，但仍有版税重谈和劳工争端</em>。</p>
+    </div>
+
+    <div class="tier-card tier-3">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--serif);font-weight:600;color:var(--navy);font-size:15px;">T3 · 高风险</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--tier3-border);font-weight:700;letter-spacing:0.1em;">RISK MULTIPLIER: 4-6x</div>
+      </div>
+      <p style="font-size:13px;margin:6px 0 0;">印尼 · 巴布亚新几内亚 · 蒙古 · 哈萨克斯坦 · 部分非洲（坦桑尼亚、加纳、毛里塔尼亚、布基纳法索）· 菲律宾 · 苏里南。<em>需要事件驱动定价</em>。</p>
+    </div>
+
+    <div class="tier-card tier-4">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--serif);font-weight:600;color:var(--navy);font-size:15px;">T4 · 极高风险</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--tier4-border);font-weight:700;letter-spacing:0.1em;">RISK MULTIPLIER: 8x+</div>
+      </div>
+      <p style="font-size:13px;margin:6px 0 0;">俄罗斯 · 委内瑞拉 · 玻利维亚 · 巴拿马（Cobre 后）· Mali · 吉尔吉斯斯坦（Kumtor 后）· DRC 部分。<em>建议不持仓或仅做事件驱动 short</em>。</p>
+    </div>
+
+    <div class="callout bronze">
+      <strong>实操原则</strong> · 单矿占比 &gt; 30% × T3/T4 辖区 = <em>定时炸弹</em>，区别只是何时引爆。
+      First Quantum (Cobre Panama 40% × T4) 已经引爆；Centerra (Kumtor 50% × T4) 已经丢掉；
+      <strong>FCX (Grasberg 50% × T3)</strong> 是当前最大的潜在尾部风险候选。
+    </div>
+  </section>
+
+  <!-- SECTION 04 -->
+  <section class="section" id="sec-04">
+    <div class="section-head">
+      <div class="section-num">§04</div>
+      <h2 class="section-title">美股矿企 <em>逐家拆解</em>：单矿体量 × 辖区风险</h2>
+      <div class="section-side">Per-Company Decomposition</div>
+    </div>
+
+    <p class="lead">下面把美股主要矿企的每一座矿按"产量占比 + 辖区风险"逐一打分。<em>点击 Tab 切换公司</em>。每张表的颜色编码即对应该矿的辖区风险等级（绿=T1 / 黄=T2 / 橙=T3 / 红=T4）。</p>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-group="co" data-tab="nem">NEM</button>
+      <button class="tab-btn" data-group="co" data-tab="b">B (Barrick)</button>
+      <button class="tab-btn" data-group="co" data-tab="fcx">FCX</button>
+      <button class="tab-btn" data-group="co" data-tab="aem">AEM</button>
+      <button class="tab-btn" data-group="co" data-tab="kgc">KGC</button>
+      <button class="tab-btn" data-group="co" data-tab="paas">PAAS</button>
+      <button class="tab-btn" data-group="co" data-tab="hl">HL</button>
+      <button class="tab-btn" data-group="co" data-tab="cde">CDE</button>
+      <button class="tab-btn" data-group="co" data-tab="scco">SCCO</button>
+      <button class="tab-btn" data-group="co" data-tab="btg">BTG / IAG</button>
+    </div>
+
+    <!-- NEM -->
+    <div class="tab-content active" data-group="co" data-tab="nem">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Newmont <span class="ticker">NEM</span></div>
+          <div class="co-verdict low">分散度防御 · 低风险</div>
+        </div>
+        <p style="font-size:13.5px;">2025 年总产量指引约 <span class="mono">590 万盎司</span>，Tier 1 组合 560 万盎司。<strong>剥离非核心资产后整体 Tier-1 占比约 60%</strong>。</p>
+
+        <table class="facts">
+          <thead><tr><th data-sort="text">矿山</th><th data-sort="text">国家</th><th data-sort="num">占比</th><th data-sort="text">辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Boddington</td><td>澳大利亚</td><td class="num">~14%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Cadia</td><td>澳大利亚</td><td class="num">~12%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Tanami</td><td>澳大利亚</td><td class="num">~9%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Brucejack</td><td>加拿大</td><td class="num">~5%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Red Chris</td><td>加拿大</td><td class="num">~3%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Nevada Gold Mines (38.5%)</td><td>美国</td><td class="num">~14%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Lihir</td><td>巴布亚新几内亚</td><td class="num">~12%</td><td>T3</td><td><span class="pill pill-high">中-高</span></td></tr>
+            <tr><td><strong>Peñasquito</strong></td><td>墨西哥</td><td class="num">~10%</td><td>T2</td><td><span class="pill pill-med">中（罢工史）</span></td></tr>
+            <tr><td>Cerro Negro</td><td>阿根廷</td><td class="num">~6%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Yanacocha</td><td>秘鲁</td><td class="num">~5%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Merian</td><td>苏里南</td><td class="num">~5%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Ahafo S/N</td><td>加纳</td><td class="num">~8%</td><td>T3</td><td><span class="pill pill-high">中</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bull" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 没有单矿超过 14%，2023 Peñasquito 罢工 4 个月只损失 ~10% 产量。<em>分散度防御的经典案例</em>，单矿事件不致命。
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRICK -->
+    <div class="tab-content" data-group="co" data-tab="b">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Barrick Mining <span class="ticker">B</span></div>
+          <div class="co-verdict high">单矿政治风险已现实化</div>
+        </div>
+        <p style="font-size:13.5px;">2024 年金产量 391 万盎司，2025 年因 Mali 冻结预计 315-350 万盎司，<strong>计提 $1.0B 减值 + CEO 撤换</strong>。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Nevada Gold Mines (61.5%)</td><td>美国</td><td class="num">~40%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Pueblo Viejo (60%)</td><td>多米尼加</td><td class="num">~12%</td><td>T2</td><td><span class="pill pill-med">中（税收争端史）</span></td></tr>
+            <tr><td><strong>Loulo-Gounkoto (80%)</strong></td><td><strong>Mali</strong></td><td class="num bear">~15%</td><td class="t4">T4</td><td><span class="pill pill-extreme">极高（已实现）</span></td></tr>
+            <tr><td>Kibali (45%)</td><td>DRC</td><td class="num">~8%</td><td>T3</td><td><span class="pill pill-high">高</span></td></tr>
+            <tr><td>Lumwana（铜）</td><td>赞比亚</td><td class="num">~主要铜</td><td>T3</td><td><span class="pill pill-high">高</span></td></tr>
+            <tr><td>North Mara + Bulyanhulu (84%)</td><td>坦桑尼亚</td><td class="num">~10%</td><td>T3</td><td><span class="pill pill-high">中（1900亿税单史）</span></td></tr>
+            <tr><td>Tongon (89.7%)</td><td>科特迪瓦</td><td class="num">~5%</td><td>T3</td><td><span class="pill pill-high">中</span></td></tr>
+            <tr><td>Hemlo</td><td>加拿大</td><td class="num">~5%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Reko Diq（建设中）</td><td>巴基斯坦</td><td class="num">2028投产</td><td>T3</td><td><span class="pill pill-high">高</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bear" style="margin-top:14px;">
+          <strong>净风险评估</strong> · NGM (40%) + Mali (15%) + DRC (8%) + Tanzania (10%) + Reko Diq（未来）= 整体 <em>高风险辖区敞口超 35%</em>。NGM 是 anchor，但其他都是炸弹候选。<strong>这是 Barrick 长期 P/NAV 显著低于 NEM 和 AEM 的根本原因</strong>。
+        </div>
+      </div>
+    </div>
+
+    <!-- FCX -->
+    <div class="tab-content" data-group="co" data-tab="fcx">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Freeport-McMoRan <span class="ticker">FCX</span></div>
+          <div class="co-verdict extreme">单矿集中度堪比 First Quantum</div>
+        </div>
+        <p style="font-size:13.5px;">2024 年印尼运营贡献铜产量 <span class="mono">42.7%</span>，<strong>金产量主要来自 Grasberg（~100%）</strong>，2025 全年铜销量低于指引约 10% 仅因 Grasberg 一个事故。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占总营收</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Grasberg (48.76%)</strong></td><td><strong>印尼</strong></td><td class="num bear">~50% / 100% 黄金</td><td class="t4">T3</td><td><span class="pill pill-extreme">极高（单点）</span></td></tr>
+            <tr><td>Cerro Verde (55%)</td><td>秘鲁</td><td class="num">~15%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Morenci (72%)</td><td>美国亚利桑那</td><td class="num">~12%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>El Abra (51%)</td><td>智利</td><td class="num">~5%</td><td>T2</td><td><span class="pill pill-med">中（新版税法）</span></td></tr>
+            <tr><td>Sierrita</td><td>美国亚利桑那</td><td class="num">~4%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Bagdad</td><td>美国亚利桑那</td><td class="num">~4%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>其他北美矿</td><td>美国</td><td class="num">~10%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bear" style="margin-top:14px;">
+          <strong>净风险评估</strong> · Grasberg 单点占公司 <em>50% 营收 + 100% 黄金</em>——这是美股最大铜矿企里 <strong>最集中的单矿风险</strong>。任何 Grasberg 事件（运营、政治、监管）都是公司级 game-changer。<br><br>
+          <strong>FCX 不是真正的"多元化铜矿"——本质上是"Grasberg 50% + 美洲铜矿组合"</strong>。
+        </div>
+      </div>
+    </div>
+
+    <!-- AEM -->
+    <div class="tab-content" data-group="co" data-tab="aem">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Agnico Eagle <span class="ticker">AEM</span></div>
+          <div class="co-verdict low">最干净的分散标的</div>
+        </div>
+        <p style="font-size:13.5px;"><strong>美股矿业里最干净的分散标的</strong>。90%+ 资产位于稳定辖区，公司级政治风险敞口几乎为零——这是 AEM 长期 P/NAV 1.2-1.5x 的物理基础。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Detour Lake</td><td>加拿大安大略</td><td class="num">~20%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Canadian Malartic</td><td>加拿大魁北克</td><td class="num">~17%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Meliadine</td><td>加拿大努纳武特</td><td class="num">~10%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>LaRonde</td><td>加拿大魁北克</td><td class="num">~9%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Meadowbank</td><td>加拿大努纳武特</td><td class="num">~8%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Macassa</td><td>加拿大安大略</td><td class="num">~7%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Fosterville</td><td>澳大利亚</td><td class="num">~7%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Kittilä</td><td>芬兰</td><td class="num">~7%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Pinos Altos + La India</td><td>墨西哥</td><td class="num">~8%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>其他</td><td>—</td><td class="num">~7%</td><td>—</td><td><span class="pill pill-low">混合</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bull" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 单矿最大 ~20%（Detour Lake，加拿大）—— <em>且全部在 T1 司法区</em>。即使任一矿出现极端事件，对公司估值影响也在噪音水平。<strong>核心仓位首选</strong>。
+        </div>
+      </div>
+    </div>
+
+    <!-- KGC -->
+    <div class="tab-content" data-group="co" data-tab="kgc">
+      <div class="co-panel alt">
+        <div class="co-head">
+          <div class="co-name">Kinross Gold <span class="ticker">KGC</span></div>
+          <div class="co-verdict high">单矿集中度被低估</div>
+        </div>
+        <p style="font-size:13.5px;">三大产矿（Tasiast、Paracatu、La Coipa）贡献总产量 <span class="mono">68%</span>。<strong>2022 年俄罗斯撤离</strong> + 当前主动 tier-1 化（Great Bear 加拿大项目、Round Mountain 扩产）= 减压路径明确。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tasiast</strong></td><td><strong>毛里塔尼亚</strong></td><td class="num bear">~29%</td><td class="t4">T3</td><td><span class="pill pill-high">高（最大风险点）</span></td></tr>
+            <tr><td>Paracatu</td><td>巴西</td><td class="num">~25%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>La Coipa</td><td>智利</td><td class="num">~14%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Round Mountain</td><td>美国内华达</td><td class="num">~12%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Fort Knox</td><td>美国阿拉斯加</td><td class="num">~9%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Manh Choh</td><td>美国阿拉斯加</td><td class="num">~6%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Bald Mountain</td><td>美国内华达</td><td class="num">~5%</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Great Bear（建设）</td><td>加拿大安大略</td><td class="num">未来</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout" style="margin-top:14px;">
+          <strong>净风险评估</strong> · Tasiast 29% 占比是下一个重大单矿政治风险候选点（毛里塔尼亚最近税收争端不断）。<em>但 KGC 是值得长期跟踪的"逐步减压"标的</em>——若 Tasiast 占比下降到 20% 以下，估值修复空间显著。
+        </div>
+      </div>
+    </div>
+
+    <!-- PAAS -->
+    <div class="tab-content" data-group="co" data-tab="paas">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Pan American Silver <span class="ticker">PAAS</span></div>
+          <div class="co-verdict med">分散度高的拉美专家</div>
+        </div>
+        <p style="font-size:13.5px;">2024 年总产白银 <span class="mono">2106 万盎司</span>、黄金 <span class="mono">89.25 万盎司</span>。<strong>没有单矿超 12-15% 占比</strong>，但整体 100% 拉美 + 加拿大，没有真正的 T1 防御资产。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>类型</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>La Colorada</td><td>墨西哥</td><td>银</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Dolores</td><td>墨西哥</td><td>银+金</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Cerro Moro</td><td>阿根廷</td><td>银+金</td><td>T2-T3</td><td><span class="pill pill-high">中（外汇管制）</span></td></tr>
+            <tr><td>Huaron + Morococha</td><td>秘鲁</td><td>银</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Shahuindo</td><td>秘鲁</td><td>金</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>San Vicente (95%)</td><td>玻利维亚</td><td>银</td><td>T3</td><td><span class="pill pill-high">高</span></td></tr>
+            <tr><td>Jacobina</td><td>巴西</td><td>金</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>El Peñon + Minera Florida</td><td>智利</td><td>金</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Timmins</td><td>加拿大</td><td>金</td><td>T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Juanicipio (44%)</td><td>墨西哥</td><td>银</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Navidad（项目）</td><td>阿根廷</td><td>银</td><td>—</td><td><span class="pill pill-extreme">禁矿令冻结 15 年</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 分散度高但 base 偏 T2——介于 NEM 和 KGC 之间的中性配置。Navidad 项目是结构性"困境资产"。
+        </div>
+      </div>
+    </div>
+
+    <!-- HL -->
+    <div class="tab-content" data-group="co" data-tab="hl">
+      <div class="co-panel alt">
+        <div class="co-head">
+          <div class="co-name">Hecla Mining <span class="ticker">HL</span></div>
+          <div class="co-verdict low">100% Tier-1</div>
+        </div>
+        <p style="font-size:13.5px;"><strong>美股白银里最干净的标的</strong>。100% T1 司法区，公司级政治风险敞口 = 0。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Greens Creek</td><td>美国阿拉斯加</td><td class="num">~40% 银</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Lucky Friday</td><td>美国爱达荷</td><td class="num">~25% 银</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Keno Hill</td><td>加拿大育空</td><td class="num">~25% 银</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Casa Berardi</td><td>加拿大魁北克</td><td class="num">主要金</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bull" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 单矿 40% 占比但 100% T1 = 政治风险净敞口为零。<em>美国白银产量占全国约 40%，享受"国内关键矿物"政策溢价</em>。
+        </div>
+      </div>
+    </div>
+
+    <!-- CDE -->
+    <div class="tab-content" data-group="co" data-tab="cde">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">Coeur Mining <span class="ticker">CDE</span></div>
+          <div class="co-verdict low">合并后 北美 80%+</div>
+        </div>
+        <p style="font-size:13.5px;">收购 New Gold 后约 <span class="mono">80%</span> 收入来自美加。墨西哥两矿合计 ~45% 但分散在两个矿，整体偏 T1 防御。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Rochester</td><td>美国内华达</td><td class="num">大头白银</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Palmarejo</td><td>墨西哥</td><td class="num">~25%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Las Chispas（合并 SilverCrest）</td><td>墨西哥</td><td class="num">~20%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Kensington</td><td>美国阿拉斯加</td><td class="num">~10%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Wharf</td><td>美国南达科他</td><td class="num">~10%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>New Afton（合并 New Gold）</td><td>加拿大</td><td class="num">铜+金</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Rainy River（合并 New Gold）</td><td>加拿大</td><td class="num">主要金</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bull" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 合并后 80%+ 北美，单矿风险都在 T1 辖区。<em>价值与风险匹配的平衡仓首选之一</em>。
+        </div>
+      </div>
+    </div>
+
+    <!-- SCCO -->
+    <div class="tab-content" data-group="co" data-tab="scco">
+      <div class="co-panel alt">
+        <div class="co-head">
+          <div class="co-name">Southern Copper <span class="ticker">SCCO</span></div>
+          <div class="co-verdict med">现有产能稳定，未来 capex 集中拉美</div>
+        </div>
+        <p style="font-size:13.5px;">现有产能高度集中在两个国家但分散在 5+ 个运营矿。<strong>未来 capex 大头都在秘鲁</strong>——下一个 5-10 年的政治风险敞口正在累积。</p>
+
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占总铜</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Buenavista del Cobre</td><td>墨西哥</td><td class="num">~50%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td>Cuajone + Toquepala</td><td>秘鲁</td><td class="num">~50%</td><td>T2</td><td><span class="pill pill-med">中</span></td></tr>
+            <tr><td><strong>Tia Maria（建设中）</strong></td><td>秘鲁</td><td class="num">2027 投产</td><td>T2-T3</td><td><span class="pill pill-high">中-高（社区抵制 8 年）</span></td></tr>
+            <tr><td>Michiquillay（早期勘探）</td><td>秘鲁</td><td class="num">未来</td><td>T2-T3</td><td><span class="pill pill-high">高</span></td></tr>
+            <tr><td>Los Chancas（早期）</td><td>秘鲁</td><td class="num">未来</td><td>T3</td><td><span class="pill pill-high">高（非法采矿干扰）</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout" style="margin-top:14px;">
+          <strong>净风险评估</strong> · 单矿政治风险敞口低（成熟矿山没有撤销合同的迹象）；但秘鲁 RNI 评分大幅下滑是 SCCO 长期估值的潜在压力。<em>"现金流回报"模式相对安全，新建项目动工窗口期是潜在风险点</em>。
+        </div>
+      </div>
+    </div>
+
+    <!-- BTG / IAG -->
+    <div class="tab-content" data-group="co" data-tab="btg">
+      <div class="co-panel">
+        <div class="co-head">
+          <div class="co-name">B2Gold <span class="ticker">BTG</span> &nbsp;+&nbsp; IAMGOLD <span class="ticker">IAG</span></div>
+          <div class="co-verdict extreme">单矿西非集中风险</div>
+        </div>
+        <p style="font-size:13.5px;">这两家是<strong>单矿政治风险的典型受害者</strong>——一个西非政治事件就能打掉公司一半价值。即便金价历史新高，涨幅显著落后板块。</p>
+
+        <h4 style="margin-top:14px;">B2Gold (BTG)</h4>
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fekola</strong></td><td><strong>Mali</strong></td><td class="num bear">~50%</td><td class="t4">T4</td><td><span class="pill pill-extreme">极高（紧邻 Loulo）</span></td></tr>
+            <tr><td>Masbate</td><td>菲律宾</td><td class="num">~25%</td><td>T3</td><td><span class="pill pill-high">高</span></td></tr>
+            <tr><td>Otjikoto</td><td>纳米比亚</td><td class="num">~25%</td><td>T2-T3</td><td><span class="pill pill-med">中</span></td></tr>
+          </tbody>
+        </table>
+
+        <h4 style="margin-top:14px;">IAMGOLD (IAG)</h4>
+        <table class="facts">
+          <thead><tr><th>矿山</th><th>国家</th><th>占比</th><th>辖区</th><th>风险</th></tr></thead>
+          <tbody>
+            <tr><td>Côté Gold（新投产）</td><td>加拿大</td><td class="num">未来主力</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td>Westwood</td><td>加拿大</td><td class="num">~20%</td><td class="t1">T1</td><td><span class="pill pill-low">极低</span></td></tr>
+            <tr><td><strong>Essakane</strong></td><td><strong>布基纳法索</strong></td><td class="num bear">~50%</td><td class="t4">T3</td><td><span class="pill pill-extreme">极高（西非）</span></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout bear" style="margin-top:14px;">
+          <strong>净风险评估</strong> · BTG 单矿超 50% 在 Mali = <em>极高的尾部风险</em>，是 BTG 估值持续低迷的根本。IAG 通过 Côté Gold 投产正在稀释 Essakane 占比，但短期仍受西非影响。<strong>适合做事件驱动 short 而非长期持有</strong>。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 05 -->
+  <section class="section" id="sec-05">
+    <div class="section-head">
+      <div class="section-num">§05</div>
+      <h2 class="section-title">综合风险排序 + <em>四层行动建议</em></h2>
+      <div class="section-side">Risk Ranking &amp; Actions</div>
+    </div>
+
+    <p class="lead">把"最大单矿占比 × 该矿辖区风险"作为评分，对美股矿企统一排序。<em>表头可点击排序</em>。</p>
+
+    <h3><span class="h3-num">05·1</span>美股矿企综合风险排名</h3>
+
+    <table class="facts">
+      <thead>
+        <tr>
+          <th data-sort="text">公司</th>
+          <th data-sort="text">Ticker</th>
+          <th data-sort="text">最大单矿</th>
+          <th data-sort="num">单矿占比</th>
+          <th data-sort="text">辖区</th>
+          <th data-sort="text">综合评分</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Hecla Mining</td><td class="mono">HL</td><td>Greens Creek</td><td class="num">~40%</td><td>T1 美国</td><td class="bull">极低风险 ✓</td></tr>
+        <tr><td>Agnico Eagle</td><td class="mono">AEM</td><td>Detour Lake</td><td class="num">~20%</td><td>T1 加拿大</td><td class="bull">极低风险 ✓</td></tr>
+        <tr><td>Royal Gold / WPM / FNV</td><td class="mono">RGLD/WPM/FNV</td><td>Streaming 分散</td><td class="num">N/A</td><td>混合</td><td class="bull">极低（结构隔离）✓</td></tr>
+        <tr><td>Coeur Mining (合并后)</td><td class="mono">CDE</td><td>Palmarejo + Las Chispas</td><td class="num">~25%</td><td>T2 墨西哥</td><td>低-中</td></tr>
+        <tr><td>Pan American Silver</td><td class="mono">PAAS</td><td>任一</td><td class="num">~15%</td><td>T2 拉美</td><td>低-中</td></tr>
+        <tr><td>Newmont</td><td class="mono">NEM</td><td>Boddington</td><td class="num">~14%</td><td>T1 澳洲</td><td>低-中</td></tr>
+        <tr><td>Southern Copper</td><td class="mono">SCCO</td><td>Buenavista</td><td class="num">~25%</td><td>T2 墨西哥</td><td>中</td></tr>
+        <tr><td>Kinross</td><td class="mono">KGC</td><td>Tasiast</td><td class="num">~29%</td><td>T3 毛里塔尼亚</td><td class="bear">中-高 ⚠</td></tr>
+        <tr><td>AngloGold Ashanti</td><td class="mono">AU</td><td>非洲合计</td><td class="num">~30%+</td><td>T3</td><td class="bear">高 ⚠</td></tr>
+        <tr><td>Barrick Mining</td><td class="mono">B</td><td>NGM (40%) + Mali (15%)</td><td class="num">~55% 混合</td><td>T1+T4</td><td class="bear">高（已现实化）⚠</td></tr>
+        <tr><td>Freeport-McMoRan</td><td class="mono">FCX</td><td>Grasberg</td><td class="num">~50%</td><td>T3 印尼</td><td class="bear">极高 🔴</td></tr>
+        <tr><td>B2Gold</td><td class="mono">BTG</td><td>Fekola</td><td class="num">~50%</td><td>T4 Mali</td><td class="bear">极高（潜在）🔴</td></tr>
+        <tr><td>IAMGOLD</td><td class="mono">IAG</td><td>Essakane</td><td class="num">~50%</td><td>T3 布基纳法索</td><td class="bear">极高 🔴</td></tr>
+        <tr><td>First Quantum (TSX/OTC)</td><td class="mono">FM</td><td>Cobre Panama</td><td class="num">~40%</td><td>T4 巴拿马</td><td class="bear">已爆雷 🔴🔴</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:32px;"><span class="h3-num">05·2</span>四层行动建议（点击 Tab 切换）</h3>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-group="actions" data-tab="a1">L1 · 核心仓</button>
+      <button class="tab-btn" data-group="actions" data-tab="a2">L2 · 平衡仓</button>
+      <button class="tab-btn" data-group="actions" data-tab="a3">L3 · 进取仓</button>
+      <button class="tab-btn" data-group="actions" data-tab="a4">L4 · 避免/事件驱动</button>
+    </div>
+
+    <!-- L1 -->
+    <div class="tab-content active" data-group="actions" data-tab="a1">
+      <div class="profile-card card-bull">
+        <div class="profile-card-head">
+          <div class="profile-card-title">L1 · 核心仓 — 低集中度 + T1 辖区</div>
+          <div class="profile-card-tag bull">First Choice</div>
+        </div>
+        <p style="font-size:13.5px;margin:0;">单矿事件最多影响 5-15% 产量，公司基本面不受冲击。</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:14px 0;">
+        <li style="padding:8px 14px;border-left:2px solid var(--bull);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">AEM</strong> · 最大单矿 20% × 加拿大 = 接近零风险
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bull);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">HL</strong> · 最大单矿 40% 但 100% T1
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bull);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">FNV / WPM / RGLD</strong> · streaming 结构性隔离
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bull);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">NEM</strong> · 分散度 + Tier-1 重组（剥离非核心后）
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bull);background:transparent;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">MP / LAC</strong> · 政府背书的关键矿物（IRA 受益）
+        </li>
+      </ul>
+    </div>
+
+    <!-- L2 -->
+    <div class="tab-content" data-group="actions" data-tab="a2">
+      <div class="profile-card card-bronze">
+        <div class="profile-card-head">
+          <div class="profile-card-title">L2 · 平衡仓 — 价值与风险匹配</div>
+          <div class="profile-card-tag">Selective</div>
+        </div>
+        <p style="font-size:13.5px;margin:0;">值得持有但要监控关键风险点。</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:14px 0;">
+        <li style="padding:8px 14px;border-left:2px solid var(--bronze);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">CDE</strong> · 合并后北美 80%+，墨西哥单矿 25% 但分散
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bronze);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">PAAS</strong> · 拉美分散，没有单矿超 15%
+        </li>
+        <li style="padding:8px 14px;border-left:2px solid var(--bronze);background:transparent;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">SCCO</strong> · 成熟矿稳定，但未来 capex 在秘鲁需跟踪
+        </li>
+      </ul>
+    </div>
+
+    <!-- L3 -->
+    <div class="tab-content" data-group="actions" data-tab="a3">
+      <div class="profile-card card-cream">
+        <div class="profile-card-head">
+          <div class="profile-card-title">L3 · 进取仓 — 高单矿集中度，高 beta</div>
+          <div class="profile-card-tag">Trade Carefully</div>
+        </div>
+        <p style="font-size:13.5px;margin:0;">不能作为核心仓的标的——任何单矿事件直接影响公司估值。</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:14px 0;">
+        <li style="padding:10px 14px;border-left:2px solid var(--bronze);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">FCX</strong> · Grasberg 50% 占比是结构性风险——任何运营或政治事件直接打 50% 营收。买 FCX 需要意识到这是<em>"Grasberg 杠杆 + 美洲铜矿底仓"的组合</em>。
+        </li>
+        <li style="padding:10px 14px;border-left:2px solid var(--bronze);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">B (Barrick)</strong> · NGM (40%) + Mali (15%) + DRC (8%) = 高度二元化结构。NGM 是最大 anchor 但其他都是炸弹候选。
+        </li>
+        <li style="padding:10px 14px;border-left:2px solid var(--bronze);background:transparent;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">KGC</strong> · Tasiast 减压路径明确（Great Bear 投产 + Round Mountain 扩产）。<em>2-3 年 Tasiast 占比从 29% 降到 20% 以下，估值修复空间最大</em>。
+        </li>
+      </ul>
+    </div>
+
+    <!-- L4 -->
+    <div class="tab-content" data-group="actions" data-tab="a4">
+      <div class="profile-card card-bear">
+        <div class="profile-card-head">
+          <div class="profile-card-title">L4 · 避免 / 仅事件驱动</div>
+          <div class="profile-card-tag bear">Avoid / Tactical Only</div>
+        </div>
+        <p style="font-size:13.5px;margin:0;">单矿超 50% × T3/T4 辖区——长期持有等于赌政治。</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:14px 0;">
+        <li style="padding:10px 14px;border-left:2px solid var(--bear);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">BTG</strong> · Fekola 50% 在 Mali = 极高尾部风险。即便金价历史新高，涨幅显著落后板块。
+        </li>
+        <li style="padding:10px 14px;border-left:2px solid var(--bear);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">IAG</strong> · Essakane（布基纳法索）50% 占比。Côté Gold 投产是减压故事但短期仍是西非杠杆。
+        </li>
+        <li style="padding:10px 14px;border-left:2px solid var(--bear);background:transparent;margin-bottom:6px;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">FM</strong>（First Quantum，TSX/OTC） · Cobre Panama 已实现的 40% 单矿政治风险。
+        </li>
+        <li style="padding:10px 14px;border-left:2px solid var(--bear);background:transparent;font-size:13.5px;">
+          <strong style="font-family:var(--mono);color:var(--navy);">CGAU</strong>（Centerra） · 已经丢掉 Kumtor 50% 资产。剩余北美资产 + Öksüt 是"残值"标的。
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout bronze" style="margin-top:24px;">
+      <strong>核心避坑原则</strong> · 单矿 &gt; 30% 占比 + T3/T4 辖区 = <em>定时炸弹</em>，区别只是何时引爆。<br>
+      不要单纯看 P/NAV 折价就抄底 T3——政治风险通常会被反复定价。
+    </div>
+  </section>
+
+  <!-- SECTION 06 -->
+  <section class="section" id="sec-06">
+    <div class="section-head">
+      <div class="section-num">§06</div>
+      <h2 class="section-title">案例深读：四个最值得学习的 <em>政治风险事件</em></h2>
+      <div class="section-side">Deep Case Studies</div>
+    </div>
+
+    <p class="lead">这四个案例覆盖了资源民族主义最常见的形态：<em>强制贱卖、完全没收、软民族主义罢工、民主程序关闭</em>。每个都有具体的股价冲击数据和投资 takeaway。</p>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-group="study" data-tab="s1">① Kinross 俄罗斯</button>
+      <button class="tab-btn" data-group="study" data-tab="s2">② Centerra Kumtor</button>
+      <button class="tab-btn" data-group="study" data-tab="s3">③ Newmont Penasquito</button>
+      <button class="tab-btn" data-group="study" data-tab="s4">④ Barrick Mali</button>
+    </div>
+
+    <!-- STUDY 1: KINROSS RUSSIA -->
+    <div class="tab-content active" data-group="study" data-tab="s1">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">案例 1 · Kinross <span class="arrow">→</span> 俄罗斯撤离</div>
+          <div class="case-meta">2022-04 → 2022-06 · "强制贱卖"的代价</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">原协议价</div><div class="val">$680M</div></div>
+          <div class="case-stat"><div class="lbl">最终成交价</div><div class="val bear">$340M</div></div>
+          <div class="case-stat"><div class="lbl">价格折扣</div><div class="val bear">-50%</div></div>
+          <div class="case-stat"><div class="lbl">KGC 2022 跌幅</div><div class="val bear">-54%</div></div>
+        </div>
+        <div class="case-body">
+          <p><strong>事件链</strong>：2022-04 Kinross 与俄罗斯 Highland Gold 协议总对价 $680M（首付 $100M + 2023-2027 分期 $580M）→ 2022-06 被俄罗斯外资管控小组委员会强制下调，最终 $340M 现金。</p>
+          <p>Kupol 矿 2021 年产 48.1 万盎司金，AISC 仅 $637/oz——是 Kinross 全球最赚钱的矿之一。KGC 2022 年从 $6.50 跌到 $3.00，跑输 GDX 30+ 个百分点。</p>
+          <span class="takeaway">政治风险事件中"卖出价格"由对手国政府决定——市场原以为 $680M，结果 $340M。<strong>但 Kinross 完成退出后 2023-2025 估值修复了——"清理资产负债表"本身就是 alpha 催化</strong>。当一个矿企被迫从某辖区撤离时，如果撤离干净，Day 1 的下跌往往是机会而非风险。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDY 2: CENTERRA KUMTOR -->
+    <div class="tab-content" data-group="study" data-tab="s2">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">案例 2 · Centerra Gold <span class="arrow">→</span> Kumtor 没收</div>
+          <div class="case-meta">2021-05 → 2022-04 · "完全没收 + 出局"</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">单矿占比</div><div class="val bear">~50%</div></div>
+          <div class="case-stat"><div class="lbl">Centerra 2021 跌幅</div><div class="val bear">-34%</div></div>
+          <div class="case-stat"><div class="lbl">2022 反弹</div><div class="val bull">+29%</div></div>
+          <div class="case-stat"><div class="lbl">和解时间</div><div class="val">~12 月</div></div>
+        </div>
+        <div class="case-body">
+          <p><strong>事件链</strong>：2021-05 吉尔吉斯政府以"环保危害"为由强制接管 Kumtor 矿（公司一半产量来源）→ 2022-04 庭外和解：Kyrgyzaltyn 把持有的 26% Centerra 股份（7740 万股）退还公司用于注销，并交回 Kumtor 100% 控制权 + Centerra 还要付 $50M 用于环保和 KGC 贷款偿还。</p>
+          <p><strong>结局</strong>：Centerra 完全失去 Kumtor（$10B+ 隐含价值），但保留北美资产（Mount Milligan 加拿大、Öksüt 土耳其、Thompson Creek 美国钼矿）。市场对"清理结束"奖励 +29%。</p>
+          <span class="takeaway">即使"完全没收"也未必是公司终结——<em>取决于剩余资产质量和管理层执行力</em>。"不确定的官司"比"清晰的没收"更糟，后者至少可以重新定价。Centerra 现在专注于 Mount Milligan + Öksüt，是典型的"被动 tier-1 化"案例。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDY 3: NEWMONT PENASQUITO -->
+    <div class="tab-content" data-group="study" data-tab="s3">
+      <div class="case-card neutral-event">
+        <div class="case-head">
+          <div class="case-deal">案例 3 · Newmont <span class="arrow">→</span> Peñasquito 罢工</div>
+          <div class="case-meta">2023-06 → 2023-10 · "民主国家的软形式资源民族主义"</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">罢工持续</div><div class="val bear">120 天</div></div>
+          <div class="case-stat"><div class="lbl">每日维护成本</div><div class="val bear">$1M</div></div>
+          <div class="case-stat"><div class="lbl">每日营收损失</div><div class="val bear">$2.7M</div></div>
+          <div class="case-stat"><div class="lbl">Q2 产金同比</div><div class="val bear">-72%</div></div>
+        </div>
+        <div class="case-body">
+          <p><strong>事件链</strong>：2023-06-07 工人罢工 4 个月，要求把 10% 的利润分享提到 20%；NEM 宣布不可抗力 → 2023-10-16 8% 工资上涨（低于工会最初要求的 10-20%）；公司支付 1.52 亿比索（约 $1130 万）奖金；不承认 2022 额外利润分享。</p>
+          <p>这是 NEM 收购 Goldcorp 后<strong>第三次 Penasquito 罢工</strong>——重复发生。</p>
+          <span class="takeaway">这<em>不是政府没收，但同样是资源民族主义</em>——劳工组织 + 工会博弈通过法律渠道实现财富再分配。墨西哥的"软民族主义"形式比 Cobre Panama 温和，但是<strong>重复发生</strong>——运营成本 + 产量稳定性的隐性折扣正在压低墨西哥矿的估值。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDY 4: BARRICK MALI -->
+    <div class="tab-content" data-group="study" data-tab="s4">
+      <div class="case-card bear-event">
+        <div class="case-head">
+          <div class="case-deal">案例 4 · Barrick <span class="arrow">→</span> Mali Loulo-Gounkoto</div>
+          <div class="case-meta">2024-12 → 2025-11 · 单矿政治风险刚刚现实化</div>
+        </div>
+        <div class="case-stats">
+          <div class="case-stat"><div class="lbl">单矿占比</div><div class="val bear">~15%</div></div>
+          <div class="case-stat"><div class="lbl">2024 减值</div><div class="val bear">$1.0B</div></div>
+          <div class="case-stat"><div class="lbl">没收黄金</div><div class="val bear">$245M</div></div>
+          <div class="case-stat"><div class="lbl">CEO 下台</div><div class="val bear">2025-09</div></div>
+        </div>
+        <div class="case-body">
+          <p><strong>详细事件链</strong>：2024-12-16 Mali 阻止黄金运输 → 2025-01-06 Barrick 被禁止运输库存黄金 → 2025-01-11 Mali 没收 3 吨黄金（$245M）→ 2025-01-14 Barrick 暂停运营 → 2025-06-16 法院将矿置于政府临时管理下 → Q4 2024 计提 $484M 商誉减值（全年累计 $1B+）→ 2025 年指引完全剔除 Loulo-Gounkoto → 2025-09 Bristow 因损失 Loulo-Gounkoto 被董事会撤换 → 2025-11-24 双方达成和解，Mali 政府将运营控制权交还 Barrick。</p>
+          <span class="takeaway">15% 单矿占比 + T4 辖区 = 一年损失 8-10% 产量、$1B 减值、CEO 下台。<strong>这是"中等单矿占比 × 极高辖区风险"的真实冲击量级</strong>——比看上去严重得多。Barrick 长期 P/NAV 显著低于 NEM 和 AEM 的根本原因就是非洲敞口（Mali 15% + DRC 8% + Tanzania 10%）。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout bronze" style="margin-top:24px;">
+      <strong>四个案例的共同 takeaway</strong> · 政治风险事件中：<br>
+      &nbsp;① <em>"清理完成"是估值修复的催化剂</em>（Kinross 案例）<br>
+      &nbsp;② <em>剩余资产质量决定"出局"是终结还是重生</em>（Centerra 案例）<br>
+      &nbsp;③ <em>"软民族主义"重复发生比 nationalization 更频繁</em>（Penasquito 案例）<br>
+      &nbsp;④ <em>15% 单矿占比 + T4 = $1B 减值 + CEO 下台</em>（Barrick Mali 案例）<br><br>
+      <strong>不要在政治事件第一天追跌</strong>——通常还有第二波下跌（FM 从 $30 → $14 用了 6 个月，不是一天）。
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      <span class="lbl">Methodology</span> · 单矿净风险 = 单矿产量占比 × 辖区 RNI 评级；T1 (美澳加) → T4 (高度风险) 四级分类。<br>
+      <span class="lbl">Data Sources</span> · 公司 10-K / 6-K filings · Verisk Maplecroft RNI · Fraser Institute · S&amp;P Global · MINING.COM.<br>
+      <span class="lbl">Disclaimer</span> · 本文仅为研究讨论，不构成投资建议。
+    </div>
+    <div class="footer-mark">— end of note —</div>
+  </div>
+</footer>
+
+<script>
+// ============ NAVIGATION HIGHLIGHT ============
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = ['sec-summary', 'sec-01', 'sec-02', 'sec-03', 'sec-04', 'sec-05', 'sec-06'].map(id => document.getElementById(id));
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(link.dataset.target);
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+
+function updateActiveNav() {
+  const scrollPos = window.scrollY + 80;
+  let activeIdx = 0;
+  sections.forEach((sec, idx) => {
+    if (sec && sec.offsetTop <= scrollPos) activeIdx = idx;
+  });
+  navLinks.forEach((link, idx) => link.classList.toggle('active', idx === activeIdx));
+}
+window.addEventListener('scroll', updateActiveNav, {passive: true});
+
+// ============ TAB SWITCH ============
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const group = btn.dataset.group;
+  if (!group) return;
+  document.querySelectorAll(`.tab-btn[data-group="${group}"]`).forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll(`.tab-content[data-group="${group}"]`).forEach(c => {
+    c.classList.toggle('active', c.dataset.tab === btn.dataset.tab);
+  });
+});
+
+// ============ TABLE SORT ============
+document.addEventListener('click', (e) => {
+  const th = e.target.closest('th[data-sort]');
+  if (!th) return;
+  const table = th.closest('table');
+  const tbody = table.querySelector('tbody');
+  const idx = Array.from(th.parentNode.children).indexOf(th);
+  const isNum = th.dataset.sort === 'num';
+  const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+  th.dataset.dir = dir;
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    let av = a.children[idx].textContent.trim();
+    let bv = b.children[idx].textContent.trim();
+    if (isNum) {
+      av = parseFloat(av.replace(/[^\d.\-]/g, '')) || 0;
+      bv = parseFloat(bv.replace(/[^\d.\-]/g, '')) || 0;
+    }
+    return dir === 'asc' ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGO 产量增速横比分析 | Aura Minerals Production Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-alt: #F4F1EA;
+    --bg-card: #FFFFFF;
+    --ink: #0E2A47;
+    --ink-soft: #2C3E5A;
+    --ink-muted: #6B7280;
+    --rule: #D8D2C4;
+    --rule-soft: #E8E3D6;
+    --accent: #8B6F35;
+    --accent-soft: #B89860;
+    --bull: #1F6B4A;
+    --bear: #A8331F;
+    --highlight: #FFF1B8;
+    --highlight-edge: #E8D770;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', -apple-system, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 20px 80px;
+  }
+  .container { max-width: 1180px; margin: 0 auto; }
+
+  /* Header */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .mast-left { flex: 1; min-width: 320px; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.4px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    max-width: 720px;
+  }
+  .mast-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    text-align: right;
+    line-height: 1.7;
+  }
+  .mast-meta strong { color: var(--ink); font-weight: 500; }
+
+  /* Section */
+  section { margin-bottom: 44px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+  }
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  .sec-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p.lede {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    max-width: 880px;
+  }
+  p.lede em { font-family: 'Fraunces', serif; font-style: italic; color: var(--ink); font-weight: 500; }
+  .accent-mark { background: var(--highlight); padding: 0 3px; border-bottom: 1px solid var(--highlight-edge); }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    line-height: 1.35;
+    margin: 8px 0 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+  }
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ink);
+    background: var(--bg-alt);
+    padding: 9px 10px;
+    text-align: right;
+    border-bottom: 2px solid var(--ink);
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--rule-soft);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  tbody td:first-child {
+    text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(139, 111, 53, 0.04); }
+  tbody tr.row-highlight {
+    background: var(--highlight);
+  }
+  tbody tr.row-highlight:hover { background: var(--highlight); }
+  tbody tr.row-highlight td:first-child {
+    color: var(--ink);
+    font-weight: 600;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+  }
+  tbody tr.row-highlight td { font-weight: 600; }
+  tbody tr.row-total td {
+    background: var(--bg-alt);
+    font-weight: 600;
+    border-top: 1.5px solid var(--ink);
+  }
+  tbody tr.row-bench td {
+    color: var(--ink-muted);
+    font-style: italic;
+    background: rgba(216, 210, 196, 0.25);
+  }
+  .table-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .pos { color: var(--bull); font-weight: 600; }
+  .neg { color: var(--bear); font-weight: 500; }
+  .star { color: var(--accent); font-weight: 600; }
+
+  /* Cards / Grid */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 16px 0;
+    border: 1px solid var(--rule);
+    background: var(--bg-card);
+  }
+  .data-cell {
+    padding: 14px 14px;
+    border-right: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .data-cell:nth-child(4n) { border-right: none; }
+  .data-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .data-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .data-value em { font-style: italic; color: var(--accent); }
+  .data-value.small { font-size: 17px; }
+  .data-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  /* Profile cards */
+  .profile-stack { display: grid; gap: 14px; margin-top: 16px; }
+  .profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .profile-card.bull-edge { border-left-color: var(--bull); }
+  .profile-name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .profile-name em { font-style: italic; color: var(--accent); }
+  .profile-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    margin-top: 3px;
+    letter-spacing: 0.6px;
+  }
+  .profile-body {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .profile-body strong { color: var(--ink); font-weight: 600; }
+
+  /* Bar */
+  .bar-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 70px;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .bar-row:last-child { border-bottom: none; }
+  .bar-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .bar-track {
+    height: 14px;
+    background: var(--bg-alt);
+    position: relative;
+    border: 1px solid var(--rule-soft);
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--accent-soft);
+    position: relative;
+  }
+  .bar-fill.high { background: var(--bull); }
+  .bar-fill.featured { background: var(--accent); border-right: 2px solid var(--ink); }
+  .bar-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: right;
+  }
+  .bar-value.featured { color: var(--accent); }
+
+  /* Pull quote */
+  .pull-box {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink);
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .pull-box p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .pull-box p strong { font-style: normal; font-weight: 600; color: var(--accent); }
+
+  /* Multiplier visual */
+  .mult-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .mult-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 16px;
+    text-align: center;
+  }
+  .mult-card.center { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .mult-card.center .mult-label { color: var(--bg-alt); }
+  .mult-card.center .mult-value { color: var(--bg); }
+  .mult-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .mult-value {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .mult-value em { font-style: italic; color: var(--accent); }
+  .mult-sub {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* Conclusion */
+  .conclusion {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion .eyebrow { color: var(--accent-soft); }
+  .conclusion h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .conclusion h3 em { font-style: italic; color: var(--accent-soft); }
+  .conclusion p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--bg-alt);
+  }
+  .conclusion p strong { color: var(--bg); font-weight: 600; }
+  .conclusion .three-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 18px 0 0;
+  }
+  .pillar {
+    border-left: 2px solid var(--accent-soft);
+    padding-left: 14px;
+  }
+  .pillar-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-soft);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .pillar-text {
+    font-size: 12.5px;
+    color: var(--bg-alt);
+    line-height: 1.5;
+  }
+  .pillar-text strong { color: var(--bg); }
+
+  /* Footer */
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 760px) {
+    body { padding: 24px 14px 60px; }
+    h1 { font-size: 26px; }
+    .data-grid { grid-template-columns: repeat(2, 1fr); }
+    .data-cell:nth-child(2n) { border-right: none; }
+    .data-cell:nth-child(4n) { border-right: 1px solid var(--rule-soft); }
+    .profile-card { grid-template-columns: 1fr; gap: 8px; }
+    .mult-row { grid-template-columns: 1fr; }
+    .three-pillars { grid-template-columns: 1fr !important; }
+    table { font-size: 11px; }
+    thead th, tbody td { padding: 6px 7px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="mast-left">
+      <div class="eyebrow">EQUITY RESEARCH · GOLD MINERS · GROWTH ANALYSIS</div>
+      <h1>AUGO 产量曲线"<em>最陡</em>"<br>到底陡在哪——三层量化拆解</h1>
+      <div class="deck">把"成长性强"这个定性形容词,展开为CAGR排名、增长来源分散度、和金价杠杆下的EBITDA放大效应三个可比维度。</div>
+    </div>
+    <div class="mast-meta">
+      <strong>AURA MINERALS · NASDAQ: AUGO</strong><br>
+      Mid-tier Producer<br>
+      Coverage Date · 2026.05.08<br>
+      Peer Set · AGI / EGO / EQX / IAG /<br>
+      ORLA / CGAU / SSRM / BTG / AEM
+    </div>
+  </header>
+
+  <!-- Section 1: CAGR -->
+  <section>
+    <div class="section-head">
+      <span class="sec-num">01</span>
+      <h2>同行<em>CAGR</em>横比——AUGO 在内生增长里位列前茅</h2>
+      <span class="sec-tag">Production Trajectory</span>
+    </div>
+    <p class="lede">把市值<em>$3-20B</em>区间的中型金矿生产商放在同一基准上,用2025年实际产量做基数,用管理层正式指引+卖方共识做未来推算。<span class="accent-mark">在不依赖单次大规模并购的前提下,AUGO的3年CAGR +21.4% 是该区间内生增长最快的几家之一。</span></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>公司</th>
+          <th>2025实际</th>
+          <th>2026E</th>
+          <th>2028E</th>
+          <th>2030E</th>
+          <th>3Y CAGR</th>
+          <th>5Y CAGR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td>AUGO · Aura Minerals</td>
+          <td>280</td>
+          <td>365</td>
+          <td>500</td>
+          <td>620</td>
+          <td class="pos">+21.4%</td>
+          <td class="pos">+17.2%</td>
+        </tr>
+        <tr>
+          <td>ORLA · Orla Mining</td>
+          <td>150</td>
+          <td>280</td>
+          <td>450</td>
+          <td>500</td>
+          <td class="pos">+44.0%*</td>
+          <td class="pos">+27.2%*</td>
+        </tr>
+        <tr>
+          <td>SSRM · SSR Mining</td>
+          <td>330</td>
+          <td>490</td>
+          <td>530</td>
+          <td>570</td>
+          <td>+17.1%</td>
+          <td>+11.6%</td>
+        </tr>
+        <tr>
+          <td>AGI · Alamos Gold</td>
+          <td>545</td>
+          <td>610</td>
+          <td>795</td>
+          <td>1,000</td>
+          <td>+13.4%</td>
+          <td>+12.9%</td>
+        </tr>
+        <tr>
+          <td>EGO · Eldorado Gold</td>
+          <td>520</td>
+          <td>580</td>
+          <td>750</td>
+          <td>800</td>
+          <td>+13.0%</td>
+          <td>+9.0%</td>
+        </tr>
+        <tr>
+          <td>EQX · Equinox Gold</td>
+          <td>620</td>
+          <td>720</td>
+          <td>870</td>
+          <td>900</td>
+          <td>+12.0%</td>
+          <td>+7.7%</td>
+        </tr>
+        <tr>
+          <td>IAG · IAMGOLD</td>
+          <td>750</td>
+          <td>820</td>
+          <td>950</td>
+          <td>1,000</td>
+          <td>+8.2%</td>
+          <td>+5.9%</td>
+        </tr>
+        <tr>
+          <td>CGAU · Centerra Gold</td>
+          <td>275</td>
+          <td>265</td>
+          <td>335</td>
+          <td>380</td>
+          <td>+6.8%</td>
+          <td>+6.7%</td>
+        </tr>
+        <tr>
+          <td>BTG · B2Gold</td>
+          <td>980</td>
+          <td>895</td>
+          <td>1,100</td>
+          <td>1,200</td>
+          <td>+3.9%</td>
+          <td>+4.1%</td>
+        </tr>
+        <tr class="row-bench">
+          <td>AEM · Agnico Eagle (大型基准)</td>
+          <td>3,450</td>
+          <td>3,400</td>
+          <td>3,400</td>
+          <td>3,800</td>
+          <td>−0.5%</td>
+          <td>+2.0%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="table-note">单位 koz GEO(黄金当量盎司)。* ORLA数字含2024年Musselwhite一次性并购,非纯内生增长。剔除ORLA后,AUGO在内生+小并购组合的CAGR排名第一。</p>
+
+    <div class="data-grid">
+      <div class="data-cell">
+        <div class="data-label">2025-2028 CAGR</div>
+        <div class="data-value"><em>+21.4%</em></div>
+        <div class="data-sub">中型生产商内生第一</div>
+      </div>
+      <div class="data-cell">
+        <div class="data-label">2025→2028 增量</div>
+        <div class="data-value">+220 koz</div>
+        <div class="data-sub">基数增长 +78%</div>
+      </div>
+      <div class="data-cell">
+        <div class="data-label">长期目标</div>
+        <div class="data-value">600+ koz</div>
+        <div class="data-sub">2030 年管理层目标</div>
+      </div>
+      <div class="data-cell">
+        <div class="data-label">同行中位数 CAGR</div>
+        <div class="data-value small">+11.7%</div>
+        <div class="data-sub">AUGO 跑赢中位数 ~10pp</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Growth source breakdown -->
+  <section>
+    <div class="section-head">
+      <span class="sec-num">02</span>
+      <h2>增长来源<em>四矿叠加</em>——单点失败不会击穿故事</h2>
+      <span class="sec-tag">Growth Decomposition</span>
+    </div>
+    <p class="lede">AUGO 的产量增长不是赌一个矿,而是<em>4个独立项目的累加</em>。这降低了"单点失败=故事崩塌"的脆弱性,在中型金矿股里属于较为稀有的<span class="accent-mark">分散化增长架构</span>。</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>增量来源</th>
+          <th>地点</th>
+          <th>2025产能</th>
+          <th>2028目标</th>
+          <th>增量 koz</th>
+          <th>占总增量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Borborema · 巴西新矿</td>
+          <td style="text-align:right;">巴西</td>
+          <td>10(Q3 爬产)</td>
+          <td>80(满产)</td>
+          <td class="pos">+70</td>
+          <td>32%</td>
+        </tr>
+        <tr>
+          <td>MSG (Serra Grande) · 翻盘并购</td>
+          <td style="text-align:right;">巴西</td>
+          <td>80(收购时)</td>
+          <td>120(翻盘后)</td>
+          <td class="pos">+40</td>
+          <td>18%</td>
+        </tr>
+        <tr class="row-highlight">
+          <td>Era Dorada · 危地马拉旗舰</td>
+          <td style="text-align:right;">危地马拉</td>
+          <td>0</td>
+          <td>110(前4年均值)</td>
+          <td class="star">+110</td>
+          <td>50%</td>
+        </tr>
+        <tr>
+          <td>Almas / Aranzazu / Apoena / Minosa</td>
+          <td style="text-align:right;">巴西+墨+洪</td>
+          <td>190</td>
+          <td>~190</td>
+          <td>0</td>
+          <td>0%</td>
+        </tr>
+        <tr class="row-total">
+          <td>合计</td>
+          <td style="text-align:right;">—</td>
+          <td>280</td>
+          <td>500</td>
+          <td>+220</td>
+          <td>100%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="table-note">即便 Era Dorada 延期1年(2027→2028),Borborema 满产 + MSG 翻盘仍能贡献约 +110koz,产量基数仍能从280k升到390k(+39%),增长故事不会断。</p>
+
+    <div class="pull-box">
+      <p>"<strong>Era Dorada 只占增量的50%</strong>"是AUGO bull thesis里被市场反复低估的一点。同业里IAG的Côté占85%、EGO的Skouries占70%、EQX的Greenstone占75%——单点失败=故事破灭。AUGO的增长架构有缓冲层。</p>
+    </div>
+  </section>
+
+  <!-- Section 3: Concentration risk -->
+  <section>
+    <div class="section-head">
+      <span class="sec-num">03</span>
+      <h2>增长依赖度横比——<em>分散性</em>是AUGO 的隐藏α</h2>
+      <span class="sec-tag">Concentration Risk Adjusted</span>
+    </div>
+    <p class="lede">把每家公司的产量增长来源做"集中度"分析,可以看到一个<em>反直觉的事实</em>:大部分高CAGR矿企都是赌单一旗舰项目,而 AUGO 是<span class="accent-mark">高 CAGR + 低单点依赖</span>的稀有组合。</p>
+
+    <div class="profile-stack">
+      <div class="profile-card">
+        <div>
+          <div class="profile-name">IAG · IAMGOLD</div>
+          <div class="profile-tag">Côté Gold dependency</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量 <strong>85%</strong>。Côté Gold 一旦延期或爬产不顺,整个增长故事直接破灭。Côté 历史上已经多次成本超支和投产推迟,执行风险记录不佳。<strong style="color: var(--bear);">脆弱性:高</strong>。
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div>
+          <div class="profile-name">EQX · Equinox Gold</div>
+          <div class="profile-tag">Greenstone dependency</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量 <strong>75%</strong>。Greenstone 是这一轮少有的"自己建"而非"收购"的mega项目,爬产节奏决定一切。<strong style="color: var(--bear);">脆弱性:高</strong>。
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div>
+          <div class="profile-name">EGO · Eldorado Gold</div>
+          <div class="profile-tag">Skouries dependency</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量 <strong>70%</strong>。希腊单点风险——Skouries 投产+爬产+希腊政府关系任何一环出问题,增长直接打折。<strong style="color: var(--bear);">脆弱性:高</strong>。
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div>
+          <div class="profile-name">AGI · Alamos Gold</div>
+          <div class="profile-tag">3-project diversification</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量约 <strong>50%</strong>(Island Gold + Magino + Lynn Lake)。3 项目分散降低了单点风险,但Lynn Lake CapEx 巨大、执行难度不低。<strong style="color: var(--accent);">脆弱性:中</strong>。
+        </div>
+      </div>
+
+      <div class="profile-card bull-edge">
+        <div>
+          <div class="profile-name"><em>AUGO · Aura Minerals</em></div>
+          <div class="profile-tag">4-asset stacked growth</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量 <strong>50%</strong>(Era Dorada),但另外50%来自Borborema满产 + MSG 翻盘 + Almas扩产 <strong>三条独立腿</strong>。任何一个项目延期或失败,产量基数仍能保持 +39% 以上的增长。<strong style="color: var(--bull);">脆弱性:低</strong>。
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div>
+          <div class="profile-name">CGAU · Centerra Gold</div>
+          <div class="profile-tag">Goldfield + Thompson Creek</div>
+        </div>
+        <div class="profile-body">
+          单一项目占增量约 <strong>60%</strong>(Goldfield投产 + 钼矿重启)。CAGR较低意味着低增长,所以脆弱性整体可控。<strong style="color: var(--accent);">脆弱性:中</strong>。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: EBITDA leverage -->
+  <section>
+    <div class="section-head">
+      <span class="sec-num">04</span>
+      <h2><em>金价β × 产量α</em>——AUGO的EBITDA非线性放大</h2>
+      <span class="sec-tag">Operating Leverage</span>
+    </div>
+    <p class="lede">"产量曲线最陡"的真正含义不止是数字增长得快,而是<em>这个增长在金价高位下能被放大成EBITDA的非线性增厚</em>。在金价从$4,000维持到2028年的假设下,AUGO的EBITDA增长率是同行的<span class="accent-mark">约2倍</span>。</p>
+
+    <div class="mult-row">
+      <div class="mult-card">
+        <div class="mult-label">产业 β</div>
+        <div class="mult-value">金价 <em>$4,000+</em></div>
+        <div class="mult-sub">维持高位平台</div>
+      </div>
+      <div class="mult-card center">
+        <div class="mult-label">公司 α</div>
+        <div class="mult-value">产量 <em>×1.78</em></div>
+        <div class="mult-sub">2025 → 2028</div>
+      </div>
+      <div class="mult-card">
+        <div class="mult-label">EBITDA 输出</div>
+        <div class="mult-value"><em>+101%</em> 增长</div>
+        <div class="mult-sub">同行约2倍</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>公司</th>
+          <th>2025 EBITDA</th>
+          <th>2028E EBITDA</th>
+          <th>EBITDA 增长</th>
+          <th>同假设金价</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td>AUGO · Aura Minerals</td>
+          <td>$548M</td>
+          <td>~$1,100M</td>
+          <td class="pos">+101%</td>
+          <td>$4,000</td>
+        </tr>
+        <tr>
+          <td>AGI · Alamos Gold</td>
+          <td>$1,200M</td>
+          <td>~$1,900M</td>
+          <td class="pos">+58%</td>
+          <td>$4,000</td>
+        </tr>
+        <tr>
+          <td>CGAU · Centerra Gold</td>
+          <td>$580M</td>
+          <td>~$880M</td>
+          <td class="pos">+52%</td>
+          <td>$4,000</td>
+        </tr>
+        <tr class="row-bench">
+          <td>AEM · Agnico Eagle (基准)</td>
+          <td>$7,400M</td>
+          <td>~$8,500M</td>
+          <td>+15%</td>
+          <td>$4,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="table-note">EBITDA 测算基于产量 × (金价 − 现金成本 − ~$100其他)。AUGO 同时享受"产量+78%"和"金价高位"的双重杠杆,EBITDA 增长是同行的约2倍。</p>
+
+    <div style="margin-top: 18px;">
+      <div class="bar-row">
+        <div class="bar-label">AUGO</div>
+        <div class="bar-track"><div class="bar-fill featured" style="width: 100%;"></div></div>
+        <div class="bar-value featured">+101%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">AGI</div>
+        <div class="bar-track"><div class="bar-fill high" style="width: 57.4%;"></div></div>
+        <div class="bar-value">+58%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CGAU</div>
+        <div class="bar-track"><div class="bar-fill high" style="width: 51.5%;"></div></div>
+        <div class="bar-value">+52%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">AEM(大型基准)</div>
+        <div class="bar-track"><div class="bar-fill" style="width: 14.9%;"></div></div>
+        <div class="bar-value">+15%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusion -->
+  <div class="conclusion">
+    <div class="eyebrow">CORE TAKEAWAY</div>
+    <h3>"产量曲线<em>最陡</em>"是定量判断,不是定性赞美</h3>
+    <p>AUGO 在中型金矿股里成长性最强的判断,基于三个可比数据维度——而非主观印象。这三层放在一起,共同支撑了当前16x EV/EBITDA(TTM)定价向2028年7-8x合理水位的压缩路径。</p>
+    <div class="three-pillars">
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 01</div>
+        <div class="pillar-text"><strong>3年CAGR +21.4%</strong>——在中型金矿股内生增长里位列第一(剔除ORLA一次性并购影响)</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 02</div>
+        <div class="pillar-text"><strong>4矿叠加架构</strong>——单点依赖50%但有3条独立增长腿,脆弱性低于同行</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 03</div>
+        <div class="pillar-text"><strong>EBITDA +101%</strong>——金价高位下的杠杆效应放大,是同行约2倍</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Equity Research · Internal Note · 数据来源:公司年报/管理层指引/卖方共识/作者测算 · 测算基于现货金价 $4,000 假设,各公司现金成本采用最新指引中值 · 不构成投资建议
+  </footer>
+
+</div>
+</body>
+</html>

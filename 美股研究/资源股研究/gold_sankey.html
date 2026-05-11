@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>全球金矿 M&A 资产流向地图 · 2024-2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ea;
+    --bg-card: #fdfbf6;
+    --line: rgba(40, 30, 20, 0.12);
+    --text: #1a1a1f;
+    --text-dim: #5a5f69;
+    --gold: #8a6a1a;
+    --gold-light: #c9a449;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(138, 106, 26, 0.04), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(74, 138, 140, 0.03), transparent 50%);
+  }
+  .frame {
+    max-width: 1480px; margin: 0 auto;
+    background: var(--bg-card); border: 1px solid var(--line);
+    padding: 40px 48px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 20px 80px rgba(40, 30, 20, 0.08);
+    position: relative;
+  }
+  .frame::before {
+    content: ''; position: absolute; top: 8px; right: 8px; bottom: 8px; left: 8px;
+    border: 1px solid rgba(138, 106, 26, 0.18); pointer-events: none;
+  }
+  header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-bottom: 24px; border-bottom: 1px solid var(--line); margin-bottom: 28px;
+  }
+  .title-block { flex: 1; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .title-block h1 {
+    font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 500;
+    color: var(--text); line-height: 1.1; margin-bottom: 8px; letter-spacing: -0.02em;
+  }
+  .title-block h1 .en {
+    font-style: italic; font-weight: 400; color: var(--text-dim);
+    font-size: 28px; margin-left: 14px;
+  }
+  .title-block .sub {
+    font-size: 13px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 4px;
+  }
+  .meta {
+    text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--text-dim); line-height: 1.8; letter-spacing: 0.05em;
+  }
+  .meta .v { color: var(--gold); font-weight: 500; }
+  .meta .hint { color: rgba(138, 106, 26, 0.6); margin-top: 8px; font-size: 10px; }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 28px;
+    padding: 18px 22px; background: linear-gradient(180deg, rgba(40,30,20,0.025), rgba(40,30,20,0.01));
+    border: 1px solid var(--line); margin-bottom: 16px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-dim); }
+  .legend-item .swatch { width: 28px; height: 12px; border-radius: 1px; }
+  .legend-item .label-zh { color: var(--text); font-weight: 500; }
+  .legend-item .label-en { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--text-dim); margin-left: 4px; font-size: 11px; }
+  .chart-wrap {
+    background: var(--bg-card); border: 1px solid var(--line); padding: 16px;
+    box-shadow: inset 0 0 30px rgba(40,30,20,0.03);
+  }
+  #sankey { height: 1700px; width: 100%; }
+  footer {
+    margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em;
+  }
+  footer .stamp { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11px; color: var(--gold); }
+  .tt-card { font-family: 'Noto Sans SC', sans-serif; color: #1a1a1f; min-width: 320px; max-width: 420px; padding: 4px; }
+  .tt-header { border-bottom: 1px solid rgba(40, 30, 20, 0.15); padding-bottom: 10px; margin-bottom: 10px; }
+  .tt-name { font-size: 16px; font-weight: 600; color: var(--gold); line-height: 1.3; }
+  .tt-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .tt-tag {
+    display: inline-block; margin-top: 6px; padding: 2px 8px;
+    font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em;
+    text-transform: uppercase; border-radius: 1px;
+  }
+  .tt-tag.parent { background: rgba(74, 111, 165, 0.18); color: #2d4a78; border: 1px solid rgba(74, 111, 165, 0.3); }
+  .tt-tag.acquired { background: rgba(139, 58, 58, 0.15); color: #6b2323; border: 1px solid rgba(139, 58, 58, 0.3); }
+  .tt-tag.mine { background: rgba(74, 138, 140, 0.15); color: #2d5e60; border: 1px solid rgba(74, 138, 140, 0.3); }
+  .tt-tag.optional { background: rgba(201, 164, 73, 0.18); color: #8a6a1a; border: 1px solid rgba(201, 164, 73, 0.4); }
+  .tt-tag.jv { background: rgba(122, 95, 165, 0.15); color: #4a3878; border: 1px solid rgba(122, 95, 165, 0.3); }
+  .tt-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 5px 0; font-size: 12px; border-bottom: 1px dashed rgba(40, 30, 20, 0.08);
+  }
+  .tt-row:last-of-type { border-bottom: none; }
+  .tt-label { color: var(--text-dim); font-size: 11px; }
+  .tt-val { font-family: 'JetBrains Mono', monospace; color: #1a1a1f; font-weight: 500; }
+  .tt-val.hot { color: #c9a449; font-weight: 600; }
+  .tt-val.good { color: #4a8a8c; }
+  .tt-val.bad { color: #b85555; }
+  .tt-note {
+    font-size: 11px; line-height: 1.5; color: var(--text-dim);
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(40, 30, 20, 0.1); font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header>
+    <div class="title-block">
+      <div class="eyebrow">Gold Mining M&amp;A Asset Flow Map · 2024-2026</div>
+      <h1>全球金矿 M&amp;A 资产流向地图<span class="en">A Cartography of Consolidation</span></h1>
+      <div class="sub">Listed Parent → Acquired Entity → Operating Mine</div>
+    </div>
+    <div class="meta">
+      数据截至 <span class="v">2026 / Q1</span><br>
+      流量宽度 ∝ 年产能 <span class="v">(koz/yr Au-eq)</span><br>
+      口径:权益产量 / Attributable
+      <div class="hint">▸ 鼠标悬停查看核心数据卡</div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#4a6fa5,#6b8cc4)"></div>
+      <span class="label-zh">上市母公司</span><span class="label-en">Listed Parent</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#8b3a3a,#b85555)"></div>
+      <span class="label-zh">被收购退市</span><span class="label-en">Acquired &amp; Delisted</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#4a8a8c,#7ab5b5)"></div>
+      <span class="label-zh">运营中矿山</span><span class="label-en">Operating Mine</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#c9a449,#e8c878)"></div>
+      <span class="label-zh">在建/Newmont 剥离</span><span class="label-en">Optionality</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#7a5fa5,#a285c8)"></div>
+      <span class="label-zh">JV 双方持有</span><span class="label-en">Joint Venture</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div id="sankey"></div>
+  </div>
+
+  <footer>
+    <div>SOURCE · 公司公告 · S&amp;P Global · MINING.COM</div>
+    <div class="stamp">— Plate IV · Gold Edition —</div>
+    <div>RENDERED · 2026.Q1</div>
+  </footer>
+
+</div>
+
+<script>
+const C = { parent: '#4a6fa5', parentAlt: '#5b7a9c', acquired: '#8b3a3a', mine: '#4a8a8c', optional: '#c9a449', jv: '#7a5fa5' };
+
+const nodeMeta = {
+  // ============ 上市母公司 / Listed Parents ============
+  
+  'Newmont\nNYSE: NEM': {
+    type: 'parent', tag: '★ 全球第一', en: 'Newmont Corporation · NYSE: NEM',
+    rows: [
+      ['市值', '~$80B'],
+      ['2024 产量', '5.97 Moz Au + 30 Mlbs Cu', 'good'],
+      ['2026 产量(post-divest)', '~5.5 Moz Au'],
+      ['Newcrest 收购', '$16.5B (2023/11)', 'hot'],
+      ['6 矿剥离', '$4.3B 总收入 (2024-25)', 'hot'],
+      ['战略', 'Tier 1 only(20万 oz/yr+)'],
+    ],
+    note: '★★ 这一轮金矿 M&A 的枢纽。$16.5B 收购 Newcrest(史上最大金矿并购),通过 6 笔交易剥离 $4.3B 非核心资产,完成全球行业最大资产置换。'
+  },
+  'Barrick Mining\nNYSE: B': {
+    type: 'parent', tag: '安静巨头', en: 'Barrick Mining Corp · NYSE: B (旧 GOLD)',
+    rows: [
+      ['市值', '~$50B'],
+      ['2024 产量', '3.91 Moz Au + 195 kt Cu', 'good'],
+      ['2024-25 M&A', '基本无,聚焦 Reko Diq + Lumwana'],
+      ['名称变更', '2025 改名(去掉 Gold)', 'hot'],
+    ],
+    note: '原 Barrick Gold 改名为 Barrick Mining,反映铜业务比重提升。M&A 高峰期选择不并购,聚焦 Reko Diq(巴基斯坦铜金) + Lumwana(赞比亚铜)的内部建设。'
+  },
+  'Agnico Eagle\nNYSE: AEM': {
+    type: 'parent', tag: '加拿大龙头', en: 'Agnico Eagle Mines · NYSE: AEM',
+    rows: [
+      ['市值', '~$60B'],
+      ['2024 产量', '3.49 Moz Au', 'good'],
+      ['2024-25 M&A', '无新动作'],
+      ['战略', 'Yamana 整合早完成,有机增长'],
+    ],
+    note: '加拿大金矿龙头。2023 年与 PAAS 联手分拆 Yamana 后已完成整合(获得 Canadian Malartic 100%、Wasamac),这一轮基本不参与 M&A。'
+  },
+  'AngloGold Ashanti\nNYSE: AU': {
+    type: 'parent', tag: '★ Tier 1 重塑', en: 'AngloGold Ashanti plc · NYSE: AU',
+    rows: [
+      ['市值', '~$30B'],
+      ['2024 产量', '2.66 Moz Au'],
+      ['Pro forma w/Sukari', '~3 Moz Au', 'good'],
+      ['Tier 1 占比', '从 62% 升至 67%', 'hot'],
+      ['Centamin 收购', '$2.5B (2024/11)', 'hot'],
+    ],
+    note: '南非起家的全球金矿巨头。2024/11 完成 $2.5B 收购 Centamin,获得埃及 Sukari 矿(Tier 1),跻身全球前四大金矿企业。'
+  },
+  'Gold Fields\nNYSE: GFI': {
+    type: 'parent', tag: '★ 双交易整合', en: 'Gold Fields Limited · NYSE: GFI',
+    rows: [
+      ['市值', '~$25B'],
+      ['2024 产量', '2.07 Moz Au'],
+      ['Osisko 收购', '$1.39B (2024/10)', 'hot'],
+      ['Gold Road 收购', '$2.4B (2025/10)', 'hot'],
+      ['战略', '魁北克 + 西澳整合'],
+    ],
+    note: '南非 Gold Fields 这一轮做了两笔关键交易:2024/10 收购 Osisko 获 Windfall(魁北克 100%),2025/10 收购 Gold Road 获 Gruyere 100%。'
+  },
+  'Northern Star\nASX: NST': {
+    type: 'parent', tag: '★ 澳洲新王', en: 'Northern Star Resources · ASX: NST',
+    rows: [
+      ['市值', 'A$30B+'],
+      ['FY2025 产量', '1.65–1.8 Moz Au'],
+      ['Pro forma 2029', '~2.5 Moz Au', 'hot'],
+      ['De Grey 收购', 'A$5B (2025/05)', 'hot'],
+      ['资产分布', '澳洲 + Pogo (阿拉斯加)'],
+    ],
+    note: '★ 澳洲金矿龙头。2024/12 宣布 A$5B 收购 De Grey,获 Hemi 项目(澳洲本世纪最大金矿发现,13.6 Moz)。投产后(2028+)产量翻倍,跻身全球第五大。'
+  },
+  'Kinross Gold\nNYSE: KGC': {
+    type: 'parent', tag: '安静巨头', en: 'Kinross Gold · NYSE: KGC',
+    rows: [
+      ['市值', '~$15B'],
+      ['2024 产量', '~2.1 Moz Au'],
+      ['2024-25 M&A', '无大动作'],
+      ['战略', 'Tasiast/Paracatu/Round Mountain 三大矿运营'],
+    ],
+    note: '加拿大金矿企业。2022 已剥离俄罗斯资产,组合干净,这一轮静观其变。'
+  },
+  'Endeavour Mining\nLSE: EDV': {
+    type: 'parent', tag: '西非聚焦', en: 'Endeavour Mining plc · LSE: EDV',
+    rows: [
+      ['市值', '~$8B'],
+      ['2024 产量', '~1.1 Moz Au'],
+      ['资产分布', '布基纳法索 + 科特迪瓦 + 塞内加尔'],
+      ['2024-25 M&A', 'Lafigué 投产,内部成长'],
+    ],
+    note: '西非金矿龙头。这一轮没有做并购,聚焦 Lafigué(科特迪瓦,2024/Q3 投产)的有机增长。'
+  },
+  'Equinox Gold\nNYSE: EQX': {
+    type: 'parent', tag: '★ 加拿大第二', en: 'Equinox Gold · NYSE: EQX',
+    rows: [
+      ['市值', '~$5B'],
+      ['Pro forma 产量', '1.2+ Moz/yr', 'hot'],
+      ['加拿大地位', '第二大产金商', 'hot'],
+      ['Calibre 合并', '$1.8B (2025/06)', 'hot'],
+    ],
+    note: '★ 加拿大中型金矿。2025/06 完成与 Calibre Mining 合并($1.8B 全股票),整合后成为加拿大第二大金矿企业(仅次于 Agnico)。'
+  },
+  'Alamos Gold\nNYSE: AGI': {
+    type: 'parent', tag: '加拿大第三', en: 'Alamos Gold · NYSE: AGI',
+    rows: [
+      ['市值', '~$10B'],
+      ['2024 产量', '550–590 koz Au'],
+      ['2025 指引', '~630 koz(全年含 Magino)'],
+      ['长期潜力', '900+ koz/yr', 'hot'],
+      ['Argonaut 收购', '$325M (2024/07)', 'hot'],
+    ],
+    note: '加拿大金矿企业。2024/07 收购 Argonaut Gold 获 Magino 矿(与 Island Gold 整合,$515M 协同)。'
+  },
+  'SSR Mining\nNASDAQ: SSRM': {
+    type: 'parent', tag: '美国第三大', en: 'SSR Mining · NASDAQ: SSRM',
+    rows: [
+      ['2025 产量', '350 koz Au + 7 Moz Ag'],
+      ['美国金矿地位', '第三大', 'hot'],
+      ['CC&V 收购', '$275M (2025/02)', 'hot'],
+      ['Çöpler', '待出售 H2 2026'],
+    ],
+    note: '从 Newmont 接手 CC&V($275M / 仅 $100M 现金),叠加 Marigold 和 Seabee,美国本土金产量 30-40 万 oz/yr。'
+  },
+  'Westgold Resources\nASX/TSX: WGX': {
+    type: 'parent', tag: '澳/加双上市', en: 'Westgold Resources · Dual-listed',
+    rows: [
+      ['市值', 'A$3B'],
+      ['Pro forma 产量', '~400 koz/yr'],
+      ['Karora 合并', '$790M (2024/08)', 'hot'],
+    ],
+    note: '2024/08 与加拿大 Karora Resources 合并,获得 Higginsville 和 Beta Hunt(西澳),实现澳/加双上市。'
+  },
+  'Ramelius Resources\nASX: RMS': {
+    type: 'parent', tag: 'WA 整合', en: 'Ramelius Resources · ASX: RMS',
+    rows: [
+      ['市值', 'A$4B'],
+      ['当前产量', '~300 koz/yr'],
+      ['FY30 目标', '500+ koz/yr', 'hot'],
+      ['Spartan 收购', 'A$2.4B (2025/08)', 'hot'],
+    ],
+    note: '2025/08 完成对 Spartan Resources 收购,获 Dalgaranga(距 Mt Magnet 65km),协同潜力大。'
+  },
+  'Greatland Resources\nASX/AIM: GGP': {
+    type: 'parent', tag: '★ 初级跃升', en: 'Greatland Resources · ASX/AIM: GGP',
+    rows: [
+      ['市值', 'A$5B+'],
+      ['FY26 产量指引', '260–310 koz/yr Au-eq'],
+      ['Telfer+Havieron 收购', '$475M (2024/12)', 'hot'],
+      ['Newmont 持股', '20.4% → 10%(IPO 后减半)'],
+    ],
+    note: '★★ 从初级勘探商一夜变 Tier 1 生产商。2024/12 接手 Telfer + Havieron 70%,2025/06 ASX 双重上市,IPO 募资 A$490M。'
+  },
+  'Orla Mining\nNYSE: ORLA': {
+    type: 'parent', tag: '★ 单矿到中型', en: 'Orla Mining · NYSE: ORLA / TSX: OLA',
+    rows: [
+      ['市值', '~$3B'],
+      ['2024 产量', '137 koz(单矿)'],
+      ['Pro forma 2025+', '350+ koz/yr', 'hot'],
+      ['Musselwhite 收购', '$850M (2025/03)', 'hot'],
+      ['股东', 'Fairfax/Lassonde/Trinity'],
+    ],
+    note: '★ 从单一资产(Camino Rojo)一夜变中型生产商。2025/03 接手 Newmont Musselwhite($810M 现金 + $40M 或有),产量翻倍。'
+  },
+  'Zijin Mining\nSSE: 601899 / HK: 02899': {
+    type: 'parent', tag: '中国金铜巨头', en: 'Zijin Mining Group',
+    rows: [
+      ['市值', '~CNY ¥600B'],
+      ['2024 金产量', '~80 t (~2.6 Moz)', 'good'],
+      ['2024 铜产量', '~107 万吨', 'good'],
+      ['Akyem 收购', '$1B (2025/H1)', 'hot'],
+    ],
+    note: '中国金铜巨头,这一轮唯一中资买家。2025/H1 以 $1B 接手加纳 Akyem,扩大西非产能。'
+  },
+  'Discovery Silver\nTSX: DSV': {
+    type: 'parent', tag: '★ 银→金转型', en: 'Discovery Silver Corp · TSX: DSV',
+    rows: [
+      ['前身', '墨西哥 Cordero 银矿开发商'],
+      ['Porcupine 收购', '$425M (2025/H1)', 'hot'],
+      ['新身份', '生产型金矿企业', 'hot'],
+      ['领导', '前 Kirkland Lake CEO Tony Makuch'],
+    ],
+    note: '★★ 这一轮最戏剧性的转型。原是 Cordero 银矿开发商,2025/H1 接手 Porcupine,公司重心从银业转向金业。'
+  },
+  'Dhilmar Ltd\nUK 私募 · 不上市': {
+    type: 'parent', tag: '★ 私募买家', en: 'Dhilmar Ltd · UK Private',
+    rows: [
+      ['类型', '英国新成立私募矿企'],
+      ['领导', 'Alexander Ramlie (CEO)'],
+      ['Éléonore 收购', '$795M (2025/03)', 'hot'],
+      ['上市状态', '不上市(不可投)', 'bad'],
+    ],
+    note: '★ Newmont 剥离里唯一卖给私募的资产。Dhilmar 是英国新成立公司,西方公开市场投资者无法配置。'
+  },
+
+  // ============ 被收购退市实体 / Acquired Entities ============
+  
+  'Newcrest Mining\nASX:NCM · 2023/11 退市': {
+    type: 'acquired', tag: '★ 史上最大金并', en: 'Newcrest Mining · 2023 delisted',
+    rows: [
+      ['原市值', '~A$25B'],
+      ['退市', '2023/11/13'],
+      ['对价', '$16.49B 全股票'],
+      ['溢价', '~30%'],
+      ['核心资产', 'Cadia/Lihir/Brucejack/Telfer/Red Chris'],
+    ],
+    note: '★★ 史上最大金矿并购。澳大利亚 Newcrest 被 Newmont 全股票收购,2023/11 在 ASX 退市。'
+  },
+  'Centamin\nLSE:CEY · 2024/11 退市': {
+    type: 'acquired', tag: '埃及 Tier 1', en: 'Centamin plc · 2024 delisted',
+    rows: [
+      ['原市值', '~£1.9B'],
+      ['退市', '2024/11'],
+      ['对价', '$2.48B'],
+      ['溢价', '37%', 'good'],
+      ['核心资产', 'Sukari 矿(埃及)'],
+    ],
+    note: '埃及 Sukari 矿的拥有者。2024/11 被 AngloGold 以 $2.48B 收购,股东获得 37% 溢价。'
+  },
+  'De Grey Mining\nASX:DEG · 2025/05 退市': {
+    type: 'acquired', tag: '★ Hemi 期权', en: 'De Grey Mining · 2025 delisted',
+    rows: [
+      ['原市值', 'A$3.5B'],
+      ['退市', '2025/05/06'],
+      ['对价', 'A$5B 全股票'],
+      ['溢价', '37.1%', 'good'],
+      ['核心资产', 'Hemi(Pilbara,13.6 Moz)'],
+    ],
+    note: '★ Hemi 项目拥有者(澳洲本世纪最大金矿发现)。2025/05 被 Northern Star 以 A$5B 全股票收购退市。'
+  },
+  'Osisko Mining\nTSX:OSK · 2024/10 退市': {
+    type: 'acquired', tag: 'Windfall 整合', en: 'Osisko Mining · 2024 delisted',
+    rows: [
+      ['退市', '2024/10/25'],
+      ['对价', 'C$1.93B / US$1.39B 全现金'],
+      ['核心资产', 'Windfall 50% (魁北克)'],
+      ['股东批准率', '99.5%', 'good'],
+    ],
+    note: 'Windfall 项目的 50% JV 合作方。2024/10 被 Gold Fields 全现金收购,GFI 获 Windfall 100% 控制权。'
+  },
+  'Gold Road Resources\nASX:GOR · 2025/10 退市': {
+    type: 'acquired', tag: 'Gruyere 整合', en: 'Gold Road Resources · 2025 delisted',
+    rows: [
+      ['退市', '2025/10/14'],
+      ['对价', 'A$3.7B / US$2.4B 现金'],
+      ['核心资产', 'Gruyere 50% (西澳)'],
+      ['交叉关联', '持 NST 3.4% 股份'],
+    ],
+    note: 'Gruyere 矿的 50% JV 合作方。2025/10 被 Gold Fields 收购,GFI 获 Gruyere 100%。'
+  },
+  'Calibre Mining\nTSX:CXB · 2025/06 退市': {
+    type: 'acquired', tag: 'Valentine + Greenstone', en: 'Calibre Mining · 2025 delisted',
+    rows: [
+      ['退市', '2025/06'],
+      ['对价', '$1.8B 全股票'],
+      ['核心资产', 'Valentine(NL)+ 尼加拉瓜 + 内华达'],
+      ['前身整合', '已收 Marathon Gold(获 Valentine)'],
+    ],
+    note: 'Calibre 早前已收 Marathon Gold 获 Valentine。2025/06 被 Equinox 全股票收购,合并后成为加拿大第二大金矿企业。'
+  },
+  'Karora Resources\nTSX:KRR · 2024/08 退市': {
+    type: 'acquired', tag: 'Higginsville/Beta Hunt', en: 'Karora Resources · 2024 delisted',
+    rows: [
+      ['退市', '2024/08'],
+      ['对价', '$790M'],
+      ['核心资产', 'Higginsville + Beta Hunt(西澳)'],
+    ],
+    note: '加拿大上市但矿在西澳的金矿企业。2024/08 与 Westgold 合并,实现澳/加双上市。'
+  },
+  'Spartan Resources\nASX:SPR · 2025/08 退市': {
+    type: 'acquired', tag: 'Dalgaranga', en: 'Spartan Resources · 2025 delisted',
+    rows: [
+      ['退市', '2025/08/01'],
+      ['对价', 'A$2.4B'],
+      ['核心资产', 'Dalgaranga(WA,高品位)'],
+      ['Never Never/Pepper', '2.3 Moz @ 9.32 g/t', 'hot'],
+    ],
+    note: 'Dalgaranga 项目拥有者(澳洲品位最高的待开发地下金矿之一)。2025/08 被 Ramelius 以 A$2.4B 收购退市。'
+  },
+  'Argonaut Gold\nTSX:AR · 2024/07 退市': {
+    type: 'acquired', tag: 'Magino 母', en: 'Argonaut Gold · 2024 delisted',
+    rows: [
+      ['退市', '2024/07/16'],
+      ['对价', '$325M 全股票'],
+      ['溢价', '34%', 'good'],
+      ['核心资产', 'Magino(Ontario)'],
+      ['Magino 建设超支', 'C$510M → C$980M', 'bad'],
+      ['分拆', '美墨资产 → Florida Canyon Gold'],
+    ],
+    note: 'Magino 矿的所有者,该矿建设成本严重超支。2024/07 被 Alamos 收购,美墨资产分拆为 Florida Canyon Gold 上市。'
+  },
+
+
+  // ============ 关键运营矿山 / Key Operating Mines ============
+  
+  // — Newmont 资产 —
+  'Cadia\n澳 NSW · 金铜': {
+    type: 'mine', tag: '运营矿山(金铜)', en: 'Cadia Valley · NSW',
+    rows: [
+      ['运营方', 'Newmont 100%(源自 Newcrest)'],
+      ['类型', '地下块体崩落,金-铜'],
+      ['2024 产量', '550 koz Au + 90 kt Cu', 'good'],
+      ['特点', '世界级 Tier 1', 'hot'],
+    ],
+    note: 'Newmont 通过 Newcrest 获得的旗舰资产,世界级金铜矿,寿命极长。'
+  },
+  'Lihir\nPNG · 金': {
+    type: 'mine', tag: '运营矿山(金)', en: 'Lihir · Papua New Guinea',
+    rows: [
+      ['运营方', 'Newmont 100%(源自 Newcrest)'],
+      ['类型', '露天金矿(火山口内)'],
+      ['2024 产量', '~700 koz Au', 'good'],
+      ['特点', 'Tier 1', 'hot'],
+    ],
+    note: '巴新世界级露天金矿,位于火山口内。Newmont 通过 Newcrest 整合获得。'
+  },
+  'Brucejack\n加 BC · 金': {
+    type: 'mine', tag: '运营矿山', en: 'Brucejack · British Columbia',
+    rows: [
+      ['运营方', 'Newmont 100%(源自 Newcrest)'],
+      ['类型', '高品位地下金矿'],
+      ['2024 产量', '~290 koz Au'],
+    ],
+    note: 'Newmont 通过 Newcrest 获得的高品位 BC 地下金矿。'
+  },
+  'Boddington\n澳 WA · 金铜': {
+    type: 'mine', tag: '运营矿山(金铜)', en: 'Boddington · Western Australia',
+    rows: [
+      ['运营方', 'Newmont 100%'],
+      ['类型', '露天金-铜'],
+      ['2024 产量', '~600 koz Au + 17 kt Cu', 'good'],
+      ['特点', 'Tier 1', 'hot'],
+    ],
+    note: 'Newmont 在西澳的旗舰金铜矿。'
+  },
+  'Peñasquito\n墨 · 金锌铅银': {
+    type: 'mine', tag: '运营矿山(多金属)', en: 'Peñasquito · Zacatecas, Mexico',
+    rows: [
+      ['运营方', 'Newmont 100%(源自 Goldcorp)'],
+      ['类型', '露天多金属'],
+      ['2024 产量', '~400 koz Au + ~32 Moz Ag', 'good'],
+    ],
+    note: 'Newmont 旗下最大的多金属矿,墨西哥 Zacatecas 州。同时贡献金、银、锌、铅。'
+  },
+  'Ahafo\n加纳 · 金': {
+    type: 'mine', tag: '运营矿山', en: 'Ahafo · Ghana',
+    rows: [
+      ['运营方', 'Newmont 100%'],
+      ['类型', '露天 + 地下金矿'],
+      ['2024 产量', '~500 koz Au', 'good'],
+    ],
+    note: 'Newmont 在加纳的核心矿山(注:同区域 Akyem 矿已剥离给 Zijin)。'
+  },
+  'Yanacocha\n秘 · NEM 51.35%': {
+    type: 'jv', tag: 'JV 多方持有', en: 'Yanacocha · Cajamarca, Peru',
+    rows: [
+      ['股权', 'Newmont 51.35% / BVN 43.65% / Sumitomo 5%'],
+      ['运营方', 'Newmont 主导'],
+      ['类型', '露天金矿'],
+    ],
+    note: 'Newmont 与 BVN 联合持有的秘鲁旗舰金矿。'
+  },
+  'Pueblo Viejo\n多米尼加 · GOLD60%/NEM40%': {
+    type: 'jv', tag: 'JV 与 Barrick', en: 'Pueblo Viejo · Dominican Republic',
+    rows: [
+      ['股权', 'Barrick 60% / Newmont 40%'],
+      ['运营方', 'Barrick 主导'],
+      ['2024 产量(100%)', '~770 koz Au'],
+      ['特点', 'JV 加勒比 Tier 1', 'good'],
+    ],
+    note: 'Barrick 主导的多米尼加大型金矿,Newmont 持 40% 权益。'
+  },
+  
+  // — Barrick 资产 —
+  'NGM Carlin/Cortez\n美 Nevada · GOLD61.5%': {
+    type: 'jv', tag: 'NGM JV', en: 'Nevada Gold Mines',
+    rows: [
+      ['股权', 'Barrick 61.5% / Newmont 38.5%'],
+      ['运营方', 'Barrick 主导'],
+      ['核心矿', 'Carlin/Cortez/Turquoise Ridge/Phoenix'],
+      ['年总产(100%)', '~3 Moz Au'],
+    ],
+    note: 'Nevada Gold Mines (NGM) 是 Barrick 与 Newmont 在内华达 6 大金矿的合资公司(2019)。世界最大金矿生产联合体。'
+  },
+  'Kibali\n刚果 · GOLD45%/AU45%': {
+    type: 'jv', tag: 'JV 非洲', en: 'Kibali · DRC',
+    rows: [
+      ['股权', 'Barrick 45% / AngloGold 45% / DRC 10%'],
+      ['类型', '露天 + 地下'],
+      ['2024 产量(100%)', '~700 koz Au', 'good'],
+    ],
+    note: '刚果民主共和国的世界级金矿,Barrick 与 AngloGold 各占 45%。'
+  },
+  'Lumwana + Reko Diq\nBarrick 增长引擎': {
+    type: 'optional', tag: '★ 在建大型', en: 'Barrick Growth Projects',
+    rows: [
+      ['Lumwana', '赞比亚铜矿,$2B 扩产'],
+      ['Lumwana 2028 后', '240+ kt/yr Cu'],
+      ['Reko Diq', '巴基斯坦铜金,Barrick 50%'],
+      ['Reko Diq 长期', '400+ kt Cu + 500 koz Au', 'hot'],
+    ],
+    note: '★ Barrick 长期最大期权项目。这是其"金 → 铜金双驱动"战略的核心,也是这一轮其不参与 M&A 的原因。'
+  },
+  
+  // — Agnico Eagle 资产 —
+  'Detour Lake\n加 安省 · 金': {
+    type: 'mine', tag: '运营矿山', en: 'Detour Lake · Ontario',
+    rows: [
+      ['运营方', 'Agnico Eagle 100%'],
+      ['2024 产量', '~700 koz Au', 'good'],
+      ['类型', '露天大型金矿'],
+    ],
+    note: 'Agnico Eagle 旗舰金矿。'
+  },
+  'Canadian Malartic\n魁 · 金': {
+    type: 'mine', tag: '运营矿山', en: 'Canadian Malartic · Quebec',
+    rows: [
+      ['运营方', 'Agnico Eagle 100%(Yamana 分拆)'],
+      ['2024 产量', '~640 koz Au', 'good'],
+      ['转地下', '正在进行', 'good'],
+    ],
+    note: 'Agnico 通过 Yamana 分拆获得 100% 股权(此前 50/50 JV)。从露天转地下中。'
+  },
+  'AEM 其他\nMacassa/LaRonde/Meadowbank/Fosterville': {
+    type: 'mine', tag: 'AEM 多元组合', en: 'Other AEM Operations',
+    rows: [
+      ['Macassa', '安省地下矿'],
+      ['LaRonde', '魁北克地下矿'],
+      ['Meadowbank', '努纳武特露天矿'],
+      ['Fosterville', '澳洲'],
+      ['合计 2024', '~2.1 Moz Au'],
+    ],
+    note: 'Agnico Eagle 加拿大 + 澳洲其他主要矿山。'
+  },
+  
+  // — AngloGold Ashanti 资产 —
+  'Sukari\n埃及 · 金': {
+    type: 'optional', tag: '★ 新 Tier 1', en: 'Sukari · Egypt',
+    rows: [
+      ['原所有方', 'Centamin (2024 收购)'],
+      ['现运营方', 'AngloGold 100%'],
+      ['类型', '露天 + 地下金矿'],
+      ['2024 产量', '~450 koz Au', 'good'],
+      ['累计产金', '590 万盎司(2009 起)'],
+      ['特点', '埃及最大金矿,Tier 1', 'hot'],
+    ],
+    note: '★ AngloGold 的新 Tier 1 资产。埃及最大金矿,自 2009 投产累计产 590 万盎司。'
+  },
+  'AU 非洲\nGeita/Iduapriem/Obuasi/Siguiri': {
+    type: 'mine', tag: '非洲核心金矿', en: 'AngloGold African Operations',
+    rows: [
+      ['Geita', '坦桑尼亚'],
+      ['Iduapriem', '加纳'],
+      ['Obuasi', '加纳(地下)'],
+      ['Siguiri', '几内亚'],
+      ['合计 2024', '~1.4 Moz Au'],
+    ],
+    note: 'AngloGold 的非洲资产组合。'
+  },
+  'AU 澳洲\nTropicana + Sunrise Dam': {
+    type: 'mine', tag: '澳洲金矿', en: 'AngloGold Australia',
+    rows: [
+      ['Tropicana', 'AU 70% (IGO 30%)'],
+      ['Sunrise Dam', 'AU 100%'],
+      ['合计 2024', '~600 koz Au'],
+    ],
+    note: 'AngloGold 在西澳的两座金矿。'
+  },
+  
+  // — Gold Fields 资产 —
+  'Windfall\n魁 · 金/在建': {
+    type: 'optional', tag: '★ 在建', en: 'Windfall · Quebec',
+    rows: [
+      ['原结构', 'Osisko 50/50 JV'],
+      ['现运营方', 'Gold Fields 100%(2024/10)'],
+      ['首产', '2028(预计)'],
+      ['年产潜力', '300 koz/yr', 'hot'],
+      ['寿命 AISC', '$758/oz(FS 数据)', 'good'],
+    ],
+    note: '★ Gold Fields 长期增长引擎。原 50/50 JV,2024/10 收购 Osisko 后获 100%。'
+  },
+  'Gruyere\n西澳 · 金': {
+    type: 'optional', tag: '★ 全资化', en: 'Gruyere · Western Australia',
+    rows: [
+      ['原结构', 'Gold Road 50/50 JV'],
+      ['现运营方', 'Gold Fields 100%(2025/10)'],
+      ['2025 产量', '325–355 koz Au', 'good'],
+      ['特点', '西澳大型露天 Tier 1', 'hot'],
+    ],
+    note: '★ Gold Fields 通过 2025/10 收购 Gold Road 获 Gruyere 100%。'
+  },
+  'Salares Norte\n智利 · 金': {
+    type: 'optional', tag: '新投产', en: 'Salares Norte · Chile',
+    rows: [
+      ['运营方', 'Gold Fields 100%'],
+      ['投产时间', '2024'],
+      ['年产潜力', '~450 koz/yr(满产)', 'hot'],
+    ],
+    note: 'Gold Fields 2024 投产的智利新矿。'
+  },
+  'GFI 既有\nSouth Deep/Tarkwa/St Ives 等': {
+    type: 'mine', tag: 'Gold Fields 组合', en: 'Other GFI Operations',
+    rows: [
+      ['South Deep', '南非,深井金矿'],
+      ['Tarkwa/Damang', '加纳'],
+      ['St Ives/Granny Smith/Agnew', '西澳'],
+      ['Cerro Corona', '秘鲁,金铜'],
+    ],
+    note: 'Gold Fields 既有运营矿山。'
+  },
+  
+  // — Northern Star 资产 —
+  'Hemi\n西澳 · 金/在建': {
+    type: 'optional', tag: '★ 澳洲最大新发现', en: 'Hemi · WA Pilbara',
+    rows: [
+      ['原所有方', 'De Grey Mining'],
+      ['现运营方', 'Northern Star 100%'],
+      ['资源', '11.2 Moz Au', 'hot'],
+      ['首产', '2028 末'],
+      ['前 5 年年产', '553 koz/yr', 'hot'],
+      ['前 10 年 AISC', 'A$1,200–1,300/oz', 'good'],
+    ],
+    note: '★★ Northern Star 增长基石。本世纪澳洲最大金矿发现。开放露天大矿,低剥采比。'
+  },
+  'KCGM (Super Pit)\n西澳 · 金': {
+    type: 'mine', tag: '运营矿山', en: 'Kalgoorlie Consolidated Gold Mines',
+    rows: [
+      ['运营方', 'Northern Star 100%'],
+      ['类型', '世界级露天金矿(Super Pit)'],
+      ['2024 产量', '~600 koz Au', 'good'],
+      ['扩产', '2026 完成', 'good'],
+    ],
+    note: '澳洲传奇 Super Pit。Northern Star 旗舰资产。'
+  },
+  'NST 其他\nYandal + Pogo': {
+    type: 'mine', tag: 'NST 多元组合', en: 'Other NST Operations',
+    rows: [
+      ['Yandal', '西澳'],
+      ['Pogo', '阿拉斯加'],
+      ['合计 2024', '~700 koz Au'],
+    ],
+    note: 'Northern Star 其他主力金矿。'
+  },
+  
+  // — Equinox 资产 —
+  'Greenstone\n加 安省 · 金/2024 投产': {
+    type: 'optional', tag: '★ 新投产', en: 'Greenstone · Ontario',
+    rows: [
+      ['运营方', 'Equinox 100%'],
+      ['投产', '2024/11 商业化', 'hot'],
+      ['类型', '加拿大最大、品位最高露天金矿之一'],
+      ['年产潜力', '~390 koz/yr(前 5 年)', 'hot'],
+      ['初始寿命', '15 年'],
+    ],
+    note: '★ Equinox 旗舰新矿,2024/11 实现商业化生产。'
+  },
+  'Valentine\n纽芬兰 · 金': {
+    type: 'optional', tag: '★ 在建', en: 'Valentine · Newfoundland',
+    rows: [
+      ['原所有方', 'Calibre Mining'],
+      ['现运营方', 'Equinox 100%(2025/06)'],
+      ['首产', '2025/Q3', 'hot'],
+    ],
+    note: '★ Equinox 通过收购 Calibre 获得。2025/Q3 首产。'
+  },
+  'EQX 其他\nNicaragua/Brazil/US': {
+    type: 'mine', tag: 'EQX 多元', en: 'Other Equinox Operations',
+    rows: [
+      ['Nicaragua', 'La Libertad/El Limon'],
+      ['Mexico', 'Los Filos'],
+      ['Brazil', 'Aurizona'],
+      ['US', 'Mesquite/Castle Mountain/Pan'],
+    ],
+    note: 'Equinox 多元化的中美/南美/北美资产。'
+  },
+  
+  // — Alamos 资产 —
+  'Magino\n加 安省 · 金': {
+    type: 'optional', tag: '★ Argonaut 整合', en: 'Magino · Ontario',
+    rows: [
+      ['原所有方', 'Argonaut Gold'],
+      ['现运营方', 'Alamos 100%(2024/07)'],
+      ['类型', '露天金矿,与 Island Gold 整合'],
+      ['年产潜力(合并)', '~280 koz/yr', 'hot'],
+      ['协同效应', '$515M', 'hot'],
+    ],
+    note: '★ Alamos 通过 2024/07 收购 Argonaut 获得。与相邻 Island Gold 共用基础设施。'
+  },
+  'AGI 既有\nIsland Gold/Young-Davidson/Mulatos': {
+    type: 'mine', tag: 'Alamos 既有资产', en: 'Other Alamos Operations',
+    rows: [
+      ['Island Gold', '安省地下矿'],
+      ['Young-Davidson', '安省地下矿'],
+      ['Mulatos District', '墨西哥'],
+      ['2024 合计', '~430 koz Au'],
+    ],
+    note: 'Alamos 既有运营矿山。'
+  },
+  
+  // — SSR Mining 资产 —
+  'CC&V\n美 科罗拉多 · 金': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'CC&V · Cripple Creek & Victor',
+    rows: [
+      ['原所有方', 'Newmont (2015-2025)'],
+      ['现运营方', 'SSR Mining 100%'],
+      ['对价', '$275M(仅 $100M 现金)'],
+      ['2026-28 年产', '~141 koz/yr Au'],
+      ['AISC', '$1,339/oz', 'good'],
+      ['NPV', '$1.5B (在 $4,000 金价)', 'hot'],
+    ],
+    note: '★ 这一轮估值反差最大的并购。Newmont 2015 年 $820M 买入,2025 年 $275M 卖出。SSR 净付 $100M 现金,1 年回本。'
+  },
+  'SSRM 其他\nMarigold + Seabee + Çöpler': {
+    type: 'mine', tag: 'SSRM 其他', en: 'Other SSRM Gold Operations',
+    rows: [
+      ['Marigold', '内华达,170-200 koz/yr'],
+      ['Seabee', '萨省,75-90 koz/yr'],
+      ['Çöpler', '土耳其(待出售 H2 2026)', 'bad'],
+    ],
+    note: 'SSRM 其他金矿。Çöpler 因 2024 塌方事件停产。'
+  },
+  
+  // — Westgold 资产 —
+  'Higginsville/Beta Hunt\n西澳 · 金': {
+    type: 'optional', tag: '★ Karora 整合', en: 'Higginsville + Beta Hunt · WA',
+    rows: [
+      ['原所有方', 'Karora Resources'],
+      ['现运营方', 'Westgold 100%'],
+      ['类型', '地下金矿 + 镍副产'],
+      ['年产', '~150 koz/yr(前 Karora)'],
+    ],
+    note: '★ Westgold 通过 2024/08 与 Karora 合并获得。'
+  },
+  'WGX 既有\nMt Magnet + Murchison': {
+    type: 'mine', tag: 'Westgold 既有', en: 'Other Westgold Operations',
+    rows: [
+      ['Mt Magnet', '西澳金矿'],
+      ['Murchison District', 'Big Bell/Bluebird'],
+      ['合计 2024', '~250 koz/yr'],
+    ],
+    note: 'Westgold 既有矿山。'
+  },
+  
+  // — Ramelius 资产 —
+  'Dalgaranga\n西澳 · 金': {
+    type: 'optional', tag: '★ Spartan 整合', en: 'Dalgaranga · WA',
+    rows: [
+      ['原所有方', 'Spartan Resources'],
+      ['现运营方', 'Ramelius 100%(2025/08)'],
+      ['类型', '高品位地下金矿'],
+      ['Never Never/Pepper', '2.3 Moz @ 9.32 g/t', 'hot'],
+      ['距 Mt Magnet', '65 km'],
+    ],
+    note: '★ Ramelius 通过 2025/08 A$2.4B 收购 Spartan 获得。澳洲品位最高的地下金矿之一。'
+  },
+  'RMS 既有\nMt Magnet + Edna May + Penny': {
+    type: 'mine', tag: 'Ramelius 既有', en: 'Other Ramelius Operations',
+    rows: [
+      ['Mt Magnet', 'WA 旗舰'],
+      ['Edna May', '另一座金矿'],
+      ['Penny', '高品位卫星矿'],
+      ['2024 合计', '~280 koz Au'],
+    ],
+    note: 'Ramelius 既有矿山。'
+  },
+  
+  // — Greatland Resources 资产 —
+  'Telfer\n西澳 · 金铜': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'Telfer · Western Australia',
+    rows: [
+      ['原所有方', 'Newmont(2023 接自 Newcrest)'],
+      ['现运营方', 'Greatland 100%(2024/12)'],
+      ['类型', '大型露天金铜矿'],
+      ['15 个月产量', '425 koz Au-eq', 'good'],
+      ['AISC', '$1,454/oz', 'bad'],
+    ],
+    note: '★ Greatland 通过 2024/12 接手 $475M 收购 Newmont 剥离的 Telfer + Havieron。'
+  },
+  'Havieron\n西澳 · 金铜/在建': {
+    type: 'optional', tag: '★ 在建 Tier 1', en: 'Havieron · WA Paterson',
+    rows: [
+      ['原结构', 'Newmont 70% / Greatland 30%'],
+      ['现运营方', 'Greatland 100%(2024/12)'],
+      ['类型', '地下金铜矿'],
+      ['资源', '8.4 Moz Au-eq', 'hot'],
+      ['首产', '2026'],
+      ['稳定年产', '258 koz Au-eq', 'good'],
+      ['AISC 稳定期', '$818/oz', 'good'],
+    ],
+    note: '★★ Greatland 长期增长引擎。世界级金铜矿,与 Telfer 共享基础设施(45 km)。'
+  },
+  
+  // — Orla Mining 资产 —
+  'Musselwhite\n加 安省 · 金': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'Musselwhite · Ontario',
+    rows: [
+      ['原所有方', 'Newmont'],
+      ['现运营方', 'Orla 100%(2025/03)'],
+      ['对价', '$810M 现金 + $40M 或有'],
+      ['类型', '地下金矿'],
+      ['年产', '~200 koz Au'],
+    ],
+    note: '★ Orla 通过 2025/03 接手,从单矿单一资产公司变中型生产商。'
+  },
+  'Camino Rojo + South Railroad\nOrla 既有': {
+    type: 'mine', tag: 'Orla 其他', en: 'Other Orla Operations',
+    rows: [
+      ['Camino Rojo', '墨西哥,2024 产 137 koz'],
+      ['South Railroad', '内华达,在建'],
+    ],
+    note: 'Orla 既有资产。'
+  },
+  
+  // — Zijin 资产 —
+  'Akyem\n加纳 · 金/Newmont 剥离': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'Akyem · Ghana',
+    rows: [
+      ['原所有方', 'Newmont'],
+      ['现运营方', 'Zijin 100%(2025/H1)'],
+      ['对价', '$1B($900M 现金 + $100M 或有)'],
+      ['类型', '露天金矿'],
+    ],
+    note: '★ Zijin 这一轮关键并购,扩大其在西非产能。这一轮金矿 M&A 唯一的中资接盘者。'
+  },
+  'Zijin 全球\nBuritica/Kakula/塞尔维亚': {
+    type: 'mine', tag: 'Zijin 全球资产', en: 'Other Zijin Global Assets',
+    rows: [
+      ['Buritica', '哥伦比亚金矿'],
+      ['Kakula-Kamoa', 'DRC 铜矿(JV)'],
+      ['Norton Gold', '澳洲 Paddington'],
+      ['塞尔维亚', '铜金'],
+    ],
+    note: 'Zijin 全球多元化资产示意。'
+  },
+  
+  // — Discovery Silver 资产 —
+  'Porcupine\n加 安省 · 金/Newmont 剥离': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'Porcupine Complex · Ontario',
+    rows: [
+      ['原所有方', 'Newmont'],
+      ['现运营方', 'Discovery Silver 100%(2025/H1)'],
+      ['对价', '$425M(分多期)'],
+      ['类型', '安省 Timmins 历史名矿'],
+      ['年产', '~265 koz Au'],
+    ],
+    note: '★ Discovery Silver 从银业开发商一夜变金矿生产商的关键资产。'
+  },
+  'Cordero\n墨 · 银/开发': {
+    type: 'mine', tag: 'Discovery 既有', en: 'Cordero · Chihuahua',
+    rows: [
+      ['运营方', 'Discovery Silver 100%'],
+      ['类型', '开发阶段银矿'],
+      ['资源', '世界级银矿之一'],
+    ],
+    note: 'Discovery Silver 旧的核心资产,大型开发阶段银矿。Porcupine 收购后地位被边缘化。'
+  },
+  
+  // — Dhilmar 资产 —
+  'Éléonore\n魁 · 金/Newmont 剥离': {
+    type: 'optional', tag: '★ Newmont 剥离', en: 'Éléonore · Quebec',
+    rows: [
+      ['原所有方', 'Newmont(2014 接 Goldcorp)'],
+      ['现所有方', 'Dhilmar Ltd 100%(私募)'],
+      ['对价', '$795M 全现金'],
+      ['类型', '北魁北克地下金矿'],
+      ['年产', '~200 koz Au'],
+      ['可投性', '不可投', 'bad'],
+    ],
+    note: '★ Newmont 剥离里唯一卖给私募的资产。Dhilmar 是英国新成立公司,西方公开市场投资者无法配置。'
+  },
+  
+  // — Endeavour / Kinross 资产 —
+  'EDV 西非\nHoundé/Ity/Mana/Sabodala/Lafigué': {
+    type: 'mine', tag: 'EDV 西非组合', en: 'Endeavour West African Operations',
+    rows: [
+      ['Houndé', '布基纳法索'],
+      ['Ity', '科特迪瓦'],
+      ['Mana', '布基纳法索'],
+      ['Sabodala-Massawa', '塞内加尔'],
+      ['Lafigué', '科特迪瓦,2024/Q3 投产', 'good'],
+      ['合计 2024', '~1.1 Moz Au'],
+    ],
+    note: '西非金矿龙头组合。这一轮没有做并购,聚焦内部增长。'
+  },
+  'KGC 全球\nTasiast/Paracatu/Round Mountain/Fort Knox': {
+    type: 'mine', tag: 'Kinross 全球', en: 'Kinross Operations',
+    rows: [
+      ['Tasiast', '毛里塔尼亚'],
+      ['Paracatu', '巴西'],
+      ['Round Mountain/Bald Mountain/Fort Knox', '美国'],
+      ['La Coipa', '智利'],
+      ['合计 2024', '~2.1 Moz Au'],
+    ],
+    note: 'Kinross 全球金矿组合。这一轮无 M&A。'
+  },
+};
+
+
+// ============ 链路 / Links ============
+// 流量值 = 年产能 (koz/yr Au-eq)
+// 在建项目使用 10-50 koz 的小流量(以保留连接拓扑可见性)
+const links = [
+  // === Newmont (post-divest, ~5,500 koz) ===
+  { source: 'Newmont\nNYSE: NEM', target: 'Newcrest Mining\nASX:NCM · 2023/11 退市', value: 1540 },
+  { source: 'Newcrest Mining\nASX:NCM · 2023/11 退市', target: 'Cadia\n澳 NSW · 金铜', value: 550 },
+  { source: 'Newcrest Mining\nASX:NCM · 2023/11 退市', target: 'Lihir\nPNG · 金', value: 700 },
+  { source: 'Newcrest Mining\nASX:NCM · 2023/11 退市', target: 'Brucejack\n加 BC · 金', value: 290 },
+  { source: 'Newmont\nNYSE: NEM', target: 'Boddington\n澳 WA · 金铜', value: 600 },
+  { source: 'Newmont\nNYSE: NEM', target: 'Peñasquito\n墨 · 金锌铅银', value: 400 },
+  { source: 'Newmont\nNYSE: NEM', target: 'Ahafo\n加纳 · 金', value: 500 },
+  { source: 'Newmont\nNYSE: NEM', target: 'Yanacocha\n秘 · NEM 51.35%', value: 200 },
+  { source: 'Newmont\nNYSE: NEM', target: 'Pueblo Viejo\n多米尼加 · GOLD60%/NEM40%', value: 308 },
+  
+  // === Barrick Mining (~3,910 koz) ===
+  { source: 'Barrick Mining\nNYSE: B', target: 'NGM Carlin/Cortez\n美 Nevada · GOLD61.5%', value: 1850 },
+  { source: 'Barrick Mining\nNYSE: B', target: 'Pueblo Viejo\n多米尼加 · GOLD60%/NEM40%', value: 462 },
+  { source: 'Barrick Mining\nNYSE: B', target: 'Kibali\n刚果 · GOLD45%/AU45%', value: 315 },
+  { source: 'Barrick Mining\nNYSE: B', target: 'Lumwana + Reko Diq\nBarrick 增长引擎', value: 200 },
+  
+  // === Agnico Eagle (~3,490 koz) ===
+  { source: 'Agnico Eagle\nNYSE: AEM', target: 'Detour Lake\n加 安省 · 金', value: 700 },
+  { source: 'Agnico Eagle\nNYSE: AEM', target: 'Canadian Malartic\n魁 · 金', value: 640 },
+  { source: 'Agnico Eagle\nNYSE: AEM', target: 'AEM 其他\nMacassa/LaRonde/Meadowbank/Fosterville', value: 2150 },
+  
+  // === AngloGold Ashanti (~3,000 koz post-Sukari) ===
+  { source: 'AngloGold Ashanti\nNYSE: AU', target: 'Centamin\nLSE:CEY · 2024/11 退市', value: 450 },
+  { source: 'Centamin\nLSE:CEY · 2024/11 退市', target: 'Sukari\n埃及 · 金', value: 450 },
+  { source: 'AngloGold Ashanti\nNYSE: AU', target: 'AU 非洲\nGeita/Iduapriem/Obuasi/Siguiri', value: 1400 },
+  { source: 'AngloGold Ashanti\nNYSE: AU', target: 'Kibali\n刚果 · GOLD45%/AU45%', value: 315 },
+  { source: 'AngloGold Ashanti\nNYSE: AU', target: 'AU 澳洲\nTropicana + Sunrise Dam', value: 600 },
+  
+  // === Gold Fields (~2,500 koz incl. Salares Norte) ===
+  { source: 'Gold Fields\nNYSE: GFI', target: 'Osisko Mining\nTSX:OSK · 2024/10 退市', value: 30 },
+  { source: 'Osisko Mining\nTSX:OSK · 2024/10 退市', target: 'Windfall\n魁 · 金/在建', value: 30 },
+  { source: 'Gold Fields\nNYSE: GFI', target: 'Gold Road Resources\nASX:GOR · 2025/10 退市', value: 170 },
+  { source: 'Gold Road Resources\nASX:GOR · 2025/10 退市', target: 'Gruyere\n西澳 · 金', value: 340 },
+  { source: 'Gold Fields\nNYSE: GFI', target: 'Salares Norte\n智利 · 金', value: 300 },
+  { source: 'Gold Fields\nNYSE: GFI', target: 'GFI 既有\nSouth Deep/Tarkwa/St Ives 等', value: 1500 },
+  
+  // === Northern Star (~1,750 koz FY25) ===
+  { source: 'Northern Star\nASX: NST', target: 'De Grey Mining\nASX:DEG · 2025/05 退市', value: 50 },
+  { source: 'De Grey Mining\nASX:DEG · 2025/05 退市', target: 'Hemi\n西澳 · 金/在建', value: 50 },
+  { source: 'Northern Star\nASX: NST', target: 'KCGM (Super Pit)\n西澳 · 金', value: 600 },
+  { source: 'Northern Star\nASX: NST', target: 'NST 其他\nYandal + Pogo', value: 1100 },
+  
+  // === Kinross (~2,100 koz) ===
+  { source: 'Kinross Gold\nNYSE: KGC', target: 'KGC 全球\nTasiast/Paracatu/Round Mountain/Fort Knox', value: 2100 },
+  
+  // === Endeavour Mining (~1,100 koz) ===
+  { source: 'Endeavour Mining\nLSE: EDV', target: 'EDV 西非\nHoundé/Ity/Mana/Sabodala/Lafigué', value: 1100 },
+  
+  // === Equinox Gold (pro forma ~1,200 koz) ===
+  { source: 'Equinox Gold\nNYSE: EQX', target: 'Calibre Mining\nTSX:CXB · 2025/06 退市', value: 195 },
+  { source: 'Calibre Mining\nTSX:CXB · 2025/06 退市', target: 'Valentine\n纽芬兰 · 金', value: 195 },
+  { source: 'Equinox Gold\nNYSE: EQX', target: 'Greenstone\n加 安省 · 金/2024 投产', value: 390 },
+  { source: 'Equinox Gold\nNYSE: EQX', target: 'EQX 其他\nNicaragua/Brazil/US', value: 615 },
+  
+  // === Alamos Gold (~630 koz) ===
+  { source: 'Alamos Gold\nNYSE: AGI', target: 'Argonaut Gold\nTSX:AR · 2024/07 退市', value: 150 },
+  { source: 'Argonaut Gold\nTSX:AR · 2024/07 退市', target: 'Magino\n加 安省 · 金', value: 150 },
+  { source: 'Alamos Gold\nNYSE: AGI', target: 'AGI 既有\nIsland Gold/Young-Davidson/Mulatos', value: 480 },
+  
+  // === SSR Mining (~410 koz Au) ===
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'CC&V\n美 科罗拉多 · 金', value: 141 },
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'SSRM 其他\nMarigold + Seabee + Çöpler', value: 270 },
+  
+  // === Westgold (~400 koz pro forma) ===
+  { source: 'Westgold Resources\nASX/TSX: WGX', target: 'Karora Resources\nTSX:KRR · 2024/08 退市', value: 150 },
+  { source: 'Karora Resources\nTSX:KRR · 2024/08 退市', target: 'Higginsville/Beta Hunt\n西澳 · 金', value: 150 },
+  { source: 'Westgold Resources\nASX/TSX: WGX', target: 'WGX 既有\nMt Magnet + Murchison', value: 250 },
+  
+  // === Ramelius (~310 koz current) ===
+  { source: 'Ramelius Resources\nASX: RMS', target: 'Spartan Resources\nASX:SPR · 2025/08 退市', value: 30 },
+  { source: 'Spartan Resources\nASX:SPR · 2025/08 退市', target: 'Dalgaranga\n西澳 · 金', value: 30 },
+  { source: 'Ramelius Resources\nASX: RMS', target: 'RMS 既有\nMt Magnet + Edna May + Penny', value: 280 },
+  
+  // === Greatland Resources (260-310 koz FY26) ===
+  { source: 'Greatland Resources\nASX/AIM: GGP', target: 'Telfer\n西澳 · 金铜', value: 280 },
+  { source: 'Greatland Resources\nASX/AIM: GGP', target: 'Havieron\n西澳 · 金铜/在建', value: 30 },
+  
+  // === Orla Mining (~340 koz pro forma) ===
+  { source: 'Orla Mining\nNYSE: ORLA', target: 'Musselwhite\n加 安省 · 金', value: 200 },
+  { source: 'Orla Mining\nNYSE: ORLA', target: 'Camino Rojo + South Railroad\nOrla 既有', value: 137 },
+  
+  // === Zijin (~2,600 koz total) ===
+  { source: 'Zijin Mining\nSSE: 601899 / HK: 02899', target: 'Akyem\n加纳 · 金/Newmont 剥离', value: 250 },
+  { source: 'Zijin Mining\nSSE: 601899 / HK: 02899', target: 'Zijin 全球\nBuritica/Kakula/塞尔维亚', value: 2350 },
+  
+  // === Discovery Silver (~265 koz) ===
+  { source: 'Discovery Silver\nTSX: DSV', target: 'Porcupine\n加 安省 · 金/Newmont 剥离', value: 265 },
+  { source: 'Discovery Silver\nTSX: DSV', target: 'Cordero\n墨 · 银/开发', value: 5 },
+  
+  // === Dhilmar (~200 koz) ===
+  { source: 'Dhilmar Ltd\nUK 私募 · 不上市', target: 'Éléonore\n魁 · 金/Newmont 剥离', value: 200 },
+];
+
+function buildNodes(linkArray) {
+  const used = new Set();
+  linkArray.forEach(l => { used.add(l.source); used.add(l.target); });
+  return Object.keys(nodeMeta).filter(name => used.has(name)).map(name => {
+    const meta = nodeMeta[name];
+    let depth, color;
+    if (meta.type === 'parent') {
+      depth = 0;
+      color = (name.includes('Zijin') || name.includes('Dhilmar') || name.includes('Discovery') || name.includes('Greatland'))
+        ? C.parentAlt : C.parent;
+    } else if (meta.type === 'acquired') { depth = 1; color = C.acquired; }
+    else if (meta.type === 'jv') { depth = 2; color = C.jv; }
+    else if (meta.type === 'optional') { depth = 2; color = C.optional; }
+    else { depth = 2; color = C.mine; }
+    return { name, depth, itemStyle: { color } };
+  });
+}
+
+const nodes = buildNodes(links);
+
+function buildTooltip(meta, name) {
+  const namePlain = name.split('\n')[0];
+  const subtitle = name.split('\n').slice(1).join(' · ');
+  let html = `<div class="tt-card"><div class="tt-header">`;
+  html += `<div class="tt-name">${namePlain}${subtitle ? ` <span style="color:#8a8f99;font-size:11px;font-weight:400;">· ${subtitle}</span>` : ''}</div>`;
+  if (meta.en) html += `<div class="tt-en">${meta.en}</div>`;
+  if (meta.tag) html += `<div class="tt-tag ${meta.type}">${meta.tag}</div>`;
+  html += `</div>`;
+  meta.rows.forEach(r => {
+    const label = r[0], val = r[1], cls = r[2] || '';
+    html += `<div class="tt-row"><span class="tt-label">${label}</span><span class="tt-val ${cls}">${val}</span></div>`;
+  });
+  if (meta.note) html += `<div class="tt-note">${meta.note}</div>`;
+  html += `</div>`;
+  return html;
+}
+
+const option = {
+  backgroundColor: 'transparent',
+  tooltip: {
+    trigger: 'item', triggerOn: 'mousemove',
+    backgroundColor: 'rgba(253, 251, 246, 0.98)',
+    borderColor: 'rgba(138, 106, 26, 0.4)', borderWidth: 1, padding: 14,
+    textStyle: { color: '#1a1a1f', fontSize: 13, fontFamily: 'Noto Sans SC, sans-serif' },
+    extraCssText: 'box-shadow: 0 12px 40px rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: 3px;',
+    formatter: (p) => {
+      if (p.dataType === 'edge') {
+        const sName = p.data.source.split('\n')[0];
+        const tName = p.data.target.split('\n')[0];
+        return `<div style="font-family:'Noto Sans SC';padding:4px;">
+                  <div style="font-size:13px;">
+                    <span style="color:#2d4a78;">${sName}</span>
+                    <span style="color:#5a5f69;margin:0 8px;">→</span>
+                    <span style="color:#2d5e60;">${tName}</span>
+                  </div>
+                  <div style="margin-top:6px;font-family:'JetBrains Mono';font-size:12px;color:#8a6a1a;">
+                    年产能 ≈ ${p.data.value.toLocaleString()} koz/yr Au-eq
+                  </div>
+                </div>`;
+      }
+      const meta = nodeMeta[p.name];
+      return meta ? buildTooltip(meta, p.name) : `<b>${p.name.replace(/\n/g, ' · ')}</b>`;
+    }
+  },
+  series: [{
+    type: 'sankey',
+    left: 60, right: 250, top: 30, bottom: 30,
+    nodeWidth: 18, nodeGap: 12, nodeAlign: 'left',
+    layoutIterations: 64,
+    emphasis: {
+      focus: 'adjacency',
+      itemStyle: { shadowBlur: 20, shadowColor: 'rgba(201, 164, 73, 0.6)' },
+      lineStyle: { opacity: 0.85 }
+    },
+    data: nodes, links: links,
+    label: {
+      color: '#1a1a1f', fontSize: 11,
+      fontFamily: 'Noto Sans SC, JetBrains Mono, sans-serif',
+      fontWeight: 500, lineHeight: 14,
+      formatter: (p) => {
+        const parts = p.name.split('\n');
+        if (parts.length === 1) return `{main|${parts[0]}}`;
+        return `{main|${parts[0]}}\n{sub|${parts.slice(1).join(' · ')}}`;
+      },
+      rich: {
+        main: { color: '#1a1a1f', fontSize: 11, fontWeight: 600, lineHeight: 14 },
+        sub: { color: '#5a5f69', fontSize: 9, fontFamily: 'JetBrains Mono, monospace', lineHeight: 12 }
+      }
+    },
+    lineStyle: { color: 'gradient', opacity: 0.45, curveness: 0.5 },
+    itemStyle: { borderWidth: 0, borderRadius: 1 },
+  }]
+};
+
+const chart = echarts.init(document.getElementById('sankey'), null, { renderer: 'canvas' });
+chart.setOption(option);
+window.addEventListener('resize', () => chart.resize());
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股锂矿股 · 成本、产量、经营杠杆全景分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #F7F2E9;
+    --bg-paper: #FBF7EE;
+    --bg-card: #FFFCF5;
+    --bg-dark: #1B2436;
+    --bg-dark-card: #242E42;
+    --ink-primary: #1B2436;
+    --ink-secondary: #4A5568;
+    --ink-muted: #8B8578;
+    --ink-on-dark: #F7F2E9;
+    --ink-on-dark-muted: rgba(247, 242, 233, 0.6);
+    --accent-gold: #A8824C;
+    --accent-gold-light: #C9A876;
+    --accent-gold-dark: #7A5C2E;
+    --accent-burgundy: #722D3A;
+    --rule: #D4CCB8;
+    --rule-soft: #E8DFC9;
+    --rule-dark: rgba(247, 242, 233, 0.12);
+    --green: #4A6B47;
+    --green-light: #6B8E68;
+    --amber: #B8762E;
+    --orange: #B85C2E;
+    --red: #8B3A3A;
+    --silver: #6B7280;
+    --teal: #2C5F5A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Sans', 'Noto Sans SC', sans-serif;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    line-height: 1.6;
+    font-size: 15px;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(168, 130, 76, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(114, 45, 58, 0.03) 0%, transparent 50%);
+  }
+
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 2px solid var(--ink-primary);
+    padding: 24px 0 20px;
+    margin-bottom: 48px;
+    background: var(--bg-paper);
+  }
+  .masthead-inner {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .masthead-inner .brand {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--accent-gold-dark); text-transform: none;
+  }
+
+  /* HERO */
+  .hero { padding: 24px 0 56px; border-bottom: 1px solid var(--rule); margin-bottom: 56px; }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::after {
+    content: ''; height: 1px; flex: 1; max-width: 240px;
+    background: var(--accent-gold); opacity: 0.4;
+  }
+  .hero-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: clamp(38px, 5.2vw, 64px);
+    font-weight: 500; line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--ink-primary); margin-bottom: 24px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent-gold-dark); font-weight: 400; }
+  .hero-subtitle {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 21px; line-height: 1.5; color: var(--ink-secondary);
+    max-width: 880px; font-weight: 400; margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    padding-top: 32px; border-top: 1px solid var(--rule-soft);
+  }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500; color: var(--ink-primary);
+  }
+  .meta-value.green { color: var(--green); }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 40px;
+    display: grid; grid-template-columns: 60px 1fr; gap: 24px; align-items: baseline;
+  }
+  .section-number {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 300; line-height: 1;
+    color: var(--accent-gold); font-style: italic;
+  }
+  .section-title-wrap { display: flex; flex-direction: column; }
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 36px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink-primary);
+  }
+  .section-lede {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 17px; line-height: 1.65; color: var(--ink-secondary);
+    margin: 16px 0 48px 84px; max-width: 880px; font-style: italic;
+  }
+  .section-header.dark .section-number { color: var(--accent-gold-light); }
+  .section-header.dark .section-eyebrow { color: var(--accent-gold-light); }
+  .section-header.dark .section-title { color: var(--ink-on-dark); }
+  .section-lede.dark { color: var(--ink-on-dark-muted); }
+
+  /* PRICE CONTEXT BANNER */
+  .price-context {
+    background: var(--bg-paper);
+    border: 1px solid var(--rule);
+    padding: 32px 40px;
+    margin: 0 0 64px 0;
+    border-left: 4px solid var(--accent-gold);
+  }
+  .price-context-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 32px;
+    align-items: end;
+  }
+  .price-context-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 8px;
+  }
+  .price-context-headline {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 500; line-height: 1.3;
+    color: var(--ink-primary);
+  }
+  .price-context-headline strong { color: var(--accent-burgundy); }
+  .price-data-cell {
+    text-align: right;
+  }
+  .price-data-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 4px;
+  }
+  .price-data-value {
+    font-family: 'Fraunces', serif;
+    font-size: 24px; font-weight: 600;
+    color: var(--ink-primary); line-height: 1;
+  }
+  .price-data-change {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; margin-top: 4px;
+  }
+  .price-data-change.positive { color: var(--green); }
+  .price-data-change.negative { color: var(--red); }
+
+  /* UNIT WARNING (DARK) */
+  .unit-warning {
+    background: var(--bg-dark);
+    color: var(--ink-on-dark);
+    padding: 56px 0;
+    margin: 0 -48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .unit-warning::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      radial-gradient(circle at 15% 25%, rgba(168, 130, 76, 0.10) 0%, transparent 45%);
+    pointer-events: none;
+  }
+  .unit-warning-inner { padding: 0 48px; position: relative; z-index: 1; }
+
+  .unit-callout {
+    background: var(--bg-dark-card);
+    border-left: 3px solid var(--accent-gold);
+    padding: 24px 32px;
+    margin: 24px 0 32px 84px;
+    max-width: 880px;
+  }
+  .unit-callout-text {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; line-height: 1.5; color: var(--ink-on-dark);
+  }
+  .unit-callout-text code {
+    font-family: 'IBM Plex Mono', monospace;
+    background: rgba(168, 130, 76, 0.18);
+    color: var(--accent-gold-light);
+    padding: 2px 8px; border-radius: 2px; font-size: 14px;
+  }
+
+  .conversion-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin: 32px 0 0 84px; max-width: 880px;
+  }
+  .conversion-card {
+    background: rgba(168, 130, 76, 0.08);
+    border: 1px solid var(--rule-dark);
+    padding: 20px 24px;
+  }
+  .conversion-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent-gold-light); margin-bottom: 8px;
+  }
+  .conversion-formula {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; line-height: 1.5; color: var(--ink-on-dark);
+  }
+  .conversion-formula strong { color: var(--accent-gold-light); }
+
+  /* COST CURVE CHART */
+  .cost-curve-section {
+    margin-bottom: 80px;
+  }
+  .cost-curve-container {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 40px 32px 32px;
+    margin-top: 24px;
+  }
+  .cost-bar-row {
+    display: grid;
+    grid-template-columns: 90px 100px 1fr 100px 80px;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .cost-bar-row:last-child { border-bottom: none; }
+  .cost-bar-row.header {
+    border-bottom: 1px solid var(--accent-gold);
+    padding: 8px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent-gold-dark); font-weight: 500;
+  }
+  .cost-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px; font-weight: 600;
+    color: var(--accent-burgundy);
+  }
+  .cost-resource-pill {
+    display: inline-block;
+    padding: 3px 10px; border-radius: 2px;
+    font-family: 'IBM Plex Mono', 'Noto Sans SC', monospace;
+    font-size: 10px; letter-spacing: 0.05em;
+    background: rgba(168, 130, 76, 0.1);
+    color: var(--accent-gold-dark);
+    border: 1px solid var(--rule-soft);
+  }
+  .cost-resource-pill.brine {
+    background: rgba(44, 95, 90, 0.1);
+    color: var(--teal);
+    border-color: rgba(44, 95, 90, 0.2);
+  }
+  .cost-resource-pill.diversified {
+    background: rgba(168, 130, 76, 0.1);
+    color: var(--accent-gold-dark);
+  }
+  .cost-bar-track {
+    position: relative;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 2px;
+    overflow: visible;
+  }
+  .cost-bar-fill {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 12px;
+    transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cost-bar-fill.tier1 { background: linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%); }
+  .cost-bar-fill.tier2 { background: linear-gradient(90deg, var(--accent-gold-dark) 0%, var(--accent-gold) 100%); }
+  .cost-bar-fill.tier3 { background: linear-gradient(90deg, var(--amber) 0%, #D49861 100%); }
+  .cost-bar-fill.tier4 { background: linear-gradient(90deg, var(--accent-burgundy) 0%, #B85B6B 100%); }
+  .cost-bar-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: white;
+  }
+  .cost-bar-marker {
+    position: absolute;
+    top: -8px; bottom: -8px;
+    width: 1px; background: var(--accent-burgundy); opacity: 0.6;
+  }
+  .cost-bar-marker::before {
+    content: attr(data-label);
+    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent-burgundy); white-space: nowrap; font-weight: 600;
+  }
+  .cost-aisc {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink-primary);
+    text-align: right;
+  }
+  .cost-aisc-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; color: var(--ink-muted);
+    text-align: right; margin-top: 2px;
+  }
+  .cost-rank {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 300; font-style: italic;
+    color: var(--accent-gold);
+    text-align: center;
+  }
+
+  /* OPERATING LEVERAGE TABLE */
+  .leverage-section {
+    background: var(--bg-paper);
+    padding: 64px 0;
+    margin: 0 -48px 80px;
+    border-top: 2px solid var(--ink-primary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .leverage-inner { padding: 0 48px; }
+  .leverage-callout {
+    background: var(--bg-card);
+    border-left: 4px solid var(--accent-burgundy);
+    padding: 24px 32px;
+    margin: 24px 0 40px 84px;
+    max-width: 880px;
+  }
+  .leverage-callout-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-burgundy); margin-bottom: 8px;
+  }
+  .leverage-callout-text {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 17px; line-height: 1.55; color: var(--ink-primary);
+  }
+  .leverage-callout-text strong { color: var(--accent-burgundy); font-weight: 600; }
+
+  .leverage-table {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .leverage-row {
+    display: grid;
+    grid-template-columns: 130px repeat(6, 1fr);
+    gap: 0;
+    align-items: stretch;
+  }
+  .leverage-row.header {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+  }
+  .leverage-cell {
+    padding: 16px 12px;
+    border-right: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+    text-align: center;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .leverage-cell:last-child { border-right: none; }
+  .leverage-row.header .leverage-cell {
+    border-right-color: rgba(247, 242, 233, 0.15);
+    border-bottom-color: rgba(247, 242, 233, 0.15);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500;
+  }
+  .leverage-cell.label {
+    background: var(--bg-paper);
+    text-align: left; padding-left: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--ink-secondary);
+  }
+  .leverage-cell.label.featured {
+    background: rgba(168, 130, 76, 0.15);
+    color: var(--accent-gold-dark); font-weight: 600;
+  }
+  .leverage-value {
+    font-family: 'Fraunces', serif;
+    font-size: 17px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .leverage-value.positive { color: var(--green); }
+  .leverage-value.negative { color: var(--red); }
+  .leverage-value.highlight {
+    color: var(--accent-burgundy); font-weight: 700;
+  }
+  .leverage-value-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; color: var(--ink-muted); margin-top: 2px;
+  }
+  .leverage-value-sub.positive { color: var(--green-light); }
+  .leverage-value-sub.negative { color: #B85B6B; }
+
+  /* PRODUCTION GROWTH */
+  .production-section { margin-bottom: 80px; }
+  .production-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    margin-top: 24px;
+  }
+  .production-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 28px 28px;
+  }
+  .production-card-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .prod-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px; font-weight: 600;
+    color: var(--accent-burgundy);
+  }
+  .prod-name {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .prod-cagr {
+    font-family: 'Fraunces', serif;
+    font-size: 24px; font-weight: 600;
+    color: var(--green);
+  }
+  .prod-cagr.medium { color: var(--accent-gold-dark); }
+  .prod-cagr.low { color: var(--ink-muted); }
+
+  .prod-timeline {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+    margin: 16px 0;
+  }
+  .prod-year-cell {
+    text-align: center;
+    padding: 10px 4px;
+    background: rgba(168, 130, 76, 0.05);
+    border-radius: 2px;
+  }
+  .prod-year-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .prod-year-value {
+    font-family: 'Fraunces', serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink-primary);
+  }
+  .prod-year-cell.highlight {
+    background: rgba(168, 130, 76, 0.18);
+  }
+  .prod-year-cell.highlight .prod-year-value {
+    color: var(--accent-burgundy);
+  }
+
+  .prod-narrative {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px; line-height: 1.55;
+    color: var(--ink-secondary);
+    padding-top: 14px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .prod-narrative strong { color: var(--accent-burgundy); }
+
+  /* SCENARIO TABLE */
+  .scenario-section {
+    background: var(--bg-paper);
+    padding: 64px 0 72px;
+    margin: 0 -48px 80px;
+    border-top: 2px solid var(--ink-primary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .scenario-inner { padding: 0 48px; }
+  .scenario-table {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .scenario-row {
+    display: grid;
+    grid-template-columns: 200px 130px repeat(3, 1fr);
+    gap: 0;
+  }
+  .scenario-row.header {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+  }
+  .scenario-cell {
+    padding: 18px 16px;
+    border-right: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .scenario-cell:last-child { border-right: none; }
+  .scenario-row.header .scenario-cell {
+    border-right-color: rgba(247, 242, 233, 0.15);
+    border-bottom-color: rgba(247, 242, 233, 0.15);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+  }
+  .scenario-row.header .scenario-cell:first-child {
+    text-align: left;
+  }
+  .scenario-name {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 600;
+    color: var(--ink-primary);
+  }
+  .scenario-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 4px;
+  }
+  .scenario-prob {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    color: var(--accent-gold-dark);
+    text-align: center;
+    background: var(--bg-paper);
+  }
+  .scenario-return {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    text-align: center;
+  }
+  .scenario-return.high-positive { color: var(--green); }
+  .scenario-return.medium-positive { color: var(--accent-gold-dark); }
+  .scenario-return.neutral { color: var(--ink-muted); }
+  .scenario-return.negative { color: var(--orange); }
+  .scenario-return.high-negative { color: var(--red); }
+  .scenario-return-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; color: var(--ink-muted);
+    text-align: center; margin-top: 4px;
+  }
+
+  /* RECOMMENDATION CARDS */
+  .recommend-section { margin-bottom: 80px; }
+  .recommend-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    margin-top: 24px;
+  }
+  .recommend-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 32px 28px;
+    position: relative;
+  }
+  .recommend-card.featured {
+    background: var(--ink-primary);
+    color: var(--ink-on-dark);
+    border-color: var(--ink-primary);
+  }
+  .recommend-card.featured .recommend-label { color: var(--accent-gold-light); }
+  .recommend-card.featured .recommend-title { color: var(--ink-on-dark); }
+  .recommend-card.featured .recommend-desc { color: var(--ink-on-dark-muted); }
+  .recommend-card.featured .alloc-row { border-bottom-color: rgba(247, 242, 233, 0.15); }
+  .recommend-card.featured .alloc-stock { color: var(--ink-on-dark); }
+  .recommend-card.featured .alloc-pct { color: var(--accent-gold-light); }
+  .recommend-card.featured .alloc-note { color: var(--ink-on-dark-muted); }
+  .recommend-card.featured .recommend-thesis { color: var(--ink-on-dark-muted); border-top-color: rgba(247, 242, 233, 0.15); }
+
+  .recommend-badge {
+    position: absolute; top: -12px; left: 24px;
+    background: var(--accent-gold); color: var(--bg-card);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 12px; font-weight: 600;
+  }
+  .recommend-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-gold-dark); margin-bottom: 12px;
+  }
+  .recommend-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 24px; font-weight: 500; line-height: 1.2;
+    color: var(--ink-primary); margin-bottom: 12px;
+  }
+  .recommend-desc {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px; line-height: 1.55;
+    color: var(--ink-secondary); margin-bottom: 28px;
+    min-height: 60px;
+  }
+  .allocations { margin-bottom: 24px; }
+  .alloc-row {
+    display: grid; grid-template-columns: 60px 1fr auto; gap: 12px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .alloc-row:last-child { border-bottom: none; }
+  .alloc-pct {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--accent-gold-dark);
+  }
+  .alloc-stock {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .alloc-note {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px; color: var(--ink-muted);
+    text-align: right;
+  }
+  .recommend-thesis {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 13px; font-style: italic; line-height: 1.55;
+    color: var(--ink-secondary);
+    padding-top: 20px; border-top: 1px solid var(--rule-soft);
+  }
+
+  /* MISTAKE ACKNOWLEDGMENT */
+  .mistake-section {
+    background: rgba(168, 130, 76, 0.08);
+    border: 1px solid var(--accent-gold);
+    border-left: 4px solid var(--accent-burgundy);
+    padding: 32px 40px;
+    margin: 0 0 80px;
+  }
+  .mistake-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent-burgundy); margin-bottom: 12px;
+  }
+  .mistake-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 600; line-height: 1.3;
+    color: var(--ink-primary); margin-bottom: 16px;
+  }
+  .mistake-body {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 16px; line-height: 1.65;
+    color: var(--ink-secondary);
+  }
+  .mistake-body strong { color: var(--accent-burgundy); font-weight: 600; }
+  .mistake-body em { font-style: italic; color: var(--ink-primary); }
+
+  /* TAKEAWAYS */
+  .takeaways { margin-bottom: 80px; }
+  .takeaways-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+  .takeaway {
+    padding: 32px 28px;
+    background: var(--bg-card);
+    border-top: 3px solid var(--accent-gold);
+  }
+  .takeaway-num {
+    font-family: 'Fraunces', serif;
+    font-size: 60px; font-weight: 200; font-style: italic;
+    color: var(--accent-gold);
+    line-height: 0.8; margin-bottom: 16px; opacity: 0.5;
+  }
+  .takeaway-title {
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-size: 19px; font-weight: 600; line-height: 1.3;
+    color: var(--ink-primary); margin-bottom: 12px;
+  }
+  .takeaway-body {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13.5px; line-height: 1.65;
+    color: var(--ink-secondary);
+  }
+  .takeaway-body strong { color: var(--accent-burgundy); font-weight: 600; }
+
+  /* DISCLAIMER */
+  .disclaimer { border-top: 2px solid var(--ink-primary); padding: 32px 0 48px; margin-top: 24px; }
+  .disclaimer-text {
+    font-family: 'IBM Plex Mono', 'Noto Sans SC', monospace;
+    font-size: 10.5px; line-height: 1.7; letter-spacing: 0.02em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .disclaimer-meta {
+    display: flex; justify-content: space-between; margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .cost-bar-row { grid-template-columns: 70px 80px 1fr 80px 60px; gap: 12px; }
+    .price-context-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .leverage-row { grid-template-columns: 110px repeat(6, 1fr); }
+    .leverage-cell { padding: 12px 8px; }
+    .leverage-value { font-size: 14px; }
+  }
+
+  @media (max-width: 968px) {
+    .container { padding: 0 24px; }
+    .recommend-grid { grid-template-columns: 1fr; }
+    .takeaways-grid { grid-template-columns: 1fr; }
+    .production-grid { grid-template-columns: 1fr; }
+    .hero-meta { grid-template-columns: repeat(2, 1fr); }
+    .leverage-section, .scenario-section { margin: 0 -24px 80px; }
+    .leverage-inner, .scenario-inner { padding: 0 24px; }
+    .unit-warning { margin: 0 -24px 80px; }
+    .unit-warning-inner { padding: 0 24px; }
+    .unit-callout, .leverage-callout { margin-left: 56px; padding: 18px 22px; }
+    .conversion-grid { margin-left: 56px; grid-template-columns: 1fr; }
+    .section-header { grid-template-columns: 40px 1fr; gap: 16px; }
+    .section-number { font-size: 36px; }
+    .section-title { font-size: 26px; }
+    .section-lede { margin-left: 56px; }
+    .price-context { padding: 24px 24px; }
+    .price-context-grid { grid-template-columns: 1fr; gap: 16px; }
+    .scenario-row { grid-template-columns: 1fr 80px; }
+    .scenario-row .scenario-cell:nth-child(n+3) { display: none; }
+    .leverage-row { grid-template-columns: 90px repeat(3, 1fr); }
+    .leverage-row .leverage-cell:nth-child(n+5) { display: none; }
+    .prod-timeline { grid-template-columns: repeat(3, 1fr); }
+    .prod-timeline .prod-year-cell:nth-child(n+4) { display: none; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes barGrow { from { width: 0 !important; } }
+  
+  .cost-bar-fill { animation: barGrow 1.4s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+  .cost-bar-row:nth-child(2) .cost-bar-fill { animation-delay: 0.1s; }
+  .cost-bar-row:nth-child(3) .cost-bar-fill { animation-delay: 0.2s; }
+  .cost-bar-row:nth-child(4) .cost-bar-fill { animation-delay: 0.3s; }
+  .cost-bar-row:nth-child(5) .cost-bar-fill { animation-delay: 0.4s; }
+  .cost-bar-row:nth-child(6) .cost-bar-fill { animation-delay: 0.5s; }
+  .cost-bar-row:nth-child(7) .cost-bar-fill { animation-delay: 0.6s; }
+
+  .recommend-card { animation: fadeInUp 0.5s ease backwards; }
+  .recommend-card:nth-child(1) { animation-delay: 0.05s; }
+  .recommend-card:nth-child(2) { animation-delay: 0.15s; }
+  .recommend-card:nth-child(3) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-inner">
+      <span class="brand">AURUM · 黃金研究</span>
+      <span>Vol. I · No. 06 · Mai · MMXXVI · Lithium Sector Deep Dive</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="container hero">
+  <div class="hero-eyebrow">Equity Research · Lithium Mining</div>
+  <h1 class="hero-title">
+    锂矿股的<em>三个真相</em>，<br>
+    与一个被低估的杠杆
+  </h1>
+  <p class="hero-subtitle">
+    锂价从 2024 年低谷 $9,000 反弹到 $24,000+（+160%）。在这个反转期，<strong>最低成本不再是唯一答案</strong>——高 AISC 公司的经营杠杆才是最大 alpha 来源。本报告系统对比成本、产量、增量、经营杠杆，并诚实地修正之前对 ELVR 的低估。
+  </p>
+
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Coverage</div>
+      <div class="meta-value">六家美股锂矿</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Lithium Carbonate</div>
+      <div class="meta-value green">$24,300/t</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">YoY Change</div>
+      <div class="meta-value green">+160%</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Cycle Phase</div>
+      <div class="meta-value">反转初期</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE CONTEXT -->
+<section class="container">
+  <div class="price-context">
+    <div class="price-context-grid">
+      <div>
+        <div class="price-context-title">Market Context · 价格背景</div>
+        <div class="price-context-headline">
+          锂价已从 2024 年 <strong>$9,000</strong> 低谷反弹到 <strong>$24,300</strong> ——<br>
+          这意味着锂矿股投资逻辑已从"成本护城河"转向<strong>经营杠杆</strong>。
+        </div>
+      </div>
+      <div class="price-data-cell">
+        <div class="price-data-label">碳酸锂（中国）</div>
+        <div class="price-data-value">$24,300</div>
+        <div class="price-data-change positive">+50% YTD</div>
+      </div>
+      <div class="price-data-cell">
+        <div class="price-data-label">锂辉石 SC6</div>
+        <div class="price-data-value">$1,290</div>
+        <div class="price-data-change positive">+85% 6M</div>
+      </div>
+      <div class="price-data-cell">
+        <div class="price-data-label">vs 2022 峰值</div>
+        <div class="price-data-value">30%</div>
+        <div class="price-data-change negative">仍远低于</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT WARNING -->
+<section class="unit-warning">
+  <div class="container unit-warning-inner">
+    <div class="section-header dark">
+      <div class="section-number">i.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Unit Trap · 单位陷阱</div>
+        <h2 class="section-title">为什么 SGML "$599" 不能直接和 ALB "$7,500" 比较</h2>
+      </div>
+    </div>
+    <p class="section-lede dark">
+      这是大多数投资者在锂矿对比里最容易犯的错误——硬岩锂报价用"锂辉石精矿/吨"，盐湖锂报价用"碳酸锂/吨"。两者相差 7.5 倍。我把所有数据统一到 LCE 基础。
+    </p>
+
+    <div class="unit-callout">
+      <div class="unit-callout-text">
+        <code>1 吨 LCE（碳酸锂当量）≈ 7.5 吨锂辉石精矿（6% Li2O）</code>
+        <br>
+        所以当 SGML 说成本 $599/吨，等于 LCE 基础上的 ~$4,500/吨——<strong style="color: var(--accent-gold-light)">完全不同的概念</strong>。
+      </div>
+    </div>
+
+    <div class="conversion-grid">
+      <div class="conversion-card">
+        <div class="conversion-label">硬岩锂 (Spodumene)</div>
+        <div class="conversion-formula">
+          <strong>SGML, ELVR</strong> 报价基础：<br>
+          $/吨锂辉石精矿（6% Li2O）<br>
+          <span style="font-size: 13px; opacity: 0.7;">需要 × 7.5 转换为 LCE</span>
+        </div>
+      </div>
+      <div class="conversion-card">
+        <div class="conversion-label">盐湖锂 (Brine) / 黏土锂 (Clay)</div>
+        <div class="conversion-formula">
+          <strong>ALB, SQM, LAR, LAC</strong> 报价基础：<br>
+          $/吨碳酸锂（LCE）<br>
+          <span style="font-size: 13px; opacity: 0.7;">直接是最终化学品价格</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COST CURVE -->
+<section class="container cost-curve-section">
+  <div class="section-header">
+    <div class="section-number">ii.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Cost Curve · 全行业成本曲线</div>
+      <h2 class="section-title">六家锂矿的真实成本（统一 LCE 基础）</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    在熊市这是生死线，在牛市这是 Beta 的反向指标——成本越高，每一美元锂价上涨贡献的毛利提升越大。
+  </p>
+
+  <div class="cost-curve-container">
+    <div class="cost-bar-row header">
+      <div>Ticker</div>
+      <div>资源类型</div>
+      <div>AISC 视觉化（USD/吨 LCE）</div>
+      <div style="text-align: right;">AISC</div>
+      <div style="text-align: center;">排名</div>
+    </div>
+
+    <!-- SGML -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">SGML</div>
+      <div><span class="cost-resource-pill">硬岩 · 巴西</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" data-label="LCE 平均成本曲线 ~$8,000" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier1" style="width: 45%;">
+          <span class="cost-bar-value">$4,500</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">$4,500</div>
+        <div class="cost-aisc-sub">$599/t spod</div>
+      </div>
+      <div class="cost-rank">i.</div>
+    </div>
+
+    <!-- LAR -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">LAR</div>
+      <div><span class="cost-resource-pill brine">盐湖 · 阿根廷</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier2" style="width: 65%;">
+          <span class="cost-bar-value">$6,500</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">$6,500</div>
+        <div class="cost-aisc-sub">现金 $5,800</div>
+      </div>
+      <div class="cost-rank">ii.</div>
+    </div>
+
+    <!-- LAC -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">LAC</div>
+      <div><span class="cost-resource-pill">黏土 · Nevada</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier2" style="width: 70%;">
+          <span class="cost-bar-value">$7,000</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">~$7,000</div>
+        <div class="cost-aisc-sub">设计/未投产</div>
+      </div>
+      <div class="cost-rank">iii.</div>
+    </div>
+
+    <!-- ALB -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">ALB</div>
+      <div><span class="cost-resource-pill diversified">综合 · 多元化</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier3" style="width: 85%;">
+          <span class="cost-bar-value">$8,500</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">$8,500</div>
+        <div class="cost-aisc-sub">现金 $7,500</div>
+      </div>
+      <div class="cost-rank">iv.</div>
+    </div>
+
+    <!-- SQM -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">SQM</div>
+      <div><span class="cost-resource-pill brine">盐湖 · 智利</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier3" style="width: 90%;">
+          <span class="cost-bar-value">$9,000</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">$9,000</div>
+        <div class="cost-aisc-sub">现金 $8,200</div>
+      </div>
+      <div class="cost-rank">v.</div>
+    </div>
+
+    <!-- ELVR -->
+    <div class="cost-bar-row">
+      <div class="cost-ticker">ELVR</div>
+      <div><span class="cost-resource-pill">硬岩 · 加拿大</span></div>
+      <div class="cost-bar-track">
+        <div class="cost-bar-marker" style="left: 80%;"></div>
+        <div class="cost-bar-fill tier4" style="width: 92%;">
+          <span class="cost-bar-value">$9,200</span>
+        </div>
+      </div>
+      <div>
+        <div class="cost-aisc">$9,200</div>
+        <div class="cost-aisc-sub">$1,225/t spod</div>
+      </div>
+      <div class="cost-rank">vi.</div>
+    </div>
+  </div>
+
+  <p class="section-lede" style="margin-top: 32px; max-width: 1000px;">
+    <strong style="color: var(--ink-primary); font-style: normal;">关键观察</strong>：
+    SGML 成本是 ELVR 的 <strong style="color: var(--accent-burgundy); font-style: normal;">一半</strong>——这是大宗商品行业里罕见的成本差距。但请继续看下一节，这个数据并不意味着 SGML 一定是更好的投资。
+  </p>
+</section>
+
+<!-- OPERATING LEVERAGE -->
+<section class="leverage-section">
+  <div class="container leverage-inner">
+    <div class="section-header">
+      <div class="section-number">iii.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Operating Leverage · 经营杠杆</div>
+        <h2 class="section-title">为什么 ELVR 在牛市里会跑赢 SGML</h2>
+      </div>
+    </div>
+
+    <div class="leverage-callout">
+      <div class="leverage-callout-label">认知修正 · The Insight</div>
+      <div class="leverage-callout-text">
+        在熊市里，<strong>低成本是生死线</strong>——SGML 赢。<br>
+        在牛市里，<strong>高 AISC = 高经营杠杆</strong>——ELVR 的每一美元锂价上涨贡献的毛利提升幅度，是 SGML 的 1.5-2 倍。
+      </div>
+    </div>
+
+    <div class="leverage-table">
+
+      <div class="leverage-row header">
+        <div class="leverage-cell">锂价 (USD/t LCE)</div>
+        <div class="leverage-cell">$9,000</div>
+        <div class="leverage-cell">$12,000</div>
+        <div class="leverage-cell">$15,000</div>
+        <div class="leverage-cell">$20,000</div>
+        <div class="leverage-cell">$25,000</div>
+        <div class="leverage-cell">$30,000</div>
+      </div>
+
+      <div class="leverage-row">
+        <div class="leverage-cell label featured">SGML 单位毛利</div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$4,500</div>
+          <div class="leverage-value-sub positive">50%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$7,500</div>
+          <div class="leverage-value-sub positive">63%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$10,500</div>
+          <div class="leverage-value-sub positive">70%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$15,500</div>
+          <div class="leverage-value-sub positive">78%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$20,500</div>
+          <div class="leverage-value-sub positive">82%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$25,500</div>
+          <div class="leverage-value-sub positive">85%</div>
+        </div>
+      </div>
+
+      <div class="leverage-row">
+        <div class="leverage-cell label featured">ELVR 单位毛利</div>
+        <div class="leverage-cell">
+          <div class="leverage-value negative">-$200</div>
+          <div class="leverage-value-sub negative">-2%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$2,800</div>
+          <div class="leverage-value-sub">23%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$5,800</div>
+          <div class="leverage-value-sub">39%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$10,800</div>
+          <div class="leverage-value-sub positive">54%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$15,800</div>
+          <div class="leverage-value-sub positive">63%</div>
+        </div>
+        <div class="leverage-cell">
+          <div class="leverage-value">$20,800</div>
+          <div class="leverage-value-sub positive">69%</div>
+        </div>
+      </div>
+
+      <div class="leverage-row">
+        <div class="leverage-cell label">锂价 +$3,000 时<br>SGML 毛利增长</div>
+        <div class="leverage-cell">—</div>
+        <div class="leverage-cell"><div class="leverage-value">+67%</div></div>
+        <div class="leverage-cell"><div class="leverage-value">+40%</div></div>
+        <div class="leverage-cell"><div class="leverage-value">+48%</div></div>
+        <div class="leverage-cell"><div class="leverage-value">+32%</div></div>
+        <div class="leverage-cell"><div class="leverage-value">+24%</div></div>
+      </div>
+
+      <div class="leverage-row">
+        <div class="leverage-cell label">锂价 +$3,000 时<br>ELVR 毛利增长</div>
+        <div class="leverage-cell">—</div>
+        <div class="leverage-cell"><div class="leverage-value highlight">N/M</div></div>
+        <div class="leverage-cell"><div class="leverage-value highlight">+107%</div></div>
+        <div class="leverage-cell"><div class="leverage-value highlight">+86%</div></div>
+        <div class="leverage-cell"><div class="leverage-value highlight">+46%</div></div>
+        <div class="leverage-cell"><div class="leverage-value highlight">+32%</div></div>
+      </div>
+
+    </div>
+
+    <p class="section-lede" style="margin-top: 36px; max-width: 1000px;">
+      <strong style="color: var(--ink-primary); font-style: normal;">关键发现</strong>：
+      锂价从 $20,000 涨到 $25,000 时（+25%），SGML 毛利增长 +32%，ELVR 毛利增长 +46%。<strong style="color: var(--accent-burgundy); font-style: normal;">ELVR 的边际杠杆约是 SGML 的 1.4-2 倍</strong>——这就是高 AISC 在牛市中的"经营杠杆"。
+    </p>
+  </div>
+</section>
+
+<!-- PRODUCTION GROWTH -->
+<section class="container production-section">
+  <div class="section-header">
+    <div class="section-number">iv.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Production Pipeline · 产量增量</div>
+      <h2 class="section-title">谁有最大的"未来产量增量"？</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    锂矿股的两个核心 alpha 来源：经营杠杆（已分析）+ 产量增长（下面分析）。两者叠加决定了未来 5 年的回报曲线。
+  </p>
+
+  <div class="production-grid">
+
+    <!-- LAC -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">LAC</span>
+          <span class="prod-name">Lithium Americas · 美国 Thacker Pass</span>
+        </div>
+        <div class="prod-cagr">∞</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">0</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2027E</div><div class="prod-year-value">10k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2030E</div><div class="prod-year-value">80k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2035E</div><div class="prod-year-value">160k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">峰值</div><div class="prod-year-value">160k</div></div>
+      </div>
+      <p class="prod-narrative">
+        Phase 1 → 2 → 3 → 4 → 5 五阶段扩产至 160,000 tpa LCE。<strong>DOE $22.6 亿贷款 + GM 合资 + DOE 5% 股权</strong>三重护城河。85 年矿山寿命，NPV $59 亿。
+      </p>
+    </div>
+
+    <!-- SGML -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">SGML</span>
+          <span class="prod-name">Sigma Lithium · 巴西 Grota do Cirilo</span>
+        </div>
+        <div class="prod-cagr">+30%</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2024</div><div class="prod-year-value">22k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">30k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2026E</div><div class="prod-year-value">36k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2027E</div><div class="prod-year-value">70k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2030E</div><div class="prod-year-value">80k+</div></div>
+      </div>
+      <p class="prod-narrative">
+        Phase 2 投产时间 mid-3Q 2026，<strong>产量翻倍到 70,000 tpa LCE</strong>。$1,400/吨锂辉石价格下 FY2027 现金流 $408M（当前市值 $19 亿，FCF 收益率 21%）。
+      </p>
+    </div>
+
+    <!-- LAR -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">LAR</span>
+          <span class="prod-name">Lithium Argentina · Cauchari-Olaroz</span>
+        </div>
+        <div class="prod-cagr">+25%</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2024</div><div class="prod-year-value">25k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">34k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2026E</div><div class="prod-year-value">38k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2028E</div><div class="prod-year-value">60k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2030E</div><div class="prod-year-value">85k</div></div>
+      </div>
+      <p class="prod-narrative">
+        Stage 1 已基本满产（97% nameplate）。Stage 2 申请 RIGI 优惠，新增 45,000 tpa 至 2027-28。<strong>赣锋持股 50% 是地缘 overhang</strong>。
+      </p>
+    </div>
+
+    <!-- ELVR -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">ELVR</span>
+          <span class="prod-name">Elevra Lithium · 加拿大 NAL + 美国 Carolina</span>
+        </div>
+        <div class="prod-cagr medium">+18%</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2024</div><div class="prod-year-value">22k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">26k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2026E</div><div class="prod-year-value">26k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2028E</div><div class="prod-year-value">35k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2030E</div><div class="prod-year-value">50k+</div></div>
+      </div>
+      <p class="prod-narrative">
+        NAL 满产但扩产空间有限。<strong>Carolina Lithium 是关键长期催化</strong>——但北卡环境审批是历史问题。受益 IRA + 30D 信贷 + 北美电池供应链回流。
+      </p>
+    </div>
+
+    <!-- ALB -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">ALB</span>
+          <span class="prod-name">Albemarle · 综合（澳+智+美）</span>
+        </div>
+        <div class="prod-cagr medium">+12%</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2024</div><div class="prod-year-value">225k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">230k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2026E</div><div class="prod-year-value">240k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2028E</div><div class="prod-year-value">280k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2030E</div><div class="prod-year-value">400k</div></div>
+      </div>
+      <p class="prod-narrative">
+        Greenbushes JV（49%）扩产 + Salar Yield Improvement + 关闭 Kemerton 优化盈利。<strong>多元化分散风险</strong>但 Beta 低。
+      </p>
+    </div>
+
+    <!-- SQM -->
+    <div class="production-card">
+      <div class="production-card-header">
+        <div>
+          <span class="prod-ticker">SQM</span>
+          <span class="prod-name">SQM · 智利 Atacama 主营</span>
+        </div>
+        <div class="prod-cagr low">+6%</div>
+      </div>
+      <div class="prod-timeline">
+        <div class="prod-year-cell"><div class="prod-year-label">2024</div><div class="prod-year-value">205k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2025</div><div class="prod-year-value">210k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2026E</div><div class="prod-year-value">230k</div></div>
+        <div class="prod-year-cell"><div class="prod-year-label">2028E</div><div class="prod-year-value">260k</div></div>
+        <div class="prod-year-cell highlight"><div class="prod-year-label">2030E</div><div class="prod-year-value">280k</div></div>
+      </div>
+      <p class="prod-narrative">
+        与 Codelco 合作至 2060 年——<strong>实质上的国家化代价</strong>是限制扩张速度。增长性最差但稳定+多元化（碘+钾肥）。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SCENARIO ANALYSIS -->
+<section class="scenario-section">
+  <div class="container scenario-inner">
+    <div class="section-header">
+      <div class="section-number">v.</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Scenario Analysis · 情景分析</div>
+        <h2 class="section-title">不同锂价路径下的预期回报</h2>
+      </div>
+    </div>
+    <p class="section-lede">
+      把成本、产量、经营杠杆三维数据整合成最终回报预测。<strong style="color: var(--ink-primary); font-style: normal;">SGML 是"涨能赚、跌不亏"，ELVR 是"涨多赚、跌惨"，LAC 是"长期+战略"</strong>。
+    </p>
+
+    <div class="scenario-table">
+
+      <div class="scenario-row header">
+        <div class="scenario-cell">情景</div>
+        <div class="scenario-cell">概率假设</div>
+        <div class="scenario-cell">SGML 回报</div>
+        <div class="scenario-cell">LAC 回报</div>
+        <div class="scenario-cell">ELVR 回报</div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="scenario-cell">
+          <div class="scenario-name">超级牛市</div>
+          <div class="scenario-price">锂价 $24k → $40k+</div>
+        </div>
+        <div class="scenario-cell scenario-prob">15%</div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-positive">+80%</div>
+          <div class="scenario-return-sub">现金流爆发</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return medium-positive">+60%</div>
+          <div class="scenario-return-sub">投产前预期</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-positive">+150%</div>
+          <div class="scenario-return-sub">⭐ 经营杠杆最大</div>
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="scenario-cell">
+          <div class="scenario-name">温和牛市</div>
+          <div class="scenario-price">锂价 $24k → $30k</div>
+        </div>
+        <div class="scenario-cell scenario-prob">35%</div>
+        <div class="scenario-cell">
+          <div class="scenario-return medium-positive">+50%</div>
+          <div class="scenario-return-sub">FCF + 估值修复</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return medium-positive">+40%</div>
+          <div class="scenario-return-sub">政策催化继续</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-positive">+80%</div>
+          <div class="scenario-return-sub">⭐ 杠杆兑现</div>
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="scenario-cell">
+          <div class="scenario-name">横盘震荡</div>
+          <div class="scenario-price">锂价 $24k → $24k</div>
+        </div>
+        <div class="scenario-cell scenario-prob">25%</div>
+        <div class="scenario-cell">
+          <div class="scenario-return neutral">+20%</div>
+          <div class="scenario-return-sub">产量增长</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return neutral">+20%</div>
+          <div class="scenario-return-sub">开发推进</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return neutral">+15%</div>
+          <div class="scenario-return-sub">无 alpha</div>
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="scenario-cell">
+          <div class="scenario-name">温和回调</div>
+          <div class="scenario-price">锂价 $24k → $18k</div>
+        </div>
+        <div class="scenario-cell scenario-prob">15%</div>
+        <div class="scenario-cell">
+          <div class="scenario-return negative">-10%</div>
+          <div class="scenario-return-sub">仍然盈利</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return negative">-15%</div>
+          <div class="scenario-return-sub">投产延期担忧</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-negative">-40%</div>
+          <div class="scenario-return-sub">⚠️ 杠杆反向</div>
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="scenario-cell">
+          <div class="scenario-name">深度回调</div>
+          <div class="scenario-price">锂价 $24k → $12k</div>
+        </div>
+        <div class="scenario-cell scenario-prob">10%</div>
+        <div class="scenario-cell">
+          <div class="scenario-return negative">-25%</div>
+          <div class="scenario-return-sub">仍能熬过</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-negative">-40%</div>
+          <div class="scenario-return-sub">融资风险</div>
+        </div>
+        <div class="scenario-cell">
+          <div class="scenario-return high-negative">-70%</div>
+          <div class="scenario-return-sub">⚠️ 接近亏损线</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-lede" style="margin-top: 36px; max-width: 1000px;">
+      <strong style="color: var(--ink-primary); font-style: normal;">期望值计算（按概率加权）</strong>：
+      SGML 期望回报 <strong style="color: var(--green); font-style: normal;">+24%</strong> ｜ LAC <strong style="color: var(--green); font-style: normal;">+15%</strong> ｜ ELVR <strong style="color: var(--green); font-style: normal;">+27%</strong>。三者期望值接近，但波动率差异巨大。
+    </p>
+  </div>
+</section>
+
+<!-- MISTAKE ACKNOWLEDGMENT -->
+<section class="container">
+  <div class="mistake-section">
+    <div class="mistake-label">认知修正 · Honest Correction</div>
+    <h3 class="mistake-title">为什么我之前低估了 ELVR</h3>
+    <p class="mistake-body">
+      我前面用 SGML 的"低成本护城河"论证 ELVR 的劣势——这是<strong>熊市逻辑</strong>。但锂价已经从底部反弹 160%，环境变了。我犯了"<em>用熊市逻辑评估牛市</em>"的错误。
+      <br><br>
+      更关键的是<strong>我犯了双标</strong>：分析金矿时强调 AU、SSR、GFI 的"高 AISC = 高经营杠杆"是 alpha 来源；分析锂矿时却把高 AISC 当成劣势。<strong>好的投资框架在不同板块之间应该保持一致</strong>。
+      <br><br>
+      所以现在 ELVR 在我的组合建议里从 <em>2%（小仓位补充）</em> 提升到 <strong>4%（高 Beta 主仓位）</strong>——这是诚实的修正。
+    </p>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section class="container recommend-section">
+  <div class="section-header">
+    <div class="section-number">vi.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Portfolio Construction · 组合构建</div>
+      <h2 class="section-title">三种组合 · 三种锂价信念</h2>
+    </div>
+  </div>
+  <p class="section-lede">
+    最终配置取决于你对锂价方向的判断。每个组合对应一个清晰的信念。
+  </p>
+
+  <div class="recommend-grid">
+
+    <div class="recommend-card">
+      <div class="recommend-label">方案 A · 防御型</div>
+      <h3 class="recommend-title">看空或不确定<br>低成本护城河</h3>
+      <p class="recommend-desc">如果你担心锂价已接近顶部，或者不确定未来方向。重点是"涨能赚、跌不亏"。</p>
+      <div class="allocations">
+        <div class="alloc-row">
+          <div class="alloc-pct">6%</div>
+          <div class="alloc-stock">SGML</div>
+          <div class="alloc-note">最低成本</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-pct">3%</div>
+          <div class="alloc-stock">LAC</div>
+          <div class="alloc-note">战略保留</div>
+        </div>
+      </div>
+      <p class="recommend-thesis">
+        SGML 现金成本 $3,300，即使锂价跌回 $9,000 还能盈利。回避 ELVR 的高 Beta 风险。
+      </p>
+    </div>
+
+    <div class="recommend-card featured">
+      <div class="recommend-badge">推荐</div>
+      <div class="recommend-label">方案 B · 平衡型</div>
+      <h3 class="recommend-title">温和看多<br>三角形配置</h3>
+      <p class="recommend-desc">基于"锂价继续温和上行至 $30,000"的基本情景。同时覆盖低成本、战略、经营杠杆三个角度。</p>
+      <div class="allocations">
+        <div class="alloc-row">
+          <div class="alloc-pct">4%</div>
+          <div class="alloc-stock">SGML</div>
+          <div class="alloc-note">成本护城河</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-pct">4%</div>
+          <div class="alloc-stock">ELVR</div>
+          <div class="alloc-note">⭐ 经营杠杆</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-pct">3%</div>
+          <div class="alloc-stock">LAC</div>
+          <div class="alloc-note">长期战略</div>
+        </div>
+      </div>
+      <p class="recommend-thesis">
+        三种逻辑互补，单一标的不超过 4%。对应"安全 + 杠杆 + 战略"三角形——在温和牛市下回报最优，回调时也不至于全军覆没。
+      </p>
+    </div>
+
+    <div class="recommend-card">
+      <div class="recommend-label">方案 C · 进攻型</div>
+      <h3 class="recommend-title">强烈看多<br>最大经营杠杆</h3>
+      <p class="recommend-desc">如果你强烈相信锂价继续上涨到 $35,000+。用最高 Beta 标的捕捉最大回报。</p>
+      <div class="allocations">
+        <div class="alloc-row">
+          <div class="alloc-pct">5%</div>
+          <div class="alloc-stock">ELVR</div>
+          <div class="alloc-note">最大杠杆</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-pct">3%</div>
+          <div class="alloc-stock">SGML</div>
+          <div class="alloc-note">底仓</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-pct">3%</div>
+          <div class="alloc-stock">LAC</div>
+          <div class="alloc-note">未来 upside</div>
+        </div>
+      </div>
+      <p class="recommend-thesis">
+        ELVR 在超级牛市下回报 +150%，是最大 Beta 工具。但锂价跌破 $18,000 应该立刻减仓——双向 Beta。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="container takeaways">
+  <div class="section-header">
+    <div class="section-number">vii.</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Key Takeaways · 核心洞察</div>
+      <h2 class="section-title">三个关键认知</h2>
+    </div>
+  </div>
+
+  <div class="takeaways-grid">
+    <div class="takeaway">
+      <div class="takeaway-num">01</div>
+      <h3 class="takeaway-title">单位陷阱是第一关</h3>
+      <p class="takeaway-body">
+        SGML 的 $599/吨和 ALB 的 $7,500/吨<strong>不能直接比较</strong>——前者是锂辉石精矿，后者是 LCE。<strong>转换系数 7.5x</strong>。统一到 LCE 基础后，SGML（$4,500）才是 ALB（$8,500）的真正对手——而且是赢家。
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-num">02</div>
+      <h3 class="takeaway-title">熊市看成本，牛市看杠杆</h3>
+      <p class="takeaway-body">
+        2024 年锂价 $9,000 时，<strong>低成本是生死线</strong>，SGML 是无脑选择。2026 年锂价 $24,000+ 时，<strong>高 AISC = 高经营杠杆</strong>，ELVR 反而是最佳 Beta 工具。<strong>同一个公司在不同周期阶段是不同的投资标的</strong>。
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-num">03</div>
+      <h3 class="takeaway-title">设定明确的卖出条件</h3>
+      <p class="takeaway-body">
+        ELVR 的高 Beta 是双向的——锂价跌破 <strong>$18,000</strong> 时应立即减仓。锂价突破 <strong>$30,000</strong> 时应该锁利。<strong>不要在锂价到顶时追加 ELVR</strong>——那时候应该转向 SGML 这种低成本防御标的。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<footer class="container">
+  <div class="disclaimer">
+    <p class="disclaimer-text">
+      本报告仅供研究和教育目的，不构成投资建议。锂价数据基于公开市场信息，截至 2026 年 5 月。成本和产量数据基于各公司 2025 年年报和 2026 年一季报披露。LCE 转换系数基于行业通用 7.5x（实际可能在 7.0-8.0 之间波动）。情景分析中的回报预测基于多个假设，实际结果可能显著偏离。锂矿股波动大、单股风险集中，投资决策应基于个人风险承受能力与独立研究。
+    </p>
+    <div class="disclaimer-meta">
+      <span>Aurum Research · Lithium Coverage</span>
+      <span>成本 · 产量 · 杠杆 · 三维分析</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

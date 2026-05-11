@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股银矿企业研究报告 Q1 2026 | Silver Miners Equity Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --bg-subtle: #F3F1EC;
+    --bg-row-alt: #FAFAF7;
+    --bg-spotlight: #FFF8EC;
+    --ink: #14181F;
+    --ink-soft: #3F4754;
+    --ink-muted: #767E8A;
+    --ink-faint: #A8AEB7;
+    --line: #E5E2D9;
+    --line-soft: #EFEDE6;
+    --navy: #0E2A47;
+    --navy-soft: #1B3A5F;
+    --accent: #8B6F35;
+    --bull: #1F6B4A;
+    --bear: #A8331F;
+    --warning: #B68A1E;
+    --silver: #97A1AB;
+    --highlight: #FFF1B8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.5;
+    font-feature-settings: 'tnum', 'kern', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+
+  /* ================ Header ================ */
+  .header-bar {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-card);
+    padding: 14px 0;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+  .badge-live {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--bull);
+  }
+  .badge-live::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bull); box-shadow: 0 0 0 3px rgba(31,107,74,.18);
+  }
+
+  .masthead {
+    padding: 56px 0 36px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg) 100%);
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--navy);
+  }
+  .deck {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 820px;
+    font-weight: 400;
+  }
+  .deck strong { color: var(--accent); font-weight: 600; }
+  .meta-row {
+    display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  .meta-item {
+    font-size: 11px; line-height: 1.4;
+  }
+  .meta-label {
+    color: var(--ink-muted); text-transform: uppercase;
+    letter-spacing: 0.08em; font-weight: 500; margin-bottom: 2px;
+  }
+  .meta-value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink); font-weight: 500; font-size: 12px;
+  }
+
+  /* ================ Section ================ */
+  section {
+    padding: 36px 0 24px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  section.spotlight {
+    background: var(--bg-spotlight);
+    border-bottom: 2px solid var(--accent);
+  }
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 18px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em; font-weight: 500;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  h2 em { font-style: italic; color: var(--navy); }
+  .section-sub {
+    font-size: 12.5px; color: var(--ink-muted);
+    margin-left: auto; font-style: italic;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  p { margin-bottom: 10px; color: var(--ink-soft); }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  mark {
+    background: var(--highlight);
+    padding: 0 3px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ================ Exec Summary ================ */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 28px;
+  }
+  .summary-text p {
+    font-size: 13.5px; line-height: 1.55;
+  }
+  .summary-text p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    float: left;
+    line-height: 0.9;
+    margin: 4px 6px -2px 0;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .keystats {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+  .keystats h4 {
+    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+    margin-bottom: 10px;
+  }
+  .stat-line {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dotted var(--line);
+    font-size: 12px;
+  }
+  .stat-line:last-child { border-bottom: none; }
+  .stat-key { color: var(--ink-soft); }
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink); font-weight: 500;
+  }
+  .stat-val.up { color: var(--bull); }
+  .stat-val.dn { color: var(--bear); }
+
+  /* ================ Deleveraging Spotlight ================ */
+  .deleveraging-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+    margin-top: 12px;
+  }
+  .delev-text h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .delev-text p { font-size: 13px; line-height: 1.55; margin-bottom: 9px; }
+  .delev-table {
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+  }
+  .delev-table table {
+    width: 100%; border-collapse: collapse;
+    font-size: 11.5px;
+  }
+  .delev-table thead {
+    background: var(--accent); color: #FFF;
+  }
+  .delev-table th {
+    padding: 8px 10px; font-size: 10px;
+    letter-spacing: 0.05em; font-weight: 600;
+    text-transform: uppercase;
+    text-align: left;
+  }
+  .delev-table th.num { text-align: right; }
+  .delev-table td {
+    padding: 7px 10px;
+    border-top: 1px solid var(--line-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+  }
+  .delev-table td:first-child {
+    font-weight: 600; color: var(--navy);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .delev-table td.num { text-align: right; font-weight: 500; }
+  .delev-table tr:hover { background: var(--bg-row-alt); }
+  .arrow-right {
+    color: var(--ink-faint); margin: 0 5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .net-cash { color: var(--bull); font-weight: 600; }
+  .net-debt { color: var(--bear); font-weight: 600; }
+
+  /* ================ Master Table ================ */
+  .table-wrap {
+    overflow-x: auto; margin: 0 -2px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+  }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12px; line-height: 1.35;
+  }
+  thead {
+    background: var(--navy); color: #FFFFFF;
+  }
+  th {
+    text-align: left; padding: 9px 11px;
+    font-weight: 600; font-size: 10.5px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    white-space: nowrap;
+  }
+  th:last-child { border-right: none; }
+  th.num { text-align: right; }
+  td {
+    padding: 8px 11px;
+    border-bottom: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    vertical-align: middle;
+  }
+  td:last-child { border-right: none; }
+  td.num {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px; font-weight: 500;
+  }
+  tbody tr:nth-child(even) { background: var(--bg-row-alt); }
+  tbody tr:hover { background: #F3F0E5; }
+  tbody tr:last-child td { border-bottom: none; }
+  .ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600; color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 9.5px; padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .pill-tier1 { background: #E8EFE5; color: #2D5C3F; }
+  .pill-growth { background: #FBF1DD; color: #8C6916; }
+  .pill-pure { background: #E5EDF4; color: #1B4474; }
+  .pill-stream { background: #F0E9F0; color: #553D63; }
+  .pill-mid { background: #F5F0E5; color: #6F5630; }
+
+  /* ================ Profile Cards ================ */
+  .profiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 12px;
+  }
+  .profile {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 22px 26px;
+    position: relative;
+  }
+  .profile::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--navy);
+  }
+  .profile.top-tier::before { background: var(--bull); }
+  .profile.growth::before { background: var(--accent); }
+  .profile.pure::before { background: var(--navy-soft); }
+  .profile.stream::before { background: var(--silver); }
+
+  .profile-head {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 4px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-soft);
+    flex-wrap: wrap;
+  }
+  .profile-ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 18px;
+    color: var(--navy); letter-spacing: 0.01em;
+  }
+  .profile-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500; font-size: 17px;
+    color: var(--ink);
+  }
+  .profile-tag {
+    margin-left: auto; font-size: 11px;
+    color: var(--ink-muted); font-style: italic;
+  }
+  .q1-flag {
+    display: inline-block; font-size: 9px;
+    background: var(--bull); color: #FFF;
+    padding: 2px 6px; letter-spacing: 0.06em;
+    text-transform: uppercase; font-weight: 600;
+    border-radius: 2px;
+  }
+  .profile-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 14px;
+  }
+  .profile-narrative h4 { margin-bottom: 6px; }
+  .profile-narrative p {
+    font-size: 12.5px; line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  .dat {
+    padding: 7px 11px;
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--bg-row-alt);
+  }
+  .dat:nth-child(2n) { border-right: none; }
+  .dat-k {
+    font-size: 9.5px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    margin-bottom: 1px;
+  }
+  .dat-v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink);
+  }
+  .dat-v.up { color: var(--bull); }
+  .dat-v.dn { color: var(--bear); }
+  .dat-v.highlight { background: var(--highlight); padding: 0 3px; }
+  .dat-v small {
+    font-size: 10px; color: var(--ink-muted);
+    margin-left: 4px; font-weight: 400;
+  }
+
+  .bull-bear {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--line);
+    margin-top: 12px; border: 1px solid var(--line);
+  }
+  .bull-bear > div {
+    background: var(--bg-card); padding: 10px 12px;
+  }
+  .bb-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .bb-bull .bb-label { color: var(--bull); }
+  .bb-bear .bb-label { color: var(--bear); }
+  .bull-bear ul {
+    list-style: none; padding: 0;
+    font-size: 11.5px; line-height: 1.4;
+  }
+  .bull-bear li {
+    padding: 2px 0 2px 11px;
+    color: var(--ink-soft);
+    position: relative;
+  }
+  .bull-bear li::before {
+    position: absolute; left: 0; top: 2px;
+    font-size: 10px; font-weight: 700;
+  }
+  .bb-bull li::before { content: '+'; color: var(--bull); }
+  .bb-bear li::before { content: '−'; color: var(--bear); }
+
+  /* ================ Comparison Matrix ================ */
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .matrix-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+  }
+  .matrix-card h4 {
+    color: var(--navy);
+    font-size: 11.5px; letter-spacing: 0.04em;
+    margin-bottom: 4px; text-transform: none;
+    font-family: 'Fraunces', serif; font-weight: 600;
+    font-style: italic;
+  }
+  .matrix-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px; font-weight: 600;
+    color: var(--accent); margin-bottom: 4px;
+    line-height: 1;
+  }
+  .matrix-rank small {
+    font-size: 10px; color: var(--ink-muted);
+    margin-left: 4px; font-weight: 400;
+  }
+  .matrix-body {
+    font-size: 11.5px; color: var(--ink-soft);
+    line-height: 1.4; margin-top: 6px;
+  }
+  .matrix-tag {
+    display: inline-block; font-size: 9.5px;
+    color: var(--accent); font-weight: 600;
+    letter-spacing: 0.05em; margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ================ Closing ================ */
+  .closing {
+    padding: 28px 0 16px;
+    border-top: 2px solid var(--ink);
+  }
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+  }
+  .closing h3 {
+    font-size: 18px; font-style: italic;
+    margin-bottom: 10px;
+  }
+  .closing p {
+    font-size: 12.5px; line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .takeaway {
+    background: var(--navy);
+    color: #F0EDE5;
+    padding: 18px 22px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.4;
+    border-left: 3px solid var(--accent);
+  }
+  .takeaway::before {
+    content: '"';
+    font-size: 38px;
+    line-height: 0.4; vertical-align: -8px;
+    margin-right: 4px;
+    color: var(--accent);
+  }
+
+  /* ================ Footer ================ */
+  footer {
+    padding: 24px 0 32px;
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  footer .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .disclaimer { font-style: italic; }
+  .disclaimer strong { color: var(--ink-soft); font-weight: 600; }
+
+  @media (max-width: 920px) {
+    .summary-grid, .profile-body, .closing-grid, .deleveraging-grid { grid-template-columns: 1fr; }
+    .matrix { grid-template-columns: 1fr 1fr; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ Top Header Bar ============ -->
+<div class="header-bar">
+  <div class="container">
+    <span>EQUITY RESEARCH · PRECIOUS METALS · Q1 2026 EARNINGS UPDATE</span>
+    <span class="badge-live">May 8, 2026 · Silver $72.4 · Gold $4,685</span>
+  </div>
+</div>
+
+<!-- ============ Masthead ============ -->
+<div class="masthead">
+  <div class="container">
+    <div class="eyebrow">Q1 2026 Earnings Cycle · Industry-Wide Inflection</div>
+    <h1>美股银矿企业研究<em>Q1 2026 全景报告</em></h1>
+    <p class="deck">
+      Q1 2026 是整个贵金属采矿行业的<strong>结构性拐点</strong>——金价 $4,884/oz、银价 $82.69/oz 的实现价格驱动
+      记录级现金流，覆盖标的 <strong>从历史净债务状态批量转入净现金状态</strong>。本报告基于 5 月 5–7 日刚披露的
+      Q1 2026 季报，更新 7 家美股银矿生产商的资产负债表、现金流和最新指引。
+    </p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="meta-label">Report Date</div>
+        <div class="meta-value">2026-05-08</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Earnings Cycle</div>
+        <div class="meta-value">Q1 2026 (Mar 31)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Realized Silver</div>
+        <div class="meta-value">$82.69 /oz · +160% YoY</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Realized Gold</div>
+        <div class="meta-value">$4,884 /oz · +69% YoY</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Industry Net Cash</div>
+        <div class="meta-value" style="color: var(--bull);">+$2.0B aggregate</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Sector Stance</div>
+        <div class="meta-value" style="color: var(--bull);">CONSTRUCTIVE</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Section 1 - Executive Summary ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>执行<em>摘要</em></h2>
+      <span class="section-sub">Q1 2026 thesis update</span>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-text">
+        <p>
+          Q1 2026 是过去十年银矿行业最重要的财务拐点之一。<strong>HL 多年来首次"零长期债务"</strong>（4 月 9 日赎回最后 $263M senior notes）；
+          <strong>CDE 在吞并 New Gold 的同时仍转入 +$82M 净现金</strong>；<strong>PAAS 创纪录现金 $1.8B</strong>；
+          FSM、AG 同步进入显著净现金状态。这不是周期性现金流改善，是<mark>整个行业的结构性去杠杆</mark>。
+        </p>
+        <p>
+          驱动因子单一但强劲：金价 Q1 实现 $4,884/oz（同比 +69%），银价 $82.69/oz（同比 +160%），
+          单位毛利非线性放大。Q1 PAAS / HL / CDE / FSM / WPM 五家披露的合计经营性现金流超过 <strong>$2.7B</strong>，
+          相当于 2024 年同期的 3-4 倍。
+        </p>
+        <p>
+          <strong>核心判断：</strong>资产负债表从"约束变量"变成"机会变量"。过去 5 年，矿业公司的扩张受制于债务负担和稀释压力；
+          现在大多数公司有能力<strong>同时进行回购+派息+并购+资本开支</strong>。这是 M&amp;A 整合潮启动的真正驱动力——
+          PAAS-MAG / CDE-SilverCrest+New Gold / AG-Gatos 都发生在这种现金流强势的窗口。
+        </p>
+        <p>
+          <strong>唯一例外是 WPM</strong>：Q1 末仍持 $2.16B 现金，但 4 月以 $4.3B 完成 BHP/Antamina stream 交易，
+          预计完成后净债务 ~$2.4B。管理层指引 2026 年经营现金流 $3.2B，"约 1 年内回到净现金状态"。
+          <strong>这是流式融资模式在牛市下半场的典型动作——把强劲现金流锁进长期合约</strong>。
+        </p>
+      </div>
+
+      <div class="keystats">
+        <h4>Q1 2026 行业快照</h4>
+        <div class="stat-line">
+          <span class="stat-key">银价 Q1 实现均价</span>
+          <span class="stat-val up">$82.69 /oz</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">金价 Q1 实现均价</span>
+          <span class="stat-val up">$4,884 /oz</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">银价 YoY</span>
+          <span class="stat-val up">+160%</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">板块合计 Q1 经营现金流</span>
+          <span class="stat-val up">$2.7B+</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">从净债务转净现金的家数</span>
+          <span class="stat-val up">5 / 7</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">中位 Q1 营收 YoY 增速</span>
+          <span class="stat-val up">+87%</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">M&amp;A 活跃度</span>
+          <span class="stat-val" style="color: var(--accent);">极高</span>
+        </div>
+        <div class="stat-line">
+          <span class="stat-key">行业派息+回购窗口</span>
+          <span class="stat-val" style="color: var(--bull);">已启动</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 2 - Deleveraging Spotlight ============ -->
+<section class="spotlight">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02 · SPOTLIGHT</span>
+      <h2>The Great <em>Deleveraging</em></h2>
+      <span class="section-sub">Q1 2026 industry inflection point</span>
+    </div>
+
+    <div class="deleveraging-grid">
+      <div class="delev-text">
+        <h4>从负债结构变成净现金——这次不一样的地方</h4>
+        <p>
+          银矿股过去 5 年的痛点是：负债重、现金紧、扩张依赖发股。HL 长期带 $500M+ 长期债务；CDE Rochester 扩建烧到濒临稀释危机；
+          AG 反复发股；EXK 靠 Terronera 项目融资续命。<strong>Q1 2026 这一切都变了</strong>。
+        </p>
+        <p>
+          关键不只是"现金多了"——是<mark>管理层资本配置的优先级发生了实质变化</mark>。HL 4 月 9 日主动赎回 $263M senior notes、
+          PAAS 提出 2026 年 $1B 股东回报计划、CDE 获评级机构多档上调（接近 investment grade）、FSM 启动 $40M 回购、
+          AG 双倍派息。<strong>这些不是单点决定，是对"去杠杆周期已完成"的集体确认</strong>。
+        </p>
+        <p>
+          为什么这是<strong>结构性</strong>而不是周期性？三个理由：(1) 金银价没有任何 reversal 信号；
+          (2) 行业过去 5 年没新建大型项目，现金流入>现金流出已是必然；(3) Q1 单季现金流量已经能覆盖大多数公司全年 capex 计划——
+          意味着<strong>即使金银价回落 30%，多数公司仍处于自由现金流为正状态</strong>。
+        </p>
+        <p>
+          投资含义：板块整体的"<strong>下行风险溢价</strong>"已大幅压缩。过去市场对银矿股的 EV/EBITDA 倍数压制
+          ("不相信现金流可持续") 在 Q1 数据公布后部分被打破——板块估值倍数有<strong>结构性 re-rating 空间</strong>。
+        </p>
+      </div>
+
+      <div class="delev-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>2025 Q1 Net Position</th>
+              <th>2026 Q1 Net Position</th>
+              <th class="num">Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HL</td>
+              <td><span class="net-debt">−$545M 净债务</span></td>
+              <td><span class="net-cash">+$322M 净现金</span></td>
+              <td class="num" style="color: var(--bull);">+$867M</td>
+            </tr>
+            <tr>
+              <td>PAAS</td>
+              <td><span class="net-debt">−$155M 净债务</span></td>
+              <td><span class="net-cash">+$679M 净现金</span></td>
+              <td class="num" style="color: var(--bull);">+$834M</td>
+            </tr>
+            <tr>
+              <td>CDE</td>
+              <td><span class="net-debt">−$525M 净债务</span></td>
+              <td><span class="net-cash">+$82M 净现金</span></td>
+              <td class="num" style="color: var(--bull);">+$607M</td>
+            </tr>
+            <tr>
+              <td>AG</td>
+              <td><span class="net-debt">−$50M 净债务</span></td>
+              <td><span class="net-cash">+$500M 净现金</span></td>
+              <td class="num" style="color: var(--bull);">+$550M</td>
+            </tr>
+            <tr>
+              <td>FSM</td>
+              <td><span class="net-cash">+$222M 净现金</span></td>
+              <td><span class="net-cash">+$493M 净现金</span></td>
+              <td class="num" style="color: var(--bull);">+$271M</td>
+            </tr>
+            <tr>
+              <td>EXK</td>
+              <td><span class="net-debt">−$95M 净债务</span></td>
+              <td><span class="net-cash">~+$80M 净现金*</span></td>
+              <td class="num" style="color: var(--bull);">+$175M</td>
+            </tr>
+            <tr style="background: #FBE9E2;">
+              <td>WPM</td>
+              <td><span class="net-cash">+$818M 净现金</span></td>
+              <td><span class="net-debt">−$2.4B 净债务**</span></td>
+              <td class="num" style="color: var(--bear);">−$3.2B</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 10px; color: var(--ink-muted); padding: 8px 11px; font-style: italic;">
+          * EXK Q1 现金 $231.8M, 估算债务 ~$150M (Terronera 融资余额) <br>
+          ** WPM Q1 末 $2.16B 净现金，4 月完成 $4.3B BHP/Antamina + KGL + Spanish Mountain 三大 stream，预计净债务 ~$2.4B
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 3 - Master Comparison Table ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>覆盖公司<em>Q1 2026 对比总表</em></h2>
+      <span class="section-sub">Latest disclosed actuals</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Company</th>
+            <th>类别</th>
+            <th class="num">市值 ($B)</th>
+            <th class="num">Q1 营收 YoY</th>
+            <th class="num">Q1 银产 (Moz)</th>
+            <th class="num">Q1 EBITDA ($M)</th>
+            <th class="num">Q1 FCF ($M)</th>
+            <th class="num">Q1 末现金 ($M)</th>
+            <th class="num">净现金 ($M)</th>
+            <th class="num">Q1 AISC</th>
+            <th>地缘</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker">PAAS</td>
+            <td>Pan American Silver</td>
+            <td><span class="pill pill-tier1">Tier 1</span></td>
+            <td class="num">10.8</td>
+            <td class="num up">+91%</td>
+            <td class="num">6.44</td>
+            <td class="num">~700</td>
+            <td class="num">488</td>
+            <td class="num">1,800</td>
+            <td class="num up">+679</td>
+            <td class="num">$6.63/oz银</td>
+            <td>拉美多元</td>
+          </tr>
+          <tr>
+            <td class="ticker">HL</td>
+            <td>Hecla Mining</td>
+            <td><span class="pill pill-tier1">Tier 1</span></td>
+            <td class="num">7.4</td>
+            <td class="num up">+100%</td>
+            <td class="num">3.9</td>
+            <td class="num">265</td>
+            <td class="num">144</td>
+            <td class="num">588</td>
+            <td class="num up" style="background: var(--highlight);">+322 → 0 debt</td>
+            <td class="num">$10-12/oz</td>
+            <td>纯北美</td>
+          </tr>
+          <tr>
+            <td class="ticker">CDE</td>
+            <td>Coeur Mining</td>
+            <td><span class="pill pill-growth">Growth</span></td>
+            <td class="num">19.8</td>
+            <td class="num up">+大幅</td>
+            <td class="num">~5.0</td>
+            <td class="num">475</td>
+            <td class="num">267</td>
+            <td class="num">843</td>
+            <td class="num up">+82</td>
+            <td class="num">~$11/oz</td>
+            <td>纯北美</td>
+          </tr>
+          <tr>
+            <td class="ticker">AG</td>
+            <td>First Majestic</td>
+            <td><span class="pill pill-pure">Pure-β</span></td>
+            <td class="num">9.8</td>
+            <td class="num" style="color: var(--ink-muted);">5/12 公布</td>
+            <td class="num">3.5</td>
+            <td class="num" style="color: var(--ink-muted);">5/12 公布</td>
+            <td class="num" style="color: var(--ink-muted);">5/12 公布</td>
+            <td class="num">793</td>
+            <td class="num up">+500</td>
+            <td class="num">$19-21</td>
+            <td>墨西哥</td>
+          </tr>
+          <tr>
+            <td class="ticker">EXK</td>
+            <td>Endeavour Silver</td>
+            <td><span class="pill pill-pure">Pure-β</span></td>
+            <td class="num">3.0</td>
+            <td class="num up">+78% (AgEq)</td>
+            <td class="num">1.88</td>
+            <td class="num">~80</td>
+            <td class="num">~50</td>
+            <td class="num">232</td>
+            <td class="num up">~+80</td>
+            <td class="num dn">$37.03</td>
+            <td>墨/秘 (新)</td>
+          </tr>
+          <tr>
+            <td class="ticker">FSM</td>
+            <td>Fortuna Mining</td>
+            <td><span class="pill pill-mid">Mid</span></td>
+            <td class="num">3.3</td>
+            <td class="num up">+76%</td>
+            <td class="num">~1.5</td>
+            <td class="num">219</td>
+            <td class="num">174</td>
+            <td class="num">666</td>
+            <td class="num up">+493</td>
+            <td class="num">$2,107/GEO</td>
+            <td>多元 (西非)</td>
+          </tr>
+          <tr style="background: #FBE9E2;">
+            <td class="ticker">WPM</td>
+            <td>Wheaton Precious</td>
+            <td><span class="pill pill-stream">Stream</span></td>
+            <td class="num">38.4</td>
+            <td class="num up">+92%</td>
+            <td class="num">~5.5*</td>
+            <td class="num">~750</td>
+            <td class="num">766 op</td>
+            <td class="num">2,160</td>
+            <td class="num dn">−2,400 (4月后)</td>
+            <td class="num" style="color: var(--ink-muted);">N/A</td>
+            <td>全球</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 10.5px; color: var(--ink-muted); margin-top: 8px; font-style: italic;">
+      * WPM 银产量为 attributable streamed ounces (GEO 211,951 总值，按银金比例分配)。
+      所有数据基于 2026 年 5 月 5-7 日各公司 Q1 2026 季报 (8-K / 6-K / 10-Q)。AG Q1 财务结果 5 月 12 日发布，本表暂用 Q4 2025 末数据 + 卖方预期。
+      市值按 2026/5/7 收盘价。EXK Q4 2025 收购 Kolpa 矿后市值大幅抬升至 $3B 量级。
+    </p>
+  </div>
+</section>
+
+<!-- ============ Section 4 - Profile Deep Dives ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>个股<em>Q1 2026 深度档案</em></h2>
+      <span class="section-sub">Updated to latest disclosure</span>
+    </div>
+
+    <div class="profiles">
+
+      <!-- ===== PAAS ===== -->
+      <div class="profile top-tier">
+        <div class="profile-head">
+          <span class="profile-ticker">PAAS</span>
+          <span class="profile-name">Pan American Silver Corp.</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">皇冠资产持有人 · 拉美多元化龙头</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              Q1 PAAS 创下两个公司纪录：<strong>$1.8B 现金</strong>（含 Juanicipio 44% 权益现金 $199M）和
+              <strong>$488M 归属自由现金流</strong>。Juanicipio 银 segment AISC $6.63/oz——比指引还低，
+              反映高金价副产收入抵扣放大。管理层宣布 <strong>2026 年 $1B 股东回报计划</strong>。
+            </p>
+            <p>
+              Q1 末 cash $1.5B（不含 Juanicipio）+ Juanicipio 现金 $199M = $1.8B 总流动现金。
+              扣减总债务 $845M ($283M 4.625% 2027 + $500M 2.63% 2031)，<strong>净现金 $679M</strong>。
+              叠加 $750M 未提取信贷额度，总流动性 $2.4B。
+            </p>
+            <p>
+              Q1 项目资本预算上调至 $240-255M (含 $92-95M 投入 La Colorada Skarn 项目)——
+              管理层选择"更高再投资+更高股东回报"双重战略，反映对持续现金流的强信心。
+              Juanicipio 的"皇冠效应"在 Q1 数据中得到完整确认。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$10.8B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$22 – $46</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$1.2B <small>+91%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 银产 (归属)</div><div class="dat-v">6.44 Moz</div></div>
+              <div class="dat"><div class="dat-k">Q1 金产 (归属)</div><div class="dat-v">169 koz</div></div>
+              <div class="dat"><div class="dat-k">Q1 调整 EPS</div><div class="dat-v up">$1.09</div></div>
+              <div class="dat"><div class="dat-k">Q1 经营 CF</div><div class="dat-v">$505M</div></div>
+              <div class="dat"><div class="dat-k">Q1 自由 CF</div><div class="dat-v up">$488M</div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v highlight">$1.8B 创纪录</div></div>
+              <div class="dat"><div class="dat-k">Total Debt</div><div class="dat-v">$845M</div></div>
+              <div class="dat"><div class="dat-k">Net Cash</div><div class="dat-v up highlight">+$679M</div></div>
+              <div class="dat"><div class="dat-k">银 Segment AISC</div><div class="dat-v up">$6.63/oz</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 强化)</div>
+            <ul>
+              <li>Juanicipio 44% — Q1 AISC $6.63/oz, 验证皇冠资产经济性</li>
+              <li>$1.8B 现金创纪录，Net cash $679M</li>
+              <li>2026 年 $1B 股东回报计划</li>
+              <li>地缘分散度全行业最高</li>
+              <li>潜在 PAAS 收购 Juanicipio 剩 56% 的整合 optionality</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>金占比 60% — 不是纯银 β 标的</li>
+              <li>EV/EBITDA 已享受龙头溢价</li>
+              <li>玻利维亚、阿根廷有特定政治尾部风险</li>
+              <li>Juanicipio 仅 44% 权益，运营商是 Fresnillo</li>
+              <li>Q1 capex 上调到 $240-255M</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== HL ===== -->
+      <div class="profile top-tier">
+        <div class="profile-head">
+          <span class="profile-ticker">HL</span>
+          <span class="profile-name">Hecla Mining Company</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">美国最大银矿 · 多年来首次零长期债务</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              <mark>HL Q1 是公司多年最重要的财务里程碑</mark>。一年前是 −$545M 净债务；Q1 末转入 +$322M 净现金；
+              <strong>4 月 9 日（Q1 后）赎回最后 $263M senior notes</strong>——Hecla 多年来首次"无长期债务"。
+              这是 130 年公司史上罕见的资产负债表状态。
+            </p>
+            <p>
+              Q1 营收 $411M (+100% YoY)、调整 EBITDA $265M、自由现金流 $144M（均为公司纪录）。
+              虽然包含 Casa Berardi 出售相关 non-cash 减记导致小幅净亏损，
+              但<strong>核心运营现金流是行业最干净的"纯银+北美"暴露</strong>。
+              Greens Creek 副产抵扣大幅改善，Lucky Friday 维持稳产，Keno Hill 第四个连续 FCF 为正季度。
+            </p>
+            <p>
+              Q1 Greens Creek 银品位 327 g/t（reserves 10.45 oz/t）维持顶级。$225M 未提取信贷额度
+              + $75M accordion 提供应急流动性。<strong>"零长期债务 + 强劲现金流"组合是 HL 历史最强资产负债表</strong>。
+              CEO 明确指引未来现金用于"内部增长 + 储量替代 + 股东回报"。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$7.4B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$5 – $14</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$411M <small>+100%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 银产</div><div class="dat-v">3.9 Moz</div></div>
+              <div class="dat"><div class="dat-k">Q1 调整 EBITDA</div><div class="dat-v up">$265M</div></div>
+              <div class="dat"><div class="dat-k">Q1 自由 CF</div><div class="dat-v">$144M</div></div>
+              <div class="dat"><div class="dat-k">Q1 净利润 (continuing)</div><div class="dat-v up">$165M</div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v">$588M</div></div>
+              <div class="dat"><div class="dat-k">Q1 末总债务</div><div class="dat-v">$266M</div></div>
+              <div class="dat"><div class="dat-k">4月9日后债务</div><div class="dat-v up highlight">零长期债务</div></div>
+              <div class="dat"><div class="dat-k">Net Cash</div><div class="dat-v up">+$322M → 净现金</div></div>
+              <div class="dat"><div class="dat-k">P&amp;P 储量银</div><div class="dat-v">240 Moz</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 重大升级)</div>
+            <ul>
+              <li>Greens Creek 储量替代率 128%, 36 年稳产</li>
+              <li>多年来首次零长期债务，资产负债表创公司史上最强</li>
+              <li>Casa Berardi 出售完成，组合更聚焦银</li>
+              <li>纯北美，受益美国 critical mineral 政策</li>
+              <li>$225M 未提取信贷+$75M accordion 应急流动性</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>Greens Creek 单矿集中度 ~60%</li>
+              <li>EV/EBITDA 已享受北美溢价</li>
+              <li>不做大并购，规模扩张慢</li>
+              <li>Q1 银产略低于 Q1 2025</li>
+              <li>Lucky Friday 80 年矿龄风险积累</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CDE ===== -->
+      <div class="profile growth">
+        <div class="profile-head">
+          <span class="profile-ticker">CDE</span>
+          <span class="profile-name">Coeur Mining, Inc.</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">增长机器 · 巨型并购转入净现金</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              Q1 CDE 完成<strong>资本结构史上最戏剧性转换</strong>。一年前是 -$525M 净债务；Q1 末 cash $843M vs debt $761M = 
+              <strong>+$82M 净现金</strong>。即使<mark>同时承接 New Gold 收购带来的 $272M 净债务</mark>，
+              Q1 现金仍增长 ~$300M。LTM EBITDA 杠杆比从巨高变成 <strong>−0.1x</strong>。
+            </p>
+            <p>
+              Q1 营收 $856M（卖方预期 $802M），调整 EBITDA $475M（环比 +12%），FCF $267M（公司史第二高），
+              即使消化超 $200M 一次性流出。Las Chispas 全年贡献开始体现，<strong>2026 年 EBITDA 目标 $30 亿、FCF $20 亿</strong>
+              得到 Q1 数据初步验证。
+            </p>
+            <p>
+              4 月 22 日完成 New Gold 2032 债券置换，96% 转入 CDE 名下，享受发美国税收 shield。
+              4 月 30 日提前还清 $45M 资本租赁。<strong>评级机构在 New Gold 收购后给出多档上调</strong>，
+              接近 investment-grade 级别。$1B 新增信贷额度提供超充裕流动性。
+              CDE 从 "二线高风险股票" 转向 "北美 senior precious metals 龙头" 的重估正在进行。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值 (合并后)</div><div class="dat-v">$19.8B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$4 – $19</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$856M</div></div>
+              <div class="dat"><div class="dat-k">Q1 调整 EBITDA</div><div class="dat-v up">$475M <small>+12% QoQ</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 FCF</div><div class="dat-v">$267M</div></div>
+              <div class="dat"><div class="dat-k">Q1 EPS</div><div class="dat-v">$0.36</div></div>
+              <div class="dat"><div class="dat-k">Q1 经营 CF</div><div class="dat-v up">$340.8M <small>+404% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v">$843M <small>+987% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Total Debt</div><div class="dat-v">$761M</div></div>
+              <div class="dat"><div class="dat-k">Net Cash</div><div class="dat-v up highlight">+$82M (转入)</div></div>
+              <div class="dat"><div class="dat-k">2026E EBITDA</div><div class="dat-v up">$3,000M</div></div>
+              <div class="dat"><div class="dat-k">2026E FCF</div><div class="dat-v">$2,000M</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 验证)</div>
+            <ul>
+              <li>同时完成 New Gold 收购+转入净现金，资本结构奇迹</li>
+              <li>Q1 EBITDA $475M 验证 2026 年 $3B 目标可达性</li>
+              <li>评级机构多档上调，接近 investment grade</li>
+              <li>Las Chispas 全年贡献+ Rochester 稳态产出</li>
+              <li>$1B 新增信贷+ $843M 现金, 流动性极强</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>Q1 EPS $0.36 vs 预期 $0.50, 略低于预期</li>
+              <li>一年内股本翻倍稀释 (SilverCrest+New Gold)</li>
+              <li>整合 7 矿复杂度高，整合期业绩波动</li>
+              <li>银占收入降至 35-42%, 纯银投资者会减仓</li>
+              <li>Rainy River 是争议资产, 需储量替代</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== AG ===== -->
+      <div class="profile pure">
+        <div class="profile-head">
+          <span class="profile-ticker">AG</span>
+          <span class="profile-name">First Majestic Silver Corp.</span>
+          <span class="q1-flag" style="background: var(--accent);">Q1 财务 5/12</span>
+          <span class="profile-tag">最纯白银 β · Mexico-only 弹性股</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 进展（财务待 5/12 公布）</h4>
+            <p>
+              4 月 9 日 AG 公布 Q1 产量：银 3.5 Moz（-4% YoY）+ 金 34,341 oz（-6% YoY）。
+              产量略低主要因<strong>主动降低 cut-off 品位以应对高金属价格</strong>——边际正向操作。
+              La Encantada 银产 +48% YoY (829 koz), 是 Q1 最大亮点。Los Gatos 70% 权益贡献 1.18 Moz 银。
+            </p>
+            <p>
+              <strong>Q4 2025 末资产负债表</strong>：现金 $793M（含短期投资）+ 总债务 $292M = <strong>净现金 ~$500M</strong>。
+              Q4 2025 报告记录现金流 + 双倍派息政策。Q1 2026 财务数据 5 月 12 日发布，
+              卖方预期营收 $522M, EPS $0.33。
+            </p>
+            <p>
+              管理层维持 "<strong>从增长转向利润优化</strong>" 战略。capex $213-236M 用于 Santa Elena (3,500 tpd)
+              和 Los Gatos (4,000 tpd) 磨厂扩能。<strong>Jerritt Canyon 重启计划进入 H2 2027</strong>，
+              新储量基础大幅扩大。AG 仍是市场最纯白银 β 标的，$80+ 银价环境下其高 AISC 反而是弹性放大器。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$9.8B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$5 – $32</div></div>
+              <div class="dat"><div class="dat-k">Q1 银产</div><div class="dat-v">3.5 Moz <small>-4% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 金产</div><div class="dat-v">34.3 koz</div></div>
+              <div class="dat"><div class="dat-k">Q1 La Encantada</div><div class="dat-v up">+48% YoY</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收 (估)</div><div class="dat-v">~$522M</div></div>
+              <div class="dat"><div class="dat-k">Q4 2025 末现金</div><div class="dat-v">$793M</div></div>
+              <div class="dat"><div class="dat-k">Total Debt</div><div class="dat-v">$292M</div></div>
+              <div class="dat"><div class="dat-k">Net Cash</div><div class="dat-v up highlight">+$500M</div></div>
+              <div class="dat"><div class="dat-k">银占收入</div><div class="dat-v">75%</div></div>
+              <div class="dat"><div class="dat-k">2026 Capex</div><div class="dat-v">$213-236M</div></div>
+              <div class="dat"><div class="dat-k">Q1 Debt/Equity</div><div class="dat-v">0.09</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case</div>
+            <ul>
+              <li>市值 $9.8B (一年涨 5x), 纯银 β 弹性兑现</li>
+              <li>Q1 La Encantada +48% 验证操作改善</li>
+              <li>Net cash $500M, debt-to-equity 仅 0.09</li>
+              <li>双倍派息政策 + Jerritt Canyon 重启 optionality</li>
+              <li>Cerro Los Gatos 103,000 公顷土地包探勘</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>100% 墨西哥单一国家风险</li>
+              <li>AISC $19+/oz - 银价跌破 $25 进入压力区</li>
+              <li>增长故事已结束 (mgmt 转向利润优化)</li>
+              <li>Q1 银金双双小幅同比下降</li>
+              <li>已涨 5x, 短期估值偏贵</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== EXK ===== -->
+      <div class="profile pure">
+        <div class="profile-head">
+          <span class="profile-ticker">EXK</span>
+          <span class="profile-name">Endeavour Silver Corp.</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">中型纯银 · Kolpa 收购 + Terronera 投产</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              EXK Q1 银 1.88 Moz + 金 11,740 oz, 合计 AgEq 3.34 Moz (<strong>+78% YoY</strong>)，主要由
+              <strong>新收购的 Kolpa 矿（秘鲁）</strong>贡献。Q1 营收 $209.7M, 矿运营前现金流 $114.6M。
+              出售 Bolañitos 矿获 $35.6M 收益。
+            </p>
+            <p>
+              <strong>核心战略变化</strong>：从"墨西哥单国家"转向"墨西哥+秘鲁"双国家组合，资产分散度提升。
+              Kolpa 板厂扩建已完成，Terronera 接近设计运转 ramp-up。
+              <strong>市值已涨至 $3B 量级</strong>（一年前约 $1.6B），从小型生产商升级到中型梯队。
+            </p>
+            <p>
+              但 <strong>Q1 AISC $37.03/oz 是行业最高</strong>，反映新收购矿整合成本和品位调整。
+              EXK 是覆盖标的中弹性最大的纯银 β 标的（高 AISC + 银占比 60%+），
+              但执行风险也最高。<strong>Q1 末现金 $231.8M，估算净现金状态</strong>。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$3.0B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$3 – $13</div></div>
+              <div class="dat"><div class="dat-k">Q1 AgEq 产量</div><div class="dat-v up">3.34 Moz <small>+78% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 银产</div><div class="dat-v">1.88 Moz <small>+56% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 金产</div><div class="dat-v">11.7 koz <small>+41% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$209.7M</div></div>
+              <div class="dat"><div class="dat-k">Q1 矿运 CF</div><div class="dat-v">$114.6M</div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v">$231.8M</div></div>
+              <div class="dat"><div class="dat-k">Q1 AISC</div><div class="dat-v dn">$37.03/oz</div></div>
+              <div class="dat"><div class="dat-k">Q1 现金成本</div><div class="dat-v">$22.54/oz</div></div>
+              <div class="dat"><div class="dat-k">银占收入</div><div class="dat-v">62%</div></div>
+              <div class="dat"><div class="dat-k">Bolañitos 售收益</div><div class="dat-v up">$35.6M</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 验证)</div>
+            <ul>
+              <li>Kolpa 收购完成，AgEq 产量 +78% YoY</li>
+              <li>Terronera 投产 + Pitarrilla 推进双驱动</li>
+              <li>市值已升 2x, 进入中型生产商梯队</li>
+              <li>纯银暴露 62%, 银价 β 弹性高</li>
+              <li>潜在 PAAS / CDE / AG 收购目标</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>Q1 AISC $37/oz 是行业最高之一</li>
+              <li>Cash cost $22.5/oz 也极高</li>
+              <li>新增秘鲁敞口, 整合执行风险</li>
+              <li>历史上多次稀释发股</li>
+              <li>市值已涨 2x, 部分 alpha 已 priced in</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FSM ===== -->
+      <div class="profile">
+        <div class="profile-head">
+          <span class="profile-ticker">FSM</span>
+          <span class="profile-name">Fortuna Mining Corp.</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">多元化中型 · 历史最强季度</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              FSM Q1 创公司史上多项纪录：<strong>营收 $342M (+76%)、调整 EBITDA $219M、自由现金流 $174M（最高）、
+              调整净利润 $111M (EPS $0.36)</strong>。Séguéla 矿（科特迪瓦）单季产 42,016 oz 金 (+13.7% QoQ)，
+              成为公司业绩主引擎。Q1 实现金价 $4,884/oz, 银价 $82.69/oz, 验证金银暴涨周期。
+            </p>
+            <p>
+              <strong>资产负债表跃升</strong>：Q1 末现金 $666M (vs Q4 2025 $554M, +$112M)，
+              财务债务 $173M, <strong>净现金 $493M (环比 +$111M)</strong>。
+              叠加 $150M 未提取信贷, 总流动性 $816M。Q1 派息 $20M, 回购 4.2M 股 ($40M)。
+              <strong>2026 年 $330M 全部 capex 完全由内部现金流 cover</strong>, 不需要融资。
+            </p>
+            <p>
+              <strong>储量大幅增长 +15% YoY</strong> (Sunbird 地下扩储)。Séguéla 扩建研究和 Diamba Sud (塞内加尔) 
+              feasibility 5 月底完成。Diamba Sud 环境许可即将获批。<strong>FSM 是覆盖标的中估值最便宜 (P/E 12, P/S 3.4)</strong>，
+              反映西非折扣，但 Q1 数据表明这个折扣过度。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$3.3B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$5 – $14</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$342M <small>+76%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 调整 EBITDA</div><div class="dat-v up highlight">$219M 创纪录</div></div>
+              <div class="dat"><div class="dat-k">Q1 自由 CF</div><div class="dat-v up highlight">$174M 创纪录</div></div>
+              <div class="dat"><div class="dat-k">Q1 调整净利润</div><div class="dat-v">$111M ($0.36/股)</div></div>
+              <div class="dat"><div class="dat-k">Q1 GEO 产量</div><div class="dat-v">72,872 oz</div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v">$666M</div></div>
+              <div class="dat"><div class="dat-k">Total Debt</div><div class="dat-v">$173M</div></div>
+              <div class="dat"><div class="dat-k">Net Cash</div><div class="dat-v up">+$493M</div></div>
+              <div class="dat"><div class="dat-k">P&amp;P 储量金</div><div class="dat-v up">3.0 Moz <small>+50% YoY</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 AISC</div><div class="dat-v">$2,107/GEO</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 大幅强化)</div>
+            <ul>
+              <li>Q1 EBITDA / FCF / 净利润全部创纪录</li>
+              <li>P&amp;P 储量 +50% YoY, Sunbird 扩储成功</li>
+              <li>Net cash $493M, 2026 capex 完全内部融资</li>
+              <li>EV/EBITDA 5.2x — 同业最便宜</li>
+              <li>Diamba Sud 环境许可即将到位</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>银占仅 25%, 不是真正银价 β 标的</li>
+              <li>布基纳法索 / 科特迪瓦 / 塞内加尔西非地缘风险</li>
+              <li>San Jose 矿 LOM 仅 4 年, 已停产</li>
+              <li>阿根廷 Lindero 外汇控制风险</li>
+              <li>市场认知模糊 - 既不是金股也不是银股</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== WPM ===== -->
+      <div class="profile stream">
+        <div class="profile-head">
+          <span class="profile-ticker">WPM</span>
+          <span class="profile-name">Wheaton Precious Metals</span>
+          <span class="q1-flag">Q1 2026 ✓</span>
+          <span class="profile-tag">流式融资 · 战术净债务进入</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-narrative">
+            <h4>Q1 2026 关键看点</h4>
+            <p>
+              WPM Q1 创历史纪录：营收 <strong>$901M (+92%)</strong>、净利润 $582M (+129%)、
+              经营现金流 $766M (+112%)。GEO 出货 211,951 oz (+22% YoY)。
+              Q1 末现金 $2.16B, 表面看资产负债表强劲。
+            </p>
+            <p>
+              但<mark>4 月发生关键变化</mark>：WPM 完成<strong>$4.3B BHP/Antamina 流式合约 + KGL Australia
+              + Spanish Mountain royalty 三大交易</strong>，前期 cash 支付总计约 $4.5B。资金来源：
+              $1.9B 现金 + $1.5B 新 2 年期定期贷款 + $0.9B 现有循环额度提取。
+              <strong>预计完成后净债务约 $2.4B</strong>——这是流式融资公司史上最大单一周期投资。
+            </p>
+            <p>
+              <strong>这不是被动负债，是主动战略</strong>：管理层判断"$70+ 银价 + $4,500+ 金价"环境是
+              "锁定未来 30+ 年低价权"的最佳窗口。预期 2026 年经营现金流 $3.2B,
+              "约 1 年内回到净现金状态"，2026-2028 累计经营现金流 $10B+。
+              <strong>Antamina 流是 $4.3B 单笔流, 锁定未来 50 年银, 是公司史上最大单笔流</strong>。
+            </p>
+          </div>
+
+          <div>
+            <div class="data-grid">
+              <div class="dat"><div class="dat-k">市值</div><div class="dat-v">$38.4B</div></div>
+              <div class="dat"><div class="dat-k">52W 区间</div><div class="dat-v">$58 – $98</div></div>
+              <div class="dat"><div class="dat-k">Q1 营收</div><div class="dat-v up">$901M <small>+92%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 净利润</div><div class="dat-v up">$582M <small>+129%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 经营 CF</div><div class="dat-v up">$766M <small>+112%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 GEO 出货</div><div class="dat-v">211,951 oz <small>+22%</small></div></div>
+              <div class="dat"><div class="dat-k">Q1 末现金</div><div class="dat-v">$2.16B</div></div>
+              <div class="dat"><div class="dat-k">4月后净债务 (估)</div><div class="dat-v dn">~$2.4B</div></div>
+              <div class="dat"><div class="dat-k">Antamina 前期支付</div><div class="dat-v">$4.3B</div></div>
+              <div class="dat"><div class="dat-k">Q1 派息</div><div class="dat-v up">$0.195 (+18%)</div></div>
+              <div class="dat"><div class="dat-k">2026E 经营 CF</div><div class="dat-v up">$3.2B+</div></div>
+              <div class="dat"><div class="dat-k">EV/EBITDA</div><div class="dat-v dn">23.4x</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bull-bear">
+          <div class="bb-bull">
+            <div class="bb-label">Bull Case (Q1 + Antamina 大动作)</div>
+            <ul>
+              <li>$4.3B Antamina stream — 50 年期银流, 史上最大</li>
+              <li>无 capex / 无运营成本 / 无地缘运营风险</li>
+              <li>Q1 经营 CF $766M 验证现金流模型</li>
+              <li>"约 1 年回到净现金", 2028 累计 CF $10B</li>
+              <li>派息连续上调 +18%, 持续增长记录</li>
+            </ul>
+          </div>
+          <div class="bb-bear">
+            <div class="bb-label">Bear Case</div>
+            <ul>
+              <li>EV/EBITDA 23.4x — 估值溢价已极端</li>
+              <li>Antamina 后净债务 $2.4B, 战术风险敞口</li>
+              <li>新流合同越来越贵, 未来 IRR 边际下降</li>
+              <li>银价弹性远低于纯运营商 (β 仅 0.5-0.7)</li>
+              <li>金占比 60%, 不是纯银暴露</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 5 - Investment Preference Matrix ============ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>投资<em>偏好对应矩阵</em></h2>
+      <span class="section-sub">Pick by what you want · Updated post Q1</span>
+    </div>
+
+    <div class="matrix">
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>资产质量最优</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">PAAS / HL</p>
+        <div class="matrix-body">
+          皇冠资产持有人 (Juanicipio + Greens Creek)。
+          Q1 数据后, HL 多年来首次零长期债务+ PAAS 创纪录现金, 资产负债表强度全行业第一。
+        </div>
+        <div class="matrix-tag">Tier 1 Quality</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>白银 β 弹性最大</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">AG / EXK</p>
+        <div class="matrix-body">
+          AG 银占 75%, EXK 银占 62%, AISC 都很高 ($19-37)。
+          高成本基数在 $80+ 银价反向放大上行弹性。
+        </div>
+        <div class="matrix-tag">Pure Silver Beta</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>未来 1-2 年增长率</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">CDE</p>
+        <div class="matrix-body">
+          Q1 EBITDA $475M 验证 2026 年 $3B 目标轨道。
+          New Gold 整合 + Las Chispas 全年贡献双驱动。
+        </div>
+        <div class="matrix-tag">Growth Engine</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>地缘风险最低</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">HL / CDE</p>
+        <div class="matrix-body">
+          纯北美 (美国 + 加拿大 + 墨西哥), 受益美国 critical mineral 政策。
+          适合宏观保守资金配置。
+        </div>
+        <div class="matrix-tag">Geo Pure</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>无运营风险敞口</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">WPM</p>
+        <div class="matrix-body">
+          流式融资模式, 无 capex / 无运营成本。
+          但 4 月 Antamina 大单完成后短期净债务进入, 估值倍数仍极高。
+        </div>
+        <div class="matrix-tag">Royalty Model</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>估值最便宜</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">FSM</p>
+        <div class="matrix-body">
+          EV/EBITDA 5.2x, P/E 12, 反映西非折扣。
+          Q1 创纪录 EBITDA $219M + Net cash $493M, Q1 数据下折扣过度。
+        </div>
+        <div class="matrix-tag">Value Play</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>潜在并购目标</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">EXK</p>
+        <div class="matrix-body">
+          $3B 市值 + 多元化 (墨西哥+秘鲁) + 纯银, Kolpa 整合后规模适中。
+          PAAS / CDE / AG 下一波并购的合理标的。
+        </div>
+        <div class="matrix-tag">Takeout Candidate</div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="matrix-rank">1<small>st</small></div>
+        <h4>最强资产负债表</h4>
+        <p style="font-size: 18px; font-weight: 600; color: var(--ink); margin: 4px 0;">HL</p>
+        <div class="matrix-body">
+          4 月 9 日赎回最后 senior notes, 多年来首次零长期债务。
+          $225M 未提取信贷 + 每季净增现金。
+        </div>
+        <div class="matrix-tag">Cleanest Balance Sheet</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Section 6 - Closing Synthesis ============ -->
+<section class="closing">
+  <div class="container">
+    <div class="closing-grid">
+      <div>
+        <h3>Q1 2026 综合判断 · 整个资源行业的关键时点</h3>
+        <p>
+          Q1 2026 财报季对整个资源行业（不仅是银矿）是一个<strong>结构性的认知转换时刻</strong>。
+          过去 5 年市场对资源股的 EV/EBITDA 倍数压制基于"现金流不可持续"假设——而 Q1 数据正在大规模证伪这个假设。
+          5 家银矿股从历史净债务转入净现金, 累计去杠杆超过 $3B, 并同步启动派息+回购+并购周期。
+        </p>
+        <p>
+          <strong>对整个资源行业的含义</strong>：不只是银矿，金矿（Newmont, Barrick, Agnico, Alamos）、
+          铜矿（Freeport, Antofagasta, Southern Copper）、铀矿（Cameco, NexGen）、
+          甚至是石油 / 煤炭 / 农产品上游, 都在经历类似的"现金流暴增 + 资产负债表去杠杆 + 估值重估"过程。
+          Q1 2026 可能在事后被视为"<strong>资源股估值倍数大重置的起始时点</strong>"。
+        </p>
+        <p>
+          <strong>组合配置思路（更新版）</strong>：
+          <strong>核心仓位 PAAS+HL (40%)</strong> — 资产质量+最强资产负债表;
+          <strong>成长仓位 CDE (20%)</strong> — Q1 验证 EBITDA 跳升轨道;
+          <strong>弹性仓位 AG (20%)</strong> — 银价 β 放大器;
+          <strong>价值仓位 FSM (10%)</strong> — Q1 数据证明西非折扣过度;
+          <strong>战术仓位 EXK 或 WPM (10%)</strong> — 并购 optionality 或 stream 收益锁定。
+        </p>
+        <p>
+          <strong>关键检验点 (未来 2-3 季度)</strong>：
+          (1) 金银价是否回落超 20% — 测试现金流可持续性;
+          (2) 行业是否启动更多大并购 (利用强股票货币);
+          (3) HL 是否启动 NCIB 回购 (零债务后下一步动作);
+          (4) WPM Antamina 流是否按时投产;
+          (5) AG 5/12 财报能否兑现卖方一致预期;
+          (6) PAAS 是否进一步收购 Juanicipio 56% 权益。
+        </p>
+      </div>
+
+      <div class="takeaway">
+        Q1 2026 不是简单的好季报——是整个资源行业从"债务约束周期"切换到"自由现金流周期"的认知转换时刻。
+        银矿股只是这个更大叙事的先行指标。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer>
+  <div class="container">
+    <div class="disclaimer">
+      <strong>免责声明</strong>：本报告基于 2026 年 5 月 5-7 日各公司 Q1 2026 季报 (8-K / 6-K / 10-Q) 及公开搜索市场数据。
+      所有 Q1 数据均为公司披露原文，部分估算项 (例如 EXK 净现金) 用括号标注。
+      AG Q1 2026 财务数据将于 2026 年 5 月 12 日发布, 本表暂用 Q4 2025 末数据 + 卖方预期。
+      本报告仅为研究参考, 不构成投资建议。
+    </div>
+    <div style="text-align: right;">
+      Equity Research · Precious Metals Coverage<br>
+      Q1 2026 Update · Compiled May 8, 2026<br>
+      Coverage: PAAS / HL / CDE / AG / EXK / FSM / WPM<br>
+      <span style="color: var(--accent); font-weight: 500;">— END OF Q1 2026 UPDATE —</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

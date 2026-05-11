@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>银业版图 · Silver Mining Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-1: #f5f2ea;
+    --bg-2: #fdfbf6;
+    --line: rgba(40, 30, 20, 0.12);
+    --silver: #1a1a1f;
+    --silver-dim: #6a6a72;
+    --gold: #8a6a1a;
+    --gold-bright: #6b5318;
+    --burgundy: #8b3a3a;
+    --teal: #2d5e60;
+    --teal-bright: #2d5e60;
+    --navy: #2d4a78;
+    --text: #1a1a1f;
+    --text-dim: #5a5f69;
+  }
+  html, body {
+    background: var(--bg-1);
+    color: var(--text);
+    font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(74,111,165,0.05), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(201,164,73,0.07), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .frame {
+    position: relative;
+    z-index: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 48px 56px 40px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 28px;
+    margin-bottom: 32px;
+  }
+  .title-block .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .title-block h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 44px;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .title-block h1 .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--silver-dim);
+    margin-left: 14px;
+    letter-spacing: 0;
+  }
+  .title-block .sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-top: 10px;
+    letter-spacing: 0.02em;
+  }
+  .meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .meta .v { color: var(--silver); }
+  .meta .hint {
+    margin-top: 6px;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .legend {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding: 16px 22px;
+    background: linear-gradient(180deg, rgba(40,30,20,0.025), rgba(40,30,20,0.01));
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-dim); }
+  .legend-item .swatch { width: 28px; height: 10px; border-radius: 1px; }
+  .legend-item .label-zh { color: var(--text); font-weight: 500; }
+  .legend-item .label-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--silver-dim);
+    margin-left: 4px;
+  }
+  .chart-wrap {
+    background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 24px 12px;
+    box-shadow: 0 30px 80px -40px rgba(40,30,20,0.18);
+  }
+  #sankey { width: 100%; height: 1080px; }
+  footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  footer .right { text-align: right; }
+  .tt-card { min-width: 280px; max-width: 360px; font-family: 'Noto Sans SC', sans-serif; }
+  .tt-card .tt-header { border-bottom: 1px solid rgba(201,164,73,0.3); padding-bottom: 8px; margin-bottom: 10px; }
+  .tt-card .tt-name { font-size: 15px; font-weight: 600; color: var(--silver); line-height: 1.3; }
+  .tt-card .tt-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--silver-dim); margin-top: 2px; }
+  .tt-card .tt-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    border-radius: 1px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .tt-card .tt-tag.parent { background: rgba(74,111,165,0.12); color: #2d4a78; border: 1px solid rgba(74,111,165,0.35); }
+  .tt-card .tt-tag.acquired { background: rgba(139,58,58,0.12); color: #6b1f1f; border: 1px solid rgba(139,58,58,0.35); }
+  .tt-card .tt-tag.mine { background: rgba(74,138,140,0.12); color: #2d5e60; border: 1px solid rgba(74,138,140,0.35); }
+  .tt-card .tt-tag.optional { background: rgba(201,164,73,0.18); color: #6b5318; border: 1px solid rgba(201,164,73,0.4); }
+  .tt-card .tt-tag.jv { background: rgba(122,95,165,0.12); color: #4a2d78; border: 1px solid rgba(122,95,165,0.35); }
+  .tt-card .tt-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+  }
+  .tt-card .tt-row:last-child { border-bottom: none; }
+  .tt-card .tt-label { color: var(--text-dim); flex-shrink: 0; margin-right: 12px; }
+  .tt-card .tt-val {
+    color: var(--silver);
+    font-family: 'JetBrains Mono', monospace;
+    text-align: right;
+    font-weight: 500;
+  }
+  .tt-card .tt-val.hot { color: var(--gold-bright); }
+  .tt-card .tt-val.bad { color: #a83232; }
+  .tt-card .tt-val.good { color: var(--teal-bright); }
+  .tt-card .tt-note {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    font-style: italic;
+  }
+  .tt-card .tt-note::before {
+    content: '※ ';
+    color: var(--gold);
+    font-style: normal;
+  }
+  @media (max-width: 1100px) {
+    .frame { padding: 28px 20px; }
+    header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .meta { text-align: left; }
+    .title-block h1 { font-size: 32px; }
+    .title-block h1 .en { display: block; margin-left: 0; margin-top: 4px; }
+    #sankey { height: 1400px; }
+  }
+
+  /* 视图切换按钮 */
+  .view-toggle {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 14px 22px;
+    background: linear-gradient(180deg, rgba(40,30,20,0.025), rgba(40,30,20,0.01));
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+  .view-toggle .toggle-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .toggle-pills { display: flex; gap: 6px; margin-left: auto; }
+  .pill {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    letter-spacing: 0.02em;
+  }
+  .pill:hover { color: var(--text); border-color: var(--gold); }
+  .pill.active {
+    background: var(--gold);
+    color: #fff;
+    border-color: var(--gold);
+    box-shadow: 0 4px 12px -4px rgba(138,106,26,0.5);
+  }
+  .pill .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11px;
+    margin-left: 6px;
+    opacity: 0.75;
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <header>
+    <div class="title-block">
+      <div class="eyebrow">Equity / Asset Map · 2026</div>
+      <h1>银业版图<span class="en">The Silver Constellation</span></h1>
+      <div class="sub">Listed Parent → Acquired Entity → Operating Mine</div>
+    </div>
+    <div class="meta">
+      数据截至 <span class="v">2026 / Q1</span><br>
+      流量宽度 ∝ <span id="flow-unit-label">银产量 <span class="v">(Moz/yr)</span></span><br>
+      口径:权益产量 / Attributable
+      <div class="hint">▸ 鼠标悬停查看核心数据卡</div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#4a6fa5,#6b8cc4)"></div>
+      <span class="label-zh">上市母公司</span><span class="label-en">Listed Parent</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#8b3a3a,#b85555)"></div>
+      <span class="label-zh">被收购退市</span><span class="label-en">Acquired & Delisted</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#4a8a8c,#7ab5b5)"></div>
+      <span class="label-zh">运营中矿山</span><span class="label-en">Operating Mine</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#c9a449,#e8c878)"></div>
+      <span class="label-zh">期权 / 停产</span><span class="label-en">Optionality</span>
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:linear-gradient(90deg,#7a5fa5,#a285c8)"></div>
+      <span class="label-zh">JV 双方持有</span><span class="label-en">Joint Venture</span>
+    </div>
+  </div>
+
+  <div class="view-toggle">
+    <span class="toggle-label">视图模式 / View Mode</span>
+    <div class="toggle-pills">
+      <button class="pill active" data-mode="silver">银加权<span class="en">Silver-Weighted · Moz/yr</span></button>
+      <button class="pill" data-mode="revenue">营收加权<span class="en">Revenue-Weighted · $M/yr</span></button>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div id="sankey"></div>
+  </div>
+
+  <footer>
+    <div>SOURCE / Company Filings · Q4-2025 Production Reports · 2026 Guidance</div>
+    <div class="right">CHART / ECharts 5.4 · Sankey · 2026/Q1</div>
+  </footer>
+</div>
+
+<script>
+const C = {
+  parent: '#4a6fa5',
+  parentAlt: '#5a7fb8',
+  acquired: '#8b3a3a',
+  mine: '#4a8a8c',
+  mineAlt: '#5fa3a5',
+  optional: '#c9a449',
+  jv: '#7a5fa5',
+};
+
+const nodeMeta = {
+  // ===== 上市母公司 =====
+  'Fresnillo plc\nFRES.L': {
+    type: 'parent', tag: '上市母公司', en: 'Fresnillo plc · LSE: FRES',
+    rows: [
+      ['公司类型', '原生银矿龙头'],
+      ['总银储量', '362.6 Moz <span style="color:#2d5e60;">+9.4% YoY</span>', 'good'],
+      ['2025 产量', '48.7 Moz Ag', 'bad'],
+      ['同比', '-13.5%', 'bad'],
+      ['2025 指引', '47.5–54.5 Moz'],
+      ['银等价产量', '91–102 Moz AgEq'],
+    ],
+    note: '全球最大原生银矿运营商。San Julián DOB 闭坑+Ciénega 品位下滑拖累 2025 产量;储量增长抵消短期产量压力。'
+  },
+  'Pan American Silver\nNYSE: PAAS': {
+    type: 'parent', tag: '上市母公司', en: 'Pan American Silver · NYSE/TSX: PAAS',
+    rows: [
+      ['公司类型', '美洲银金多元化'],
+      ['总银储量', '452.3 Moz Ag'],
+      ['总金储量', '6.3 Moz Au'],
+      ['M&I 资源', '1,130.6 Moz Ag'],
+      ['2026 银指引', '25–27 Moz <span style="color:#2d5e60;">+14%</span>', 'good'],
+      ['银段 AISC', '$15.75–$18.25/oz'],
+      ['资本开支', '$515–550M'],
+    ],
+    note: '2025/9 完成 MAG Silver 收购,获得 Juanicipio 44% 权益,2026 年迎全年并表 — 当前最强增量公司。'
+  },
+  'Hecla Mining\nNYSE: HL': {
+    type: 'parent', tag: '上市母公司', en: 'Hecla Mining · NYSE: HL',
+    rows: [
+      ['公司类型', '美国第一大银业'],
+      ['2025 产量', '17.0 Moz Ag <span style="color:#2d5e60;">创新高</span>', 'good'],
+      ['2026 指引', '15.1–16.5 Moz'],
+      ['同比', '小幅下滑'],
+      ['银 AISC', '$15.00–$16.25/oz'],
+      ['银总成本', '$471M'],
+    ],
+    note: '美国最大白银生产商。Greens Creek 是核心现金牛,Keno Hill(育空)在产能爬坡,2027+ 期权。'
+  },
+  'First Majestic\nNYSE: AG': {
+    type: 'parent', tag: '上市母公司', en: 'First Majestic Silver · NYSE/TSX: AG',
+    rows: [
+      ['公司类型', '墨西哥纯银'],
+      ['2025 产量', '13.6–15.3 Moz Ag'],
+      ['银等价', '27.8–31.2 Moz AgEq'],
+      ['现金成本', '$14.10–$14.86/AgEq'],
+      ['AISC', '$19.89–$21.27/AgEq', 'bad'],
+    ],
+    note: '2025/1 完成 Gatos Silver 收购 ($1.07B 全股票),Los Gatos 矿成为公司成本最低资产,公司从亏损转向盈利。'
+  },
+  'Coeur Mining\nNYSE: CDE': {
+    type: 'parent', tag: '上市母公司', en: 'Coeur Mining · NYSE/TSX: CDE',
+    rows: [
+      ['公司类型', '北美贵金属综合体'],
+      ['运营矿数', '7 座(美/加/墨)'],
+      ['2026 GEO 产量', '~1.25 Moz GEO'],
+      ['2026 银产量', '~20 Moz Ag'],
+      ['2026 金产量', '~900 koz Au'],
+      ['2026 铜产量', '~100 Mlbs Cu'],
+      ['2026 EBITDA', '~$3.0B', 'hot'],
+      ['2026 FCF', '~$2.0B', 'hot'],
+    ],
+    note: '2025/2 完成 SilverCrest 收购($1.7B,Las Chispas)、2026/3 完成 New Gold 收购($7B 全股票,Rainy River + New Afton),从美洲银业公司转型为北美贵金属综合体,同步在 TSX 双重上市。'
+  },
+  'South32\nASX: S32': {
+    type: 'parent', tag: '上市母公司', en: 'South32 · ASX/LSE/JSE: S32',
+    rows: [
+      ['公司类型', '多元化矿业'],
+      ['银业占比', '<8% of revenue'],
+      ['Cannington EBITDA', '$211M (FY25 1H)'],
+      ['经营利润率', '53%', 'good'],
+    ],
+    note: 'Cannington 是图中唯一非纯银公司控股的世界级银矿。S32 银价 β 较弱,Pb-Zn 联动更强。'
+  },
+  'Sumitomo Corp.\nTSE: 8053': {
+    type: 'parent', tag: '上市母公司', en: 'Sumitomo Corporation · TSE: 8053',
+    rows: [
+      ['公司类型', '日本商社'],
+      ['持股结构', '私有 100% 运营'],
+      ['核心资产', 'San Cristóbal'],
+    ],
+    note: '通过 San Cristóbal 矿(玻利维亚)持有大型 Ag-Pb-Zn 资产。商社模型,银业仅占集团极小比例。'
+  },
+  'SSR Mining\nNASDAQ: SSRM': {
+    type: 'parent', tag: '上市母公司', en: 'SSR Mining · NASDAQ/TSX: SSRM',
+    rows: [
+      ['公司类型', '金主银副'],
+      ['银业资产', 'Chinchillas/Pirquitas'],
+    ],
+    note: '现已多元化为金为主,银业占比已大幅下降。Çöpler 事故后整体战略调整中。'
+  },
+  'JSC Polymetal\n(俄罗斯非上市)': {
+    type: 'parent', tag: '非上市', en: 'JSC Polymetal (Russia entity)',
+    rows: [
+      ['上市情况', '原 LSE POLY 已退市'],
+      ['现状', '俄罗斯实体持有'],
+      ['哈萨克斯坦实体', 'AIX: POLY'],
+    ],
+    note: '原伦敦上市 Polymetal International 因制裁剥离俄资产。Dukat 现属俄罗斯境内非上市实体,数据不透明。'
+  },
+
+  // ===== 被收购退市公司 =====
+  'Gatos Silver\n(2025/01 退市)': {
+    type: 'acquired', tag: '已退市(被收购)', en: 'Gatos Silver, Inc.',
+    rows: [
+      ['原代码', 'NYSE/TSX: GATO'],
+      ['收购方', 'First Majestic (AG)'],
+      ['完成日期', '2025/01/16'],
+      ['对价', '~$1.07B 全股票', 'hot'],
+      ['换股比例', '2.55 AG : 1 GATO'],
+      ['核心资产', 'Cerro Los Gatos 70%'],
+    ],
+    note: '原 Gatos 股东持有合并后公司约 38%(完全摊薄)。Los Gatos 矿是合并后最优质资产。'
+  },
+  'MAG Silver\n(2025/09 退市)': {
+    type: 'acquired', tag: '已退市(被收购)', en: 'MAG Silver Corp.',
+    rows: [
+      ['原代码', 'NYSE/TSX: MAG'],
+      ['收购方', 'Pan American Silver (PAAS)'],
+      ['完成日期', '2025/09/04'],
+      ['对价', '~$2.1B 现金+股票', 'hot'],
+      ['核心资产', 'Juanicipio 44%'],
+      ['新增储量', '+58 Moz Ag (PAAS)'],
+    ],
+    note: '运营仍由 Fresnillo plc 主导。PAAS 通过此次收购获得全球最低成本银矿之一的权益,2026 年开始全年并表贡献。'
+  },
+  'SilverCrest Metals\n(2025/02 退市)': {
+    type: 'acquired', tag: '已退市(被收购)', en: 'SilverCrest Metals Inc.',
+    rows: [
+      ['原代码', 'NYSE: SILV'],
+      ['收购方', 'Coeur Mining (CDE)'],
+      ['完成日期', '2025/02'],
+      ['对价', '~$1.7B 全股票', 'hot'],
+      ['核心资产', 'Las Chispas 100%'],
+    ],
+    note: 'Las Chispas(墨西哥索诺拉)2022 年投产高品位浅成低温热液脉,大幅降低 Coeur 整体成本曲线。'
+  },
+  'New Gold\n(2026/03 退市)': {
+    type: 'acquired', tag: '已退市(被收购)', en: 'New Gold Inc.',
+    rows: [
+      ['原代码', 'NYSE/TSX: NGD'],
+      ['收购方', 'Coeur Mining (CDE)'],
+      ['公告日期', '2025/11/03'],
+      ['完成日期', '2026/03', 'hot'],
+      ['对价', '~$7B 全股票', 'hot'],
+      ['换股比例', '0.4959 CDE : 1 NGD'],
+      ['持股结构', 'CDE 62% / NGD 38%'],
+      ['核心资产', 'Rainy River + New Afton'],
+    ],
+    note: '★ 银业 2024–2026 并购潮第四单,也是金额最大。Coeur 借此首次进入加拿大、TSX 上市、年 EBITDA 跃至 $3B 级别。但银业纯度大幅稀释 — 两座加拿大矿合计仅 ~0.6 Moz Ag/yr。'
+  },
+
+  // ===== 矿山 — Fresnillo plc =====
+  'Fresnillo Mine\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'Fresnillo District · Zacatecas, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['银储量', '~150 Moz'],
+      ['2025 产量', '~14 Moz Ag'],
+      ['银品位', '200–220 g/t'],
+      ['AISC 趋势', '1H25 同比 -3.8%', 'good'],
+      ['矿床类型', '原生银脉 Epithermal'],
+    ],
+    note: '全球最大原生银矿。San Carlos 竖井深部开发中,深部品位下降是中期挑战。'
+  },
+  'Saucito\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'Saucito · Zacatecas, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['银储量', '~80 Moz'],
+      ['2025 产量', '~12 Moz Ag'],
+      ['AISC 趋势', '1H25 同比 -16.2%', 'good'],
+      ['矿床类型', '中硫化型 Intermediate-S'],
+    ],
+    note: '与 Fresnillo Mine 同处 Zacatecas 矿区,品位较高。1H25 AISC 大幅改善是公司成本端亮点。'
+  },
+  'Juanicipio\n墨西哥 (双持)': {
+    type: 'jv', tag: 'JV / 双方持有', en: 'Juanicipio · Zacatecas, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc(主导)'],
+      ['股权结构', 'Fresnillo 56% / PAAS 44%'],
+      ['银储量(100%)', '~130 Moz'],
+      ['2025 产量(100%)', '14.7–16.7 Moz', 'hot'],
+      ['应付银', '13.1–14.9 Moz'],
+      ['银品位', '380–430 g/t', 'hot'],
+      ['AISC 2026', '$6–8/oz', 'good'],
+      ['2025 自由现金流', '~$200M'],
+    ],
+    note: '★ 全球最低成本银矿之一。PAAS 通过 2025/9 收购 MAG Silver 获得 44% 权益。图中唯一双流入的紫色节点。'
+  },
+  'San Julián Veins\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'San Julián Veins · Chihuahua, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['2025 产量', '~5 Moz Ag'],
+      ['现状', 'Veins 段持续运营'],
+      ['DOB 段', '已闭坑(2024 年)', 'bad'],
+    ],
+    note: 'San Julián DOB 已停产是 Fresnillo 2025 产量下滑的主因。Veins 部分仍在贡献。'
+  },
+  'Ciénega\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'Ciénega · Durango, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['2025 产量', '~3 Moz Ag'],
+      ['品位趋势', '下滑', 'bad'],
+      ['回收率', '下降', 'bad'],
+    ],
+    note: '老矿,银金品位和回收率持续下行,是 Fresnillo 业绩的拖累项。'
+  },
+
+  // ===== Fresnillo plc 金矿(营收加权视图新增)=====
+  'Herradura\n墨西哥(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Herradura · Sonora, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['类型', '露天金矿(堆浸)'],
+      ['2025 产金', '~340 koz Au'],
+      ['银副产', '极少'],
+      ['特点', 'Fresnillo 体系最大金矿', 'hot'],
+    ],
+    note: 'Fresnillo plc 最大单一金矿,索诺拉州露天堆浸。在金价 $3,200 下贡献 ~$1.09B 营收 — 是 Fresnillo "被忽视的金属支柱"。'
+  },
+  'Noche Buena\n墨西哥(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Noche Buena · Sonora, Mexico',
+    rows: [
+      ['运营方', 'Fresnillo plc 100%'],
+      ['类型', '露天金矿(堆浸)'],
+      ['2025 产金', '~80 koz Au'],
+      ['银副产', '极少'],
+      ['寿命', '末期'],
+    ],
+    note: '小型金矿,寿命接近末期,Fresnillo plc 的次级金来源。'
+  },
+
+  // ===== 矿山 — PAAS =====
+  'La Colorada\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'La Colorada + Skarn · Zacatecas, Mexico',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['Skarn 推断', '+52.7 Moz Ag <span style="color:#2d5e60;">新发现</span>', 'good'],
+      ['2025 产量', '~5 Moz Ag'],
+      ['矿山级 AISC', '~$15–18/oz'],
+      ['关键节点', '2026 Q2 PEA', 'hot'],
+    ],
+    note: '★ PAAS 核心成长资产。脉状矿+大型 Skarn 发现,正在评估分阶段开发以最大化资产价值。'
+  },
+  'Cerro Moro\n阿根廷': {
+    type: 'mine', tag: '运营矿山', en: 'Cerro Moro · Santa Cruz, Argentina',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['银储量', '~25 Moz'],
+      ['2025 产量', '~3 Moz Ag'],
+      ['2026 趋势', '高品位区,Ag 上升', 'good'],
+      ['银段 AISC', '$14.50–$16.00/oz'],
+    ],
+    note: '高金副产帮助降低银的有效成本。2026 年进入更高品位采区。'
+  },
+  'Huaron\n秘鲁': {
+    type: 'mine', tag: '运营矿山', en: 'Huaron · Pasco, Peru',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['2025 产量', '~3 Moz Ag'],
+      ['品位现状', 'Below reserve grade', 'bad'],
+      ['成本趋势', '上升', 'bad'],
+    ],
+    note: '矿石供应中开发段比例上升,导致采出品位低于储量品位,成本压力增大。'
+  },
+  'Dolores\n墨西哥(残采)': {
+    type: 'optional', tag: '运营矿山', en: 'Dolores · Chihuahua, Mexico',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['现状', '残采阶段 Residual Leach'],
+      ['2025 产量', '~1.5 Moz Ag'],
+      ['寿命', '末期'],
+    ],
+    note: '已停止主体开采,仅靠堆浸尾矿回收金银,产量逐年衰减。'
+  },
+  'Escobal\n危地马拉(停产)': {
+    type: 'optional', tag: '★ 期权资产', en: 'Escobal · Santa Rosa, Guatemala',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['银储量', '~260 Moz Ag', 'hot'],
+      ['停产时间', '2017 年至今'],
+      ['停产原因', 'ILO 169 协商'],
+      ['潜在产量', '~20 Moz/yr', 'hot'],
+      ['可比体量', '≈ Greens Creek', 'hot'],
+    ],
+    note: '★★ 全行业最大的银价期权资产。一旦 ILO 协商通过即可复产,届时 PAAS 单矿增量约 20 Moz/yr,接近 Greens Creek 全部产量。'
+  },
+
+  // ===== PAAS 金矿(营收加权视图新增,均源自 2023 年收购 Yamana Gold)=====
+  'Jacobina\n巴西(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Jacobina · Bahia, Brazil',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['获取方式', '收购 Yamana Gold (2023)'],
+      ['类型', '砾岩金矿(地下)'],
+      ['2025 产金', '~190 koz Au'],
+      ['银副产', '极少'],
+      ['特点', 'PAAS 最大金矿', 'hot'],
+    ],
+    note: '巴西巴伊亚州大型砾岩金矿,PAAS 最大单一金矿。储量寿命长,持续 brownfield 扩产。'
+  },
+  'El Peñón\n智利(金银)': {
+    type: 'optional', tag: '运营矿山(金银)', en: 'El Peñon · Antofagasta, Chile',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['获取方式', '收购 Yamana Gold (2023)'],
+      ['类型', '浅成低温热液脉(地下)'],
+      ['2025 产金', '~150 koz Au'],
+      ['银副产', '~3 Moz Ag', 'good'],
+    ],
+    note: '智利安托法加斯塔大区高品位浅成低温脉,PAAS 金资产中含银量最高的一座。'
+  },
+  'Timmins\n加拿大(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Timmins · Ontario, Canada',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['获取方式', '收购 Yamana Gold (2023)'],
+      ['类型', 'Timmins West + Bell Creek'],
+      ['2025 产金', '~110 koz Au'],
+      ['银副产', '极少'],
+    ],
+    note: '加拿大安省传统金矿带的两座地下金矿。'
+  },
+  'Minera Florida\n智利(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Minera Florida · Santiago, Chile',
+    rows: [
+      ['运营方', 'PAAS 100%'],
+      ['获取方式', '收购 Yamana Gold (2023)'],
+      ['类型', '地下金矿'],
+      ['2025 产金', '~80 koz Au'],
+      ['银副产', '少量'],
+    ],
+    note: '智利圣地亚哥附近地下金矿,从 Yamana 收购获得。'
+  },
+
+  // ===== 矿山 — First Majestic =====
+  'Cerro Los Gatos\n墨西哥 70%': {
+    type: 'mine', tag: '运营矿山', en: 'Cerro Los Gatos · Chihuahua, Mexico',
+    rows: [
+      ['运营方', 'First Majestic 70%'],
+      ['JV 伙伴', 'Dowa Holdings 30%'],
+      ['获取方式', '收购 Gatos Silver (2025/1)'],
+      ['银储量(权益)', '~50 Moz'],
+      ['2025 产量', '5.0–5.6 Moz Ag', 'good'],
+      ['AISC', '$15.03–$15.92/AgEq', 'good'],
+    ],
+    note: '★ 公司体系内成本最低、自由现金流最强的资产。是 First Majestic 收购 Gatos 的核心战略目标。'
+  },
+  'San Dimas\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'San Dimas · Durango, Mexico',
+    rows: [
+      ['运营方', 'First Majestic 100%'],
+      ['2025 产量', '4.3–4.8 Moz Ag'],
+      ['银等价', '9.0–10.1 Moz AgEq'],
+      ['AISC', '~$18–20/oz', 'bad'],
+    ],
+    note: 'First Majestic 旗舰矿,但成本相对偏高。'
+  },
+  'Santa Elena\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'Santa Elena · Sonora, Mexico',
+    rows: [
+      ['运营方', 'First Majestic 100%'],
+      ['2025 产量', '1.6–1.8 Moz Ag'],
+      ['银等价', '7.7–8.6 Moz AgEq'],
+      ['AISC', '$18.60–$19.79/AgEq', 'bad'],
+    ],
+    note: '银金混合矿,金占比较高。'
+  },
+  'La Encantada\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'La Encantada · Coahuila, Mexico',
+    rows: [
+      ['运营方', 'First Majestic 100%'],
+      ['2025 产量', '~1.5 Moz Ag'],
+      ['类型', '尾矿+地下混合'],
+    ],
+    note: '老矿,纯银,产量稳定但增长有限。'
+  },
+
+  // ===== 矿山 — Hecla =====
+  'Greens Creek\n美国阿拉斯加': {
+    type: 'mine', tag: '★ 顶级矿山', en: 'Greens Creek · Admiralty Island, Alaska',
+    rows: [
+      ['运营方', 'Hecla 100%'],
+      ['银储量', '~110 Moz'],
+      ['寿命', '13+ 年'],
+      ['2025 产量', '8.1–8.8 Moz Ag', 'good'],
+      ['银等价', '18.0–19.5 Moz AgEq'],
+      ['AISC 2026', '$0.00–$0.50/oz', 'hot'],
+      ['金副产', '44–48 koz'],
+      ['矿床类型', 'VMS 块状硫化物'],
+    ],
+    note: '★★ 全球第二低成本银矿(仅次于 Juanicipio)。VMS 矿床,银为主产品,高金副产显著降低有效成本。'
+  },
+  'Lucky Friday\n美国爱达荷': {
+    type: 'mine', tag: '运营矿山', en: 'Lucky Friday · Mullan, Idaho',
+    rows: [
+      ['运营方', 'Hecla 100%'],
+      ['银储量', '~40 Moz'],
+      ['2025 产量', '4.7–5.1 Moz Ag'],
+      ['银等价', '8.0–8.5 Moz AgEq'],
+      ['AISC 2026', '$23.50–$26.00/oz', 'bad'],
+      ['成本结构', '高 profit-sharing'],
+    ],
+    note: '纯银铅锌窄脉,经营杠杆最大 — 银价上涨时盈利弹性最高,但高成本下盈亏平衡线也最高。'
+  },
+  'Keno Hill\n加拿大育空': {
+    type: 'optional', tag: '产能爬坡', en: 'Keno Hill · Yukon, Canada',
+    rows: [
+      ['运营方', 'Hecla 100%'],
+      ['现状', '尚未列为商业化'],
+      ['2025 产量', '~2 Moz Ag'],
+      ['期权属性', '2027+ 增量', 'hot'],
+    ],
+    note: 'Hecla 的下一波增长引擎,目前仍在产能爬坡阶段。如成功量产将显著提升公司银产量。'
+  },
+
+  // ===== Hecla 金矿(营收加权视图新增)=====
+  'Casa Berardi\n加拿大(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Casa Berardi · Quebec, Canada',
+    rows: [
+      ['运营方', 'Hecla 100%'],
+      ['类型', '露天+地下金矿'],
+      ['2025 产金', '134–146 koz Au'],
+      ['银副产', '几乎无'],
+      ['2026 趋势', '产量下降(品位回落)', 'bad'],
+    ],
+    note: 'Hecla 唯一的纯金资产,魁北克阿比蒂比金矿带。2025 贡献 ~$0.45B 营收,但 2026 进入低品位阶段。'
+  },
+
+  // ===== 矿山 — Coeur =====
+  'Las Chispas\n墨西哥': {
+    type: 'mine', tag: '★ 高品位新并购', en: 'Las Chispas · Sonora, Mexico',
+    rows: [
+      ['运营方', 'Coeur Mining 100%'],
+      ['获取方式', '收购 SilverCrest (2025/2)'],
+      ['投产年份', '2022'],
+      ['矿床类型', '高品位浅成低温脉'],
+      ['年产能', '~10 Moz AgEq'],
+    ],
+    note: '★ Coeur 收购 SilverCrest 获得的明珠资产。高品位、低成本,大幅改善公司整体成本曲线。'
+  },
+  'Palmarejo\n墨西哥': {
+    type: 'mine', tag: '运营矿山', en: 'Palmarejo · Chihuahua, Mexico',
+    rows: [
+      ['运营方', 'Coeur Mining 100%'],
+      ['2025 产量', '~7 Moz AgEq'],
+      ['类型', '银金混合'],
+    ],
+    note: 'Coeur 的另一座墨西哥核心矿,银金混合产品。'
+  },
+  'Rochester\n美国内华达': {
+    type: 'mine', tag: '运营矿山', en: 'Rochester · Pershing County, Nevada',
+    rows: [
+      ['运营方', 'Coeur Mining 100%'],
+      ['2025 产量', '~5 Moz Ag'],
+      ['类型', '浅成低温热液堆浸'],
+      ['现状', '产能扩张项目完成'],
+    ],
+    note: '美国最大原生银矿之一,堆浸法,2024 年完成扩产。'
+  },
+  'Rainy River\n加拿大 安省': {
+    type: 'optional', tag: '运营矿山(金主银副)', en: 'Rainy River · Ontario, Canada',
+    rows: [
+      ['运营方', 'Coeur Mining 100%'],
+      ['获取方式', '收购 New Gold (2026/3)'],
+      ['类型', '露采+地下 金银矿'],
+      ['年产金', '~250 koz Au'],
+      ['年产银(副产)', '~0.5 Moz Ag'],
+      ['利润率', '高 / 低成本'],
+      ['现状', 'Coeur 称 2026 有望创纪录'],
+    ],
+    note: '原 New Gold 旗舰资产之一。金主银副,银占比小但产能稳定。Coeur 后续 brownfield 勘探和扩产重点。'
+  },
+  'New Afton\n加拿大 BC': {
+    type: 'optional', tag: '运营矿山(金铜)', en: 'New Afton · British Columbia, Canada',
+    rows: [
+      ['运营方', 'Coeur Mining 100%'],
+      ['获取方式', '收购 New Gold (2026/3)'],
+      ['类型', '地下 金铜矿'],
+      ['年产金', '~80 koz Au'],
+      ['年产铜', '~50 Mlbs Cu'],
+      ['年产银', '极少(<0.15 Moz)', 'bad'],
+      ['增长项目', 'K-Zone 扩展'],
+    ],
+    note: 'Coeur 的首个铜矿资产 — 银业纯度被这次并购大幅稀释。K-Zone 扩展是中期催化,但更多受铜价和金价驱动。'
+  },
+
+  // ===== 其他 =====
+  'Cannington\n澳大利亚': {
+    type: 'mine', tag: '运营矿山', en: 'Cannington · McKinlay, Queensland',
+    rows: [
+      ['运营方', 'South32 100%'],
+      ['井下储量', '13 Mt 矿石 <span style="color:#2d5e60;">+28%</span>', 'good'],
+      ['寿命延展至', 'FY33 (≈8 年)'],
+      ['FY26 银产量', '8.2 Moz Ag'],
+      ['FY27 银产量', '8.7 Moz Ag', 'good'],
+      ['单位成本', 'US$195/t 矿石'],
+      ['矿床类型', 'Broken Hill 型 Pb-Zn-Ag'],
+    ],
+    note: '★ 唯一非纯银公司控股的世界级独立银矿。露采可研推进中,FY25 EBITDA $211M,53% 经营利润率。'
+  },
+  'San Cristóbal\n玻利维亚': {
+    type: 'mine', tag: '运营矿山', en: 'San Cristóbal · Potosí, Bolivia',
+    rows: [
+      ['运营方', 'Sumitomo 100%'],
+      ['2025 产量', '~12 Moz Ag'],
+      ['类型', '浅成低温热液 Ag-Pb-Zn'],
+      ['上市', '不公开 / 商社私有'],
+    ],
+    note: '玻利维亚最大银矿之一,大型露采,银铅锌联产,但作为商社私有资产,数据透明度低。'
+  },
+  'Chinchillas/Pirquitas\n阿根廷': {
+    type: 'mine', tag: '运营矿山', en: 'Chinchillas · Jujuy, Argentina',
+    rows: [
+      ['运营方', 'SSR Mining 100%'],
+      ['2025 产量', '~3 Moz Ag'],
+      ['类型', '浅成低温热液'],
+    ],
+    note: 'SSR Mining 银业收入占比已降至个位数,银资产战略地位下降。'
+  },
+  'Dukat\n俄罗斯': {
+    type: 'optional', tag: '不透明 / 制裁', en: 'Dukat · Magadan, Russia',
+    rows: [
+      ['运营方', 'JSC Polymetal 100%'],
+      ['银储量', '~250 Moz(历史)'],
+      ['2025 产量', '~17 Moz(估)'],
+      ['上市', '原 LSE POLY 已退市', 'bad'],
+      ['投资属性', '不可投', 'bad'],
+    ],
+    note: '★ 历史上俄罗斯最大银矿。原 Polymetal International 因制裁剥离俄资产,目前由非上市俄罗斯实体持有,数据不透明,西方投资者无法配置。'
+  },
+
+  // ============================================================
+  //  营收加权视图新增节点(银加权视图中不显示)
+  // ============================================================
+
+  // ===== SSR Mining 金矿 =====
+  'Marigold\n美国 内华达(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Marigold · Humboldt County, Nevada',
+    rows: [
+      ['运营方', 'SSR Mining 100%'],
+      ['类型', '露天金矿(堆浸)'],
+      ['2026 指引', '170–200 koz Au'],
+      ['AISC 2026', '$2,320–2,390/oz', 'bad'],
+      ['银副产', '极少'],
+    ],
+    note: 'SSR Mining 旗舰金矿,内华达州大型露天堆浸。2026 增长来自 Buffalo Valley + New Millennium 整合。'
+  },
+  'CC&V\n美国 科罗拉多(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Cripple Creek & Victor · Colorado',
+    rows: [
+      ['运营方', 'SSR Mining 100%'],
+      ['获取方式', '收购自 Newmont (2025/2)'],
+      ['类型', '露天金矿(堆浸)'],
+      ['2025 产金', '125 koz Au'],
+      ['AISC 2025', '$1,339/oz', 'good'],
+      ['NPV', '$824M (12 年寿命)'],
+      ['银副产', '极少'],
+    ],
+    note: 'SSRM 2025/2 从 Newmont 接手,$275M 对价。投产首年贡献 $200M+ FCF,大幅改善公司成本曲线。'
+  },
+  'Seabee\n加拿大 萨省(金主)': {
+    type: 'optional', tag: '运营矿山(金主)', en: 'Seabee · Saskatchewan, Canada',
+    rows: [
+      ['运营方', 'SSR Mining 100%'],
+      ['类型', '地下金矿'],
+      ['2026 指引', '75–90 koz Au'],
+      ['银副产', '极少'],
+    ],
+    note: '加拿大萨斯喀彻温省北部小型地下金矿,产量稳定,寿命中长期。'
+  },
+
+  // ===== Buenaventura 全套体系(秘鲁多金属龙头)=====
+  'Buenaventura\nNYSE: BVN': {
+    type: 'parent', tag: '上市母公司', en: 'Compañía de Minas Buenaventura · NYSE: BVN',
+    rows: [
+      ['公司类型', '秘鲁多金属龙头'],
+      ['控股结构', 'Benavides 家族'],
+      ['2025 直接金产量', '121 koz Au'],
+      ['2025 直接银产量', '15.58 Moz Ag', 'good'],
+      ['2026 银指引', '13.4–15.0 Moz'],
+      ['2026 金增量', '+ San Gabriel 48–55 koz', 'hot'],
+      ['Yanacocha 持股', '43.65% (JV / Newmont)'],
+      ['Cerro Verde 持股', '19.58% (JV / Freeport)'],
+    ],
+    note: '★ 秘鲁最大上市贵金属公司。多元金属暴露(金/银/铜),Yanacocha JV 是核心金资产,San Gabriel 2026 投产是金产量翻倍催化剂。'
+  },
+  'Yanacocha\n秘鲁(金主)': {
+    type: 'optional', tag: 'JV 金主银副', en: 'Yanacocha · Cajamarca, Peru',
+    rows: [
+      ['股权结构', 'Newmont 51.35% / BVN 43.65% / Sumitomo 5%'],
+      ['运营方', 'Newmont(主导)'],
+      ['类型', '世界级露天金矿'],
+      ['银副产 (BVN)', '~0.6 Moz Ag'],
+      ['特点', '秘鲁最大金矿之一', 'hot'],
+    ],
+    note: '★ 秘鲁旗舰金矿,世界级资产。BVN 不参与运营,享受分红+权益法收益。在金价 $4,200 下贡献 BVN 重要现金流。'
+  },
+  'Cerro Verde\n秘鲁(铜)': {
+    type: 'optional', tag: 'JV 铜矿', en: 'Cerro Verde · Arequipa, Peru',
+    rows: [
+      ['股权结构', 'Freeport 53.56% / Sumitomo 21% / BVN 19.58%'],
+      ['运营方', 'Freeport-McMoRan'],
+      ['类型', '世界级铜矿'],
+      ['银副产 (BVN)', '~2 Moz Ag(权益)'],
+    ],
+    note: '秘鲁第二大铜矿,Freeport 主导。BVN 通过 19.58% 权益持股获得稳定铜+银副产现金流,是公司重要利润源。'
+  },
+  'Yumpag\n秘鲁(银)': {
+    type: 'mine', tag: '运营矿山(银)', en: 'Yumpag · Pasco, Peru',
+    rows: [
+      ['运营方', 'BVN 100%'],
+      ['类型', '高品位银矿'],
+      ['2025 表现', '银产量超指引', 'good'],
+      ['2026 趋势', '稳定'],
+    ],
+    note: 'BVN 旗下纯银资产,2025 全年银品位优于预期。BVN 银业务的核心。'
+  },
+  'El Brocal\n秘鲁': {
+    type: 'mine', tag: '运营矿山', en: 'El Brocal · Pasco, Peru',
+    rows: [
+      ['运营方', 'BVN 多数控股'],
+      ['类型', '铜/银/铅/锌混合'],
+      ['2026 趋势', '银金产量下降(品位)', 'bad'],
+    ],
+    note: '多金属矿,秘鲁帕斯科地区。2026 年银和金产量预计因品位下降而减少。'
+  },
+  'Tambomayo\n秘鲁': {
+    type: 'mine', tag: '运营矿山(金银)', en: 'Tambomayo · Arequipa, Peru',
+    rows: [
+      ['运营方', 'BVN 100%'],
+      ['类型', '金/银/铅/锌'],
+      ['2025 表现', '符合指引'],
+    ],
+    note: '小型多金属矿,产量稳定。Pb-Zn 副产帮助降低成本。'
+  },
+  'La Zanja\n秘鲁(末期)': {
+    type: 'optional', tag: '运营矿山(末期)', en: 'La Zanja · Cajamarca, Peru',
+    rows: [
+      ['运营方', 'BVN 100%'],
+      ['类型', '金/银 堆浸残采'],
+      ['2026 趋势', '金 -25%(残采序列)', 'bad'],
+    ],
+    note: '进入残采阶段,产量逐年衰减,2026 显著下滑。'
+  },
+  'San Gabriel\n秘鲁(金主)': {
+    type: 'optional', tag: '★ 新投产金矿', en: 'San Gabriel · Moquegua, Peru',
+    rows: [
+      ['运营方', 'BVN 100%'],
+      ['类型', '地下金银矿(新)'],
+      ['首根 doré', '2025 Q4', 'hot'],
+      ['2026 产金指引', '48–55 koz Au'],
+      ['寿命', '14.6 年'],
+      ['寿命含银', '3.1 Moz'],
+      ['年化金产(满产)', '100–150 koz', 'hot'],
+    ],
+    note: '★★ BVN 最大成长催化剂。投产后 BVN 直接金产量将翻倍,大幅改善现金流和公司估值故事。'
+  },
+};
+
+function buildNodes(linkArray) {
+  const used = new Set();
+  linkArray.forEach(l => { used.add(l.source); used.add(l.target); });
+  return Object.keys(nodeMeta)
+    .filter(name => used.has(name))
+    .map(name => {
+      const meta = nodeMeta[name];
+      let depth, color;
+      if (meta.type === 'parent') {
+        depth = 0;
+        color = (name.includes('Polymetal') || name.includes('Sumitomo') || name.includes('SSR') || name.includes('South32') || name.includes('Buenaventura'))
+                ? C.parentAlt : C.parent;
+      } else if (meta.type === 'acquired') {
+        depth = 1;
+        color = C.acquired;
+      } else if (meta.type === 'jv') {
+        depth = 2;
+        color = C.jv;
+      } else if (meta.type === 'optional') {
+        depth = 2;
+        color = C.optional;
+      } else {
+        depth = 2;
+        color = C.mine;
+      }
+      return { name, depth, itemStyle: { color } };
+    });
+}
+
+const silverLinks = [
+  { source: 'Fresnillo plc\nFRES.L', target: 'Fresnillo Mine\n墨西哥',     value: 14 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Saucito\n墨西哥',            value: 12 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Juanicipio\n墨西哥 (双持)',   value: 9 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'San Julián Veins\n墨西哥',   value: 5 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Ciénega\n墨西哥',           value: 3 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'La Colorada\n墨西哥',         value: 5 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Cerro Moro\n阿根廷',          value: 3 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Huaron\n秘鲁',                value: 3 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Dolores\n墨西哥(残采)',       value: 1.5 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Escobal\n危地马拉(停产)',     value: 1 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'MAG Silver\n(2025/09 退市)',    value: 7 },
+  { source: 'MAG Silver\n(2025/09 退市)',      target: 'Juanicipio\n墨西哥 (双持)',     value: 7 },
+  { source: 'First Majestic\nNYSE: AG', target: 'San Dimas\n墨西哥',     value: 4.5 },
+  { source: 'First Majestic\nNYSE: AG', target: 'Santa Elena\n墨西哥',   value: 1.7 },
+  { source: 'First Majestic\nNYSE: AG', target: 'La Encantada\n墨西哥',  value: 1.5 },
+  { source: 'First Majestic\nNYSE: AG', target: 'Gatos Silver\n(2025/01 退市)',   value: 5.3 },
+  { source: 'Gatos Silver\n(2025/01 退市)',  target: 'Cerro Los Gatos\n墨西哥 70%', value: 5.3 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Greens Creek\n美国阿拉斯加', value: 8.5 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Lucky Friday\n美国爱达荷',   value: 5 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Keno Hill\n加拿大育空',      value: 2 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'Palmarejo\n墨西哥',         value: 7 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'Rochester\n美国内华达',      value: 5 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'SilverCrest Metals\n(2025/02 退市)', value: 10 },
+  { source: 'SilverCrest Metals\n(2025/02 退市)', target: 'Las Chispas\n墨西哥',     value: 10 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'New Gold\n(2026/03 退市)',          value: 0.65 },
+  { source: 'New Gold\n(2026/03 退市)', target: 'Rainy River\n加拿大 安省',          value: 0.5 },
+  { source: 'New Gold\n(2026/03 退市)', target: 'New Afton\n加拿大 BC',             value: 0.15 },
+  { source: 'South32\nASX: S32',          target: 'Cannington\n澳大利亚',           value: 8.2 },
+  { source: 'Sumitomo Corp.\nTSE: 8053',  target: 'San Cristóbal\n玻利维亚',         value: 12 },
+  { source: 'SSR Mining\nNASDAQ: SSRM',   target: 'Chinchillas/Pirquitas\n阿根廷',   value: 3 },
+  { source: 'JSC Polymetal\n(俄罗斯非上市)', target: 'Dukat\n俄罗斯',               value: 17 },
+];
+
+// ============================================================
+//  营收加权链路($M / yr)— 营收加权视图使用
+//  价格假设:Au $3,200 / Ag $35 / Cu $4.40
+// ============================================================
+const revenueLinks = [
+  // === Fresnillo plc(银+金混合,Total ~$4.6B)===
+  { source: 'Fresnillo plc\nFRES.L', target: 'Fresnillo Mine\n墨西哥',     value: 680 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Saucito\n墨西哥',            value: 640 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Juanicipio\n墨西哥 (双持)',   value: 405 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'San Julián Veins\n墨西哥',   value: 255 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Ciénega\n墨西哥',           value: 265 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Herradura\n墨西哥(金主)',    value: 1090 },
+  { source: 'Fresnillo plc\nFRES.L', target: 'Noche Buena\n墨西哥(金主)',  value: 260 },
+
+  // === Pan American Silver(Total ~$3.0B)===
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'La Colorada\n墨西哥',         value: 175 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Cerro Moro\n阿根廷',          value: 425 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Huaron\n秘鲁',                value: 185 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Dolores\n墨西哥(残采)',       value: 150 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Escobal\n危地马拉(停产)',     value: 1 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'MAG Silver\n(2025/09 退市)',    value: 315 },
+  { source: 'MAG Silver\n(2025/09 退市)',      target: 'Juanicipio\n墨西哥 (双持)',     value: 315 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Jacobina\n巴西(金主)',         value: 610 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'El Peñón\n智利(金银)',         value: 585 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Timmins\n加拿大(金主)',         value: 350 },
+  { source: 'Pan American Silver\nNYSE: PAAS', target: 'Minera Florida\n智利(金主)',    value: 260 },
+
+  // === First Majestic(Total ~$1B)===
+  { source: 'First Majestic\nNYSE: AG', target: 'San Dimas\n墨西哥',     value: 315 },
+  { source: 'First Majestic\nNYSE: AG', target: 'Santa Elena\n墨西哥',   value: 280 },
+  { source: 'First Majestic\nNYSE: AG', target: 'La Encantada\n墨西哥',  value: 55 },
+  { source: 'First Majestic\nNYSE: AG', target: 'Gatos Silver\n(2025/01 退市)',   value: 200 },
+  { source: 'Gatos Silver\n(2025/01 退市)',  target: 'Cerro Los Gatos\n墨西哥 70%', value: 200 },
+
+  // === Hecla(Total ~$1.27B)===
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Greens Creek\n美国阿拉斯加', value: 525 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Lucky Friday\n美国爱达荷',   value: 225 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Keno Hill\n加拿大育空',      value: 70 },
+  { source: 'Hecla Mining\nNYSE: HL', target: 'Casa Berardi\n加拿大(金主)', value: 450 },
+
+  // === Coeur Mining(并购后 Total ~$2.5B run rate)===
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'Palmarejo\n墨西哥',         value: 245 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'Rochester\n美国内华达',      value: 175 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'SilverCrest Metals\n(2025/02 退市)', value: 350 },
+  { source: 'SilverCrest Metals\n(2025/02 退市)', target: 'Las Chispas\n墨西哥',     value: 350 },
+  { source: 'Coeur Mining\nNYSE: CDE', target: 'New Gold\n(2026/03 退市)',          value: 1370 },
+  { source: 'New Gold\n(2026/03 退市)', target: 'Rainy River\n加拿大 安省',          value: 945 },
+  { source: 'New Gold\n(2026/03 退市)', target: 'New Afton\n加拿大 BC',             value: 425 },
+
+  // === SSR Mining(Total ~$1.5B)===
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'Chinchillas/Pirquitas\n阿根廷',   value: 245 },
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'Marigold\n美国 内华达(金主)',     value: 590 },
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'CC&V\n美国 科罗拉多(金主)',       value: 400 },
+  { source: 'SSR Mining\nNASDAQ: SSRM', target: 'Seabee\n加拿大 萨省(金主)',       value: 260 },
+
+  // === Buenaventura(Total ~$1.65B)===
+  { source: 'Buenaventura\nNYSE: BVN', target: 'Yanacocha\n秘鲁(金主)',     value: 400 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'Cerro Verde\n秘鲁(铜)',     value: 200 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'Yumpag\n秘鲁(银)',          value: 245 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'El Brocal\n秘鲁',           value: 180 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'Tambomayo\n秘鲁',           value: 300 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'La Zanja\n秘鲁(末期)',       value: 160 },
+  { source: 'Buenaventura\nNYSE: BVN', target: 'San Gabriel\n秘鲁(金主)',   value: 160 },
+
+  // === 其他 ===
+  { source: 'South32\nASX: S32',          target: 'Cannington\n澳大利亚',           value: 560 },
+  { source: 'Sumitomo Corp.\nTSE: 8053',  target: 'San Cristóbal\n玻利维亚',         value: 650 },
+  { source: 'JSC Polymetal\n(俄罗斯非上市)', target: 'Dukat\n俄罗斯',               value: 650 },
+];
+
+const silverNodes = buildNodes(silverLinks);
+const revenueNodes = buildNodes(revenueLinks);
+let currentMode = 'silver';
+
+function buildTooltip(meta, name) {
+  const namePlain = name.split('\n')[0];
+  const subtitle = name.split('\n').slice(1).join(' · ');
+  let html = `<div class="tt-card">`;
+  html += `<div class="tt-header">`;
+  html += `<div class="tt-name">${namePlain}${subtitle ? ` <span style="color:#8a8f99;font-size:11px;font-weight:400;">· ${subtitle}</span>` : ''}</div>`;
+  if (meta.en) html += `<div class="tt-en">${meta.en}</div>`;
+  if (meta.tag) html += `<div class="tt-tag ${meta.type}">${meta.tag}</div>`;
+  html += `</div>`;
+  meta.rows.forEach(r => {
+    const label = r[0];
+    const val = r[1];
+    const cls = r[2] || '';
+    html += `<div class="tt-row"><span class="tt-label">${label}</span><span class="tt-val ${cls}">${val}</span></div>`;
+  });
+  if (meta.note) html += `<div class="tt-note">${meta.note}</div>`;
+  html += `</div>`;
+  return html;
+}
+
+const option = {
+  backgroundColor: 'transparent',
+  tooltip: {
+    trigger: 'item',
+    triggerOn: 'mousemove',
+    backgroundColor: 'rgba(253, 251, 246, 0.98)',
+    borderColor: 'rgba(138, 106, 26, 0.4)',
+    borderWidth: 1,
+    padding: 14,
+    textStyle: { color: '#1a1a1f', fontSize: 13, fontFamily: 'Noto Sans SC, sans-serif' },
+    extraCssText: 'box-shadow: 0 12px 40px rgba(0,0,0,0.7); backdrop-filter: blur(10px); border-radius: 3px;',
+    formatter: (p) => {
+      if (p.dataType === 'edge') {
+        const sName = p.data.source.split('\n')[0];
+        const tName = p.data.target.split('\n')[0];
+        const isRev = currentMode === 'revenue';
+        const label = isRev ? '年化营收' : '权益银产量';
+        const unit = isRev ? '$M/yr' : 'Moz/yr';
+        const valFmt = isRev ? p.data.value.toLocaleString() : p.data.value;
+        return `<div style="font-family:'Noto Sans SC';padding:4px;">
+                  <div style="font-size:13px;">
+                    <span style="color:#2d4a78;">${sName}</span>
+                    <span style="color:#5a5f69;margin:0 8px;">→</span>
+                    <span style="color:#2d5e60;">${tName}</span>
+                  </div>
+                  <div style="margin-top:6px;font-family:'JetBrains Mono';font-size:12px;color:#8a6a1a;">
+                    ${label} ≈ ${valFmt} ${unit}
+                  </div>
+                </div>`;
+      }
+      const meta = nodeMeta[p.name];
+      return meta ? buildTooltip(meta, p.name) : `<b>${p.name.replace(/\n/g, ' · ')}</b>`;
+    }
+  },
+  series: [{
+    type: 'sankey',
+    left: 60,
+    right: 200,
+    top: 30,
+    bottom: 30,
+    nodeWidth: 18,
+    nodeGap: 14,
+    nodeAlign: 'left',
+    layoutIterations: 64,
+    emphasis: {
+      focus: 'adjacency',
+      itemStyle: { shadowBlur: 20, shadowColor: 'rgba(201, 164, 73, 0.6)' },
+      lineStyle: { opacity: 0.85 }
+    },
+    data: silverNodes,
+    links: silverLinks,
+    label: {
+      color: '#1a1a1f',
+      fontSize: 12,
+      fontFamily: 'Noto Sans SC, JetBrains Mono, sans-serif',
+      fontWeight: 500,
+      lineHeight: 15,
+      formatter: (p) => {
+        const parts = p.name.split('\n');
+        if (parts.length === 1) return `{main|${parts[0]}}`;
+        return `{main|${parts[0]}}\n{sub|${parts[1]}}`;
+      },
+      rich: {
+        main: { color: '#1a1a1f', fontSize: 12, fontWeight: 600, lineHeight: 16 },
+        sub: { color: '#5a5f69', fontSize: 10, fontFamily: 'JetBrains Mono, monospace', lineHeight: 13 }
+      }
+    },
+    lineStyle: { color: 'gradient', opacity: 0.45, curveness: 0.5 },
+    itemStyle: { borderWidth: 0, borderRadius: 1 },
+  }]
+};
+
+const chart = echarts.init(document.getElementById('sankey'), null, { renderer: 'canvas' });
+chart.setOption(option);
+window.addEventListener('resize', () => chart.resize());
+
+// === 视图切换逻辑 ===
+function refreshChart() {
+  const isRev = currentMode === 'revenue';
+  // 1. 先调整容器高度(营收视图节点更多)
+  document.getElementById('sankey').style.height = isRev ? '1500px' : '1080px';
+  // 2. 直接修改 option 对象的 series 数据
+  option.series[0].data = isRev ? revenueNodes : silverNodes;
+  option.series[0].links = isRev ? revenueLinks : silverLinks;
+  // 3. 用 notMerge 强制完整重绘(节点集合变化时必须)
+  chart.setOption(option, { notMerge: true });
+  // 4. 触发 resize 适配新高度
+  chart.resize();
+  // 5. 更新顶部 meta 提示
+  const label = document.getElementById('flow-unit-label');
+  if (label) {
+    label.innerHTML = isRev
+      ? '年化营收 <span class="v">($M/yr)</span>'
+      : '银产量 <span class="v">(Moz/yr)</span>';
+  }
+}
+
+document.querySelectorAll('.pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMode = btn.dataset.mode;
+    refreshChart();
+  });
+});
+</script>
+
+</body>
+</html>
