@@ -471,7 +471,7 @@
       <div class="sb-stats">
         <div class="sb-stat">
           <span class="sb-stat-label">Total Reports</span>
-          <span class="sb-stat-num" id="total-count">7</span>
+          <span class="sb-stat-num" id="total-count">24</span>
         </div>
         <div class="sb-stat">
           <span class="sb-stat-label">Markets</span>
@@ -609,9 +609,9 @@
             <div class="card-accent us-equity"></div>
             <div class="card-body">
               <div class="card-meta">
-                <div class="series-label">● Series · 19 篇</div>
+                <div class="series-label">● Series · 20 篇</div>
                 <div class="card-title">资源股专题研究</div>
-                <div class="card-desc">黄金 · 白银 · 锂矿 — 19 篇深度报告，覆盖矿企框架、地理图谱、Capex/M&A 周期、个股点评</div>
+                <div class="card-desc">黄金 · 白银 · 锂矿 — 20 篇深度报告，覆盖矿企框架、地理图谱、Capex/M&A 周期、个股点评</div>
                 <div class="series-tickers">
                   <span class="sticker">NEM</span>
                   <span class="sticker">AEM</span>
@@ -658,19 +658,20 @@
   const counter  = document.getElementById('total-count');
   const empty    = document.getElementById('empty-state');
 
-  // count per category
-  const counts = { all: 0 };
+  const TOTAL_REPORTS = 24;
+
+  // count per category (card count for sidebar nav)
+  const counts = {};
   cards.forEach(c => {
     const cat = c.dataset.category;
     counts[cat] = (counts[cat] || 0) + 1;
-    counts.all++;
   });
-  // write sidebar counts
   Object.entries(counts).forEach(([cat, n]) => {
     const el = document.getElementById('cnt-' + cat);
     if (el) el.textContent = n;
   });
-  counter.textContent = counts.all;
+  const cntAll = document.getElementById('cnt-all');
+  if (cntAll) cntAll.textContent = cards.length;
 
   navItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -683,7 +684,7 @@
         card.style.display = match ? 'flex' : 'none';
         if (match) visible++;
       });
-      counter.textContent = visible;
+      counter.textContent = filter === 'all' ? TOTAL_REPORTS : visible;
       // show/hide columns based on whether they have visible cards
       ['col-weekly', 'col-research'].forEach(id => {
         const col = document.getElementById(id);
