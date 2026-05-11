@@ -388,6 +388,103 @@
     border: 1px solid var(--border);
     color: var(--navy);
   }
+
+  /* ── Featured Recommendation ── */
+  @keyframes breathe {
+    0%,100% { box-shadow: 0 0 0 0 rgba(184,135,10,0.12), 0 2px 14px rgba(27,38,53,0.07); }
+    50%      { box-shadow: 0 0 0 5px rgba(184,135,10,0.08), 0 6px 24px rgba(27,38,53,0.12); }
+  }
+  @keyframes shimmer-pass {
+    0%      { transform: translateX(-120%); }
+    60%,100%{ transform: translateX(120%); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes pulse-dot {
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%    { opacity:.5; transform:scale(1.5); }
+  }
+
+  .featured-wrap { margin-bottom: 26px; }
+
+  .featured-card {
+    display: flex; align-items: center; gap: 22px;
+    background: linear-gradient(135deg, #fff 0%, #fdf8ee 100%);
+    border: 1.5px solid var(--amber);
+    border-radius: 8px;
+    padding: 20px 26px;
+    text-decoration: none; color: inherit;
+    position: relative; overflow: hidden;
+    animation: breathe 3.5s ease-in-out infinite;
+    transition: transform 0.18s;
+  }
+  .featured-card:hover { transform: translateY(-2px); }
+
+  /* shimmer light sweep */
+  .featured-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212,160,23,0.1), transparent);
+    animation: shimmer-pass 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* spinning star corner */
+  .featured-card::after {
+    content: '✦';
+    position: absolute; top: 10px; right: 14px;
+    font-size: 18px; color: var(--amber-hi); opacity: 0.55;
+    animation: spin-slow 8s linear infinite;
+    pointer-events: none;
+  }
+
+  .featured-badge {
+    display: flex; align-items: center; gap: 7px;
+    flex-shrink: 0;
+    background: var(--navy);
+    color: var(--amber-hi);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 5px 13px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .featured-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--amber-hi);
+    animation: pulse-dot 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .featured-body { flex: 1; min-width: 0; }
+  .featured-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .featured-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 700; color: var(--navy);
+    line-height: 1.2; margin-bottom: 5px;
+  }
+  .featured-desc {
+    font-size: 12.5px; color: var(--muted); font-weight: 300; line-height: 1.55;
+  }
+
+  .featured-cta {
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber); border: 1px solid var(--amber);
+    padding: 7px 16px; border-radius: 20px;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .featured-card:hover .featured-cta {
+    background: var(--amber); color: #fff;
+  }
 </style>
 </head>
 <body>
@@ -541,6 +638,22 @@
 
   <!-- ── MAIN ── -->
   <main class="main">
+    <!-- Featured Recommendation -->
+    <div class="featured-wrap">
+      <a href="美股研究/资源股研究/AGI质量阵营的中盘金矿龙头.html" class="featured-card">
+        <div class="featured-badge">
+          <span class="featured-badge-dot"></span>
+          作者推荐
+        </div>
+        <div class="featured-body">
+          <div class="featured-eyebrow">公司研究 · 黄金矿企 · AGI</div>
+          <div class="featured-title">AGI 质量阵营的中盘金矿龙头</div>
+          <div class="featured-desc">中盘金矿的质量分层逻辑——谁在这波金价里真正兑现了产量 + 利润双升，谁还停在叙事层面</div>
+        </div>
+        <div class="featured-cta">阅读报告 →</div>
+      </a>
+    </div>
+
     <div class="report-columns">
 
       <!-- 周报 栏 -->
