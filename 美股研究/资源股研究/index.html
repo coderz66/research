@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>黄金矿股专题研究 · Research Series</title>
+<title>资源股专题研究 · Research Series</title>
 <link rel="icon" type="image/svg+xml" href="/research/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Karla:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,7 +18,13 @@
   --bg:       #F4F2ED;
   --muted:    #6B7280;
   --border:   #DDD8CF;
-  --series:   #7C3AED;
+
+  --cat-framework: #B8870A;
+  --cat-gold:      #D97706;
+  --cat-silver:    #64748B;
+  --cat-lithium:   #7C3AED;
+  --cat-geo:       #059669;
+  --cat-theme:     #DC2626;
 }
 
 body {
@@ -34,21 +40,21 @@ body {
 .masthead {
   background: var(--navy);
   border-bottom: 3px solid var(--amber);
-  padding: 28px 0 24px;
+  padding: 32px 0 28px;
   position: relative;
   overflow: hidden;
 }
 .masthead::after {
-  content: 'GOLD';
+  content: 'RESOURCES';
   position: absolute;
-  right: -10px; bottom: -24px;
+  right: -20px; bottom: -30px;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 160px; font-weight: 700;
-  color: rgba(255,255,255,0.04);
+  font-size: 140px; font-weight: 700;
+  color: rgba(255,255,255,0.035);
   line-height: 1; pointer-events: none;
   letter-spacing: -0.02em;
 }
-.wrap { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+.wrap { max-width: 1800px; margin: 0 auto; padding: 0 48px; }
 
 .series-eyebrow {
   font-family: 'JetBrains Mono', monospace;
@@ -66,37 +72,31 @@ body {
 .series-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 48px; font-weight: 700;
-  color: #fff;
-  line-height: 1.1;
-  margin-bottom: 16px;
+  color: #fff; line-height: 1.1;
+  margin-bottom: 14px;
 }
-.series-title em {
-  font-style: italic;
-  color: var(--amber-hi);
-}
+.series-title em { font-style: italic; color: var(--amber-hi); }
 .series-desc {
-  font-size: 14.5px;
-  color: rgba(255,255,255,0.55);
-  font-weight: 300;
-  max-width: 620px;
-  margin-bottom: 28px;
-  line-height: 1.7;
+  font-size: 14px; color: rgba(255,255,255,0.52);
+  font-weight: 300; max-width: 680px;
+  margin-bottom: 24px; line-height: 1.7;
 }
-.series-pills {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
+.series-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .pill {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; letter-spacing: 0.08em;
-  padding: 4px 10px; border-radius: 20px;
+  padding: 4px 11px; border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6);
 }
 .pill.hi {
-  background: rgba(184,135,10,0.2);
+  background: rgba(184,135,10,0.18);
   border-color: rgba(184,135,10,0.4);
   color: var(--amber-hi);
 }
+.pill.c-silver { border-color: rgba(100,116,135,0.4); color: #94A3B8; }
+.pill.c-lithium { border-color: rgba(124,58,237,0.4); color: #A78BFA; }
+.pill.c-geo { border-color: rgba(5,150,105,0.4); color: #34D399; }
 
 /* ── Stats Bar ── */
 .stats-bar {
@@ -105,145 +105,169 @@ body {
   padding: 14px 0;
 }
 .stats-inner {
-  max-width: 860px; margin: 0 auto; padding: 0 40px;
-  display: flex; gap: 36px; align-items: center;
+  max-width: 1800px; margin: 0 auto; padding: 0 48px;
+  display: flex; gap: 0; align-items: center;
 }
 .stat {
   display: flex; align-items: baseline; gap: 6px;
+  padding-right: 32px;
 }
 .stat-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 20px; font-weight: 500;
-  color: var(--navy);
+  font-size: 22px; font-weight: 500; color: var(--navy);
 }
 .stat-label {
-  font-size: 12px; color: var(--muted);
+  font-size: 11.5px; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.05em;
 }
-.stat-divider {
-  width: 1px; height: 28px;
-  background: var(--border);
-}
+.stat-divider { width: 1px; height: 28px; background: var(--border); margin-right: 32px; }
 
-/* ── Report List ── */
-.report-list {
-  max-width: 860px; margin: 0 auto;
-  padding: 24px 40px 60px;
-  display: flex; flex-direction: column; gap: 16px;
-}
-
-.series-card {
-  display: flex; align-items: stretch;
+/* ── Filter Tabs ── */
+.filter-bar {
   background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-  transition: box-shadow 0.18s, transform 0.15s;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
 }
-.series-card:hover {
-  box-shadow: 0 6px 24px rgba(27,38,53,0.1);
-  transform: translateY(-2px);
+.filter-inner {
+  max-width: 1800px; margin: 0 auto; padding: 0 48px;
+  display: flex; gap: 0; align-items: center;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-
-.card-num {
-  width: 56px; align-self: stretch;
-  background: var(--navy);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+.filter-inner::-webkit-scrollbar { display: none; }
+.ftab {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.05em;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 13px 18px; border: none; background: transparent;
+  color: var(--muted); cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
 }
-.series-card:hover .card-num {
-  color: var(--amber-hi);
-}
+.ftab:hover { color: var(--navy); }
+.ftab.active { color: var(--amber); border-bottom-color: var(--amber); }
 
-.card-accent-strip {
-  width: 4px; background: var(--series); flex-shrink: 0;
+.ftab-dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  margin-right: 6px; vertical-align: middle; margin-top: -2px;
 }
-
-.card-body {
-  flex: 1; padding: 22px 24px;
-  display: flex; align-items: center; gap: 20px;
-}
-.card-content { flex: 1; }
-
-.card-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px; letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--series);
-  margin-bottom: 6px;
-}
-.card-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 700;
-  color: var(--navy);
-  line-height: 1.25;
-  margin-bottom: 6px;
-}
-.card-desc {
-  font-size: 13px; color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-.card-tags {
-  display: flex; flex-wrap: wrap; gap: 6px;
-}
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.06em;
-  padding: 2px 8px; border-radius: 12px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--navy);
-}
-
-.card-right {
-  display: flex; flex-direction: column;
-  align-items: flex-end; justify-content: space-between;
-  align-self: stretch;
-  min-width: 100px;
-}
-.card-date {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--muted);
-  letter-spacing: 0.06em;
-}
-.card-arrow {
-  font-size: 20px; color: var(--border);
-  transition: color 0.15s;
-  margin-top: 12px;
-}
-.series-card:hover .card-arrow { color: var(--amber); }
 
 /* ── Back Button ── */
 .back-btn {
   position: fixed; top: 16px; left: 16px; z-index: 9999;
   background: var(--amber-hi); color: var(--navy);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 0.15em; text-transform: uppercase;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
   padding: 7px 16px; border-radius: 20px;
-  text-decoration: none;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+  text-decoration: none; box-shadow: 0 3px 12px rgba(0,0,0,0.2);
   transition: background 0.15s;
 }
 .back-btn:hover { background: #e8b520; }
 
+/* ── Card Grid ── */
+.card-grid {
+  max-width: 1800px; margin: 0 auto;
+  padding: 28px 48px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.grid-card {
+  display: flex; flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top-width: 4px;
+  border-radius: 6px;
+  text-decoration: none; color: inherit;
+  overflow: hidden;
+  transition: box-shadow 0.18s, transform 0.15s;
+  padding: 20px 22px 18px;
+}
+.grid-card:hover {
+  box-shadow: 0 8px 28px rgba(27,38,53,0.1);
+  transform: translateY(-3px);
+}
+
+/* category border colors */
+.cat-framework { border-top-color: var(--cat-framework); }
+.cat-gold      { border-top-color: var(--cat-gold); }
+.cat-silver    { border-top-color: var(--cat-silver); }
+.cat-lithium   { border-top-color: var(--cat-lithium); }
+.cat-geo       { border-top-color: var(--cat-geo); }
+.cat-theme     { border-top-color: var(--cat-theme); }
+
+.gc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.gc-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 12px; font-weight: 500;
+}
+.cat-framework .gc-badge { background: rgba(184,135,10,0.12); color: var(--cat-framework); }
+.cat-gold      .gc-badge { background: rgba(217,119,6,0.12);  color: var(--cat-gold); }
+.cat-silver    .gc-badge { background: rgba(100,116,135,0.12); color: var(--cat-silver); }
+.cat-lithium   .gc-badge { background: rgba(124,58,237,0.12); color: var(--cat-lithium); }
+.cat-geo       .gc-badge { background: rgba(5,150,105,0.12);  color: var(--cat-geo); }
+.cat-theme     .gc-badge { background: rgba(220,38,38,0.12);  color: var(--cat-theme); }
+
+.gc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: rgba(27,38,53,0.22); letter-spacing: 0.05em;
+}
+
+.gc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px;
+}
+.gc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 700; color: var(--navy);
+  line-height: 1.25; margin-bottom: 8px;
+}
+.gc-desc {
+  font-size: 12.5px; color: var(--muted); line-height: 1.55;
+  flex: 1; margin-bottom: 14px;
+}
+.gc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--navy);
+}
+.gc-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid var(--border);
+}
+.gc-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: 0.05em;
+}
+.gc-arrow { font-size: 16px; color: var(--border); transition: color 0.15s; }
+.grid-card:hover .gc-arrow { color: var(--amber); }
+
+/* hidden when filtered */
+.grid-card.hidden { display: none; }
+
 /* ── Footer ── */
 .footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 0;
+  border-top: 1px solid var(--border); padding: 24px 0;
   text-align: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.1em;
-  color: var(--muted);
+  font-size: 10px; letter-spacing: 0.1em; color: var(--muted);
+}
+
+@media (max-width: 1300px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  .card-grid { grid-template-columns: 1fr; padding: 20px 20px 60px; }
+  .wrap, .stats-inner, .filter-inner { padding-left: 20px; padding-right: 20px; }
 }
 </style>
 </head>
@@ -255,17 +279,19 @@ body {
 <div class="masthead">
   <div class="wrap">
     <div class="series-eyebrow">Research Series · 美股资源股</div>
-    <div class="series-title"><em>黄金矿股</em>专题研究</div>
-    <div class="series-desc">覆盖美股主要金银矿企，从行业框架、估值体系，到个股深度横比与未开采资产期权价值。共 3 篇，持续更新。</div>
+    <div class="series-title"><em>资源股</em>专题研究</div>
+    <div class="series-desc">覆盖美股资源股产业链——黄金、白银、锂矿等主要品种，从行业框架、估值体系到个股深度横比与地理风险图谱。共 19 篇，持续更新。</div>
     <div class="series-pills">
       <span class="pill hi">NEM</span>
       <span class="pill hi">AEM</span>
       <span class="pill hi">WPM</span>
       <span class="pill hi">GOLD</span>
       <span class="pill hi">KGC</span>
-      <span class="pill">16 家矿企</span>
-      <span class="pill">Gold Royalty</span>
-      <span class="pill">未开采资产</span>
+      <span class="pill c-silver">PAAS</span>
+      <span class="pill c-silver">AG</span>
+      <span class="pill c-lithium">ALB</span>
+      <span class="pill c-lithium">SQM</span>
+      <span class="pill c-geo">地理图谱</span>
     </div>
   </div>
 </div>
@@ -279,7 +305,12 @@ body {
     </div>
     <div class="stat-divider"></div>
     <div class="stat">
-      <span class="stat-num">16</span>
+      <span class="stat-num">6</span>
+      <span class="stat-label">研究分类</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-num">16+</span>
       <span class="stat-label">家矿企覆盖</span>
     </div>
     <div class="stat-divider"></div>
@@ -290,325 +321,410 @@ body {
   </div>
 </div>
 
-<!-- Report List -->
-<div class="report-list">
+<!-- Filter Tabs -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="ftab active" data-filter="all">全部 · 19</button>
+    <button class="ftab" data-filter="framework">
+      <span class="ftab-dot" style="background:var(--cat-framework)"></span>行业框架 · 3
+    </button>
+    <button class="ftab" data-filter="gold">
+      <span class="ftab-dot" style="background:var(--cat-gold)"></span>黄金矿企 · 7
+    </button>
+    <button class="ftab" data-filter="silver">
+      <span class="ftab-dot" style="background:var(--cat-silver)"></span>白银矿企 · 2
+    </button>
+    <button class="ftab" data-filter="lithium">
+      <span class="ftab-dot" style="background:var(--cat-lithium)"></span>锂矿研究 · 2
+    </button>
+    <button class="ftab" data-filter="geo">
+      <span class="ftab-dot" style="background:var(--cat-geo)"></span>地理图谱 · 4
+    </button>
+    <button class="ftab" data-filter="theme">
+      <span class="ftab-dot" style="background:var(--cat-theme)"></span>主题研究 · 1
+    </button>
+  </div>
+</div>
 
-  <!-- #01 最新 -->
-  <a href="金矿点评.html" class="series-card">
-    <div class="card-num">#01</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">最新 · 个股点评</div>
-        <div class="card-title">中小型金矿研究</div>
-        <div class="card-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理。覆盖市值 $1B 以下中小型矿企，重点看 cost structure 与金价弹性。</div>
-        <div class="card-tags">
-          <span class="tag">KGC</span>
-          <span class="tag">PAAS</span>
-          <span class="tag">AG</span>
-          <span class="tag">小盘矿企</span>
-          <span class="tag">Beta 分析</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <span class="card-date">2026-05-09</span>
-        <span class="card-arrow">→</span>
-      </div>
+<!-- Card Grid -->
+<div class="card-grid">
+
+  <!-- ── 行业框架 (3) ── -->
+
+  <!-- #01 framework -->
+  <a href="美股金银矿股研究_v10.html" class="grid-card cat-framework" data-cat="framework">
+    <div class="gc-header">
+      <span class="gc-badge">行业框架</span>
+      <span class="gc-num">#01</span>
+    </div>
+    <div class="gc-label">基础框架 · 全景梳理</div>
+    <div class="gc-title">美股金银矿股研究 v10</div>
+    <div class="gc-desc">金银矿股投资逻辑全景 · 估值体系建立 · 16 家主要矿企同框架横比。行业入门基础文件，定义核心指标与分析框架。</div>
+    <div class="gc-tags">
+      <span class="tag">NEM</span><span class="tag">AEM</span><span class="tag">GOLD</span>
+      <span class="tag">16 家横比</span><span class="tag">估值体系</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-09</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #02 -->
-  <a href="未开采黄金矿企深度专题.html" class="series-card">
-    <div class="card-num">#02</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">深度专题 · 开发阶段矿企</div>
-        <div class="card-title">未开采黄金矿企深度专题</div>
-        <div class="card-desc">5 家长周期开发者横比 · Royalty & Streaming 模式解构 · 资产期权价值框架。用期权视角重新定价未开采资源量。</div>
-        <div class="card-tags">
-          <span class="tag">WPM</span>
-          <span class="tag">RGLD</span>
-          <span class="tag">FNV</span>
-          <span class="tag">Royalty 模式</span>
-          <span class="tag">资产期权</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <span class="card-date">2026-05-09</span>
-        <span class="card-arrow">→</span>
-      </div>
+  <!-- #02 framework -->
+  <a href="precious_metals_summary.html" class="grid-card cat-framework" data-cat="framework">
+    <div class="gc-header">
+      <span class="gc-badge">行业框架</span>
+      <span class="gc-num">#02</span>
+    </div>
+    <div class="gc-label">贵金属 · 投研框架</div>
+    <div class="gc-title">贵金属美股投研框架</div>
+    <div class="gc-desc">Precious Metals Coverage 全景 — 金银铂钯矿股的估值体系、驱动因子与组合构建逻辑。行业地图 + 分析师工具箱。</div>
+    <div class="gc-tags">
+      <span class="tag">金</span><span class="tag">银</span><span class="tag">铂</span><span class="tag">投研框架</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #03 基础篇 -->
-  <a href="美股金银矿股研究_v10.html" class="series-card">
-    <div class="card-num">#03</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">基础框架 · 全景梳理</div>
-        <div class="card-title">美股金银矿股研究 v10</div>
-        <div class="card-desc">金银矿股投资逻辑全景 · 估值体系建立 · 16 家主要矿企同框架横比。行业入门基础文件，定义核心指标与分析框架。</div>
-        <div class="card-tags">
-          <span class="tag">NEM</span>
-          <span class="tag">AEM</span>
-          <span class="tag">GOLD</span>
-          <span class="tag">16 家横比</span>
-          <span class="tag">估值体系</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <span class="card-date">2026-05-09</span>
-        <span class="card-arrow">→</span>
-      </div>
+  <!-- #03 framework -->
+  <a href="gold_miners_spectrum%20%281%29.html" class="grid-card cat-framework" data-cat="framework">
+    <div class="gc-header">
+      <span class="gc-badge">行业框架</span>
+      <span class="gc-num">#03</span>
+    </div>
+    <div class="gc-label">黄金 · 分类框架</div>
+    <div class="gc-title">金矿股中庸度光谱</div>
+    <div class="gc-desc">Gold Miners Spectrum Framework — 从纯金属暴露到多元化矿企，用"中庸度"轴重新分类 20+ 家矿企，定位风险收益区间。</div>
+    <div class="gc-tags">
+      <span class="tag">光谱框架</span><span class="tag">风险分类</span><span class="tag">20+ 矿企</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
+  <!-- ── 黄金矿企 (7) ── -->
 
-  <!-- #04 -->
-  <a href="gold-miners-v3.html" class="series-card">
-    <div class="card-num">#04</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">黄金 · 增量分析</div>
-        <div class="card-title">黄金矿企深度对比 v3</div>
-        <div class="card-desc">IDR / SA / WRN / PZG / BTG / TFPM 同框架增量分析，聚焦 cost structure 变化与产量指引修正。</div>
-        <div class="card-tags"><span class="tag">IDR</span><span class="tag">BTG</span><span class="tag">TFPM</span><span class="tag">成本对比</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #04 gold -->
+  <a href="金矿点评.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#04</span>
+    </div>
+    <div class="gc-label">最新 · 个股点评</div>
+    <div class="gc-title">中小型金矿研究</div>
+    <div class="gc-desc">金价驱动逻辑 · 矿企 beta 分析 · 近期催化梳理。覆盖市值 $1B 以下中小型矿企，重点看 cost structure 与金价弹性。</div>
+    <div class="gc-tags">
+      <span class="tag">KGC</span><span class="tag">PAAS</span><span class="tag">AG</span>
+      <span class="tag">小盘矿企</span><span class="tag">Beta 分析</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-09</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #05 -->
-  <a href="gold_miners_spectrum%20%281%29.html" class="series-card">
-    <div class="card-num">#05</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">黄金 · 框架</div>
-        <div class="card-title">金矿股中庸度光谱</div>
-        <div class="card-desc">Gold Miners Spectrum Framework — 从纯金属暴露到多元化矿企，用"中庸度"轴重新分类 20+ 家矿企，定位风险收益区间。</div>
-        <div class="card-tags"><span class="tag">光谱框架</span><span class="tag">风险分类</span><span class="tag">20+ 矿企</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #05 gold -->
+  <a href="未开采黄金矿企深度专题.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#05</span>
+    </div>
+    <div class="gc-label">深度专题 · 开发阶段矿企</div>
+    <div class="gc-title">未开采黄金矿企深度专题</div>
+    <div class="gc-desc">5 家长周期开发者横比 · Royalty & Streaming 模式解构 · 资产期权价值框架。用期权视角重新定价未开采资源量。</div>
+    <div class="gc-tags">
+      <span class="tag">WPM</span><span class="tag">RGLD</span><span class="tag">FNV</span>
+      <span class="tag">Royalty 模式</span><span class="tag">资产期权</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-09</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #06 -->
-  <a href="precious_metals_summary.html" class="series-card">
-    <div class="card-num">#06</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">贵金属 · 投研框架</div>
-        <div class="card-title">贵金属美股投研框架</div>
-        <div class="card-desc">Precious Metals Coverage 全景 — 金银铂钯矿股的估值体系、驱动因子与组合构建逻辑。行业地图 + 分析师工具箱。</div>
-        <div class="card-tags"><span class="tag">金</span><span class="tag">银</span><span class="tag">铂</span><span class="tag">投研框架</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #06 gold -->
+  <a href="gold-miners-v3.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#06</span>
+    </div>
+    <div class="gc-label">黄金 · 增量分析</div>
+    <div class="gc-title">黄金矿企深度对比 v3</div>
+    <div class="gc-desc">IDR / SA / WRN / PZG / BTG / TFPM 同框架增量分析，聚焦 cost structure 变化与产量指引修正。</div>
+    <div class="gc-tags">
+      <span class="tag">IDR</span><span class="tag">BTG</span><span class="tag">TFPM</span><span class="tag">成本对比</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #07 -->
-  <a href="gold_silver_miners_capex_ma_report.html" class="series-card">
-    <div class="card-num">#07</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">黄金/银 · 资本周期</div>
-        <div class="card-title">金银矿 Capex & M&A 周期对比</div>
-        <div class="card-desc">2018–2026 资本支出周期与并购浪潮复盘 — 谁在扩张、谁在收缩，并购溢价与资产整合逻辑。</div>
-        <div class="card-tags"><span class="tag">Capex</span><span class="tag">M&A</span><span class="tag">资本周期</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #07 gold -->
+  <a href="gold_silver_miners_capex_ma_report.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#07</span>
+    </div>
+    <div class="gc-label">黄金/银 · 资本周期</div>
+    <div class="gc-title">金银矿 Capex &amp; M&amp;A 周期对比</div>
+    <div class="gc-desc">2018–2026 资本支出周期与并购浪潮复盘 — 谁在扩张、谁在收缩，并购溢价与资产整合逻辑。</div>
+    <div class="gc-tags">
+      <span class="tag">Capex</span><span class="tag">M&amp;A</span><span class="tag">资本周期</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #08 -->
-  <a href="north_america_mining_v6.html" class="series-card">
-    <div class="card-num">#08</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">地理分布 · 北美</div>
-        <div class="card-title">北美矿企分布图谱 v6</div>
-        <div class="card-desc">美国 + 加拿大矿企详尽分布图谱 — 资产位置、产权结构、司法风险评级，覆盖主要生产商与开发商。</div>
-        <div class="card-tags"><span class="tag">NEM</span><span class="tag">AEM</span><span class="tag">北美</span><span class="tag">图谱</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #08 gold -->
+  <a href="gold_sankey.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#08</span>
+    </div>
+    <div class="gc-label">黄金 · 资产流向</div>
+    <div class="gc-title">全球金矿 M&amp;A 资产流向地图 2024–2026</div>
+    <div class="gc-desc">Sankey 图可视化 — 2024 年以来主要并购交易中资产从卖方到买方的流动路径，识别资产集中趋势。</div>
+    <div class="gc-tags">
+      <span class="tag">M&amp;A</span><span class="tag">Sankey</span><span class="tag">资产流向</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #09 -->
-  <a href="africa_mining%20%281%29.html" class="series-card">
-    <div class="card-num">#09</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">地理分布 · 非洲</div>
-        <div class="card-title">非洲矿企分布图谱</div>
-        <div class="card-desc">非洲黄金、铜、锂资产分布详尽图谱 — 国家风险评级、主要矿企资产敞口、资源民族主义事件梳理。</div>
-        <div class="card-tags"><span class="tag">非洲</span><span class="tag">资源风险</span><span class="tag">图谱</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #09 gold -->
+  <a href="barrick_north_america_gold_assets_ipo.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#09</span>
+    </div>
+    <div class="gc-label">个股专题 · GOLD</div>
+    <div class="gc-title">Barrick 北美黄金资产 IPO 评估</div>
+    <div class="gc-desc">Barrick Mining 北美资产拆分上市可行性分析 — 资产估值、潜在结构、市场定价逻辑与对比案例。</div>
+    <div class="gc-tags">
+      <span class="tag">GOLD</span><span class="tag">Barrick</span><span class="tag">IPO</span><span class="tag">拆分</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #10 -->
-  <a href="australia_mining_companies.html" class="series-card">
-    <div class="card-num">#10</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">地理分布 · 澳大利亚</div>
-        <div class="card-title">澳大利亚矿企分布图谱</div>
-        <div class="card-desc">澳洲金矿、铁矿、锂矿主要矿企图谱 — 监管环境、主要生产商与 ASX 上市矿企的美股交叉持仓结构。</div>
-        <div class="card-tags"><span class="tag">澳大利亚</span><span class="tag">ASX</span><span class="tag">图谱</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #10 gold -->
+  <a href="augo-growth-analysis.html" class="grid-card cat-gold" data-cat="gold">
+    <div class="gc-header">
+      <span class="gc-badge">黄金矿企</span>
+      <span class="gc-num">#10</span>
+    </div>
+    <div class="gc-label">个股专题 · Aura Minerals</div>
+    <div class="gc-title">AUGO 产量增速横比分析</div>
+    <div class="gc-desc">Aura Minerals 产量增速与同类矿企横比 — 成本曲线位置、增长可见度与估值溢价逻辑。</div>
+    <div class="gc-tags">
+      <span class="tag">AUGO</span><span class="tag">Aura Minerals</span><span class="tag">产量增速</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #11 -->
-  <a href="south_america_mining%20%281%29.html" class="series-card">
-    <div class="card-num">#11</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">地理分布 · 南美</div>
-        <div class="card-title">南美矿企分布图谱</div>
-        <div class="card-desc">智利、秘鲁、阿根廷矿企详尽分布 — 铜、锂、金资产地图，资源民族主义风险评估与主要上市矿企敞口。</div>
-        <div class="card-tags"><span class="tag">智利</span><span class="tag">秘鲁</span><span class="tag">阿根廷</span><span class="tag">图谱</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- ── 白银矿企 (2) ── -->
+
+  <!-- #11 silver -->
+  <a href="silver_sankey%20%285%29.html" class="grid-card cat-silver" data-cat="silver">
+    <div class="gc-header">
+      <span class="gc-badge">白银矿企</span>
+      <span class="gc-num">#11</span>
+    </div>
+    <div class="gc-label">白银 · 产业地图</div>
+    <div class="gc-title">银业版图 · Silver Mining Map</div>
+    <div class="gc-desc">全球银矿产量、资产归属与产业链 Sankey 可视化 — 从矿山到精炼，主要矿企市场份额与地理分布。</div>
+    <div class="gc-tags">
+      <span class="tag">白银</span><span class="tag">Sankey</span><span class="tag">产业地图</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #12 -->
-  <a href="gold_sankey.html" class="series-card">
-    <div class="card-num">#12</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">黄金 · 资产流向</div>
-        <div class="card-title">全球金矿 M&A 资产流向地图 2024–2026</div>
-        <div class="card-desc">Sankey 图可视化 — 2024 年以来主要并购交易中资产从卖方到买方的流动路径，识别资产集中趋势。</div>
-        <div class="card-tags"><span class="tag">M&A</span><span class="tag">Sankey</span><span class="tag">资产流向</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #12 silver -->
+  <a href="silver_miners_q1_2026.html" class="grid-card cat-silver" data-cat="silver">
+    <div class="gc-header">
+      <span class="gc-badge">白银矿企</span>
+      <span class="gc-num">#12</span>
+    </div>
+    <div class="gc-label">白银 · 季报研究</div>
+    <div class="gc-title">美股银矿企业研究报告 Q1 2026</div>
+    <div class="gc-desc">银矿主要标的 Q1 2026 财报复盘 — 产量、AISC、EPS vs 预期，以及 Q2 指引方向梳理。</div>
+    <div class="gc-tags">
+      <span class="tag">PAAS</span><span class="tag">AG</span><span class="tag">MAG</span><span class="tag">Q1 2026</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #13 -->
-  <a href="silver_sankey%20%285%29.html" class="series-card">
-    <div class="card-num">#13</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">白银 · 产业地图</div>
-        <div class="card-title">银业版图 · Silver Mining Map</div>
-        <div class="card-desc">全球银矿产量、资产归属与产业链 Sankey 可视化 — 从矿山到精炼，主要矿企市场份额与地理分布。</div>
-        <div class="card-tags"><span class="tag">白银</span><span class="tag">Sankey</span><span class="tag">产业地图</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- ── 锂矿研究 (2) ── -->
+
+  <!-- #13 lithium -->
+  <a href="lithium_miners_analysis.html" class="grid-card cat-lithium" data-cat="lithium">
+    <div class="gc-header">
+      <span class="gc-badge">锂矿研究</span>
+      <span class="gc-num">#13</span>
+    </div>
+    <div class="gc-label">锂矿 · 全景分析</div>
+    <div class="gc-title">美股锂矿股 · 成本、产量、经营杠杆全景</div>
+    <div class="gc-desc">全球主要美股锂矿股横比 — 锂价敏感性、AISC 成本曲线位置与经营杠杆弹性，识别锂价反弹受益标的。</div>
+    <div class="gc-tags">
+      <span class="tag">ALB</span><span class="tag">SQM</span><span class="tag">LAC</span><span class="tag">锂价弹性</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #14 -->
-  <a href="barrick_north_america_gold_assets_ipo.html" class="series-card">
-    <div class="card-num">#14</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">个股专题 · GOLD</div>
-        <div class="card-title">Barrick 北美黄金资产 IPO 评估</div>
-        <div class="card-desc">Barrick Mining 北美资产拆分上市可行性分析 — 资产估值、潜在结构、市场定价逻辑与对比案例。</div>
-        <div class="card-tags"><span class="tag">GOLD</span><span class="tag">Barrick</span><span class="tag">IPO</span><span class="tag">拆分</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #14 lithium -->
+  <a href="lithium_valuation_analysis.html" class="grid-card cat-lithium" data-cat="lithium">
+    <div class="gc-header">
+      <span class="gc-badge">锂矿研究</span>
+      <span class="gc-num">#14</span>
+    </div>
+    <div class="gc-label">锂矿 · 估值解读</div>
+    <div class="gc-title">锂矿股估值解读 · 市场在告诉你什么</div>
+    <div class="gc-desc">当前锂矿股估值隐含的锂价预期与产量假设拆解 — EV/EBITDA、P/NAV 体系下，市场共识 vs 实际基本面差距。</div>
+    <div class="gc-tags">
+      <span class="tag">估值</span><span class="tag">P/NAV</span><span class="tag">预期差</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #15 -->
-  <a href="resource_nationalism_us_miners_report%20%281%29.html" class="series-card">
-    <div class="card-num">#15</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">主题研究 · 地缘风险</div>
-        <div class="card-title">资源民族主义对美股矿企的影响</div>
-        <div class="card-desc">量化框架 + 标的清单 — 全球矿业资源民族主义浪潮下，哪些矿企的资产暴露最高，如何定价政治风险。</div>
-        <div class="card-tags"><span class="tag">资源民族主义</span><span class="tag">政治风险</span><span class="tag">量化框架</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- ── 地理图谱 (4) ── -->
+
+  <!-- #15 geo -->
+  <a href="north_america_mining_v6.html" class="grid-card cat-geo" data-cat="geo">
+    <div class="gc-header">
+      <span class="gc-badge">地理图谱</span>
+      <span class="gc-num">#15</span>
+    </div>
+    <div class="gc-label">地理分布 · 北美</div>
+    <div class="gc-title">北美矿企分布图谱 v6</div>
+    <div class="gc-desc">美国 + 加拿大矿企详尽分布图谱 — 资产位置、产权结构、司法风险评级，覆盖主要生产商与开发商。</div>
+    <div class="gc-tags">
+      <span class="tag">NEM</span><span class="tag">AEM</span><span class="tag">北美</span><span class="tag">图谱</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #16 -->
-  <a href="augo-growth-analysis.html" class="series-card">
-    <div class="card-num">#16</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">个股专题 · Aura Minerals</div>
-        <div class="card-title">AUGO 产量增速横比分析</div>
-        <div class="card-desc">Aura Minerals 产量增速与同类矿企横比 — 成本曲线位置、增长可见度与估值溢价逻辑。</div>
-        <div class="card-tags"><span class="tag">AUGO</span><span class="tag">Aura Minerals</span><span class="tag">产量增速</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #16 geo -->
+  <a href="south_america_mining%20%281%29.html" class="grid-card cat-geo" data-cat="geo">
+    <div class="gc-header">
+      <span class="gc-badge">地理图谱</span>
+      <span class="gc-num">#16</span>
+    </div>
+    <div class="gc-label">地理分布 · 南美</div>
+    <div class="gc-title">南美矿企分布图谱</div>
+    <div class="gc-desc">智利、秘鲁、阿根廷矿企详尽分布 — 铜、锂、金资产地图，资源民族主义风险评估与主要上市矿企敞口。</div>
+    <div class="gc-tags">
+      <span class="tag">智利</span><span class="tag">秘鲁</span><span class="tag">阿根廷</span><span class="tag">图谱</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #17 -->
-  <a href="silver_miners_q1_2026.html" class="series-card">
-    <div class="card-num">#17</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">白银 · 季报研究</div>
-        <div class="card-title">美股银矿企业研究报告 Q1 2026</div>
-        <div class="card-desc">银矿主要标的 Q1 2026 财报复盘 — 产量、AISC、EPS vs 预期，以及 Q2 指引方向梳理。</div>
-        <div class="card-tags"><span class="tag">PAAS</span><span class="tag">AG</span><span class="tag">MAG</span><span class="tag">Q1 2026</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #17 geo -->
+  <a href="africa_mining%20%281%29.html" class="grid-card cat-geo" data-cat="geo">
+    <div class="gc-header">
+      <span class="gc-badge">地理图谱</span>
+      <span class="gc-num">#17</span>
+    </div>
+    <div class="gc-label">地理分布 · 非洲</div>
+    <div class="gc-title">非洲矿企分布图谱</div>
+    <div class="gc-desc">非洲黄金、铜、锂资产分布详尽图谱 — 国家风险评级、主要矿企资产敞口、资源民族主义事件梳理。</div>
+    <div class="gc-tags">
+      <span class="tag">非洲</span><span class="tag">资源风险</span><span class="tag">图谱</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #18 -->
-  <a href="lithium_miners_analysis.html" class="series-card">
-    <div class="card-num">#18</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">锂矿 · 全景分析</div>
-        <div class="card-title">美股锂矿股 · 成本、产量、经营杠杆全景</div>
-        <div class="card-desc">全球主要美股锂矿股横比 — 锂价敏感性、AISC 成本曲线位置与经营杠杆弹性，识别锂价反弹受益标的。</div>
-        <div class="card-tags"><span class="tag">ALB</span><span class="tag">SQM</span><span class="tag">LAC</span><span class="tag">锂价弹性</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- #18 geo -->
+  <a href="australia_mining_companies.html" class="grid-card cat-geo" data-cat="geo">
+    <div class="gc-header">
+      <span class="gc-badge">地理图谱</span>
+      <span class="gc-num">#18</span>
+    </div>
+    <div class="gc-label">地理分布 · 澳大利亚</div>
+    <div class="gc-title">澳大利亚矿企分布图谱</div>
+    <div class="gc-desc">澳洲金矿、铁矿、锂矿主要矿企图谱 — 监管环境、主要生产商与 ASX 上市矿企的美股交叉持仓结构。</div>
+    <div class="gc-tags">
+      <span class="tag">澳大利亚</span><span class="tag">ASX</span><span class="tag">图谱</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
-  <!-- #19 -->
-  <a href="lithium_valuation_analysis.html" class="series-card">
-    <div class="card-num">#19</div>
-    <div class="card-accent-strip"></div>
-    <div class="card-body">
-      <div class="card-content">
-        <div class="card-label">锂矿 · 估值解读</div>
-        <div class="card-title">锂矿股估值解读 · 市场在告诉你什么</div>
-        <div class="card-desc">当前锂矿股估值隐含的锂价预期与产量假设拆解 — EV/EBITDA、P/NAV 体系下，市场共识 vs 实际基本面差距。</div>
-        <div class="card-tags"><span class="tag">估值</span><span class="tag">P/NAV</span><span class="tag">预期差</span></div>
-      </div>
-      <div class="card-right"><span class="card-date">2026-05-11</span><span class="card-arrow">→</span></div>
+  <!-- ── 主题研究 (1) ── -->
+
+  <!-- #19 theme -->
+  <a href="resource_nationalism_us_miners_report%20%281%29.html" class="grid-card cat-theme" data-cat="theme">
+    <div class="gc-header">
+      <span class="gc-badge">主题研究</span>
+      <span class="gc-num">#19</span>
+    </div>
+    <div class="gc-label">主题研究 · 地缘风险</div>
+    <div class="gc-title">资源民族主义对美股矿企的影响</div>
+    <div class="gc-desc">量化框架 + 标的清单 — 全球矿业资源民族主义浪潮下，哪些矿企的资产暴露最高，如何定价政治风险。</div>
+    <div class="gc-tags">
+      <span class="tag">资源民族主义</span><span class="tag">政治风险</span><span class="tag">量化框架</span>
+    </div>
+    <div class="gc-footer">
+      <span class="gc-date">2026-05-11</span>
+      <span class="gc-arrow">→</span>
     </div>
   </a>
 
 </div>
 
-<div class="footer">RESEARCH SERIES · 资源股研究 · coderz66</div>
+<div class="footer">RESEARCH SERIES · 资源股专题研究 · coderz66</div>
 
+<script>
+(function () {
+  const tabs = document.querySelectorAll('.ftab');
+  const cards = document.querySelectorAll('.grid-card');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(card => {
+        card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
