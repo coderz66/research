@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alamos Gold (AGI) — 加拿大质量阵营 · 下一个 AEM 路径</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F4F2ED;
+  --cream-deep: #EBE7DE;
+  --cream-light: #FAF8F4;
+  --navy: #1B2635;
+  --navy-soft: #2C3A4E;
+  --navy-ghost: rgba(27,38,53,0.06);
+  --amber: #B8870A;
+  --amber-bright: #D4A017;
+  --amber-soft: #E8C766;
+  --amber-ghost: rgba(184,135,10,0.08);
+  --bull: #1F7A4B;
+  --bear: #B8341F;
+  --highlight: #F4D03F;
+  --ink: #1B2635;
+  --ink-soft: #4A5468;
+  --ink-mute: #7A8294;
+  --line: rgba(27,38,53,0.12);
+  --line-soft: rgba(27,38,53,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Karla', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+.wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* ============ MASTHEAD ============ */
+.masthead {
+  background: var(--navy);
+  color: var(--cream-light);
+  padding: 48px 56px 44px 56px;
+  position: relative;
+  border-bottom: 3px solid var(--amber);
+  overflow: hidden;
+}
+.masthead::before {
+  content: "AGI";
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 150px;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+}
+.eyebrow span {
+  color: rgba(255,255,255,0.45);
+  margin: 0 10px;
+}
+h1.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+  max-width: 880px;
+}
+h1.title em {
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 700;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+  max-width: 820px;
+  line-height: 1.4;
+}
+.pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 2px;
+  color: rgba(255,255,255,0.82);
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.03);
+}
+.pill.amber {
+  border-color: var(--amber);
+  color: var(--amber-bright);
+  background: rgba(184,135,10,0.08);
+}
+
+/* ============ MASTHEAD METRICS BAR ============ */
+.metrics-bar {
+  background: var(--navy-soft);
+  color: var(--cream-light);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.metric-cell {
+  padding: 18px 24px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.metric-cell:last-child { border-right: none; }
+.metric-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.metric-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--cream-light);
+}
+.metric-value .unit {
+  font-size: 12px;
+  font-family: 'Karla', sans-serif;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  margin-left: 4px;
+}
+.metric-value.amber { color: var(--amber-bright); }
+.metric-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
+
+/* ============ SECTION BASE ============ */
+section {
+  padding: 56px 56px 24px 56px;
+  background: var(--cream);
+}
+section.alt { background: var(--cream-deep); }
+
+.section-header {
+  margin-bottom: 32px;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--amber);
+}
+.section-divider {
+  width: 44px;
+  height: 2px;
+  background: var(--amber);
+  margin-bottom: 18px;
+}
+.section-lead {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 920px;
+}
+
+/* ============ EXECUTIVE SUMMARY ============ */
+.exec-summary {
+  background: var(--cream-light);
+  border-left: 3px solid var(--amber);
+  padding: 28px 36px;
+  margin-bottom: 36px;
+  position: relative;
+}
+.exec-summary::before {
+  content: "EXECUTIVE SUMMARY";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+  display: block;
+  margin-bottom: 12px;
+}
+.exec-summary p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.exec-summary p:last-child { margin-bottom: 0; }
+.exec-summary p em {
+  font-style: italic;
+  color: var(--amber);
+  font-weight: 600;
+}
+.exec-summary strong {
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ============ KEY-POINTS GRID ============ */
+.kp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin: 36px 0;
+}
+.kp-cell {
+  background: var(--cream-light);
+  padding: 24px 26px;
+}
+.kp-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+.kp-title {
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.kp-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ============ PROFILE CARDS ============ */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.profile-card {
+  background: var(--cream-light);
+  border-left: 3px solid var(--amber);
+  padding: 22px 24px;
+  position: relative;
+}
+.profile-card.tier1 { border-left-color: var(--amber); }
+.profile-card.tier2 { border-left-color: var(--navy); }
+.profile-card.tier3 { border-left-color: var(--ink-mute); }
+.profile-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.profile-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.profile-loc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.profile-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+.profile-data-item {
+  font-size: 12px;
+}
+.profile-data-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 2px;
+}
+.profile-data-val {
+  font-family: 'Karla', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--navy);
+}
+.profile-note {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* ============ TABLES ============ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: 'Karla', sans-serif;
+  font-size: 13px;
+  background: var(--cream-light);
+}
+.data-table thead {
+  background: var(--navy);
+  color: var(--cream-light);
+}
+.data-table thead th {
+  padding: 12px 14px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.data-table thead th.num { text-align: right; }
+.data-table tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--ink);
+}
+.data-table tbody td.num {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+}
+.data-table tbody tr:hover { background: var(--amber-ghost); }
+.data-table tbody tr.highlight {
+  background: var(--amber-ghost);
+  font-weight: 600;
+}
+.data-table tbody tr.highlight td {
+  font-weight: 600;
+  color: var(--navy);
+}
+.data-table tbody td strong { color: var(--navy); font-weight: 700; }
+.data-table .bull { color: var(--bull); font-weight: 600; }
+.data-table .bear { color: var(--bear); font-weight: 600; }
+.data-table .amber { color: var(--amber); font-weight: 600; }
+
+/* ============ TWO-COL BULL/BEAR ============ */
+.bull-bear {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 24px 0;
+}
+.bb-col {
+  background: var(--cream-light);
+  padding: 24px 28px;
+  border-top: 3px solid var(--bull);
+}
+.bb-col.bear { border-top-color: var(--bear); }
+.bb-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--bull);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.bb-col.bear .bb-mono { color: var(--bear); }
+.bb-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.bb-list {
+  list-style: none;
+  padding: 0;
+}
+.bb-list li {
+  position: relative;
+  padding: 12px 0 12px 22px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.bb-list li:last-child { border-bottom: none; }
+.bb-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: var(--amber);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.bb-list li strong {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ============ NARRATIVE BLOCK ============ */
+.narrative {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 920px;
+  margin: 20px 0;
+}
+.narrative p { margin-bottom: 14px; }
+.narrative p strong {
+  font-weight: 700;
+  color: var(--navy);
+}
+.narrative p em {
+  font-style: italic;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+/* ============ CALLOUT ============ */
+.callout {
+  background: var(--navy);
+  color: var(--cream-light);
+  padding: 28px 36px;
+  margin: 28px 0;
+  position: relative;
+  border-left: 3px solid var(--amber);
+}
+.callout::before {
+  content: "KEY INSIGHT";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--amber-bright);
+  display: block;
+  margin-bottom: 12px;
+}
+.callout p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+.callout p em {
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 600;
+}
+
+/* ============ CATALYST TIMELINE ============ */
+.timeline {
+  margin: 28px 0;
+  border-left: 2px solid var(--line);
+  padding-left: 0;
+}
+.timeline-item {
+  position: relative;
+  padding: 0 0 20px 24px;
+  margin-left: 0;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--amber);
+  border-radius: 50%;
+  border: 2px solid var(--cream);
+}
+.timeline-item.done::before { background: var(--bull); }
+.timeline-item.future::before { background: var(--cream); border-color: var(--amber); }
+.timeline-when {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.timeline-what {
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.timeline-detail {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ============ COMP TABLE ENHANCED ============ */
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.comp-box {
+  background: var(--cream-light);
+  padding: 22px 26px;
+  border-left: 3px solid var(--navy);
+}
+.comp-box.amber { border-left-color: var(--amber); }
+.comp-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.comp-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+.comp-body { font-size: 13px; line-height: 1.6; color: var(--ink); }
+.comp-body p { margin-bottom: 10px; }
+.comp-body strong { color: var(--navy); }
+
+/* ============ FOOTER ============ */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.6);
+  padding: 32px 56px;
+  font-size: 11px;
+  line-height: 1.6;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+  border-top: 3px solid var(--amber);
+}
+footer strong { color: var(--amber-bright); font-weight: 600; }
+footer p { margin-bottom: 8px; }
+footer p:last-child { margin-bottom: 0; }
+
+/* responsive simple */
+@media (max-width: 1100px) {
+  .metrics-bar { grid-template-columns: repeat(3, 1fr); }
+  .metric-cell:nth-child(3n) { border-right: none; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .bull-bear { grid-template-columns: 1fr; }
+  .comp-grid { grid-template-columns: 1fr; }
+  .kp-grid { grid-template-columns: 1fr; }
+  section { padding: 40px 28px 16px 28px; }
+  .masthead { padding: 36px 28px; }
+  h1.title { font-size: 38px; }
+  .section-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ========================= MASTHEAD ========================= -->
+<header class="masthead">
+  <div class="eyebrow">EQUITY RESEARCH <span>·</span> PRECIOUS METALS <span>·</span> CANADA &amp; MEXICO <span>·</span> SINGLE-NAME DEEP DIVE</div>
+  <h1 class="title">Alamos Gold <em>(NYSE:AGI)</em></h1>
+  <div class="subtitle">质量阵营的中盘金矿龙头 — 三阶段增长路径锁定 2030 年百万盎司目标, 用 AEM 2010-2020 的剧本走完估值重估</div>
+  <div class="pills">
+    <span class="pill amber">CORE HOLDING</span>
+    <span class="pill">MID-CAP GOLD</span>
+    <span class="pill">CANADA 88%</span>
+    <span class="pill">NET CASH</span>
+    <span class="pill">FOUNDER CEO 29Y</span>
+    <span class="pill">GDX / GDXJ 成分股</span>
+  </div>
+</header>
+
+<!-- ========================= METRICS BAR ========================= -->
+<div class="metrics-bar">
+  <div class="metric-cell">
+    <div class="metric-label">Last Price</div>
+    <div class="metric-value amber">$47.62</div>
+    <div class="metric-sub">NYSE · 中性偏强</div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-label">Market Cap</div>
+    <div class="metric-value">$21.9<span class="unit">B</span></div>
+    <div class="metric-sub">中盘金矿龙头</div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-label">2026E Production</div>
+    <div class="metric-value">570-650<span class="unit">koz</span></div>
+    <div class="metric-sub">vs 2025 实际 545koz</div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-label">2030 Target</div>
+    <div class="metric-value amber">~1,000<span class="unit">koz</span></div>
+    <div class="metric-sub">3 阶段全部投产后</div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-label">Cash &amp; Liquidity</div>
+    <div class="metric-value">$1.2<span class="unit">B</span></div>
+    <div class="metric-sub">现金 $659.5M + 信贷</div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-label">Street Target</div>
+    <div class="metric-value">$57.79</div>
+    <div class="metric-sub">+21.4% / 12 of 13 Buy</div>
+  </div>
+</div>
+
+<!-- ========================= §01 THESIS ========================= -->
+<section>
+  <div class="section-header">
+    <div class="section-label">§ 01 — INVESTMENT THESIS</div>
+    <h2 class="section-title">核心论点 · 用 <em>AEM 2010 的起点</em>看 AGI 2026</h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">AGI 是金矿行业极罕见的"产量翻倍 + AISC 下降 18-24%"组合，加上 88% 加拿大资产带来的政治稳定性 + 创始人 CEO 已经在位 29 年 + 几乎零债务的资产负债表 + IGD 整合完成后单矿区年 FCF 超 $1B 的盈利能力，使其成为机构投资者在金矿牛市中**核心配置而非弹性博弈**的标准答案。</p>
+  </div>
+
+  <div class="exec-summary">
+    <p>当前金价站上 <strong>$4,700+/oz</strong>，主流大行 2026 年末目标 <strong>$5,000-6,300/oz</strong>，行业进入由央行购金 + ETF 流入 + 地缘溢价共振驱动的<em>结构性牛市</em>。在这个背景下投资金矿股的核心问题不是"要不要买"，而是"买什么样的"。</p>
+    <p>AGI 给出的答案是<em>质量路径</em>：通过 Magino 收购（已完成）→ Island Gold District 整合扩产（2028 投产）→ Lynn Lake 投产（2029 起）的三阶段路径，从 545k oz 走向 1M oz/年，<strong>且 AISC 同时下降 24%</strong>。这种"产量翻倍 + 成本下降"的组合在矿业行业极其罕见。</p>
+    <p>对标 AEM 2010-2020 这个"中盘向大盘过渡"的 10 年——同一时期 AEM 股价复合年增 14%，<em>但其中 70% 来自棕地扩产兑现 + 估值倍数从 8x 扩到 11x</em>，并非金价驱动。AGI 当前 EV/EBITDA ~8x、所有催化剂资金已经到位、CEO 任期超过 AEM 当年的 Sean Boyd——具备走完同样剧本的客观条件。</p>
+  </div>
+
+  <div class="kp-grid">
+    <div class="kp-cell">
+      <div class="kp-num">I. 增长可见度</div>
+      <div class="kp-title">3 阶段路径全部资金到位</div>
+      <div class="kp-body">IGD Phase 3+ 立井（2027 投运）→ IGD Expansion 20,000 tpd（2028 起年均 534k oz）→ Lynn Lake（2029-2030 增量）。所有项目<strong>已批许可、已批资本</strong>，不再需要外部融资。</div>
+    </div>
+    <div class="kp-cell">
+      <div class="kp-num">II. 财务质量</div>
+      <div class="kp-title">Q1 2026 四连季创纪录</div>
+      <div class="kp-body">营收 $596.7M（YoY+79%）；FCF $101.7M（已扣 $82M 税 + $43M Argonaut 对冲买断）；现金 $659.5M、流动性 $1.2B、<strong>几乎零债务</strong>。股息加 60%。</div>
+    </div>
+    <div class="kp-cell">
+      <div class="kp-num">III. 估值锚</div>
+      <div class="kp-title">2028E EV/EBITDA ~7x</div>
+      <div class="kp-body">假设金价 $4,500/oz，2028 年 EBITDA 约 $2.5B、FCF >$1B（FCF 收益率 5.3%）。考虑 AEM 同期估值扩张到 11x+，AGI 估值倍数也有<strong>结构性扩张空间</strong>。</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>"AGI 是金矿行业的<em>长跑选手</em>——三阶段从 545koz 走向 1M oz/年，AISC 同步下降 24%。这种组合极其罕见，加上加拿大溢价、净现金资产负债表和 29 年任期的创始人 CEO，构成了机构配置首选。在金价继续上行的背景下，<em>它不是最有 beta 的标的，但很可能是夏普比率最高的</em>。"</p>
+  </div>
+</section>
+
+<!-- ========================= §02 ASSETS ========================= -->
+<section class="alt">
+  <div class="section-header">
+    <div class="section-label">§ 02 — ASSET PORTFOLIO</div>
+    <h2 class="section-title">资产组合 · 三大核心矿山 <em>+ 一个开发期重磅</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">2025 年完整年度产量 545k oz，2026 年指引 570-650k oz；88% NAV 来自加拿大资产，剩余在墨西哥索诺拉。无任何非洲、南美、独联体资产敞口。</p>
+  </div>
+
+  <div class="profile-grid">
+    <div class="profile-card tier1">
+      <div class="profile-mono">FLAGSHIP · GROWTH ENGINE</div>
+      <div class="profile-name">Island Gold District</div>
+      <div class="profile-loc">Ontario, Canada · Underground</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px;">
+        Magino 露天矿（2024 年 Argonaut 收购）+ Island Gold 高品位地下矿（2017 年 Richmont 收购）<strong>整合为一体</strong>，共享 Magino 磨厂。合并储量 LOM 20 年+，是 AGI 长期价值的核心。
+      </div>
+      <div class="profile-data">
+        <div class="profile-data-item">
+          <span class="profile-data-label">2025 产量</span>
+          <span class="profile-data-val">250.4k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2026 指引</span>
+          <span class="profile-data-val">290-330k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2028+ 年均</span>
+          <span class="profile-data-val">534k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2028+ AISC</span>
+          <span class="profile-data-val">$1,025/oz</span>
+        </div>
+      </div>
+      <div class="profile-note">"加拿大最大、成本最低、最盈利的金矿之一"——管理层在 IGD Expansion Study 中的定位</div>
+    </div>
+
+    <div class="profile-card tier2">
+      <div class="profile-mono">CASH FLOW ANCHOR</div>
+      <div class="profile-name">Young-Davidson</div>
+      <div class="profile-loc">Ontario, Canada · Underground</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px;">
+        2012 年投产的核心地下矿，管理层在 Q1 2026 业绩会上特别提到正在"恢复采矿率和品位"。一旦达产，单位成本下降空间显著。
+      </div>
+      <div class="profile-data">
+        <div class="profile-data-item">
+          <span class="profile-data-label">2025 产量</span>
+          <span class="profile-data-val">153.4k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2026 指引</span>
+          <span class="profile-data-val">155-175k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2026 现金成本</span>
+          <span class="profile-data-val">$1,350-1,450</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">类型</span>
+          <span class="profile-data-val">电网地下矿</span>
+        </div>
+      </div>
+      <div class="profile-note">电网连接意味着不依赖柴油发电——这是 AGI 在 2022 通胀高峰逆势降本的结构性优势</div>
+    </div>
+
+    <div class="profile-card tier3">
+      <div class="profile-mono">LOW-COST PRODUCER</div>
+      <div class="profile-name">Mulatos District</div>
+      <div class="profile-loc">Sonora, Mexico · Open-pit + Heap Leach</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px;">
+        包括 La Yaqui Grande（2022 年底投产，首季现金成本仅 $451/oz）+ PDA 项目（延长 Mulatos 寿命 3 倍）。是 AGI 历史利润率最高的运营点。
+      </div>
+      <div class="profile-data">
+        <div class="profile-data-item">
+          <span class="profile-data-label">2025 产量</span>
+          <span class="profile-data-val">141.6k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2026 指引</span>
+          <span class="profile-data-val">125-145k oz</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">2026 现金成本</span>
+          <span class="profile-data-val">$930-1,030</span>
+        </div>
+        <div class="profile-data-item">
+          <span class="profile-data-label">PDA 影响</span>
+          <span class="profile-data-val">寿命 ×3</span>
+        </div>
+      </div>
+      <div class="profile-note">墨西哥仅占 NAV 12%，地缘风险敞口被 Sonora 州的矿业友好政策环境进一步降低</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--navy);margin:36px 0 14px 0;">+ 开发期重磅：<em style="color:var(--amber);font-style:italic;">Lynn Lake 项目</em></h3>
+
+  <div class="narrative">
+    <p>Lynn Lake 位于<strong>曼尼托巴省</strong>，是 AGI 现有储备里**最大的单一未投产项目**。2015 年通过收购 Carlisle Goldfields 获得，2023 年完成加拿大和曼尼托巴政府的全部监管审批。2024 年的可研更新显示储量比之前估计大 44%，达到 4,760 万吨、品位 1.52 g/t，含 230 万 oz 金，<strong>支持 17 年开采寿命</strong>（原 10 年）。</p>
+    <p>初始建设资本约 <strong>$934M</strong>，投产时间表 <em>2029 年起开始驱动增长</em>，前 10 年平均年产 186k oz。这是 AGI 三阶段路径中的"第三阶段"，与 Island Gold District 扩产同步释放，是 2030 年百万盎司目标的最后一块拼图。</p>
+    <p>关键风险点：<strong>北部气候带来的工程进度不确定性</strong>。2025 Q4 公司首次未达指引，部分原因就是 12 月底安大略的极端天气——这是 Lynn Lake 在曼尼托巴需要重点跟踪的风险。</p>
+  </div>
+</section>
+
+<!-- ========================= §03 GROWTH PIPELINE ========================= -->
+<section>
+  <div class="section-header">
+    <div class="section-label">§ 03 — GROWTH PIPELINE</div>
+    <h2 class="section-title">增长三阶段 · <em>所有催化剂资金已到位</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">AGI 在金矿行业里最大的差异化优势就是"增长可见度"——三个独立项目，所有许可、所有可研、所有资本都已经在手，不需要新的外部融资，<strong>剩下的只是工程执行</strong>。</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-when">阶段 ① · 已完成</div>
+      <div class="timeline-what">Magino 收购（Argonaut Gold 整合）</div>
+      <div class="timeline-detail">2024 年 3 月以股票交易完成收购 Argonaut Gold，获得位于 Island Gold 隔壁的 Magino 露天矿 + 选厂。<strong>这是整个三阶段路径的起点</strong>。预期协同效应总计 ~$515M，主要来自共享磨厂（避免新建）、共享基础设施、共享人力。Magino 之前是 Argonaut 的高成本矿，整合后作为 Island Gold District 的露天部分，单位成本大幅改善。</div>
+    </div>
+    <div class="timeline-item done">
+      <div class="timeline-when">阶段 ②a · Q1 2026 完成</div>
+      <div class="timeline-what">Island Gold Phase 3+ 立井下沉</div>
+      <div class="timeline-detail">Q1 2026 完成 Phase 3+ 立井 sinking（垂直挖掘）。这是从"卡车上下提升"切换到"立井提升"的关键工程，意味着 Island Gold 地下矿的提升能力大幅提升，<strong>单位提升成本结构性下降</strong>。Commissioning（试运行）预计 2027 年初——这是未来 6 个月最值得跟踪的运营催化剂。</div>
+    </div>
+    <div class="timeline-item future">
+      <div class="timeline-when">阶段 ②b · 2028 投产</div>
+      <div class="timeline-what">IGD Expansion 至 20,000 tpd（Q1 2026 已公布详细可研）</div>
+      <div class="timeline-detail">Q1 2026 业绩前公布的 IGD Expansion Study 显示：<strong>2028 年起前 10 年平均年产 534k oz</strong>，矿山层面 AISC 平均 $1,025/oz——这是<em>加拿大第一四分位成本水平</em>。增长资本 $542M，用于 Magino 磨厂扩容到 20,000 tpd、加速地下开发、采购移动设备。<strong>项目内部融资覆盖，无外部融资压力</strong>。</div>
+    </div>
+    <div class="timeline-item future">
+      <div class="timeline-when">阶段 ③ · 2029-2030 起</div>
+      <div class="timeline-what">Lynn Lake 项目投产（曼尼托巴）</div>
+      <div class="timeline-detail">初始资本 $934M，投产前 10 年平均年产 186k oz，矿山寿命 17 年。是 AGI 达成 2030 年 100 万 oz 目标的最后一块拼图。<strong>所有监管审批已落地</strong>（包括加拿大联邦和曼尼托巴省），剩下的是建设执行。北部气候 + 大型新矿建设是延期/超支的高风险区，需要持续跟踪资本控制。</div>
+    </div>
+    <div class="timeline-item future">
+      <div class="timeline-when">补充 · Mulatos District 寿命延长</div>
+      <div class="timeline-what">PDA 项目（Mulatos）</div>
+      <div class="timeline-detail">将 Mulatos 矿山寿命从原计划延长 <strong>3 倍</strong>。这是低成本资产的延寿，不增加产量峰值但显著拉长高利润率窗口。是组合里"防御性"的增量。</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>三阶段路径的<em>关键意义</em>不是"未来产量会涨多少"，而是<strong>所有催化剂已经过了"是否能落地"的不确定性阶段，进入了"何时落地、落地后效果如何"的执行阶段</strong>。这种确定性溢价是 AGI 估值能撑得住溢价的根本原因。</p>
+  </div>
+</section>
+
+<!-- ========================= §04 FINANCIAL QUALITY ========================= -->
+<section class="alt">
+  <div class="section-header">
+    <div class="section-label">§ 04 — FINANCIAL QUALITY</div>
+    <h2 class="section-title">财务质量 · <em>Q1 2026 是第四个连续创纪录季度</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">最新一季营收 $596.7M（YoY+79%），实现金价 $4,829/oz，FCF $101.7M——并且这是在扣除 $82M 现金税 + $43M Argonaut 历史对冲买断之后的数字。资产负债表几乎零债务、现金 $659.5M、总流动性 $1.2B。</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>关键财务指标</th>
+        <th class="num">Q1 2025</th>
+        <th class="num">Q4 2025</th>
+        <th class="num">Q1 2026</th>
+        <th class="num">YoY 变化</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>黄金产量（koz）</td><td class="num">125.0</td><td class="num">~140</td><td class="num"><strong>123.9</strong></td><td class="num">-0.9%</td></tr>
+      <tr><td>实现金价（$/oz）</td><td class="num">~2,750</td><td class="num">~4,000</td><td class="num"><strong>$4,829</strong></td><td class="num bull">+75%</td></tr>
+      <tr><td>营业收入（$M）</td><td class="num">333.5</td><td class="num">~530</td><td class="num"><strong>596.7</strong></td><td class="num bull">+79%</td></tr>
+      <tr><td>调整后 EPS（$）</td><td class="num">0.34</td><td class="num">~0.50</td><td class="num"><strong>0.55</strong></td><td class="num bull">+62%</td></tr>
+      <tr><td>经营现金流（$M, 扣 WC 后）</td><td class="num">~150</td><td class="num">~225</td><td class="num"><strong>242.5</strong></td><td class="num bull">+62%</td></tr>
+      <tr><td>自由现金流（$M）</td><td class="num">~70</td><td class="num">~85</td><td class="num"><strong>101.7</strong></td><td class="num bull">+45%</td></tr>
+      <tr><td>现金及等价物（$M）</td><td class="num">~330</td><td class="num">~520</td><td class="num"><strong>659.5</strong></td><td class="num bull">+100%</td></tr>
+      <tr><td>Cash Costs（$/oz）</td><td class="num">1,158</td><td class="num">1,158</td><td class="num">1,230</td><td class="num">+6.2%</td></tr>
+      <tr><td>AISC（$/oz）</td><td class="num">1,524</td><td class="num">1,661</td><td class="num">1,862</td><td class="num">+22%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="narrative">
+    <p><strong>关于成本上升的解读：</strong> Q1 2026 AISC $1,862/oz 高于全年指引上限（$1,650-1,750），但<em>这与管理层在年初的指引节奏完全一致</em>——他们明确说过 H1 高、H2 显著下降。Q2 预期 AISC 已经下降 ~5%，主要驱动是 Island Gold District 的低成本爬产 + Young-Davidson 采矿率改善。<strong>全年 AISC 仍指引在 $1,500-1,600 区间</strong>。</p>
+    <p><strong>关于"调整后 vs GAAP" 的差异：</strong> Q1 2026 报告净利润 $191.4M / EPS $0.46，调整后净利润 $232.0M / EPS $0.55。差异主要来自<strong>非现金的对冲衍生品估值变动</strong>（Argonaut 历史对冲账簿在金价上行时账面亏损放大）。这部分账面亏损<em>不影响实际现金流</em>——而且公司在 2025 年 11 月已经买断剩余对冲、Q1 2026 又用 $43M 进一步处理 Argonaut 遗留对冲，预计未来季度<strong>"调整后 vs GAAP" 差异会显著收窄</strong>。</p>
+    <p><strong>资产负债表是 AGI 在中盘金矿里的稀缺优势：</strong> 现金 $659.5M、总流动性 $1.2B、几乎零债务。这意味着<em>所有三阶段增长资本完全靠内部 FCF 自筹</em>——不会有股权稀释、不会有债务融资压力。在金价波动时具备显著抗压能力。</p>
+  </div>
+
+  <div class="callout">
+    <p>"管理层在 Q1 业绩会上确认：<em>内部产生的现金流足以完全为有机增长项目融资</em>。这是 AGI 与多数中盘金矿股的关键区别——别人靠 ATM、配股、可转债来推进项目，AGI 靠自己赚的钱推进。"</p>
+  </div>
+</section>
+
+<!-- ========================= §05 GUIDANCE & FCF ========================= -->
+<section>
+  <div class="section-header">
+    <div class="section-label">§ 05 — 3-YEAR GUIDANCE &amp; FCF PATH</div>
+    <h2 class="section-title">三年指引 · <em>金矿行业极罕见的"产量+成本"双击</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">大多数金矿公司在扩张期会经历"产量上升 + AISC 同步上升"——AGI 是金矿行业里少数能给出"产量翻倍 + 成本下降 18-24%" 三年路径的公司，且每个数字都有对应的工程节点支撑。</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>年度</th>
+        <th class="num">产量（koz）</th>
+        <th class="num">Cash Costs（$/oz）</th>
+        <th class="num">AISC（$/oz）</th>
+        <th class="num">Capex（$M）</th>
+        <th>关键里程碑</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2024 实际</td><td class="num">567</td><td class="num">1,033</td><td class="num">1,491</td><td class="num">340</td><td>Magino 整合首年</td></tr>
+      <tr><td>2025 实际</td><td class="num">545</td><td class="num">1,077</td><td class="num">1,524</td><td class="num">650</td><td>Phase 3+ 立井加速建设</td></tr>
+      <tr class="highlight"><td><strong>2026 指引</strong></td><td class="num"><strong>570-650</strong></td><td class="num"><strong>1,050-1,150</strong></td><td class="num"><strong>1,500-1,600</strong></td><td class="num"><strong>910-1,000</strong></td><td>Phase 3+ commissioning 2027</td></tr>
+      <tr><td>2027E</td><td class="num">650-730</td><td class="num">825-925</td><td class="num">1,325-1,425</td><td class="num">~700</td><td>Phase 3+ 投运全年贡献</td></tr>
+      <tr><td>2028E</td><td class="num">755-835</td><td class="num">775-875</td><td class="num">1,200-1,300</td><td class="num">~500</td><td>IGD Expansion 投产</td></tr>
+      <tr class="highlight"><td><strong>2030 目标</strong></td><td class="num"><strong>~1,000</strong></td><td class="num amber">进一步下降</td><td class="num amber">接近第一四分位</td><td class="num">~400</td><td>Lynn Lake 全产能贡献</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--navy);margin:36px 0 14px 0;">FCF 爆发路径 — <em style="color:var(--amber);font-style:italic;">2028 年突破 $1B 门槛</em></h3>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>FCF 路径假设（$/oz 金价）</th>
+        <th class="num">2026E</th>
+        <th class="num">2027E</th>
+        <th class="num">2028E</th>
+        <th class="num">2030E</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>$3,500/oz（保守，偏离当前 -26%）</td><td class="num">~200M</td><td class="num">~400M</td><td class="num">~700M</td><td class="num">~900M</td></tr>
+      <tr class="highlight"><td><strong>$4,500/oz（基准，接近当前）</strong></td><td class="num"><strong>>500M</strong></td><td class="num"><strong>700-800M</strong></td><td class="num amber"><strong>>1.0B</strong></td><td class="num amber"><strong>~1.3B</strong></td></tr>
+      <tr><td>$5,500/oz（乐观，主流大行 2026 年末目标）</td><td class="num">~800M</td><td class="num">~1.1B</td><td class="num">~1.5B</td><td class="num">~2.0B</td></tr>
+      <tr><td>对应 FCF 收益率（基准情景，$22B 市值）</td><td class="num">2.3%</td><td class="num">3.4%</td><td class="num amber">5.3%</td><td class="num amber bull">6.8%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="narrative">
+    <p>FCF 路径里最重要的<em>结构变化</em>发生在 2028 年——这是 IGD Expansion 投产、capex 周期见顶下行、FCF 拐点向上同步出现的时间窗口。<strong>对一家成长型矿企来说，FCF 收益率 5%+ 是相当不错的回报水平</strong>。</p>
+    <p>更重要的是，这条 FCF 路径假设的是<em>金价持平当前水平</em>。如果金价按 JPMorgan、高盛、德银、Wells Fargo 等大行的 $5,000-6,300 目标走，<strong>2028 年 FCF 大概率在 $1.5B-$2B 之间</strong>，对应 FCF 收益率 7-9%——这在大盘股层面已经接近"价值股 + 成长股"双重身份。</p>
+  </div>
+</section>
+
+<!-- ========================= §06 VALUATION & PEERS ========================= -->
+<section class="alt">
+  <div class="section-header">
+    <div class="section-label">§ 06 — VALUATION &amp; PEERS</div>
+    <h2 class="section-title">估值与同行 · <em>当前 8x EV/EBITDA 是 AEM 2010 的起点</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">单看绝对估值倍数，AGI 目前 ~25x P/E、~8x EV/EBITDA 不算便宜——但与中盘金矿同行横向对比 + 与 AEM 当年同期路径纵向对比，<strong>都属于结构性合理偏低估</strong>。</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>估值倍数路径</th>
+        <th class="num">2025 实际</th>
+        <th class="num">2026E</th>
+        <th class="num">2027E</th>
+        <th class="num">2028E</th>
+        <th class="num">2030E</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>EBITDA（$M，金价 $4,500 假设）</td><td class="num">~1,300</td><td class="num">~1,500</td><td class="num">~2,000</td><td class="num">~2,500</td><td class="num">~3,000+</td></tr>
+      <tr><td>EV/EBITDA（市值不变）</td><td class="num">~14x</td><td class="num">~12x</td><td class="num">~9x</td><td class="num amber">~7x</td><td class="num amber">~6x</td></tr>
+      <tr><td>FCF（$M）</td><td class="num">~400</td><td class="num">>500</td><td class="num">700-800</td><td class="num">>1,000</td><td class="num">>1,300</td></tr>
+      <tr><td>FCF 收益率（市值不变）</td><td class="num">~1.8%</td><td class="num">2.3%</td><td class="num">3.4%</td><td class="num amber">5.3%</td><td class="num amber bull">6.8%</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--navy);margin:36px 0 14px 0;">中盘金矿同行横向对比</h3>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>公司</th>
+        <th>角色定位</th>
+        <th class="num">2026E 产量</th>
+        <th class="num">2026E AISC</th>
+        <th class="num">地缘风险</th>
+        <th class="num">EV/EBITDA</th>
+        <th>核心叙事</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight">
+        <td><strong>AGI（本公司）</strong></td><td>质量+成长</td>
+        <td class="num">570-650</td><td class="num">1,500-1,600</td><td class="num bull">⭐⭐⭐⭐⭐</td><td class="num">~8x</td>
+        <td>加拿大资产 88% / 三阶段增长 / 净现金</td>
+      </tr>
+      <tr>
+        <td>AEM（Agnico Eagle）</td><td>大盘质量之王</td>
+        <td class="num">3,300-3,500</td><td class="num">1,400-1,550</td><td class="num bull">⭐⭐⭐⭐⭐</td><td class="num">~11x</td>
+        <td>对标对象 / 加拿大溢价已被市场充分定价</td>
+      </tr>
+      <tr>
+        <td>EGO（Eldorado Gold）</td><td>双击高弹性</td>
+        <td class="num">~520</td><td class="num">~1,450</td><td class="num">⭐⭐⭐</td><td class="num">~6x</td>
+        <td>Skouries 投产是清晰催化剂 / 但有希腊政治敞口</td>
+      </tr>
+      <tr>
+        <td>EQX（Equinox Gold）</td><td>高弹性产量增长</td>
+        <td class="num">700-800</td><td class="num">~1,600</td><td class="num">⭐⭐⭐</td><td class="num">~5x</td>
+        <td>Valentine + Castle Mountain 双引擎 / 杠杆较高</td>
+      </tr>
+      <tr>
+        <td>IAG（IAMGOLD）</td><td>Côté 达产故事</td>
+        <td class="num">720-820</td><td class="num">~1,800</td><td class="num">⭐⭐⭐⭐</td><td class="num">~5x</td>
+        <td>Côté 持续优化 / 但 AISC 仍偏高</td>
+      </tr>
+      <tr>
+        <td>CGAU（Centerra Gold）</td><td>价值仓</td>
+        <td class="num">250-280</td><td class="num">1,650-1,750</td><td class="num">⭐⭐⭐</td><td class="num">~4x</td>
+        <td>估值最低 / 但产量持平、土耳其敞口</td>
+      </tr>
+      <tr>
+        <td>AUGO（Aura Minerals）</td><td>拉美高股息高弹性</td>
+        <td class="num">340-390</td><td class="num">~1,400</td><td class="num">⭐⭐</td><td class="num">~16x</td>
+        <td>Era Dorada 是 2028 增长故事 / 拉美集中</td>
+      </tr>
+      <tr>
+        <td>NEM（Newmont）</td><td>最大盘最稳健</td>
+        <td class="num">~5,800</td><td class="num">~1,500</td><td class="num bull">⭐⭐⭐⭐</td><td class="num">~10x</td>
+        <td>规模冠军 / 但多区域分散稀释了金价 beta</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="comp-grid">
+    <div class="comp-box amber">
+      <div class="comp-mono">VS. AEM — 时间机器对比</div>
+      <div class="comp-h">AGI 2026 ≈ AEM 2010 的起点</div>
+      <div class="comp-body">
+        <p><strong>AEM 2010-2012：</strong> CEO Sean Boyd 已任 12 年，产量 ~990k oz，5 年目标 1.45M oz，核心是 LaRonde（魁北克）+ Meadowbank 新投产，EV/EBITDA 8-9x。</p>
+        <p><strong>AGI 2026：</strong> CEO John McCluskey 已任 29 年，产量 ~580-630k oz，5 年目标 1.0M oz，核心是 Island Gold（安大略）+ Magino 整合 + Lynn Lake 即将开工，EV/EBITDA ~8x。</p>
+        <p><strong>关键观察：</strong> AEM 后续 10 年股价复合 14%，<em>主要不是来自金价</em>（同期金价从 $1,900 跌到 $1,200 再回升）——是来自棕地扩产兑现 + 估值倍数从 8x 扩到 11x。AGI 当前估值倍数和路径与 AEM 2010 高度相似。</p>
+      </div>
+    </div>
+
+    <div class="comp-box">
+      <div class="comp-mono">分析师共识</div>
+      <div class="comp-h">12 个月目标价 $57.79（+21.4%）</div>
+      <div class="comp-body">
+        <p><strong>共识评级：</strong> 13 家券商，<strong>10 家 Strong Buy + 2 家 Buy + 1 家 Hold</strong>，Zacks ABR 1.31（接近最强）。Scotiabank Ovais Habib 目标价 $50（最高 $65.75）。</p>
+        <p><strong>分析师上调路径：</strong> 共识 EPS 估算在过去 60 天持续上调，反映 Q1 2026 业绩 + IGD Expansion Study 后市场对 2027-2028 年盈利模型的重新校准。</p>
+        <p><strong>关键风险点（共识方面）：</strong> AGI 已经"涨过一波"，部分分析师认为短期估值偏贵，更愿意在 $40-42 区间介入；但中长期叙事完整。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §07 BULL / BEAR ========================= -->
+<section>
+  <div class="section-header">
+    <div class="section-label">§ 07 — BULL VS BEAR THESIS</div>
+    <h2 class="section-title">多空逻辑 · <em>结构性多头主导 / 但短期估值不便宜</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">当前金价 $4,700+/oz、主流大行 $5,000-6,300 目标 → 行业牛市逻辑，应该<strong>全面进攻找质量</strong>。AGI 在这个框架里是机构核心配置答案，<em>不是高 beta 弹性，但是夏普比率优解</em>。</p>
+  </div>
+
+  <div class="bull-bear">
+    <div class="bb-col">
+      <div class="bb-mono">▲ BULL THESIS — 结构性多头</div>
+      <div class="bb-title">为什么 AGI 是中盘金矿核心配置</div>
+      <ul class="bb-list">
+        <li><strong>产量+成本双击罕见组合：</strong>2025→2028 产量 +46%、AISC -18%、Cash Costs -24%——金矿行业 95% 的公司做不到。</li>
+        <li><strong>加拿大溢价：</strong>88% NAV 在加拿大、12% 在墨西哥 Sonora。无非洲、无独联体、无南美、无地缘风险敞口。Tier 1 矿业管辖区。</li>
+        <li><strong>创始人 CEO 任期 29 年：</strong>McCluskey 自 1996 年 AGI 上市起执掌至今，矿业圈公认"under-promise, over-deliver"，对照 AEM 的 Sean Boyd 模式。</li>
+        <li><strong>资产负债表是稀缺优势：</strong>现金 $659.5M、流动性 $1.2B、几乎零债务。所有增长资本完全靠内部 FCF 自筹，无股权稀释风险。</li>
+        <li><strong>三阶段路径资金已到位：</strong>Magino（完成）→ IGD Phase 3+（2027 投运）→ IGD Expansion（2028 投产）→ Lynn Lake（2029-2030）。剩下的只是工程执行。</li>
+        <li><strong>IGD Expansion Study 已公布：</strong>2028+ 年均 534k oz、矿山层面 AISC $1,025/oz——加拿大第一四分位成本水平、增长资本仅 $542M。</li>
+        <li><strong>FCF 拐点在 2028：</strong>capex 见顶下行 + 产量爬升同步，2028 年 FCF 突破 $1B、收益率 5%+，对成长型矿企罕见。</li>
+        <li><strong>ETF 强制配置：</strong>GDX、GDXJ 大型成分股，提供持续被动买盘流入。</li>
+        <li><strong>对冲账簿已清空：</strong>2025 年 11 月以 $4,091/oz 有效价清空全部对冲，Q1 2026 进一步处理 Argonaut 遗留，<em>未来完全享受金价上行</em>。</li>
+      </ul>
+    </div>
+
+    <div class="bb-col bear">
+      <div class="bb-mono">▼ BEAR THESIS — 需要关注的考量</div>
+      <div class="bb-title">什么会让多头逻辑出问题</div>
+      <ul class="bb-list">
+        <li><strong>当前估值已不便宜：</strong>~25x TTM P/E、~14x 2025 EBITDA。短期主要靠"金价继续涨 + 执行超预期"驱动股价，<em>不是估值修复故事</em>。</li>
+        <li><strong>2025 年首次未达指引：</strong>之前 AGI 是出名的"指引达标专家"，2025 Q4 未达是警讯。市场容忍度下降，2026 执行不能再失误。</li>
+        <li><strong>资本开支高峰：</strong>2026 capex 高达 $910M-1,000M，即使 FCF 强劲也大部分用于再投资。短期 FCF 收益率压制。</li>
+        <li><strong>Lynn Lake 执行风险：</strong>$934M 单项目，偏远曼尼托巴、北部气候、大型新矿建设——这是金矿行业延期/超支重灾区。</li>
+        <li><strong>Magino/Island Gold 整合复杂度：</strong>虽然 $515M 协同效应诱人，但整合一个独立矿企（Argonaut）的复杂度可能被低估。</li>
+        <li><strong>Q1 2026 EPS 不及预期：</strong>$0.55 vs 预期 $0.6059。虽然原因是高 AISC（已预期）+ 对冲账面亏损，但 headline miss 容易引发情绪扰动。</li>
+        <li><strong>分析师目标价上行空间有限：</strong>共识 $57.79 vs 现价 $47.62，仅 +21%。在牛市中段，这个 upside 不算激进。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>"在金价牛市背景下讨论"AGI 是否便宜"是错误的问题——正确的问题是<em>"在中盘金矿配置里，AGI 应该占多少权重"</em>。我的答案是：在 5-7 只标的的组合里，<strong>AGI 应该是核心配置 20-30%</strong>，承担"质量+成长可见度"双重角色。"</p>
+  </div>
+</section>
+
+<!-- ========================= §08 KEY CHECKPOINTS ========================= -->
+<section class="alt">
+  <div class="section-header">
+    <div class="section-label">§ 08 — KEY CHECKPOINTS</div>
+    <h2 class="section-title">未来 2-3 季度关键检查点 · <em>跟踪而非交易</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">按 bull logic 下的"工业链拐点退出"框架——以下这些是<strong>验证多头逻辑是否完好</strong>的具体指标，不是日内交易信号。任何一个指标的方向性恶化都值得提高关注度。</p>
+  </div>
+
+  <div class="profile-grid">
+    <div class="profile-card tier1">
+      <div class="profile-mono">Q2 2026 · 7 月 29 日</div>
+      <div class="profile-name">Q2 财报</div>
+      <div class="profile-loc">关键指标：产量爬坡 · AISC 趋势</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        管理层指引 Q2 产量比 Q1 高约 20%（即 ~150k oz）、AISC 下降 ~5%。<strong>如果 Q2 产量低于 145k oz 或 AISC 没有下降，意味着全年指引可能再次错过——这是关键警讯</strong>。
+      </div>
+    </div>
+
+    <div class="profile-card tier1">
+      <div class="profile-mono">Q4 2026 / Q1 2027</div>
+      <div class="profile-name">Phase 3+ 立井 commissioning</div>
+      <div class="profile-loc">Island Gold · 投运里程碑</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        立井从卡车提升切换到罐笼提升，是 2027 年 AISC 大幅下降的关键工程节点。<strong>commissioning 按时（早 2027）= 估值重估窗口；如果延期到 H2 2027，FCF 路径需要重新校准</strong>。
+      </div>
+    </div>
+
+    <div class="profile-card tier2">
+      <div class="profile-mono">滚动每季度</div>
+      <div class="profile-name">Magino 磨厂扩容进度</div>
+      <div class="profile-loc">$542M 增长资本控制</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        IGD Expansion 的核心工程是 Magino 磨厂扩容到 20,000 tpd。<strong>资本预算控制（实际 capex vs $542M）是这个项目能否 2028 投产、AISC $1,025 能否实现的决定性变量</strong>。
+      </div>
+    </div>
+
+    <div class="profile-card tier2">
+      <div class="profile-mono">2026 H2</div>
+      <div class="profile-name">Lynn Lake 早期建设进度</div>
+      <div class="profile-loc">曼尼托巴 · 总投资 $934M</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        Lynn Lake 是公司当前最大的执行风险点（北部气候 + 大型新矿建设）。<strong>早期建设的资本控制和工期进度，将决定 2029-2030 增量能否如期兑现</strong>，是 2030 年百万盎司目标的关键。
+      </div>
+    </div>
+
+    <div class="profile-card tier3">
+      <div class="profile-mono">滚动跟踪</div>
+      <div class="profile-name">Young-Davidson 采矿率恢复</div>
+      <div class="profile-loc">现金流锚</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        Q1 2026 Young-Davidson 产量低于计划是单季扰动还是结构问题？<strong>Q2-Q3 的连续数据会决定全年 160-170k oz 指引能否达成</strong>，对 AGI 现金流稳定性的影响。
+      </div>
+    </div>
+
+    <div class="profile-card tier3">
+      <div class="profile-mono">宏观锚</div>
+      <div class="profile-name">金价 $4,500 关键支撑</div>
+      <div class="profile-loc">FCF 模型基准线</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin-top:14px;">
+        AGI 的 FCF 模型以 $4,500/oz 为基准。<strong>金价跌破长期支撑（不是单日波动）是行业层面的退出信号</strong>——但单日/单周回撤本身不是。央行购金趋势 + ETF 流入是更前置的指标。
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>按 bull logic 框架：<em>退出信号必须绑定行业拐点</em>（金价跌破长期支撑 / 央行净卖出 / ETF 持续流出 / 公司 guidance 下修）——<strong>不应该绑定股价水平</strong>。"AGI 已经涨了 X%"或"估值看起来不便宜"在牛市中段都不是有效的退出依据。在金价继续上行的背景下，估值倍数往往是被动压缩而非主动扩张。</p>
+  </div>
+</section>
+
+<!-- ========================= §09 RISKS ========================= -->
+<section>
+  <div class="section-header">
+    <div class="section-label">§ 09 — RISK FACTORS</div>
+    <h2 class="section-title">关键风险因素 · <em>识别但不退缩</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-lead">按 bull logic，以下风险<strong>不构成不持仓的理由</strong>——但需要识别和持续监控。任何一项的实质性恶化都需要重新评估配置权重。</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>风险类别</th>
+        <th>具体内容</th>
+        <th>概率评估</th>
+        <th>影响程度</th>
+        <th>对冲方法</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>执行风险</strong></td>
+        <td>Lynn Lake $934M 项目延期/超支（北部气候+大型新矿）</td>
+        <td>中</td>
+        <td class="bear">高</td>
+        <td>持续跟踪季度 capex 披露</td>
+      </tr>
+      <tr>
+        <td><strong>执行风险</strong></td>
+        <td>Phase 3+ 立井 commissioning 延期到 H2 2027 后</td>
+        <td>低-中</td>
+        <td>中</td>
+        <td>已完成 sinking，工程进度可见</td>
+      </tr>
+      <tr>
+        <td><strong>执行风险</strong></td>
+        <td>Magino/Island Gold 整合协同效应不及 $515M 预期</td>
+        <td>中</td>
+        <td>中</td>
+        <td>2026-2027 季度 AISC 趋势可验证</td>
+      </tr>
+      <tr>
+        <td><strong>商品价格</strong></td>
+        <td>金价深度回调（跌破 $3,500/oz 长期支撑）</td>
+        <td>低</td>
+        <td class="bear">高</td>
+        <td>央行购金 + ETF 流入是结构性支撑</td>
+      </tr>
+      <tr>
+        <td><strong>估值</strong></td>
+        <td>当前 ~25x P/E、~14x EBITDA 已计入完美执行</td>
+        <td>中</td>
+        <td>中</td>
+        <td>2027 EBITDA 增长会自然消化倍数</td>
+      </tr>
+      <tr>
+        <td><strong>地缘</strong></td>
+        <td>墨西哥 Sonora 州矿业政策变化（Mulatos 12% NAV）</td>
+        <td>低</td>
+        <td>低</td>
+        <td>占比小，Sonora 州历来友好</td>
+      </tr>
+      <tr>
+        <td><strong>运营</strong></td>
+        <td>Young-Davidson 采矿率持续低于计划</td>
+        <td>低-中</td>
+        <td>中</td>
+        <td>已识别问题，管理层在主动改善</td>
+      </tr>
+      <tr>
+        <td><strong>市场</strong></td>
+        <td>金矿股板块整体情绪转弱（如 2013 年那种）</td>
+        <td>低</td>
+        <td>中</td>
+        <td>AGI 的"质量+加拿大"属性是相对防御性</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="narrative">
+    <p>综合判断：<strong>AGI 的主要风险点都在"执行"层面，而非"叙事"或"商品价格"层面</strong>。这与 EQX、IAG、EGO 等中盘同行截然不同——后者的核心风险是"故事能否兑现"，而 AGI 的核心风险是"已确定的故事能否准时交付"。<em>这两类风险的性质和定价完全不同——前者是二元的，后者是连续的</em>。</p>
+    <p>对于以"质量+确定性"为核心诉求的机构资金，AGI 这种"执行型风险"是可以承受、可以跟踪、可以定价的。这也是为什么 Zacks ABR 1.31（10/13 强烈推荐）、Scotiabank、Investing.com 共识等多个数据源给出的是 <em>Strong Buy</em>。</p>
+  </div>
+
+  <div class="callout">
+    <p>"在金价 $4,700+/oz 的背景下，AGI 给出的是<em>质量阵营的标准答案</em>——它不会是涨幅最快的，但很可能是<em>风险调整后回报最好的</em>。这是 AEM 2010-2020 那个剧本，正在 AGI 身上重新上演。"</p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>RESEARCH NOTE</strong> · 本研报基于公开披露信息（Q1 2026 earnings release、IGD Expansion Study、CEO McCluskey 业绩会发言、Trefis/Zacks/StockAnalysis 共识数据等），不构成投资建议。</p>
+  <p><strong>DATA AS OF</strong> · Last price $47.62 · Mkt cap $21.94B · 12M target $57.79 · 共识 Strong Buy（10/13）· P/E TTM ~25x · 2025 actual production 545.4k oz · 2026 guidance 570-650k oz</p>
+  <p><strong>METHODOLOGY</strong> · 资产档案 → 财务质量 → 增长管线 → 三年指引 → FCF 路径 → 估值与同行 → Bull/Bear 双视角 → 关键检查点 → 风险因素。Bull logic 框架：industrial trend up = 全面进攻找质量。退出信号绑定行业拐点而非价格水平。</p>
+</footer>
+
+</div>
+</body>
+</html>
