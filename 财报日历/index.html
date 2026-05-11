@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>财报日历 · Q1 2026 · coderz66</title>
+<link rel="icon" type="image/svg+xml" href="/research/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,700&family=Karla:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F2ED;--navy:#1B2635;--amber:#B8870A;--amber-hi:#D4A017;
+  --bull:#2D7A4F;--bear:#B23A48;--bull-bg:rgba(45,122,79,0.10);--bear-bg:rgba(178,58,72,0.10);
+  --border:rgba(27,38,53,0.10);--muted:#6B7280;
+}
+body{background:var(--bg);color:var(--navy);font-family:'Karla',sans-serif;font-size:14px;line-height:1.55}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* MASTHEAD */
+.masthead{background:var(--navy);border-bottom:3px solid var(--amber);padding:48px 0 40px;position:relative;overflow:hidden}
+.masthead::after{content:'EARNINGS';position:absolute;right:-8px;bottom:-30px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(255,255,255,0.04);pointer-events:none;user-select:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--amber-hi);text-transform:uppercase;margin-bottom:14px}
+.title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:14px}
+.title em{color:#F5D67A;font-style:italic}
+.desc{font-size:14px;font-weight:300;color:rgba(255,255,255,0.58);max-width:720px;margin-bottom:22px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:4px 11px;border-radius:12px;background:rgba(255,255,255,0.08);color:#fff}
+.pill.beat{background:rgba(45,122,79,0.25);color:#6fcf97}
+.pill.miss{background:rgba(178,58,72,0.22);color:#eb8f9a}
+
+/* FILTER BAR */
+.filter-bar{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:20;padding:10px 0}
+.filter-inner{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.filter-group{display:flex;align-items:center;gap:4px}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);margin-right:4px}
+.fbtn{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:5px 12px;border:1px solid var(--border);background:transparent;color:var(--navy);cursor:pointer;border-radius:2px}
+.fbtn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.filter-sep{width:1px;height:20px;background:var(--border)}
+
+/* SUMMARY STRIP */
+.summary-strip{display:flex;gap:32px;padding:24px 0 20px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.ss-item{display:flex;flex-direction:column;gap:3px}
+.ss-num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:var(--navy)}
+.ss-num.bull{color:var(--bull)}
+.ss-num.bear{color:var(--bear)}
+.ss-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy);color:#fff;position:sticky;top:44px;z-index:10}
+th{padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:rgba(255,255,255,0.07)}
+th .sort-arrow{opacity:0.35;margin-left:4px}
+th.sort-asc .sort-arrow::after{content:'↑';opacity:1}
+th.sort-desc .sort-arrow::after{content:'↓';opacity:1}
+th:not(.sort-asc):not(.sort-desc) .sort-arrow::after{content:'↕'}
+td{padding:7px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+td.mono{font-family:'JetBrains Mono',monospace}
+td.bull{color:var(--bull)}
+td.bear{color:var(--bear)}
+td.beat-cell{background:var(--bull-bg);color:var(--bull);font-family:'JetBrains Mono',monospace;font-weight:500}
+td.miss-cell{background:var(--bear-bg);color:var(--bear);font-family:'JetBrains Mono',monospace;font-weight:500}
+tr:hover td{background:rgba(27,38,53,0.03)}
+tr:hover td.beat-cell{background:rgba(45,122,79,0.16)}
+tr:hover td.miss-cell{background:rgba(178,58,72,0.16)}
+.na{color:var(--muted);font-style:italic}
+
+/* EMPTY */
+.empty-msg{text-align:center;padding:60px;color:var(--muted);font-size:14px;display:none}
+
+/* COUNT */
+.result-count{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);padding:10px 0 6px;letter-spacing:0.05em}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Q1 2026 EARNINGS SEASON · WEEK OF MAY 5–9</div>
+    <h1 class="title">财报 <em>日历</em></h1>
+    <p class="desc">Finnhub earnings calendar — 1,442 家本周报告，1,109 家有 EPS 实际数据。按日期、规模、结果筛选。</p>
+    <div class="pills" id="summary-pills">
+      <span class="pill" id="pill-total">加载中…</span>
+      <span class="pill beat" id="pill-beat">—</span>
+      <span class="pill miss" id="pill-miss">—</span>
+      <span class="pill" id="pill-rate">—</span>
+    </div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="wrap">
+    <div class="filter-inner">
+      <span class="filter-label">日期</span>
+      <div class="filter-group" id="fg-date">
+        <button class="fbtn active" data-date="all">All</button>
+        <button class="fbtn" data-date="2026-05-05">Mon 5/5</button>
+        <button class="fbtn" data-date="2026-05-06">Tue 5/6</button>
+        <button class="fbtn" data-date="2026-05-07">Wed 5/7</button>
+        <button class="fbtn" data-date="2026-05-08">Thu 5/8</button>
+        <button class="fbtn" data-date="2026-05-09">Fri 5/9</button>
+      </div>
+      <div class="filter-sep"></div>
+      <span class="filter-label">规模</span>
+      <div class="filter-group" id="fg-rev">
+        <button class="fbtn active" data-rev="0">All</button>
+        <button class="fbtn" data-rev="1e9">&gt;$1B</button>
+        <button class="fbtn" data-rev="5e9">&gt;$5B</button>
+        <button class="fbtn" data-rev="1e10">&gt;$10B</button>
+      </div>
+      <div class="filter-sep"></div>
+      <span class="filter-label">结果</span>
+      <div class="filter-group" id="fg-result">
+        <button class="fbtn active" data-result="all">All</button>
+        <button class="fbtn" data-result="beat">Beat</button>
+        <button class="fbtn" data-result="miss">Miss</button>
+        <button class="fbtn" data-result="na">N/A</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-bottom:80px">
+  <div class="summary-strip">
+    <div class="ss-item"><span class="ss-num" id="ss-total">—</span><span class="ss-label">已报（有EPS）</span></div>
+    <div class="ss-item"><span class="ss-num bull" id="ss-beat">—</span><span class="ss-label">Beat</span></div>
+    <div class="ss-item"><span class="ss-num bear" id="ss-miss">—</span><span class="ss-label">Miss</span></div>
+    <div class="ss-item"><span class="ss-num" id="ss-rate">—</span><span class="ss-label">Beat Rate</span></div>
+    <div class="ss-item"><span class="ss-num" id="ss-median">—</span><span class="ss-label">EPS中位超预期</span></div>
+  </div>
+
+  <div class="result-count" id="result-count">显示 — 条</div>
+
+  <div class="table-wrap">
+    <table id="earnings-table">
+      <thead>
+        <tr>
+          <th data-col="date">Date<span class="sort-arrow"></span></th>
+          <th data-col="sym">Ticker<span class="sort-arrow"></span></th>
+          <th data-col="eps_a">EPS 实际<span class="sort-arrow"></span></th>
+          <th data-col="eps_e">EPS 预期<span class="sort-arrow"></span></th>
+          <th data-col="eps_pct">EPS Δ%<span class="sort-arrow"></span></th>
+          <th data-col="rev_a">Rev 实际<span class="sort-arrow"></span></th>
+          <th data-col="rev_e">Rev 预期<span class="sort-arrow"></span></th>
+          <th data-col="rev_pct">Rev Δ%<span class="sort-arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="empty-msg" id="empty-msg">该筛选条件下无数据</div>
+  </div>
+</div>
+
+<script>
+const fmtRev = v => {
+  if (v == null || v === 0) return null;
+  if (Math.abs(v) >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
+  if (Math.abs(v) >= 1e6) return '$' + Math.round(v/1e6) + 'M';
+  return '$' + Math.round(v/1e3) + 'K';
+};
+const fmtEps = v => v == null ? null : (v >= 0 ? '' : '') + v.toFixed(2);
+const pct = (a, e) => {
+  if (a == null || e == null || e === 0) return null;
+  return (a - e) / Math.abs(e) * 100;
+};
+
+let allData = [];
+let sortCol = 'rev_a';
+let sortDir = -1; // -1 = desc
+let filters = { date: 'all', rev: 0, result: 'all' };
+
+fetch('./data/2026-W19.json')
+  .then(r => r.json())
+  .then(d => {
+    allData = d.records.map(r => ({
+      ...r,
+      eps_pct: pct(r.eps_a, r.eps_e),
+      rev_pct: pct(r.rev_a, r.rev_e),
+    }));
+    updateSummary(allData);
+    render();
+  })
+  .catch(() => {
+    document.getElementById('tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">数据加载失败，请检查 data/2026-W19.json 路径</td></tr>';
+  });
+
+function updateSummary(data) {
+  const withEst = data.filter(r => r.eps_pct != null);
+  const beats = withEst.filter(r => r.eps_pct >= 0);
+  const misses = withEst.filter(r => r.eps_pct < 0);
+  const rate = withEst.length ? Math.round(beats.length / withEst.length * 100) : 0;
+  const pcts = withEst.map(r => r.eps_pct).sort((a,b) => a-b);
+  const median = pcts.length ? pcts[Math.floor(pcts.length/2)].toFixed(1) : '—';
+
+  document.getElementById('pill-total').textContent = `${data.length} 家已报`;
+  document.getElementById('pill-beat').textContent = `Beat ${beats.length}`;
+  document.getElementById('pill-miss').textContent = `Miss ${misses.length}`;
+  document.getElementById('pill-rate').textContent = `Beat Rate ${rate}%`;
+  document.getElementById('ss-total').textContent = data.length;
+  document.getElementById('ss-beat').textContent = beats.length;
+  document.getElementById('ss-miss').textContent = misses.length;
+  document.getElementById('ss-rate').textContent = rate + '%';
+  document.getElementById('ss-median').textContent = (median > 0 ? '+' : '') + median + '%';
+}
+
+function filtered() {
+  return allData.filter(r => {
+    if (filters.date !== 'all' && r.date !== filters.date) return false;
+    if (filters.rev > 0 && (r.rev_a == null || r.rev_a < filters.rev)) return false;
+    if (filters.result === 'beat' && (r.eps_pct == null || r.eps_pct < 0)) return false;
+    if (filters.result === 'miss' && (r.eps_pct == null || r.eps_pct >= 0)) return false;
+    if (filters.result === 'na' && r.eps_pct != null) return false;
+    return true;
+  });
+}
+
+function render() {
+  const rows = filtered().slice().sort((a, b) => {
+    const av = a[sortCol] ?? (sortDir === -1 ? -Infinity : Infinity);
+    const bv = b[sortCol] ?? (sortDir === -1 ? -Infinity : Infinity);
+    if (typeof av === 'string') return sortDir * av.localeCompare(bv);
+    return sortDir * (bv - av);
+  });
+
+  const tbody = document.getElementById('tbody');
+  const empty = document.getElementById('empty-msg');
+  document.getElementById('result-count').textContent = `显示 ${rows.length} 条 / 共 ${allData.length} 条`;
+
+  if (!rows.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = rows.map(r => {
+    const epPct = r.eps_pct;
+    const rvPct = r.rev_pct;
+    const epCell = epPct == null
+      ? `<td class="na">N/A</td>`
+      : `<td class="${epPct >= 0 ? 'beat-cell' : 'miss-cell'}">${epPct >= 0 ? '+' : ''}${epPct.toFixed(1)}%</td>`;
+    const rvCell = rvPct == null
+      ? `<td class="na">—</td>`
+      : `<td class="mono ${rvPct >= 0 ? 'bull' : 'bear'}">${rvPct >= 0 ? '+' : ''}${rvPct.toFixed(1)}%</td>`;
+    return `<tr>
+      <td class="mono">${r.date}</td>
+      <td class="mono" style="font-weight:500">${r.sym}</td>
+      <td class="mono">${fmtEps(r.eps_a) ?? '<span class="na">—</span>'}</td>
+      <td class="mono">${fmtEps(r.eps_e) ?? '<span class="na">—</span>'}</td>
+      ${epCell}
+      <td class="mono">${fmtRev(r.rev_a) ?? '<span class="na">—</span>'}</td>
+      <td class="mono">${fmtRev(r.rev_e) ?? '<span class="na">—</span>'}</td>
+      ${rvCell}
+    </tr>`;
+  }).join('');
+}
+
+// Filter buttons
+['fg-date','fg-rev','fg-result'].forEach(gid => {
+  document.getElementById(gid).addEventListener('click', e => {
+    const btn = e.target.closest('.fbtn');
+    if (!btn) return;
+    [...btn.parentElement.querySelectorAll('.fbtn')].forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (gid === 'fg-date') filters.date = btn.dataset.date;
+    if (gid === 'fg-rev')  filters.rev  = parseFloat(btn.dataset.rev);
+    if (gid === 'fg-result') filters.result = btn.dataset.result;
+    render();
+  });
+});
+
+// Sort
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) { sortDir *= -1; }
+    else { sortCol = col; sortDir = -1; }
+    document.querySelectorAll('th').forEach(t => t.classList.remove('sort-asc','sort-desc'));
+    th.classList.add(sortDir === -1 ? 'sort-desc' : 'sort-asc');
+    render();
+  });
+});
+</script>
+</body>
+</html>
