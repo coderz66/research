@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eric Sprott · 持仓深度研究报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F2ED;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #EDEBE5;
+  --navy: #1B2635;
+  --navy-light: #2C3E55;
+  --slate: #546070;
+  --amber: #B8870A;
+  --amber-light: #D4A017;
+  --amber-pale: #FEF7E4;
+  --amber-border: #E8C96A;
+  --gold: #C9A227;
+  --gold-pale: #FAF3D9;
+  --silver: #8B9099;
+  --silver-pale: #ECEEF1;
+  --silver-border: #B8BEC8;
+  --nuclear: #1A6B3C;
+  --nuclear-pale: #E6F4EC;
+  --nuclear-border: #7CC49A;
+  --red: #B91C1C;
+  --red-pale: #FEF2F2;
+  --blue: #1D4ED8;
+  --blue-pale: #EFF6FF;
+  --purple: #6D28D9;
+  --purple-pale: #F5F3FF;
+  --border: #D8D4CC;
+  --border-light: #E8E5DE;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Karla', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  padding-bottom: 100px;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  padding: 48px 56px 44px;
+  border-bottom: 3px solid var(--amber);
+  position: relative;
+  overflow: hidden;
+}
+.site-header::after {
+  content: 'SPROTT';
+  position: absolute;
+  right: 48px; bottom: -10px;
+  font-family: var(--font-display);
+  font-size: 150px;
+  font-weight: 700;
+  color: rgba(255,255,255,.04);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: -2px;
+}
+.h-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--amber-light);
+  margin-bottom: 16px;
+}
+.h-title {
+  font-family: var(--font-display);
+  font-size: 54px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.h-title span { color: var(--amber-light); }
+.h-desc {
+  font-size: 14.5px;
+  color: rgba(255,255,255,.6);
+  font-weight: 300;
+  max-width: 760px;
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+.h-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.h-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.7);
+}
+.h-pill.hl { background: var(--amber); border-color: var(--amber); color: #000; font-weight: 600; }
+
+/* ── PAGE LAYOUT ── */
+.page { max-width: 1300px; margin: 0 auto; padding: 0 56px; }
+
+/* ── SECTION ── */
+.section { margin-top: 60px; }
+.s-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.s-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.s-divider { width: 44px; height: 2px; background: var(--amber); margin: 14px 0 26px; }
+
+/* ── SUMMARY STRIP ── */
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-top: 32px;
+}
+.ss-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 16px 14px;
+  text-align: center;
+}
+.ss-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.ss-val { font-family: var(--font-display); font-size: 26px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
+.ss-sub { font-size: 10px; color: var(--slate); }
+.c-green { color: var(--nuclear); }
+.c-amber { color: var(--amber); }
+.c-red   { color: var(--red); }
+.c-navy  { color: var(--navy); }
+.c-gold  { color: var(--gold); }
+.c-silver { color: var(--silver); }
+.c-purple { color: var(--purple); }
+
+/* ── COLUMNS ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+/* ── CARD BASE ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 24px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.card-accent { border-top: 3px solid transparent; }
+.ca-amber { border-top-color: var(--amber); }
+.ca-nuclear { border-top-color: var(--nuclear); }
+.ca-red { border-top-color: var(--red); }
+.ca-blue { border-top-color: var(--blue); }
+.ca-navy { border-top-color: var(--navy); }
+.ca-gold { border-top-color: var(--gold); }
+.ca-silver { border-top-color: var(--silver); }
+.ca-purple { border-top-color: var(--purple); }
+
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.cl-amber { color: var(--amber); }
+.cl-nuclear { color: var(--nuclear); }
+.cl-red { color: var(--red); }
+.cl-blue { color: var(--blue); }
+.cl-navy { color: var(--navy); }
+.cl-gold { color: var(--gold); }
+.cl-silver { color: var(--silver); }
+.cl-purple { color: var(--purple); }
+
+.card-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.card-body { font-size: 13px; color: var(--slate); line-height: 1.7; }
+.card-body strong { color: var(--navy); }
+
+/* ── PHASE BLOCKS ── */
+.phase-grid { display: flex; flex-direction: column; gap: 16px; }
+.phase-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.phase-time {
+  background: var(--navy);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pt-period { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; color: rgba(255,255,255,.5); margin-bottom: 5px; text-transform: uppercase; }
+.pt-label { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+.pt-perf { font-family: var(--font-mono); font-size: 12px; font-weight: 500; margin-top: 8px; }
+.pt-up { color: #5BCC7A; }
+.pt-down { color: #F87171; }
+.phase-content { padding: 20px 22px; }
+.pc-head { font-weight: 600; font-size: 13.5px; color: var(--navy); margin-bottom: 8px; }
+.pc-body { font-size: 13px; color: var(--slate); line-height: 1.7; }
+.pc-body strong { color: var(--navy); }
+.pc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.pc-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.pt-amber { background: var(--amber-pale); color: var(--amber); border: 1px solid var(--amber-border); }
+.pt-green { background: var(--nuclear-pale); color: var(--nuclear); border: 1px solid var(--nuclear-border); }
+.pt-blue  { background: var(--blue-pale); color: var(--blue); }
+.pt-red   { background: var(--red-pale); color: var(--red); }
+.pt-purple { background: var(--purple-pale); color: var(--purple); }
+.pt-silver { background: var(--silver-pale); color: var(--silver); border: 1px solid var(--silver-border); }
+
+/* ── HOLDINGS TABLE ── */
+.metrics-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.metrics-table thead { background: var(--navy); }
+.metrics-table thead th { padding: 12px 16px; text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.65); font-weight: 500; }
+.metrics-table tbody tr { border-bottom: 1px solid var(--border-light); }
+.metrics-table tbody tr:last-child { border-bottom: none; }
+.metrics-table tbody tr:hover { background: var(--amber-pale); }
+.metrics-table tbody td { padding: 11px 16px; vertical-align: middle; }
+.td-label { color: var(--slate); font-weight: 400; }
+.td-val { font-weight: 600; color: var(--navy); }
+.td-green { color: var(--nuclear); font-weight: 600; }
+.td-amber { color: var(--amber); font-weight: 600; }
+.td-red { color: var(--red); font-weight: 600; }
+.td-mono { font-family: var(--font-mono); font-size: 12px; }
+.td-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.tag-green { background: var(--nuclear-pale); color: var(--nuclear); }
+.tag-amber { background: var(--amber-pale); color: var(--amber); }
+.tag-red   { background: var(--red-pale); color: var(--red); }
+.tag-blue  { background: var(--blue-pale); color: var(--blue); }
+.tag-gold  { background: var(--gold-pale); color: var(--gold); }
+.tag-silver { background: var(--silver-pale); color: var(--silver); }
+.tag-purple { background: var(--purple-pale); color: var(--purple); }
+.tag-navy { background: #E2E5EB; color: var(--navy); }
+
+/* ── HOLDING DEEP CARDS ── */
+.holding-grid { display: flex; flex-direction: column; gap: 16px; }
+.holding-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.holding-head {
+  background: var(--navy);
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto;
+  gap: 18px;
+  align-items: center;
+}
+.hh-ticker {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--amber-light);
+  letter-spacing: -0.5px;
+}
+.hh-name { color: #fff; font-size: 14.5px; font-weight: 500; line-height: 1.3; }
+.hh-name small { color: rgba(255,255,255,.5); display: block; font-size: 11px; font-weight: 400; margin-top: 2px; }
+.hh-weight {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--amber-light);
+  font-weight: 600;
+  text-align: right;
+}
+.hh-weight small { color: rgba(255,255,255,.5); display: block; font-size: 9.5px; font-weight: 400; margin-top: 1px; letter-spacing: .08em; }
+.hh-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.holding-body {
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.hb-h { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.hb-text { font-size: 12.5px; color: var(--slate); line-height: 1.65; }
+.hb-text strong { color: var(--navy); }
+
+/* ── RISK CARDS ── */
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.risk-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.risk-card.rl-red { border-left-color: var(--red); }
+.risk-card.rl-amber { border-left-color: var(--amber); }
+.risk-card.rl-blue { border-left-color: var(--blue); }
+.risk-card.rl-navy { border-left-color: var(--navy); }
+.risk-icon { font-size: 18px; margin-bottom: 8px; }
+.risk-title { font-weight: 700; font-size: 13px; color: var(--navy); margin-bottom: 6px; }
+.risk-body { font-size: 12.5px; color: var(--slate); line-height: 1.65; }
+
+/* ── CATALYST TIMELINE ── */
+.cat-list { display: flex; flex-direction: column; gap: 0; }
+.cat-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.cat-item:last-child { border-bottom: none; }
+.cat-date {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--slate);
+  padding-top: 2px;
+  letter-spacing: .04em;
+}
+.cat-head { font-weight: 600; font-size: 13px; color: var(--navy); margin-bottom: 4px; }
+.cat-body { font-size: 12.5px; color: var(--slate); line-height: 1.6; }
+.cat-body strong { color: var(--navy); }
+.cat-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-weight: 500;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* ── KIRKLAND LAKE LEGEND BOX (Special) ── */
+.kl-box {
+  background: linear-gradient(135deg, #1B2635 0%, #2C3E55 100%);
+  border-radius: 12px;
+  padding: 36px 40px;
+  color: #fff;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+.kl-box::before {
+  content: '⛏️';
+  position: absolute;
+  top: -20px;
+  right: 30px;
+  font-size: 200px;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.kl-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--amber-light);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.kl-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.kl-title span { color: var(--amber-light); }
+.kl-desc {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  max-width: 820px;
+}
+
+.kl-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.kl-stat {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.kls-label { font-size: 10px; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; font-family: var(--font-mono); }
+.kls-val { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--amber-light); line-height: 1.1; margin-bottom: 4px; }
+.kls-sub { font-size: 11px; color: rgba(255,255,255,.55); line-height: 1.4; }
+
+/* ── PORTFOLIO MAP / 全景图 ── */
+.portfolio-map {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 32px;
+}
+.pm-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.pm-sub { font-size: 12px; color: var(--slate); margin-bottom: 22px; }
+.pm-tier {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-light);
+}
+.pm-tier:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.pm-tier-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.pm-tier-name { font-weight: 700; font-size: 13.5px; color: var(--navy); }
+.pm-tier-count { font-family: var(--font-mono); font-size: 11px; color: var(--amber); }
+.pm-stocks { display: flex; flex-wrap: wrap; gap: 6px; }
+.pm-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  color: var(--navy);
+  border: 1px solid var(--border-light);
+  font-weight: 500;
+}
+.pm-chip.hl-gold { background: var(--gold-pale); border-color: #E5D580; color: var(--gold); font-weight: 700; }
+.pm-chip.hl-silver { background: var(--silver-pale); border-color: var(--silver-border); color: var(--silver); font-weight: 700; }
+.pm-chip.hl-amber { background: var(--amber-pale); border-color: var(--amber-border); color: var(--amber); font-weight: 700; }
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box {
+  background: var(--amber-pale);
+  border: 1px solid var(--amber-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 20px 0;
+}
+.hb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.hb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+.hb-text strong { font-weight: 700; }
+
+.nuclear-box {
+  background: var(--nuclear-pale);
+  border: 1px solid var(--nuclear-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.nb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--nuclear); margin-bottom: 6px; }
+.nb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+
+.silver-box {
+  background: var(--silver-pale);
+  border: 1px solid var(--silver-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.sb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--silver); margin-bottom: 6px; }
+.sb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+
+/* ── FOOTNOTE ── */
+.footnote {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--slate);
+  line-height: 1.75;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px) {
+  .page { padding: 0 24px; }
+  .site-header { padding: 32px 24px; }
+  .h-title { font-size: 36px; }
+  .summary-strip { grid-template-columns: repeat(3,1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr; }
+  .four-col { grid-template-columns: 1fr 1fr; }
+  .phase-item { grid-template-columns: 100px 1fr; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .holding-head { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .holding-body { grid-template-columns: 1fr; }
+  .kl-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="h-eyebrow">超级投资者持仓深度研究 · 加拿大矿业之王</div>
+  <h1 class="h-title">Eric Sprott<br><span>34+ 矿业仓位 · 加拿大初级矿业市场的"$9亿赔率赌徒"</span></h1>
+  <p class="h-desc">从 1981 年的 Sprott Securities 到 2017 年家族办公室时代,Eric Sprott 用 30 年时间证明了一件事:<strong style="color:#fff">"在初级矿业市场,赔率投资法可以制造 15 倍的回报"</strong>——Kirkland Lake Gold 从 $9,212万 涨到 $14亿 是他的成名一战。当前他持有 34+ 家小盘矿业股,90% 流动资产在金银,堪称全球范围内最纯粹的"反法币 / 多金属"押注</p>
+  <div class="h-pills">
+    <span class="h-pill hl">$9亿+ 投在 175+ 矿企</span>
+    <span class="h-pill">90% 资产在金银</span>
+    <span class="h-pill">加拿大初级矿业每$4有$1是他的</span>
+    <span class="h-pill">Hycroft 持股40%</span>
+    <span class="h-pill">Kirkland Lake 神话: $9210万→$14亿</span>
+    <span class="h-pill">慈善累计 $337百万</span>
+  </div>
+</header>
+
+<div class="page">
+
+<!-- KEY METRICS STRIP -->
+<div class="summary-strip">
+  <div class="ss-box">
+    <div class="ss-label">个人净资产</div>
+    <div class="ss-val c-navy">$12.4亿</div>
+    <div class="ss-sub">2026 年估算</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">公开持仓数</div>
+    <div class="ss-val c-amber">34+</div>
+    <div class="ss-sub">vs Paulson 9只</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">前三大持仓占比</div>
+    <div class="ss-val c-amber">~50%</div>
+    <div class="ss-sub">DSV+JAG+FVL</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">矿业股权重</div>
+    <div class="ss-val c-gold">100%</div>
+    <div class="ss-sub">没有任何非矿业仓位</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">流动资产配置</div>
+    <div class="ss-val c-silver">90%</div>
+    <div class="ss-sub">在金银相关</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">家族办公室投资</div>
+    <div class="ss-val c-amber">$9亿+</div>
+    <div class="ss-sub">2017起 175+矿企</div>
+  </div>
+</div>
+
+<!-- SECTION 1: WHO IS SPROTT -->
+<section class="section">
+  <div class="s-label">人物背景</div>
+  <div class="s-title">Sprott:加拿大初级矿业的"地下教父"</div>
+  <div class="s-divider"></div>
+
+  <div class="two-col">
+    <div>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:16px">
+        <strong style="color:var(--navy)">Eric Steven Sprott</strong>(1944/45 年生于渥太华)是加拿大投资界的"<strong style="color:var(--navy)">Gold Bull(黄金牛)</strong>"——一个被加拿大矿业名人堂、加拿大投资行业名人堂、加拿大勋章三重加身的传奇人物。但他的职业生涯并不光鲜:卡尔顿大学商学学士毕业后,从美林证券研究分析师起步,1981 年才以小券商身份创立 <strong style="color:var(--navy)">Sprott Securities</strong>(后改名 Cormark Securities,2001 年卖给员工)。
+      </p>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:16px">
+        <strong style="color:var(--navy)">2001 年起</strong>他创立 Sprott Asset Management,把 1980-1990 年代积累下来的"初级矿业研究网络"产业化——他懂得别人不懂的:<strong style="color:var(--navy)">加拿大那些被主流银行家忽视的小盘资源股</strong>。2008 年他公开预警金融危机并大幅做多黄金,黄金从 $700 一路涨到 $1,900,Sprott Inc. 管理规模也随之膨胀。
+      </p>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75">
+        <strong style="color:var(--navy)">2017 年他卸任 Sprott Inc. 主席,转向家族办公室模式</strong>。这一刻起,他不再为客户管钱,只投自己——而他做了一件很少有亿万富豪敢做的事:<strong style="color:var(--navy)">把流动资产的 90% 全部押在金银和矿业股上</strong>。这不是分散投资,这是"100% 单一宏观信仰"的极端执行。
+      </p>
+    </div>
+    <div>
+      <div class="card ca-amber card-accent" style="margin-bottom:14px">
+        <div class="card-label cl-amber">投资哲学的精髓</div>
+        <div class="card-title">"赔率投资法"——用极度分散押注 10-100 倍 upside</div>
+        <div class="card-body">
+          Sprott 的策略可以浓缩为:<strong>承认大部分初级矿企会失败,但只要 1 家成功就足以覆盖所有损失</strong>。他自己说"高风险押注是钱的最差去处,亏的比赢的多",但只要在 175 家小公司里押中一家 Kirkland Lake Gold,就能制造 15 倍回报。这是<strong>用"地毯式播种"+"一个怪物胜利"</strong>的稀释式赔率法。
+        </div>
+      </div>
+      <div class="card ca-silver card-accent">
+        <div class="card-label cl-silver">关键标签:加拿大初级矿业的"系统重要性"</div>
+        <div class="card-title">2019 年 Q3:全加拿大初级矿企每 $4 募资有 $1 来自 Sprott</div>
+        <div class="card-body">
+          根据 Oreninc 数据,2019 年某季度<strong>加拿大上市初级矿企所募集每 $4 资金中就有 $1 来自 Sprott 个人</strong>。这种"系统重要性"意味着加拿大矿业的命脉一定程度上系于他个人——他出手定增谁,谁就能继续生存下去。Sprott 因此成为初级矿业的"<strong>资金供给端的卡口</strong>",也是这一行业最强势的结构性参与者。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: KIRKLAND LAKE LEGEND (THE STAR SECTION) -->
+<section class="section">
+  <div class="s-label">★ 成名一战</div>
+  <div class="s-title">Kirkland Lake Gold:从 $9,210万 到 $14亿 的 15 倍神话</div>
+  <div class="s-divider"></div>
+
+  <p style="font-size:14px;color:var(--slate);line-height:1.8;margin-bottom:6px">
+    每个传奇投资者都有一笔定义其声誉的交易——巴菲特是 Coca-Cola,Druckenmiller 是英镑,Paulson 是次贷 CDS,<strong style="color:var(--navy)">Sprott 是 Kirkland Lake Gold</strong>。这一笔交易让他从"加拿大区域明星"变成全球初级矿业领域的传奇,也是他"赔率投资法"最完美的兑现样本。
+  </p>
+
+  <div class="kl-box">
+    <div class="kl-eyebrow">★ THE GREATEST MINING TRADE</div>
+    <h3 class="kl-title">2017-2019:Kirkland Lake Gold(KL)的<br><span>$92.12 百万 → $14亿 → AEM 收购对价 $11亿</span></h3>
+    <p class="kl-desc">
+      2016 年秋天,Sprott 主导推动了 Kirkland Lake Gold(KGI)与 Newmarket Gold(NMI)的合并——他持有 NMI 的 18%,但合并投票中主动回避。新合并实体目标 2017 年产 50万 盎司金,市值 $24亿(KL占57%、NMI占43%)。
+      <br><br>
+      <strong style="color:#fff">2017 年 1 月 4 日,Sprott 公开宣布持有 KL 的 19,178,195 股</strong>(约 18%)。他大概花了 $9,212 万。当日 KL 收 $7.73,持仓市值 $1.485亿。
+      <br><br>
+      然后,Fosterville 矿(原 NMI 在澳大利亚的资产)爆出了<strong style="color:#fff">史诗级的高品位金矿发现</strong>——把单矿年产能提升,KL 从一家中型金矿企业变成了"<strong style="color:#fff">全行业利润率最高的金矿之一</strong>"。
+    </p>
+
+    <div class="kl-stats">
+      <div class="kl-stat">
+        <div class="kls-label">买入成本</div>
+        <div class="kls-val">$92.12M</div>
+        <div class="kls-sub">2017年1月披露<br>1,917万股 / ~$4.80均价</div>
+      </div>
+      <div class="kl-stat">
+        <div class="kls-label">峰值市值</div>
+        <div class="kls-val">$14亿</div>
+        <div class="kls-sub">2020年Fosterville高品位<br>×15倍 4年</div>
+      </div>
+      <div class="kl-stat">
+        <div class="kls-label">AEM 收购对价</div>
+        <div class="kls-val">$11亿</div>
+        <div class="kls-sub">2022年2月并购完成<br>仍是×12倍兑现</div>
+      </div>
+      <div class="kl-stat">
+        <div class="kls-label">峰值持股估值</div>
+        <div class="kls-val">$14亿+</div>
+        <div class="kls-sub">单笔交易<br>VS 当时 Sprott 净资产</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hb-label">🔑 Kirkland Lake 教给市场的 3 个 Sprott 哲学</div>
+    <div class="hb-text">
+      <strong>① 别只买,要主动改造</strong>——Sprott 不只是被动投资者,他主动推动 KL+NMI 合并、招募 CEO Tony Makuch、重构董事会。这是<strong>"行动主义价值投资"</strong>不是被动持仓。<br><br>
+      <strong>② 留得住才能等 10 倍</strong>——他自述:"我有过很多 10-bagger,关键是 stay in it(待住)"。家族办公室时代他可以等 4 年看 KL 涨 15 倍,这是机构经理无法复制的优势。<br><br>
+      <strong>③ 用看似奇怪的方式做研究</strong>——Sprott 公开承认<strong>"我读互联网论坛找股票线索"</strong>,他清晨 2 点起床研究小盘股。他的同事说"他不是地质学家,我们都不是,我们只是会算账的金融人"——这种"普通人 + 极致勤奋"的姿态恰恰是他能跑通赔率游戏的原因。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: PORTFOLIO EVOLUTION -->
+<section class="section">
+  <div class="s-label">投资演变拆解</div>
+  <div class="s-title">四个阶段:从券商老板到加拿大矿业之王</div>
+  <div class="s-divider"></div>
+
+  <div class="phase-grid">
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段一</div>
+        <div class="pt-label">1981-2000<br>券商奠基</div>
+        <div class="pt-perf pt-up">小盘资源股网络</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">从美林分析师到 Sprott Securities 创始人</div>
+        <div class="pc-body">
+          1981 年以个人名义创立 Sprott Securities(多伦多 Bay Street 上一家小券商),专做<strong>主流银行家忽视的小盘价值股和资源股</strong>。1980-90 年代是加拿大矿业的"长熊期",但 Sprott 利用这一段时间建立了<strong>覆盖整个加拿大初级矿企的研究和承销网络</strong>——这是他后来"赔率投资法"的人脉地基。
+          <br><br>
+          这一阶段他主要靠"早期他人的钱借去投资股市"起家——年轻时向女友的父亲借 $5 万,承诺一年 10% 回报,后来兑现了。这一笔"小赌桌起步"成就了一段加拿大金融圈的传奇。<strong>2001 年他把 Sprott Securities 卖给员工</strong>(现在叫 Cormark Securities,加拿大最大私营投行之一),正式从"券商老板"转型为"全职投资人"。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-amber">$5万→Sprott Securities</span>
+          <span class="pc-tag pt-amber">资源股研究网络</span>
+          <span class="pc-tag pt-blue">2001 卖给员工</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段二</div>
+        <div class="pt-label">2001-2008<br>资管崛起</div>
+        <div class="pt-perf pt-up">2008 提前预警危机<br>金价 $700→$1,900</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">Sprott Asset Management + 黄金大牛市</div>
+        <div class="pc-body">
+          2001 年创立 Sprott Asset Management,聚焦贵金属和资源板块。2007 年成立 <strong>Sprott Molybdenum Participation Corporation</strong>(钼参与公司,TSX:MLY)——一个专注钼金属投资的公开基金,展现了他对小众金属的早期布局。
+          <br><br>
+          <strong>2008 年金融危机前后,Sprott 公开预警危机并强烈呼吁买黄金</strong>。这一判断让他从"加拿大矿业基金经理"上升为"全球宏观判断者"。金价从 2008 年的 $700 涨到 2011 年的 $1,900,Sprott 个人净资产同步爆发,2012 年估值达 <strong>$11亿</strong>(首次进入十亿美元俱乐部)。
+          <br><br>
+          这一阶段还推出了 <strong>Sprott Physical Gold Trust(PHYS)</strong> 和 <strong>Sprott Physical Silver Trust(PSLV)</strong> 等实物贵金属信托——成为全球投资者获得纸黄金外"实物贵金属敞口"的主要工具,影响延续至今。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-green">PHYS/PSLV 实物信托</span>
+          <span class="pc-tag pt-green">2008 危机预警</span>
+          <span class="pc-tag pt-amber">2012 净资产 $11亿</span>
+          <span class="pc-tag pt-blue">钼金属基金</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段三</div>
+        <div class="pt-label">2011-2016<br>金价熊市煎熬</div>
+        <div class="pt-perf pt-down">金价 $1,900→$1,050<br>对冲基金重创</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">5 年金价熊市:Sprott 跟所有黄金多头一样痛苦</div>
+        <div class="pc-body">
+          2011-2015 年是 Sprott 职业生涯第二惨的阶段(第一惨是更早期的某次)。<strong>金价从 $1,900 跌到 $1,050</strong>,初级矿业股普遍跌 70-90%,Sprott Inc. 旗下的对冲基金大幅亏损。他自己后来形容那段时间"<strong>down on his luck</strong>"——简单说就是非常不顺。
+          <br><br>
+          这个阶段的关键变化是:Sprott 明白了"不能跟客户的赎回压力赌"——一边要应付 LP 赎回潮,一边还要维持长期信念,这种结构性矛盾摧毁了大多数贵金属基金经理。<strong>2017 年 5 月,他卸任 Sprott Inc. 主席,从此把所有重心放在家族办公室上</strong>。
+          <br><br>
+          这一阶段他还有一个被忽视的伏笔——<strong>2016 年秋季主导 Kirkland Lake + Newmarket 合并,2017 年 1 月公开持仓 KL 18%</strong>。这笔布局看起来在熊市最低点,实际上是后来他翻身的核心。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-red">金价 -45%</span>
+          <span class="pc-tag pt-red">基金重创</span>
+          <span class="pc-tag pt-blue">2017 卸任主席</span>
+          <span class="pc-tag pt-green">★KL 布局</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段四</div>
+        <div class="pt-label">2017-2026<br>家族办公室复兴</div>
+        <div class="pt-perf pt-up">$9亿投 175+ 矿企<br>KL +15倍 翻身</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">家族办公室时代:从 175 家初级矿企里"播种"</div>
+        <div class="pc-body">
+          家族办公室结构让 Sprott 的策略发生了根本性变化:
+          <br><br>
+          <strong>① 极度分散</strong>——从 2017 年到 2024 年,他在 <strong>175+ 家矿业公司</strong>累计投资约 <strong>$9亿</strong>,平均每家几百万到几千万美金的小仓位。<br><br>
+          <strong>② 私募定增为主</strong>——大量资金通过私募定增(private placement)进入,他经常在低点"补血"——给那些资金紧张但前景好的小公司续命,然后等爆发。<br><br>
+          <strong>③ KL 神话兑现</strong>——2019-2020 年 KL 从 $7.73 涨到 $50+,Sprott 单笔账面收益 $14亿,2022 年 AEM 收购 KL 时实际兑现 $11亿。这一笔单独把他从 $7亿净资产推回 $12亿+。<br><br>
+          <strong>④ 银价是新故事</strong>——2024-2026 年银价从 $24 涨到 $48+,Sprott 的银矿仓位(DSV、Hycroft、Aftermath、Blackrock Silver、Kootenay Silver、Summa Silver、Metallic Minerals)集中爆发。2025 年底他开始大量增持 Hycroft Mining,持股达 40%,公开宣称这是他"<strong style="color:var(--navy)">在 $200 银价下能涨 150 倍的票</strong>"。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-green">$9亿/175家 播种</span>
+          <span class="pc-tag pt-green">KL +15倍 兑现</span>
+          <span class="pc-tag pt-silver">★ 银价主导2024-2026</span>
+          <span class="pc-tag pt-amber">Hycroft 40% 重押</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 4: PORTFOLIO MAP - 全景 -->
+<section class="section">
+  <div class="s-label">★ 组合全景</div>
+  <div class="s-title">34+ 持仓的"三层结构":旗舰 / 中坚 / 撒网</div>
+  <div class="s-divider"></div>
+
+  <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:18px">
+    Sprott 的 34+ 持仓不是杂乱无章的"撒胡椒面"——细看会发现明显的<strong style="color:var(--navy)">三层结构</strong>。第一层是 4-5 家"旗舰仓位"占 50-60% 权重,第二层是 8-10 家"中坚仓位"提供分散,第三层是 20+ 家"撒网仓位"赌赔率。这种结构既有集中度,又保留了"播种式"赔率优势。
+  </p>
+
+  <div class="portfolio-map">
+    <div class="pm-title">Eric Sprott 当前持仓三层结构(2025-2026)</div>
+    <div class="pm-sub">基于 SEDI/SEDAR 内幕申报、公司新闻稿、媒体披露汇总</div>
+
+    <div class="pm-tier">
+      <div class="pm-tier-head">
+        <div class="pm-tier-name">第一层 · 旗舰仓位(占 ~50-60%,资本金 $5-25亿)</div>
+        <div class="pm-tier-count">4 家公司</div>
+      </div>
+      <div class="pm-stocks">
+        <span class="pm-chip hl-silver">DSV Discovery Silver(银 $4.42亿/26%)</span>
+        <span class="pm-chip hl-gold">JAG Jaguar Mining(金 $2.42亿/14%)</span>
+        <span class="pm-chip hl-gold">FVL Freegold Ventures(金 $1.67亿/10%)</span>
+        <span class="pm-chip hl-amber">Hycroft Mining(金/银 持股40%)</span>
+      </div>
+    </div>
+
+    <div class="pm-tier">
+      <div class="pm-tier-head">
+        <div class="pm-tier-name">第二层 · 中坚仓位(占 ~25%,资本金 $5,000万-$2亿)</div>
+        <div class="pm-tier-count">~10 家公司</div>
+      </div>
+      <div class="pm-stocks">
+        <span class="pm-chip">USA Americas Gold and Silver(~20%股权)</span>
+        <span class="pm-chip">CKG Chesapeake Gold(Metates 2-3千万盎司金当量)</span>
+        <span class="pm-chip">NFG New Found Gold(纽芬兰高品位)</span>
+        <span class="pm-chip">APM Andean Precious Metals(玻利维亚)</span>
+        <span class="pm-chip">ERD Erdene Resource(蒙古)</span>
+        <span class="pm-chip">STGO Steppe Gold(蒙古)</span>
+        <span class="pm-chip">HSTR Heliostar Metals</span>
+        <span class="pm-chip">AMX Amex Exploration</span>
+        <span class="pm-chip">TUD Tudor Gold</span>
+        <span class="pm-chip">WM Wallbridge Mining</span>
+      </div>
+    </div>
+
+    <div class="pm-tier">
+      <div class="pm-tier-head">
+        <div class="pm-tier-name">第三层 · 撒网仓位(占 ~15-20%,赔率赌注 $200-2000万)</div>
+        <div class="pm-tier-count">20+ 家公司</div>
+      </div>
+      <div class="pm-stocks">
+        <span class="pm-chip">BRC Blackrock Silver</span>
+        <span class="pm-chip">KTN Kootenay Silver</span>
+        <span class="pm-chip">SSVR Summa Silver</span>
+        <span class="pm-chip">AAG Aftermath Silver</span>
+        <span class="pm-chip">MMG Metallic Minerals</span>
+        <span class="pm-chip">CDPR Cerro de Pasco Resources</span>
+        <span class="pm-chip">AUMB 1911 Gold</span>
+        <span class="pm-chip">LGC Lavras Gold(巴西)</span>
+        <span class="pm-chip">GXS Goldsource Mines</span>
+        <span class="pm-chip">UGD Unigold</span>
+        <span class="pm-chip">SPOT EarthLabs</span>
+        <span class="pm-chip">TUO Teuton Resources</span>
+        <span class="pm-chip">SAM Starcore International</span>
+        <span class="pm-chip">IVS Inventus Mining</span>
+        <span class="pm-chip">TM Trigon Metals</span>
+        <span class="pm-chip">BBB Brixton Metals</span>
+        <span class="pm-chip">KLDC Kirkland Lake Discoveries</span>
+        <span class="pm-chip">Labrador Gold</span>
+        <span class="pm-chip">NVO Novo Resources</span>
+        <span class="pm-chip">+ 多家未公开</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="silver-box">
+    <div class="sb-label">★ 关键观察:Sprott vs Paulson 的根本性差异</div>
+    <div class="sb-text">
+      <strong>Paulson 是"主题选股 + 大盘股 + 9 只精选"</strong>——他押对一两个主题就能赢,但单一主题崩塌他会亏惨。<br><br>
+      <strong>Sprott 是"100% 矿业 + 小盘股 + 34+ 撒网"</strong>——他承认大部分仓位会失败,但只要 1 家变成下一个 Kirkland Lake,就能制造 15 倍回报覆盖所有损失。<br><br>
+      两者哲学完全不同:Paulson 是<strong>"凸性押注"(convex bet)</strong>,Sprott 是<strong>"稀释式赔率"(diluted optionality)</strong>。从风险/回报角度,Sprott 的组合<strong>"上限更高、底部更深、波动更大"</strong>——适合愿意承担小盘股极端波动的投资者。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: TOP 4 HOLDINGS DETAIL -->
+<section class="section">
+  <div class="s-label">旗舰仓位详解</div>
+  <div class="s-title">4 家旗舰公司:每一个都对应一个独立的资源故事</div>
+  <div class="s-divider"></div>
+
+  <div class="holding-grid">
+
+    <!-- DSV - Discovery Silver -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">DSV</div>
+        <div class="hh-name">Discovery Silver Corp
+          <small>TSX · Cordero 银矿(墨西哥) · 全球最大未开发银资源之一</small>
+        </div>
+        <div class="hh-tag" style="background:var(--silver-pale);color:var(--silver)">银</div>
+        <div class="hh-weight">~26%<small>持股 10.8%</small></div>
+      </div>
+      <div class="holding-body">
+        <div>
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            旗舰资产 <strong>Cordero 项目</strong>(墨西哥奇瓦瓦州)是全球最大未开发银矿之一——<strong>4.08 亿盎司银 + 127万盎司金</strong>(指示资源),35,000 公顷土地覆盖完整斑岩矿区。Sprott 早在 2019 年 Levon 收购前就开始建仓,<strong>多次定增加仓</strong>:2019 年 7.7M、2020 年 5M+10M+15M 等等,持股从 19.9% 一路加到 26.4%(部分已减持获利)。
+          </div>
+        </div>
+        <div>
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            截至 2025 年 10 月,Sprott 持有 <strong>4,322 万股</strong>,价值 <strong>$4.42亿</strong>,占其公开组合 <strong>26.12%</strong>。Discovery 在 2024 年完成 Coeur Porcupine 金矿收购,转型为"<strong>白银开发 + 黄金生产</strong>"双引擎。2025 年 9 月获 $2.5 亿循环信贷额度,资金充裕。Q2 2025 黄金生产 50,552 盎司,自由现金流 $2,730万。Sprott 2025 年 9 月有少量减持(25 万股 $4.60),但仍是<strong>大股东兼最强声援者</strong>。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAG - Jaguar Mining -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">JAG</div>
+        <div class="hh-name">Jaguar Mining Inc
+          <small>TSX · 巴西 Iron Quadrangle 金矿 · 在产金矿</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">金</div>
+        <div class="hh-weight">~14%<small>持股 ~50%</small></div>
+      </div>
+      <div class="holding-body">
+        <div>
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            巴西"<strong>铁矿四边形(Iron Quadrangle)</strong>"地区的中型金矿生产商。Sprott 从 2023 年开始<strong>系统性建仓</strong>,2024 年 3 月买入 5 万股($1.99/股),7 月买入 75 万股($3.50/股),持续加仓直到<strong>持股近 50%</strong>(2025 年 4 月)——成为绝对控股股东。Sprott 把 JAG 当作"<strong>下一个 Kirkland Lake</strong>"——一家被市场忽视的中型金矿,通过其影响力推动并购、运营改善、资产优化。
+          </div>
+        </div>
+        <div>
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            2025 年 4 月持仓数据:<strong>3,329 万股,价值 $2.42亿</strong>(占组合 14.32%)。当前股价约 $2.85,<strong>前向 P/E 仅 8倍</strong>(对比 Newmont 15 倍)。JAG 在巴西的 Turmalina、Pilar 矿处于稳定生产状态,年产能约 7-8 万盎司金。Sprott 的剧本:<strong>用控股权推动并购或卖给大公司</strong>(类似 KL 卖给 AEM 的剧本)。这是 Sprott "Kirkland Lake 2.0" 的潜在候选。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FVL - Freegold Ventures -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">FVL</div>
+        <div class="hh-name">Freegold Ventures
+          <small>TSX · 阿拉斯加 Golden Summit / Shorty Creek 金矿 · 早期开发</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">金</div>
+        <div class="hh-weight">~10%<small>持股大量</small></div>
+      </div>
+      <div class="holding-body">
+        <div>
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>阿拉斯加费尔班克斯地区的大型未开发金矿</strong>——Golden Summit 项目位于 Tower Hill Mines(THM)的 Livengood 附近,<strong>同一矿带</strong>。Freegold Ventures 是"高吨位、低品位"的典型阿拉斯加金矿——但 2025 年公司宣布通过<strong>创新加工技术把精矿品位提升 47%</strong>,这是经济性的重大改善。Sprott 在公开访谈中多次盛赞 FVL 的工艺突破。
+          </div>
+        </div>
+        <div>
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            2024 年 8 月披露:Sprott 持有 <strong>1.317 亿股,价值 $1.67亿</strong>(占组合 9.88%)。注意 Sprott 在阿拉斯加的双重押注——FVL(Golden Summit)+ 类似 Paulson 的 NG/THM 同区域思路。但 Sprott 的 FVL 是<strong>更早期的探勘股</strong>,赔率更大但风险也更大。<strong>"如果阿拉斯加金矿带成为下一个内华达,FVL 就是下一个 Newmont"</strong>是 Sprott 的核心假设。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hycroft Mining -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">HYMC</div>
+        <div class="hh-name">Hycroft Mining
+          <small>NASDAQ · Nevada 金-银项目 · "下一个 KL"候选 · 持股达 40%</small>
+        </div>
+        <div class="hh-tag" style="background:var(--silver-pale);color:var(--silver)">银/金</div>
+        <div class="hh-weight">~10%<small>2025-2026 重押</small></div>
+      </div>
+      <div class="holding-body">
+        <div>
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            Sprott 在 2025 年下半年公开宣称这是他的"<strong>top pick</strong>"——他持股 <strong>40%</strong> 的 Nevada 金-银矿项目。资源量惊人:<strong>1,540万盎司金 + 5.626亿盎司银(M&I)</strong>,合计相当于 <strong>15亿盎司银当量</strong>(用 60:1 比例换算)。Sprott 的赔率公式:"如果银价到 $200/oz,这家公司能赚 $1,500亿,市值才 $10亿——上限是 150 倍。"
+          </div>
+        </div>
+        <div>
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            <strong>2025 年 12 月-2026 年 2 月,Sprott 大幅增持</strong>。2026 年 2 月最新交易:再买 20 万股,总投入 $920 万,<strong>持股升至 40%</strong>。Hycroft 已有许可(堆浸 + 磨矿),Nevada 是世界最友好的矿业管辖区之一。资源量 <strong>9.6 百万盎司金 + 4.46 亿盎司银</strong>(其他来源数据)是<strong>北美最大的未开发贵金属资源之一</strong>。Sprott 把 Hycroft 当作"<strong>能在银价大牛市中产生 KL 级别回报</strong>"的最后一块拼图。
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 6: BUSINESS THEME / 主题区分 -->
+<section class="section">
+  <div class="s-label">主题分布</div>
+  <div class="s-title">5 大主题:Sprott 组合的金属/地理/阶段全景</div>
+  <div class="s-divider"></div>
+
+  <div class="three-col">
+    <div class="card ca-gold card-accent">
+      <div class="card-label cl-gold">主题一:金矿(占比~55%)</div>
+      <div class="card-title">从初级勘探到中型生产商的完整光谱</div>
+      <div class="card-body">
+        Sprott 的金矿仓位横跨<strong>整个开发阶段光谱</strong>:中型生产商(JAG、Hycroft)→ 在建项目(Chesapeake Gold/Metates)→ 早期开发(FVL、NFG)→ 探勘期(Tudor Gold、Amex、Lavras)。<strong>不押单一一家做大,押"全行业再通胀"</strong>。
+      </div>
+    </div>
+    <div class="card ca-silver card-accent">
+      <div class="card-label cl-silver">主题二:银矿(占比~30%)</div>
+      <div class="card-title">银价从 $24 到 $48+ 是 2024-2026 主线</div>
+      <div class="card-body">
+        DSV(Cordero)+ Hycroft(Nevada 银)+ Aftermath + Blackrock + Kootenay + Summa + Metallic 共同构成 Sprott 最重的"<strong>银价杠杆</strong>"。Sprott 多次公开表示:"<strong>金银比 100+:1 是历史极值,银价补涨空间巨大</strong>"。如果银价向 $100/oz 移动,这一组仓位会爆发。
+      </div>
+    </div>
+    <div class="card ca-amber card-accent">
+      <div class="card-label cl-amber">主题三:地理:加拿大本土与新兴边境</div>
+      <div class="card-title">从安省/魁省金矿到蒙古、巴西、玻利维亚</div>
+      <div class="card-body">
+        Sprott 的地理布局:<strong>加拿大本土(NFG、AMX、Tudor、KLDC、Wallbridge)+ 美国(Hycroft、FVL)+ 拉美(DSV墨西哥、JAG巴西、APM玻利维亚、CKG墨西哥、Lavras巴西)+ 蒙古(ERD、STGO)+ 非洲(Trigon)</strong>。这种全球分散降低了单一国家风险——但同时引入了多重新兴市场政治风险。
+      </div>
+    </div>
+  </div>
+
+  <div class="three-col" style="margin-top:14px">
+    <div class="card ca-blue card-accent">
+      <div class="card-label cl-blue">主题四:阶段:90% 在开发期/探勘期</div>
+      <div class="card-title">几乎没有大型生产商,纯赔率赌局</div>
+      <div class="card-body">
+        与 Paulson 重仓 AEM(全球第三大金矿生产商)不同,Sprott 几乎<strong>没有大型生产商持仓</strong>。最大也就是 Jaguar Mining(年产 7-8万盎司)和 USA(Galena 矿)这种小型生产商。其余 30+ 家全是<strong>开发期或探勘期</strong>的小盘股——风险极高,但杠杆极大。这是赔率投资的本质:把 100% 的风险换成 100% 的潜在 upside。
+      </div>
+    </div>
+    <div class="card ca-purple card-accent">
+      <div class="card-label cl-purple">主题五:小盘股 vs 大盘股极端偏好</div>
+      <div class="card-title">市值多为 $0.5亿-$10亿,几乎没有 $50亿+大盘股</div>
+      <div class="card-body">
+        Sprott 持仓的市值范围:<strong>大部分在 $5,000万-$10亿,只有 Hycroft 和 NFG 等少数能到 $20-30亿</strong>。他<strong>故意避开大型矿业公司</strong>(Newmont、Barrick、AEM 等)——理由是:大公司涨幅有限,只有小盘股能创造 10-100 倍回报。这种<strong>极端"小盘股偏好"</strong>是 Sprott 与几乎所有其他亿万富豪投资者的根本区别。
+      </div>
+    </div>
+    <div class="card ca-nuclear card-accent">
+      <div class="card-label cl-nuclear">主题六:私募定增主导建仓</div>
+      <div class="card-title">"低点补血"换股权,而非二级市场跟风</div>
+      <div class="card-body">
+        Sprott 大量仓位通过<strong>私募定增(Private Placement)</strong>建立。逻辑是:小公司在低点资金紧张时,Sprott 出 $1,000-2,000万 帮其续命,换得大额股权(通常 5-25%)。这种"<strong>救援式定增</strong>"既能锁定低成本,又能让被投公司活下来——是 Sprott 行业网络的核心运用方式。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: HOLDINGS DATA TABLE -->
+<section class="section">
+  <div class="s-label">前 15 大持仓数据</div>
+  <div class="s-title">15 个主要仓位的完整数据 · 一表全览</div>
+  <div class="s-divider"></div>
+
+  <table class="metrics-table">
+    <thead>
+      <tr>
+        <th>代码</th>
+        <th>公司</th>
+        <th>金属</th>
+        <th>地区</th>
+        <th>阶段</th>
+        <th>持股比例</th>
+        <th>核心资产</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-mono"><strong>DSV</strong></td>
+        <td class="td-label">Discovery Silver</td>
+        <td><span class="td-tag tag-silver">银+金</span></td>
+        <td class="td-mono">墨西哥</td>
+        <td><span class="td-tag tag-blue">开发期</span></td>
+        <td class="td-amber">10.8%</td>
+        <td class="td-label">Cordero · 4.08亿盎司银+127万盎司金</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>JAG</strong></td>
+        <td class="td-label">Jaguar Mining</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">巴西</td>
+        <td><span class="td-tag tag-green">在产</span></td>
+        <td class="td-amber">~50%</td>
+        <td class="td-label">Iron Quadrangle · 7-8万盎司/年</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>FVL</strong></td>
+        <td class="td-label">Freegold Ventures</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">阿拉斯加</td>
+        <td><span class="td-tag tag-blue">开发期</span></td>
+        <td class="td-amber">大额</td>
+        <td class="td-label">Golden Summit · 工艺改良 +47%</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>HYMC</strong></td>
+        <td class="td-label">Hycroft Mining</td>
+        <td><span class="td-tag tag-silver">银+金</span></td>
+        <td class="td-mono">Nevada</td>
+        <td><span class="td-tag tag-amber">在建</span></td>
+        <td class="td-amber">40%</td>
+        <td class="td-label">15亿盎司银当量 · 2025起重押</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>USA</strong></td>
+        <td class="td-label">Americas Gold and Silver</td>
+        <td><span class="td-tag tag-silver">银+金</span></td>
+        <td class="td-mono">美/墨</td>
+        <td><span class="td-tag tag-green">在产</span></td>
+        <td class="td-amber">~20%</td>
+        <td class="td-label">Galena 矿(Idaho)</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>CKG</strong></td>
+        <td class="td-label">Chesapeake Gold</td>
+        <td><span class="td-tag tag-gold">金+银</span></td>
+        <td class="td-mono">墨西哥</td>
+        <td><span class="td-tag tag-blue">开发期</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">Metates · 20-30Moz 金当量</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>NFG</strong></td>
+        <td class="td-label">New Found Gold</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">纽芬兰</td>
+        <td><span class="td-tag tag-purple">探勘期</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">高品位 · Sprott 估"2,000万盎司"</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>APM</strong></td>
+        <td class="td-label">Andean Precious Metals</td>
+        <td><span class="td-tag tag-silver">银</span></td>
+        <td class="td-mono">玻利维亚</td>
+        <td><span class="td-tag tag-green">在产</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">San Bartolomé(Cerro Rico 山脚)</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>ERD</strong></td>
+        <td class="td-label">Erdene Resource Development</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">蒙古</td>
+        <td><span class="td-tag tag-amber">在建</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">Bayan Khundii 高品位金矿</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>STGO</strong></td>
+        <td class="td-label">Steppe Gold</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">蒙古</td>
+        <td><span class="td-tag tag-green">在产</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">ATO 金矿在产</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>HSTR</strong></td>
+        <td class="td-label">Heliostar Metals</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">墨西哥</td>
+        <td><span class="td-tag tag-amber">在建</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">Ana Paula · 2024 收购整合</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>AMX</strong></td>
+        <td class="td-label">Amex Exploration</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">魁北克</td>
+        <td><span class="td-tag tag-purple">探勘期</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">Perron 项目高品位</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>BRC</strong></td>
+        <td class="td-label">Blackrock Silver</td>
+        <td><span class="td-tag tag-silver">银</span></td>
+        <td class="td-mono">Nevada</td>
+        <td><span class="td-tag tag-purple">探勘期</span></td>
+        <td class="td-amber">中等</td>
+        <td class="td-label">Tonopah West 高品位银</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>KTN</strong></td>
+        <td class="td-label">Kootenay Silver</td>
+        <td><span class="td-tag tag-silver">银</span></td>
+        <td class="td-mono">墨西哥</td>
+        <td><span class="td-tag tag-blue">开发期</span></td>
+        <td class="td-amber">中等</td>
+        <td class="td-label">Columba 银矿</td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>LGC</strong></td>
+        <td class="td-label">Lavras Gold</td>
+        <td><span class="td-tag tag-gold">金</span></td>
+        <td class="td-mono">巴西</td>
+        <td><span class="td-tag tag-purple">探勘期</span></td>
+        <td class="td-amber">大股东</td>
+        <td class="td-label">2024 IPO · 高品位金</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:18px;padding:18px 22px;background:var(--bg-card);border:1px solid var(--border-light);border-radius:10px">
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">数据声明</div>
+    <div style="font-size:13px;color:var(--navy);line-height:1.8">
+      Sprott 的持仓数据来源于<strong>SEDI 加拿大内幕交易申报</strong>和<strong>各公司 SEDAR 早期警告报告(Early Warning Report)</strong>——他不像 Paulson 那样向 SEC 申报 13F,所以披露较为分散。当 Sprott 持仓某公司超过 10% 时必须申报,因此数据多在 10% 以上的"控股股东"层级。<strong>第 15 名以下还有约 20 家小仓位</strong>,数据相对模糊但单笔通常在 $200-2,000万 区间。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: KEY CATALYSTS -->
+<section class="section">
+  <div class="s-label">关键催化事件</div>
+  <div class="s-title">2017-2026 时间线:Sprott 家族办公室时代的关键节点</div>
+  <div class="s-divider"></div>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:8px 24px;">
+    <div class="cat-list">
+
+      <div class="cat-item">
+        <div class="cat-date">2017年<br>1月</div>
+        <div class="cat-content">
+          <div class="cat-head">公开披露 Kirkland Lake Gold 18% 持仓 <span class="cat-badge tag-gold">★神话开始</span></div>
+          <div class="cat-body">Sprott 公开披露持有 KL 19,178,195 股(约 18%),成本约 $9,212万。当日 KL 收 $7.73,持仓市值 $1.485亿。这是 Sprott "下一个 Kirkland Lake"剧本的起点——<strong>2016 年秋季合并 KL+Newmarket Gold 之后,他系统性建仓</strong>。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2017年<br>5月</div>
+        <div class="cat-content">
+          <div class="cat-head">卸任 Sprott Inc 主席 / 转型家族办公室 <span class="cat-badge tag-blue">结构转变</span></div>
+          <div class="cat-body">从此不再为客户管钱,只投自己。这一刻起,Sprott 的策略发生根本性变化:从机构资管的"业绩导向"转为家族办公室的"结构性长期持有"。可以等 4-10 年才看到回报,这是机构经理无法复制的优势。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2019-<br>2020</div>
+        <div class="cat-content">
+          <div class="cat-head">Fosterville 矿史诗级高品位发现 / KL +15倍 <span class="cat-badge tag-gold">★KL 兑现</span></div>
+          <div class="cat-body">KL 在澳大利亚的 Fosterville 矿爆出全球罕见的高品位金矿,KL 股价从 $7.73 涨到 $50+,Sprott 单笔账面收益 <strong>$14亿</strong>。这是加拿大矿业史上最大的"<strong>个人投资者一战封神</strong>"案例之一。Financial Post 报道:"Sprott 通过 KL 一笔交易把 $9,212万 变成了 $14亿"。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2019年<br>Q3</div>
+        <div class="cat-content">
+          <div class="cat-head">Oreninc 数据:加拿大初级矿业每 $4 募资 1$ 来自 Sprott <span class="cat-badge tag-amber">系统重要性</span></div>
+          <div class="cat-body">行业研究机构 Oreninc 的数据揭示了 Sprott 的"<strong>系统重要性</strong>"——加拿大上市初级矿企某季度募集每 $4 中就有 $1 来自 Sprott 个人。他成为加拿大初级矿业资金供给的"<strong>卡口</strong>"。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2019-<br>2020</div>
+        <div class="cat-content">
+          <div class="cat-head">大量增持 Discovery Metals(后来的 Discovery Silver) <span class="cat-badge tag-silver">DSV 建仓</span></div>
+          <div class="cat-body">2019 年 7 月 $7.7M、2020 年 5 月 $10M、2020 年 7 月 $15M、2020 年 11 月 $5M——Sprott 通过一系列私募定增累计投入 <strong>$3,000万+</strong>到 Discovery Metals。这是他银矿组合的奠基仓位,围绕"<strong>金银比 107:1 远超历史均值 50:1</strong>"的论点。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2022年<br>2月</div>
+        <div class="cat-content">
+          <div class="cat-head">AEM 收购 KL 完成,Sprott 兑现 $11亿 <span class="cat-badge tag-green">★KL 神话收官</span></div>
+          <div class="cat-body">Agnico Eagle Mines 以全股票交易方式收购 Kirkland Lake Gold,Sprott 获得 AEM 股票替代 KL 持仓,实际兑现价值约 <strong>$11亿</strong>。从 $9,212万 到 $11亿,是 <strong>12 倍回报 + 5 年时间</strong>。这一笔交易让他从被赎回拖累的 2015-2016 年低谷,直接跳升到加拿大矿业名人堂。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2024年<br>3月</div>
+        <div class="cat-content">
+          <div class="cat-head">JAG 重押:7,500股 ($3.50/股) <span class="cat-badge tag-gold">JAG 控股建仓</span></div>
+          <div class="cat-body">Sprott 在 2024 年 3-7 月连续买入 JAG,2024 年 7 月单笔买入 75 万股 ($3.50),累计持股达 <strong>3,710 万股(46.9%)</strong>。这是"Kirkland Lake 2.0"剧本的开始——找另一家被市场忽视的中型金矿,通过控股推动并购或运营改善。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2024年<br>下半年</div>
+        <div class="cat-content">
+          <div class="cat-head">银价突破 $30,Sprott 银矿组合集体爆发 <span class="cat-badge tag-silver">银价新高</span></div>
+          <div class="cat-body">2024 年下半年银价突破 $30,2025 年 10 月首破 $48。Sprott 的银矿组合(DSV、Hycroft、Aftermath、Blackrock Silver、Kootenay Silver、Summa Silver、Metallic Minerals)集体爆发。这是 Sprott "<strong>金银比回归</strong>"论点 5-7 年来首次大规模兑现。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>4月</div>
+        <div class="cat-content">
+          <div class="cat-head">JAG 持股逼近 50% <span class="cat-badge tag-gold">JAG 准控股</span></div>
+          <div class="cat-body">2025 年 4 月,Sprott 在 JAG 的持仓持续扩大,接近 <strong>50% 流通股</strong>——绝对控股。Jaguar Mining 当前股价约 $2.85,前向 P/E 仅 8 倍(对比 Newmont 15 倍),Sprott 押注的剧本:<strong>用控股权推动 JAG 卖给大公司或运营改善</strong>。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>9-10月</div>
+        <div class="cat-content">
+          <div class="cat-head">DSV 部分获利了结 + Hycroft 大幅加仓 <span class="cat-badge tag-amber">仓位再平衡</span></div>
+          <div class="cat-body">9 月:Sprott 卖出 25 万股 DSV($4.60/股),仓位仍达 86.8M 股(10.8%)——只是<strong>小幅获利了结,不是观点变化</strong>。10 月开始大幅增持 Hycroft Mining,持股快速达到 <strong>40%</strong>。这是 Sprott 在 2025-2026 年最重要的仓位调整——把<strong>从已涨幅过大的银矿换到尚未爆发的另一个银矿</strong>。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>12月</div>
+        <div class="cat-content">
+          <div class="cat-head">公开访谈:Hycroft "150 倍上限" / 看好 NFG "2,000万盎司金" <span class="cat-badge tag-purple">观点公开</span></div>
+          <div class="cat-body">Sprott Money 年度访谈中,Sprott 公开宣称 Hycroft Mining 是他的"top pick",在 $200 银价下"<strong>市值能涨 150 倍</strong>"。他还盛赞 New Found Gold "Grade 像是 20 克/吨,我们不是 200万盎司,我们有 2,000万盎司"。这种公开"喊单"在初级矿业市场威力巨大。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2026年<br>2月</div>
+        <div class="cat-content">
+          <div class="cat-head">★ Hycroft 再加仓 20万股($920万) <span class="cat-badge tag-green">最新增持</span></div>
+          <div class="cat-body">2026 年 2 月最新交易:Sprott 再买入 20 万股 Hycroft,投入 $920万,<strong>持股升至 40%</strong>。这是 13F 之外的关键动作——表明 Sprott 在金价 $4,000+/oz、银价 $48+/oz 的高点,<strong>仍认为 Hycroft 严重低估</strong>。Hycroft 当前资源量更新到 <strong>1,640万盎司金 + 5.626亿盎司银(M&I)</strong>。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: PAULSON COMPARISON -->
+<section class="section">
+  <div class="s-label">★ 风格对比</div>
+  <div class="s-title">Paulson vs Sprott:两种黄金投资哲学的极致</div>
+  <div class="s-divider"></div>
+
+  <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:18px">
+    虽然 Paulson 和 Sprott 都是黄金多头,但他们的投资哲学几乎是<strong style="color:var(--navy)">完全相反的两个极端</strong>。把两者放在一起对比,可以看清楚黄金投资的两种主流流派——<strong style="color:var(--navy)">"凸性押注派" vs "稀释赔率派"</strong>。
+  </p>
+
+  <table class="metrics-table">
+    <thead>
+      <tr>
+        <th>维度</th>
+        <th>John Paulson</th>
+        <th>Eric Sprott</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-label"><strong>持仓数量</strong></td>
+        <td class="td-val">9 只</td>
+        <td class="td-val">34+ 只</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>持仓集中度</strong></td>
+        <td class="td-val">前 3 大占 70%+</td>
+        <td class="td-val">前 4 大占 50-60%</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>组合行业</strong></td>
+        <td class="td-val">矿业 40% + 医药 46% + 资管 11% + SaaS 1%</td>
+        <td class="td-val">矿业 100%</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>市值范围</strong></td>
+        <td class="td-val">$5亿-$500亿+(中大盘)</td>
+        <td class="td-val">$5,000万-$30亿(小盘为主)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>核心矿业仓位</strong></td>
+        <td class="td-val">PPTA、NG、THM、AEM、SOLS</td>
+        <td class="td-val">DSV、JAG、FVL、Hycroft + 30 多个赔率仓</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>金属暴露</strong></td>
+        <td class="td-val">金 + 锑 + 关键氟化物</td>
+        <td class="td-val">金 + 银(以银价杠杆为重点)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>地理偏好</strong></td>
+        <td class="td-val">北美一级管辖区(美/加)</td>
+        <td class="td-val">全球分散(墨西哥/巴西/蒙古/玻利维亚)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>开发阶段</strong></td>
+        <td class="td-val">在产 + 在建 + 早期开发(精密分层)</td>
+        <td class="td-val">主要是开发期 + 探勘期(高风险)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>成名一战</strong></td>
+        <td class="td-val">2007 做空次贷($200亿)</td>
+        <td class="td-val">2017-2022 KL Gold(15倍/$11亿)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>政治倾向</strong></td>
+        <td class="td-val">明确押特朗普 2.0</td>
+        <td class="td-val">中立,反央行政策派</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>投资哲学</strong></td>
+        <td class="td-val"><strong>凸性押注</strong>(精选高确信高赔率)</td>
+        <td class="td-val"><strong>稀释赔率</strong>(撒网+靠1家10倍覆盖损失)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>建仓方式</strong></td>
+        <td class="td-val">二级市场 + 私募定增</td>
+        <td class="td-val"><strong>私募定增主导</strong>(救援式)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>反 AI 暴露程度</strong></td>
+        <td class="td-val">中度(零科技股,但有医药/SaaS)</td>
+        <td class="td-val"><strong>极端</strong>(100% 矿业,完全反 AI)</td>
+      </tr>
+      <tr>
+        <td class="td-label"><strong>预期年化波动</strong></td>
+        <td class="td-val">中高(约 30-40%)</td>
+        <td class="td-val">极高(初级矿业典型 50-80%+)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="silver-box" style="margin-top:18px">
+    <div class="sb-label">★ 谁更适合谁?</div>
+    <div class="sb-text">
+      <strong>Paulson 更适合"机构 / 高净值长期投资者"</strong>——他的组合有现金流、有大盘股锚定、有多元主题对冲,即便错也不会归零。<br><br>
+      <strong>Sprott 更适合"理解小盘矿业的资源行业人士 + 极高风险承受力的资本"</strong>——他的组合波动率惊人,单一仓位可以一年涨 5 倍或者跌 80%,但全组合靠"赔率分散"来管理风险。普通投资者跟单 Sprott 风险极大,因为初级矿业流动性差、信息不对称严重、稀释频繁。<br><br>
+      <strong>但</strong>:从 2017-2022 年的 5 年区间内,Sprott 的回报率(KL +15倍 + 部分仓位爆发)<strong>远超 Paulson</strong>(同期主要靠 MDGL 和 PPTA 兑现)。这是赔率投资法在"对的时机"产生的极端 alpha。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: RISKS -->
+<section class="section">
+  <div class="s-label">风险提示</div>
+  <div class="s-title">六项主要风险:跟单 Sprott 之前必须想清楚</div>
+  <div class="s-divider"></div>
+
+  <div class="risk-grid">
+    <div class="risk-card rl-red">
+      <div class="risk-icon">📉</div>
+      <div class="risk-title">小盘股极端流动性风险</div>
+      <div class="risk-body">Sprott 的 30+ 持仓中,大多数日均成交额低于 <strong>$200万</strong>。当贵金属周期反转或单家公司出问题时,<strong>无法快速退出</strong>——卖盘自己砸自己。Sprott 自己 5%-50% 的持股一旦减仓信号传出,股价会断崖式下跌。普通投资者跟单这种小盘股,很可能"<strong>看到 Sprott 卖出时已经晚了</strong>"。</div>
+    </div>
+    <div class="risk-card rl-red">
+      <div class="risk-icon">💉</div>
+      <div class="risk-title">持续稀释 / 摊薄风险</div>
+      <div class="risk-body">初级矿业公司的<strong>"私募定增"几乎从不停止</strong>——Discovery Silver 几年内做了 5+ 次定增。每次定增都会摊薄现有股东权益。Sprott 自己作为"被定增方"实际上是对冲了稀释(反而拿更多便宜股),但<strong>普通投资者只能被动接受稀释</strong>。这是个持续吞噬普通股东回报的隐形杀手。</div>
+    </div>
+    <div class="risk-card rl-amber">
+      <div class="risk-icon">⛏️</div>
+      <div class="risk-title">大部分项目永远不会变成矿</div>
+      <div class="risk-body">Sprott 自己承认"<strong>赌的项目里亏钱的比赚钱的多</strong>"。统计上,初级矿业探勘公司 <strong>90%+ 永远不会进入实际生产</strong>。从发现到投产平均需要 10-15 年,中间会经历:① 资源量证伪 ② 经济性不足 ③ 许可被拒 ④ 社区反对 ⑤ 政治风险 ⑥ 资金断流。每一关都可能让股票归零。</div>
+    </div>
+    <div class="risk-card rl-amber">
+      <div class="risk-icon">🌎</div>
+      <div class="risk-title">新兴市场国别风险</div>
+      <div class="risk-body">Sprott 大量仓位在<strong>墨西哥(DSV、CKG、KTN、HSTR)、巴西(JAG、Lavras)、蒙古(ERD、STGO)、玻利维亚(APM)</strong>。这些国家的矿业政策反复无常——墨西哥 AMLO 政府禁止露天采矿、玻利维亚 Morales 时代国有化、蒙古不时收紧采矿许可。Chesapeake Gold 的 Metates 项目就因为墨西哥政府要"<strong>收回部分土地</strong>"而长期搁置。</div>
+    </div>
+    <div class="risk-card rl-blue">
+      <div class="risk-icon">🤖</div>
+      <div class="risk-title">极端反 AI / 错过整体牛市风险</div>
+      <div class="risk-body">Sprott 100% 矿业仓位,完全没有 AI、科技、消费等当代主导主题。如果美股牛市继续靠 AI 驱动 2-3 年,Sprott 组合会<strong>跑输大盘 50-100%+</strong>。从 2020-2024 年,他的相对回报已经被科技股严重压制——只有 2024-2026 年贵金属大牛市才让他翻身。如果这轮贵金属周期短暂,反复就是机会成本。</div>
+    </div>
+    <div class="risk-card rl-navy">
+      <div class="risk-icon">👴</div>
+      <div class="risk-title">Sprott 个人健康 / 接班人风险</div>
+      <div class="risk-body">Sprott 已经 <strong>81 岁</strong>(2025 年)。他的整个投资体系<strong>高度依赖个人</strong>——从读论坛、清晨 2 点研究、人脉网络、决策灵敏度,这些都很难传承。一旦他健康出问题或大幅减少活动,他持仓的 30+ 家公司<strong>会同时面临"大股东退出"恐慌</strong>。这是"个人传奇式投资者"的固有风险——KL 案例里他亲自推动合并、招募 CEO,这种主动管理能力无人接班。</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 11: CONCLUSION -->
+<section class="section">
+  <div class="s-label">综合结论</div>
+  <div class="s-title">Sprott 的投资体系到底是什么?</div>
+  <div class="s-divider"></div>
+
+  <div class="two-col">
+    <div class="card ca-amber card-accent">
+      <div class="card-label cl-amber">这个组合在押什么?</div>
+      <div class="card-body" style="font-size:13.5px">
+        ① <strong>金银价格的结构性大牛市</strong>——金价 $4,000 / 银价 $48 是中段不是顶部<br><br>
+        ② <strong>金银比 100+:1 必将回归 60:1 历史均值</strong>——银价补涨空间巨大,银矿股弹性 5-10 倍金矿股<br><br>
+        ③ <strong>初级矿业的 alpha 在小盘股</strong>——大型生产商已被定价,只有小盘探勘股能产生 10-100 倍回报<br><br>
+        ④ <strong>"撒网式"赔率投资可以战胜单一押注</strong>——34+ 仓位中 1 家成 KL 就足够<br><br>
+        ⑤ <strong>家族办公室时代是黄金机遇</strong>——可以等 5-10 年看到 KL 级别回报兑现
+      </div>
+    </div>
+    <div class="card ca-silver card-accent">
+      <div class="card-label cl-silver">这个组合在反对什么?</div>
+      <div class="card-body" style="font-size:13.5px">
+        ① <strong>反央行印钞 / 反法币体系</strong>——这是 Sprott 最深层的宏观信仰,40+ 年从未动摇<br><br>
+        ② <strong>反"被动 ETF 投资"</strong>——他认为只有主动选股+主动改造管理层才能创造超额回报<br><br>
+        ③ <strong>反 AI 资本开支泡沫</strong>——100% 矿业完全没有任何 AI/科技敞口<br><br>
+        ④ <strong>反"舒适投资"</strong>——他选择波动率最高的小盘矿业股,而非大盘金矿生产商<br><br>
+        ⑤ <strong>反"业绩压力周期"</strong>——他主动放弃了管理外部资金的机构架构,因为它会逼迫卖出"等待 KL 兑现"的长期仓位
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--navy);border-radius:10px;padding:28px 32px;margin-top:20px">
+    <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber-light);margin-bottom:12px">核心判断</div>
+    <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:14px">
+      Sprott 的组合是当代金融市场最纯粹的"<span style="color:var(--amber-light)">单一宏观信仰 × 极致执行</span>"样本——也是最不适合普通投资者跟单的样本
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.75">
+      Sprott 用 40 年时间证明了一件事:<strong style="color:#fff">如果你足够相信一个宏观判断,并且愿意承担相应的极端波动,赔率投资法可以制造神话级回报</strong>。Kirkland Lake 的 15 倍是这种哲学的极致兑现。但这种成功有几个普通投资者无法复制的前提:① 几十年积累的初级矿业人脉网络;② 加拿大初级矿业市场的"系统重要性"地位;③ 家族办公室结构下不被赎回压力打扰的耐心;④ 主动推动公司合并/重组的能力。
+      <br><br>
+      <strong style="color:#fff">普通投资者更应该"学 Sprott 的哲学"而不是"跟 Sprott 的仓位"</strong>。哲学是:相信黄金白银是反法币的最佳工具、用部分组合获得"非美股"暴露、接受波动率换取 upside、避免"舒适投资"的虚假安全感。仓位则是另一回事——他的 34+ 个小盘股仓位流动性极差、信息不对称严重、稀释频繁,跟单很可能两端被夹击。
+      <br><br>
+      简单说:<strong style="color:#fff">如果你只能从一个亿万富豪投资者那里学一件事,从 Paulson 学"凸性押注的精算思维",从 Sprott 学"对宏观信仰的极致执行"</strong>。两者结合,才是当代黄金多头的完整框架。
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:20px">
+    <div class="hb-label">🎯 给跟单投资者的最终提示</div>
+    <div class="hb-text">
+      <strong>不要直接跟单 Sprott 的小盘矿业股</strong>。即便要"跟随其哲学",也建议这样简化:<strong>30% Sprott Physical Gold/Silver Trust(PHYS/PSLV,他自己创立的实物贵金属信托)+ 30% 大型金矿生产商 ETF(GDX:Newmont、Barrick、AEM 等)+ 25% 初级矿业 ETF(GDXJ)+ 15% 单一精选小盘矿业股(参考 Sprott 旗舰仓位 DSV、JAG、Hycroft)</strong>。这个组合复制了 Sprott 哲学但保留流动性,适合普通投资者。<br><br>
+      <strong>更重要的是要意识到</strong>:Sprott 的 KL 神话需要 5 年时间兑现,中间经历了 KL 股价剧烈波动。如果没有 5-10 年的持有耐心和 50-80% 的回撤承受力,跟单 Sprott 的仓位会非常痛苦——<strong>大多数普通投资者会在底部割肉,完美错过 5-10 倍的最终兑现</strong>。
+    </div>
+  </div>
+</section>
+
+<!-- FOOTNOTE -->
+<div class="footnote page">
+  <strong>免责声明</strong>:本研究报告仅供参考,不构成投资建议。所有数据来源于公开市场信息(SEDI 加拿大内幕交易申报、SEDAR 公司早期警告报告、媒体报道、Sprott 公开访谈),数据截至 2026 年 4 月。Sprott 的实际持仓可能与公开数据存在出入,部分仓位低于披露门槛(通常 10%)无法精确追踪。股票投资存在亏损风险,初级矿业小盘股的风险尤其极端,请在专业顾问指导下做出投资决策。<br>
+  数据来源:GuruFocus 内幕交易追踪、SEDI 加拿大证监会申报数据、各公司 SEDAR 早期警告报告、Sprott Money 访谈视频/播客、Mining.com、The Northern Miner、Junior Mining Network、Big Score、Crux Investor、Yahoo Finance、Wikipedia、Investing.com、各公司投资者关系页面。<br>
+  报告编辑日期:2026 年 4 月 26 日。
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John Paulson 13F持仓 · 深度研究报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F2ED;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #EDEBE5;
+  --navy: #1B2635;
+  --navy-light: #2C3E55;
+  --slate: #546070;
+  --amber: #B8870A;
+  --amber-light: #D4A017;
+  --amber-pale: #FEF7E4;
+  --amber-border: #E8C96A;
+  --gold: #C9A227;
+  --gold-pale: #FAF3D9;
+  --nuclear: #1A6B3C;
+  --nuclear-pale: #E6F4EC;
+  --nuclear-border: #7CC49A;
+  --red: #B91C1C;
+  --red-pale: #FEF2F2;
+  --blue: #1D4ED8;
+  --blue-pale: #EFF6FF;
+  --purple: #6D28D9;
+  --purple-pale: #F5F3FF;
+  --border: #D8D4CC;
+  --border-light: #E8E5DE;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Karla', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  padding-bottom: 100px;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  padding: 48px 56px 44px;
+  border-bottom: 3px solid var(--amber);
+  position: relative;
+  overflow: hidden;
+}
+.site-header::after {
+  content: 'PAULSON';
+  position: absolute;
+  right: 48px; bottom: -10px;
+  font-family: var(--font-display);
+  font-size: 130px;
+  font-weight: 700;
+  color: rgba(255,255,255,.04);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: -2px;
+}
+.h-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--amber-light);
+  margin-bottom: 16px;
+}
+.h-title {
+  font-family: var(--font-display);
+  font-size: 54px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.h-title span { color: var(--amber-light); }
+.h-desc {
+  font-size: 14.5px;
+  color: rgba(255,255,255,.6);
+  font-weight: 300;
+  max-width: 760px;
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+.h-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.h-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.7);
+}
+.h-pill.hl { background: var(--amber); border-color: var(--amber); color: #000; font-weight: 600; }
+
+/* ── PAGE LAYOUT ── */
+.page { max-width: 1300px; margin: 0 auto; padding: 0 56px; }
+
+/* ── SECTION ── */
+.section { margin-top: 60px; }
+.s-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.s-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.s-divider { width: 44px; height: 2px; background: var(--amber); margin: 14px 0 26px; }
+
+/* ── SUMMARY STRIP ── */
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-top: 32px;
+}
+.ss-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 16px 14px;
+  text-align: center;
+}
+.ss-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.ss-val { font-family: var(--font-display); font-size: 26px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
+.ss-sub { font-size: 10px; color: var(--slate); }
+.c-green { color: var(--nuclear); }
+.c-amber { color: var(--amber); }
+.c-red   { color: var(--red); }
+.c-navy  { color: var(--navy); }
+.c-gold  { color: var(--gold); }
+.c-purple { color: var(--purple); }
+
+/* ── COLUMNS ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+/* ── CARD BASE ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 24px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.card-accent { border-top: 3px solid transparent; }
+.ca-amber { border-top-color: var(--amber); }
+.ca-nuclear { border-top-color: var(--nuclear); }
+.ca-red { border-top-color: var(--red); }
+.ca-blue { border-top-color: var(--blue); }
+.ca-navy { border-top-color: var(--navy); }
+.ca-gold { border-top-color: var(--gold); }
+.ca-purple { border-top-color: var(--purple); }
+
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.cl-amber { color: var(--amber); }
+.cl-nuclear { color: var(--nuclear); }
+.cl-red { color: var(--red); }
+.cl-blue { color: var(--blue); }
+.cl-navy { color: var(--navy); }
+.cl-gold { color: var(--gold); }
+.cl-purple { color: var(--purple); }
+
+.card-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.card-body { font-size: 13px; color: var(--slate); line-height: 1.7; }
+.card-body strong { color: var(--navy); }
+
+/* ── PHASE BLOCKS ── */
+.phase-grid { display: flex; flex-direction: column; gap: 16px; }
+.phase-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.phase-time {
+  background: var(--navy);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pt-period { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; color: rgba(255,255,255,.5); margin-bottom: 5px; text-transform: uppercase; }
+.pt-label { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+.pt-perf { font-family: var(--font-mono); font-size: 12px; font-weight: 500; margin-top: 8px; }
+.pt-up { color: #5BCC7A; }
+.pt-down { color: #F87171; }
+.phase-content { padding: 20px 22px; }
+.pc-head { font-weight: 600; font-size: 13.5px; color: var(--navy); margin-bottom: 8px; }
+.pc-body { font-size: 13px; color: var(--slate); line-height: 1.7; }
+.pc-body strong { color: var(--navy); }
+.pc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.pc-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.pt-amber { background: var(--amber-pale); color: var(--amber); border: 1px solid var(--amber-border); }
+.pt-green { background: var(--nuclear-pale); color: var(--nuclear); border: 1px solid var(--nuclear-border); }
+.pt-blue  { background: var(--blue-pale); color: var(--blue); }
+.pt-red   { background: var(--red-pale); color: var(--red); }
+.pt-purple { background: var(--purple-pale); color: var(--purple); }
+
+/* ── HOLDINGS TABLE ── */
+.metrics-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.metrics-table thead { background: var(--navy); }
+.metrics-table thead th { padding: 12px 16px; text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.65); font-weight: 500; }
+.metrics-table tbody tr { border-bottom: 1px solid var(--border-light); }
+.metrics-table tbody tr:last-child { border-bottom: none; }
+.metrics-table tbody tr:hover { background: var(--amber-pale); }
+.metrics-table tbody td { padding: 11px 16px; vertical-align: middle; }
+.td-label { color: var(--slate); font-weight: 400; }
+.td-val { font-weight: 600; color: var(--navy); }
+.td-green { color: var(--nuclear); font-weight: 600; }
+.td-amber { color: var(--amber); font-weight: 600; }
+.td-red { color: var(--red); font-weight: 600; }
+.td-mono { font-family: var(--font-mono); font-size: 12px; }
+.td-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.tag-green { background: var(--nuclear-pale); color: var(--nuclear); }
+.tag-amber { background: var(--amber-pale); color: var(--amber); }
+.tag-red   { background: var(--red-pale); color: var(--red); }
+.tag-blue  { background: var(--blue-pale); color: var(--blue); }
+.tag-gold  { background: var(--gold-pale); color: var(--gold); }
+.tag-purple { background: var(--purple-pale); color: var(--purple); }
+.tag-navy { background: #E2E5EB; color: var(--navy); }
+
+/* ── CHAIN MAP ── */
+.chain-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 30px 32px;
+}
+.chain-title { font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light); }
+.chain-flow {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+}
+.chain-node {
+  flex: 1;
+  background: var(--bg-subtle);
+  border-radius: 8px;
+  padding: 18px 16px;
+  border: 1.5px solid transparent;
+  transition: all .2s;
+}
+.chain-node:hover { border-color: var(--amber); background: var(--amber-pale); }
+.chain-arrow { width: 32px; display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: 16px; flex-shrink: 0; }
+.cn-num { font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.cn-name { font-weight: 700; font-size: 12.5px; color: var(--navy); margin-bottom: 4px; }
+.cn-desc { font-size: 11.5px; color: var(--slate); line-height: 1.5; margin-bottom: 8px; }
+.cn-highlight {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--navy);
+  color: var(--amber-light);
+  display: inline-block;
+}
+.cn-items { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+.cn-item { font-size: 11.5px; color: var(--slate); display: flex; align-items: flex-start; gap: 5px; }
+.cn-item::before { content: '·'; color: var(--amber); flex-shrink: 0; margin-top: 1px; }
+
+/* ── THEME GRID (商业模式式) ── */
+.bm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.bm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 20px 18px;
+}
+.bm-icon { font-size: 22px; margin-bottom: 10px; }
+.bm-title { font-weight: 700; font-size: 13px; color: var(--navy); margin-bottom: 5px; }
+.bm-share {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.bm-body { font-size: 12.5px; color: var(--slate); line-height: 1.6; }
+.bm-body strong { color: var(--navy); }
+.bm-list { font-size: 11.5px; color: var(--slate); margin-top: 8px; line-height: 1.6; }
+.bm-list span { color: var(--navy); font-weight: 600; font-family: var(--font-mono); font-size: 11px; }
+
+/* ── HOLDING DEEP CARDS (单个股票详情) ── */
+.holding-grid { display: flex; flex-direction: column; gap: 16px; }
+.holding-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.holding-head {
+  background: var(--navy);
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto;
+  gap: 18px;
+  align-items: center;
+}
+.hh-ticker {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--amber-light);
+  letter-spacing: -0.5px;
+}
+.hh-name { color: #fff; font-size: 14.5px; font-weight: 500; line-height: 1.3; }
+.hh-name small { color: rgba(255,255,255,.5); display: block; font-size: 11px; font-weight: 400; margin-top: 2px; }
+.hh-weight {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--amber-light);
+  font-weight: 600;
+  text-align: right;
+}
+.hh-weight small { color: rgba(255,255,255,.5); display: block; font-size: 9.5px; font-weight: 400; margin-top: 1px; letter-spacing: .08em; }
+.hh-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.holding-body {
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.hb-section {}
+.hb-h { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.hb-text { font-size: 12.5px; color: var(--slate); line-height: 1.65; }
+.hb-text strong { color: var(--navy); }
+
+/* ── RISK CARDS ── */
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.risk-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.risk-card.rl-red { border-left-color: var(--red); }
+.risk-card.rl-amber { border-left-color: var(--amber); }
+.risk-card.rl-blue { border-left-color: var(--blue); }
+.risk-card.rl-navy { border-left-color: var(--navy); }
+.risk-icon { font-size: 18px; margin-bottom: 8px; }
+.risk-title { font-weight: 700; font-size: 13px; color: var(--navy); margin-bottom: 6px; }
+.risk-body { font-size: 12.5px; color: var(--slate); line-height: 1.65; }
+
+/* ── CATALYST TIMELINE ── */
+.cat-list { display: flex; flex-direction: column; gap: 0; }
+.cat-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.cat-item:last-child { border-bottom: none; }
+.cat-date {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--slate);
+  padding-top: 2px;
+  letter-spacing: .04em;
+}
+.cat-head { font-weight: 600; font-size: 13px; color: var(--navy); margin-bottom: 4px; }
+.cat-body { font-size: 12.5px; color: var(--slate); line-height: 1.6; }
+.cat-body strong { color: var(--navy); }
+.cat-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-weight: 500;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* ── VALUATION BOX ── */
+.val-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.val-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 20px 18px;
+  text-align: center;
+}
+.vc-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+.vc-num { font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+.vc-sub { font-size: 11.5px; color: var(--slate); line-height: 1.5; }
+
+/* ── MAP/ALASKA SPECIAL ── */
+.alaska-map {
+  background: linear-gradient(135deg, #1B2635 0%, #2C3E55 100%);
+  border-radius: 12px;
+  padding: 36px 40px;
+  color: #fff;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+.alaska-map::before {
+  content: '🏔️';
+  position: absolute;
+  top: -20px;
+  right: 30px;
+  font-size: 200px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+.am-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--amber-light);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.am-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.am-title span { color: var(--amber-light); }
+.am-desc {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  max-width: 760px;
+}
+.am-projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.am-project {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+.amp-name { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--amber-light); margin-bottom: 4px; }
+.amp-vehicle { font-size: 11.5px; color: rgba(255,255,255,.55); font-family: var(--font-mono); margin-bottom: 14px; letter-spacing: .04em; }
+.amp-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+.amp-stat-label { font-size: 10px; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2px; font-family: var(--font-mono); }
+.amp-stat-val { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+.amp-stat-sub { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 1px; }
+.amp-note { font-size: 11.5px; color: rgba(255,255,255,.6); line-height: 1.55; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.1); }
+.am-total {
+  background: var(--amber);
+  color: var(--navy);
+  border-radius: 8px;
+  padding: 16px 22px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.amt-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.amt-val { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+
+/* ── LAYER STACK (5只矿业股的精密分层) ── */
+.layer-stack { display: flex; flex-direction: column; gap: 10px; }
+.layer-row {
+  display: grid;
+  grid-template-columns: 80px 90px 1fr 100px 110px;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  align-items: center;
+  transition: all .15s;
+}
+.layer-row:hover { border-color: var(--amber); background: var(--amber-pale); }
+.layer-ticker { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--navy); }
+.layer-stage {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: .04em;
+}
+.layer-name { font-size: 12.5px; color: var(--navy); font-weight: 500; }
+.layer-name small { color: var(--slate); font-weight: 400; display: block; font-size: 11px; margin-top: 1px; }
+.layer-product { font-family: var(--font-mono); font-size: 11px; color: var(--amber); font-weight: 600; }
+.layer-thesis { font-family: var(--font-mono); font-size: 10.5px; color: var(--slate); text-align: right; }
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box {
+  background: var(--amber-pale);
+  border: 1px solid var(--amber-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 20px 0;
+}
+.hb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.hb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+.hb-text strong { font-weight: 700; }
+
+.nuclear-box {
+  background: var(--nuclear-pale);
+  border: 1px solid var(--nuclear-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.nb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--nuclear); margin-bottom: 6px; }
+.nb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+
+.purple-box {
+  background: var(--purple-pale);
+  border: 1px solid #C4B5FD;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.pb-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+.pb-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
+
+/* ── FOOTNOTE ── */
+.footnote {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--slate);
+  line-height: 1.75;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px) {
+  .page { padding: 0 24px; }
+  .site-header { padding: 32px 24px; }
+  .h-title { font-size: 36px; }
+  .summary-strip { grid-template-columns: repeat(3,1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr; }
+  .four-col { grid-template-columns: 1fr 1fr; }
+  .bm-grid { grid-template-columns: 1fr 1fr; }
+  .chain-flow { flex-direction: column; }
+  .chain-arrow { transform: rotate(90deg); width: auto; height: 24px; }
+  .phase-item { grid-template-columns: 100px 1fr; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .val-grid { grid-template-columns: 1fr 1fr; }
+  .holding-head { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .holding-body { grid-template-columns: 1fr; }
+  .am-projects { grid-template-columns: 1fr; }
+  .layer-row { grid-template-columns: 60px 1fr 1fr; gap: 10px; font-size: 11px; }
+  .layer-row > *:nth-child(2), .layer-row > *:nth-child(5) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="h-eyebrow">超级投资者持仓深度研究 · 13F解构</div>
+  <h1 class="h-title">John Paulson<br><span>9只持仓 · 反美元/反AI泡沫的精密组合</span></h1>
+  <p class="h-desc">从次贷做空$200亿到家族办公室的"隐形金矿帝国"——拆解Paulson 2026 Q1的9只美股,识别5只矿业股的精密风险分层,曝光阿拉斯加5,200万盎司金资源的双矿堆叠,并解释为何这个组合是当下最具结构性差异化的机构资金布局之一</p>
+  <div class="h-pills">
+    <span class="h-pill hl">13F申报 2025-12-31</span>
+    <span class="h-pill">9只持仓 · $32.6亿</span>
+    <span class="h-pill">5只矿业股 ~40%权重</span>
+    <span class="h-pill">阿拉斯加5,200万盎司金</span>
+    <span class="h-pill">零AI/科技巨头敞口</span>
+    <span class="h-pill">特朗普2.0关键矿产受益</span>
+  </div>
+</header>
+
+<div class="page">
+
+<!-- KEY METRICS STRIP -->
+<div class="summary-strip">
+  <div class="ss-box">
+    <div class="ss-label">13F持仓规模</div>
+    <div class="ss-val c-navy">$32.6亿</div>
+    <div class="ss-sub">仅美股多头部分</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">持仓数量</div>
+    <div class="ss-val c-navy">9</div>
+    <div class="ss-sub">高度集中</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">前三大权重</div>
+    <div class="ss-val c-amber">70%+</div>
+    <div class="ss-sub">MDGL+PPTA+BHC</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">矿业股权重</div>
+    <div class="ss-val c-gold">~40%</div>
+    <div class="ss-sub">5只 矿产相关</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">季度周转率</div>
+    <div class="ss-val c-green">3%</div>
+    <div class="ss-sub">超长持有</div>
+  </div>
+  <div class="ss-box">
+    <div class="ss-label">真实净资产估</div>
+    <div class="ss-val c-navy">$50-80亿</div>
+    <div class="ss-sub">含金、地产、私募</div>
+  </div>
+</div>
+
+<!-- SECTION 1: WHO IS PAULSON -->
+<section class="section">
+  <div class="s-label">人物背景</div>
+  <div class="s-title">Paulson:从$200万到$200亿做空,再到隐形金矿大亨</div>
+  <div class="s-divider"></div>
+
+  <div class="two-col">
+    <div>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:16px">
+        <strong style="color:var(--navy)">John Alfred Paulson</strong>(1955年生)早年是默默无闻的并购套利交易员——在贝尔斯登做投行MD,1994年以<strong style="color:var(--navy)">$200万</strong>启动Paulson & Co.,前13年靠"并购套利"年化10-15%的低调回报存活。直到2007年他做出了人类金融史上最大的单笔交易——做空次贷,基金净赚<strong style="color:var(--navy)">~$200亿</strong>,他个人当年收入<strong style="color:var(--navy)">~$40亿</strong>(单年个人收入历史最高纪录)。
+      </p>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:16px">
+        但 Paulson 的故事在 2009-2019 年陷入"金价漫长熊市"和"被赎回的泥潭"——管理规模从巅峰<strong style="color:var(--navy)">$380亿</strong>跌到<strong style="color:var(--navy)">$87亿</strong>。2020年7月,他做出了对冲基金行业罕见的体面退场决定:<strong style="color:var(--navy)">把基金转成家族办公室</strong>,只管自己的钱。这个决定让他从"基金经理"变回"投资者",可以做长期、不被赎回压力打扰的押注。
+      </p>
+      <p style="font-size:13.5px;color:var(--slate);line-height:1.75">
+        2024-2026年的 Paulson 已经不是公众视野中的人物,但他<strong style="color:var(--navy)">仍然控制着北美未开发金矿储量最大的两个项目</strong>(Donlin + Livengood),并且是Stibnite锑-金矿(美国唯一锑矿)的最大股东——三个项目加起来代表的资源量价值,可能远超他<strong style="color:var(--navy)">$32.6亿</strong>的13F持仓本身。
+      </p>
+    </div>
+    <div>
+      <div class="card ca-amber card-accent" style="margin-bottom:14px">
+        <div class="card-label cl-amber">投资哲学的精髓</div>
+        <div class="card-title">极度不对称赔率 + 用并购套利的精算思维做宏观下注</div>
+        <div class="card-body">
+          Paulson 的策略基础是<strong>"最多亏1%,可能赚100倍"</strong>的凸性赌注(convex bet)。2007年做空次贷时他用CDS(年息<1%)买了2万亿美元名义价值的暴露——这是典型的"凸性"。在当前组合里,这种思维体现在 PPTA(美国唯一锑矿)和 THM(超大未开发金矿) 这种<strong>"几乎不可能错的故事"</strong>+"价格便宜得离谱"的组合。
+        </div>
+      </div>
+      <div class="card ca-nuclear card-accent">
+        <div class="card-label cl-nuclear">关键变化:家族办公室时代</div>
+        <div class="card-title">从"被赎回压力驱动" → "结构性长期持仓"</div>
+        <div class="card-body">
+          家族办公室的核心优势:<strong>可以等10年才看到结果</strong>。当前组合里 PPTA(2016年开始押)、AAMI(2018年开始押)、NG(2010年开始押)、THM(2020年开始押) 都是5-10年长跨度持仓。这是普通对冲基金无法复制的结构。13F只显示美股多头,但 Paulson 还有大量实物黄金、波多黎各地产、私募头寸——真实组合的"反美元"暴露应在<strong>50%以上</strong>。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: PORTFOLIO EVOLUTION -->
+<section class="section">
+  <div class="s-label">投资演变拆解</div>
+  <div class="s-title">四个阶段:从套利者到金矿大亨的30年</div>
+  <div class="s-divider"></div>
+
+  <div class="phase-grid">
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段一</div>
+        <div class="pt-label">1994-2006<br>沉默套利</div>
+        <div class="pt-perf pt-up">年化 +10-15%</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">默默无闻的并购套利交易员</div>
+        <div class="pc-body">
+          1994年以 $200万自有资金创立 Paulson & Co.,做的是华尔街最不性感的策略——并购套利(merger arbitrage):公司A宣布收购公司B,买B的股票同时做空A,赚取交易完成后的差价。<strong>策略很无聊但很稳定</strong>:年化10-15%,夏普比率1.5+,1994-2003十年间几乎每年正收益。
+          <br><br>
+          2000年代中期,他注意到次贷市场的异常。2005-2006年开始建仓CDS(信用违约掉期),押注次贷会崩——此时他还是个二线对冲基金经理,资金管理规模<strong>$370亿</strong>左右,无人问津。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-amber">并购套利</span>
+          <span class="pc-tag pt-blue">凸性押注初探</span>
+          <span class="pc-tag pt-blue">CDS建仓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段二</div>
+        <div class="pt-label">2007-2008<br>史上最大交易</div>
+        <div class="pt-perf pt-up">基金 +590%<br>个人 +$40亿/年</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">"The Greatest Trade Ever"——做空次贷</div>
+        <div class="pc-body">
+          副手 <strong>Paolo Pellegrini</strong> 的数据工作发现:美国房价2000-2005年涨幅 7%/年远超历史均值,BBB级RMBS的CDS价格便宜得不可思议。
+          <br><br>
+          <strong>2007年 Paulson Credit Opportunities Fund 回报+590%</strong>,基金净赚约$200亿,Paulson个人当年收入约 $37-40亿——<strong>历史上单年个人收入最高纪录</strong>。最具争议的一笔是与高盛合作创建的 ABACUS 2007-AC1 合成CDO——Paulson 帮选了"垃圾"标的然后做空,高盛把多头卖给了IKB(德国银行)。这笔交易让高盛在2010年被SEC罚 $5.5亿,但 Paulson 个人没有被起诉。
+          <br><br>
+          这一仗让他从"无人知晓"一夜成为对冲基金行业第一巨头,管理规模峰值 $380亿。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-green">CDS爆发 +590%</span>
+          <span class="pc-tag pt-green">个人 $40亿/年</span>
+          <span class="pc-tag pt-amber">ABACUS争议</span>
+          <span class="pc-tag pt-blue">名垂金融史</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段三</div>
+        <div class="pt-label">2009-2019<br>金价漫长熊市</div>
+        <div class="pt-perf pt-down">2011: -52%<br>规模 $380亿→$87亿</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">押对方向但错过时机:黄金股10年熊市</div>
+        <div class="pc-body">
+          做空次贷之后,Paulson 判断 美联储 QE 会引发通胀,大量买入黄金。2010年金价涨到 $1,420,他个人当年再赚 $50亿——又一次封顶。但接下来:
+          <br><br>
+          <strong>金价从 $1,900(2011)跌到 $1,050(2015),Paulson Advantage Plus 2011年亏损-52%</strong>——是他从业生涯最差的一年。
+          <br><br>
+          雪上加霜:重仓的 BAC、Citi 银行股、Sino-Forest(被浑水做空清零)、HP(收购Autonomy 减值) 同期纷纷崩盘。投资者赎回潮启动,管理规模从 $380亿 跌到 $87亿。<strong>2020年7月,Paulson 宣布把对冲基金转为家族办公室</strong>——这是体面的退场,避免被持续赎回拖死。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-red">2011 -52%</span>
+          <span class="pc-tag pt-red">规模 -77%</span>
+          <span class="pc-tag pt-amber">金价熊市</span>
+          <span class="pc-tag pt-blue">家族办公室转型</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item">
+      <div class="phase-time">
+        <div class="pt-period">阶段四</div>
+        <div class="pt-label">2020-2026<br>结构主义复兴</div>
+        <div class="pt-perf pt-up">金价: $1,800→$3,300+<br>组合: 大幅跑赢</div>
+      </div>
+      <div class="phase-content">
+        <div class="pc-head">家族办公室时代:押注关键矿产 + 政治转向 + 困境股票分拆</div>
+        <div class="pc-body">
+          家族办公室的Paulson做了几件值得关注的事:
+          <br><br>
+          <strong>① 重新押注黄金,这次拿对了</strong>——2025-2026年金价突破 $3,300+/oz,他 2020 年起的 NG/THM/AEM 持仓集中收获。
+          <br><br>
+          <strong>② 重塑 BrightSphere</strong>(2018-2025)——从中国海航买入25%股权,亲自进董事会主导剥离6家附属公司、回购 $13亿股票,2025年公司更名 Acadian Asset Management,股价7年内翻倍。
+          <br><br>
+          <strong>③ 押注美国关键矿产战略</strong>——2016年起累计投入 $1.85亿 给 Perpetua Resources(Stibnite锑-金项目),2024-2025年伴随中国出口禁令成为最大政治受益者。
+          <br><br>
+          <strong>④ 政治站队特朗普</strong>——2024年大选周期捐款超 $5,000万,2024年11月一度被特朗普考虑任命财政部长(最终未上任)。
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag pt-green">PPTA $1.85亿 9年</span>
+          <span class="pc-tag pt-green">阿拉斯加双矿堆叠</span>
+          <span class="pc-tag pt-green">AAMI 7年重塑</span>
+          <span class="pc-tag pt-purple">特朗普政治站队</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 3: FOUR THEMES -->
+<section class="section">
+  <div class="s-label">组合结构</div>
+  <div class="s-title">9只持仓的"四大主题":表面分散,实质极度集中</div>
+  <div class="s-divider"></div>
+
+  <div class="bm-grid">
+    <div class="bm-card">
+      <div class="bm-icon">🏆</div>
+      <div class="bm-title">主题一 · 黄金/关键矿产</div>
+      <div class="bm-share c-gold">~40%+</div>
+      <div class="bm-body">
+        5只矿业股的精密组合:从大型成熟生产商(<strong>AEM</strong>)到在建项目(<strong>PPTA</strong>)到早期开发(<strong>NG/THM</strong>)到关键材料(<strong>SOLS</strong>)。<strong>核心论点</strong>:美元信用结构性贬值 + 中美关键矿产脱钩 + 特朗普 2.0 关键矿产复兴。
+      </div>
+      <div class="bm-list">
+        <span>PPTA</span> 美国唯一锑矿+金<br>
+        <span>NG</span> Donlin 3,900万盎司金<br>
+        <span>THM</span> Livengood 1,360万盎司金<br>
+        <span>AEM</span> 全球第三大黄金生产商<br>
+        <span>SOLS</span> Honeywell分拆 关键材料
+      </div>
+    </div>
+    <div class="bm-card">
+      <div class="bm-icon">💊</div>
+      <div class="bm-title">主题二 · 困境医药价值释放</div>
+      <div class="bm-share c-purple">~46%</div>
+      <div class="bm-body">
+        2只持仓占组合近一半,但属性截然不同:<strong>MDGL</strong> 是创新药放量(MASH 治疗),<strong>BHC</strong> 是困境制药公司分拆释放价值(B+L完全独立)。共同点:都是 <strong>"价值释放剧本"</strong>。
+      </div>
+      <div class="bm-list">
+        <span>MDGL</span> Rezdiffra MASH首药<br>
+        <span>BHC</span> B+L分拆 + 制药主体出售<br>
+        <span></span> 单一催化剂驱动重估<br>
+        <span></span> 与AI、消费、科技无关
+      </div>
+    </div>
+    <div class="bm-card">
+      <div class="bm-icon">🏛️</div>
+      <div class="bm-title">主题三 · 控股公司价值释放</div>
+      <div class="bm-share c-amber">~11%</div>
+      <div class="bm-body">
+        <strong>AAMI</strong> 是 Paulson 7年长跑的"私募式公开重组"案例——2018年从中国海航以折扣价买入25%股权,主导剥离6家附属业务,2025年公司更名为 Acadian Asset Management,股价从 $26 翻到 $56。
+      </div>
+      <div class="bm-list">
+        <span>AAMI</span> 量化资管AUM $1,775亿<br>
+        <span></span> 95%策略跑赢基准<br>
+        <span></span> 已剥离6家子品牌<br>
+        <span></span> 持续回购+派息
+      </div>
+    </div>
+    <div class="bm-card">
+      <div class="bm-icon">🔁</div>
+      <div class="bm-title">主题四 · 困境SaaS转型</div>
+      <div class="bm-share c-blue">~1-2%</div>
+      <div class="bm-body">
+        <strong>THRY</strong> 是黄页时代的Dex Media转型为SMB SaaS平台,2025年SaaS收入占比62%(vs 2024年40%),计划2028年完全退出 Marketing Services 业务。这是 Paulson 的"小赌一把"卫星仓位。
+      </div>
+      <div class="bm-list">
+        <span>THRY</span> SaaS收入+34% YoY<br>
+        <span></span> 月度ARPU $373(+15%)<br>
+        <span></span> 收购Keap整合<br>
+        <span></span> 估值便宜+转型期权
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:18px">
+    <div class="hb-label">🎯 关键观察:这是一个"反 2020-2025 美股结构"的组合</div>
+    <div class="hb-text">
+      <strong>没有任何科技巨头(零 Magnificent 7,零 AI 股票,零半导体)</strong>。Paulson 完全没有押在过去三年涨幅最大的赛道上,而是把全部资金押在<strong>"被忽视的、有结构性主题的、估值便宜的"</strong>资产上。如果美股牛市继续靠 AI 和7大巨头驱动,这个组合会显著跑输。但如果出现<strong>美元贬值 + 通胀回归 + 科技泡沫破裂</strong>的情景,这个组合就是对冲全市场的完美工具。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: ALASKA GOLD EMPIRE (THE STAR SECTION) -->
+<section class="section">
+  <div class="s-label">★ 独特发现</div>
+  <div class="s-title">Paulson的"阿拉斯加金矿帝国":5,200万盎司未开发金资源</div>
+  <div class="s-divider"></div>
+
+  <p style="font-size:14px;color:var(--slate);line-height:1.8;margin-bottom:6px">
+    把 Paulson 13F 中的 NG 和 THM 放在一起看,你会发现一个市场几乎没意识到的"<strong style="color:var(--navy)">隐形金矿大亨</strong>"故事。这两个项目相距 550 公里,都在阿拉斯加,合计代表的资源量超过<strong style="color:var(--navy)">5,200 万盎司金</strong>——相当于全球前 3 大未开发金矿储量的总和。
+  </p>
+
+  <div class="alaska-map">
+    <div class="am-eyebrow">★ 阿拉斯加 · ALASKA GOLD STACK</div>
+    <h3 class="am-title">Paulson 在阿拉斯加同时控制的<br><span>北美最大两座未开发金矿</span></h3>
+    <p class="am-desc">
+      华尔街史上罕见的"单一对冲基金经理控制如此规模未开发金矿储量"的案例。如果金价继续维持 $3,000-4,000/oz,而特朗普政府继续推动阿拉斯加资源开发(Trump 2025年1月签EO重启阿拉斯加项目),Paulson 就坐在两座<strong style="color:#fff">全球前20大未开发金矿</strong>的最大股东位置上。两个项目按各自开发节奏推进,Donlin 预计2031年投产,Livengood 5-10年视金价而定。
+    </p>
+
+    <div class="am-projects">
+      <div class="am-project">
+        <div class="amp-name">Donlin Gold</div>
+        <div class="amp-vehicle">通过 Novagold (NYSE: NG) 间接持有 · 占 NG 50% × Paulson持NG 40%</div>
+        <div class="amp-stat-row">
+          <div>
+            <div class="amp-stat-label">资源量</div>
+            <div class="amp-stat-val">39 Moz</div>
+            <div class="amp-stat-sub">3,900万盎司金</div>
+          </div>
+          <div>
+            <div class="amp-stat-label">合资方</div>
+            <div class="amp-stat-val">Barrick</div>
+            <div class="amp-stat-sub">50%/50%</div>
+          </div>
+        </div>
+        <div class="amp-stat-row">
+          <div>
+            <div class="amp-stat-label">位置</div>
+            <div class="amp-stat-val">阿拉斯加西南</div>
+            <div class="amp-stat-sub">Kuskokwim 金带</div>
+          </div>
+          <div>
+            <div class="amp-stat-label">投产年</div>
+            <div class="amp-stat-val">2031E</div>
+            <div class="amp-stat-sub">建设始于2027</div>
+          </div>
+        </div>
+        <div class="amp-note">
+          全球最大未开发金矿之一。一直没建,因为太大、太远(直升机飞7小时才到)、生态敏感。Paulson 长期持有,本质上是"特朗普政府放宽阿拉斯加开发"的期权。Trump 2025年1月签行政令重启阿拉斯加资源开发 — 直接利好。
+        </div>
+      </div>
+
+      <div class="am-project">
+        <div class="amp-name">Livengood Gold</div>
+        <div class="amp-vehicle">直接持股 International Tower Hill (NYSE: THM) 35%</div>
+        <div class="amp-stat-row">
+          <div>
+            <div class="amp-stat-label">资源量</div>
+            <div class="amp-stat-val">13.6 Moz</div>
+            <div class="amp-stat-sub">1,360万盎司</div>
+          </div>
+          <div>
+            <div class="amp-stat-label">储量</div>
+            <div class="amp-stat-val">9 Moz</div>
+            <div class="amp-stat-sub">P&P 储量</div>
+          </div>
+        </div>
+        <div class="amp-stat-row">
+          <div>
+            <div class="amp-stat-label">位置</div>
+            <div class="amp-stat-val">费尔班克斯北</div>
+            <div class="amp-stat-sub">110 公里</div>
+          </div>
+          <div>
+            <div class="amp-stat-label">资本支出</div>
+            <div class="amp-stat-val">$19.3亿</div>
+            <div class="amp-stat-sub">2023 技术报告</div>
+          </div>
+        </div>
+        <div class="amp-note">
+          <strong style="color:#fff">"北美最大的未被矿业巨头持有的纯金矿"</strong>。2026年1月 Paulson 完成 $4,000万定向私募($2.22/股)+$330万追加,持股从 28% 拉升到 <strong style="color:#fff">35%</strong>——成为绝对最大股东。Livengood 在 $2,500/oz 时 NPV $23.5亿,目前金价 $3,300+/oz 下,真实经济性已远超报告假设。
+        </div>
+      </div>
+    </div>
+
+    <div class="am-total">
+      <div class="amt-label">两座金矿合计资源量</div>
+      <div class="amt-val">52.6 百万盎司金</div>
+    </div>
+  </div>
+
+  <div class="purple-box">
+    <div class="pb-label">⚡ 价值测算:被严重低估的"金矿期权"</div>
+    <div class="pb-text">
+      假设 Donlin 在 2031 年投产、Livengood 在 2030 年投产,两个项目按 25% 的资源量来计算并购对价(典型矿权交易折扣),在 <strong>$3,500/oz 金价下,Paulson 的两座金矿权益价值可能达到 $50-100 亿</strong>——远超他当前 $32.6亿 的13F持仓本身。这就是"<strong>13F 不能反映 Paulson 真实净值</strong>"的根本原因——他真正的财富藏在阿拉斯加冻土之下。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: 5 MINING STOCKS PRECISION LAYERING -->
+<section class="section">
+  <div class="s-label">★ 矿业组合解构</div>
+  <div class="s-title">5只矿业股的精密风险分层:工艺级的组合设计</div>
+  <div class="s-divider"></div>
+
+  <p style="font-size:13.5px;color:var(--slate);line-height:1.75;margin-bottom:18px">
+    这5只矿业股<strong style="color:var(--navy)">不是"分散投资"——这是 Paulson 把"做空美元 / 做多通胀"的同一个判断,用 5 种不同期限和风险结构表达的精密组合</strong>。从已运营到早期开发的完整光谱,从纯金到关键材料的完整暴露。
+  </p>
+
+  <div class="layer-stack">
+
+    <div class="layer-row">
+      <div class="layer-ticker">AEM</div>
+      <div class="layer-stage tag-green">已运营</div>
+      <div class="layer-name">Agnico Eagle Mines<br><small>全球第三大黄金生产商 · 加拿大注册</small></div>
+      <div class="layer-product">纯黄金</div>
+      <div class="layer-thesis">现金流锚 · Beta暴露</div>
+    </div>
+
+    <div class="layer-row">
+      <div class="layer-ticker">SOLS</div>
+      <div class="layer-stage tag-green">已运营</div>
+      <div class="layer-name">Solstice Advanced Materials<br><small>Honeywell分拆 · 高纯氟化物 / 电子材料</small></div>
+      <div class="layer-product">关键材料</div>
+      <div class="layer-thesis">Q4新建仓 · 美国制造业回流</div>
+    </div>
+
+    <div class="layer-row">
+      <div class="layer-ticker">PPTA</div>
+      <div class="layer-stage tag-amber">在建</div>
+      <div class="layer-name">Perpetua Resources<br><small>Stibnite 锑-金矿 · Idaho · 2025年10月动工</small></div>
+      <div class="layer-product">金 + 锑</div>
+      <div class="layer-thesis">2028投产 · 中国卡脖子受益</div>
+    </div>
+
+    <div class="layer-row">
+      <div class="layer-ticker">NG</div>
+      <div class="layer-stage tag-blue">早期开发</div>
+      <div class="layer-name">Novagold Resources<br><small>Donlin Gold 50% · 阿拉斯加 · 2031投产</small></div>
+      <div class="layer-product">纯黄金</div>
+      <div class="layer-thesis">超大金矿期权 · 长跨度</div>
+    </div>
+
+    <div class="layer-row">
+      <div class="layer-ticker">THM</div>
+      <div class="layer-stage tag-blue">早期开发</div>
+      <div class="layer-name">International Tower Hill Mines<br><small>Livengood Gold 100% · 阿拉斯加 · Paulson直接35%</small></div>
+      <div class="layer-product">纯黄金</div>
+      <div class="layer-thesis">高金价杠杆 · 超大未开发</div>
+    </div>
+
+  </div>
+
+  <div class="nuclear-box">
+    <div class="nb-label">⚙️ 组合设计的精妙之处</div>
+    <div class="nb-text">
+      <strong>① 期限分散</strong>——AEM 提供"现在的现金流",PPTA 提供"3年后的现金流",NG/THM 提供"5-10年后的现金流"。这是<strong>金价上涨的全周期暴露</strong>,而不是单一时间点的押注。<br><br>
+      <strong>② 风险分层</strong>——AEM(成熟运营,低风险)→ SOLS(分拆套利,中等风险)→ PPTA(在建,中高风险)→ NG/THM(开发期,高风险但赔率最大)。任何阶段出问题都不会让组合崩溃。<br><br>
+      <strong>③ 商品组合</strong>——4 只纯金 + 1 只锑/关键材料,既享受"美元贬值"主题又享受"中美脱钩"主题,两个宏观叙事互补。<br><br>
+      <strong>④ 政治杠杆</strong>——5 只都是<strong>北美管辖区</strong>(美国 + 加拿大),受益于特朗普 2.0 的"美国关键矿产战略"。完全没有非洲、俄罗斯、拉美的政治风险。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: ALL 9 HOLDINGS DETAIL -->
+<section class="section">
+  <div class="s-label">9只持仓详解</div>
+  <div class="s-title">每只股票的核心论点 · 关键数据 · 仓位逻辑</div>
+  <div class="s-divider"></div>
+
+  <div class="holding-grid">
+
+    <!-- MDGL -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">MDGL</div>
+        <div class="hh-name">Madrigal Pharmaceuticals
+          <small>Nasdaq · 创新药 · MASH治疗领域唯一获批新药</small>
+        </div>
+        <div class="hh-tag" style="background:var(--purple-pale);color:var(--purple)">医药</div>
+        <div class="hh-weight">30.48%<small>第一大持仓</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>Rezdiffra(resmetirom)</strong>是2024年3月FDA加速批准的<strong>全球首个也是唯一</strong> MASH(代谢相关脂肪性肝炎)治疗药物。美国有 1.5-2 亿成年人受脂肪肝/MASH 影响,这是疾病修饰药物的真空市场。Paulson 从 IPO 期(2014年)就持有,这是他<strong>持有时间最长的仓位之一</strong>。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            <strong>2025年销售额预期 $35-45亿</strong>(分析师共识),持仓市值约 $9.94亿。Q4 减仓 20万股 → -10.48%(占组合 -3.09%)是<strong>纯获利了结/再平衡</strong>,不是观点变化。MDGL 在2024-2025年涨幅巨大,从 IPO 价的5倍以上,Paulson 在合理的时点开始锁定收益。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PPTA -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">PPTA</div>
+        <div class="hh-name">Perpetua Resources
+          <small>NASDAQ/TSX · Stibnite 金-锑矿 · Idaho · 美国唯一锑矿</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">关键矿产</div>
+        <div class="hh-weight">24.01%<small>第二大持仓</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>美国唯一锑矿 + 6 百万盎司金</strong>——中国 2024年9月禁止对美出口锑(用于弹药、太阳能板、阻燃剂),美国本土零产量。Stibnite 投产后将供应美国 35%+ 锑需求。这是 Paulson <strong>从2016年就开始押注</strong>的超长线投资,现在终于到了开花结果的阶段。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            储量:148百万磅锑 + 6 百万盎司金。<strong>2025年1月获 Biden 政府最终矿权许可</strong>(8年审批结束)→ 6月完成 $4.25亿股权融资(Paulson私募定增 $1亿,$13.20/股)→ 9月获林业局动工许可 → <strong>10月正式动工</strong>。EXIM银行表示愿提供 $20亿 项目融资。Paulson <strong>累计投入 $1.85亿,持股31%(3,230万股),最大股东</strong>。预计 2028 年投产,年产 45万 盎司金。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BHC -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">BHC</div>
+        <div class="hh-name">Bausch Health Companies
+          <small>NYSE · 加拿大注册 · 综合制药 · Valeant的"重生版"</small>
+        </div>
+        <div class="hh-tag" style="background:var(--purple-pale);color:var(--purple)">医药</div>
+        <div class="hh-weight">15.61%<small>Q4加仓 +250万股</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            前身 Valeant 因 2015-2016 年的"会计欺诈"嫌疑股价从 $260跌到 $9。当前 BHC 持有 <strong>Bausch & Lomb 眼科业务约88%</strong>——市场长期期待 BHC 把 B+L 完全分拆释放价值。<strong>这是经典 Paulson 式 "并购套利+分拆释放"的押注</strong>。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            B+L 2022年已 IPO,但 BHC 仍是大股东。总债务约 $200亿(市场最大担忧)。Paulson 押注剧本:<strong>B+L 完全分拆 → BHC 用现金还债 → 剩余制药业务被 PE/同行收购</strong>。Q4 加仓 250 万股(+3.5%),持仓达 7,325 万股,价值 $5.09亿——Paulson <strong>对剧本越来越有信心</strong>。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AAMI -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">AAMI</div>
+        <div class="hh-name">Acadian Asset Management
+          <small>NYSE · 量化资管 · 原 BrightSphere · 2025年1月更名</small>
+        </div>
+        <div class="hh-tag" style="background:var(--amber-pale);color:var(--amber)">金融</div>
+        <div class="hh-weight">11.16%<small>7年长跑</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>Paulson 亲自重塑的"私募式公开重组"案例</strong>。2018年从中国海航以折扣价(约市价一半)买入25%股权,亲自进董事会,主导剥离 6 家附属业务,留下唯一最有价值的量化精品店 Acadian。AUM <strong>$1,775亿</strong>(2025年底),95%策略5年跑赢基准。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            Q4 2025 净流入 $54亿(连续 8 个季度净流入)。ENI 利润率 35.5%,净杠杆 1.0x。股价从 2024 年底 $26 涨到 2026 年 2 月 $56,翻了一倍多。<strong>Paulson 仍在持有不卖,因为</strong>:① 量化资管行业顺风,② "去美元化"利好新兴市场量化策略(Acadian 强项),③ 估值 P/E 21x 仍便宜于 BlackRock 25x。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THM -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">THM</div>
+        <div class="hh-name">International Tower Hill Mines
+          <small>NYSE-A · Livengood Gold · 阿拉斯加金矿 · Paulson 直接持股 35%</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">黄金</div>
+        <div class="hh-weight">~1-2%<small>2026 Q1 拉升至35%</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>"北美最大的未被矿业巨头持有的纯金矿"</strong>。Livengood 项目位于阿拉斯加费尔班克斯北 110 公里——海拔低、铺装公路通达、附近有电网,基础设施异常优秀。<strong>9 百万盎司储量 + 13.6 百万盎司资源</strong>。在金价 $2,500/oz 时税后 NPV $23.5亿,在 $3,300+/oz 时上看 $50亿+。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            <strong>2026 年 1 月,Paulson 完成 $4,000万 定向私募</strong>($2.22/股),并追加 $330万 → <strong>持股从 28% 拉升到 35%,成为绝对最大股东</strong>。公司同时通过普通股增发筹资 $7,480 万,总融资 $1.18亿,为 PFS 工程做准备。这是非常清晰的"加仓信号"——在金价新高时刻 Paulson 把更多筹码押在最早期的金矿期权上。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NG -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">NG</div>
+        <div class="hh-name">Novagold Resources
+          <small>NYSE-A · Donlin Gold 50% · 阿拉斯加超大未开发金矿</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">黄金</div>
+        <div class="hh-weight">7.78%<small>10年长跑</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            通过 Novagold 间接持有 Donlin Gold 项目——<strong>资源量 3,900 万盎司金,全球最大未开发金矿之一</strong>。另 50% 是 Barrick(B)。Paulson <strong>2010 年代初就开始持有</strong>,本质上是"特朗普政府放宽阿拉斯加开发"的期权。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            阿拉斯加西南部 Kuskokwim 金带。一直没建,因为太大、太远(直升机飞 7 小时才到)、生态敏感。Trump 2025 年 1 月签 EO 重启阿拉斯加资源开发——直接利好。NG 预计 <strong>2027年开始建设,2031 年商业生产,矿龄 27 年</strong>。Paulson 持仓约 $2.54亿。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AEM -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">AEM</div>
+        <div class="hh-name">Agnico Eagle Mines
+          <small>NYSE/TSX · 全球第三大金矿企业 · 加拿大上市</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">黄金</div>
+        <div class="hh-weight">~5%<small>组合的"压舱石"</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            5 只矿业股里<strong>唯一的成熟生产商</strong>——资产几乎全部在<strong>一级管辖区</strong>(加拿大、芬兰、墨西哥、澳大利亚),<strong>零中俄非洲风险</strong>。2024 年完成与 Kirkland Lake 合并后成为黄金行业的标杆。AEM 在组合里扮演的角色是<strong>"金矿股的 Beta 锚"</strong>——确保即便 PPTA、THM、NG 都因为单一事件出问题,组合还有一只稳定流通的"实物金代理"。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            2025 年产量约 350 万盎司金,AISC 约 $1,200/oz(行业前 25%)。<strong>股息持续 40+ 年支付</strong>(黄金股里少见的"红利贵族")。当前股价约 $130-150 区间(2026 年新高),市值 $700亿+。Paulson 选 AEM 而非 Newmont/Barrick,主要是因为后两者深陷 NGM 联营纠纷(2026年2月Newmont对Barrick发出违约通知)。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLS -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">SOLS</div>
+        <div class="hh-name">Solstice Advanced Materials
+          <small>NYSE · 2025年下半年 Honeywell 分拆 · 高纯氟化物/电子材料</small>
+        </div>
+        <div class="hh-tag" style="background:var(--gold-pale);color:var(--gold)">关键材料</div>
+        <div class="hh-weight">~5%<small>Q4 2025 新建仓</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>经典"分拆套利"操作</strong>——Paulson 在 Q4 同时清仓 HON 母公司 + 新建 SOLS 子公司——卖掉无聊的母公司,留住高 Beta 的分拆子公司。SOLS 涉及关键氟化物供应链(电池、半导体、国防),与<strong>"美国制造业回流"主题</strong>契合。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            Honeywell 在 2025 年下半年正式分拆 Specialty Materials 业务为 Solstice。Paulson 同时<strong>清仓 200,000 股 HON</strong>(占组合 -1.34%)+建仓 SOLS(估计~5%)。这是 Paulson 投资哲学最稳定的核心——"复杂结构折价 → 分拆释放 → 纯品牌溢价"——他从 1994 年做并购套利起家就玩了 30 年的剧本。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THRY -->
+    <div class="holding-card">
+      <div class="holding-head">
+        <div class="hh-ticker">THRY</div>
+        <div class="hh-name">Thryv Holdings
+          <small>NASDAQ · 中小企业 SaaS 平台 · 前身 Dex Media 黄页公司</small>
+        </div>
+        <div class="hh-tag" style="background:var(--blue-pale);color:var(--blue)">SaaS</div>
+        <div class="hh-weight">~1-2%<small>小赌一把</small></div>
+      </div>
+      <div class="holding-body">
+        <div class="hb-section">
+          <div class="hb-h">★ 核心论点</div>
+          <div class="hb-text">
+            <strong>"困境转型 + 业务剥离"</strong>故事——经营老黄页 Yellowpages.com、Superpages.com 的 Dex Media 转型为 SMB SaaS 平台。这是 Paulson 唯一的科技/SaaS 持仓,但仓位极小,说明他自己也认为这只是"小赌一把,看转型能不能成"的卫星仓位。
+          </div>
+        </div>
+        <div class="hb-section">
+          <div class="hb-h">关键数据 / 近况</div>
+          <div class="hb-text">
+            <strong>2025 年 SaaS 收入占比 62%</strong>(2024 年 40%)。SaaS 收入全年 +34% YoY。月度 ARPU $373(+15% YoY)。2024 年 10 月以 $8,000万 收购 Keap → 合计 SaaS 客户超 10万。<strong>计划 2028 年完全退出 Marketing Services 业务</strong>,变成纯 SaaS。一旦完成纯 SaaS 转型,估值会重新评级。
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 7: HOLDINGS DATA TABLE -->
+<section class="section">
+  <div class="s-label">数据汇总</div>
+  <div class="s-title">9只持仓的完整财务指标 · 一表全览</div>
+  <div class="s-divider"></div>
+
+  <table class="metrics-table">
+    <thead>
+      <tr>
+        <th>代码</th>
+        <th>公司</th>
+        <th>权重</th>
+        <th>市值估算</th>
+        <th>当前价位/区间</th>
+        <th>核心催化剂</th>
+        <th>Q4 变动</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-mono"><strong>MDGL</strong></td>
+        <td class="td-label">Madrigal Pharmaceuticals</td>
+        <td class="td-amber">30.48%</td>
+        <td class="td-mono">$994M</td>
+        <td class="td-mono">$400+ 区间</td>
+        <td class="td-label">Rezdiffra 销售爬坡 / MASH 市场扩张</td>
+        <td><span class="td-tag tag-red">-10.5%</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>PPTA</strong></td>
+        <td class="td-label">Perpetua Resources</td>
+        <td class="td-amber">24.01%</td>
+        <td class="td-mono">$783M</td>
+        <td class="td-mono">$24-30 区间</td>
+        <td class="td-label">Stibnite 建设进度 / EXIM $20亿融资 / 锑价</td>
+        <td><span class="td-tag tag-navy">不变</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>BHC</strong></td>
+        <td class="td-label">Bausch Health Companies</td>
+        <td class="td-amber">15.61%</td>
+        <td class="td-mono">$509M</td>
+        <td class="td-mono">$6-7 区间</td>
+        <td class="td-label">B+L 完全分拆 / 制药主体出售 / 减债</td>
+        <td><span class="td-tag tag-green">+3.5%</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>AAMI</strong></td>
+        <td class="td-label">Acadian Asset Management</td>
+        <td class="td-amber">11.16%</td>
+        <td class="td-mono">$364M</td>
+        <td class="td-mono">$50-56 区间</td>
+        <td class="td-label">AUM 持续净流入 / 估值向 BlackRock 靠拢</td>
+        <td><span class="td-tag tag-navy">不变</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>NG</strong></td>
+        <td class="td-label">Novagold Resources</td>
+        <td class="td-amber">7.78%</td>
+        <td class="td-mono">$254M</td>
+        <td class="td-mono">$5-7 区间</td>
+        <td class="td-label">Donlin 2027 建设启动 / 阿拉斯加 EO 利好</td>
+        <td><span class="td-tag tag-navy">不变</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>SOLS</strong></td>
+        <td class="td-label">Solstice Advanced Materials</td>
+        <td class="td-amber">~5%</td>
+        <td class="td-mono">$160M</td>
+        <td class="td-mono">分拆后 NYSE 新股</td>
+        <td class="td-label">分拆后估值释放 / 关键材料政策红利</td>
+        <td><span class="td-tag tag-blue">★新建</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>AEM</strong></td>
+        <td class="td-label">Agnico Eagle Mines</td>
+        <td class="td-amber">~5%</td>
+        <td class="td-mono">~$160M</td>
+        <td class="td-mono">$130-150 区间</td>
+        <td class="td-label">金价 / 一级管辖区溢价</td>
+        <td><span class="td-tag tag-navy">不变</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>THM</strong></td>
+        <td class="td-label">International Tower Hill Mines</td>
+        <td class="td-amber">~1-2%</td>
+        <td class="td-mono">~$50M</td>
+        <td class="td-mono">$2.50-3 区间</td>
+        <td class="td-label">Livengood PFS 推进 / 高金价兑现</td>
+        <td><span class="td-tag tag-green">★直接私募加仓</span></td>
+      </tr>
+      <tr>
+        <td class="td-mono"><strong>THRY</strong></td>
+        <td class="td-label">Thryv Holdings</td>
+        <td class="td-amber">~1-2%</td>
+        <td class="td-mono">~$30M</td>
+        <td class="td-mono">$15-20 区间</td>
+        <td class="td-label">SaaS 转型完成 / 估值重定级</td>
+        <td><span class="td-tag tag-navy">不变</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:18px;padding:18px 22px;background:var(--bg-card);border:1px solid var(--border-light);border-radius:10px">
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">Q4 2025 重要动作</div>
+    <div style="font-size:13px;color:var(--navy);line-height:1.8">
+      <strong>新建:</strong> SOLS(Honeywell分拆子公司)<br>
+      <strong>清仓:</strong> Honeywell(HON)200,000 股 / Trilogy Metals(TMQ)1,432.7 万股<br>
+      <strong>加仓:</strong> Bausch Health(BHC)+250 万股,达 7,326 万股,占组合 +3.5%<br>
+      <strong>减仓:</strong> Madrigal Pharmaceuticals(MDGL)-200,001 股,主动获利了结<br>
+      <strong>2026 Q1 增量动作(13F外):</strong> Tower Hill Mines(THM)$4,000 万定向私募 + $330万追加,持股 28% → 35%
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: KEY CATALYSTS -->
+<section class="section">
+  <div class="s-label">关键催化事件</div>
+  <div class="s-title">2024-2026 时间线:Paulson 组合的关键节点</div>
+  <div class="s-divider"></div>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:8px 24px;">
+    <div class="cat-list">
+
+      <div class="cat-item">
+        <div class="cat-date">2024年<br>3月</div>
+        <div class="cat-content">
+          <div class="cat-head">FDA 加速批准 Rezdiffra(MDGL) <span class="cat-badge tag-purple">医药催化</span></div>
+          <div class="cat-body">全球首个也是唯一获批的 MASH(代谢相关脂肪性肝炎)治疗药物。Paulson 持有 MDGL 自 2014 年 IPO,这一批准让他10年长跑兑现。MDGL 股价从 $30 区间在 2 年内飞升至 $400+,涨幅 13 倍。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2024年<br>9月</div>
+        <div class="cat-content">
+          <div class="cat-head">中国宣布禁止对美出口锑 <span class="cat-badge tag-amber">关键矿产</span></div>
+          <div class="cat-body">中国是全球最大锑生产国(全球约 60% 产量)。2024 年 9 月禁令直接让美国陷入"零本土锑产能"的国防危机。<strong>PPTA(美国唯一锑矿)的战略地位一夜飙升</strong>——这是 Paulson 8 年长持仓最关键的催化剂。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2024年<br>11月</div>
+        <div class="cat-content">
+          <div class="cat-head">特朗普胜选 + Paulson 进过渡团队 <span class="cat-badge tag-amber">政治催化</span></div>
+          <div class="cat-body">Paulson 是特朗普的核心金主之一(2024 大选周期捐款超 $5,000万),11 月一度被特朗普考虑任命财政部长(最终未上任,Scott Bessent 上任)。但他在特朗普团队的影响力非常大,这直接利好他的"关键矿产 + 阿拉斯加开发"组合。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>1月</div>
+        <div class="cat-content">
+          <div class="cat-head">PPTA 获 Biden 政府最终矿权许可(8 年审批结束) <span class="cat-badge tag-amber">PPTA 重大里程碑</span></div>
+          <div class="cat-body">8 年审批长跑结束,PPTA 进入建设准备阶段。同日,Trump 签 EO 重启阿拉斯加资源开发——直接利好 NG(Donlin)和 THM(Livengood)。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>1月</div>
+        <div class="cat-content">
+          <div class="cat-head">BSIG 正式更名为 Acadian Asset Management(AAMI) <span class="cat-badge tag-green">AAMI 重塑完成</span></div>
+          <div class="cat-body">Paulson 7 年长跑的"私募式公开重组"圆满收官——BrightSphere 完成所有 6 家附属业务剥离,2025 年 1 月 1 日正式更名为 Acadian Asset Management,股票代码从 BSIG 改为 AAMI。新 CEO Kelly Young 上任,组织架构完全简化。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>6月</div>
+        <div class="cat-content">
+          <div class="cat-head">PPTA 完成 $4.25亿 股权融资,Paulson 私募定增 $1亿 <span class="cat-badge tag-amber">PPTA 加仓</span></div>
+          <div class="cat-body">$3.0亿 bought deal($13.20/股)+ Paulson $1亿 私募 + 后续上调。这次融资为 Stibnite 建设的"权益部分"扫除障碍,使其能解锁 EXIM 银行 $20亿项目融资。Paulson 累计在 PPTA 投资达 $1.85亿,持股 31%。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>9月</div>
+        <div class="cat-content">
+          <div class="cat-head">PPTA 获林业局动工许可(NTP) <span class="cat-badge tag-amber">PPTA 进入建设</span></div>
+          <div class="cat-body">美国林业局正式批准动工。9 年长跑(从 2016 年 Paulson 首次投资算起)终于进入实物建设阶段。同年 10 月正式动工。PPTA 股价当日 +3.8%,达 $24.89,公司市值 ~C$26.8亿。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>10月</div>
+        <div class="cat-content">
+          <div class="cat-head">Stibnite 项目正式开工建设 <span class="cat-badge tag-green">物理破土</span></div>
+          <div class="cat-body">Perpetua 在 Idaho 正式破土动工。CEO Jon Cherry:"After 9 years of permitting, Stibnite can once again serve this country's national interest." 项目预计 2028 年投产,年产 45万 盎司金 + 锑供应 35%+ 美国年度需求。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2025年<br>11月-12月</div>
+        <div class="cat-content">
+          <div class="cat-head">金价突破 $4,000/oz · Paulson 矿业组合集体爆发 <span class="cat-badge tag-amber">金价催化</span></div>
+          <div class="cat-body">Q4 美元贬值预期 + 美联储降息 + 全球央行购金需求 → 金价突破历史新高 $4,000+/oz。Paulson 5 只矿业股集体上涨,AEM 和 PPTA 成为组合的两大领涨股。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2026年<br>1月</div>
+        <div class="cat-content">
+          <div class="cat-head">★ Paulson 通过 $4,000万 私募拉升 THM 持股至 35% <span class="cat-badge tag-green">阿拉斯加加仓</span></div>
+          <div class="cat-body">这是13F不显示的关键动作。Tower Hill Mines 总融资 $1.18亿,其中 Paulson 完成 $40M 定向私募($2.22/股),并追加 $330万,<strong>持股从 28% 拉升到 35%,成为绝对最大股东</strong>。这强烈表明 Paulson 在金价新高时刻仍认为 THM 严重低估。</div>
+        </div>
+      </div>
+
+      <div class="cat-item">
+        <div class="cat-date">2026年<br>2月</div>
+        <div class="cat-content">
+          <div class="cat-head">AAMI Q4 业绩创纪录:AUM $1,775亿 / 净流入 $54亿 <span class="cat-badge tag-green">AAMI 兑现</span></div>
+          <div class="cat-body">AAMI 全年 ENI EPS $3.25(+18% YoY),ENI 利润率 35.5%,连续 8 个季度净客户资金流入。股价从 2024 年底 $26 涨到 $56,翻倍。Paulson 7 年长跑的"私募式公开重组"开始集中兑现。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: MACRO BACKDROP -->
+<section class="section">
+  <div class="s-label">宏观底色</div>
+  <div class="s-title">为什么是现在?四大宏观主题的共振</div>
+  <div class="s-divider"></div>
+
+  <div class="three-col">
+    <div class="card ca-gold card-accent">
+      <div class="card-label cl-gold">主题一:美元结构性贬值</div>
+      <div class="card-title">财政赤字 × 美元武器化反噬</div>
+      <div class="card-body">
+        美国年度财政赤字超 $2万亿(占 GDP 7%+,和平时期最高水平)。美元武器化(冻结俄罗斯储备)直接触发<strong>全球央行购金潮</strong>——2024-2026 年央行购金量持续创历史新高。这是 Paulson 黄金组合的最根本支撑。当前金价 $4,000+/oz 不是顶部,而是<strong>结构性重估的中段</strong>。
+      </div>
+    </div>
+    <div class="card ca-amber card-accent">
+      <div class="card-label cl-amber">主题二:中美关键矿产脱钩</div>
+      <div class="card-title">锑 / 镓 / 锗 / 钨 / 稀土 全面博弈</div>
+      <div class="card-body">
+        中国控制全球 60%+ 的锑、80%+ 的稀土加工、95%+ 的镓和锗。2024 年起中国对这些关键矿产实施出口管制,<strong>美国本土需求与零产能之间形成巨大缺口</strong>。Trump 行政令 EO 13817 + 2025 年 EO 重启阿拉斯加 = 美国关键矿产全面"补课"。PPTA + SOLS = Paulson 在这个主题上的两大押注。
+      </div>
+    </div>
+    <div class="card ca-purple card-accent">
+      <div class="card-label cl-purple">主题三:AI 资本开支泡沫风险</div>
+      <div class="card-title">"七巨头"集中度 × DeepSeek 警告</div>
+      <div class="card-body">
+        2024-2025 年标普 500 涨幅几乎全部由 7 大科技股贡献,集中度达历史最高。2025 年 1 月 DeepSeek 事件曾让市场短暂质疑超大规模 AI 投资的资本回报率。<strong>Paulson 完全没有 AI/科技持仓</strong>——这不是"忽视科技",而是<strong>主动反向押注</strong>。一旦 AI 资本开支故事崩塌,他的组合是天然的对冲。
+      </div>
+    </div>
+  </div>
+
+  <div class="three-col" style="margin-top:14px">
+    <div class="card ca-blue card-accent">
+      <div class="card-label cl-blue">主题四:特朗普 2.0 政策红利</div>
+      <div class="card-title">关键矿产战略 + 国防自主</div>
+      <div class="card-body">
+        Trump 2.0 的核心政策方向:① 美国本土关键矿产复兴(EO 13817 续约 + 国防生产法案 Title III 资金) ② 阿拉斯加资源开发解禁(2025 年 1 月 EO) ③ EXIM 银行融资力度加大(Stibnite $20亿 letter of interest)。<strong>Paulson 是这三大政策的最大受益者</strong>。
+      </div>
+    </div>
+    <div class="card ca-nuclear card-accent">
+      <div class="card-label cl-nuclear">主题五:制药行业并购大潮</div>
+      <div class="card-title">大药企专利悬崖 + 现金充裕</div>
+      <div class="card-body">
+        Pfizer、Bristol-Myers、Merck 等大药企面临 2025-2030 年大规模专利到期(Keytruda 2028年到期)。BHC 旗下的 Bausch & Lomb 是潜在最佳并购标的之一。MDGL 已经被市场认为是<strong>潜在 GLP-1 巨头收购目标</strong>(诺和诺德、礼来都关注 MASH 适应症)。
+      </div>
+    </div>
+    <div class="card ca-navy card-accent">
+      <div class="card-label cl-navy">主题六:量化资管的结构性顺风</div>
+      <div class="card-title">主动 vs 被动之间的"第三类"</div>
+      <div class="card-body">
+        主动型基金经理过去 10 年被 ETF 碾压。但<strong>系统化/量化是夹在中间的"第三类"</strong>——既能产生 alpha,又费率合理。AAMI 在新兴市场量化和非美量化是<strong>全球前 5</strong>的玩家。在"全球资本去美元化、再分配到非美资产"主题下,AAMI 是结构性受益者。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: RISKS -->
+<section class="section">
+  <div class="s-label">风险提示</div>
+  <div class="s-title">六项主要风险:跟单 Paulson 之前必须想清楚</div>
+  <div class="s-divider"></div>
+
+  <div class="risk-grid">
+    <div class="risk-card rl-red">
+      <div class="risk-icon">📉</div>
+      <div class="risk-title">金价系统性回调风险</div>
+      <div class="risk-body">5 只矿业股集中度极高(组合 ~40%+)。如果美联储重新激进加息、美元强势反弹,或中东和平进程取消"避险溢价",金价可能回调 20-30%。在这种情景下,开发期金矿股(NG、THM、PPTA)弹性最大,可能跌 50-70%。Paulson 没有股价对冲,纯粹靠"长期持有 + 结构性逻辑兑现"。</div>
+    </div>
+    <div class="risk-card rl-red">
+      <div class="risk-icon">⏳</div>
+      <div class="risk-title">开发期项目执行风险</div>
+      <div class="risk-body">PPTA 2028 投产、NG 2031 投产、THM 5-10 年——这是漫长的兑现期。任何一个节点延期、成本超支(Stibnite 资本支出已从 2020 年的 $1.3亿 涨到 $1.93亿+)、社区反对、生态诉讼,都会重创股价。NG 的 Donlin 已经"快投产了"喊了 15 年。</div>
+    </div>
+    <div class="risk-card rl-amber">
+      <div class="risk-icon">🤖</div>
+      <div class="risk-title">AI 牛市持续 / 反向暴露风险</div>
+      <div class="risk-body">如果美股牛市继续靠 AI 和 7 大巨头驱动(NVDA、MSFT、META 等),Paulson 完全没有这些敞口的组合会显著跑输标普。2024-2025 年标普 500 +60%+,Paulson 组合可能仅 +30-40%。这种"机会成本"对长期家族办公室来说可以忍受,但对跟单的散户/机构投资者会很煎熬。</div>
+    </div>
+    <div class="risk-card rl-amber">
+      <div class="risk-icon">🏛️</div>
+      <div class="risk-title">特朗普政策不确定性</div>
+      <div class="risk-body">Paulson 组合 strongly aligned with Trump 2.0 政策(关键矿产、阿拉斯加开发、医药价格自由化、能源自主)。但特朗普政策有<strong>反复性</strong>——比如 IRA 法案中的核电PTC如果被特朗普削减,会影响整个能源板块逻辑。如果中期选举民主党重夺众议院,部分政策红利可能受阻。</div>
+    </div>
+    <div class="risk-card rl-blue">
+      <div class="risk-icon">💊</div>
+      <div class="risk-title">MDGL 单一药物风险</div>
+      <div class="risk-body">MDGL 占组合 30%+(单一最大持仓)。Rezdiffra 是其唯一获批产品,如果未来出现:① 安全性事件(罕见副作用) ② 同类竞品获批(诺和诺德、礼来在 MASH 适应症上的进展) ③ 销售爬坡不及预期,MDGL 可能从 $400+ 跌回 $100-200 区间。Paulson Q4 已经主动减仓 10%,可能预见到这个风险。</div>
+    </div>
+    <div class="risk-card rl-navy">
+      <div class="risk-icon">🪞</div>
+      <div class="risk-title">13F 数据延迟 / 不完整</div>
+      <div class="risk-body">13F 申报有 45 天延迟,且只显示美股多头持仓。Paulson 可能已经在跟踪期之后调整组合,且 13F 不显示:① 实物黄金敞口 ② 海外股票 ③ 私募股权 ④ 衍生品/CDS 空头。<strong>2007 年他做空次贷的关键仓位也不在 13F 上</strong>。如果他真的押注美元贬值,可能在外汇/利率衍生品上还有更大头寸——这些都不可见。</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 11: CONCLUSION -->
+<section class="section">
+  <div class="s-label">综合结论</div>
+  <div class="s-title">把整个组合想透:这是一个怎样的押注?</div>
+  <div class="s-divider"></div>
+
+  <div class="two-col">
+    <div class="card ca-nuclear card-accent">
+      <div class="card-label cl-nuclear">这个组合在押什么?</div>
+      <div class="card-body" style="font-size:13.5px">
+        ① <strong>美元贬值 / 实物资产重估</strong>——5 只矿业股 + 大量未公开实物黄金 = 50%+ 反美元仓位<br><br>
+        ② <strong>中美脱钩驱动美国本土供应链重建</strong>——PPTA(美国唯一锑) + SOLS(关键氟化物) = 关键矿产战略受益<br><br>
+        ③ <strong>困境企业的价值释放剧本</strong>——BHC(B+L 分拆) + AAMI(已完成) + THRY(SaaS转型) = 经典 Paulson 式分拆套利<br><br>
+        ④ <strong>少数突破性创新药物的放量</strong>——MDGL(MASH 治疗) = 唯一的"成长股"敞口<br><br>
+        ⑤ <strong>特朗普 2.0 政策红利</strong>——阿拉斯加 EO + 关键矿产战略 + EXIM 融资支持
+      </div>
+    </div>
+    <div class="card ca-amber card-accent">
+      <div class="card-label cl-amber">这个组合在反对什么?</div>
+      <div class="card-body" style="font-size:13.5px">
+        ① <strong>反 AI 资本开支泡沫</strong>——零 Magnificent 7 暴露、零半导体、零 AI 股<br><br>
+        ② <strong>反美元/法币体系的长期信用</strong>——为什么持有大量黄金资源而不是国债?<br><br>
+        ③ <strong>反美股集中度风险</strong>——标普 500 集中度历史最高,Paulson 组合是"反集中"的天然对冲<br><br>
+        ④ <strong>反 ESG/碳中和的极端版</strong>——重仓矿业(锑、金、特种材料)+制药+SaaS 转型,完全不参与"绿色经济"主题<br><br>
+        ⑤ <strong>反"被动指数化"</strong>——9 只股票全是 Paulson 个人深度研究的结果,不模仿任何指数
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--navy);border-radius:10px;padding:28px 32px;margin-top:20px">
+    <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber-light);margin-bottom:12px">核心判断</div>
+    <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:14px">
+      这不是一个"价值投资组合"或"成长股组合"——这是一个用30年金融市场经验设计的<span style="color:var(--amber-light)">反脆弱性押注</span>
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.75">
+      Paulson 把 9 只股票布得像一个精密的多层防御系统:<strong style="color:#fff">5 只矿业股提供"美元贬值"的下行保护和上行 alpha,2 只医药股提供"创新药放量"和"困境分拆"两种独立催化剂,1 只资管股提供稳定现金流锚,1 只 SaaS 股提供小额"转型期权"</strong>。当前每一只持仓都对应一个清晰的、有明确催化剂的 5-10 年长期主题。这种组合的真正的设计目的不是"跑赢标普 500",而是<strong style="color:#fff">"在标普 500 主导逻辑崩塌时仍能保住购买力 + 提供巨大的 upside 期权"</strong>。
+      <br><br>
+      简单说:<strong style="color:#fff">如果美股 AI 牛市持续,这个组合会跑输 30-40%;但如果出现美元危机、AI 资本开支退潮、或科技泡沫破裂,这个组合可能跑赢 50-100%</strong>。这不是给所有投资者的处方,但对真正想要"对冲全市场结构性风险"的资金来说,这是当下最值得研究的样本之一。
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:20px">
+    <div class="hb-label">🎯 给跟单投资者的最终提示</div>
+    <div class="hb-text">
+      <strong>13F 数据有 45 天延迟,且只反映美股多头</strong>。如果你想真正跟随 Paulson 的策略,需要理解他的<strong>整体配置</strong>——大量实物黄金(20-30%)+ 矿业股(40%)+ 困境股(30%) = 真实的"反美元/反 AI"组合。简化版的"Paulson 主题 ETF":30% 实物金/GLD + 20% 黄金生产商(GDX)+ 10% 黄金开发商(GDXJ)+ 20% MDGL+BHC + 10% AAMI + 10% 现金。这个简化组合复制了 Paulson 哲学但流动性更好,适合普通投资者。<strong>但要清楚:这是"对冲组合",不是"跑赢标普 500"的工具</strong>。
+    </div>
+  </div>
+</section>
+
+<!-- FOOTNOTE -->
+<div class="footnote page">
+  <strong>免责声明</strong>:本研究报告仅供参考,不构成投资建议。所有数据来源于公开市场信息(Paulson & Co. SEC 13F-HR 申报、Form 4 内幕交易报告、公司财报、媒体报道),以最新 13F 申报日 2025-12-31 数据为主,部分数据(如 THM 增持)来自 2026 Q1 公开新闻。股票投资存在亏损风险,请在专业顾问指导下做出投资决策。<br>
+  数据来源:Paulson & Co. SEC 13F-HR 申报(2026 年 2 月 17 日)、GuruFocus、Insider Monkey、HedgeFollow、Stocktitan、Mining.com、The Northern Miner、Business Wire、Yahoo Finance、Bloomberg、Wall Street Journal、Forbes、各公司投资者关系页面与 SEC EDGAR 文件。<br>
+  报告编辑日期:2026 年 4 月 26 日。
+</div>
+
+</div><!-- /page -->
+</body>
+</html>
