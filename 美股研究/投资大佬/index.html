@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>投资大佬持仓研究 · Research Series</title>
+<link rel="icon" type="image/svg+xml" href="/research/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Karla:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:     #1B2635;
+  --amber:    #B8870A;
+  --amber-hi: #D4A017;
+  --bg:       #F4F2ED;
+  --muted:    #6B7280;
+  --border:   #DDD8CF;
+}
+
+body {
+  background: var(--bg);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.masthead {
+  background: var(--navy);
+  border-bottom: 3px solid var(--amber);
+  padding: 28px 0 24px;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::after {
+  content: 'GURU';
+  position: absolute;
+  right: -10px; bottom: -24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 160px; font-weight: 700;
+  color: rgba(255,255,255,0.04);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -0.02em;
+}
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
+.series-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.series-eyebrow::before {
+  content: '';
+  display: inline-block; width: 18px; height: 2px;
+  background: var(--amber);
+}
+.series-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px; font-weight: 700;
+  color: #fff; line-height: 1.1;
+  margin-bottom: 10px;
+}
+.series-title em { color: var(--amber-hi); font-style: normal; }
+.series-desc {
+  font-size: 14px; color: rgba(255,255,255,0.55);
+  font-weight: 300; max-width: 640px;
+  margin-bottom: 18px;
+}
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.08em;
+  padding: 4px 10px; border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+}
+
+/* Stats bar */
+.stats-bar { background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.stats-inner {
+  max-width: 1400px; margin: 0 auto; padding: 0 40px;
+  display: flex; gap: 0;
+}
+.stat {
+  padding: 14px 28px 14px 0;
+  display: flex; align-items: baseline; gap: 6px;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 700; color: var(--amber-hi);
+}
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.stat-divider { width: 1px; background: rgba(255,255,255,0.1); margin: 10px 28px 10px 0; }
+
+/* Back button */
+.back-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber); text-decoration: none;
+  max-width: 1400px; margin: 0 auto;
+  display: block; padding: 18px 40px 0;
+}
+.back-btn:hover { color: var(--amber-hi); }
+
+/* Report list */
+.report-list {
+  max-width: 1400px; margin: 0 auto;
+  padding: 24px 40px 80px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.series-card {
+  display: flex; align-items: stretch;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none; color: inherit;
+  overflow: hidden;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.series-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-color: var(--amber);
+}
+.card-num {
+  width: 52px; flex-shrink: 0;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  letter-spacing: 0.05em;
+}
+.card-accent-strip { width: 3px; flex-shrink: 0; background: var(--amber); }
+.card-body {
+  flex: 1; padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.card-content { flex: 1; }
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--amber);
+  margin-bottom: 4px;
+}
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--navy); margin-bottom: 5px; line-height: 1.2;
+}
+.card-desc {
+  font-size: 12.5px; color: var(--muted);
+  line-height: 1.5; margin-bottom: 10px;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; padding: 2px 8px;
+  border-radius: 10px;
+  background: #f0ece4; color: var(--muted);
+}
+.card-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 8px; flex-shrink: 0;
+}
+.card-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+}
+.card-arrow {
+  font-size: 18px; color: var(--border);
+  transition: color 0.15s;
+}
+.series-card:hover .card-arrow { color: var(--amber); }
+
+.footer {
+  text-align: center; padding: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--border);
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="series-eyebrow">Research Series · 投资大佬持仓</div>
+    <div class="series-title"><em>投资大佬</em>持仓深度研究</div>
+    <div class="series-desc">解构顶级贵金属投资人的持仓逻辑——13F 申报、基金持仓分布、买入框架与历史仓位演变。</div>
+    <div class="pills">
+      <span class="pill">13F 持仓</span>
+      <span class="pill">贵金属</span>
+      <span class="pill">黄金矿企</span>
+      <span class="pill">白银</span>
+      <span class="pill">资产管理</span>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label">篇报告</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-num">2026-05</span>
+      <span class="stat-label">最新更新</span>
+    </div>
+  </div>
+</div>
+
+<a href="../../index.html" class="back-btn">← Index</a>
+
+<div class="report-list">
+
+  <!-- #01 -->
+  <a href="Paulson_持仓深度研究.html" class="series-card">
+    <div class="card-num">#01</div>
+    <div class="card-accent-strip"></div>
+    <div class="card-body">
+      <div class="card-content">
+        <div class="card-label">13F 持仓解构 · 黄金重仓</div>
+        <div class="card-title">John Paulson · 13F 持仓深度研究</div>
+        <div class="card-desc">Paulson & Co 最新持仓解构——黄金重仓逻辑、持仓集中度分析、与历史仓位演变对比。覆盖 AEM、NEM、GOLD 等核心矿企头寸。</div>
+        <div class="card-tags">
+          <span class="tag">Paulson & Co</span>
+          <span class="tag">13F</span>
+          <span class="tag">AEM</span>
+          <span class="tag">NEM</span>
+          <span class="tag">GOLD</span>
+          <span class="tag">黄金矿企</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <span class="card-date">2026-05-11</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- #02 -->
+  <a href="Sprott_持仓深度研究.html" class="series-card">
+    <div class="card-num">#02</div>
+    <div class="card-accent-strip"></div>
+    <div class="card-body">
+      <div class="card-content">
+        <div class="card-label">持仓框架 · 贵金属体系</div>
+        <div class="card-title">Eric Sprott · 持仓深度研究</div>
+        <div class="card-desc">Sprott 贵金属重仓体系全解析——白银/黄金矿企持仓分布、PHYS/PSLV 资产管理规模、核心投资框架与持仓演变逻辑。</div>
+        <div class="card-tags">
+          <span class="tag">Eric Sprott</span>
+          <span class="tag">PHYS</span>
+          <span class="tag">PSLV</span>
+          <span class="tag">白银</span>
+          <span class="tag">黄金</span>
+          <span class="tag">矿企持仓</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <span class="card-date">2026-05-11</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="footer">RESEARCH SERIES · 投资大佬持仓专题 · coderz66</div>
+
+</body>
+</html>
