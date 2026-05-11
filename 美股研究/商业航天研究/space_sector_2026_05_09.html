@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>商业航天产业拐点 · 2026/05/09</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6;--cream:#F4EFE2;--cream-soft:#F7F3E8;
+  --navy:#0E2A47;--navy-dark:#061528;--navy-light:#143655;--navy-mid:#1a3a5e;
+  --bronze:#8B6F35;--bronze-light:#C9A961;--bronze-soft:rgba(139,111,53,0.12);
+  --bull:#1F6B4A;--bull-soft:#E1ECE5;
+  --bear:#A8331F;--bear-soft:#F2DDD7;
+  --amber:#C97D35;--amber-soft:#F3E2D0;
+  --highlight:#FFF1B8;
+  --text:#1f2937;--muted:#6b7280;
+  --border:#d4ccb8;--border-soft:#e8e2d0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:13.5px;line-height:1.55}
+.container{max-width:1200px;margin:0 auto}
+
+/* MASTHEAD - dark gradient */
+.masthead{background:linear-gradient(135deg,#061528 0%,var(--navy) 50%,#143655 100%);color:#fff;padding:34px 42px 26px;border-bottom:3px solid var(--bronze)}
+.masthead .brand{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:2.5px;color:var(--bronze-light);text-transform:uppercase;margin-bottom:14px;font-weight:500}
+.masthead h1{font-family:'Fraunces',serif;font-weight:600;font-size:30px;line-height:1.18;margin-bottom:8px;letter-spacing:-0.3px}
+.masthead h1 em{color:var(--bronze-light);font-style:italic}
+.masthead .subtitle{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:rgba(255,255,255,0.82);margin-bottom:18px}
+.masthead .meta{display:flex;gap:28px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,0.65);letter-spacing:0.5px;flex-wrap:wrap}
+.masthead .meta span strong{color:var(--bronze-light);font-weight:500;margin-right:6px}
+
+/* SECTION HEAD - dark navy block with bronze left bar */
+.section-head{background:linear-gradient(90deg,var(--navy) 0%,var(--navy-mid) 100%);color:#fff;padding:18px 22px;border-left:4px solid var(--bronze);margin-top:34px;display:flex;align-items:baseline;gap:18px}
+.section-head .num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--bronze-light);font-weight:500;letter-spacing:1px}
+.section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:21px;flex:1;letter-spacing:-0.2px}
+.section-head .tag{font-family:'Fraunces',serif;font-style:italic;font-size:12.5px;color:rgba(255,255,255,0.7)}
+.section-body{padding:20px 42px 4px}
+
+/* EXEC SUMMARY */
+.exec{background:#fff;border:1px solid var(--border-soft);border-top:3px solid var(--bronze);padding:18px 22px;margin:24px 42px 0}
+.exec .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;color:var(--bronze);text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.exec p{font-size:13.5px;line-height:1.62;margin-bottom:8px;color:var(--text)}
+.exec p:last-child{margin-bottom:0}
+.exec strong{color:var(--navy);font-weight:600}
+.exec em{font-family:'Fraunces',serif;font-style:italic;color:var(--navy)}
+
+/* PROFILE CARDS - white with colored left border */
+.profile-card{background:#fff;border:1px solid var(--border-soft);border-left:3px solid var(--navy);padding:14px 18px;margin:12px 0}
+.profile-card.bull{border-left-color:var(--bull)}
+.profile-card.bear{border-left-color:var(--bear)}
+.profile-card.bronze{border-left-color:var(--bronze)}
+.profile-card.amber{border-left-color:var(--amber)}
+.profile-card .head-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.profile-card .name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--navy)}
+.profile-card .name .tk{font-family:'JetBrains Mono',monospace;background:var(--cream);padding:1px 7px;border-radius:2px;font-size:11.5px;color:var(--bronze);margin-right:8px;font-weight:600;vertical-align:middle}
+.profile-card .tagline{font-family:'Fraunces',serif;font-style:italic;color:var(--muted);font-size:13px;margin-bottom:8px}
+.profile-card p{font-size:13px;margin-bottom:6px;line-height:1.55}
+.profile-card p:last-of-type{margin-bottom:0}
+.profile-card strong{color:var(--navy);font-weight:600}
+.profile-card .verdict{font-family:'Fraunces',serif;font-style:italic;background:var(--cream-soft);padding:9px 13px;border-left:2px solid var(--bronze);margin-top:10px;font-size:13px;color:var(--navy);line-height:1.5}
+.profile-card .verdict::before{content:"⌖ ";color:var(--bronze);font-weight:700;font-style:normal}
+
+/* DATA TABLES */
+table.data{width:100%;border-collapse:collapse;font-family:'Source Sans 3',sans-serif;font-size:12.5px;margin:14px 0;background:#fff}
+table.data thead th{background:var(--cream);color:var(--navy);font-weight:600;text-align:left;padding:9px 11px;border-bottom:2px solid var(--bronze);font-size:11px;text-transform:uppercase;letter-spacing:0.4px}
+table.data tbody td{padding:8px 11px;border-bottom:1px solid var(--border-soft);vertical-align:middle}
+table.data tbody tr:hover{background:rgba(139,111,53,0.04)}
+table.data .num{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500}
+table.data .bull-cell{background:var(--bull-soft);color:var(--bull);font-weight:600}
+table.data .bear-cell{background:var(--bear-soft);color:var(--bear);font-weight:600}
+table.data .amber-cell{background:var(--amber-soft);color:var(--amber);font-weight:600}
+table.data .ticker{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--navy);font-size:11.5px}
+table.data .center{text-align:center}
+table.data .strong{color:var(--navy);font-weight:600}
+
+/* TIER GRID T1-T4 */
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.tier-card{background:#fff;border:1px solid var(--border-soft);border-top:3px solid;padding:12px 14px}
+.tier-card.t1{border-top-color:var(--bull)}
+.tier-card.t2{border-top-color:var(--bronze-light)}
+.tier-card.t3{border-top-color:var(--amber)}
+.tier-card.t4{border-top-color:var(--bear)}
+.tier-card .lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.2px;color:var(--muted);font-weight:500}
+.tier-card .ttl{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:14px;margin:4px 0}
+.tier-card .desc{font-size:12px;color:var(--text);line-height:1.45;margin-bottom:6px}
+.tier-card .tks{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bronze);margin-top:6px;font-weight:600}
+
+/* CALLOUT - white with colored border */
+.callout{background:#fff;border-left:3px solid var(--bronze);padding:12px 16px;margin:12px 0;font-size:13px}
+.callout.bull{border-left-color:var(--bull)}
+.callout.bear{border-left-color:var(--bear)}
+.callout.navy{border-left-color:var(--navy)}
+.callout .head{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:13.5px;margin-bottom:5px}
+.callout p{font-size:13px;margin:0}
+
+/* SPECTRUM CHAIN - L1..L7 */
+.spectrum{margin:14px 0}
+.spectrum-row{display:grid;grid-template-columns:140px 1fr;gap:18px;padding:12px 16px;margin-bottom:5px;background:#fff;border:1px solid var(--border-soft);border-left:5px solid;align-items:flex-start}
+.spectrum-row.L1{border-left-color:#2c4068}
+.spectrum-row.L2{border-left-color:#3e5680}
+.spectrum-row.L3{border-left-color:#5e6f96}
+.spectrum-row.L4{border-left-color:#8b8aa3}
+.spectrum-row.L5{border-left-color:#b39c7a}
+.spectrum-row.L6{border-left-color:#a98a4d}
+.spectrum-row.L7{border-left-color:var(--bronze)}
+.spectrum-row .lbl-block{padding-top:1px}
+.spectrum-row .layer-id{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.2px;color:var(--muted);font-weight:500}
+.spectrum-row .layer-name{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:13.5px;margin-top:2px;line-height:1.25}
+.spectrum-row .layer-content{font-size:12.5px;line-height:1.55}
+.spectrum-row .layer-content strong{color:var(--navy)}
+.spectrum-row .layer-content .pub{color:var(--bronze);font-weight:600;font-family:'JetBrains Mono',monospace;font-size:11px}
+.spectrum-row .layer-content .priv{color:var(--muted);font-style:italic;font-size:12px}
+
+/* PILL */
+.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 7px;border-radius:2px;letter-spacing:0.5px;font-weight:600;margin-right:4px;vertical-align:middle;text-transform:uppercase}
+.pill.bull{background:var(--bull-soft);color:var(--bull)}
+.pill.bear{background:var(--bear-soft);color:var(--bear)}
+.pill.bronze{background:var(--bronze-soft);color:var(--bronze)}
+.pill.navy{background:rgba(14,42,71,0.08);color:var(--navy)}
+.pill.gray{background:rgba(0,0,0,0.05);color:var(--muted)}
+.pill.amber{background:var(--amber-soft);color:var(--amber)}
+
+/* TIMELINE - dark monospace block */
+.timeline{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--navy-dark);color:#fff;padding:16px 22px;border-left:3px solid var(--bronze);margin:14px 0;line-height:1.85;overflow-x:auto;white-space:pre}
+.timeline .arr{color:var(--bronze-light)}
+.timeline .pct{color:#8FD4A8}
+.timeline .lbl{color:var(--bronze-light)}
+.timeline .neut{color:rgba(255,255,255,0.7)}
+
+/* CO-VERDICT mapping table */
+.map-direct{background:var(--bull-soft);color:var(--bull);font-weight:700;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.3px}
+.map-indirect{background:var(--bronze-soft);color:var(--bronze);text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.3px}
+.map-weak{background:rgba(0,0,0,0.04);color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.3px}
+
+/* Sub headings */
+h3.sub{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:16px;margin:20px 0 8px;padding-left:10px;border-left:3px solid var(--bronze)}
+h4.sub2{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:14px;margin:14px 0 6px}
+h4.sub2 em{color:var(--bronze);font-style:italic}
+
+p{margin-bottom:8px}
+.section-body>p{font-size:13.5px;line-height:1.6}
+
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+
+/* DRIVER PANEL - per-driver white card */
+.driver-panel{background:#fff;border:1px solid var(--border-soft);border-left:3px solid var(--bronze);padding:16px 20px;margin:12px 0}
+.driver-panel .driver-id{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--bronze);font-weight:600;text-transform:uppercase}
+.driver-panel .driver-name{font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:18px;margin:4px 0 4px}
+.driver-panel .driver-name em{color:var(--bronze);font-style:italic}
+.driver-panel .driver-summary{font-family:'Fraunces',serif;font-style:italic;color:var(--muted);font-size:13px;margin-bottom:10px}
+.driver-panel ul{margin:6px 0 6px 18px;font-size:13px}
+.driver-panel ul li{margin-bottom:3px;line-height:1.5}
+
+/* FOOTER */
+.footer{background:var(--navy);color:rgba(255,255,255,0.65);padding:22px 42px;margin-top:42px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.7;letter-spacing:0.3px}
+.footer .line{margin-bottom:5px}
+.footer strong{color:var(--bronze-light)}
+.footer .disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-style:italic;color:rgba(255,255,255,0.5)}
+
+/* HIGHLIGHT INLINE */
+.hl{background:var(--highlight);padding:0 3px;border-radius:1px}
+
+/* RING NUM */
+.rn{display:inline-block;width:18px;height:18px;background:var(--navy);color:#fff;border-radius:50%;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:18px;font-weight:600;margin-right:6px;vertical-align:middle}
+
+/* STRONG INLINE STYLE */
+strong.navy{color:var(--navy);font-weight:600}
+strong.bronze{color:var(--bronze);font-weight:600}
+strong.bull{color:var(--bull);font-weight:700}
+strong.bear{color:var(--bear);font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========================== MASTHEAD ========================== -->
+<div class="masthead">
+  <div class="brand">EQUITY RESEARCH · COMMERCIAL SPACE & DEFENSE · US</div>
+  <h1>商业航天 <em>产业拐点</em>：5/8 财报季引爆背后的三重结构性驱动</h1>
+  <div class="subtitle">A trader's framework on the launch–to–intelligence value chain</div>
+  <div class="meta">
+    <span><strong>DATE</strong> 2026.05.09</span>
+    <span><strong>HORIZON</strong> 3-week / Trader</span>
+    <span><strong>POSTURE</strong> Offensive · Bull-market logic</span>
+    <span><strong>SECTOR β</strong> Space · SBI · Sov-ISR</span>
+    <span><strong>WATCHLIST</strong> 22 names</span>
+  </div>
+</div>
+
+<!-- ========================== EXEC SUMMARY ========================== -->
+<div class="exec">
+  <div class="label">EXECUTIVE SUMMARY</div>
+  <p>5/8 美股太空板块出现 <strong>RKLB +34% / FLY +23% / BKSY +22% / RDW +20% / LUNR +20% / VOYG +16% / ASTS +15% / PL +11%</strong> 的集中性爆发。表层是 5 家商业航天 pure-play 公司财报全部 beat、上调指引、刷新 backlog 纪录；深层是 <em>商业航天产业拐点</em> 在 Q1 财报季的一次性兑现 — NASA Artemis 加速 (2030 年永久月球基地)、Golden Dome SBI 部署 ($3.2B 首批 OTA 落地)、欧洲 sovereign 卫星情报需求爆发 (€500B 十年缺口) 三条主线集中放量。</p>
+  <p>本报告按 <em>事件复盘 → 财报矩阵 → 三大驱动 → 产业链分层 → 公司速览 → 交叉映射 → 配置建议</em> 七段展开。Trader framework：行业 β 进入 24-36 个月主升浪窗口；情绪从分歧转向共识中段；筹码新换手承接力强；估值不构成卖出约束。<strong>核心结论</strong>：公开市场可买 pure-play 标的稀缺 (12 家 SBI 中标公司只有 6 家上市)，是当前估值溢价的结构性原因。</p>
+</div>
+
+<!-- ========================== §01 板块复盘 ========================== -->
+<div class="section-head">
+  <span class="num">§ 01</span>
+  <h2>板块复盘 · 5/8 涨跌幅与板块识别</h2>
+  <span class="tag">"This isn't defense — it's space"</span>
+</div>
+<div class="section-body">
+
+<p>当天涨跌幅按主题归类后，呈现非常 <em>清洁的板块映射</em>：商业航天/卫星 (Space + Satellite) 是绝对主线，泛国防是噪音。最直接的反向证据是 <strong class="bear">AXON -5% / LHX -3% / KRMN -3%</strong> 这些纯国防股当天逆势下跌。</p>
+
+<table class="data">
+  <thead>
+    <tr><th style="width:60px">代码</th><th>公司</th><th class="center" style="width:90px">5/8 涨跌</th><th style="width:120px">主题归类</th><th>催化定性</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="ticker">RKLB</td><td>Rocket Lab USA</td><td class="bull-cell num center">+34%</td><td>太空 / 运载</td><td>Q1 财报全口径 beat (5/7 盘后) + Neutron 史上最大单笔合同</td></tr>
+    <tr><td class="ticker">FLY</td><td>Firefly Aerospace</td><td class="bull-cell num center">+23%</td><td>太空 / 月球+国防</td><td>Q1 +45% YoY (5/4) + SciTec 入选 Golden Dome SBI 12 家之一</td></tr>
+    <tr><td class="ticker">BKSY</td><td>BlackSky Technology</td><td class="bull-cell num center">+22%</td><td>卫星情报</td><td>Q1 财报 (5/7) + 上调全年指引 + $160M 新签合同</td></tr>
+    <tr><td class="ticker">RDW</td><td>Redwire</td><td class="bull-cell num center">+20%</td><td>卫星平台</td><td>Q1 财报 (5/6) + 毛利率 9.6%→26.6% + Andromeda IDIQ $1.8B</td></tr>
+    <tr><td class="ticker">LUNR</td><td>Intuitive Machines</td><td class="bull-cell num center">+20%</td><td>太空 / 月球</td><td>板块共振 + Lanteris 收购协同 + LTV $4.6B 待批</td></tr>
+    <tr><td class="ticker">VOYG</td><td>Voyager Technologies</td><td class="bull-cell num center">+16%</td><td>商业空间站</td><td>Q1 (5/5) + Backlog +54% YoY + Golden Dome 多笔合同</td></tr>
+    <tr><td class="ticker">ASTS</td><td>AST SpaceMobile</td><td class="bull-cell num center">+15%</td><td>卫星通信</td><td>FCC 频谱新规延续 + 板块 β</td></tr>
+    <tr><td class="ticker">PL</td><td>Planet Labs</td><td class="bull-cell num center">+11%</td><td>卫星地图</td><td>板块共振；YTD 已 +97% / YoY +975%，筹码偏重</td></tr>
+    <tr><td class="ticker">JOBY</td><td>Joby Aviation</td><td class="amber-cell num center">+9%</td><td>eVTOL</td><td><span class="pill gray">弱映射</span>与航天无直接关系</td></tr>
+    <tr><td class="ticker">ACHR</td><td>Archer Aviation</td><td class="amber-cell num center">+3%</td><td>eVTOL</td><td><span class="pill gray">弱映射</span>仅"航空+新势力"情绪带动</td></tr>
+    <tr><td class="ticker">KTOS</td><td>Kratos Defense</td><td class="amber-cell num center">+2%</td><td>国防靶机/CCA</td><td><span class="pill gray">弱映射</span>跟涨幅度小已证伪国防主题</td></tr>
+    <tr><td class="ticker">AVAV</td><td>AeroVironment</td><td class="amber-cell num center">+3%</td><td>战术无人机</td><td><span class="pill gray">弱映射</span>BlueHalo 子公司间接受益</td></tr>
+    <tr><td class="ticker">RCAT</td><td>Red Cat Holdings</td><td class="amber-cell num center">+3%</td><td>军用无人机</td><td><span class="pill gray">弱映射</span>与 Golden Dome 无关</td></tr>
+    <tr><td class="ticker">ONDS</td><td>Ondas Holdings</td><td class="amber-cell num center">+3%</td><td>反无人机</td><td><span class="pill gray">弱映射</span>反无人机概念跟风</td></tr>
+    <tr><td class="ticker">HWM</td><td>Howmet Aerospace</td><td class="bear-cell num center">-1%</td><td>航空发动机件</td><td><span class="pill bear">无关</span>80% 客户为商用航空</td></tr>
+    <tr><td class="ticker">AXON</td><td>Axon Enterprise</td><td class="bear-cell num center">-5%</td><td>警用 SaaS</td><td><span class="pill bear">无关</span>市场把它从"国防AI"剥离</td></tr>
+    <tr><td class="ticker">LHX</td><td>L3Harris Technologies</td><td class="bear-cell num center">-3%</td><td>国防工业</td><td><span class="pill bear">逆势</span>SBI 红利更多归新势力</td></tr>
+    <tr><td class="ticker">KRMN</td><td>Karman Holdings</td><td class="bear-cell num center">-3%</td><td>导弹结构件</td><td><span class="pill bear">逆势</span>传统供应链不在风口</td></tr>
+  </tbody>
+</table>
+
+<div class="callout navy">
+  <div class="head">板块识别结论</div>
+  <p>当天涨幅 ≥ 10% 的全部 8 家均为 <strong>商业航天/卫星 pure-play</strong>。涨幅 2-9% 的"国防新势力"是<em>跟风映射</em>，缺乏独立催化剂。涨幅 ≤ 0% 的传统国防与航空是<em>反向证据</em>，证明本次主题不是泛国防而是商业航天 + 天基国防的细分组合。</p>
+</div>
+
+</div>
+
+<!-- ========================== §02 财报集中引爆 ========================== -->
+<div class="section-head">
+  <span class="num">§ 02</span>
+  <h2>财报集中引爆 · 5 家公司数据矩阵 + 单家深度</h2>
+  <span class="tag">All beat · All raised · All record backlog</span>
+</div>
+<div class="section-body">
+
+<p>5 家公司在 5/4–5/7 单周内集中报告 Q1 2026，<strong>全部 beat 营收 (RKLB) 或 backlog 纪录新高 + 全部上调或重申全年指引</strong>。这种 cluster pattern 不是巧合，是产业 β 在 Q1 兑现期的一次性放量。</p>
+
+<div class="timeline">
+<span class="lbl">5/4 (Mon AC)</span>  FLY 财报    <span class="arr">→</span>  5/5  +X%  <span class="neut">启动信号</span>
+<span class="lbl">5/5 (Tue AC)</span>  VOYG 财报   <span class="arr">→</span>  5/6  +X%  <span class="neut">Golden Dome 主题确认</span>
+<span class="lbl">5/6 (Wed AC)</span>  RDW 财报    <span class="arr">→</span>  5/7  +X%  <span class="neut">毛利率拐点</span>
+<span class="lbl">5/7 (Thu AC)</span>  BKSY 财报   <span class="arr">→</span>  5/8 <span class="pct">+22%</span>  <span class="neut">Gen-3 商业化拐点</span>
+<span class="lbl">5/7 (Thu AC)</span>  RKLB 财报   <span class="arr">→</span>  5/8 <span class="pct">+34%</span>  <span class="neut">王炸引爆</span>
+<span class="lbl">5/8 (Fri)</span>     全板块共振日  <span class="arr">→</span>  LUNR/PL/ASTS 跟涨, 弱映射 KTOS/AVAV +2~3%
+</div>
+
+<h3 class="sub">2.1 关键数据矩阵</h3>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>指标</th>
+      <th class="ticker center">RKLB</th>
+      <th class="ticker center">BKSY</th>
+      <th class="ticker center">FLY</th>
+      <th class="ticker center">RDW</th>
+      <th class="ticker center">VOYG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="strong">Q1 营收</td><td class="num center">$200.3M</td><td class="num center">$20.8M</td><td class="num center">$80.9M</td><td class="num center">$97.0M</td><td class="num center">$35.2M</td></tr>
+    <tr><td class="strong">YoY 增速</td><td class="bull-cell num center">+63.5%</td><td class="num center">-41% <span class="pill gray">口径</span></td><td class="bull-cell num center">+45%</td><td class="bull-cell num center">+57.9%</td><td class="num center">+2.1%</td></tr>
+    <tr><td class="strong">QoQ 增速</td><td class="num center">+12%</td><td class="num center">+14% <span class="pill gray">核心</span></td><td class="bull-cell num center">+40%</td><td class="num center">n/a</td><td class="num center">持平</td></tr>
+    <tr><td class="strong">vs 一致预期</td><td class="bull-cell num center">beat 4.9%</td><td class="bear-cell num center">miss</td><td class="bull-cell num center">beat 4%</td><td class="bear-cell num center">miss 6%</td><td class="bear-cell num center">miss 2.5%</td></tr>
+    <tr><td class="strong">非 GAAP 毛利率</td><td class="bull-cell num center">43%</td><td class="num center">n/a</td><td class="num center">21.6% (G)</td><td class="bull-cell num center">26.6%</td><td class="num center">负 → Q4 mid-20s</td></tr>
+    <tr><td class="strong">Backlog</td><td class="bull-cell num center">$2.2B</td><td class="num center">$380M</td><td class="num center">$1.3B</td><td class="bull-cell num center">$498M</td><td class="num center">$275M</td></tr>
+    <tr><td class="strong">Backlog YoY</td><td class="bull-cell num center">+108%</td><td class="num center">+10%</td><td class="num center">持平</td><td class="bull-cell num center">+大幅</td><td class="bull-cell num center">+54%</td></tr>
+    <tr><td class="strong">Book-to-Bill</td><td class="num center">n/a</td><td class="num center">n/a</td><td class="num center">n/a</td><td class="bull-cell num center">1.92</td><td class="bull-cell num center">1.3</td></tr>
+    <tr><td class="strong">指引动作</td><td class="bull-cell num center">Q2 上调</td><td class="bull-cell num center">FY 上调</td><td class="num center">FY 重申</td><td class="num center">FY 重申</td><td class="bull-cell num center">FY 上调</td></tr>
+    <tr><td class="strong">现金 / 流动性</td><td class="num center">$1.48B / $2B+</td><td class="num center">$118M / $195M</td><td class="num center">$326M+$225M</td><td class="num center">$175M</td><td class="num center">$429M / $641M</td></tr>
+  </tbody>
+</table>
+
+<div class="callout bronze">
+  <div class="head">矩阵解读</div>
+  <p>真正全口径 beat 的<strong>只有 RKLB</strong> — 这是它当天 +34% (vs 其他 +20% 上下) 的核心原因。BKSY/RDW/VOYG 的 Q1 营收都略 miss 预期，但 backlog 和指引上调的力度盖过短期数据 → <strong>市场买的是"未来 12 个月可见度"，不是当季 EPS</strong>。五家公司 backlog 都超过 6× 季度营收，收入兑现的不是问题，关键看产能爬坡。</p>
+</div>
+
+<h3 class="sub">2.2 单家深度展开</h3>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">RKLB</span>Rocket Lab USA — 唯一全口径 beat，Neutron 期权价值再放大</div>
+    <span class="pill bull">CORE LONG</span>
+  </div>
+  <div class="tagline">Launch + Space Systems 双轮，全产业链整合者</div>
+  <p>收入结构 — Space Systems <strong>$136.7M</strong> / Launch <strong>$63.7M</strong> (分别 beat 预期 3.5% / 7.9%)。Q1 签约 31 个 Electron + HASTE 发射 + 5 个 Neutron 合同，<strong>单季签约量超去年全年</strong>。Neutron 史上最大单笔合同 — 5 次 dedicated + 3 次 Electron 至 2029 年。</p>
+  <p>关键财务信号 — non-GAAP 毛利率 <strong>43%</strong> 大幅超指引上限 (39-41%)，其中 Space Systems 占比从去年同期升至约 <strong>68%</strong>。RKLB 正在从"火箭公司"重定位为"卫星平台公司"，毛利率上限有结构性抬升空间。Q2 指引 $225-240M (中值 +12% beat 预期)。</p>
+  <p>战略加码 — 已完成 <strong>Mynaric 收购 ($155M, 激光星间通信)</strong> + 同意收购 <strong>Motiv Space Systems</strong> (机器人臂)。$1.48B 现金 + $2B+ 总流动性支持继续 M&A 与 Neutron CapEx。</p>
+  <div class="verdict">最干净的多头标的 — 业绩、指引、backlog 三杀好，无负面 surprise。Neutron Q4 首飞窗口构成最大单一催化期权，HASTE 高超音速业务是隐藏利润中心。</div>
+</div>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">BKSY</span>BlackSky Technology — Gen-3 商业化拐点确认，SaaS 化重估开始</div>
+    <span class="pill bull">SENTIMENT REVERSAL</span>
+  </div>
+  <div class="tagline">Sovereign 卫星情报最纯标的，订阅毛利率 80%</div>
+  <p>营收 $20.8M 看似很小，但市场关注三个数字 — ① 核心 Space-based Intelligence & AI 收入 QoQ <strong>+14%</strong> (Mission Solutions 一次性收入退坡掩盖核心增长)；② <strong>$160M 新签合同</strong> (含 $99M AFRL IDIQ + $25M 国际防务 Assured + 海外客户 6 个月内从 pilot 升到 ~$30M Assured 年合同)；③ FY26 营收指引上调 <strong>$130-150M</strong> (中值 +30% YoY)，调整后 EBITDA 指引 <strong>$12-24M</strong> (从负转正)。</p>
+  <p>结构性看点 — Gen-3 订阅业务管理层称毛利率约 <strong>80%</strong>，是从硬件销售切换到 SaaS 模式的明证。4 颗 Gen-3 在轨 (35cm 分辨率)，全年达到 $100M+ ARR run rate，估值锚点从硬件 P/S 切到 SaaS P/S。</p>
+  <div class="verdict">情绪反转最大的标的 — 之前 Stocktwits 还是 bearish，指引上调直接戳穿空头逻辑。Sovereign 主线最纯。</div>
+</div>
+
+<div class="profile-card amber">
+  <div class="head-row">
+    <div class="name"><span class="tk">FLY</span>Firefly Aerospace — Golden Dome 题材最纯正受益人</div>
+    <span class="pill amber">THEMATIC HIGH-BETA</span>
+  </div>
+  <div class="tagline">月球 + 国防双题材，财务质量最弱</div>
+  <p>Q1 营收 $80.9M (+45% YoY, +40% QoQ) 是当周最大 beat 量级 (4% vs 预期)。商业模式拐点 — ① SciTec (AI 软件子公司) 拿到 Space Force <strong>SBI 项目 OTA 协议</strong> ($3.2B 总池 / 12 家受益公司之一)；② 同时拿到 FORGE 项目 <strong>$109M</strong> engineering change award；③ Spacecraft Solutions 业务占 $67.6M、Launch 仅 $13.3M — 利润中心已从火箭转向"防务软件 + 月球着陆器"。</p>
+  <p>风险点 — GAAP 净亏 <strong>$96.7M</strong> (vs Q1 25 的 -$60.1M 扩大)，GAAP 毛利率掉到 21.6%，每季增发约 100 万股稀释。这是市场短期忽略、未来某时点会重定价的负面项。</p>
+  <div class="verdict">题材弹性最大的标的 (Golden Dome + Lunar + 国际扩张瑞典/海上发射)，但财务质量最差。短线交易品种，不适合下重仓久持。</div>
+</div>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">RDW</span>Redwire — 毛利率拐点，组里最被低估的隐性 winner</div>
+    <span class="pill bull">DEEP VALUE</span>
+  </div>
+  <div class="tagline">航天产业链的"村田 / 京瓷"</div>
+  <p>营收 $97.0M (+57.9% YoY) 略 miss 预期 (-6%)，但 <strong>毛利率从 Q4 25 的 9.6% / Q1 25 的 14.7% 跳升到 26.6%</strong> (单季 +17pt 环比) — <strong>这是整组最大的运营拐点</strong>。Book-to-Bill <strong>1.92</strong> (五家最高)，Backlog 创纪录 $498.1M，包含 <strong>$1.8B Andromeda IDIQ</strong> (是 backlog 的 3.6×，显示长尾合同上限) + ESA 量子密钥分发卫星 + Marine Corps Stalker 后续单。</p>
+  <p>净亏 $76.5M 看起来吓人，但其中 <strong>$42.5M 是非现金、非稀释的收购股权激励一次性确认</strong> — 剔除后调整后 EBITDA -$9.2M，向盈亏平衡靠拢。FY26 指引重申 $450-500M (中值 +41.6% YoY)。</p>
+  <div class="verdict">业务质量改善最显著、估值最便宜。涨 20% 后情绪还没到顶，毛利率故事市场还在消化。</div>
+</div>
+
+<div class="profile-card amber">
+  <div class="head-row">
+    <div class="name"><span class="tk">VOYG</span>Voyager Technologies — 久期最长，narrative 弹性最大</div>
+    <span class="pill amber">LONG-DURATION NARRATIVE</span>
+  </div>
+  <div class="tagline">Starlab 商业空间站 + Golden Dome 双题材</div>
+  <p>Q1 营收 $35.2M (+2.1% YoY) 是组里增速最低的，但管理层把 FY26 指引上调到 <strong>$230-255M</strong> (中值 +45.6% YoY) — 这意味着<strong>未来三个季度要逐季加速</strong>，全年节奏 33% 上半年 / 67% 下半年。Backlog $275.3M (+54% YoY)，Q2 已开门红 — 多笔 Golden Dome 合同 + NASA Private Astronaut Mission 中标。</p>
+  <p>关键风险 — Innovation 投入 <strong>$53.4M = 营收的 151%</strong>，其中 $36.6M 砸进 Starlab (商业空间站项目接替 ISS)。FCF -$66.8M / 季度。这是赛道型烧钱标的，多头逻辑完全建立在 "Starlab 2028+ 量产" + "Golden Dome 长期受益" 两个远期 narrative 上。</p>
+  <div class="verdict">久期最长、弹性最大、烧钱风险也最高。叙事交易品种，仓位管理上不应等同于 RKLB。</div>
+</div>
+
+<div class="callout navy">
+  <div class="head">横切主题 · Golden Dome</div>
+  <p>5 家公司里 <strong>3 家 (FLY/VOYG/RDW)</strong> 在电话会议直接点名 Golden Dome — 美国本土导弹防御架构、计划 2028 年集成 SBI 能力、首批 OTA 池 $3.2B / 20 份合同 / 12 家公司。这是把分散的"卫星情报 / 火箭发射 / 平台制造 / AI 软件"串成完整投资 narrative 的关键题材，详见 §03。</p>
+</div>
+
+</div>
+
+<!-- ========================== §03 三大产业驱动 ========================== -->
+<div class="section-head">
+  <span class="num">§ 03</span>
+  <h2>三大产业驱动 · 资金量级与时间表</h2>
+  <span class="tag">Lunar economy · Missile defense · Sovereign autonomy</span>
+</div>
+<div class="section-body">
+
+<p>5 家公司的财报集体超预期不是孤立事件，背后是三条独立但同向的结构性驱动 — 三条线 <em>资金窗口集中在 2026-2030</em>，构成商业航天 24-36 个月主升浪的产业基础。</p>
+
+<!-- DRIVER 1 -->
+<div class="driver-panel">
+  <div class="driver-id">DRIVER 01 / NASA ARTEMIS ACCELERATION</div>
+  <div class="driver-name">NASA Artemis 加速 — <em>月球经济</em>从一次任务到月度着陆</div>
+  <div class="driver-summary">From flags-and-footprints to a permanent presence by 2030</div>
+  <ul>
+    <li><strong>Artemis II 已于 2026/4/1 成功发射</strong>，自 Apollo 17 (1972) 以来首次载人飞越月球</li>
+    <li>后续节奏 — Artemis III (2027 末)、IV (2028 初首次载人登月)、<strong>V (2028 末永久月球基地起点)</strong>，之后每年一次登月</li>
+    <li>川普 EO 14369 (2025/12) — 2030 年前建立永久月面前哨 + <strong>月面核反应堆</strong>部署目标</li>
+    <li>NASA Administrator Isaacman 2026/2 宣布 — 标准化 SLS 配置 + 增加 2027 年额外任务 + 此后每年表面着陆</li>
+    <li>关键政策转向 — Artemis V 之后 SLS 退役，<strong>改用商业运载替代</strong> (FY2027 总统预算明确)，是 RKLB Neutron / FLY Eclipse 的最大长期 narrative</li>
+    <li>FLY 在电话会议明确指引 — 未来 7 年 NASA Moon Base 架构 <strong>$200亿机会</strong></li>
+    <li>CLPS 2.0 启动 (2026) — 月球着陆器频次从 1 次/年 → 月度</li>
+    <li>月面装备需求 — 核反应堆、栖息舱、Lunar Terrain Vehicle (LUNR 待批 <strong>$4.6B</strong> 合同)、ISRU 原位资源利用</li>
+  </ul>
+</div>
+
+<!-- DRIVER 2 -->
+<div class="driver-panel">
+  <div class="driver-id">DRIVER 02 / GOLDEN DOME (LARGEST IN $ TERMS)</div>
+  <div class="driver-name">Golden Dome — <em>美国导弹防御天基化</em>，三大驱动里资金量级最大</div>
+  <div class="driver-summary">$185B portfolio · $3.2B first wave · 2028 integration target</div>
+  <ul>
+    <li>总规划组合 — <strong>$185B</strong> (川普政府 4 层防御架构总盘)</li>
+    <li>FY2027 国防部申请 — <strong>$17.5B</strong> (其中仅 $398M 来自 base budget，其余依赖 reconciliation 包通过)</li>
+    <li>Space-Based Interceptor (SBI) 项目首批 — <strong>$3.2B / 12 家公司 / 20 份 OTA 合同</strong> (2025 末-2026 初已发放)</li>
+    <li>2028 年目标 — 能力集成进 Golden Dome 架构</li>
+    <li>架构 — proliferated LEO (pLEO) 拦截卫星星座，覆盖 boost / midcourse / glide 三阶段拦截，暗示需要<strong>几百到上千颗卫星部署</strong></li>
+    <li>给运载发射、卫星平台、激光通信、AI 火控带来巨大间接需求</li>
+  </ul>
+
+  <h4 class="sub2" style="margin-top:14px">12 家 SBI 中标公司 — <em>识别可交易标的</em></h4>
+  <table class="data" style="margin-top:6px">
+    <thead><tr><th>公司</th><th class="center" style="width:120px">上市状态</th><th>类别</th></tr></thead>
+    <tbody>
+      <tr><td><strong class="navy">Lockheed Martin</strong></td><td class="center"><span class="pill bull">PUBLIC · LMT</span></td><td>传统国防 prime</td></tr>
+      <tr><td><strong class="navy">Northrop Grumman</strong></td><td class="center"><span class="pill bull">PUBLIC · NOC</span></td><td>传统国防 prime</td></tr>
+      <tr><td><strong class="navy">Raytheon (RTX)</strong></td><td class="center"><span class="pill bull">PUBLIC · RTX</span></td><td>传统国防 prime</td></tr>
+      <tr><td><strong class="navy">General Dynamics Mission Systems</strong></td><td class="center"><span class="pill bull">PUBLIC · GD</span></td><td>传统国防 prime</td></tr>
+      <tr><td><strong class="navy">Booz Allen Hamilton</strong></td><td class="center"><span class="pill bull">PUBLIC · BAH</span></td><td>国防咨询 / 系统集成</td></tr>
+      <tr><td><strong class="navy">SciTec</strong> <span style="color:var(--bronze)">(Firefly 子公司)</span></td><td class="center"><span class="pill bull">PUBLIC · FLY</span></td><td>新势力 — AI 软件</td></tr>
+      <tr><td>SpaceX</td><td class="center"><span class="pill gray">PRIVATE · IPO 传闻</span></td><td>新势力 — 运载+卫星</td></tr>
+      <tr><td>Anduril</td><td class="center"><span class="pill gray">PRIVATE</span></td><td>新势力 — 自主系统</td></tr>
+      <tr><td>True Anomaly</td><td class="center"><span class="pill gray">PRIVATE</span></td><td>新势力 — 在轨机动</td></tr>
+      <tr><td>Turion Space</td><td class="center"><span class="pill gray">PRIVATE</span></td><td>新势力 — 在轨服务</td></tr>
+      <tr><td>GITAI USA</td><td class="center"><span class="pill gray">PRIVATE</span></td><td>新势力 — 太空机器人</td></tr>
+      <tr><td>Quindar</td><td class="center"><span class="pill gray">PRIVATE</span></td><td>新势力 — 卫星运营软件</td></tr>
+    </tbody>
+  </table>
+  <div class="callout bronze" style="margin-top:10px">
+    <p><strong>关键洞察</strong> — 12 家中<strong class="bull">只有 6 家上市可交易</strong>，SBI 直接受益的纯标的实际很稀缺，是资金集中流入 LMT / NOC / RTX / GD / BAH / <strong>FLY</strong> 的根本原因。</p>
+  </div>
+</div>
+
+<!-- DRIVER 3 -->
+<div class="driver-panel">
+  <div class="driver-id">DRIVER 03 / SOVEREIGN SAT-INTELLIGENCE</div>
+  <div class="driver-name">Sovereign 卫星情报需求爆发 — <em>欧洲反向重塑全球需求</em></div>
+  <div class="driver-summary">Triggered March 2025 — when US halted intel-sharing with Ukraine</div>
+  <ul>
+    <li><strong>触发事件</strong> — 川普政府 2025/3 暂停对乌克兰卫星情报共享，作为外交杠杆 → 让全球意识到"美国天基情报不能依赖"</li>
+    <li>同时传出 Starlink 服务被作为政治杠杆 (Musk 否认)，加速 Sovereign 替代方案落地</li>
+  </ul>
+
+  <h4 class="sub2" style="margin-top:14px">欧洲反应 — <em>2025 末-2026 全年加速</em></h4>
+  <table class="data" style="margin-top:6px">
+    <thead><tr><th style="width:130px">国家/机构</th><th>资金/项目规模</th><th class="center" style="width:140px">时间窗口</th></tr></thead>
+    <tbody>
+      <tr><td><strong class="navy">德国</strong></td><td><strong>€35B</strong> 军事航天预算</td><td class="center num">至 2030</td></tr>
+      <tr><td>德国</td><td>€5.4B 给 ESA (最大贡献国，占 23%)</td><td class="center num">2026-2028</td></tr>
+      <tr><td>德国</td><td><strong>SATCOM Stage 4 (100+ 颗</strong>军用通信星座)</td><td class="center num">未来几年</td></tr>
+      <tr><td><strong class="navy">法国</strong></td><td>€10.2B 军事航天总预算</td><td class="center num">2026-2030</td></tr>
+      <tr><td><strong class="navy">波兰</strong></td><td>€200M ICEYE SAR 合同 (3+3 颗)</td><td class="center num">已签</td></tr>
+      <tr><td><strong class="navy">EU</strong></td><td><strong>€131B</strong> 防务+航天预算建议</td><td class="center num">2028-2034</td></tr>
+      <tr><td>EU IRIS²</td><td><strong>290 颗</strong>多轨道星座 (反 Starlink)</td><td class="center num">2029 上线</td></tr>
+      <tr><td>EU GOVSATCOM</td><td>已 2026/1 运营，8 颗已并网</td><td class="center num">进行中</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bull" style="margin-top:10px">
+    <p><strong>欧洲专家共识</strong> (Kiel Institute 2026/5 报告) — 欧洲实现防务自主需要 <strong>€500B / 10 年</strong>，satellite reconnaissance / launch / SATCOM 均列为 top 10 capability gap。</p>
+  </div>
+
+  <h4 class="sub2">对美股商业航天公司的实质影响</h4>
+  <ul>
+    <li><strong>BKSY</strong> Q1 直接体现 — $25M 国际防务 Assured + 海外客户 6 个月内从 pilot 升级到 ~$30M Assured 年合同 → Sovereign 是其 backlog $380M 的核心驱动</li>
+    <li><strong>PL</strong> — YTD +97%、YoY +975%，背后正是欧洲/东亚国家纷纷购买 EO 数据订阅</li>
+    <li><strong>ASTS</strong> — D2D 卫星宽带 + FCC 频谱新规打开 7× 容量 → 直接对标欧洲反 Starlink 需求</li>
+  </ul>
+</div>
+
+</div>
+
+<!-- ========================== §04 产业链分层 ========================== -->
+<div class="section-head">
+  <span class="num">§ 04</span>
+  <h2>产业链垂直分层 · L1 上游 → L7 应用层</h2>
+  <span class="tag">From propulsion to data — who owns each layer</span>
+</div>
+<div class="section-body">
+
+<p>下面用从下至上 (上游 → 应用层) 的方式组织整条价值链。<strong>★ = 5/8 财报季显著受益的上市标的</strong>；<em>(私)</em> = 私营公司不可交易。</p>
+
+<div class="spectrum">
+  <div class="spectrum-row L7">
+    <div class="lbl-block">
+      <div class="layer-id">L7 / DOWNSTREAM</div>
+      <div class="layer-name">应用层 — 数据服务 + AI 软件</div>
+    </div>
+    <div class="layer-content">
+      <strong>EO 卫星情报</strong> · <span class="pub">PL ★, BKSY ★</span> · <span class="priv">MAXR(私), Capella(私), ICEYE(私 — Poland 主供应商)</span><br>
+      <strong>D2D 卫星通信</strong> · <span class="pub">ASTS ★, IRDM, VSAT</span><br>
+      <strong>AI 火控 / 数据融合</strong> · <span class="pub">PLTR, BAH, SciTec (FLY ★)</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L6">
+    <div class="lbl-block">
+      <div class="layer-id">L6 / LUNAR & ORBITAL</div>
+      <div class="layer-name">月球 + 在轨服务</div>
+    </div>
+    <div class="layer-content">
+      <strong>月球着陆器</strong> · <span class="pub">LUNR ★ (Nova-C), FLY ★ (Blue Ghost)</span> · <span class="priv">Astrobotic(私), Draper(私)</span><br>
+      <strong>Lunar Rover / LTV</strong> · <span class="pub">LUNR (待批 $4.6B)</span> · <span class="priv">Lunar Outpost(私), Astrolab(私)</span><br>
+      <strong>商业空间站</strong> · <span class="pub">VOYG ★ (Starlab)</span> · <span class="priv">Axiom(私), Vast(私), Sierra Space(私)</span><br>
+      <strong>在轨机动 / 拦截</strong> · <span class="priv">True Anomaly(私), Turion Space(私) — 都是 SBI 受益</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L5">
+    <div class="lbl-block">
+      <div class="layer-id">L5 / MIDSTREAM</div>
+      <div class="layer-name">卫星平台 + 子系统</div>
+    </div>
+    <div class="layer-content">
+      <strong>军用平台</strong> · <span class="pub">RDW ★ (Andromeda IDIQ $1.8B), LMT, NOC, GD</span><br>
+      <strong>SDA Tranche 跟踪层</strong> · <span class="pub">LUNR Lanteris (18 颗 T3), L3Harris (LHX)</span> · <span class="priv">Sierra Space(私)</span><br>
+      <strong>组件 / 子系统</strong> · <span class="pub">RDW (ELSA 太阳能 / PIL-BOX / 成像传感器)</span><br>
+      <strong>激光通信</strong> · <span class="pub">Mynaric (RKLB 已收购)</span> · <span class="priv">Skyloom(私)</span><br>
+      <strong>电推进</strong> · <span class="pub">Gauss (RKLB 已收购)</span> · <span class="priv">Phase Four(私)</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L4">
+    <div class="lbl-block">
+      <div class="layer-id">L4 / UPSTREAM</div>
+      <div class="layer-name">运载发射 — 中型 / 重型</div>
+    </div>
+    <div class="layer-content">
+      <strong>中型可重复使用</strong> · <span class="pub">RKLB ★★ (Neutron, 5 单签约 + SLS 替代候选)</span> · <span class="priv">SpaceX (Falcon 9), Blue Origin (New Glenn)</span><br>
+      <strong>重型运载</strong> · <span class="priv">SpaceX (Starship), ULA Vulcan (BA 合资)</span><br>
+      <strong>中型在研</strong> · <span class="pub">FLY (Eclipse 可重复使用)</span> · <span class="priv">Stoke Space(私)</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L3">
+    <div class="lbl-block">
+      <div class="layer-id">L3 / UPSTREAM</div>
+      <div class="layer-name">运载发射 — 小型 / 高超音速</div>
+    </div>
+    <div class="layer-content">
+      <strong>小型运载</strong> · <span class="pub">RKLB ★ (Electron, 70+ 单 backlog), FLY ★ (Alpha)</span> · <span class="priv">ABL(私), Astra(私)</span><br>
+      <strong>高超音速测试</strong> · <span class="pub">RKLB ($190M HASTE 20 单)</span> · <span class="priv">Stratolaunch(私), Hermeus(私)</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L2">
+    <div class="lbl-block">
+      <div class="layer-id">L2 / PROPULSION</div>
+      <div class="layer-name">推进 + 发动机</div>
+    </div>
+    <div class="layer-content">
+      <strong>固体火箭发动机</strong> · <span class="pub">L3Harris (LHX, 收购 Aerojet Rocketdyne 后), NOC</span><br>
+      <strong>液体推进</strong> · <span class="priv">Blue Origin (BE-4), 各家自研</span>
+    </div>
+  </div>
+
+  <div class="spectrum-row L1">
+    <div class="lbl-block">
+      <div class="layer-id">L1 / GROUND</div>
+      <div class="layer-name">地面段 + 系统集成</div>
+    </div>
+    <div class="layer-content">
+      <strong>卫星地面站 / C2</strong> · <span class="pub">GD Mission Systems, KTOS, LHX</span><br>
+      <strong>架构集成 / 咨询</strong> · <span class="pub">BAH, Booz Allen — Golden Dome 总体设计</span>
+    </div>
+  </div>
+</div>
+
+<div class="callout navy">
+  <div class="head">产业链结构性洞察</div>
+  <p>从 L1 到 L7 共 7 层，<strong>仅 L4-L5 (中型运载 + 卫星平台) 是 RKLB 单独占据全栈整合位置</strong>。L6 月球与商业空间站层私营公司极多 (SpaceX 占据重型运载 + L7 数据)，公开市场可买的 pure-play 标的在 L3/L5/L7 三层最稀缺，形成估值溢价。FLY 通过 SciTec 收购把自己延伸到 L7 (AI 软件) — 这是它弹性最大的根本原因。</p>
+</div>
+
+</div>
+
+<!-- ========================== §05 公司速览 ========================== -->
+<div class="section-head">
+  <span class="num">§ 05</span>
+  <h2>公司速览 · 主业 + 客户 + 与三大驱动的关联</h2>
+  <span class="tag">Know what you own</span>
+</div>
+<div class="section-body">
+
+<h3 class="sub">5.1 商业航天 Pure-Play 八家 — <em>本次主线</em></h3>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">RKLB</span>Rocket Lab USA — 商业航天最完整的"小 SpaceX"</div>
+    <span class="pill bronze">L3+L4+L5</span>
+  </div>
+  <p><strong>业务双轨</strong> — Launch Services (火箭发射) + Space Systems (卫星制造与子系统)，后者已超过前者营收占比 (Q1 ~68%)。</p>
+  <p><strong>火箭产品</strong> — (1) Electron 小型运载，1.3t LEO，全球第二大商业小型火箭；(2) <em>Neutron 中型可重复使用火箭</em>，13t LEO，对标 Falcon 9，2026 年底首飞窗口；(3) HASTE Electron 高超音速测试变体，国防部专用，$190M / 20 单已签。</p>
+  <p><strong>卫星业务</strong> — 收购整合而成 — Sinclair Interplanetary (姿态控制)、SolAero (太阳能板)、Planetary Systems (分离机构)、最新 <strong>Mynaric</strong> ($155M, 激光星间通信) + <strong>Motiv Space Systems</strong> (机器人臂)。</p>
+  <p><strong>客户</strong> — NASA、SDA、商业卫星运营商、国防部。三大驱动全占 — Artemis 后 SLS 商业替代 (Neutron) + Golden Dome SBI pLEO 部署 + Sovereign 卫星发射服务。</p>
+</div>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">LUNR</span>Intuitive Machines — 月球经济纯标的 + Lanteris 国防扩展</div>
+    <span class="pill bronze">L6 + L5</span>
+  </div>
+  <p><strong>主业</strong> — Nova-C 月球着陆器系列。2024 年 IM-1 任务实现首次商业月球着陆 (但侧翻)，IM-2 (2025 初) 正常运营。</p>
+  <p><strong>关键转型</strong> — 2025 下半年 <strong>$800M 收购 Lanteris Space Systems</strong>，从纯月球玩家变成"月球 + 军用卫星平台"双业务。Lanteris 已拿下 SDA <strong>Tranche 3 跟踪层 18 颗卫星</strong>平台合同。</p>
+  <p><strong>待定大单</strong> — NASA Lunar Terrain Vehicle (LTV) 月球车合同 <strong>$4.6B</strong> (3 家入围 LUNR/Lunar Outpost/Astrolab)，预计 2026 内宣布。</p>
+  <p><strong>客户</strong> — NASA 占大头、SDA、商业月球任务客户。<strong>直接受益 Artemis + Golden Dome</strong>。</p>
+</div>
+
+<div class="profile-card amber">
+  <div class="head-row">
+    <div class="name"><span class="tk">FLY</span>Firefly Aerospace — 唯一吃透 NASA 月球 + Golden Dome 双题材的小盘</div>
+    <span class="pill bronze">L3+L4+L6+L7</span>
+  </div>
+  <p><strong>业务三轨</strong> — (1) Launch — Alpha 小型火箭 (1t LEO)、Eclipse 中型可重复使用在研；(2) Spacecraft — Blue Ghost 月球着陆器 + Elytra 在轨服务平台；(3) Defense Software — 通过收购 SciTec 进入 OPIR 红外早期预警 + SBI 项目。</p>
+  <p><strong>历史里程碑</strong> — 2025/3 Blue Ghost Mission 1 是<strong>史上首次完全成功的商业月球软着陆</strong> (LUNR IM-1 侧翻在前)，14 天月面运营返回 120GB 数据。</p>
+  <p><strong>合同结构</strong> — FORGE OPIR $109M engineering change + SBI OTA (12 家中标之一) + NASA CLPS 多次任务。Backlog $1.3B。</p>
+  <p><strong>客户</strong> — NASA、Space Force、商业。<strong>直接占满 Artemis + Golden Dome 两条主线</strong>。</p>
+</div>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">RDW</span>Redwire — 航天产业链的"村田 / 京瓷"</div>
+    <span class="pill bronze">L5</span>
+  </div>
+  <p><strong>主业</strong> — 太空基础设施零部件 + 平台，给 NASA、ESA、SpaceX、Boeing、所有商业卫星公司做 Tier-2 供应。</p>
+  <p><strong>核心产品线</strong> — ROSA / <strong>ELSA 卷筒式柔性太阳能阵列</strong> (国际空间站、Lunar Gateway 都用)、空间站对接机构、机械臂、相机/传感器、PIL-BOX 微重力生物医药实验平台、最近获 ESA 量子密钥分发卫星合同。</p>
+  <p><strong>国防扩展</strong> — Andromeda spacecraft 平台拿下 <strong>$1.8B IDIQ</strong> 框架合同、Marine Corps Stalker 战术无人机后续单。</p>
+  <p><strong>客户</strong> — NASA、ESA、SpaceX/Blue Origin/各大商业航天公司 (作为零部件供应商)、国防部、商业 LEO 制药客户。<strong>Artemis 间接 + Golden Dome 直接 + Sovereign 间接</strong>。</p>
+</div>
+
+<div class="profile-card amber">
+  <div class="head-row">
+    <div class="name"><span class="tk">VOYG</span>Voyager Technologies — 商业空间站长期 narrative</div>
+    <span class="pill bronze">L6</span>
+  </div>
+  <p><strong>业务双轨</strong> — (1) Defense & Space Technologies — Q1 营收主要贡献者，Golden Dome / Raytheon 子合同；(2) <strong>Starlab 商业空间站</strong> — 与 Airbus / 三井物产 / Hilton / Lockheed 合资，是 NASA Commercial LEO Destinations 项目 3 家候选之一 (另两家 Axiom Space、Vast / Sierra Space 都是私企)。</p>
+  <p><strong>Starlab 时间表</strong> — 2030 年 ISS 退役后接班，目标 2028-2029 部署。这是 VOYG 的核心估值锚。</p>
+  <p><strong>烧钱速度</strong> — Innovation 投入 $53.4M = 营收的 <strong>151%</strong>，FCF -$66.8M / 季度，但有 $429M 现金 + $212M 信贷。</p>
+  <p><strong>客户</strong> — NASA、国防部、Raytheon、商业空间站未来客户。<strong>Golden Dome 直接 + Artemis 弱关联 + Sovereign 间接</strong>。</p>
+</div>
+
+<div class="profile-card bull">
+  <div class="head-row">
+    <div class="name"><span class="tk">BKSY</span>BlackSky Technology — 卫星情报的 SaaS 化转型</div>
+    <span class="pill bronze">L7</span>
+  </div>
+  <p><strong>业务结构</strong> — (1) Space-based Intelligence & AI Services (核心增长引擎)；(2) Mission Solutions — 政府定制项目 (一次性收入正在退坡)。</p>
+  <p><strong>技术栈</strong> — 在轨 <strong>4 颗 Gen-3 卫星</strong> (35cm 高分辨率) + 旧 Gen-2 星座 + <strong>Spectra 自动化平台</strong> (任务调度 + AI 分析一体化)。</p>
+  <p><strong>商业模式</strong> — 订阅制 — Assured (全天候保证访问，年付几百万到几千万) + On-Demand (按需任务积分制)。Gen-3 订阅毛利率约 <strong>80%</strong>，是 SaaS 化关键证据。</p>
+  <p><strong>客户结构</strong> — 美国政府 (NGA、Space Force) + <strong>国际防务</strong> (Sovereign 是 Q1 增长主引擎)。<strong>直接受益 Sovereign + 间接 Golden Dome</strong>。</p>
+</div>
+
+<div class="profile-card amber">
+  <div class="head-row">
+    <div class="name"><span class="tk">PL</span>Planet Labs — 全球每日卫星地图</div>
+    <span class="pill bronze">L7</span>
+  </div>
+  <p><strong>业务结构</strong> — 纯 EO (Earth Observation) 数据 SaaS。三个产品线 — <strong>PlanetScope (Dove 卫星)</strong> ~200 颗 3-5 米分辨率，<em>全球陆地每日扫描一次</em> (核心差异化)；<strong>SkySat</strong> ~21 颗 50cm 高分辨率，按需任务；<strong>Pelican</strong> 新一代 30cm 分辨率，2025-2026 部署中。</p>
+  <p><strong>客户</strong> — 政府/国防 ~50% (核心 anchor) + 商业 (农业、保险、对冲基金 ESG)。近期最大单 — 与 NATO 签订欧洲 EO 数据多年期框架 + 多个亚太/中东 sovereign 客户。</p>
+  <p><strong>定位</strong> — <strong>直接 Sovereign + 间接 Golden Dome (EO 数据为目标识别输入)</strong>。YoY +975% 已在筹码顶部，等回调，不追。</p>
+</div>
+
+<div class="profile-card bronze">
+  <div class="head-row">
+    <div class="name"><span class="tk">ASTS</span>AST SpaceMobile — 卫星直连手机 (D2D) 唯一玩家</div>
+    <span class="pill bronze">L7</span>
+  </div>
+  <p><strong>业务模式</strong> — <strong>BlueBird 大型相控阵卫星</strong> → 直接给标准 4G/5G 手机提供宽带服务，<strong>不需要特制终端</strong> (这是与 Iridium、Globalstar 等老一代 D2D 的根本区别)。</p>
+  <p><strong>核心技术</strong> — 超大相控阵天线 (单星 ~64 平米，部署后)，目前发射 BlueBird Block 1 (5 颗)，Block 2 (更大尺寸) 部署中。最终目标 168 颗 LEO 星座。</p>
+  <p><strong>商业模式</strong> — B2B2C — 与全球 50+ 移动运营商 (AT&T, Verizon, Vodafone, Rakuten, Telefonica) 合作分账，覆盖签约用户人口约 28 亿。</p>
+  <p><strong>直接竞争</strong> — SpaceX <em>Starlink Direct-to-Cell</em> (后者率先商业化但每星天线小，理论容量低)。FCC 4 月新规放开 LEO 频谱共享，给 ASTS 解锁更高功率。<strong>Sovereign 间接 (反 Starlink 主权方案候选) + Golden Dome 间接 (国防 SATCOM 客户)</strong>。</p>
+</div>
+
+</div>
+
+<div class="section-body" style="padding-top:0">
+
+<h3 class="sub">5.2 Golden Dome SBI 上市 Primes 五家 — <em>β 兜底</em></h3>
+
+<div class="cols-2">
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">LMT</span>Lockheed Martin</div>
+    </div>
+    <p>全球最大国防承包商，营收 ~$700亿，业务四块 — Aeronautics (F-35) / Missiles & Fire Control / Rotary & Mission Systems / Space。航天和导弹相关合计 ~25% 营收。<strong>Golden Dome 角色</strong> — 陆基 (THAAD)、海基 (Aegis)、空基 (PAC-3)、天基拦截 (SBI) 全栈最强 prime。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">NOC</span>Northrop Grumman</div>
+    </div>
+    <p>营收 ~$400亿。Space Systems 占 ~30%，是 SLS 固体助推器、JWST、Sentinel ICBM 主承包商。<strong>Golden Dome 角色</strong> — HBTSS 高超音速预警卫星、SBI 拦截卫星本体两条线最强。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">RTX</span>RTX (前 Raytheon)</div>
+    </div>
+    <p>营收 ~$800亿，三块业务 — Collins Aerospace (民机) + Pratt & Whitney (发动机) + <strong>Raytheon (导弹)</strong>。Raytheon 占 ~35%，是 Standard-3/-6、Patriot、AIM-120 主承包。<strong>Golden Dome 角色</strong> — 拦截弹本体最强供应商。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">GD</span>General Dynamics</div>
+    </div>
+    <p>营收 ~$470亿。<strong>GD Mission Systems</strong> 子公司 (~$160 亿营收) 做卫星地面站、加密通信、C2 软件。<strong>Golden Dome 角色</strong> — 地面段 + 指挥控制系统集成。</p>
+  </div>
+  <div class="profile-card" style="grid-column:1/-1">
+    <div class="head-row">
+      <div class="name"><span class="tk">BAH</span>Booz Allen Hamilton — Golden Dome 的"麦肯锡"</div>
+    </div>
+    <p>营收 ~$120亿，<strong>100% 政府咨询，70%+ 国防与情报客户</strong>。不卖硬件，做架构设计、系统工程、AI / 数据科学集成。<strong>Golden Dome 角色</strong> — 4 层架构的总体设计与协调。</p>
+  </div>
+</div>
+
+<div class="callout navy">
+  <div class="head">五家 SBI Prime 的 Trader 视角</div>
+  <p>传统国防大盘弹性低 (LMT/NOC/RTX 已是 $1000-2000 亿市值)，但 Golden Dome 收入兑现确定性最高。<strong>配置上做"β 兜底 + 收益保底"</strong>，弹性应该用 FLY/RDW/VOYG 这些小盘新势力来博。</p>
+</div>
+
+<h3 class="sub">5.3 Watchlist 其他相关 — <em>多数是噪音</em></h3>
+
+<div class="cols-2">
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">LHX</span>L3Harris Technologies</div>
+      <span class="pill amber">间接</span>
+    </div>
+    <p>营收 ~$210亿，2023 年完成 Aerojet Rocketdyne 收购获得<strong>固体火箭发动机</strong>业务。Golden Dome 关联 — HBTSS 高超音速预警卫星、空间感知传感器、推进系统。<strong>5/8 -3% 是市场告诉你它在 SBI 中的份额不及 4 家 prime</strong>。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">KTOS</span>Kratos Defense</div>
+      <span class="pill gray">弱关联</span>
+    </div>
+    <p>主业 — 国防靶机 (Aerial Target Drone) 全球第一 + Valkyrie / Mako 协同战机 (与 F-35 协同的无人僚机) + 卫星地面通信系统 + 微涡轮推进。<strong>与 Golden Dome 关联弱</strong> (卫星地面站算间接)，5/8 跟涨小幅 (+2%) 反映准确。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">AVAV</span>AeroVironment</div>
+      <span class="pill amber">弱关联</span>
+    </div>
+    <p>主业 — Switchblade 巡飞弹 (loitering munition, 美军 LASSO 项目) + Puma/Raven 战术无人机。2024 年完成 <strong>$4B 收购 BlueHalo</strong> → 获得激光武器 + 太空感知 + 反无人机能力。Golden Dome 关联 — BlueHalo 子公司有间接受益。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">RCAT</span>Red Cat Holdings</div>
+      <span class="pill gray">弱关联</span>
+    </div>
+    <p>主业 — Teal 系列短程侦察无人机，2024 年获选 Army Short Range Reconnaissance (SRR) 项目主供应商。<strong>与 Golden Dome 几乎无关</strong>，5/8 跟涨 (+3%) 是宽泛"国防新势力"情绪映射。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">ACHR / JOBY</span>Archer / Joby Aviation</div>
+      <span class="pill gray">无关</span>
+    </div>
+    <p>两家都是<strong>电动垂直起降 (eVTOL)</strong> 空中出租车，目标是城市空中交通 (UAM)。Joby 与 Toyota / Delta 合作，Archer 与 United / Stellantis 合作。<strong>与航天 / Golden Dome 没有直接关系</strong>，5/8 跟涨纯粹是"航空+新势力"广义情绪带动。</p>
+  </div>
+  <div class="profile-card bear">
+    <div class="head-row">
+      <div class="name"><span class="tk">AXON</span>Axon Enterprise</div>
+      <span class="pill bear">无关</span>
+    </div>
+    <p>主业 — Taser 电击枪 + 警用 Body Camera + Evidence.com 云端证据管理。<strong>与航天完全无关</strong>，被错误归类到"国防 AI"标签。5/8 -5% 是市场把它从这次板块中切割出去的明确信号。</p>
+  </div>
+  <div class="profile-card bear">
+    <div class="head-row">
+      <div class="name"><span class="tk">HWM</span>Howmet Aerospace</div>
+      <span class="pill bear">无关</span>
+    </div>
+    <p>主业 — 航空发动机叶片 (engine airfoils)、紧固件、铝结构件。<strong>80% 客户是商用航空</strong> (波音/空客/RR/GE/PW)，国防航天占比小。<strong>与商业航天新势力关联很弱</strong>。</p>
+  </div>
+  <div class="profile-card">
+    <div class="head-row">
+      <div class="name"><span class="tk">KRMN</span>Karman Holdings</div>
+      <span class="pill amber">弱关联</span>
+    </div>
+    <p>主业 — 导弹整流罩 (payload fairings)、防热层、推进结构件，给 LMT/RTX/NOC 做二级供应链。Golden Dome 间接受益但弹性小。<strong>5/8 -3% 显示市场认为传统供应链不在风口</strong>。</p>
+  </div>
+  <div class="profile-card" style="grid-column:1/-1">
+    <div class="head-row">
+      <div class="name"><span class="tk">ONDS</span>Ondas Holdings</div>
+      <span class="pill gray">弱关联</span>
+    </div>
+    <p>两个子公司 — dot Origin (反无人机系统) + Airobotics (商用自主无人机)。<strong>与 SBI 无直接关系</strong>，5/8 跟涨 (+3%) 是反无人机概念跟风。</p>
+  </div>
+</div>
+
+</div>
+
+<!-- ========================== §06 交叉映射 ========================== -->
+<div class="section-head">
+  <span class="num">§ 06</span>
+  <h2>公司 × 三大驱动 · 交叉映射</h2>
+  <span class="tag">Direct · Indirect · Weak</span>
+</div>
+<div class="section-body">
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>公司</th>
+      <th class="center" style="width:110px">NASA Artemis</th>
+      <th class="center" style="width:110px">Golden Dome</th>
+      <th class="center" style="width:110px">Sovereign Sat</th>
+      <th>综合定位</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="ticker">RKLB</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-indirect">间接</td>
+      <td><strong class="navy">三轮驱动 + 全产业链整合</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">FLY</td>
+      <td class="map-direct">直接</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td><strong class="navy">唯一占满 NASA + SBI 双题材的小盘</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">LUNR</td>
+      <td class="map-direct">直接</td>
+      <td class="map-direct">直接</td>
+      <td class="map-direct">直接</td>
+      <td><strong class="navy">国防航天双题材深度受益</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">RDW</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td><strong class="navy">平台层最强，估值最便宜</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">VOYG</td>
+      <td class="map-weak">弱</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td><strong class="navy">久期最长，narrative 弹性最大</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">BKSY</td>
+      <td class="map-weak">弱</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-direct">直接</td>
+      <td><strong class="navy">Sovereign 主题最纯标的</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">PL</td>
+      <td class="map-weak">弱</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-direct">直接</td>
+      <td><strong class="navy">Sovereign 弹性最大但筹码最重</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">ASTS</td>
+      <td class="map-weak">弱</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-direct">直接</td>
+      <td><strong class="navy">卫星通信主线</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">LMT/NOC/RTX/GD</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td><strong class="navy">传统国防 + 三题材兜底</strong></td>
+    </tr>
+    <tr>
+      <td class="ticker">BAH</td>
+      <td class="map-weak">弱</td>
+      <td class="map-direct">直接</td>
+      <td class="map-indirect">间接</td>
+      <td>受益但弹性低</td>
+    </tr>
+    <tr>
+      <td class="ticker">LHX</td>
+      <td class="map-weak">弱</td>
+      <td class="map-indirect">间接</td>
+      <td class="map-indirect">间接</td>
+      <td>5/8 当天逆势 -3%, SBI 红利更多归新势力</td>
+    </tr>
+    <tr>
+      <td class="ticker">KTOS/AVAV/RCAT/ACHR</td>
+      <td class="map-weak">弱</td>
+      <td class="map-weak">弱</td>
+      <td class="map-weak">弱</td>
+      <td>5/8 跟涨 ~+3% 印证弱关联</td>
+    </tr>
+    <tr>
+      <td class="ticker">AXON/HWM</td>
+      <td class="map-weak">弱</td>
+      <td class="map-weak">弱</td>
+      <td class="map-weak">弱</td>
+      <td>与航天无关，5/8 当天负收益证实</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<!-- ========================== §07 配置建议 ========================== -->
+<div class="section-head">
+  <span class="num">§ 07</span>
+  <h2>Trader 框架决策 · 配置建议与催化时间表</h2>
+  <span class="tag">Industry trend > Sentiment > Chips > Catalysts >> Valuation</span>
+</div>
+<div class="section-body">
+
+<h3 class="sub">7.1 四要素框架打分 (按用户优先级)</h3>
+
+<div class="cols-2">
+  <div class="callout navy">
+    <div class="head">① 行业趋势 (TOP 权重) — <span style="color:var(--bull)">★★★★★</span></div>
+    <p>三大驱动方向高度一致 + 时间窗口集中在 2026-2030：NASA Artemis 月度着陆 (2027 起)、Golden Dome 部署窗口 (2026-2028)、欧洲 sovereign 部署窗口 (2026-2030)。<strong>未来 24-36 个月是商业航天产业 β 的"主升浪窗口"</strong>，进攻姿态。任何回调 — 无论是 SpaceX IPO 资金虹吸、单次发射失败、或宏观风险偏好下行 — 都不构成 sell signal，仅是加仓机会。</p>
+  </div>
+
+  <div class="callout bronze">
+    <div class="head">② 情绪映射 (中等权重) — <span style="color:var(--amber)">★★★★☆</span></div>
+    <p>按 5/8 后情绪强弱 — RKLB > LUNR > FLY > BKSY > PL > VOYG > RDW > ASTS。RKLB / LUNR / FLY 已 WSB very bullish + SpaceX IPO 强化共识 → <strong>共识中段</strong>；BKSY / RDW / VOYG 之前 Stocktwits 还是 bearish，财报后情绪反转<em>刚启动</em> → <strong>情绪洼地，弹性更高</strong>；PL YoY +975% 浮盈极重，不主动追但回调不止盈。</p>
+  </div>
+
+  <div class="callout bronze">
+    <div class="head">③ 筹码结构 (中等权重) — <span style="color:var(--amber)">★★★☆☆</span></div>
+    <p>RKLB / BKSY / FLY / RDW 都在财报当周放量换手 → 筹码刚换手，承接力强；PL 筹码重仓在 +500% 区间，注意尾部位置；VOYG 流动性偏低，单方向走势容易拉得快也跌得快。</p>
+  </div>
+
+  <div class="callout bull">
+    <div class="head">④ 估值约束 (最低权重) — <span style="color:var(--muted)">★☆☆☆☆</span></div>
+    <p>不构成卖出理由。<strong class="bear">真正的卖出信号</strong>仅在以下出现 — (1) Golden Dome 在 NDAA 中被砍预算 (政治路径风险)；(2) SpaceX IPO 实际定价 + 上市后机构资金虹吸 (但短期可能反而推高板块)；(3) Neutron / Eclipse / Blue Ghost 重大失败 (单股而非系统性)；(4) NASA EO 14369 被新政府推翻 (远期低概率)。</p>
+  </div>
+</div>
+
+<h3 class="sub">7.2 催化剂时间表 — Next 2-12 周</h3>
+
+<table class="data">
+  <thead>
+    <tr><th style="width:110px">时点</th><th>事件</th><th>影响标的</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="num strong">5月中旬</td><td>LUNR Q1 财报</td><td class="ticker">LUNR + 板块情绪</td></tr>
+    <tr><td class="num strong">5月中下旬</td><td>ASTS Q1 财报</td><td class="ticker">ASTS + 卫星通信</td></tr>
+    <tr><td class="num strong">5月下旬</td><td>PL Q1 财报 (财年错位)</td><td class="ticker">PL + 卫星情报</td></tr>
+    <tr><td class="num strong">6月</td><td>NASA LTV 月球车合同分配 ($4.6B 待批)</td><td class="ticker">LUNR 单股催化</td></tr>
+    <tr><td class="num strong">Q3</td><td>Golden Dome 二期合同 (FY2027 预算 $17.5B 部分落地)</td><td class="ticker">FLY/VOYG/RDW</td></tr>
+    <tr><td class="num strong">11月</td><td>美国 NDAA FY2027 通过 → Golden Dome 资金确认</td><td class="ticker">全板块</td></tr>
+    <tr><td class="num strong">Q4</td><td><strong>RKLB Neutron 首飞</strong> (推迟后窗口)</td><td class="ticker">RKLB 最大单一催化</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">7.3 多头组合优先级 — <em>按用户视角</em></h3>
+
+<div class="tier-grid">
+  <div class="tier-card t1">
+    <div class="lbl">TIER 01 / CORE</div>
+    <div class="ttl">核心仓位</div>
+    <div class="desc">3 轮驱动 + 业绩兑现 + 流动性好。Neutron / LTV 期权价值还在 build。</div>
+    <div class="tks">RKLB · LUNR</div>
+  </div>
+  <div class="tier-card t2">
+    <div class="lbl">TIER 02 / OFFENSE</div>
+    <div class="ttl">进攻仓位</div>
+    <div class="desc">情绪反转刚启动 + 估值合理。RDW 是最被低估，BKSY 是 Sovereign 最纯。</div>
+    <div class="tks">RDW · BKSY</div>
+  </div>
+  <div class="tier-card t3">
+    <div class="lbl">TIER 03 / THEMATIC</div>
+    <div class="ttl">主题弹性</div>
+    <div class="desc">题材弹性大但财务质量较差，控制仓位，适合短中线。</div>
+    <div class="tks">FLY · VOYG</div>
+  </div>
+  <div class="tier-card t1">
+    <div class="lbl">TIER 04 / β HEDGE</div>
+    <div class="ttl">β 兜底</div>
+    <div class="desc">SBI prime + Artemis 间接受益，回调避险。弹性低但确定性高。</div>
+    <div class="tks">LMT · NOC · RTX</div>
+  </div>
+</div>
+
+<div class="cols-2">
+  <div class="callout bear">
+    <div class="head">⚠ 避免追高</div>
+    <p><strong class="ticker" style="color:var(--bear)">PL</strong> — 等回调，不追 +975% 后的 momentum。<br><strong class="ticker" style="color:var(--bear)">ASTS</strong> — 等 5月底财报确认 D2D 商业模式。</p>
+  </div>
+  <div class="callout bull">
+    <div class="head">★ 关键事件机会</div>
+    <p>当 SpaceX IPO 真正落地时会发生<strong>两阶段反应</strong> — (a) 公开市场短期资金虹吸，板块下跌；(b) 但定价确认了 pure-play 估值锚，长期估值上修。这是最值得提前规划的事件。</p>
+  </div>
+</div>
+
+<div class="callout navy" style="margin-top:18px">
+  <div class="head">最终结论</div>
+  <p>5/8 不是一次孤立的 earnings rally，而是 <em>商业航天产业 β 主升浪</em> 的起点确认。三大驱动 (Artemis 月度着陆 / Golden Dome $185B / 欧洲 €500B sovereign) 均已从政策语言转化为合同与资金落地。<strong>公开市场可买的 pure-play 标的稀缺</strong> (12 家 SBI 中标公司只有 6 家上市) 构成估值溢价的结构性原因。Trader framework 下 — 进攻姿态、回调加仓、不以估值止盈、仅在产业周期拐点出现时退出。</p>
+</div>
+
+</div>
+
+<!-- ========================== FOOTER ========================== -->
+<div class="footer">
+  <div class="line"><strong>REPORT</strong> · 商业航天产业拐点 · 5/8 财报季引爆深度复盘</div>
+  <div class="line"><strong>FRAMEWORK</strong> · Trader (3-week) · Bull-market posture · Industry > Sentiment > Chips > Catalysts >> Valuation</div>
+  <div class="line"><strong>UNIVERSE</strong> · 22 names · 8 commercial-space pure-play + 5 SBI primes + 9 watchlist-related</div>
+  <div class="line"><strong>SOURCES</strong> · Company 8-Ks / earnings transcripts (May 2026) · Space Force / DefenseScoop / Via Satellite · NASA · Kiel Institute · ESA / Defense News</div>
+  <div class="disclaimer">本报告仅供研究与讨论用途，不构成证券买卖建议或投资意见。所有数据来源于公开信息，作者不对其准确性、完整性作担保。商业航天属高波动性赛道，请独立判断风险并咨询持牌专业顾问。</div>
+</div>
+
+</div>
+</body>
+</html>
