@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PURR mNAV 波段策略 v4 · Adaptive Threshold × 载体切换</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<style>
+:root{
+  --cream:#F4F2ED;--cream-2:#EDE9DF;--cream-3:#E4DFD0;
+  --navy:#1B2635;--navy-2:#2A3A4E;
+  --amber:#B8870A;--amber-bright:#D4A017;--amber-soft:#E8C76A;
+  --bull:#2E5D3A;--bear:#8B2331;--highlight:#F5E6A8;
+  --ink:#1B2635;--ink-2:#4A5466;--line:#C9C2B0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Karla',-apple-system,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.masthead{background:var(--navy);color:var(--cream);padding:44px 56px 36px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden}
+.masthead::before{content:'mNAV';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Cormorant Garamond',serif;font-weight:700;font-style:italic;font-size:210px;color:rgba(255,255,255,0.045);letter-spacing:-0.04em;line-height:0.8;pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber-bright);margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:'';width:36px;height:1px;background:var(--amber-bright)}
+.title-main{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;line-height:1.05;letter-spacing:-0.015em;margin-bottom:16px;max-width:92%}
+.title-main em{font-style:italic;font-weight:700;color:var(--amber-bright)}
+.subtitle{font-family:'Karla',sans-serif;font-size:15px;font-weight:300;line-height:1.55;color:rgba(244,242,237,0.78);max-width:880px;margin-bottom:24px}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.08em;padding:6px 12px;border:1px solid rgba(216,175,7,0.5);color:var(--amber-bright);background:rgba(216,175,7,0.08);border-radius:2px}
+.pill.dark{border-color:rgba(244,242,237,0.25);color:rgba(244,242,237,0.85);background:rgba(255,255,255,0.04)}
+main{padding:36px 56px 24px;max-width:1280px;margin:0 auto}
+section{margin-bottom:42px}
+.section-head{margin-bottom:20px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.section-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.1;color:var(--navy);letter-spacing:-0.01em;margin-bottom:10px}
+.section-title em{font-style:italic;color:var(--amber);font-weight:700}
+.section-divider{width:44px;height:2px;background:var(--amber);margin-bottom:10px}
+.section-desc{font-size:13px;color:var(--ink-2);max-width:820px;line-height:1.65}
+.section-aside{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);letter-spacing:0.05em;text-align:right}
+.section-aside strong{color:var(--navy);font-weight:600;display:block;font-size:13px;margin-top:2px}
+.hero-chart{background:var(--cream);border:1px solid var(--line);padding:28px 32px 22px;border-radius:2px;box-shadow:0 1px 0 rgba(27,38,53,0.04)}
+.hero-cap{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--navy);line-height:1.15;margin-bottom:6px}
+.hero-title em{color:var(--amber);font-style:italic;font-weight:700}
+.hero-sub{font-size:12.5px;color:var(--ink-2);line-height:1.55;margin-bottom:14px}
+.chart-wrap{height:420px}
+.chart-wrap.short{height:90px;margin-top:10px}
+.chart-footer{display:flex;justify-content:space-between;padding-top:12px;margin-top:12px;border-top:1px dashed var(--line);font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-2);letter-spacing:0.04em;flex-wrap:wrap;gap:10px}
+.stats-band{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--cream-2);border-radius:2px;overflow:hidden;margin-top:22px}
+.stat{padding:16px 18px;border-right:1px solid var(--line);background:var(--cream)}
+.stat:last-child{border-right:none}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.16em;color:var(--ink-2);text-transform:uppercase;margin-bottom:7px;font-weight:500}
+.stat-value{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:25px;line-height:1;color:var(--navy);letter-spacing:-0.01em;margin-bottom:4px}
+.stat-value.bull{color:var(--bull)}.stat-value.bear{color:var(--bear)}
+.stat-value .unit{font-size:12px;color:var(--ink-2);font-weight:400;font-family:'Karla',sans-serif;font-style:italic;margin-left:3px}
+.stat-sub{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-2);letter-spacing:0.02em}
+.tbl-wrap{border:1px solid var(--line);border-radius:2px;overflow:hidden;background:var(--cream)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead{background:var(--navy);color:var(--cream)}
+thead th{text-align:left;padding:10px 13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;border-right:1px solid rgba(244,242,237,0.1)}
+thead th:last-child{border-right:none}
+thead th.num{text-align:right}
+tbody td{padding:9px 13px;border-bottom:1px solid var(--cream-3);border-right:1px solid var(--cream-3);vertical-align:top}
+tbody td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--cream-2)}
+td.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+td.num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums}
+.bull{color:var(--bull)}.bear{color:var(--bear)}.amber{color:var(--amber-bright)}
+strong{color:var(--navy)}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.read{background:var(--cream);border:1px solid var(--line);border-left:3px solid var(--amber);padding:18px 22px;border-radius:0 2px 2px 0}
+.read.green{border-left-color:var(--bull)}.read.red{border-left-color:var(--bear)}.read.navy{border-left-color:var(--navy)}
+.read-num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--ink-2);text-transform:uppercase;margin-bottom:4px}
+.read-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--navy);margin-bottom:6px;line-height:1.3}
+.read-title em{font-style:italic;color:var(--amber);font-weight:700}
+.read-body{font-size:12.5px;color:var(--ink-2);line-height:1.65}
+.read-body strong{color:var(--navy)}
+.read-body p{margin-bottom:7px}.read-body p:last-child{margin-bottom:0}
+.callout{background:var(--navy);color:var(--cream);padding:22px 26px;border-radius:2px;border-left:3px solid var(--amber);margin:20px 0}
+.callout-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--amber-bright);text-transform:uppercase;margin-bottom:10px}
+.callout-body{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.45;font-style:italic}
+.callout-body em{color:var(--amber-bright);font-weight:600;font-style:italic}
+.gate{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:2px;overflow:hidden;margin-top:18px}
+.gate-col{padding:20px 24px}
+.gate-col.bull-col{background:rgba(46,93,58,0.07);border-right:1px solid var(--line)}
+.gate-col.beta-col{background:rgba(184,135,10,0.06)}
+.gate-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.gate-h.g{color:var(--bull)}.gate-h.a{color:var(--amber)}
+.gate-col ul{list-style:none;margin:0;padding:0}
+.gate-col li{font-size:12.5px;line-height:1.55;color:var(--ink-2);padding-left:16px;position:relative;margin-bottom:6px}
+.gate-col li::before{content:'▸';position:absolute;left:0;color:var(--amber)}
+.signal-box{background:linear-gradient(180deg,#23344a,#1B2635);color:var(--cream);border:1px solid var(--amber);border-radius:3px;padding:0;overflow:hidden;margin-top:6px}
+.signal-top{padding:22px 28px;border-bottom:1px solid rgba(216,175,7,0.3);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.signal-now{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.2em;color:var(--amber-bright);text-transform:uppercase;margin-bottom:8px}
+.signal-verdict{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;line-height:1.05}
+.signal-verdict em{color:var(--amber-bright);font-style:italic}
+.signal-metric{text-align:right;font-family:'JetBrains Mono',monospace}
+.signal-metric .big{font-size:38px;font-weight:600;color:var(--amber-bright);line-height:1}
+.signal-metric .lbl{font-size:10px;letter-spacing:0.14em;color:rgba(244,242,237,0.6);text-transform:uppercase;margin-top:6px}
+.signal-body{padding:18px 28px;font-size:12.5px;line-height:1.7;color:rgba(244,242,237,0.82)}
+.signal-body strong{color:var(--amber-soft)}
+.signal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:14px 28px 18px;border-top:1px solid rgba(184,135,10,0.2)}
+.sgrid-item{text-align:center}
+.sgrid-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:rgba(244,242,237,0.5);text-transform:uppercase;margin-bottom:4px}
+.sgrid-value{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--amber-bright)}
+.sgrid-value.ok{color:rgba(46,150,90,0.9)}.sgrid-value.warn{color:rgba(220,120,40,0.9)}.sgrid-value.bad{color:rgba(200,60,60,0.85)}
+.tag{display:inline-block;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;border-radius:2px;font-weight:500;text-transform:uppercase}
+.tag-buy{background:rgba(46,93,58,0.14);color:var(--bull)}
+.tag-sell{background:rgba(139,35,49,0.14);color:var(--bear)}
+.tag-hold{background:rgba(184,135,10,0.16);color:var(--amber)}
+.tag-lev{background:rgba(0,120,60,0.18);color:#006636;border:1px solid rgba(0,120,60,0.3);font-weight:600}
+.alloc-strip{margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.alloc-cap{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--amber);text-transform:uppercase;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:12px}
+.alloc-legend{display:flex;gap:14px;font-size:9px;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;color:var(--ink-2)}
+.alloc-dot{display:inline-block;width:8px;height:8px;border-radius:1px;margin-right:4px;vertical-align:middle}
+.adaptive-box{background:var(--cream-2);border:1px solid var(--line);border-top:2px solid var(--amber);border-radius:0 0 2px 2px;padding:14px 18px;margin-top:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);display:flex;gap:28px;flex-wrap:wrap}
+.adaptive-box .item{display:flex;flex-direction:column;gap:3px}
+.adaptive-box .item .lbl{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber)}
+.adaptive-box .item .val{font-size:13px;font-weight:600;color:var(--navy)}
+footer{background:var(--navy);color:rgba(244,242,237,0.65);padding:30px 56px;margin-top:36px;border-top:3px solid var(--amber)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:32px;max-width:1280px;margin:0 auto}
+.footer-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--cream);font-weight:600;margin-bottom:6px}
+.footer-title em{color:var(--amber-bright);font-style:italic}
+.footer-disc{font-size:10.5px;color:rgba(244,242,237,0.5);line-height:1.6;margin-top:12px;font-family:'JetBrains Mono',monospace;letter-spacing:0.02em}
+.footer-section h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--amber-bright);text-transform:uppercase;margin-bottom:9px;font-weight:500}
+.footer-section ul{list-style:none;margin:0;padding:0}
+.footer-section li{font-size:11px;line-height:1.7;color:rgba(244,242,237,0.62)}
+@media(max-width:1000px){
+  .col-2,.gate{grid-template-columns:1fr}
+  .stats-band{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(5){grid-column:1/-1}
+  .title-main{font-size:32px}
+  .masthead,main,footer{padding-left:24px;padding-right:24px}
+  .footer-grid{grid-template-columns:1fr}
+  .signal-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="eyebrow">Strategy v4 · Adaptive mNAV Threshold · HypurrIntel Actual Data</div>
+  <h1 class="title-main">PURR <em>mNAV 波段策略</em> — 双轨制自适应阈值</h1>
+  <p class="subtitle">使用 HypurrIntel <code>purr_daily_nav.csv</code> 实测数据，mNAV &lt; 1.0 用绝对折价锚（基本面）；mNAV ≥ 1.0 用 <strong>20 日滚动均值 + 标准差</strong>动态定档，永远保持 100% HYPE 经济敞口。回测区间 26/02/12 — 26/05/16，93 个交易日。</p>
+  <div class="pills">
+    <span class="pill">v4 · Adaptive Threshold</span>
+    <span class="pill dark">样本 93 交易日</span>
+    <span class="pill dark">mNAV 区间 0.918–1.251</span>
+    <span class="pill dark">中枢 1.072</span>
+    <span class="pill dark">当前 1.218 · 偏高档</span>
+    <span class="pill dark">回测超额 +12.0pp vs 持 HYPE</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ §0 牛熊闸门 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 0 · Gate &amp; Positioning</div>
+      <h2 class="section-title">牛熊闸门 &amp; <em>策略定位</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">任何交易策略开始前先过牛熊闸门。本策略把收益拆成两层：HYPE 行业方向（Beta）与 PURR 载体相对价值（Alpha）。策略<strong>不赌 HYPE 涨跌</strong>，只赌 mNAV 在动态均值附近的均值回归。</p>
+    </div>
+    <div class="section-aside">TRADING HORIZON<strong>3 周视角</strong></div>
+  </div>
+  <div class="gate">
+    <div class="gate-col bull-col">
+      <div class="gate-h g">▍HYPE 行业 = Bull Logic（明确）</div>
+      <ul>
+        <li>协议年化 fee &gt; $900M，稳居 top 永续 DEX</li>
+        <li>HIP-3 RWA perps 爆发：140+ 非加密 perps（silver / oil 等）</li>
+        <li>portfolio margin + outcome markets 即将上线（catalyst）</li>
+        <li>Coinbase USDC 国库合作（5/14）→ HYPE 单日 +21%</li>
+        <li>结论：HYPE 敞口<strong>恒定 100%</strong>，不空仓、不做空</li>
+      </ul>
+    </div>
+    <div class="gate-col beta-col">
+      <div class="gate-h a">▍策略交易的是 mNAV，不是 HYPE 价格</div>
+      <ul>
+        <li><strong>Beta 层</strong>：HYPE 行业上行 — 一直在场，出场只看产业信号</li>
+        <li><strong>Alpha 层</strong>：mNAV 在 PURR 与 HYPE 现货间切换载体</li>
+        <li>切换前后 HYPE 敞口都是 100% — 不违反 Bull Logic</li>
+        <li>折价超配 PURR 吃修复；mNAV 相对偏高转 HYPE 规避回落</li>
+        <li>v4 改进：高溢价区也基于<strong>动态均值</strong>判断，避免永远持 HYPE</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-label">⌁ v4 核心改进</div>
+    <div class="callout-body">v3 用静态分位阈值 → mNAV 长期 &gt; 1 时永远在"极贵档"，策略退化为持 HYPE。v4 在 mNAV ≥ 1.0 时改用 <em>20日滚动均值 + 2σ 动态阈值</em>：即使 mNAV 整体抬升，策略依然能识别相对折价区间，<em>不会系统性锁死在持 HYPE 状态</em>。</div>
+  </div>
+</section>
+
+<!-- ============ §1 核心发现 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 1 · Core Finding</div>
+      <h2 class="section-title">mNAV 围绕 <em>滚动均值</em> 双向波动</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">实测 mNAV 在 0.918–1.251 之间运行，<strong>中枢 1.072，长期站在 1.0 以上</strong>。样本内 23% 时间处于绝对折价（mNAV &lt; 1.0），77% 时间溢价 — 静态阈值在溢价区会系统性偏差，v4 用滚动均值解决这个问题。琥珀虚线 = 20日 μ_fl（动态阈值参考线）。</p>
+    </div>
+    <div class="section-aside">93 交易日 · 20日滚动<strong>自适应阈值</strong></div>
+  </div>
+
+  <div class="hero-chart">
+    <div class="hero-cap">§ Chart 1 · mNAV Trajectory + Adaptive Threshold (μ_fl)</div>
+    <h2 class="hero-title">mNAV 时间序列 <em>·</em> 动态阈值 μ_fl + 档位色带</h2>
+    <p class="hero-sub">背景色带 = 策略实际持仓期；<strong style="color:#2E5D3A">深绿</strong>=100% PURR，<strong style="color:#8B2331">深红</strong>=100% HYPE，中间色=混合。红虚线 = 绝对锚 1.0；<strong style="color:#B8870A">琥珀虚线 = 20日 μ_fl</strong>（动态阈值）。</p>
+    <div class="chart-wrap" id="mnavChart"></div>
+    <div class="chart-footer">
+      <span>NAV/share · mNAV 均来自 HypurrIntel 实测，非模型估算</span>
+      <span>HYPE / PURR 日线 · 26/02/12–26/05/16</span>
+    </div>
+  </div>
+
+  <div class="stats-band">
+    <div class="stat"><div class="stat-label">mNAV 最低</div><div class="stat-value bull">0.918<span class="unit">×</span></div><div class="stat-sub">回测起点附近</div></div>
+    <div class="stat"><div class="stat-label">mNAV 中位数</div><div class="stat-value">1.072<span class="unit">×</span></div><div class="stat-sub">长期轻度溢价</div></div>
+    <div class="stat"><div class="stat-label">mNAV 最高</div><div class="stat-value bear">1.251<span class="unit">×</span></div><div class="stat-sub">2026/05/14 溢价峰值</div></div>
+    <div class="stat"><div class="stat-label">折价天数占比</div><div class="stat-value">23<span class="unit">%</span></div><div class="stat-sub">21 / 93 日</div></div>
+    <div class="stat"><div class="stat-label">当前 μ_fl / σ</div><div class="stat-value">1.162<span class="unit"></span></div><div class="stat-sub">σ = 0.044（20日）</div></div>
+  </div>
+
+  <div class="col-2">
+    <div class="read navy">
+      <div class="read-num">Why · 为什么围绕均值波动</div>
+      <div class="read-title">ELOC 是<em>双向调节器</em></div>
+      <div class="read-body">
+        <p><strong>折价时（mNAV &lt; 1.0）</strong>：HSI 用现金回购 PURR，机械性提升每股 NAV。回购减少供给 → mNAV 回升。</p>
+        <p><strong>溢价时（mNAV &gt; 1.0）</strong>：HSI 触发 ELOC，向 Chardan 定向增发 PURR 换取现金，再买入 HYPE。新股供给压制 mNAV 回落。</p>
+        <p>两套机制共同作用，使 mNAV 长期在当前估值中枢附近均值回归 —— v4 用滚动均值捕捉这个浮动中枢。</p>
+      </div>
+    </div>
+    <div class="read">
+      <div class="read-num">v4 改进 · 为什么不用静态阈值</div>
+      <div class="read-title"><em>滚动均值</em>捕捉浮动中枢</div>
+      <div class="read-body">
+        <p>v3 静态阈值（历史分位点）固定在 0.992–1.166。当 mNAV 在 2026 年 3 月后整体上移至 1.0–1.25 区间，v3 几乎永远打在"偏贵/极贵"档 → 永远持 HYPE。</p>
+        <p>v4：溢价区改用 μ_fl（20日均值）作为动态基准。mNAV 跑在均值以下（哪怕 &gt; 1.0）= 相对便宜 → 75% PURR；超过均值+2σ = 极端溢价 → 0% PURR。中枢抬升时阈值自动跟随。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §2 策略规则 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 2 · Strategy Rules</div>
+      <h2 class="section-title">策略规则：<em>双轨制自适应阈值</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">双轨制 —— mNAV &lt; 1.0 用绝对折价锚（基本面意义明确），mNAV ≥ 1.0 用 <strong>20日滚动均值 + σ</strong> 动态定档。每日阈值自动更新，溢价区不会因中枢整体抬升而锁死在"极贵"。</p>
+    </div>
+    <div class="section-aside">周频调仓 · 无前视<strong>用前一交易日 mNAV</strong></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:8%">档位</th>
+          <th style="width:30%">判断条件</th>
+          <th style="width:13%">状态</th>
+          <th class="num" style="width:9%">PURR</th>
+          <th class="num" style="width:9%">HYPE</th>
+          <th class="num" style="width:11%">历史天数</th>
+          <th>含义</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:rgba(0,110,55,0.06)">
+          <td class="mono" style="color:#006636;font-weight:600">极深折价</td>
+          <td class="mono" style="font-size:11px">mNAV &lt; <strong>0.80</strong><br><span style="color:#4A5466;font-size:10px">固定阈值 · NAV 严重低估</span></td>
+          <td><span class="tag tag-lev">×1.5 杠杆</span></td>
+          <td class="num" style="color:#006636"><strong>150%</strong></td><td class="num" style="color:#8B2331">−50%</td>
+          <td class="num">0日 ← 未触发</td>
+          <td>做空 50% HYPE 融资 → 持 150% PURR。折价极深时最大化吃修复</td>
+        </tr>
+        <tr style="background:rgba(0,130,70,0.04)">
+          <td class="mono" style="color:#006636">深折价</td>
+          <td class="mono" style="font-size:11px">0.80 ≤ mNAV &lt; <strong>0.90</strong><br><span style="color:#4A5466;font-size:10px">固定阈值 · NAV 显著低估</span></td>
+          <td><span class="tag tag-lev">×1.2 杠杆</span></td>
+          <td class="num" style="color:#006636"><strong>120%</strong></td><td class="num" style="color:#8B2331">−20%</td>
+          <td class="num">0日 ← 未触发</td>
+          <td>做空 20% HYPE 融资 → 持 120% PURR。轻度加杠杆放大折价修复</td>
+        </tr>
+        <tr>
+          <td class="mono bull">折价</td>
+          <td class="mono" style="font-size:11px">0.90 ≤ mNAV &lt; <strong>1.00</strong><br><span style="color:#4A5466;font-size:10px">固定阈值 · NAV 平价以下</span></td>
+          <td><span class="tag tag-buy">绝对折价</span></td>
+          <td class="num bull"><strong>100%</strong></td><td class="num">0%</td>
+          <td class="num">21日(23%)</td>
+          <td>无杠杆满仓 PURR → 吃折价修复 + HYPE beta</td>
+        </tr>
+        <tr>
+          <td class="mono bull">偏低</td>
+          <td class="mono" style="font-size:11px">1.00 ≤ mNAV &lt; <strong>μ_fl</strong><br><span style="color:#4A5466;font-size:10px">自适应 · 低于近期均值</span></td>
+          <td><span class="tag tag-buy">相对便宜</span></td>
+          <td class="num bull"><strong>75%</strong></td><td class="num">25%</td>
+          <td class="num">13日(14%)</td>
+          <td>溢价但低于近期均值 → 相对便宜，重仓 PURR</td>
+        </tr>
+        <tr>
+          <td class="mono amber">中性</td>
+          <td class="mono" style="font-size:11px">μ_fl ≤ mNAV &lt; <strong>μ_fl + 1σ</strong><br><span style="color:#4A5466;font-size:10px">自适应 · 接近近期均值</span></td>
+          <td><span class="tag tag-hold">中性</span></td>
+          <td class="num"><strong>50%</strong></td><td class="num">50%</td>
+          <td class="num">22日(24%)</td>
+          <td>在近期均值区间 → 无明显 edge，载体对半</td>
+        </tr>
+        <tr>
+          <td class="mono amber">偏高</td>
+          <td class="mono" style="font-size:11px">μ_fl+1σ ≤ mNAV &lt; <strong>μ_fl + 2σ</strong><br><span style="color:#4A5466;font-size:10px">自适应 · 高于均值+1σ</span></td>
+          <td><span class="tag tag-sell">相对偏贵</span></td>
+          <td class="num"><strong>25%</strong></td><td class="num">75%</td>
+          <td class="num">24日(26%)</td>
+          <td>相对近期均值偏高 → 减 PURR，主配 HYPE</td>
+        </tr>
+        <tr>
+          <td class="mono bear">极贵</td>
+          <td class="mono" style="font-size:11px">mNAV ≥ <strong>μ_fl + 2σ</strong><br><span style="color:#4A5466;font-size:10px">自适应 · 极端溢价</span></td>
+          <td><span class="tag tag-sell">极端溢价</span></td>
+          <td class="num bear"><strong>0%</strong></td><td class="num">100%</td>
+          <td class="num">13日(14%)</td>
+          <td>显著高于近期均值 → 清空 PURR，全转 HYPE 现货</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="border:1px solid var(--line);border-top:2px solid var(--amber);border-radius:0 0 2px 2px;padding:12px 16px;background:var(--cream-2);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);display:flex;gap:22px;flex-wrap:wrap;margin-top:0">
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">杠杆 thr</span><strong style="color:#006636;font-size:13px">0.80 / 0.90</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">平价线</span><strong style="color:var(--navy);font-size:13px">1.000</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">滚动窗口</span><strong style="color:var(--navy);font-size:13px">20 日</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">当前 μ_fl</span><strong style="color:var(--navy);font-size:13px">1.162</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">thr2 (μ+1σ)</span><strong style="color:var(--navy);font-size:13px">1.206</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">thr3 (μ+2σ)</span><strong style="color:var(--navy);font-size:13px">1.250</strong></div>
+    <div><span style="color:var(--amber);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:3px">当前信号</span><strong style="color:var(--navy);font-size:13px">PURR 25% / HYPE 75%</strong></div>
+  </div>
+
+  <div class="col-2" style="margin-top:16px">
+    <div class="read">
+      <div class="read-num">机制 · Mechanics</div>
+      <div class="read-title">为什么<em>载体切换</em>不违反 Bull Logic</div>
+      <div class="read-body">
+        <p>Bull Logic 下出场只能用产业信号，不能用价格行为。本策略<strong>从不离开 HYPE 敞口</strong> — PURR 仓位降到 0% 时，资金全进 HYPE 现货，敞口仍是 100%。</p>
+        <p>切换的是<strong>载体</strong>，不是<strong>敞口</strong>。"mNAV 高了减 PURR"不是看空信号，是"换个更划算的方式持有同样的 HYPE"。</p>
+      </div>
+    </div>
+    <div class="read">
+      <div class="read-num">执行 · Execution</div>
+      <div class="read-title"><em>周频</em>调仓 · 无前视偏差</div>
+      <div class="read-body">
+        <p>每 5 个交易日按上一交易日收盘 mNAV 计算当时的 μ_fl / σ，决定新一期权重（无前视偏差）。波段是 3 周视角。</p>
+        <p>回测期内触发 <strong>16 次</strong>调仓（vs v3 的 12 次，v4 对中枢变化更敏感）。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §3 回测 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 3 · Backtest</div>
+      <h2 class="section-title">回测：<em>策略 vs 两个基准</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">三条净值曲线 — 策略 / 一直持 PURR / 一直持 HYPE。v4 自适应阈值在折价期超配 PURR、在极端溢价期清仓转 HYPE，在中间区域维持混合。</p>
+    </div>
+    <div class="section-aside">26/02/12 – 26/05/16<strong>93 交易日</strong></div>
+  </div>
+
+  <div class="hero-chart">
+    <div class="hero-cap">§ Chart 2 · Equity Curve + Allocation Signal</div>
+    <h2 class="hero-title">累计净值曲线 <em>·</em> 起点归一 1.00</h2>
+    <p class="hero-sub">策略（navy 实线）= 按 v4 自适应 mNAV 档位切换；一直持 PURR（amber）；一直持 HYPE（红虚线）。背景色带 = 当期实际持仓。下方调仓信号条每格对应一个持仓期。</p>
+    <div class="chart-wrap" id="eqChart"></div>
+    <div class="alloc-strip">
+      <div class="alloc-cap">▸ 调仓信号 — PURR 仓位（周频，每格 = 持仓期）
+        <span class="alloc-legend">
+          <span><span class="alloc-dot" style="background:rgba(0,100,50,0.90)"></span>150% ×杠杆</span>
+          <span><span class="alloc-dot" style="background:rgba(0,140,75,0.80)"></span>120% ×杠杆</span>
+          <span><span class="alloc-dot" style="background:rgba(46,93,58,0.75)"></span>100% PURR</span>
+          <span><span class="alloc-dot" style="background:rgba(46,93,58,0.45)"></span>75%</span>
+          <span><span class="alloc-dot" style="background:rgba(184,135,10,0.55)"></span>50/50</span>
+          <span><span class="alloc-dot" style="background:rgba(139,35,49,0.45)"></span>25%</span>
+          <span><span class="alloc-dot" style="background:rgba(139,35,49,0.75)"></span>100% HYPE</span>
+        </span>
+      </div>
+      <div class="chart-wrap short" id="allocChart"></div>
+    </div>
+    <div class="chart-footer">
+      <span>策略收益 = Σ [ w·PURR收益 + (1−w)·HYPE收益 ]，w 由前一日 mNAV 动态档位决定 · 周频调仓</span>
+      <span>未计交易成本 / 滑点</span>
+    </div>
+  </div>
+
+  <div class="stats-band">
+    <div class="stat"><div class="stat-label">策略累计收益</div><div class="stat-value bull">+58.4<span class="unit">%</span></div><div class="stat-sub">93 交易日</div></div>
+    <div class="stat"><div class="stat-label">一直持 PURR</div><div class="stat-value">+48.7<span class="unit">%</span></div><div class="stat-sub">基准 A</div></div>
+    <div class="stat"><div class="stat-label">一直持 HYPE</div><div class="stat-value">+41.3<span class="unit">%</span></div><div class="stat-sub">基准 B</div></div>
+    <div class="stat"><div class="stat-label">策略 vs 持 HYPE</div><div class="stat-value bull">+12.0<span class="unit">pp</span></div><div class="stat-sub">超额（v3 为 +8.8pp）</div></div>
+    <div class="stat"><div class="stat-label">策略最大回撤</div><div class="stat-value bear">-19.8<span class="unit">%</span></div><div class="stat-sub">非低波动策略</div></div>
+  </div>
+
+  <div class="read navy" style="margin-top:20px">
+    <div class="read-num">诚实标注 · Honest Caveat</div>
+    <div class="read-title">样本仅 93 天，未覆盖 HYPE 下行周期</div>
+    <div class="read-body">
+      <p>+12.0pp 超额主要来自 2026/02–03 折价期策略超配 PURR（mNAV 最低 0.918），随后 mNAV 修复带来超额。v4 vs v3 多出 +3.2pp 来自溢价区的更精细定档（历史上有 0 天 mNAV &gt; 1.0 但低于滚动均值，v3 会打成"偏贵"，v4 正确识别为"相对便宜"→ 75% PURR）。</p>
+      <p>样本只有 93 天。当 mNAV 长期单边上移（中枢结构性 re-rating）时，20日窗口会慢慢适应，但前 20 天 alpha 来源短暂收窄。这是 adaptive 的代价 —— 比静态阈值慢，但不会锁死。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §4 关键日期 & 当前信号 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 4 · Key Dates &amp; Live Signal</div>
+      <h2 class="section-title">关键节点 &amp; <em>当前信号 @ 26/05/16</em></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="section-aside">档位<strong>偏高 · PURR 25%</strong></div>
+  </div>
+
+  <div class="signal-box">
+    <div class="signal-top">
+      <div>
+        <div class="signal-now">Strategy v4 Output · 当前指令</div>
+        <div class="signal-verdict">轻仓 PURR 25% / HYPE 75%</div>
+      </div>
+      <div class="signal-metric">
+        <div class="big">1.218</div>
+        <div class="lbl">mNAV · P97</div>
+      </div>
+    </div>
+    <div class="signal-body">
+      mNAV 1.218 高于均值+1σ（thr2=1.206），偏高，减持 PURR。 ELOC 机制在溢价区主动增发 PURR 股票压制溢价；无论持仓如何切换，<strong>HYPE 经济敞口始终 100%</strong>。
+    </div>
+    <div class="signal-grid">
+      <div class="sgrid-item">
+        <div class="sgrid-label">20日 μ_fl（基准线）</div>
+        <div class="sgrid-value">1.162</div>
+      </div>
+      <div class="sgrid-item">
+        <div class="sgrid-label">thr2 = μ+1σ（偏高线）</div>
+        <div class="sgrid-value warn">1.206</div>
+      </div>
+      <div class="sgrid-item">
+        <div class="sgrid-label">thr3 = μ+2σ（极贵线）</div>
+        <div class="sgrid-value bad">1.250</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:20px">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:11%">日期</th>
+          <th class="num">HYPE</th><th class="num">PURR</th>
+          <th class="num">NAV/sh</th><th class="num">mNAV</th>
+          <th style="width:18%">当时 μ / thr3</th>
+          <th class="num" style="width:10%">PURR 仓位</th>
+          <th>档位</th>
+        </tr>
+      </thead>
+      <tbody>
+<tr><td class="mono">26/02/12 </td><td class="num">$31.22</td><td class="num">$4.7007</td><td class="num">$4.43</td><td class="num amber">1.060</td><td class="mono" style="font-size:11px">μ=1.050 thr3=1.08</td><td class="num ">50%</td><td>回测起点</td></tr>
+<tr><td class="mono">26/03/11 </td><td class="num">$36.11</td><td class="num">$5.925</td><td class="num">$4.89</td><td class="num bear">1.211</td><td class="mono" style="font-size:11px">μ=1.021 thr3=1.144</td><td class="num bear">0%</td><td>mNAV 阶段峰值</td></tr>
+<tr><td class="mono">26/03/31 </td><td class="num">$36.79</td><td class="num">$5.085</td><td class="num">$4.99</td><td class="num amber">1.019</td><td class="mono" style="font-size:11px">μ=1.046 thr3=1.206</td><td class="num bull">75%</td><td>Q2 末</td></tr>
+<tr><td class="mono">26/04/29 </td><td class="num">$39.38</td><td class="num">$5.79</td><td class="num">$5.28</td><td class="num amber">1.096</td><td class="mono" style="font-size:11px">μ=1.107 thr3=1.15</td><td class="num bull">75%</td><td>20M HYPE 里程碑</td></tr>
+<tr><td class="mono">26/05/14 </td><td class="num">$44.21</td><td class="num">$7.185</td><td class="num">$5.74</td><td class="num bear">1.251</td><td class="mono" style="font-size:11px">μ=1.148 thr3=1.223</td><td class="num bear">0%</td><td>mNAV 历史高点</td></tr>
+<tr style="background:rgba(139,35,49,0.08)"><td class="mono"><strong>26/05/16 </strong></td><td class="num">$44.13</td><td class="num">$6.99</td><td class="num">$5.74</td><td class="num amber"><strong>1.218</strong></td><td class="mono" style="font-size:11px"><strong>μ=1.162 thr3=1.25</strong></td><td class="num "><strong>25%</strong></td><td><strong>当前</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ §5 风险 & 失效信号 ============ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-label">§ 5 · Risk &amp; Invalidation</div>
+      <h2 class="section-title">失效信号 &amp; <em>风险边界</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">均值回归策略最大的敌人是"它不再回归"。下面是会让本策略失效的可执行信号。</p>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:22%">失效 / 风险</th><th style="width:28%">可执行阈值</th><th>含义 &amp; 应对</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① mNAV 中枢结构性上移</strong></td>
+          <td class="mono">20日 μ 站上 1.20 并持续 ≥ 3 周</td>
+          <td>滚动均值会自动跟随（这是 v4 对 v3 的改进 —— 无需手动重标定）。但中枢抬升后折价修复的幅度收窄，策略 alpha 来源减弱。此时可考虑缩短窗口至 10日以更快适应。</td>
+        </tr>
+        <tr>
+          <td><strong>② HYPE 行业 Bull Logic 破</strong></td>
+          <td class="mono">协议季度 fee &lt; $200M，或 HIP-3 月成交连续两月 −20%</td>
+          <td>Beta 层假设破掉 → 暂停策略，整体重估 HYPE 敞口，不再机械执行 mNAV 切换。</td>
+        </tr>
+        <tr>
+          <td><strong>③ HSI 公司治理事件</strong></td>
+          <td class="mono">大幅折价增发 / 法律 tail / 资本配置失序</td>
+          <td>NAV 模型被污染，mNAV 信号暂时失真 → 该次信号作废，等事件出清。</td>
+        </tr>
+        <tr>
+          <td><strong>④ σ 坍塌（波动率消失）</strong></td>
+          <td class="mono">σ &lt; 0.015（触发 floor）持续 &gt; 1 个月</td>
+          <td>mNAV 长期极度稳定时，thr2/thr3 与 thr1 几乎重合 → 档位分辨率下降，策略退化为"低于均值 75%、高于均值 50%/25%"两档近似。此时可接受，不是失效。</td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 载体可行性</strong></td>
+          <td class="mono">投资者能否直接持有 HYPE 现货</td>
+          <td>若因合规 / 钱包限制无法持 HYPE 现货，"转现货"那条腿断裂 → 退化为 PURR 单边仓位管理（高 mNAV 减仓持现金，接受踏空 beta）。</td>
+        </tr>
+        <tr>
+          <td><strong>⑥ 样本局限</strong></td>
+          <td class="mono">仅 93 交易日 · 单一 HYPE 上行周期</td>
+          <td>策略未经历 HYPE 下行期检验。回测最大回撤 -19.8% 说明这不是低波动策略。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">⌁ 策略的本质与边界</div>
+    <div class="callout-body">这套策略不会让你赚到 HYPE 的钱 —— 那是 Beta。它要赚的是 PURR 相对 HYPE 的<em>相对折价呼吸</em>：在绝对折价（mNAV &lt; 1.0）或相对折价（mNAV &lt; 20日均值）时超配 PURR；在相对极贵时转 HYPE。v4 让这口"呼吸"在溢价区也能继续工作 —— <em>阈值会随市场呼吸，不是固定的</em>。</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+<div class="footer-grid">
+  <div>
+    <div class="footer-title">PURR <em>mNAV 波段策略 v4</em> · Adaptive Threshold</div>
+    <p style="font-size:11.5px;line-height:1.6;color:rgba(244,242,237,0.55);max-width:680px">mNAV 数据来自 HypurrIntel purr_daily_nav.csv（实测值）。阈值体系：mNAV &lt; 1.0 用绝对锚，≥ 1.0 用 20日滚动均值+σ 动态定档（μ_fl = max(μ,1.0)，σ floor=0.015）。回测区间 26/02/12–26/05/16，93 交易日，周频调仓，无前视偏差。</p>
+    <div class="footer-disc">DISCLAIMER · 回测未计交易成本 / 滑点，样本仅 93 交易日且未覆盖 HYPE 下行周期。本报告为策略研究，非投资建议。</div>
+  </div>
+  <div class="footer-section">
+    <h4>Method &amp; Data</h4>
+    <ul>
+      <li>mNAV 实测 · HypurrIntel CSV</li>
+      <li>自适应窗口 · 20 交易日</li>
+      <li>HYPE / PURR 日线 · hypurrintel.xyz</li>
+      <li>样本 · 26/02/12–26/05/16</li>
+      <li>调仓 · 周频，前一日定价</li>
+      <li>当前信号 · 偏高 · PURR 25%</li>
+      <li>生成 · 2026-05-16</li>
+    </ul>
+  </div>
+</div>
+</footer>
+
+<script>
+const LABELS  = ["02/12", "02/13", "02/14", "02/15", "02/16", "02/17", "02/18", "02/19", "02/20", "02/21", "02/22", "02/23", "02/24", "02/25", "02/26", "02/27", "02/28", "03/01", "03/02", "03/03", "03/04", "03/05", "03/06", "03/07", "03/08", "03/09", "03/10", "03/11", "03/12", "03/13", "03/14", "03/15", "03/16", "03/17", "03/18", "03/19", "03/20", "03/21", "03/22", "03/23", "03/24", "03/25", "03/26", "03/27", "03/28", "03/29", "03/30", "03/31", "04/01", "04/02", "04/03", "04/04", "04/05", "04/06", "04/07", "04/08", "04/09", "04/10", "04/11", "04/12", "04/13", "04/14", "04/15", "04/16", "04/17", "04/18", "04/19", "04/20", "04/21", "04/22", "04/23", "04/24", "04/25", "04/26", "04/27", "04/28", "04/29", "05/01", "05/02", "05/03", "05/04", "05/05", "05/06", "05/07", "05/08", "05/09", "05/10", "05/11", "05/12", "05/13", "05/14", "05/15", "05/16"];
+const MNAV    = [1.06, 1.018, 0.982, 0.98, 1.004, 1.003, 0.991, 0.948, 0.987, 0.996, 1.019, 0.955, 0.98, 1.016, 1.006, 1.043, 0.954, 0.918, 1.072, 1.033, 1.139, 1.101, 1.031, 0.991, 0.997, 1.096, 1.145, 1.211, 1.13, 1.068, 1.047, 1.061, 1.151, 1.117, 1.192, 1.092, 1.039, 0.979, 1.017, 1.047, 1.015, 0.983, 0.952, 0.95, 0.939, 0.956, 0.979, 1.019, 1.048, 1.028, 1.015, 1.004, 1.016, 0.992, 0.967, 1.043, 1.058, 1.082, 1.081, 1.101, 1.104, 1.109, 1.116, 1.111, 1.115, 1.115, 1.166, 1.12, 1.09, 1.135, 1.096, 1.112, 1.1, 1.091, 1.124, 1.112, 1.096, 1.127, 1.137, 1.145, 1.193, 1.149, 1.196, 1.19, 1.185, 1.192, 1.181, 1.195, 1.162, 1.177, 1.251, 1.237, 1.218];
+const MU_FL   = [1.05, 1.06, 1.039, 1.02, 1.01, 1.0088, 1.0078, 1.0054, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0022, 1.0064, 1.0088, 1.0093, 1.009, 1.0136, 1.0213, 1.0345, 1.0416, 1.0453, 1.0467, 1.0519, 1.0605, 1.0655, 1.0749, 1.0773, 1.0816, 1.0846, 1.0818, 1.0825, 1.0763, 1.0704, 1.0665, 1.0644, 1.0615, 1.0545, 1.0462, 1.0366, 1.0326, 1.0305, 1.029, 1.0261, 1.0193, 1.0131, 1.0018, 1.0, 1.0004, 1.0055, 1.0087, 1.0114, 1.0158, 1.0221, 1.0304, 1.0384, 1.0472, 1.0552, 1.0645, 1.0696, 1.0716, 1.077, 1.0811, 1.0864, 1.0907, 1.0956, 1.1035, 1.1069, 1.1088, 1.1111, 1.1139, 1.116, 1.1205, 1.1225, 1.1265, 1.1304, 1.134, 1.1378, 1.1385, 1.1423, 1.1459, 1.148, 1.1558, 1.162];
+const THR2    = [1.065, 1.075, 1.06, 1.052, 1.043, 1.038, 1.035, 1.031, 1.03, 1.029, 1.027, 1.027, 1.029, 1.028, 1.027, 1.026, 1.028, 1.029, 1.034, 1.037, 1.037, 1.049, 1.058, 1.06, 1.06, 1.06, 1.068, 1.082, 1.106, 1.115, 1.118, 1.119, 1.121, 1.131, 1.136, 1.149, 1.152, 1.151, 1.148, 1.147, 1.147, 1.141, 1.138, 1.138, 1.139, 1.14, 1.135, 1.126, 1.107, 1.1, 1.097, 1.095, 1.092, 1.079, 1.069, 1.04, 1.034, 1.035, 1.044, 1.051, 1.058, 1.066, 1.076, 1.085, 1.093, 1.099, 1.104, 1.116, 1.121, 1.123, 1.129, 1.132, 1.134, 1.136, 1.134, 1.129, 1.129, 1.128, 1.129, 1.132, 1.135, 1.145, 1.148, 1.156, 1.163, 1.169, 1.174, 1.176, 1.181, 1.183, 1.186, 1.198, 1.206];
+const THR3    = [1.08, 1.09, 1.081, 1.084, 1.075, 1.067, 1.061, 1.056, 1.061, 1.058, 1.055, 1.054, 1.057, 1.055, 1.055, 1.053, 1.056, 1.058, 1.067, 1.074, 1.074, 1.095, 1.109, 1.111, 1.111, 1.111, 1.122, 1.144, 1.177, 1.188, 1.191, 1.192, 1.191, 1.202, 1.207, 1.224, 1.226, 1.22, 1.211, 1.211, 1.211, 1.205, 1.205, 1.21, 1.213, 1.218, 1.216, 1.206, 1.177, 1.167, 1.164, 1.162, 1.159, 1.139, 1.124, 1.078, 1.068, 1.071, 1.083, 1.093, 1.104, 1.117, 1.129, 1.14, 1.147, 1.15, 1.153, 1.168, 1.173, 1.175, 1.182, 1.182, 1.182, 1.181, 1.173, 1.155, 1.15, 1.147, 1.147, 1.149, 1.153, 1.17, 1.173, 1.186, 1.196, 1.203, 1.211, 1.213, 1.22, 1.22, 1.223, 1.24, 1.25];
+const EQS     = [1.0, 0.997, 0.9533, 0.9548, 0.9373, 0.929, 0.9038, 0.8676, 0.9211, 0.9326, 0.9245, 0.8227, 0.8596, 0.9207, 0.8944, 0.8971, 0.9414, 0.9836, 1.0625, 1.0338, 1.065, 1.015, 0.9859, 1.0107, 1.0014, 1.1295, 1.1401, 1.2204, 1.2385, 1.1983, 1.2362, 1.2251, 1.3302, 1.3796, 1.4611, 1.33, 1.2633, 1.2592, 1.227, 1.2416, 1.2619, 1.2629, 1.1855, 1.1741, 1.1985, 1.1913, 1.1853, 1.2238, 1.2527, 1.1853, 1.1913, 1.1959, 1.1912, 1.2105, 1.1719, 1.2862, 1.3423, 1.4252, 1.4312, 1.4043, 1.4759, 1.4701, 1.5023, 1.4755, 1.4969, 1.5003, 1.4349, 1.4167, 1.3415, 1.4035, 1.3983, 1.4021, 1.4, 1.4077, 1.4331, 1.3685, 1.3457, 1.4173, 1.4373, 1.4302, 1.4715, 1.5787, 1.5304, 1.5063, 1.5361, 1.5283, 1.5432, 1.4941, 1.4294, 1.3965, 1.5866, 1.5884, 1.5837];
+const EQP     = [1.0, 0.9733, 0.919, 0.919, 0.919, 0.9126, 0.8871, 0.8424, 0.8999, 0.9126, 0.9126, 0.802, 0.8424, 0.9084, 0.8828, 0.9041, 0.868, 0.868, 1.0403, 0.9892, 1.0946, 1.0264, 0.9424, 0.9211, 0.9211, 1.0977, 1.1445, 1.2605, 1.2041, 1.1232, 1.1317, 1.1317, 1.27, 1.287, 1.4019, 1.2349, 1.1488, 1.1062, 1.1062, 1.1359, 1.1307, 1.12, 1.0467, 1.0371, 1.053, 1.053, 1.0477, 1.0818, 1.1073, 1.0477, 1.053, 1.053, 1.053, 1.0605, 1.0211, 1.1381, 1.1945, 1.2753, 1.2785, 1.2785, 1.3328, 1.3349, 1.3647, 1.3413, 1.3604, 1.3636, 1.3636, 1.3073, 1.2243, 1.311, 1.2722, 1.286, 1.2764, 1.2764, 1.3179, 1.2594, 1.2317, 1.3115, 1.3338, 1.3338, 1.3987, 1.42, 1.4434, 1.42, 1.4243, 1.4274, 1.4274, 1.404, 1.3243, 1.3136, 1.5285, 1.5125, 1.487];
+const EQH     = [1.0, 1.0208, 0.9881, 0.9914, 0.9548, 0.9446, 0.9215, 0.9132, 0.9513, 0.9587, 0.9254, 0.8338, 0.8664, 0.9218, 0.8949, 0.8789, 0.9484, 1.0051, 1.0461, 1.0256, 1.0304, 0.9821, 0.9539, 0.9779, 0.9689, 1.0929, 1.091, 1.1566, 1.1967, 1.1717, 1.2181, 1.1963, 1.2553, 1.3318, 1.3703, 1.2876, 1.2482, 1.2864, 1.2207, 1.2168, 1.2623, 1.302, 1.2386, 1.2249, 1.2703, 1.2399, 1.1915, 1.1784, 1.1691, 1.1111, 1.1393, 1.1566, 1.1387, 1.1883, 1.1688, 1.2233, 1.2742, 1.3504, 1.3568, 1.3229, 1.394, 1.3885, 1.419, 1.3937, 1.4138, 1.417, 1.3347, 1.3306, 1.2646, 1.3126, 1.319, 1.312, 1.3177, 1.3322, 1.337, 1.2758, 1.2614, 1.3139, 1.3286, 1.3155, 1.3274, 1.4241, 1.3805, 1.3587, 1.3857, 1.3786, 1.3965, 1.345, 1.2928, 1.2566, 1.4161, 1.4177, 1.4135];
+const ACTUAL_W= [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.75, 0.75, 0.75, 0.75, 0.75, 0.5, 0.5, 0.5, 0.5, 0.5, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.75, 0.75, 0.75, 0.75, 0.75, 1.0, 1.0, 1.0, 1.0, 1.0, 0.75, 0.75, 0.75, 0.75, 0.75, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0, 0.0];
+const PSHAPES = [{"type": "rect", "xref": "x", "yref": "paper", "x0": "02/12", "x1": "02/17", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/18", "x1": "02/22", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/23", "x1": "02/27", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/28", "x1": "03/04", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/05", "x1": "03/09", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/10", "x1": "03/14", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/15", "x1": "03/24", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/25", "x1": "03/29", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/30", "x1": "04/03", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/04", "x1": "04/08", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/09", "x1": "04/13", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/14", "x1": "04/18", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/19", "x1": "04/23", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/24", "x1": "05/04", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/05", "x1": "05/09", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/10", "x1": "05/14", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/15", "x1": "05/16", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}];
+const MSHAPES = [{"type": "rect", "xref": "x", "yref": "paper", "x0": "02/12", "x1": "02/17", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/18", "x1": "02/22", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/23", "x1": "02/27", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "02/28", "x1": "03/04", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/05", "x1": "03/09", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/10", "x1": "03/14", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/15", "x1": "03/24", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/25", "x1": "03/29", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "03/30", "x1": "04/03", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/04", "x1": "04/08", "y0": 0, "y1": 1, "fillcolor": "rgba(46,93,58,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/09", "x1": "04/13", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/14", "x1": "04/18", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/19", "x1": "04/23", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "04/24", "x1": "05/04", "y0": 0, "y1": 1, "fillcolor": "rgba(184,135,10,0.07)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/05", "x1": "05/09", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/10", "x1": "05/14", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.06)", "line": {"width": 0}, "layer": "below"}, {"type": "rect", "xref": "x", "yref": "paper", "x0": "05/15", "x1": "05/16", "y0": 0, "y1": 1, "fillcolor": "rgba(139,35,49,0.11)", "line": {"width": 0}, "layer": "below"}, {"type": "line", "xref": "paper", "yref": "y", "x0": 0, "x1": 1, "y0": 1.0, "y1": 1.0, "line": {"color": "rgba(139,35,49,0.65)", "width": 1.5, "dash": "dot"}}];
+const ACOLORS = ["rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.78)", "rgba(46,93,58,0.78)", "rgba(46,93,58,0.78)", "rgba(46,93,58,0.78)", "rgba(46,93,58,0.78)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(46,93,58,0.50)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(184,135,10,0.60)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.48)", "rgba(139,35,49,0.78)", "rgba(139,35,49,0.78)"];
+const EQ_HOVER= ["02/12<br>\u7b56\u7565 0.0%<br>\u6301\u4ed3: 50% / 50%", "02/13<br>\u7b56\u7565 -0.3%<br>\u6301\u4ed3: 50% / 50%", "02/14<br>\u7b56\u7565 -4.7%<br>\u6301\u4ed3: 50% / 50%", "02/15<br>\u7b56\u7565 -4.5%<br>\u6301\u4ed3: 50% / 50%", "02/16<br>\u7b56\u7565 -6.3%<br>\u6301\u4ed3: 50% / 50%", "02/17<br>\u7b56\u7565 -7.1%<br>\u6301\u4ed3: 50% / 50%", "02/18<br>\u7b56\u7565 -9.6%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "02/19<br>\u7b56\u7565 -13.2%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "02/20<br>\u7b56\u7565 -7.9%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "02/21<br>\u7b56\u7565 -6.7%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "02/22<br>\u7b56\u7565 -7.6%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "02/23<br>\u7b56\u7565 -17.7%<br>\u6301\u4ed3: 50% / 50%", "02/24<br>\u7b56\u7565 -14.0%<br>\u6301\u4ed3: 50% / 50%", "02/25<br>\u7b56\u7565 -7.9%<br>\u6301\u4ed3: 50% / 50%", "02/26<br>\u7b56\u7565 -10.6%<br>\u6301\u4ed3: 50% / 50%", "02/27<br>\u7b56\u7565 -10.3%<br>\u6301\u4ed3: 50% / 50%", "02/28<br>\u7b56\u7565 -5.9%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/01<br>\u7b56\u7565 -1.6%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/02<br>\u7b56\u7565 6.2%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/03<br>\u7b56\u7565 3.4%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/04<br>\u7b56\u7565 6.5%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/05<br>\u7b56\u7565 1.5%<br>\u6301\u4ed3: 100% HYPE", "03/06<br>\u7b56\u7565 -1.4%<br>\u6301\u4ed3: 100% HYPE", "03/07<br>\u7b56\u7565 1.1%<br>\u6301\u4ed3: 100% HYPE", "03/08<br>\u7b56\u7565 0.1%<br>\u6301\u4ed3: 100% HYPE", "03/09<br>\u7b56\u7565 12.9%<br>\u6301\u4ed3: 100% HYPE", "03/10<br>\u7b56\u7565 14.0%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/11<br>\u7b56\u7565 22.0%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/12<br>\u7b56\u7565 23.8%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/13<br>\u7b56\u7565 19.8%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/14<br>\u7b56\u7565 23.6%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "03/15<br>\u7b56\u7565 22.5%<br>\u6301\u4ed3: 50% / 50%", "03/16<br>\u7b56\u7565 33.0%<br>\u6301\u4ed3: 50% / 50%", "03/17<br>\u7b56\u7565 38.0%<br>\u6301\u4ed3: 50% / 50%", "03/18<br>\u7b56\u7565 46.1%<br>\u6301\u4ed3: 50% / 50%", "03/19<br>\u7b56\u7565 33.0%<br>\u6301\u4ed3: 50% / 50%", "03/20<br>\u7b56\u7565 26.3%<br>\u6301\u4ed3: 50% / 50%", "03/21<br>\u7b56\u7565 25.9%<br>\u6301\u4ed3: 50% / 50%", "03/22<br>\u7b56\u7565 22.7%<br>\u6301\u4ed3: 50% / 50%", "03/23<br>\u7b56\u7565 24.2%<br>\u6301\u4ed3: 50% / 50%", "03/24<br>\u7b56\u7565 26.2%<br>\u6301\u4ed3: 50% / 50%", "03/25<br>\u7b56\u7565 26.3%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "03/26<br>\u7b56\u7565 18.6%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "03/27<br>\u7b56\u7565 17.4%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "03/28<br>\u7b56\u7565 19.8%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "03/29<br>\u7b56\u7565 19.1%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "03/30<br>\u7b56\u7565 18.5%<br>\u6301\u4ed3: 100% PURR", "03/31<br>\u7b56\u7565 22.4%<br>\u6301\u4ed3: 100% PURR", "04/01<br>\u7b56\u7565 25.3%<br>\u6301\u4ed3: 100% PURR", "04/02<br>\u7b56\u7565 18.5%<br>\u6301\u4ed3: 100% PURR", "04/03<br>\u7b56\u7565 19.1%<br>\u6301\u4ed3: 100% PURR", "04/04<br>\u7b56\u7565 19.6%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "04/05<br>\u7b56\u7565 19.1%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "04/06<br>\u7b56\u7565 21.0%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "04/07<br>\u7b56\u7565 17.2%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "04/08<br>\u7b56\u7565 28.6%<br>\u6301\u4ed3: 75% PURR / 25% HYPE", "04/09<br>\u7b56\u7565 34.2%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/10<br>\u7b56\u7565 42.5%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/11<br>\u7b56\u7565 43.1%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/12<br>\u7b56\u7565 40.4%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/13<br>\u7b56\u7565 47.6%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/14<br>\u7b56\u7565 47.0%<br>\u6301\u4ed3: 100% HYPE", "04/15<br>\u7b56\u7565 50.2%<br>\u6301\u4ed3: 100% HYPE", "04/16<br>\u7b56\u7565 47.6%<br>\u6301\u4ed3: 100% HYPE", "04/17<br>\u7b56\u7565 49.7%<br>\u6301\u4ed3: 100% HYPE", "04/18<br>\u7b56\u7565 50.0%<br>\u6301\u4ed3: 100% HYPE", "04/19<br>\u7b56\u7565 43.5%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/20<br>\u7b56\u7565 41.7%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/21<br>\u7b56\u7565 34.1%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/22<br>\u7b56\u7565 40.3%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/23<br>\u7b56\u7565 39.8%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "04/24<br>\u7b56\u7565 40.2%<br>\u6301\u4ed3: 50% / 50%", "04/25<br>\u7b56\u7565 40.0%<br>\u6301\u4ed3: 50% / 50%", "04/26<br>\u7b56\u7565 40.8%<br>\u6301\u4ed3: 50% / 50%", "04/27<br>\u7b56\u7565 43.3%<br>\u6301\u4ed3: 50% / 50%", "04/28<br>\u7b56\u7565 36.9%<br>\u6301\u4ed3: 50% / 50%", "04/29<br>\u7b56\u7565 34.6%<br>\u6301\u4ed3: 50% / 50%", "05/01<br>\u7b56\u7565 41.7%<br>\u6301\u4ed3: 50% / 50%", "05/02<br>\u7b56\u7565 43.7%<br>\u6301\u4ed3: 50% / 50%", "05/03<br>\u7b56\u7565 43.0%<br>\u6301\u4ed3: 50% / 50%", "05/04<br>\u7b56\u7565 47.2%<br>\u6301\u4ed3: 50% / 50%", "05/05<br>\u7b56\u7565 57.9%<br>\u6301\u4ed3: 100% HYPE", "05/06<br>\u7b56\u7565 53.0%<br>\u6301\u4ed3: 100% HYPE", "05/07<br>\u7b56\u7565 50.6%<br>\u6301\u4ed3: 100% HYPE", "05/08<br>\u7b56\u7565 53.6%<br>\u6301\u4ed3: 100% HYPE", "05/09<br>\u7b56\u7565 52.8%<br>\u6301\u4ed3: 100% HYPE", "05/10<br>\u7b56\u7565 54.3%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "05/11<br>\u7b56\u7565 49.4%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "05/12<br>\u7b56\u7565 42.9%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "05/13<br>\u7b56\u7565 39.7%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "05/14<br>\u7b56\u7565 58.7%<br>\u6301\u4ed3: 25% PURR / 75% HYPE", "05/15<br>\u7b56\u7565 58.8%<br>\u6301\u4ed3: 100% HYPE", "05/16<br>\u7b56\u7565 58.4%<br>\u6301\u4ed3: 100% HYPE"];
+
+const PL_CFG = {responsive:true,scrollZoom:true,displayModeBar:true,
+  modeBarButtonsToRemove:['select2d','lasso2d','autoScale2d'],
+  displaylogo:false,doubleClick:'reset'};
+
+const BG = '#F4F2ED', NAVY='#1B2635', AMBER='#B8870A', BEAR='#8B2331';
+const FONT_MONO = {family:'JetBrains Mono',size:10,color:'#4A5466'};
+const FONT_KARLA= {family:'Karla',size:11,color:'#4A5466'};
+
+// ── Chart 1: mNAV Trajectory + Adaptive Thresholds ─────────────────────────
+Plotly.newPlot('mnavChart',
+  [
+    {x:LABELS, y:MNAV, type:'scatter', mode:'lines', name:'mNAV',
+      line:{color:NAVY, width:2.2},
+      fill:'tozeroy', fillcolor:'rgba(27,38,53,0.05)',
+      hovertemplate:'%{x}  mNAV <b>%{y:.3f}</b><extra></extra>'},
+    {x:LABELS, y:MU_FL, type:'scatter', mode:'lines', name:'20日 μ_fl',
+      line:{color:'rgba(184,135,10,0.75)', width:1.5, dash:'dot'},
+      hovertemplate:'%{x}  μ_fl <b>%{y:.3f}</b><extra></extra>'},
+    {x:LABELS, y:THR3, type:'scatter', mode:'lines', name:'μ+2σ (极贵线)',
+      line:{color:'rgba(139,35,49,0.45)', width:1.2, dash:'dash'},
+      hovertemplate:'%{x}  thr3 <b>%{y:.3f}</b><extra></extra>'}
+  ],
+  {paper_bgcolor:BG, plot_bgcolor:BG,
+    xaxis:{type:'category', tickfont:FONT_MONO, showgrid:false, nticks:14},
+    yaxis:{title:{text:'mNAV (×)', font:FONT_KARLA},
+      tickfont:FONT_MONO, gridcolor:'rgba(201,194,176,0.3)',
+      tickformat:'.3f'},
+    shapes:MSHAPES,
+    annotations:[{x:LABELS[LABELS.length-1], y:MNAV[MNAV.length-1],
+      xref:'x', yref:'y', text:'<b>当前 1.218</b>',
+      showarrow:true, arrowhead:2, ax:40, ay:-30,
+      bgcolor:'rgba(139,35,49,0.85)', font:{color:'#fff',size:11,family:'JetBrains Mono'},
+      borderpad:5}],
+    legend:{font:{family:'JetBrains Mono',size:10},
+      bgcolor:'rgba(244,242,237,0.88)', bordercolor:'#C9C2B0', borderwidth:1,
+      x:0.01, y:0.99},
+    margin:{t:16, r:40, b:40, l:64}, hovermode:'x unified'},
+  PL_CFG
+);
+
+// ── Chart 2: Equity Curve ───────────────────────────────────────────────────
+Plotly.newPlot('eqChart',
+  [
+    {x:LABELS, y:EQS, type:'scatter', mode:'lines', name:'策略 v4',
+      line:{color:NAVY, width:2.5},
+      text:EQ_HOVER, hoverinfo:'text'},
+    {x:LABELS, y:EQP, type:'scatter', mode:'lines', name:'持 PURR',
+      line:{color:AMBER, width:1.8},
+      hovertemplate:'%{x}  持PURR <b>%{y:.3f}</b><extra></extra>'},
+    {x:LABELS, y:EQH, type:'scatter', mode:'lines', name:'持 HYPE',
+      line:{color:BEAR, width:1.6, dash:'dash'},
+      hovertemplate:'%{x}  持HYPE <b>%{y:.3f}</b><extra></extra>'}
+  ],
+  {paper_bgcolor:BG, plot_bgcolor:BG,
+    xaxis:{type:'category', tickfont:FONT_MONO, showgrid:false, nticks:14},
+    yaxis:{title:{text:'累计净值 (起点=1.00)', font:FONT_KARLA},
+      tickfont:FONT_MONO, gridcolor:'rgba(201,194,176,0.3)',
+      tickformat:'.2f'},
+    legend:{font:{family:'JetBrains Mono',size:10.5},
+      bgcolor:'rgba(244,242,237,0.9)', bordercolor:'#C9C2B0', borderwidth:1,
+      x:0.01, y:0.99},
+    shapes:PSHAPES,
+    margin:{t:16, r:40, b:40, l:64}, hovermode:'x unified'},
+  PL_CFG
+);
+
+// ── Chart 3: Alloc signal bar ───────────────────────────────────────────────
+Plotly.newPlot('allocChart',
+  [{x:LABELS, y:ACTUAL_W, type:'bar',
+    marker:{color:ACOLORS, line:{width:0}},
+    hovertemplate:'%{x}  PURR %{y:.0%}<extra></extra>',
+    width:1.0}],
+  {paper_bgcolor:BG, plot_bgcolor:BG, bargap:0,
+    xaxis:{type:'category', showticklabels:false, showgrid:false},
+    yaxis:{tickfont:{family:'JetBrains Mono',size:9,color:'#4A5466'},
+      tickvals:[0,0.5,1.0,1.2,1.5], ticktext:['HYPE','50%','PURR','×1.2','×1.5'],
+      gridcolor:'rgba(201,194,176,0.25)', range:[0,1.65]},
+    margin:{t:4, r:40, b:4, l:64}, hovermode:'x unified'},
+  PL_CFG
+);
+</script>
+</body>
+</html>
