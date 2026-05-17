@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美国 AI 背后的意识形态阵营 · 可视化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- ECharts with multi-CDN fallback -->
+<script>
+  (function loadECharts() {
+    const cdns = [
+      'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js',
+      'https://unpkg.com/echarts@5.5.0/dist/echarts.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js',
+      'https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js'
+    ];
+    let idx = 0;
+    function tryNext() {
+      if (idx >= cdns.length) {
+        document.addEventListener('DOMContentLoaded', () => {
+          const c = document.getElementById('chart');
+          if (c) c.innerHTML = '<div style="padding:60px;text-align:center;font-family:Karla;color:#B33A3A;">ECharts CDN 全部加载失败 · 请检查网络或换用代理</div>';
+        });
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = cdns[idx];
+      s.onload = () => { window.__echartsReady = true; };
+      s.onerror = () => { idx++; tryNext(); };
+      document.head.appendChild(s);
+    }
+    tryNext();
+  })();
+</script>
+<style>
+  :root {
+    --cream: #F4F2ED;
+    --cream-2: #FCFAF5;
+    --navy: #1B2635;
+    --navy-2: #2A3A4F;
+    --amber: #B8870A;
+    --amber-2: #D4A017;
+    --amber-pale: rgba(184,135,10,0.08);
+    --slate: #5A6772;
+    --slate-pale: #8A95A1;
+    --bull: #2D6A4F;
+    --bear: #B33A3A;
+    --bronze: #8B6F47;
+    --highlight: #FFE9A6;
+    --rule: rgba(27,38,53,0.12);
+    --rule-strong: rgba(27,38,53,0.25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Karla', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--navy);
+    color: var(--cream);
+    border-bottom: 3px solid var(--amber);
+    padding: 28px 0 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead-inner {
+    max-width: 1780px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .masthead::before {
+    content: 'NETWORK';
+    position: absolute;
+    right: -20px;
+    top: -50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 200px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -6px;
+    z-index: 1;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    color: var(--amber-2);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .title-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.02;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .title-line em { font-style: italic; color: var(--amber-2); font-weight: 700; }
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(244,242,237,0.7);
+    margin-bottom: 6px;
+  }
+  .desc {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: rgba(244,242,237,0.7);
+    max-width: 800px;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 1780px;
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+  }
+
+  /* CONTROLS BAR */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--cream-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--amber);
+  }
+  .ctrl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-right: 6px;
+  }
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--navy);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    border-radius: 1px;
+  }
+  .btn:hover { background: var(--amber-pale); border-color: var(--amber); }
+  .btn.active {
+    background: var(--navy);
+    color: var(--cream);
+    border-color: var(--navy);
+  }
+  .btn.amber.active { background: var(--amber); border-color: var(--amber); color: var(--cream); }
+  .divider-v {
+    width: 1px;
+    height: 22px;
+    background: var(--rule-strong);
+    margin: 0 6px;
+  }
+
+  /* MAIN GRID: chart + side panel */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .chart-wrap {
+    background: var(--cream-2);
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--amber) 100%);
+    z-index: 2;
+  }
+  #chart {
+    width: 100%;
+    height: 820px;
+  }
+  .chart-title-overlay {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .chart-title-overlay .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .chart-title-overlay .ttl {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+
+  /* SIDE PANEL */
+  .side {
+    background: var(--cream-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--navy);
+    padding: 18px 20px;
+    height: 820px;
+    overflow-y: auto;
+  }
+  .side-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .side-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.1;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    margin-bottom: 2px;
+  }
+  .side-title .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--slate);
+    display: block;
+    margin-top: 2px;
+  }
+  .side-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 10px 0 12px;
+  }
+  .side-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border-radius: 1px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .side-tag.core { background: var(--amber); }
+  .side-tag.deep { background: var(--navy); }
+  .side-tag.fringe { background: var(--slate); }
+  .side-tag.drift { background: #8FB6DB; }
+  .side-tag.adverse { background: var(--bear); }
+  .side-tag.ea { background: #E0786A; }
+  .side-tag.eacc { background: #E0A82E; }
+  .side-tag.wallst { background: #8B5BA5; }
+  .side-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--amber);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .side-divider {
+    width: 36px;
+    height: 2px;
+    background: var(--amber);
+    margin-bottom: 12px;
+  }
+  .side-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--navy);
+  }
+  .side-body b { color: var(--amber); font-weight: 600; }
+  .side-empty {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--slate-pale);
+    text-align: center;
+    padding: 60px 20px;
+    line-height: 1.5;
+  }
+  .side-empty::before {
+    content: '←';
+    display: block;
+    font-size: 32px;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+
+  /* LEGEND ROW */
+  .legend-row {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: var(--cream-2);
+    border: 1px solid var(--rule);
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--navy);
+    letter-spacing: 0.5px;
+  }
+  .legend-row .lg-label {
+    font-size: 9.5px;
+    letter-spacing: 2px;
+    color: var(--slate);
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .legend-row .lg-item { display: flex; align-items: center; gap: 6px; }
+  .lg-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    display: inline-block;
+  }
+  .lg-square {
+    width: 13px; height: 13px; display: inline-block;
+    border-radius: 1px;
+  }
+
+  /* STATS STRIP */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--cream-2);
+    margin-bottom: 16px;
+  }
+  .stat {
+    padding: 14px 18px;
+    border-right: 1px solid var(--rule);
+    text-align: left;
+  }
+  .stat:last-child { border-right: 0; }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    color: var(--slate);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .stat-value em { font-style: italic; color: var(--amber); }
+  .stat-sub {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: 4px;
+  }
+
+  /* INSTRUCTION */
+  .help {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--slate);
+    letter-spacing: 0.8px;
+    padding: 10px 14px;
+    background: var(--amber-pale);
+    border-left: 3px solid var(--amber);
+    margin-bottom: 16px;
+  }
+  .help b { color: var(--amber); }
+
+  /* FOOTER */
+  footer {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 2px solid var(--amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--slate);
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1100px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .side { height: auto; max-height: 500px; }
+    #chart { height: 600px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Interactive Network · AI Camp Mapping · May 2026</div>
+    <h1 class="title-line">美国 AI 背后的意识形态阵营 <em>可视化</em></h1>
+    <div class="subtitle">EA × e/acc — Interactive Force Graph</div>
+    <p class="desc">119 个节点的 AI 时代意识形态战场。<b style="color:#E89488;">EA</b> × <b style="color:#E5B848;">e/acc</b> × <b style="color:#A786BD;">Old Money Wall St</b> 三阵营对峙 + <b style="color:#A7C5E0;">Drift</b> 漂移者。三种视图 / 多维筛选 / 点击节点查看背景 / 拖拽探索。节点位置按力导向算法自然涌现,色彩按阵营立场强度编码。</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat">
+      <div class="stat-label">Total Nodes</div>
+      <div class="stat-value">119</div>
+      <div class="stat-sub">人物节点</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">EA Camp</div>
+      <div class="stat-value">34</div>
+      <div class="stat-sub">含学者 / 政策 / 产业</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">e/acc Camp</div>
+      <div class="stat-value">46</div>
+      <div class="stat-sub">含 PayPal Mafia / 政府 / VC</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Wall St Camp</div>
+      <div class="stat-value"><em>31</em></div>
+      <div class="stat-sub">Soros 系 / Tiger Cubs / 价值派</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Drift / Cross</div>
+      <div class="stat-value">8</div>
+      <div class="stat-sub">跨界与漂移</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Current Cycle</div>
+      <div class="stat-value"><em>e/acc</em></div>
+      <div class="stat-sub">2025–2028 政治势能</div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <span class="ctrl-label">View</span>
+    <button class="btn amber active" data-view="force">力导向网络</button>
+    <button class="btn" data-view="quadrant">象限光谱</button>
+    <button class="btn" data-view="sunburst">层级旭日</button>
+    <span class="divider-v"></span>
+    <span class="ctrl-label">Filter Camp</span>
+    <button class="btn active" data-filter="all">All</button>
+    <button class="btn" data-filter="ea">EA Only</button>
+    <button class="btn" data-filter="eacc">e/acc Only</button>
+    <button class="btn" data-filter="wallst">Wall St Only</button>
+    <button class="btn" data-filter="drift">Drifters</button>
+    <span class="divider-v"></span>
+    <span class="ctrl-label">Stance</span>
+    <button class="btn" data-stance="core">仅核心</button>
+    <button class="btn" data-stance="all">全部</button>
+  </div>
+
+  <div class="help">
+    <b>HOW TO USE ·</b> 点击节点查看背景卡片 / 拖拽节点重新布局 / 滚轮缩放 / 切换上方视图与筛选器 / 漂移节点位于两阵营之间
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend-row">
+    <span class="lg-label">阵营</span>
+    <span class="lg-item"><span class="lg-square" style="background:#E0786A;"></span>EA</span>
+    <span class="lg-item"><span class="lg-square" style="background:#E0A82E;"></span>e/acc</span>
+    <span class="lg-item"><span class="lg-square" style="background:#8B5BA5;"></span>Old Money Wall St</span>
+    <span class="lg-item"><span class="lg-square" style="background:#8FB6DB;"></span>Drift/跨界</span>
+    <span class="divider-v"></span>
+    <span class="lg-label">立场强度(节点大小)</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#1B2635;width:18px;height:18px;"></span>核心</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#1B2635;width:13px;height:13px;"></span>深度</span>
+    <span class="lg-item"><span class="lg-dot" style="background:#1B2635;width:10px;height:10px;"></span>外围</span>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+    <div class="chart-wrap">
+      <div class="chart-title-overlay" id="chartTitle">
+        <div class="lbl">View 01 · Force-Directed</div>
+        <div class="ttl">两阵营对峙力导向网络</div>
+      </div>
+      <div id="chart">
+        <div id="chart-loading" style="padding:80px 40px;text-align:center;font-family:'Cormorant Garamond',serif;color:#5A6772;">
+          <div style="font-size:32px;color:#B8870A;margin-bottom:16px;">⟳</div>
+          <div style="font-style:italic;font-size:18px;">正在加载 ECharts 引擎…</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A95A1;margin-top:8px;letter-spacing:1px;">LOADING NETWORK GRAPH</div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side" id="sidePanel">
+      <div class="side-empty">
+        点击网络图中任意节点<br>
+        查看该人物的阵营立场、<br>
+        角色背景与关键事实。
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>Terence's Research · Confidential</span>
+    <span>EA × e/acc Network · v1.0 · May 2026</span>
+  </footer>
+
+</div>
+
+<script>
+/* ========================================================================
+   NODE DATA — 80+ people with full attributes for all three views
+   ========================================================================
+   Each node has:
+   - id, name (cn + en), camp (ea/eacc/drift), stance (core/deep/fringe/drift/adverse)
+   - category (subsection id), role, body (HTML allowed)
+   - x_axis (-100~100, left/right political) for quadrant view
+   - y_axis (-100~100, decelerate→accelerate) for quadrant view
+*/
+
+const NODES = [
+  /* ============ EA — A. 哲学家 / 思想奠基者 ============ */
+  { id: 'singer', name: 'Peter Singer', cn: '彼得・辛格', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '普林斯顿伦理学教授 · 现代功利主义祖师', body: '澳大利亚哲学家。1972 年《Famine, Affluence, and Morality》是 EA 思想起源文献。现代<b>功利主义</b>、动物福利运动的旗手。严格不算 EA 圈内人,但是这套世界观的精神祖师。', x: -65, y: -55 },
+  { id: 'macaskill', name: 'William MacAskill', cn: '麦卡斯基尔', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '牛津哲学家 · EA 实际创立者', body: '共同创办 <b>Giving What We Can</b>、<b>80,000 Hours</b>、<b>CEA</b>。《Doing Good Better》、《What We Owe the Future》作者。<b>Longtermism</b> 主要布道者。SBF 精神导师,FTX 暴雷后名声受重创。', x: -70, y: -60 },
+  { id: 'ord', name: 'Toby Ord', cn: '托比・奥德', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '牛津哲学家 · x-risk 学术权威', body: '《<b>The Precipice</b>》(2020)系统论证 x-risk 优先级,把"人类灭绝"做成可量化道德议题。与 MacAskill 共创 Giving What We Can。', x: -68, y: -65 },
+  { id: 'bostrom', name: 'Nick Bostrom', cn: '博斯特罗姆', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '前牛津 FHI 所长 · superintelligence 理论', body: '《<b>Superintelligence</b>》(2014)让"AI 灭绝人类"进入主流学术议程。2023 年因早年种族言论丑闻退出 FHI,FHI 同年关闭。', x: -60, y: -80 },
+  { id: 'yudkowsky', name: 'Eliezer Yudkowsky', cn: '尤德科夫斯基', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: 'MIRI 创始人 · AI doomer 极端代表', body: '<b>MIRI</b> 创始人。LessWrong 社区灵魂人物。2023 年《Time》专栏主张"<b>暂停甚至轰炸数据中心</b>",立场比 EA 主流更激进。', x: -55, y: -95 },
+  { id: 'karnofsky', name: 'Holden Karnofsky', cn: '卡诺夫斯基', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '前 Open Phil CEO · Anthropic 安全顾问', body: '<b>GiveWell</b> 共同创始人、<b>Open Philanthropy</b> 前 CEO。Daniela Amodei 的丈夫 —— EA-Anthropic-Open Phil 三角的家族纽带。', x: -55, y: -50 },
+  { id: 'greaves', name: 'Hilary Greaves', cn: '希拉里・格雷夫斯', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: '牛津 GPI 创始人', body: '牛津 <b>Global Priorities Institute</b> 创始人。把 longtermism 从博客论证升级为学术研究领域。', x: -72, y: -55 },
+  { id: 'mogensen', name: 'Andreas Mogensen', cn: '莫根森', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: 'GPI 高级研究员', body: 'GPI 核心学者,研究"道德不确定性下的决策",longtermism 学术包装重要贡献者。', x: -75, y: -50 },
+  { id: 'tegmark', name: 'Max Tegmark', cn: '泰格马克', camp: 'ea', stance: 'core', cat: 'EA · 哲学家', role: 'MIT 物理学教授 · FLI 创始人', body: '<b>FLI</b> 创始人。2023 年"<b>暂停 AI 6 个月</b>"公开信发起人,把 doomer 立场推到主流媒体。《Life 3.0》作者。', x: -50, y: -70 },
+
+  /* ============ EA — B. 资金 / 基金会 ============ */
+  { id: 'moskovitz', name: 'Dustin Moskovitz', cn: '莫斯科维茨', camp: 'ea', stance: 'core', cat: 'EA · 资金', role: 'Facebook 联创 · Open Phil 出资人', body: 'Facebook 联合创始人。跟妻子 Cari Tuna 共同出资 <b>Open Philanthropy</b>。EA 运动最稳定金主,向 AI safety 投入数十亿美元。SBF 暴雷后,Open Phil 实际承担 EA 整个资金体系的重量。', x: -45, y: -45 },
+  { id: 'tuna', name: 'Cari Tuna', cn: '卡丽・图娜', camp: 'ea', stance: 'core', cat: 'EA · 资金', role: 'Good Ventures 主席', body: 'Moskovitz 妻子,<b>Good Ventures</b> 主席,Open Philanthropy 主席。从 WSJ 记者转型为 EA 慈善实操者。', x: -42, y: -42 },
+  { id: 'sbf', name: 'Sam Bankman-Fried', cn: 'SBF', camp: 'ea', stance: 'adverse', cat: 'EA · 资金', role: '前 FTX CEO · 已暴雷', body: 'FTX 创始人。创立 <b>FTX Future Fund</b>。2023 年被判 <b>25 年监禁</b>。他的暴雷是 EA 运动公信力最大的打击 —— 辩护词是教科书级功利主义滑坡。', x: -30, y: -30 },
+  { id: 'ellison_c', name: 'Caroline Ellison', cn: '艾里森', camp: 'ea', stance: 'adverse', cat: 'EA · 资金', role: '前 Alameda CEO · 已暴雷', body: 'SBF 前女友,EA 圈成员。后成为 FTX 案污点证人。', x: -28, y: -28 },
+  { id: 'tallinn', name: 'Jaan Tallinn', cn: '塔林', camp: 'ea', stance: 'core', cat: 'EA · 资金', role: 'Skype 联创 · EA 欧洲金主', body: '爱沙尼亚 Skype 共同创始人。资助 <b>MIRI、FHI、CSER、FLI</b>。EA 在欧洲的核心资金来源。', x: -52, y: -55 },
+
+  /* ============ EA — C. AI 公司 / 实操 ============ */
+  { id: 'dario', name: 'Dario Amodei', cn: '达里奥', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · CEO', body: '前 OpenAI 研究 VP,2021 年带队出走创立 <b>Anthropic</b>。<b>Constitutional AI</b>、<b>scaling laws</b> 论文核心作者。EA 产业层最重要代理人。', x: -40, y: -25 },
+  { id: 'daniela', name: 'Daniela Amodei', cn: '丹妮拉', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · 总裁', body: 'Dario 姐姐,Holden Karnofsky 妻子。<b>EA-Anthropic-Open Phil 三角的家族纽带</b>。Anthropic 内部主管运营。', x: -42, y: -30 },
+  { id: 'brown', name: 'Tom Brown', cn: '布朗', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · GPT-3 主作者', body: 'GPT-3 论文一作。从 OpenAI 跟 Dario 一起出走创立 Anthropic 的核心成员之一。', x: -45, y: -28 },
+  { id: 'kaplan', name: 'Jared Kaplan', cn: '卡普兰', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · 首席科学家', body: 'Scaling laws 论文共同作者(2020 年那篇定义 scaling 时代的论文)。Anthropic 首席科学家。约翰霍普金斯物理学教授背景。', x: -43, y: -32 },
+  { id: 'olah', name: 'Chris Olah', cn: '奥拉', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · 可解释性权威', body: '<b>机制可解释性</b>研究领域奠基者之一。前 Distill 期刊创办人。', x: -48, y: -35 },
+  { id: 'clark', name: 'Jack Clark', cn: '杰克・克拉克', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Anthropic 联创 · 政策负责人', body: 'Anthropic 政策战线对外面孔,负责跟美国、英国、欧盟政府政策对接。前 OpenAI 政策负责人,前 Bloomberg 记者。', x: -38, y: -22 },
+  { id: 'christiano', name: 'Paul Christiano', cn: '克里斯蒂亚诺', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: '美国 AISI 负责人 · RLHF 核心', body: '前 OpenAI alignment 团队负责人。<b>ARC</b> 创始人。2024 年起任 <b>US AI Safety Institute</b> 负责人 —— EA 渗透美国政府的桥头堡。', x: -35, y: -20 },
+  { id: 'leike', name: 'Jan Leike', cn: '莱克', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: '前 OpenAI Superalignment 负责人', body: '2024 年 5 月辞职加入 Anthropic,公开质疑 OpenAI 在 safety 上的投入不足。OpenAI 内部 safety 派被清洗后离开的代表人物。', x: -38, y: -28 },
+  { id: 'ilya', name: 'Ilya Sutskever', cn: '苏茨克维', camp: 'ea', stance: 'drift', cat: 'EA · AI 公司', role: '前 OpenAI 首席科学家 · SSI 创始人', body: '前 OpenAI 联合创始人。2023 年宫斗主导罢免 Altman 的董事之一。立场偏 safety 但不是典型 EA。2024 年创立 <b>Safe Superintelligence Inc.</b>。', x: -10, y: -30 },
+  { id: 'leahy', name: 'Connor Leahy', cn: '利希', camp: 'ea', stance: 'core', cat: 'EA · AI 公司', role: 'Conjecture CEO · 极端 doomer', body: 'EleutherAI 联创,后转向 doomer 立场,创立 <b>Conjecture</b>。跟 Yudkowsky 立场接近,欧洲 AI safety 圈活跃。', x: -50, y: -85 },
+
+  /* ============ EA — D. 政策 / 智库 ============ */
+  { id: 'toner', name: 'Helen Toner', cn: '托纳', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: '前 OpenAI 董事 · CSET 研究员', body: '2023 年 OpenAI 宫斗中<b>投票罢免 Altman</b> 的董事之一。乔治城大学 <b>CSET</b> 研究员。典型 EA 学术-政策路径。', x: -32, y: -38 },
+  { id: 'mccauley', name: 'Tasha McCauley', cn: '麦考利', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: '前 OpenAI 董事', body: '2023 宫斗关键人物之一。<b>Effective Ventures Foundation</b> 前董事。Joseph Gordon-Levitt 妻子。', x: -30, y: -40 },
+  { id: 'matheny', name: 'Jason Matheny', cn: '马塞尼', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: 'RAND CEO · 前白宫 NSC 副助理', body: '美国顶级政策智库 <b>RAND</b> 现任 CEO。拜登时期任白宫国家安全副助理。在拜登 AI EO 14110 制定中扮演关键角色 —— 现已被特朗普废除。', x: -45, y: -42 },
+  { id: 'leung', name: 'Jade Leung', cn: '梁', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: 'UK AISI 首任 CTO', body: '<b>UK AI Safety Institute</b> 首任 CTO。GovAI 出身。EA 政策圈在英国的最高代表。', x: -55, y: -40 },
+  { id: 'irving', name: 'Geoffrey Irving', cn: '欧文', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: 'UK AISI 研究主任', body: '前 DeepMind safety 研究员,现 UK AISI 研究主任。AI alignment 领域核心学者,跨学术 + 政策。', x: -52, y: -45 },
+  { id: 'dafoe', name: 'Allan Dafoe', cn: '达福', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: 'DeepMind 长期治理负责人', body: '<b>GovAI</b> 创始人。DeepMind Long-term Strategy & Governance team 负责人。牛津 EA 圈核心政策学者。', x: -50, y: -48 },
+  { id: 'anderljung', name: 'Markus Anderljung', cn: '安德留', camp: 'ea', stance: 'core', cat: 'EA · 政策', role: 'GovAI 政策负责人', body: 'AI 监管圈最活跃的 EA 政策制定者之一。跟欧盟 AI Act、UK AISI 都有深度接触。', x: -55, y: -45 },
+
+  /* ============ EA — E. 学者 ============ */
+  { id: 'russell', name: 'Stuart Russell', cn: '罗素', camp: 'ea', stance: 'core', cat: 'EA · 学者', role: 'UC Berkeley AI 教授', body: '《<b>Artificial Intelligence: A Modern Approach</b>》(全球最权威 AI 教材)作者。《Human Compatible》作者。AI alignment 学术权威。', x: -45, y: -65 },
+  { id: 'bengio', name: 'Yoshua Bengio', cn: '本吉奥', camp: 'ea', stance: 'fringe', cat: 'EA · 学者', role: '深度学习三巨头 · 图灵奖', body: '2023 年后明显转向 doomer 立场。跟 <b>LeCun</b>(他的同行,e/acc 阵营)立场完全对立。蒙特利尔大学,加拿大政府 AI 政策顾问。', x: -25, y: -60 },
+  { id: 'hinton', name: 'Geoffrey Hinton', cn: '辛顿', camp: 'ea', stance: 'fringe', cat: 'EA · 学者', role: '深度学习教父 · 图灵奖', body: '2023 年从 Google 辞职,公开表达 AI 风险担忧。doomer 阵营标志性人物。多伦多大学,LeCun 的"对家"。', x: -22, y: -68 },
+
+  /* ============ e/acc — A. 思想旗手 ============ */
+  { id: 'andreessen', name: 'Marc Andreessen', cn: '安德森', camp: 'eacc', stance: 'core', cat: 'e/acc · 思想旗手', role: 'a16z 创始人 · PCAST 成员', body: 'a16z 创始人。2023 年 10 月发表《<b>The Techno-Optimist Manifesto</b>》—— e/acc"圣经",点名 EA 是 enemy。<b>PCAST 成员</b>。跟特朗普团队、Vance 关系紧密。把 a16z 改造为右翼意识形态机器。', x: 65, y: 80 },
+  { id: 'beff', name: 'Beff Jezos / Verdon', cn: '维尔东', camp: 'eacc', stance: 'core', cat: 'e/acc · 思想旗手', role: 'Extropic AI 创始人 · e/acc 实际发起人', body: '前 Google 量子计算研究员。2022 年用 <b>@BasedBeffJezos</b> 匿名账号创立 e/acc 运动。2023 年底被《Forbes》起底。创立 <b>Extropic AI</b>。', x: 70, y: 90 },
+  { id: 'bayeslord', name: 'bayeslord', cn: 'bayeslord', camp: 'eacc', stance: 'core', cat: 'e/acc · 思想旗手', role: 'e/acc 共同发起人 · 匿名', body: '至今未公开身份。Twitter 主力布道者,跟 Beff Jezos 形成 e/acc 的"双头"理论核心。', x: 72, y: 88 },
+  { id: 'horowitz', name: 'Ben Horowitz', cn: '霍洛维茨', camp: 'eacc', stance: 'core', cat: 'e/acc · 思想旗手', role: 'a16z 联创', body: '跟 Andreessen 路线一致。把 a16z 的"<b>American Dynamism</b>"板块做成核心投资主题 —— 国防 AI、能源、制造业回流,全部 e/acc 友善。', x: 62, y: 78 },
+  { id: 'land', name: 'Nick Land', cn: '尼克・兰德', camp: 'eacc', stance: 'core', cat: 'e/acc · 思想旗手', role: '英国哲学家 · 原始加速主义', body: '1990 年代提出原始"加速主义"。现居上海。后期被称为"<b>暗黑启蒙</b>"。e/acc 远祖,主流跟他极端立场保持距离。', x: 80, y: 95 },
+
+  /* ============ e/acc — B. PayPal Mafia ============ */
+  { id: 'thiel', name: 'Peter Thiel', cn: '蒂尔', camp: 'eacc', stance: 'core', cat: 'e/acc · PayPal Mafia', role: 'PayPal/Palantir/Founders Fund 创始人', body: 'PayPal Mafia 教父。把 <b>JD Vance</b> 引荐给特朗普的人。门徒渗透特朗普 2.0 各关键岗位 —— Vance、Kratsios、Howery、Sacks 全在他的网络里。', x: 75, y: 70 },
+  { id: 'musk', name: 'Elon Musk', cn: '马斯克', camp: 'drift', stance: 'core', cat: 'e/acc · PayPal Mafia', role: 'Tesla/SpaceX/xAI CEO', body: '行为完全是 e/acc,但讲过 AI 风险。给特朗普捐 2.5 亿+。前 <b>DOGE</b> 领导者。2025 年 5 月后跟白宫核心圈关系破裂,但仍是 tech right 旗帜人物。', x: 15, y: 85 },
+  { id: 'sacks', name: 'David Sacks', cn: '萨克斯', camp: 'eacc', stance: 'core', cat: 'e/acc · PayPal Mafia', role: '白宫 AI/Crypto Czar · PCAST 联合主席', body: 'PayPal 前 COO。Craft Ventures 创始人。<b>All-In Podcast</b> 主持人。2024.12 任白宫 AI/加密事务负责人。2026.3 任 <b>PCAST 联合主席</b>。e/acc 政治执行者和资本协调者。', x: 78, y: 65 },
+  { id: 'rabois', name: 'Keith Rabois', cn: '拉博伊斯', camp: 'eacc', stance: 'core', cat: 'e/acc · PayPal Mafia', role: 'Founders Fund 合伙人', body: 'PayPal Mafia 元老,<b>Founders Fund</b> 合伙人。公开支持特朗普,投资 Affirm、Yelp、Square、Stripe、Coinbase。', x: 72, y: 68 },
+  { id: 'lonsdale', name: 'Joe Lonsdale', cn: '朗斯代尔', camp: 'eacc', stance: 'core', cat: 'e/acc · PayPal Mafia', role: 'Palantir 联创 · 8VC 创始人', body: 'Palantir 联合创始人,<b>8VC</b> 创始人。公开 e/acc 立场。德州生态 tech right 旗手,跟 Austin 共和党政治圈深度绑定。', x: 80, y: 72 },
+  { id: 'howery', name: 'Ken Howery', cn: '霍维瑞', camp: 'eacc', stance: 'fringe', cat: 'e/acc · PayPal Mafia', role: '驻丹麦大使 · Founders Fund 联创', body: 'PayPal 元老,跟 Thiel 共创 Founders Fund。被任命为驻丹麦大使,反映 PayPal Mafia 渗透外交系统。', x: 65, y: 60 },
+  { id: 'levchin', name: 'Max Levchin', cn: '列夫钦', camp: 'eacc', stance: 'fringe', cat: 'e/acc · PayPal Mafia', role: 'PayPal 联创 · Affirm CEO', body: 'PayPal 联合创始人,Affirm CEO。立场比其他 PayPal Mafia 温和,但偏 e/acc。', x: 50, y: 55 },
+  { id: 'hoffman', name: 'Reid Hoffman', cn: '霍夫曼', camp: 'drift', stance: 'adverse', cat: 'e/acc · PayPal Mafia', role: 'LinkedIn 联创 · 民主党金主 · 异类', body: 'PayPal Mafia <b>但民主党金主</b>,反特朗普。捐过 OpenAI、跟 EA 圈有交集。证明 PayPal Mafia 不是铁板一块。', x: -30, y: 30 },
+
+  /* ============ e/acc — C. 大公司 / 巨头 ============ */
+  { id: 'zuck', name: 'Mark Zuckerberg', cn: '扎克伯格', camp: 'eacc', stance: 'core', cat: 'e/acc · 巨头', role: 'Meta CEO · PCAST 成员', body: '不公开自称 e/acc,但 Meta 的<b>开源 Llama 策略</b>是 e/acc 产业落地。2024 年起明显右转,放弃 DEI、加入 PCAST、亲特朗普。e/acc 从边缘升级为主流的关键证人。', x: 35, y: 80 },
+  { id: 'lecun', name: 'Yann LeCun', cn: '杨立昆', camp: 'eacc', stance: 'deep', cat: 'e/acc · 巨头', role: 'Meta 首席 AI 科学家 · 图灵奖', body: '<b>AI doomer / EA 最响亮的反对者</b>,常年在 Twitter 上喷 doomer 和 alignment 派。不公开自称 e/acc 但思想完全契合。跟 Bengio、Hinton 的对立是 AI 学术圈标志性分裂。', x: 30, y: 90 },
+  { id: 'jensen', name: 'Jensen Huang', cn: '黄仁勋', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 巨头', role: 'NVIDIA CEO · PCAST 成员', body: '<b>算力加速主义的最大商业受益者</b>。PCAST 成员。e/acc 阵营的硬件支柱 —— 没有 NVIDIA 的 GPU,加速主义只是嘴炮。', x: 25, y: 70 },
+  { id: 'lisasu', name: 'Lisa Su', cn: '苏姿丰', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 巨头', role: 'AMD CEO · PCAST 成员', body: '无强意识形态色彩,但 PCAST 成员。MI300/MI350 是 AMD 在 AI 算力竞争中关键产品。', x: 22, y: 65 },
+  { id: 'ellison_l', name: 'Larry Ellison', cn: '埃里森', camp: 'eacc', stance: 'deep', cat: 'e/acc · 巨头', role: 'Oracle 创始人 · PCAST 成员', body: '长期亲共和党金主。<b>Stargate</b> 项目核心参与者。<b>特朗普 2.0 第二大受益富豪</b>(仅次于马斯克)—— Oracle 通过 Stargate 直接接住 OpenAI 的算力支出。', x: 55, y: 75 },
+  { id: 'catz', name: 'Safra Catz', cn: '卡茨', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 巨头', role: 'Oracle CEO · PCAST 成员', body: '长期共和党捐助者。PCAST 成员。负责 Oracle 实际执行 —— Stargate 落地、政府云合同。', x: 50, y: 70 },
+  { id: 'dell', name: 'Michael Dell', cn: '迈克尔・戴尔', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 巨头', role: 'Dell Technologies 创始人 · PCAST', body: 'PCAST 成员。AI 服务器基础设施直接受益者 —— Dell 是 AI 数据中心硬件供应链核心节点之一。', x: 45, y: 60 },
+
+  /* ============ e/acc — D. 创业 / 资本 ============ */
+  { id: 'garrytan', name: 'Garry Tan', cn: '陈嘉兴', camp: 'eacc', stance: 'core', cat: 'e/acc · VC', role: 'Y Combinator CEO', body: '<b>Y Combinator</b> CEO。公开 e/acc 立场,Twitter 活跃布道。把 YC 整体往加速主义方向拉,跟旧金山进步派政治激烈对撞。', x: 70, y: 85 },
+  { id: 'armstrong', name: 'Brian Armstrong', cn: '阿姆斯特朗', camp: 'eacc', stance: 'deep', cat: 'e/acc · VC', role: 'Coinbase CEO', body: '加密 + 加速主义代表。创立 <b>NewLimit</b>(长寿研究)。政治上活跃支持加密友好候选人(<b>Fairshake PAC</b>)。', x: 55, y: 65 },
+  { id: 'ehrsam', name: 'Fred Ehrsam', cn: '埃尔萨姆', camp: 'eacc', stance: 'deep', cat: 'e/acc · VC', role: 'Paradigm 创始人 · PCAST', body: 'Coinbase 联创,<b>Paradigm</b>(加密原生 VC)创始人。<b>PCAST 成员</b>。', x: 58, y: 68 },
+  { id: 'balaji', name: 'Balaji Srinivasan', cn: '巴拉吉', camp: 'eacc', stance: 'core', cat: 'e/acc · VC', role: '前 Coinbase CTO · 前 a16z 合伙人', body: '《<b>The Network State</b>》作者 —— 主张用加密技术建立去中心化"网络国家"。常年喷 EA。是 e/acc 阵营的"理论家"。', x: 68, y: 92 },
+  { id: 'naval', name: 'Naval Ravikant', cn: '纳瓦尔', camp: 'eacc', stance: 'deep', cat: 'e/acc · VC', role: 'AngelList 创始人', body: '思想 libertarian,亲技术加速。不公开站政治队但思想偏 e/acc。Twitter 上有几百万 followers,是"哲学家型 KOL"。', x: 60, y: 75 },
+  { id: 'chamath', name: 'Chamath Palihapitiya', cn: '查马斯', camp: 'eacc', stance: 'core', cat: 'e/acc · VC', role: 'Social Capital · All-In 主持人', body: '前 Facebook 高管,<b>All-In Podcast</b> 主持人之一。<b>典型的"加州民主党 → tech right"漂移路径</b>:早年捐过希拉里,2020 后转向。', x: 50, y: 72 },
+  { id: 'calacanis', name: 'Jason Calacanis', cn: '卡拉卡尼斯', camp: 'eacc', stance: 'deep', cat: 'e/acc · VC', role: 'All-In 主持人 · 天使投资人', body: 'All-In Podcast 主持人之一。立场比 Sacks 温和但亲 e/acc。早期投资 Uber、Robinhood、Calm。', x: 48, y: 65 },
+  { id: 'friedberg', name: 'David Friedberg', cn: '弗里德伯格', camp: 'eacc', stance: 'deep', cat: 'e/acc · VC', role: 'The Production Board · PCAST', body: 'All-In Podcast 主持人之一。<b>PCAST 成员</b>。投资农业科技、合成生物、AI 等领域。', x: 52, y: 70 },
+
+  /* ============ e/acc — E. AI 公司 ============ */
+  { id: 'altman', name: 'Sam Altman', cn: '奥特曼', camp: 'drift', stance: 'drift', cat: 'e/acc · AI 公司', role: 'OpenAI CEO', body: '<b>立场漂移最戏剧化的案例</b>。早年(YC 时期)资助 80K Hours。2023 年宫斗后清洗 OpenAI 内部 EA 力量。现在跟 Sacks、Ellison、特朗普政府合作 <b>Stargate</b>。', x: 20, y: 75 },
+  { id: 'brockman', name: 'Greg Brockman', cn: '布罗克曼', camp: 'drift', stance: 'drift', cat: 'e/acc · AI 公司', role: 'OpenAI 联创 · 总裁', body: 'OpenAI 联合创始人。现在完全跟 Altman 一起 —— 偏加速派。2024 年短暂"休假"后回归。', x: 18, y: 70 },
+  { id: 'babuschkin', name: 'Igor Babuschkin', cn: '巴布什金', camp: 'eacc', stance: 'deep', cat: 'e/acc · AI 公司', role: 'xAI 联创 · 前 OpenAI/DeepMind', body: 'xAI 联合创始人。前 OpenAI、DeepMind 研究员。Musk AI 团队整体是 e/acc 立场,Babuschkin 是技术执行核心。', x: 25, y: 82 },
+  { id: 'mensch', name: 'Arthur Mensch', cn: '门施', camp: 'eacc', stance: 'deep', cat: 'e/acc · AI 公司', role: 'Mistral AI CEO', body: '法国开源 AI 公司 <b>Mistral</b> CEO。开源路线 = e/acc 友军。欧洲对抗欧盟 AI Act 严监管的代表声音。', x: 40, y: 78 },
+  { id: 'deepseek', name: 'DeepSeek', cn: '深度求索', camp: 'eacc', stance: 'fringe', cat: 'e/acc · AI 公司', role: '中国开源 AI · 间接催化剂', body: '<b>他们的开源激进路线让 e/acc 阵营"被迫更激进"</b>。"不加速就输给中国"成为 2025 年最有力的政治论据。', x: 38, y: 85 },
+
+  /* ============ e/acc — F. 政府 / 政策 ============ */
+  { id: 'vance', name: 'JD Vance', cn: '万斯', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: '美国副总统 · Thiel 门徒', body: '2003-2017 在 Peter Thiel 的 <b>Mithril Capital</b> 工作。Thiel 给他参议员竞选捐了 1500 万美元。<b>tech right 在白宫的内部代理人</b>。', x: 82, y: 60 },
+  { id: 'kratsios', name: 'Michael Kratsios', cn: '克拉齐奥斯', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: '白宫 OSTP 主任 · PCAST 联合主席', body: '<b>Thiel 早年对冲基金 Clarium Capital 出身</b>。负责协调整个白宫科技政策。跟 Sacks 联合主持 PCAST。特朗普 1.0 也任过同样职位。', x: 80, y: 62 },
+  { id: 'sriram', name: 'Sriram Krishnan', cn: '克里希南', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: '白宫 AI 高级政策顾问', body: '<b>a16z 前合伙人</b>。跟 Musk 在 X 共事过。是 a16z 在白宫的"内线"。', x: 75, y: 58 },
+  { id: 'helberg', name: 'Jacob Helberg', cn: '赫尔伯格', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: '国务院经济副国务卿', body: '<b>Palantir CEO Alex Karp 的高级顾问</b>。U.S.-China 经济与安全审查委员会成员。鹰派,主推 AI 出口管制对中国。', x: 78, y: 55 },
+  { id: 'vought', name: 'Russell Vought', cn: '沃特', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: 'OMB 主任 · Project 2025 执笔', body: '不是硅谷出身,但 <b>Project 2025</b> 执笔者。被形容为"<b>把 Musk 和共和党绑在一起的胶水</b>"。Schedule F 政策推动者。', x: 88, y: 50 },
+  { id: 'vivek', name: 'Vivek Ramaswamy', cn: '拉马斯瓦米', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 政府', role: '前 DOGE 联席领导', body: '他自己的投资公司被 Thiel 部分支持。反 ESG、反 DEI、反"woke 资本主义"主要喉舌。2025 年初离开 DOGE 准备竞选俄亥俄州州长。', x: 70, y: 55 },
+  { id: 'gracias', name: 'Antonio Gracias', cn: '格拉西亚斯', camp: 'eacc', stance: 'core', cat: 'e/acc · 政府', role: 'DOGE 核心 · Valor Equity Partners', body: 'Tesla 早期投资人。<b>Valor Equity Partners</b> 创始人。在 Fox 节目和 Musk 集会上推动反移民、反福利叙事。', x: 65, y: 52 },
+  { id: 'kupor', name: 'Scott Kupor', cn: '库珀', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 政府', role: 'OPM 主任', body: 'a16z 前管理合伙人。被任命管理联邦人事 —— 又一个 a16z 渗透政府的节点。', x: 68, y: 48 },
+
+  /* ============ e/acc — G. 舆论 ============ */
+  { id: 'tucker', name: 'Tucker Carlson', cn: '卡尔森', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 舆论', role: '前 Fox News 主持', body: '思想盟友,常邀请 tech right 上节目放大 e/acc 声音。连接 MAGA 草根选民和硅谷右翼资本的桥梁人物。', x: 85, y: 40 },
+  { id: 'rogan', name: 'Joe Rogan', cn: '罗根', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 舆论', role: '美国最大 podcast 主持', body: '跟 Musk、Andreessen 等深度交流。2024 大选公开支持特朗普 —— 关键摇摆群体(白人男性、未受过大学教育)的舆论催化剂。', x: 60, y: 45 },
+  { id: 'lex', name: 'Lex Fridman', cn: '弗里德曼', camp: 'eacc', stance: 'deep', cat: 'e/acc · 舆论', role: 'AI podcast 主持', body: '表面中立,<b>长期采访 e/acc 阵营人物</b>,很少深挖 EA 立场。MIT 研究员出身。', x: 30, y: 40 },
+  { id: 'bari', name: 'Bari Weiss', cn: '巴里・韦斯', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 舆论', role: 'The Free Press 创始人', body: '前《纽约时报》编辑。反 woke、亲科技自由派。<b>The Free Press</b> 是 tech right 友好媒体旗舰。', x: 55, y: 42 },
+  { id: 'taibbi', name: 'Taibbi / Greenwald', cn: '泰比 / 格林沃尔德', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 舆论', role: '独立记者 · 反建制左翼', body: '"反建制左翼"记者,跟 tech right 在<b>反审查、反 deep state、反主流媒体</b>议题上结盟。<b>Twitter Files</b> 报道是他们和 Musk 合作的产物。', x: 5, y: 45 },
+
+  /* ============ e/acc — H. 学术 ============ */
+  { id: 'hanson', name: 'Robin Hanson', cn: '汉森', camp: 'eacc', stance: 'core', cat: 'e/acc · 学术', role: 'George Mason 经济学家', body: '《<b>The Age of Em</b>》作者 —— 主张"机器智能时代不可避免,人类应该适应而非阻挡"。跟 EA 圈有渊源但立场偏加速派。', x: 60, y: 88 },
+  { id: 'cowen', name: 'Tyler Cowen', cn: '考恩', camp: 'eacc', stance: 'deep', cat: 'e/acc · 学术', role: 'George Mason · Marginal Revolution', body: '右翼公共知识分子,博客 <b>Marginal Revolution</b> 是 tech right 知识分子的"读书会"。是 e/acc 阵营的"学术化身"。', x: 65, y: 75 },
+  { id: 'caplan', name: 'Bryan Caplan', cn: '卡普兰', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 学术', role: 'George Mason 经济学家', body: 'Libertarian,反 woke。George Mason 经济学派代表人物之一(开放边境、反义务教育等极端 libertarian 立场)。', x: 70, y: 65 },
+  { id: 'yarvin', name: 'Curtis Yarvin', cn: '雅文', camp: 'eacc', stance: 'fringe', cat: 'e/acc · 学术', role: '"新反动运动"代表 · NRx', body: '<b>Thiel 的思想盟友</b>。Vance 私下读过他的著作。tech right 极右翼的<b>思想源头</b>之一(主张"科技 CEO 应取代民选政府")。', x: 95, y: 75 },
+
+  /* ============ Old Money Wall Street — A. Soros 系 ============ */
+  { id: 'soros', name: 'George Soros', cn: '索罗斯', camp: 'wallst', stance: 'core', cat: 'Wall Street · Soros 系', role: 'Quantum Fund 创始人 · 教父', body: '宏观投资教父,1992 年破英镑(Druckenmiller 操盘)。<b>Open Society Foundations</b> 创始人 — 古典慈善路线(支持自由民主、公民社会),被共和党塑造成"反派"。本质是宏观传奇 + 政治慈善家,跟 EA 量化路线无关。', x: -25, y: 5 },
+  { id: 'jimrogers', name: 'Jim Rogers', cn: '吉姆・罗杰斯', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Soros 系', role: 'Quantum Fund 联创', body: '跟 Soros 共创 <b>Quantum Fund</b>。后独立,现居新加坡。商品 / 新兴市场宏观投资代表。Bessent 在 Yale 时通过他进入 Soros 圈。', x: 15, y: 10 },
+  { id: 'druck', name: 'Stan Druckenmiller', cn: '德鲁肯米勒', camp: 'wallst', stance: 'core', cat: 'Wall Street · Soros 系', role: 'Duquesne Capital / Family Office', body: '<b>1988-2000 任 Quantum Fund 首席 PM</b>,跟 Soros 一起破英镑。Duquesne 30 年年化 30%,无亏损年。<b>反 MAGA 极端化,2024 支持 Haley,称特朗普"blowhard"</b>。慈善:NYU 神经科学 + Harlem Children\'s Zone。', x: 10, y: 0 },
+  { id: 'bessent', name: 'Scott Bessent', cn: '贝森特', camp: 'wallst', stance: 'core', cat: 'Wall Street · 政府位置', role: '美国财政部长(2025.1~) · 前 Soros CIO', body: '<b>1991-2015 在 Soros Fund Management,后任 CIO(2011-2015)</b>。1992 破英镑、2013 做空日元的执行者。后创立 <b>Key Square Capital</b>(Soros 投 20 亿种子)。<b>第 79 任美国财政部长</b>。3-3-3 计划提出者(3% GDP / 3% 财政赤字 / 日增 300 万桶油)。跟 Vance 是 longtime friend,跟 Trump 弟弟 30 年私交。', x: 50, y: -5 },
+  { id: 'schreiber', name: 'Zach Schreiber', cn: '施赖伯', camp: 'wallst', stance: 'core', cat: 'Wall Street · Soros 系', role: 'PointState Capital 创始人', body: 'Druckenmiller 头号徒弟。2002-2010 在 Duquesne。2011 年带 5 位 Duquesne 同事创立 <b>PointState</b>,Druckenmiller 投 10 亿种子资本 — 是他最大对冲基金投资。2014 年精准做空原油赚 10 亿美元。也在 Harlem Children\'s Zone 董事会(继承导师慈善网络)。', x: 5, y: -5 },
+  { id: 'davidrogers', name: 'David Rogers', cn: '罗杰斯', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Soros 系', role: 'Castle Hook Partners 创始人', body: 'Druckenmiller 在 Duquesne 培养的另一位徒弟,被称"极有天分"。后转 Soros family office,2016 年离开创立 <b>Castle Hook</b>(Druckenmiller 投锚定资金,是他第二大对冲基金投资)。Covid 期间基金一年涨 120%。', x: 0, y: -10 },
+  { id: 'alexsoros', name: 'Alexander Soros', cn: '小索罗斯', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · Soros 系', role: 'Open Society Foundations 主席', body: 'Soros 接班人。继续 OSF 的左翼公民社会慈善路线 + 民主党金主。立场跟父亲一致(激进左翼自由派)。', x: -55, y: 0 },
+
+  /* ============ Old Money Wall Street — B. Tiger Cubs (Robertson 系) ============ */
+  { id: 'robertson', name: 'Julian Robertson', cn: '罗伯逊', camp: 'wallst', stance: 'core', cat: 'Wall Street · Tiger Cubs', role: 'Tiger Management 创始人 · 已故 (2022)', body: '<b>"Tiger Cubs"教父</b>。Tiger Management 培养出现代华尔街半数明星基金经理。慈善:Robertson Foundation,教育 / 医疗 / 环境。古典精英慈善路线。', x: 20, y: -10 },
+  { id: 'coleman', name: 'Chase Coleman', cn: '科尔曼', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Tiger Cubs', role: 'Tiger Global Management', body: 'Robertson 头号徒弟。Tiger Global 是<b>科技股最大对冲基金之一</b>(投了无数独角兽,包括 OpenAI、Anthropic 早期等)。但本质仍是交易导向,不是意识形态运动。', x: 25, y: 15 },
+  { id: 'mandel', name: 'Stephen Mandel', cn: '曼德尔', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Tiger Cubs', role: 'Lone Pine Capital', body: 'Tiger Cubs 元老。Lone Pine 长期偏成长股 / 科技股。古典慈善路线。', x: 22, y: 5 },
+  { id: 'halvorsen', name: 'Andreas Halvorsen', cn: '哈尔沃森', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Tiger Cubs', role: 'Viking Global', body: 'Tiger Cubs。Viking Global 多空策略。挪威背景。', x: 18, y: 8 },
+  { id: 'laffont', name: 'Philippe Laffont', cn: '拉丰', camp: 'wallst', stance: 'deep', cat: 'Wall Street · Tiger Cubs', role: 'Coatue Management', body: 'Tiger Cubs。<b>Coatue 是科技股权投资重要 player</b>,投过 OpenAI、Anthropic、xAI 等。但 Coatue 在意识形态上保持距离。', x: 28, y: 18 },
+  { id: 'ainslie', name: 'Lee Ainslie', cn: '安斯利', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · Tiger Cubs', role: 'Maverick Capital', body: 'Tiger Cubs。Maverick Capital 多空策略。Robin Hood Foundation 理事。', x: 20, y: 0 },
+  { id: 'hwang', name: 'Bill Hwang', cn: '黄比尔', camp: 'wallst', stance: 'adverse', cat: 'Wall Street · Tiger Cubs', role: 'Archegos · 已暴雷 (2021)', body: 'Tiger Cubs。<b>2021 年 Archegos 爆雷,200 亿美元家族办公室一夜归零</b>。2024 被判处证券欺诈,2025 年判 18 年监禁。是 Tiger Cubs 反面教材。', x: 30, y: 25 },
+
+  /* ============ Old Money Wall Street — C. Tudor Jones 系 ============ */
+  { id: 'tudorjones', name: 'Paul Tudor Jones', cn: '保罗・都铎・琼斯', camp: 'wallst', stance: 'core', cat: 'Wall Street · 宏观传奇', role: 'Tudor Investment Corp 创始人', body: '宏观传奇,80 年代和 Druckenmiller 同辈崛起。1987 年精准做空黑色星期一。创办 <b>Robin Hood Foundation</b>(纽约最大私募扶贫基金会)。最近发声关注:财政赤字、AI 主题过热、美元、贵金属。', x: 12, y: -5 },
+
+  /* ============ Old Money Wall Street — D. 其他宏观传奇 ============ */
+  { id: 'kovner', name: 'Bruce Kovner', cn: '科夫纳', camp: 'wallst', stance: 'deep', cat: 'Wall Street · 宏观传奇', role: 'Caxton Associates 创始人 · 已退休', body: '宏观传奇,共和党金主。Caxton 是 80-2000 年代顶级宏观对冲基金。已退休,慈善:朱利亚音乐学院。', x: 35, y: -15 },
+  { id: 'bacon', name: 'Louis Bacon', cn: '培根', camp: 'wallst', stance: 'deep', cat: 'Wall Street · 宏观传奇', role: 'Moore Capital', body: '宏观传奇。慈善偏环保 / 野生动物保护。低调。', x: 15, y: -8 },
+  { id: 'tepper', name: 'David Tepper', cn: '特珀', camp: 'wallst', stance: 'deep', cat: 'Wall Street · 宏观传奇', role: 'Appaloosa Management · Panthers 老板', body: 'Appaloosa 顶级 special situations / 困境投资基金。Carolina Panthers NFL 球队老板。卡内基梅隆 1.25 亿捐款。Robin Hood Foundation 理事。', x: 18, y: -3 },
+  { id: 'dalio', name: 'Ray Dalio', cn: '达里奥', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 宏观传奇', role: 'Bridgewater Associates 创始人', body: '全球最大对冲基金 Bridgewater 创始人。<b>"Principles"作者</b>。慈善:KIPP 学校、教育、心理研究。最近大量发声谈"美中竞争"、债务周期。', x: 5, y: 5 },
+  { id: 'griffin', name: 'Ken Griffin', cn: '格里芬', camp: 'wallst', stance: 'drift', cat: 'Wall Street · 宏观传奇', role: 'Citadel 创始人 · 共和党最大金主之一', body: 'Citadel 创始人(对冲基金 + 做市商)。<b>共和党最大金主</b>,但跟 e/acc 不完全重合 — 反 Trump 但支持其他共和党候选人。哈佛 3 亿捐款。略<b>漂移</b> — 边缘接触 e/acc 但本质属于这个圈子。', x: 45, y: 10 },
+
+  /* ============ Old Money Wall Street — E. 价值投资派 ============ */
+  { id: 'cooperman', name: 'Leon Cooperman', cn: '库珀曼', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 价值投资', role: 'Omega Advisors', body: '价值投资 veteran。签 Giving Pledge,反对极端财富集中。立场温和,反对 Trump 民粹路线。', x: -8, y: -18 },
+
+  /* ============ Old Money Wall Street — F. 激进股东 / 漂移者 ============ */
+  { id: 'icahn', name: 'Carl Icahn', cn: '伊坎', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 激进股东', role: 'Icahn Enterprises', body: '古典激进股东,反建制但纯交易导向。跟 Trump 私交但不在 e/acc 意识形态圈。2024 年 Hindenburg 做空导致 IEP 大跌后影响力下降。', x: 40, y: 0 },
+  { id: 'ackman', name: 'Bill Ackman', cn: '阿克曼', camp: 'wallst', stance: 'drift', cat: 'Wall Street · 漂移→e/acc', role: 'Pershing Square Capital', body: '<b>强漂移案例</b>。早年民主党金主、亲奥巴马。2023 年 10 月哈佛反犹事件后<b>公开反 woke</b>,2024 年起公开支持特朗普 + 反 DEI。**正在向 e/acc 阵营漂移**。是这个圈子向硅谷右翼融合的代表案例。', x: 50, y: 25 },
+  { id: 'loeb', name: 'Dan Loeb', cn: '罗布', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 激进股东', role: 'Third Point', body: '激进股东 + 多空策略。偏 e/acc 但仍主要做交易,不参与意识形态战。', x: 35, y: 12 },
+  { id: 'paulson', name: 'John Paulson', cn: '保尔森', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 漂移', role: 'Paulson & Co', body: '2007 做空次级贷款赚 200 亿美元。共和党 / 亲特朗普金主。2024 一度是财长候选人,落选后给 Bessent 站台。', x: 55, y: 5 },
+
+  /* ============ Old Money Wall Street — G. 政府位置 ============ */
+  { id: 'warsh', name: 'Kevin Warsh', cn: '沃什', camp: 'wallst', stance: 'core', cat: 'Wall Street · 政府位置', role: 'Fed 主席提名人 · Duquesne 合伙人', body: '<b>最年轻 Fed 理事</b>(2006 年 35 岁就任)。2008 危机中 Bernanke 关键副手。2011 年起任 <b>Duquesne Family Office 合伙人</b>(在 Druckenmiller 私募拿了 1 亿+ carry)。Estée Lauder 家族女婿。<b>2026 年被提名 Fed 主席</b>,鹰派 / 反 QE / 关心资产泡沫。', x: 45, y: -10 },
+  { id: 'greer', name: 'Jamieson Greer', cn: '格里尔', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 政府位置', role: 'USTR(美国贸易代表)', body: '特朗普 2.0 USTR(贸易代表)。跟 Bessent 一起<b>温和化关税</b>。属于"专业贸易律师"路线,而非民粹关税派。', x: 60, y: -2 },
+  { id: 'hassett', name: 'Kevin Hassett', cn: '哈塞特', camp: 'wallst', stance: 'fringe', cat: 'Wall Street · 政府位置', role: 'NEC 主任', body: '特朗普 2.0 国家经济委员会主任。经济学家路线,共和党温和派。供给侧经济学。', x: 55, y: -5 },
+
+  /* ============ 漂移 / 跨界 ============ */
+  { id: 'vitalik', name: 'Vitalik Buterin', cn: '布特林', camp: 'drift', stance: 'drift', cat: '漂移 · d/acc', role: 'Ethereum 创始人 · d/acc 提出者', body: '2023 年 11 月发表《<b>My techno-optimism</b>》,同时批评 EA 集中化和 e/acc 盲目加速,提出 <b>d/acc</b>(防御性/去中心化加速)—— 第三条路。<b>不是 EA 也不是 e/acc</b>。', x: 0, y: 40 },
+  { id: 'demis', name: 'Demis Hassabis', cn: '哈萨比斯', camp: 'drift', stance: 'drift', cat: '漂移 · 中立', role: 'DeepMind CEO · 图灵奖', body: '科学家路线,<b>跟两边都保持距离</b>。DeepMind 既做 safety 研究又激进推 AlphaFold/Gemini。拒绝被任何阵营标签化。', x: -5, y: 20 },
+  { id: 'gates', name: 'Bill Gates', cn: '盖茨', camp: 'drift', stance: 'drift', cat: '漂移 · EA 友好', role: '微软联创 · Gates 基金会', body: '给 AI safety 捐过钱但<b>不是 EA 核心</b>。Gates 基金会的全球健康路线跟 EA 的"高效慈善"理念有重合,但在 AI 政策上立场温和。', x: -15, y: 0 },
+  { id: 'khosla', name: 'Vinod Khosla', cn: '科斯拉', camp: 'drift', stance: 'adverse', cat: '漂移 · 反 e/acc', role: 'Khosla Ventures · 民主党金主', body: '<b>现在民主党金主、亲拜登/哈里斯</b>。投了 OpenAI,但跟 a16z、Founders Fund 立场对立。<b>不是 e/acc 阵营</b>。', x: -20, y: 50 }
+];
+
+/* ========================================================================
+   EDGES — Internal cluster bonds + cross-camp drift lines
+   ========================================================================
+*/
+const EDGES = [
+  // EA 内部强纽带
+  { source: 'macaskill', target: 'ord' }, { source: 'macaskill', target: 'singer' },
+  { source: 'macaskill', target: 'bostrom' }, { source: 'macaskill', target: 'greaves' },
+  { source: 'greaves', target: 'mogensen' }, { source: 'bostrom', target: 'yudkowsky' },
+  { source: 'tegmark', target: 'russell' }, { source: 'tegmark', target: 'bengio' },
+  { source: 'russell', target: 'hinton' }, { source: 'leahy', target: 'yudkowsky' },
+  // EA 资金 → AI 公司(家族纽带)
+  { source: 'moskovitz', target: 'tuna' }, { source: 'moskovitz', target: 'karnofsky' },
+  { source: 'karnofsky', target: 'daniela' }, { source: 'daniela', target: 'dario' },
+  { source: 'dario', target: 'brown' }, { source: 'dario', target: 'kaplan' },
+  { source: 'dario', target: 'olah' }, { source: 'dario', target: 'clark' },
+  { source: 'dario', target: 'leike' }, { source: 'dario', target: 'christiano' },
+  { source: 'sbf', target: 'ellison_c' }, { source: 'sbf', target: 'macaskill' },
+  { source: 'tallinn', target: 'yudkowsky' }, { source: 'tallinn', target: 'tegmark' },
+  // EA 政策
+  { source: 'toner', target: 'mccauley' }, { source: 'toner', target: 'ilya' },
+  { source: 'leung', target: 'irving' }, { source: 'dafoe', target: 'anderljung' },
+  { source: 'christiano', target: 'matheny' }, { source: 'leung', target: 'dafoe' },
+  // e/acc 思想旗手
+  { source: 'andreessen', target: 'horowitz' }, { source: 'andreessen', target: 'beff' },
+  { source: 'beff', target: 'bayeslord' }, { source: 'land', target: 'beff' },
+  { source: 'andreessen', target: 'thiel' }, { source: 'andreessen', target: 'sacks' },
+  // PayPal Mafia 内部
+  { source: 'thiel', target: 'musk' }, { source: 'thiel', target: 'sacks' },
+  { source: 'thiel', target: 'rabois' }, { source: 'thiel', target: 'lonsdale' },
+  { source: 'thiel', target: 'howery' }, { source: 'thiel', target: 'levchin' },
+  { source: 'thiel', target: 'vance' }, { source: 'thiel', target: 'kratsios' },
+  { source: 'thiel', target: 'yarvin' }, { source: 'sacks', target: 'rabois' },
+  // 巨头
+  { source: 'zuck', target: 'lecun' }, { source: 'jensen', target: 'lisasu' },
+  { source: 'zuck', target: 'jensen' }, { source: 'zuck', target: 'kratsios' },
+  { source: 'zuck', target: 'mensch' },
+  { source: 'ellison_l', target: 'catz' }, { source: 'ellison_l', target: 'altman' },
+  { source: 'ellison_l', target: 'sacks' }, { source: 'jensen', target: 'altman' },
+  { source: 'dell', target: 'jensen' },
+  // VC
+  { source: 'sacks', target: 'chamath' }, { source: 'sacks', target: 'calacanis' },
+  { source: 'sacks', target: 'friedberg' }, { source: 'chamath', target: 'calacanis' },
+  { source: 'calacanis', target: 'friedberg' }, { source: 'garrytan', target: 'andreessen' },
+  { source: 'armstrong', target: 'ehrsam' }, { source: 'balaji', target: 'armstrong' },
+  { source: 'naval', target: 'balaji' },
+  // AI 公司
+  { source: 'altman', target: 'brockman' }, { source: 'musk', target: 'babuschkin' },
+  { source: 'musk', target: 'altman' },
+  // 政府
+  { source: 'vance', target: 'sacks' }, { source: 'vance', target: 'vought' },
+  { source: 'kratsios', target: 'sacks' }, { source: 'sriram', target: 'andreessen' },
+  { source: 'sriram', target: 'sacks' }, { source: 'helberg', target: 'lonsdale' },
+  { source: 'vivek', target: 'musk' }, { source: 'gracias', target: 'musk' },
+  { source: 'kupor', target: 'andreessen' }, { source: 'vought', target: 'musk' },
+  // Vivek — Thiel 支持其 Strive 资管 + 同为俄亥俄 MAGA / Thiel 网络
+  { source: 'vivek', target: 'thiel' }, { source: 'vivek', target: 'vance' },
+  // 舆论
+  { source: 'rogan', target: 'musk' }, { source: 'tucker', target: 'vance' },
+  { source: 'lex', target: 'musk' }, { source: 'bari', target: 'andreessen' },
+  // Lex — 长期深度访谈 AI / e/acc 阵营人物
+  { source: 'lex', target: 'altman' }, { source: 'lex', target: 'andreessen' },
+  { source: 'lex', target: 'dario' }, { source: 'lex', target: 'yarvin' },
+  // 学术
+  { source: 'cowen', target: 'andreessen' }, { source: 'hanson', target: 'yudkowsky' },
+  { source: 'caplan', target: 'cowen' }, { source: 'yarvin', target: 'vance' },
+  // 漂移 / 跨界
+  { source: 'vitalik', target: 'macaskill' }, { source: 'vitalik', target: 'balaji' },
+  { source: 'demis', target: 'dafoe' }, { source: 'gates', target: 'altman' },
+  { source: 'khosla', target: 'altman' }, { source: 'khosla', target: 'hoffman' },
+  { source: 'hoffman', target: 'altman' }, { source: 'altman', target: 'sacks' },
+  // EA vs e/acc 对立
+  { source: 'lecun', target: 'bengio', adv: true }, { source: 'lecun', target: 'hinton', adv: true },
+  { source: 'andreessen', target: 'macaskill', adv: true }, { source: 'sacks', target: 'christiano', adv: true },
+
+  // ===== Old Money Wall Street — Soros 系内部 =====
+  { source: 'soros', target: 'jimrogers' }, { source: 'soros', target: 'druck' },
+  { source: 'soros', target: 'bessent' }, { source: 'soros', target: 'alexsoros' },
+  { source: 'jimrogers', target: 'bessent' },
+  { source: 'druck', target: 'bessent' }, { source: 'druck', target: 'schreiber' },
+  { source: 'druck', target: 'davidrogers' }, { source: 'druck', target: 'warsh' },
+  { source: 'schreiber', target: 'davidrogers' },
+  // ===== Tiger Cubs 内部 =====
+  { source: 'robertson', target: 'coleman' }, { source: 'robertson', target: 'mandel' },
+  { source: 'robertson', target: 'halvorsen' }, { source: 'robertson', target: 'laffont' },
+  { source: 'robertson', target: 'ainslie' }, { source: 'robertson', target: 'hwang' },
+  { source: 'coleman', target: 'laffont' },
+  // ===== Robin Hood Foundation 圈 =====
+  { source: 'tudorjones', target: 'tepper' }, { source: 'tudorjones', target: 'ainslie' },
+  { source: 'tudorjones', target: 'druck' },
+  // ===== 宏观传奇 / 价值投资 内部 =====
+  { source: 'kovner', target: 'bacon' }, { source: 'tepper', target: 'druck' },
+  { source: 'dalio', target: 'tudorjones' },
+  { source: 'cooperman', target: 'tepper' },
+  // ===== 激进股东 / 漂移 =====
+  { source: 'icahn', target: 'griffin' }, { source: 'ackman', target: 'andreessen', adv: false },
+  { source: 'loeb', target: 'ackman' }, { source: 'paulson', target: 'bessent' },
+  // ===== 政府位置内部 =====
+  { source: 'bessent', target: 'warsh' }, { source: 'bessent', target: 'greer' },
+  { source: 'bessent', target: 'hassett' }, { source: 'warsh', target: 'griffin' },
+  // ===== 跨阵营关键政治桥 =====
+  { source: 'bessent', target: 'vance' },        // Bessent 跟 Vance 是 longtime friend
+  { source: 'warsh', target: 'kratsios' },        // Warsh 跟 Thiel 系小布什时代有交集
+  { source: 'griffin', target: 'thiel' },         // Citadel 和 Thiel 都是共和党金主
+  { source: 'ackman', target: 'musk' },           // Ackman 漂移到 e/acc 阵营信号
+  // ===== 跨阵营摩擦(adversarial)=====
+  { source: 'bessent', target: 'musk', adv: true },     // Bessent vs Musk 实际冲突
+  { source: 'druck', target: 'andreessen', adv: true } // 哲学不合:交易纪律 vs 加速信仰
+];
+
+/* ========================================================================
+   CONFIG MAPS
+*/
+const STANCE_SIZE = { core: 28, deep: 22, fringe: 16, drift: 22, adverse: 18 };
+// 这几个节点圆圈半径放大 50%
+const BIG_NODES = new Set(['druck', 'bessent', 'vance', 'thiel', 'dario', 'andreessen', 'sacks', 'warsh']);
+const nodeSize = (n) => STANCE_SIZE[n.stance] * (BIG_NODES.has(n.id) ? 1.5 : 1);
+const CAMP_COLOR = {
+  ea:    '#E0786A',  // 亮浅红 — coral
+  eacc:  '#E0A82E',  // 亮金黄 — amber
+  drift: '#8FB6DB',  // 亮浅蓝 — sky blue
+  wallst:'#8B5BA5'   // 紫色 — royal purple,老钱/贵族
+};
+const STANCE_BORDER = {
+  core:    '#1B2635',
+  deep:    '#5A6772',
+  fringe:  '#8A95A1',
+  drift:   '#8B6F47',
+  adverse: '#B33A3A'
+};
+
+/* ========================================================================
+   STATE
+*/
+let currentView = 'force';
+let filterCamp = 'all';
+let stanceFilter = 'all';
+let chart;
+
+/* ========================================================================
+   BUILD GRAPH DATA
+*/
+function buildForceData() {
+  const filtered = NODES.filter(n => {
+    if (filterCamp === 'ea' && n.camp !== 'ea') return false;
+    if (filterCamp === 'eacc' && n.camp !== 'eacc') return false;
+    if (filterCamp === 'drift' && n.camp !== 'drift') return false;
+    if (filterCamp === 'wallst' && n.camp !== 'wallst') return false;
+    if (stanceFilter === 'core' && n.stance !== 'core') return false;
+    return true;
+  });
+  const ids = new Set(filtered.map(n => n.id));
+
+  const nodes = filtered.map(n => ({
+    id: n.id,
+    name: n.name,
+    value: nodeSize(n),
+    symbolSize: nodeSize(n),
+    category: n.camp === 'ea' ? 0 : n.camp === 'eacc' ? 1 : n.camp === 'wallst' ? 3 : 2,
+    itemStyle: {
+      color: CAMP_COLOR[n.camp],
+      borderColor: STANCE_BORDER[n.stance],
+      borderWidth: n.stance === 'core' ? 3 : 1.5,
+      shadowBlur: n.stance === 'core' ? 10 : 0,
+      shadowColor: n.stance === 'core' ? 'rgba(184,135,10,0.4)' : 'transparent'
+    },
+    label: {
+      show: true,
+      position: 'right',
+      fontFamily: 'Karla, sans-serif',
+      fontSize: n.stance === 'core' ? 11 : 10,
+      color: '#1B2635',
+      fontWeight: n.stance === 'core' ? 600 : 400
+    },
+    fullData: n
+  }));
+
+  const links = EDGES
+    .filter(e => ids.has(e.source) && ids.has(e.target))
+    .map(e => ({
+      source: e.source,
+      target: e.target,
+      lineStyle: e.adv ? {
+        color: '#B33A3A', width: 1.2, opacity: 0.6, type: 'dashed', curveness: 0.2
+      } : {
+        color: '#5A6772', width: 0.8, opacity: 0.3, curveness: 0.1
+      }
+    }));
+
+  const categories = [
+    { name: 'EA', itemStyle: { color: CAMP_COLOR.ea } },
+    { name: 'e/acc', itemStyle: { color: CAMP_COLOR.eacc } },
+    { name: '漂移/跨界', itemStyle: { color: CAMP_COLOR.drift } },
+    { name: 'Old Money Wall St', itemStyle: { color: CAMP_COLOR.wallst } }
+  ];
+
+  return { nodes, links, categories };
+}
+
+/* ========================================================================
+   VIEW BUILDERS
+*/
+function buildForceView() {
+  const { nodes, links, categories } = buildForceData();
+  console.log('[Force View] nodes:', nodes.length, 'links:', links.length, 'categories:', categories.length);
+  return {
+    backgroundColor: 'transparent',
+    tooltip: {
+      backgroundColor: 'rgba(27,38,53,0.95)',
+      borderColor: '#B8870A', borderWidth: 1,
+      textStyle: { color: '#F4F2ED', fontFamily: 'Karla', fontSize: 12 },
+      formatter: (p) => {
+        if (p.dataType !== 'node') return '';
+        const d = p.data.fullData;
+        if (!d) return '';
+        return `<div style="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:700;margin-bottom:2px;">${d.cn}</div>
+        <div style="font-family:Cormorant Garamond,serif;font-style:italic;color:#D4A017;font-size:13px;margin-bottom:6px;">${d.name}</div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#D4A017;letter-spacing:1px;">${d.cat}</div>
+        <div style="font-size:11px;color:rgba(244,242,237,0.7);margin-top:4px;">${d.role}</div>`;
+      }
+    },
+    legend: [{
+      data: categories.map(c => c.name),
+      bottom: 14, left: 'center',
+      textStyle: { fontFamily: 'JetBrains Mono', fontSize: 11, color: '#1B2635' },
+      itemWidth: 14, itemHeight: 14, itemGap: 22
+    }],
+    animationDurationUpdate: 600,
+    animationEasingUpdate: 'cubicInOut',
+    series: [{
+      name: 'AI Camps',
+      type: 'graph',
+      layout: 'force',
+      data: nodes,
+      links: links,
+      categories: categories,
+      roam: true,
+      draggable: true,
+      force: {
+        repulsion: 320,
+        edgeLength: [60, 140],
+        gravity: 0.1,
+        layoutAnimation: true
+      },
+      emphasis: {
+        focus: 'adjacency',
+        scale: 1.2,
+        label: { fontWeight: 700, fontSize: 13 },
+        lineStyle: { width: 2, opacity: 0.85 }
+      },
+      lineStyle: { curveness: 0.1 },
+      zoom: 0.85
+    }]
+  };
+}
+
+function buildQuadrantView() {
+  const filtered = NODES.filter(n => {
+    if (filterCamp === 'ea' && n.camp !== 'ea') return false;
+    if (filterCamp === 'eacc' && n.camp !== 'eacc') return false;
+    if (filterCamp === 'drift' && n.camp !== 'drift') return false;
+    if (filterCamp === 'wallst' && n.camp !== 'wallst') return false;
+    if (stanceFilter === 'core' && n.stance !== 'core') return false;
+    return true;
+  });
+
+  // Light fill palettes for quadrant
+  const CAMP_FILL_LIGHT = {
+    ea:    '#F5C5BD',  // light coral
+    eacc:  '#F7E2B3',  // light champagne
+    drift: '#D5E2EF',  // light sky
+    wallst:'#D4C0E0'   // light lavender
+  };
+  const CAMP_BORDER_DEEP = {
+    ea:    '#B85648',
+    eacc:  '#B8870A',
+    drift: '#5A82A8',
+    wallst:'#5D3E73'
+  };
+
+  const seriesData = filtered.map(n => ({
+    name: n.name,
+    value: [n.x, n.y, STANCE_SIZE[n.stance]],
+    itemStyle: {
+      color: CAMP_FILL_LIGHT[n.camp],
+      borderColor: CAMP_BORDER_DEEP[n.camp],
+      borderWidth: n.stance === 'core' ? 2.5 : n.stance === 'deep' ? 1.8 : 1.2,
+      opacity: 1
+    },
+    label: {
+      show: true,
+      position: 'right',
+      formatter: n.name,
+      fontSize: n.stance === 'core' ? 11 : n.stance === 'deep' ? 10 : 9,
+      color: '#1B2635',
+      fontWeight: n.stance === 'core' ? 600 : 400,
+      fontFamily: 'Karla, sans-serif',
+      distance: 4
+    },
+    fullData: n
+  }));
+
+  return {
+    backgroundColor: 'transparent',
+    grid: { left: 80, right: 80, top: 70, bottom: 80 },
+    tooltip: {
+      backgroundColor: 'rgba(27,38,53,0.95)',
+      borderColor: '#B8870A', borderWidth: 1,
+      textStyle: { color: '#F4F2ED' },
+      formatter: (p) => {
+        const d = p.data.fullData;
+        if (!d) return '';
+        return `<div style="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:700;margin-bottom:2px;">${d.cn}</div>
+        <div style="font-family:Cormorant Garamond,serif;font-style:italic;color:#D4A017;font-size:13px;margin-bottom:6px;">${d.name}</div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#D4A017;letter-spacing:1px;">${d.cat}</div>
+        <div style="font-size:11px;color:rgba(244,242,237,0.7);margin-top:4px;">${d.role}</div>
+        <div style="font-size:10px;color:rgba(244,242,237,0.5);margin-top:6px;font-family:JetBrains Mono,monospace;">政治: ${d.x>0?'右':'左'} ${Math.abs(d.x)} · 加速度: ${d.y>0?'+':''}${d.y}</div>`;
+      }
+    },
+    graphic: [
+      {
+        type: 'text',
+        left: 90, top: 22,
+        style: {
+          text: '◯ 圆圈大小 = 立场强度(核心>深度>外围) · 浅色填充 = 阵营 · 边框色 = 阵营主调',
+          fontFamily: 'JetBrains Mono, monospace',
+          fontSize: 10,
+          fill: '#5A6772',
+          letterSpacing: 1
+        }
+      },
+      {
+        type: 'text',
+        left: 90, top: 40,
+        style: {
+          text: '⌖ 滚轮缩放 · 按住拖拽平移 · 重叠标签自动隐藏(放大后显示)· 双击重置',
+          fontFamily: 'JetBrains Mono, monospace',
+          fontSize: 10,
+          fill: '#B8870A',
+          letterSpacing: 1
+        }
+      },
+      {
+        type: 'text',
+        right: 90, top: 22,
+        style: {
+          text: '⟲ RESET',
+          fontFamily: 'JetBrains Mono, monospace',
+          fontSize: 10,
+          fontWeight: 600,
+          fill: '#B8870A',
+          letterSpacing: 1.5
+        },
+        onclick: () => {
+          chart.dispatchAction({
+            type: 'dataZoom',
+            start: 0, end: 100,
+            xAxisIndex: 0
+          });
+          chart.dispatchAction({
+            type: 'dataZoom',
+            start: 0, end: 100,
+            yAxisIndex: 0
+          });
+        },
+        cursor: 'pointer'
+      }
+    ],
+    xAxis: {
+      type: 'value', name: '← 政治左翼     ·     政治右翼 →',
+      min: -100, max: 100,
+      nameLocation: 'middle', nameGap: 38,
+      nameTextStyle: { fontFamily: 'JetBrains Mono', fontSize: 11, color: '#5A6772', letterSpacing: 1 },
+      axisLine: { lineStyle: { color: '#1B2635' } },
+      splitLine: { lineStyle: { color: 'rgba(27,38,53,0.08)' } },
+      axisLabel: { fontFamily: 'JetBrains Mono', fontSize: 10, color: '#5A6772' }
+    },
+    yAxis: {
+      type: 'value', name: '加速 ↑     ·     ↓ 减速',
+      min: -100, max: 100,
+      nameLocation: 'middle', nameGap: 56,
+      nameTextStyle: { fontFamily: 'JetBrains Mono', fontSize: 11, color: '#5A6772', letterSpacing: 1 },
+      axisLine: { lineStyle: { color: '#1B2635' } },
+      splitLine: { lineStyle: { color: 'rgba(27,38,53,0.08)' } },
+      axisLabel: { fontFamily: 'JetBrains Mono', fontSize: 10, color: '#5A6772' }
+    },
+    dataZoom: [
+      {
+        type: 'inside',
+        xAxisIndex: 0,
+        filterMode: 'none',
+        zoomOnMouseWheel: true,
+        moveOnMouseMove: true,
+        moveOnMouseWheel: false,
+        preventDefaultMouseMove: false
+      },
+      {
+        type: 'inside',
+        yAxisIndex: 0,
+        filterMode: 'none',
+        zoomOnMouseWheel: true,
+        moveOnMouseMove: true,
+        moveOnMouseWheel: false,
+        preventDefaultMouseMove: false
+      }
+    ],
+    series: [{
+      type: 'scatter', data: seriesData,
+      symbolSize: (val) => val[2],
+      labelLayout: {
+        hideOverlap: true,
+        moveOverlap: 'shiftY'
+      },
+      emphasis: {
+        scale: 1.4,
+        label: { show: true, fontSize: 13, fontWeight: 700 },
+        itemStyle: { shadowBlur: 14, shadowColor: 'rgba(184,135,10,0.5)' }
+      },
+      markLine: {
+        silent: true, symbol: 'none', label: { show: false },
+        lineStyle: { color: 'rgba(184,135,10,0.35)', type: 'dashed', width: 1 },
+        data: [
+          { xAxis: 0 }, { yAxis: 0 }
+        ]
+      },
+      markArea: {
+        silent: true,
+        itemStyle: { color: 'rgba(184,135,10,0.04)' },
+        data: [[{ name: '加速右翼区', xAxis: 0, yAxis: 0 }, { xAxis: 100, yAxis: 100 }]]
+      }
+    }]
+  };
+}
+
+function buildSunburstView() {
+  const filtered = NODES.filter(n => {
+    if (filterCamp === 'ea' && n.camp !== 'ea') return false;
+    if (filterCamp === 'eacc' && n.camp !== 'eacc') return false;
+    if (filterCamp === 'drift' && n.camp !== 'drift') return false;
+    if (filterCamp === 'wallst' && n.camp !== 'wallst') return false;
+    if (stanceFilter === 'core' && n.stance !== 'core') return false;
+    return true;
+  });
+
+  // Group by camp → cat → people
+  const tree = {};
+  filtered.forEach(n => {
+    const campLbl = n.camp === 'ea' ? 'EA' : n.camp === 'eacc' ? 'e/acc' : n.camp === 'wallst' ? 'Wall St' : '漂移';
+    if (!tree[campLbl]) tree[campLbl] = {};
+    if (!tree[campLbl][n.cat]) tree[campLbl][n.cat] = [];
+    tree[campLbl][n.cat].push(n);
+  });
+
+  const data = Object.entries(tree).map(([campLbl, cats]) => {
+    const color =
+      campLbl === 'EA'      ? CAMP_COLOR.ea :
+      campLbl === 'e/acc'   ? CAMP_COLOR.eacc :
+      campLbl === 'Wall St' ? CAMP_COLOR.wallst :
+                              CAMP_COLOR.drift;
+    const midColor =
+      campLbl === 'EA'      ? '#E8978A' :
+      campLbl === 'e/acc'   ? '#ECBA50' :
+      campLbl === 'Wall St' ? '#A47CB8' :
+                              '#A8C6E2';
+    return {
+      name: campLbl,
+      itemStyle: { color },
+      label: { color: '#F4F2ED', fontWeight: 700, fontFamily: 'Cormorant Garamond', fontSize: 16 },
+      children: Object.entries(cats).map(([catLbl, people]) => ({
+        name: catLbl.replace(/^.*?· /, ''),
+        itemStyle: { color: midColor },
+        label: { fontFamily: 'JetBrains Mono', fontSize: 10, color: '#F4F2ED' },
+        children: people.map(p => ({
+          name: p.name,
+          value: STANCE_SIZE[p.stance],
+          itemStyle: { color: STANCE_BORDER[p.stance], borderColor: '#F4F2ED', borderWidth: 1 },
+          label: { fontFamily: 'Karla', fontSize: 9.5, color: '#F4F2ED' },
+          fullData: p
+        }))
+      }))
+    };
+  });
+
+  return {
+    backgroundColor: 'transparent',
+    tooltip: {
+      backgroundColor: 'rgba(27,38,53,0.95)',
+      borderColor: '#B8870A', borderWidth: 1,
+      textStyle: { color: '#F4F2ED' },
+      formatter: (p) => {
+        if (p.data.fullData) {
+          const d = p.data.fullData;
+          return `<div style="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:700;">${d.cn}</div>
+            <div style="font-family:Cormorant Garamond,serif;font-style:italic;color:#D4A017;font-size:13px;">${d.name}</div>
+            <div style="font-size:11px;color:rgba(244,242,237,0.7);margin-top:4px;">${d.role}</div>`;
+        }
+        return `<div style="font-family:Cormorant Garamond,serif;font-size:16px;">${p.name}</div>`;
+      }
+    },
+    series: [{
+      type: 'sunburst',
+      data, radius: ['8%', '95%'],
+      center: ['50%', '52%'],
+      sort: null,
+      emphasis: { focus: 'ancestor' },
+      levels: [
+        {},
+        { r0: '8%', r: '30%', label: { rotate: 0, fontWeight: 700, fontSize: 17 } },
+        { r0: '30%', r: '60%', label: { rotate: 'tangential', fontSize: 11 } },
+        { r0: '60%', r: '95%', label: { rotate: 'radial', fontSize: 10 } }
+      ]
+    }]
+  };
+}
+
+/* ========================================================================
+   SIDE PANEL UPDATE
+*/
+function showPanel(node) {
+  const stanceLabel = { core: '核心', deep: '深度', fringe: '外围', drift: '漂移', adverse: '相反' };
+  const campLabel = { ea: 'EA 阵营', eacc: 'e/acc 阵营', drift: '漂移/跨界', wallst: 'Old Money Wall St' };
+  const html = `
+    <div class="side-eyebrow">${node.cat}</div>
+    <div class="side-title">${node.cn}<span class="en">${node.name}</span></div>
+    <div class="side-tags">
+      <span class="side-tag ${node.camp === 'ea' ? 'ea' : node.camp === 'eacc' ? 'eacc' : node.camp === 'wallst' ? 'wallst' : 'drift'}">${campLabel[node.camp]}</span>
+      <span class="side-tag ${node.stance}">${stanceLabel[node.stance]}</span>
+    </div>
+    <div class="side-role">${node.role}</div>
+    <div class="side-divider"></div>
+    <div class="side-body">${node.body}</div>
+  `;
+  document.getElementById('sidePanel').innerHTML = html;
+}
+
+/* ========================================================================
+   RENDER + EVENTS
+*/
+function render() {
+  let option;
+  let titleLbl, titleTtl;
+  if (currentView === 'force') {
+    option = buildForceView();
+    titleLbl = 'View 01 · Force-Directed';
+    titleTtl = '两阵营对峙力导向网络';
+  } else if (currentView === 'quadrant') {
+    option = buildQuadrantView();
+    titleLbl = 'View 02 · Quadrant Spectrum';
+    titleTtl = '政治 × 加速度 二维光谱';
+  } else {
+    option = buildSunburstView();
+    titleLbl = 'View 03 · Hierarchical Sunburst';
+    titleTtl = '阵营 → 子类 → 人物 层级展开';
+  }
+  document.querySelector('#chartTitle .lbl').textContent = titleLbl;
+  document.querySelector('#chartTitle .ttl').textContent = titleTtl;
+  chart.setOption(option, true);
+}
+
+function init() {
+  // Wait for ECharts to be available (async loaded from multi-CDN)
+  if (typeof echarts === 'undefined') {
+    setTimeout(init, 100);
+    return;
+  }
+  const chartEl = document.getElementById('chart');
+  // Clear loading placeholder before echarts takes over
+  chartEl.innerHTML = '';
+  try {
+    chart = echarts.init(chartEl);
+    render();
+    console.log('[Init] Chart initialized successfully');
+  } catch (err) {
+    console.error('[Init] Chart init failed:', err);
+    chartEl.innerHTML = '<div style="padding:60px;text-align:center;font-family:Karla;color:#B33A3A;">图表初始化失败: ' + err.message + '</div>';
+    return;
+  }
+
+  chart.on('click', (params) => {
+    if (params.data && params.data.fullData) {
+      showPanel(params.data.fullData);
+    }
+  });
+
+  // Double-click to reset zoom on quadrant view
+  chart.getZr().on('dblclick', () => {
+    if (currentView === 'quadrant') {
+      chart.dispatchAction({ type: 'dataZoom', start: 0, end: 100, xAxisIndex: 0 });
+      chart.dispatchAction({ type: 'dataZoom', start: 0, end: 100, yAxisIndex: 0 });
+    }
+  });
+
+  // View toggle
+  document.querySelectorAll('.btn[data-view]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn[data-view]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentView = btn.dataset.view;
+      render();
+    });
+  });
+
+  // Camp filter
+  document.querySelectorAll('.btn[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn[data-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCamp = btn.dataset.filter;
+      render();
+    });
+  });
+
+  // Stance filter
+  document.querySelectorAll('.btn[data-stance]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn[data-stance]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      stanceFilter = btn.dataset.stance;
+      render();
+    });
+  });
+
+  window.addEventListener('resize', () => chart.resize());
+}
+
+// Start init when DOM is ready (also waits for ECharts via the recursive check above)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+
+</body>
+</html>
