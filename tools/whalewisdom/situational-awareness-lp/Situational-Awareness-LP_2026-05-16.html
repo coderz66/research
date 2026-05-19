@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Situational Awareness LP — 13F Holdings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#F4F2ED;color:#1B2635;font-family:'Karla',sans-serif;font-size:14px;line-height:1.45}
+
+/* MASTHEAD */
+.masthead{background:#1B2635;border-bottom:3px solid #B8870A;padding:28px 0 24px;position:relative;overflow:hidden}
+.masthead::after{content:'SITUATIONAL AWARENESS';position:absolute;right:-20px;bottom:-30px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;color:rgba(255,255,255,0.04);white-space:nowrap;pointer-events:none;letter-spacing:-2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#B8870A;text-transform:uppercase;margin-bottom:8px}
+.masthead-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px}
+.masthead-title em{color:#D4A017;font-style:italic}
+.masthead-desc{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;max-width:760px;margin-bottom:12px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.7)}
+.pill.amber{border-color:#B8870A;color:#D4A017}
+
+/* STATS BAR */
+.stats-bar{background:#fff;border-bottom:1px solid #e2ddd6}
+.stats-bar .wrap{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid #e2ddd6}
+.stat{padding:11px 20px;border-right:1px solid #e2ddd6}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:#999;margin-bottom:4px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#1B2635;line-height:1}
+.stat-sub{font-size:11px;color:#aaa;margin-top:3px}
+
+/* AUM CHART */
+.section-hd{padding:24px 0 12px}
+.s-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.15em;color:#B8870A;text-transform:uppercase;margin-bottom:4px}
+.s-ttl{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;margin-bottom:6px}
+.s-div{width:44px;height:2px;background:#B8870A;margin-bottom:14px}
+.aum-chart{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;align-items:flex-end;padding:18px 20px 14px;background:#fff;border:1px solid #e2ddd6;min-height:180px}
+.aum-col{display:flex;flex-direction:column;align-items:center;gap:4px}
+.aum-bar{width:100%;border-radius:2px 2px 0 0;min-height:4px}
+.aum-bar.solid{background:#1B2635}
+.aum-bar.partial{background:repeating-linear-gradient(45deg,#1B2635 0,#1B2635 4px,#3a4f66 4px,#3a4f66 8px)}
+.aum-num{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;color:#1B2635}
+.aum-q{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#999}
+.chart-note{font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa;margin-top:8px}
+
+/* QUARTER TABS */
+.qtabs{position:sticky;top:0;z-index:100;background:#1B2635;border-bottom:2px solid #B8870A}
+.qtabs .wrap{display:flex;overflow-x:auto;scrollbar-width:none}
+.qbtn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;padding:14px 20px;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s}
+.qbtn:hover{color:rgba(255,255,255,0.75)}
+.qbtn.active{color:#D4A017;border-bottom-color:#D4A017}
+.qtag{display:inline-block;margin-left:6px;font-size:9px;padding:1px 5px;border-radius:2px;background:rgba(184,135,10,0.2);color:#D4A017}
+
+/* QUARTER SECTIONS */
+.qsec{display:none}
+.qsec.active{display:block}
+
+/* Q META */
+.qmeta{background:#fff;border:1px solid #e2ddd6;padding:12px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.qm-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:2px}
+.qm-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;color:#1B2635;line-height:1.1}
+.qm-sub{font-size:11px;color:#aaa;margin-top:2px}
+
+/* TABLE */
+.tbl-wrap{background:#fff;border:1px solid #e2ddd6;overflow:hidden;margin-bottom:12px}
+.tbl-hd{padding:8px 16px;border-bottom:1px solid #e2ddd6;display:flex;align-items:center;justify-content:space-between}
+.tbl-hd-txt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#777}
+.tbl-note{font-size:10px;color:#B8870A;font-family:'JetBrains Mono',monospace}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:#1B2635}
+thead th{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:7px 12px;text-align:left;font-weight:400;white-space:nowrap}
+th.r,td.r{text-align:right}
+tbody tr{border-bottom:1px solid #f0ede8;transition:background .1s}
+tbody tr:hover{background:#faf9f6}
+tbody tr.closed{opacity:.45}
+td{padding:6px 12px;vertical-align:middle}
+td.r{font-family:'JetBrains Mono',monospace;font-size:12.5px}
+
+.tkr{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:#1B2635}
+.tkr.put{color:#dc2626}
+.tkr.call{color:#16a34a}
+.tkr.opt{color:#7c3aed}
+
+.sbadge{font-size:10px;padding:2px 7px;border-radius:2px;font-family:'JetBrains Mono',monospace;letter-spacing:.02em;white-space:nowrap}
+.s-it{background:#dbeafe;color:#1d4ed8}
+.s-en{background:#fef3c7;color:#92400e}
+.s-fi{background:#dcfce7;color:#166534}
+.s-ut{background:#f3e8ff;color:#7e22ce}
+.s-cd{background:#fee2e2;color:#991b1b}
+.s-in{background:#e0f2fe;color:#0369a1}
+.s-hc{background:#fce7f3;color:#9d174d}
+.s-re{background:#d1fae5;color:#065f46}
+
+.pbar-row{display:flex;align-items:center;gap:8px}
+.pbar{height:4px;background:#1B2635;border-radius:2px;min-width:2px;flex-shrink:0}
+.pval{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
+
+.stbadge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:2px;letter-spacing:.04em;text-transform:uppercase}
+.st-new{background:rgba(184,135,10,.12);color:#92400e}
+.st-add{background:rgba(22,163,74,.1);color:#166534}
+.st-red{background:rgba(234,88,12,.1);color:#c2410c}
+.st-cls{background:rgba(220,38,38,.1);color:#991b1b}
+.st-nc{background:rgba(100,116,139,.1);color:#475569}
+
+.ch-new{color:#B8870A;font-weight:600}
+.ch-add{color:#16a34a}
+.ch-neg{color:#dc2626}
+.ch-nc{color:#888}
+
+/* STATUS FILTER PILLS */
+.sfilter-bar{display:flex;gap:5px;flex-shrink:0}
+.sfbtn{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 9px;border-radius:2px;border:1px solid #d4cfc8;background:transparent;color:#aaa;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:all .15s}
+.sfbtn:hover{border-color:#B8870A;color:#B8870A}
+.sfbtn.active{background:#1B2635;color:#fff;border-color:#1B2635}
+
+/* PARTIAL BANNER */
+.partial-banner{background:rgba(184,135,10,.07);border:1px solid rgba(184,135,10,.25);padding:11px 16px;margin-bottom:16px;font-size:11.5px;color:#92400e;font-family:'JetBrains Mono',monospace;display:flex;gap:8px;align-items:flex-start}
+
+/* NARRATIVE */
+.narr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.narr-card{background:#fff;border:1px solid #e2ddd6;border-left:3px solid #B8870A;padding:14px 16px}
+.narr-ttl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#B8870A;margin-bottom:6px}
+.narr-card p{font-size:13px;line-height:1.55;color:#333}
+.narr-card p+p{margin-top:5px}
+
+/* FOOTER */
+.footer{background:#1B2635;padding:16px 0;margin-top:32px;border-top:1px solid rgba(255,255,255,.08)}
+.footer .wrap{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:rgba(255,255,255,.35);letter-spacing:.06em}
+
+@media(max-width:768px){
+  .stats-bar .wrap{grid-template-columns:repeat(2,1fr)}
+  .narr-grid{grid-template-columns:1fr}
+  .qmeta{grid-template-columns:repeat(2,1fr)}
+  .masthead-title{font-size:36px}
+  .aum-chart{grid-template-columns:repeat(3,1fr)}
+}
+.intro{background:#fff;border:1px solid #e2ddd6;border-left:3px solid #B8870A;padding:15px 20px;margin-top:22px}
+.intro-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.15em;color:#B8870A;text-transform:uppercase;margin-bottom:7px}
+.intro p{font-size:13px;line-height:1.65;color:#42505f}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Institutional Holdings · WhalWisdom · SEC 13F Filings</div>
+    <h1 class="masthead-title">Situational Awareness <em>LP</em></h1>
+    <p class="masthead-desc">AI 基础设施 + 电力 + 半导体对冲策略。6 季度持仓演变（2024Q4 → 2026Q1），AUM $255M → $13.67B（+5,265%）。Q1 2026 全面 PUT 化转向。</p>
+    <div class="pills">
+      <span class="pill amber">AI Infrastructure</span>
+      <span class="pill">Power Generation</span>
+      <span class="pill">Semiconductors</span>
+      <span class="pill">Options Overlay</span>
+      <span class="pill">6 Quarters Tracked</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="wrap">
+    <div class="stat">
+      <div class="stat-lbl">最新 AUM（Q1 2026）</div>
+      <div class="stat-val">$13.67B</div>
+      <div class="stat-sub">vs Q4 2025 $5.51B (+148%)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">6 季度 AUM 增幅</div>
+      <div class="stat-val">+5,265%</div>
+      <div class="stat-sub">Q4 2024 → Q1 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">追踪季度数</div>
+      <div class="stat-val">6Q</div>
+      <div class="stat-sub">2024-12-31 → 2026-03-31</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Q1 2026 策略</div>
+      <div class="stat-val" style="font-size:20px;padding-top:4px">Mass PUT</div>
+      <div class="stat-sub">半导体全面看跌 + 现货对冲</div>
+    </div>
+  </div>
+</div>
+
+<!-- AUM CHART -->
+<div class="wrap">
+    <div class="intro">
+    <div class="intro-label">机构简介 · About</div>
+    <p>前 OpenAI Superalignment（超级对齐）团队研究员 Leopold Aschenbrenner 于 2024 年创立的对冲基金。同年他发表长文《Situational Awareness: The Decade Ahead》，预判 AGI 将在数年内到来，基金即以此命名、专注 AGI / AI 主题。据报道，基金获 Stripe 创始人 Collison 兄弟、Nat Friedman、Daniel Gross 等科技人物支持，成立后 AUM 迅速膨胀。组合极度集中于 AI 基础设施——算力、电力、半导体——并大量使用期权同时表达方向与对冲。</p>
+  </div>
+<div class="section-hd">
+    <div class="s-lbl">资产规模演变</div>
+    <div class="s-ttl">AUM 增长轨迹</div>
+    <div class="s-div"></div>
+    <div class="aum-chart">
+      <div class="aum-col">
+        <div class="aum-num">$255M</div>
+        <div class="aum-bar solid" style="height:3px"></div>
+        <div class="aum-q">2024-12-31</div>
+      </div>
+      <div class="aum-col">
+        <div class="aum-num">$1.01B</div>
+        <div class="aum-bar solid" style="height:10px"></div>
+        <div class="aum-q">2025-03-31</div>
+      </div>
+      <div class="aum-col">
+        <div class="aum-num">$2.12B</div>
+        <div class="aum-bar solid" style="height:22px"></div>
+        <div class="aum-q">2025-06-30</div>
+      </div>
+      <div class="aum-col">
+        <div class="aum-num">$4.14B</div>
+        <div class="aum-bar solid" style="height:42px"></div>
+        <div class="aum-q">2025-09-30</div>
+      </div>
+      <div class="aum-col">
+        <div class="aum-num">$5.51B</div>
+        <div class="aum-bar solid" style="height:57px"></div>
+        <div class="aum-q">2025-12-31</div>
+      </div>
+      <div class="aum-col">
+        <div class="aum-num">$13.67B</div>
+        <div class="aum-bar solid" style="height:140px"></div>
+        <div class="aum-q">2026-03-31</div>
+      </div>
+    </div>
+    <div class="chart-note">斜纹 = 截图分辨率限制，AUM 数字待确认</div>
+  </div>
+</div>
+
+<!-- QUARTER TABS -->
+<div class="qtabs" id="qtabs">
+  <div class="wrap">
+    <button class="qbtn active" onclick="showQ('q1-2026',this)">2026-03-31 <span class="qtag">Q1'26</span></button>
+    <button class="qbtn" onclick="showQ('q4-2025',this)">2025-12-31 <span class="qtag">Q4</span></button>
+    <button class="qbtn" onclick="showQ('q3-2025',this)">2025-09-30 <span class="qtag">Q3</span></button>
+    <button class="qbtn" onclick="showQ('q2-2025',this)">2025-06-30 <span class="qtag">Q2</span></button>
+    <button class="qbtn" onclick="showQ('q1-2025',this)">2025-03-31 <span class="qtag">Q1</span></button>
+    <button class="qbtn" onclick="showQ('q4-2024',this)">2024-12-31 <span class="qtag">Q4'24</span></button>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:16px;padding-bottom:36px">
+
+<!-- ===== Q1 2026 ===== -->
+<div class="qsec active" id="q1-2026">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2026-03-31</div><div class="qm-sub">Q1 2026</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$13.67B</div><div class="qm-sub">vs $5.51B Q4 (+148%)</div></div>
+    <div><div class="qm-lbl">Active / Closed</div><div class="qm-val">42 / 8</div><div class="qm-sub">INTC CALL anchor 仓清仓</div></div>
+    <div><div class="qm-lbl">策略转向</div><div class="qm-val" style="font-size:14px;padding-top:4px">大规模 PUT</div><div class="qm-sub">SMH / NVDA / ORCL / AVGO / AMD PUT 总计 $6.66B</div></div>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Active Holdings — 2026-03-31</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares / Principal</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th class="r">Prev %</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="tkr put">SMH PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">5,327,900</td><td class="r">$2,043M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:30px"></div><span class="pval">14.94%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+5,327,900</td></tr>
+        <tr><td><span class="tkr put">NVDA PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">8,992,300</td><td class="r">$1,568M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:23px"></div><span class="pval">11.47%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+8,992,300</td></tr>
+        <tr><td><span class="tkr put">ORCL PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">7,293,000</td><td class="r">$1,073M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:16px"></div><span class="pval">7.84%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+7,293,000</td></tr>
+        <tr><td><span class="tkr put">AVGO PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">3,251,100</td><td class="r">$1,006M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:15px"></div><span class="pval">7.36%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+3,251,100</td></tr>
+        <tr><td><span class="tkr put">AMD PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">4,764,100</td><td class="r">$969M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:14px"></div><span class="pval">7.09%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+4,764,100</td></tr>
+        <tr><td><span class="tkr">BE</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">6,485,408</td><td class="r">$879M</td><td class="r">$876M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:13px"></div><span class="pval">6.42%</span></div></td><td class="r">15.87%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−3,590,614</td></tr>
+        <tr><td><span class="tkr">SNDK</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,140,119</td><td class="r">$724M</td><td class="r">$250M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:11px"></div><span class="pval">5.30%</span></div></td><td class="r">4.54%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+85,919</td></tr>
+        <tr><td><span class="tkr put">MU PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,727,700</td><td class="r">$584M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.27%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,727,700</td></tr>
+        <tr><td><span class="tkr">CRWV</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">7,177,919</td><td class="r">$556M</td><td class="r">$437M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:8px"></div><span class="pval">4.07%</span></div></td><td class="r">7.92%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+1,079,107</td></tr>
+        <tr><td><span class="tkr put">TSM PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,583,400</td><td class="r">$535M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:8px"></div><span class="pval">3.91%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,583,400</td></tr>
+        <tr><td><span class="tkr put">ASML PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">374,100</td><td class="r">$494M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:7px"></div><span class="pval">3.61%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+374,100</td></tr>
+        <tr><td><span class="tkr call">MU CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,250,000</td><td class="r">$422M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">3.09%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,250,000</td></tr>
+        <tr><td><span class="tkr">IREN</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">11,698,835</td><td class="r">$401M</td><td class="r">$329M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">2.93%</span></div></td><td class="r">5.96%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+2,998,214</td></tr>
+        <tr><td><span class="tkr">CORZ</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">26,008,473</td><td class="r">$389M</td><td class="r">$419M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">2.84%</span></div></td><td class="r">7.59%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−2,748,005</td></tr>
+        <tr><td><span class="tkr call">SNDK CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">611,900</td><td class="r">$389M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">2.84%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+611,900</td></tr>
+        <tr><td><span class="tkr call">TSM CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,050,000</td><td class="r">$355M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:5px"></div><span class="pval">2.59%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,050,000</td></tr>
+        <tr><td><span class="tkr">APLD</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">13,478,438</td><td class="r">$320M</td><td class="r">$278M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:5px"></div><span class="pval">2.34%</span></div></td><td class="r">5.04%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+2,139,378</td></tr>
+        <tr><td><span class="tkr put">INTC PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">3,605,400</td><td class="r">$159M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.16%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+3,605,400</td></tr>
+        <tr><td><span class="tkr">RIOT</span></td><td><span class="sbadge s-hc">Health Care</span></td><td class="r">11,502,137</td><td class="r">$142M</td><td class="r">$78M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.04%</span></div></td><td class="r">1.42%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+5,334,437</td></tr>
+        <tr><td><span class="tkr call">CRWV CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,814,500</td><td class="r">$141M</td><td class="r">$774M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.03%</span></div></td><td class="r">14.04%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−9,000,000</td></tr>
+        <tr><td><span class="tkr">CLSK</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">12,276,139</td><td class="r">$104M</td><td class="r">$17M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">0.76%</span></div></td><td class="r">0.30%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+10,635,739</td></tr>
+        <tr><td><span class="tkr">SEI</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">1,105,551</td><td class="r">$62M</td><td class="r">$86M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.46%</span></div></td><td class="r">1.56%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−760,949</td></tr>
+        <tr><td><span class="tkr call">BE CALL</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">408,500</td><td class="r">$55M</td><td class="r">$35M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.40%</span></div></td><td class="r">0.64%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">TE</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">10,000,000</td><td class="r">$44M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.32%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+10,000,000</td></tr>
+        <tr><td><span class="tkr">KEEL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">19,875,840</td><td class="r">$39M</td><td class="r">$16M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.28%</span></div></td><td class="r">0.29%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+12,978,740</td></tr>
+        <tr><td><span class="tkr">BTDR</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">3,439,450</td><td class="r">$30M</td><td class="r">$20M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.22%</span></div></td><td class="r">0.36%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+1,651,450</td></tr>
+        <tr><td><span class="tkr">PSIX</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">432,300</td><td class="r">$26M</td><td class="r">$25M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.19%</span></div></td><td class="r">0.45%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr put">GLW PUT</span></td><td><span class="sbadge s-cd">Materials</span></td><td class="r">154,600</td><td class="r">$21M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.15%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+154,600</td></tr>
+        <tr><td><span class="tkr">WYFI</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,757,600</td><td class="r">$21M</td><td class="r">$28M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.15%</span></div></td><td class="r">0.50%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">AMD</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">99,138</td><td class="r">$20M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.15%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+99,138</td></tr>
+        <tr><td><span class="tkr">BW</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">1,353,900</td><td class="r">$20M</td><td class="r">$9M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.15%</span></div></td><td class="r">0.16%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">SHAZ</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">796,108</td><td class="r">$18M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.13%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+796,108</td></tr>
+        <tr><td><span class="tkr">PUMP</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">910,300</td><td class="r">$13M</td><td class="r">$9M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.10%</span></div></td><td class="r">0.16%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">SMH</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">26,950</td><td class="r">$10M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.08%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+26,950</td></tr>
+        <tr><td><span class="tkr">INTC</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">202,344</td><td class="r">$9M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.07%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+202,343</td></tr>
+        <tr><td><span class="tkr">TSM</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">22,423</td><td class="r">$8M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.06%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+22,423</td></tr>
+        <tr><td><span class="tkr put">INFY PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">500,000</td><td class="r">$7M</td><td class="r">$9M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.05%</span></div></td><td class="r">0.16%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">HIVE</span></td><td><span class="sbadge s-cd">Materials</span></td><td class="r">3,391,547</td><td class="r">$6M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.05%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+3,391,547</td></tr>
+        <tr><td><span class="tkr">ASML</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">4,633</td><td class="r">$6M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.04%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+4,633</td></tr>
+        <tr><td><span class="tkr">MU</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">17,362</td><td class="r">$6M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.04%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+17,362</td></tr>
+        <tr><td><span class="tkr">GLW</span></td><td><span class="sbadge s-cd">Materials</span></td><td class="r">5,283</td><td class="r">$1M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.01%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+5,283</td></tr>
+        <tr><td><span class="tkr">NVDA</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">2,855</td><td class="r">$0.5M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.00%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+2,855</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Closed Out — Q1 2026</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Prev % Portfolio</th>
+        <th>Status</th><th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr class="closed"><td><span class="tkr call">INTC CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">13.54%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−20,237,400</td></tr>
+        <tr class="closed"><td><span class="tkr">CIFR</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">2.80%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−10,469,093</td></tr>
+        <tr class="closed"><td><span class="tkr">EQT</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">2.41%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−2,482,225</td></tr>
+        <tr class="closed"><td><span class="tkr">COHR</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">1.61%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−480,300</td></tr>
+        <tr class="closed"><td><span class="tkr">KRC</span></td><td><span class="sbadge s-re">Real Estate</span></td><td class="r">0.90%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,327,700</td></tr>
+        <tr class="closed"><td><span class="tkr">HUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">0.72%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−860,200</td></tr>
+        <tr class="closed"><td><span class="tkr call">EQT CALL</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">0.68%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−700,000</td></tr>
+        <tr class="closed"><td><span class="tkr">LBRT</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">0.19%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−567,200</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Q4 2025 ===== -->
+<div class="qsec" id="q4-2025">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2025-12-31</div><div class="qm-sub">Q4 2025</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$5.51B</div><div class="qm-sub">vs $4.14B Q3 (+33%)</div></div>
+    <div><div class="qm-lbl">Active / Closed</div><div class="qm-val">28 / 14</div><div class="qm-sub">清仓：期权对冲全撤 + DEBT 结构</div></div>
+    <div><div class="qm-lbl">New #1 Position</div><div class="qm-val">BE</div><div class="qm-sub">15.87% · Bloom Energy</div></div>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Active Holdings — 2025-12-31</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares / Principal</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th class="r">Prev %</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="tkr">BE</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">10,076,022</td><td class="r">$876M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:32px"></div><span class="pval">15.87%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+10,076,022</td></tr>
+        <tr><td><span class="tkr call">CRWV CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">10,814,500</td><td class="r">$774M</td><td class="r">$317M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:28px"></div><span class="pval">14.04%</span></div></td><td class="r">7.65%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+8,500,000</td></tr>
+        <tr><td><span class="tkr call">INTC CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">20,237,400</td><td class="r">$747M</td><td class="r">$679M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:27px"></div><span class="pval">13.54%</span></div></td><td class="r">16.41%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">LITE</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,298,400</td><td class="r">$479M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:17px"></div><span class="pval">8.68%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,298,400</td></tr>
+        <tr><td><span class="tkr">CRWV</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">6,098,812</td><td class="r">$437M</td><td class="r">$563M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:16px"></div><span class="pval">7.92%</span></div></td><td class="r">13.61%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+1,983,356</td></tr>
+        <tr><td><span class="tkr">CORZ</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">28,756,478</td><td class="r">$419M</td><td class="r">$362M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:15px"></div><span class="pval">7.59%</span></div></td><td class="r">8.75%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+8,575,944</td></tr>
+        <tr><td><span class="tkr">IREN</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">8,700,621</td><td class="r">$329M</td><td class="r">$339M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:12px"></div><span class="pval">5.96%</span></div></td><td class="r">8.19%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+1,480,200</td></tr>
+        <tr><td><span class="tkr">APLD</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">11,339,060</td><td class="r">$278M</td><td class="r">$139M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:10px"></div><span class="pval">5.04%</span></div></td><td class="r">3.36%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+5,274,905</td></tr>
+        <tr><td><span class="tkr">SNDK</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,054,200</td><td class="r">$250M</td><td class="r">$13M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.54%</span></div></td><td class="r">0.31%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+939,200</td></tr>
+        <tr><td><span class="tkr">CIFR</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">10,469,093</td><td class="r">$155M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">2.80%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+10,469,093</td></tr>
+        <tr><td><span class="tkr">EQT</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">2,482,225</td><td class="r">$133M</td><td class="r">$66M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:5px"></div><span class="pval">2.41%</span></div></td><td class="r">1.60%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+1,264,839</td></tr>
+        <tr><td><span class="tkr">COHR</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">480,300</td><td class="r">$89M</td><td class="r">$17M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.61%</span></div></td><td class="r">0.40%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+325,900</td></tr>
+        <tr><td><span class="tkr">SEI</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">1,866,500</td><td class="r">$86M</td><td class="r">$46M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.56%</span></div></td><td class="r">1.11%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+716,200</td></tr>
+        <tr><td><span class="tkr">TSEM</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">723,004</td><td class="r">$85M</td><td class="r">$34M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.54%</span></div></td><td class="r">0.82%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+252,404</td></tr>
+        <tr><td><span class="tkr">RIOT</span></td><td><span class="sbadge s-hc">Health Care</span></td><td class="r">6,167,700</td><td class="r">$78M</td><td class="r">$68M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.42%</span></div></td><td class="r">1.65%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+2,575,001</td></tr>
+        <tr><td><span class="tkr">KRC</span></td><td><span class="sbadge s-re">Real Estate</span></td><td class="r">1,327,700</td><td class="r">$50M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">0.90%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,327,700</td></tr>
+        <tr><td><span class="tkr">HUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">860,200</td><td class="r">$40M</td><td class="r">$21M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">0.72%</span></div></td><td class="r">0.50%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+261,200</td></tr>
+        <tr><td><span class="tkr call">EQT CALL</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">700,000</td><td class="r">$38M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.68%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+700,000</td></tr>
+        <tr><td><span class="tkr call">BE CALL</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">408,500</td><td class="r">$35M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.64%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+408,500</td></tr>
+        <tr><td><span class="tkr">WYFI</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,757,600</td><td class="r">$28M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.50%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,757,600</td></tr>
+        <tr><td><span class="tkr">PSIX</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">432,300</td><td class="r">$25M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.45%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+432,300</td></tr>
+        <tr><td><span class="tkr">BTDR</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">1,788,000</td><td class="r">$20M</td><td class="r">$16M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.36%</span></div></td><td class="r">0.38%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+858,400</td></tr>
+        <tr><td><span class="tkr">CLSK</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">1,640,400</td><td class="r">$17M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.30%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,640,400</td></tr>
+        <tr><td><span class="tkr">KEEL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">6,897,100</td><td class="r">$16M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.29%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+6,897,100</td></tr>
+        <tr><td><span class="tkr">LBRT</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">567,200</td><td class="r">$10M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.19%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+567,200</td></tr>
+        <tr><td><span class="tkr put">INFY PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">500,000</td><td class="r">$9M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.16%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+500,000</td></tr>
+        <tr><td><span class="tkr">PUMP</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">910,300</td><td class="r">$9M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.16%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+910,300</td></tr>
+        <tr><td><span class="tkr">BW</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">1,353,900</td><td class="r">$9M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.16%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,353,900</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Closed Out — Q4 2025</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Prev % Portfolio</th>
+        <th>Status</th><th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr class="closed"><td><span class="tkr put">NVDA PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">7.21%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,600,000</td></tr>
+        <tr class="closed"><td><span class="tkr">VST</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">6.10%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,287,910</td></tr>
+        <tr class="closed"><td><span class="tkr put">GDX PUT</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">4.73%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−600,000</td></tr>
+        <tr class="closed"><td><span class="tkr put">CRWV PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">4.63%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,400,000</td></tr>
+        <tr class="closed"><td><span class="tkr">GLXY</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">2.24%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−2,737,500</td></tr>
+        <tr class="closed"><td><span class="tkr put">AVGO PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1.83%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−230,000</td></tr>
+        <tr class="closed"><td><span class="tkr put">TSM PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1.82%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−270,000</td></tr>
+        <tr class="closed"><td><span class="tkr opt">DEBT-CIPH PRN</span></td><td>—</td><td class="r">1.75%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−5,740,493</td></tr>
+        <tr class="closed"><td><span class="tkr opt">DEBT-LUME PRN</span></td><td>—</td><td class="r">1.64%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−417,600</td></tr>
+        <tr class="closed"><td><span class="tkr put">MU PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1.21%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−300,000</td></tr>
+        <tr class="closed"><td><span class="tkr opt">DEBT-BLOO PRN</span></td><td>—</td><td class="r">1.06%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−3,048,002</td></tr>
+        <tr class="closed"><td><span class="tkr opt">DEBT-WEST PRN</span></td><td>—</td><td class="r">0.44%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−152,821</td></tr>
+        <tr class="closed"><td><span class="tkr opt">DEBT-BLOO CALL</span></td><td>—</td><td class="r">0.30%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−145,800</td></tr>
+        <tr class="closed"><td><span class="tkr">STX</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">0.28%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−48,567</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Q3 2025 ===== -->
+<div class="qsec" id="q3-2025">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2025-09-30</div><div class="qm-sub">Q3 2025</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$4.14B</div><div class="qm-sub">vs $2.12B Q2 (+95%)</div></div>
+    <div><div class="qm-lbl">Active / Closed</div><div class="qm-val">28 / 3</div><div class="qm-sub">SMH PUT · CEG · AVGO 清仓</div></div>
+    <div><div class="qm-lbl">Strategy Shift</div><div class="qm-val" style="font-size:14px;padding-top:4px">3× CRWV</div><div class="qm-sub">股票 + CALL + PUT 三腿</div></div>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Active Holdings — 2025-09-30</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares / Principal</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th class="r">Prev %</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="tkr call">INTC CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">20,237,400</td><td class="r">$679M</td><td class="r">$453M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:33px"></div><span class="pval">16.41%</span></div></td><td class="r">21.35%</td><td><span class="stbadge st-nc">NO CHANGE</span></td><td class="r ch-nc">—</td></tr>
+        <tr><td><span class="tkr">CRWV</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">4,115,456</td><td class="r">$563M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:27px"></div><span class="pval">13.61%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+4,115,456</td></tr>
+        <tr><td><span class="tkr">CORZ</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">20,180,534</td><td class="r">$362M</td><td class="r">$136M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:18px"></div><span class="pval">8.75%</span></div></td><td class="r">6.43%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+12,186,496</td></tr>
+        <tr><td><span class="tkr">IREN</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">7,220,421</td><td class="r">$339M</td><td class="r">$93M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:16px"></div><span class="pval">8.19%</span></div></td><td class="r">4.39%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+820,037</td></tr>
+        <tr><td><span class="tkr call">CRWV CALL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">2,314,500</td><td class="r">$317M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:15px"></div><span class="pval">7.65%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+2,314,500</td></tr>
+        <tr><td><span class="tkr put">NVDA PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,600,000</td><td class="r">$299M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:14px"></div><span class="pval">7.21%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,600,000</td></tr>
+        <tr><td><span class="tkr">VST</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">1,287,910</td><td class="r">$252M</td><td class="r">$247M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:12px"></div><span class="pval">6.10%</span></div></td><td class="r">11.63%</td><td><span class="stbadge st-add">ADDED</span></td><td class="r ch-add">+13,732</td></tr>
+        <tr><td><span class="tkr put">GDX PUT</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">600,000</td><td class="r">$196M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.73%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+600,000</td></tr>
+        <tr><td><span class="tkr put">CRWV PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">1,400,000</td><td class="r">$192M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.63%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,400,000</td></tr>
+        <tr><td><span class="tkr">APLD</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">6,064,155</td><td class="r">$139M</td><td class="r">$66M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:7px"></div><span class="pval">3.36%</span></div></td><td class="r">3.13%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−527,645</td></tr>
+        <tr><td><span class="tkr">GLXY</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">2,737,500</td><td class="r">$93M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:4px"></div><span class="pval">2.24%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+2,737,500</td></tr>
+        <tr><td><span class="tkr put">AVGO PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">230,000</td><td class="r">$76M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:4px"></div><span class="pval">1.83%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+230,000</td></tr>
+        <tr><td><span class="tkr put">TSM PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">270,000</td><td class="r">$75M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:4px"></div><span class="pval">1.82%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+270,000</td></tr>
+        <tr><td><span class="tkr opt">DEBT-CIPH PRN</span></td><td>—</td><td class="r">5,740,493</td><td class="r">$72M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:4px"></div><span class="pval">1.75%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+5,740,493</td></tr>
+        <tr><td><span class="tkr">RIOT</span></td><td><span class="sbadge s-hc">Health Care</span></td><td class="r">3,592,699</td><td class="r">$68M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.65%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+3,592,699</td></tr>
+        <tr><td><span class="tkr opt">DEBT-LUME PRN</span></td><td>—</td><td class="r">417,600</td><td class="r">$68M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.64%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+417,600</td></tr>
+        <tr><td><span class="tkr">EQT</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">1,217,386</td><td class="r">$66M</td><td class="r">$125M</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:3px"></div><span class="pval">1.60%</span></div></td><td class="r">5.89%</td><td><span class="stbadge st-red">REDUCED</span></td><td class="r ch-neg">−927,959</td></tr>
+        <tr><td><span class="tkr put">MU PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">300,000</td><td class="r">$50M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.21%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+300,000</td></tr>
+        <tr><td><span class="tkr">SEI</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">1,150,300</td><td class="r">$46M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.11%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+1,150,300</td></tr>
+        <tr><td><span class="tkr opt">DEBT-BLOO PRN</span></td><td>—</td><td class="r">3,048,002</td><td class="r">$44M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">1.06%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+3,048,002</td></tr>
+        <tr><td><span class="tkr">TSEM</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">470,600</td><td class="r">$34M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:2px"></div><span class="pval">0.82%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+470,600</td></tr>
+        <tr><td><span class="tkr">HUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">599,000</td><td class="r">$21M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.50%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+599,000</td></tr>
+        <tr><td><span class="tkr opt">DEBT-WEST PRN</span></td><td>—</td><td class="r">152,821</td><td class="r">$18M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.44%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+152,821</td></tr>
+        <tr><td><span class="tkr">COHR</span></td><td><span class="sbadge s-in">Industrials</span></td><td class="r">154,400</td><td class="r">$17M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.40%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+154,400</td></tr>
+        <tr><td><span class="tkr">BTDR</span></td><td><span class="sbadge s-fi">Finance</span></td><td class="r">929,600</td><td class="r">$16M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.38%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+929,600</td></tr>
+        <tr><td><span class="tkr">SNDK</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">115,000</td><td class="r">$13M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.31%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+115,000</td></tr>
+        <tr><td><span class="tkr opt">DEBT-BLOO CALL</span></td><td>—</td><td class="r">145,800</td><td class="r">$12M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.30%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+145,800</td></tr>
+        <tr><td><span class="tkr">STX</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">48,567</td><td class="r">$11M</td><td class="r">—</td><td class="r"><div class="pbar-row"><div class="pbar" style="width:1px"></div><span class="pval">0.28%</span></div></td><td class="r">—</td><td><span class="stbadge st-new">NEW</span></td><td class="r ch-new">+48,567</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Closed Out — Q3 2025</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Prev % Portfolio</th>
+        <th>Status</th><th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr class="closed"><td><span class="tkr put">SMH PUT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">26.85%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−2,044,100</td></tr>
+        <tr class="closed"><td><span class="tkr">AVGO</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">15.47%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,191,606</td></tr>
+        <tr class="closed"><td><span class="tkr">CEG</span></td><td><span class="sbadge s-ut">Utilities</span></td><td class="r">4.85%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−319,200</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Q2 2025 ===== -->
+<div class="qsec" id="q2-2025">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2025-06-30</div><div class="qm-sub">Q2 2025</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$2.12B</div><div class="qm-sub">vs $1.01B Q1 (+110%)</div></div>
+    <div><div class="qm-lbl">Active Positions</div><div class="qm-val">9</div><div class="qm-sub">4 closed this quarter</div></div>
+    <div><div class="qm-lbl">New #1 Position</div><div class="qm-val">SMH PUT</div><div class="qm-sub">26.85% — NEW 对冲工具</div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Active Holdings — 2025-06-30</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares / Principal</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th class="r">Prev %</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tkr put">SMH PUT</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">2,044,100</td>
+          <td class="r">$570M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:54px"></div><span class="pval">26.85%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+2,044,100</td>
+        </tr>
+        <tr>
+          <td><span class="tkr call">INTC CALL</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">20,237,400</td>
+          <td class="r">$453M</td><td class="r">$460M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:43px"></div><span class="pval">21.35%</span></div></td>
+          <td class="r">45.70%</td>
+          <td><span class="stbadge st-nc">NO CHANGE</span></td>
+          <td class="r ch-nc">—</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">AVGO</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">1,191,606</td>
+          <td class="r">$328M</td><td class="r">$117M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:31px"></div><span class="pval">15.47%</span></div></td>
+          <td class="r">11.66%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+491,606</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">VST</span></td>
+          <td><span class="sbadge s-en">Energy</span></td>
+          <td class="r">1,274,178</td>
+          <td class="r">$247M</td><td class="r">$62M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:23px"></div><span class="pval">11.63%</span></div></td>
+          <td class="r">6.14%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+748,332</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CORZ</span></td>
+          <td><span class="sbadge s-fi">Finance</span></td>
+          <td class="r">7,994,038</td>
+          <td class="r">$136M</td><td class="r">$33M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:13px"></div><span class="pval">6.43%</span></div></td>
+          <td class="r">3.26%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+3,472,460</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">EQT</span></td>
+          <td><span class="sbadge s-ut">Utilities</span></td>
+          <td class="r">2,145,345</td>
+          <td class="r">$125M</td><td class="r">$53M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:12px"></div><span class="pval">5.89%</span></div></td>
+          <td class="r">5.26%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+1,155,947</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CEG</span></td>
+          <td><span class="sbadge s-ut">Utilities</span></td>
+          <td class="r">319,200</td>
+          <td class="r">$103M</td><td class="r">$37M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:10px"></div><span class="pval">4.85%</span></div></td>
+          <td class="r">3.68%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+135,800</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">IREN</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">6,400,384</td>
+          <td class="r">$93M</td><td class="r">$20M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.39%</span></div></td>
+          <td class="r">2.04%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+3,034,254</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">APLD</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">6,591,800</td>
+          <td class="r">$66M</td><td class="r">$23M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">3.13%</span></div></td>
+          <td class="r">2.26%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+2,556,200</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Closed Out — Q2 2025</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Prev % Portfolio</th>
+        <th>Status</th><th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr class="closed"><td><span class="tkr">CRWV</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">4.52%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−1,225,000</td></tr>
+        <tr class="closed"><td><span class="tkr">MOD</span></td><td><span class="sbadge s-cd">Consumer Disc</span></td><td class="r">5.47%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−716,824</td></tr>
+        <tr class="closed"><td><span class="tkr">ONTO</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">7.08%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−586,717</td></tr>
+        <tr class="closed"><td><span class="tkr">TLN</span></td><td><span class="sbadge s-en">Energy</span></td><td class="r">2.95%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−148,395</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Q1 2025 ===== -->
+<div class="qsec" id="q1-2025">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2025-03-31</div><div class="qm-sub">Q1 2025</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$1.01B</div><div class="qm-sub">vs $255M Q4'24 (+296%)</div></div>
+    <div><div class="qm-lbl">Active Positions</div><div class="qm-val">12</div><div class="qm-sub">8 NEW · 2 CLOSED</div></div>
+    <div><div class="qm-lbl">Top Position</div><div class="qm-val">INTC CALL</div><div class="qm-sub">45.70% · 期权押注</div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Active Holdings — 2025-03-31</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares / Principal</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th class="r">Prev %</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tkr call">INTC CALL</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">20,237,400</td>
+          <td class="r">$460M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:92px"></div><span class="pval">45.70%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+20,237,400</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">AVGO</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">700,000</td>
+          <td class="r">$117M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:23px"></div><span class="pval">11.66%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+700,000</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">ONTO</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">586,717</td>
+          <td class="r">$71M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:14px"></div><span class="pval">7.08%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+586,717</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">VST</span></td>
+          <td><span class="sbadge s-en">Energy</span></td>
+          <td class="r">525,846</td>
+          <td class="r">$62M</td><td class="r">$59M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:12px"></div><span class="pval">6.14%</span></div></td>
+          <td class="r">23.18%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+97,449</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">MOD</span></td>
+          <td><span class="sbadge s-cd">Consumer Disc</span></td>
+          <td class="r">716,824</td>
+          <td class="r">$55M</td><td class="r">$8M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:11px"></div><span class="pval">5.47%</span></div></td>
+          <td class="r">3.02%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+650,457</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">EQT</span></td>
+          <td><span class="sbadge s-ut">Utilities</span></td>
+          <td class="r">989,398</td>
+          <td class="r">$53M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:11px"></div><span class="pval">5.26%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+989,398</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CRWV</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">1,225,000</td>
+          <td class="r">$45M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:9px"></div><span class="pval">4.52%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+1,225,000</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CEG</span></td>
+          <td><span class="sbadge s-ut">Utilities</span></td>
+          <td class="r">183,400</td>
+          <td class="r">$37M</td><td class="r">$22M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:7px"></div><span class="pval">3.68%</span></div></td>
+          <td class="r">8.46%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+87,000</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CORZ</span></td>
+          <td><span class="sbadge s-fi">Finance</span></td>
+          <td class="r">4,521,578</td>
+          <td class="r">$33M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:7px"></div><span class="pval">3.26%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+4,521,578</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">TLN</span></td>
+          <td><span class="sbadge s-en">Energy</span></td>
+          <td class="r">148,395</td>
+          <td class="r">$30M</td><td class="r">$28M</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">2.95%</span></div></td>
+          <td class="r">10.98%</td>
+          <td><span class="stbadge st-add">ADDED</span></td>
+          <td class="r ch-add">+9,517</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">APLD</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">4,035,600</td>
+          <td class="r">$23M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:5px"></div><span class="pval">2.26%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+4,035,600</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">IREN</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">3,366,130</td>
+          <td class="r">$20M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:4px"></div><span class="pval">2.04%</span></div></td>
+          <td class="r">—</td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+3,366,130</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Closed Out — Q1 2025</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Prev % Portfolio</th>
+        <th>Status</th><th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr class="closed"><td><span class="tkr">MRVL</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">34.07%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−785,896</td></tr>
+        <tr class="closed"><td><span class="tkr">VRT</span></td><td><span class="sbadge s-it">Info Tech</span></td><td class="r">20.29%</td><td><span class="stbadge st-cls">CLOSED</span></td><td class="r ch-neg">−455,146</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Q4 2024 ===== -->
+<div class="qsec" id="q4-2024">
+  <div class="qmeta">
+    <div><div class="qm-lbl">Filing Quarter</div><div class="qm-val">2024-12-31</div><div class="qm-sub">Q4 2024 · 首份 13F</div></div>
+    <div><div class="qm-lbl">Total AUM</div><div class="qm-val">$254.8M</div><div class="qm-sub">初始建仓</div></div>
+    <div><div class="qm-lbl">Positions</div><div class="qm-val">6</div><div class="qm-sub">全部 NEW（首次申报）</div></div>
+    <div><div class="qm-lbl">Top Position</div><div class="qm-val">MRVL</div><div class="qm-sub">34.07% · AI 半导体</div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd"><span class="tbl-hd-txt">Holdings — 2024-12-31（首份 13F 申报）</span></div>
+    <table>
+      <thead><tr>
+        <th>Stock</th><th>Sector</th>
+        <th class="r">Shares</th>
+        <th class="r">Market Value</th><th class="r">Prev MV</th>
+        <th class="r">% Portfolio</th>
+        <th>Status</th>
+        <th class="r">Δ Shares</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tkr">MRVL</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">785,896</td>
+          <td class="r">$87M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:68px"></div><span class="pval">34.07%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+785,896</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">VST</span></td>
+          <td><span class="sbadge s-en">Energy</span></td>
+          <td class="r">428,397</td>
+          <td class="r">$59M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:46px"></div><span class="pval">23.18%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+428,397</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">VRT</span></td>
+          <td><span class="sbadge s-it">Info Tech</span></td>
+          <td class="r">455,146</td>
+          <td class="r">$52M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:41px"></div><span class="pval">20.29%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+455,146</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">TLN</span></td>
+          <td><span class="sbadge s-en">Energy</span></td>
+          <td class="r">138,878</td>
+          <td class="r">$28M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:22px"></div><span class="pval">10.98%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+138,878</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">CEG</span></td>
+          <td><span class="sbadge s-ut">Utilities</span></td>
+          <td class="r">96,400</td>
+          <td class="r">$22M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:17px"></div><span class="pval">8.46%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+96,400</td>
+        </tr>
+        <tr>
+          <td><span class="tkr">MOD</span></td>
+          <td><span class="sbadge s-cd">Consumer Disc</span></td>
+          <td class="r">66,367</td>
+          <td class="r">$8M</td><td class="r">—</td>
+          <td class="r"><div class="pbar-row"><div class="pbar" style="width:6px"></div><span class="pval">3.02%</span></div></td>
+          <td><span class="stbadge st-new">NEW</span></td>
+          <td class="r ch-new">+66,367</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== NARRATIVE ===== -->
+<div style="margin-top:48px">
+  <div class="s-lbl">投资叙事演变</div>
+  <div class="s-ttl">组合策略解读</div>
+  <div class="s-div"></div>
+  <div class="narr-grid">
+    <div class="narr-card">
+      <div class="narr-ttl">Q4 2024 → Q1 2025 · 策略重构</div>
+      <p>首份 13F 以 MRVL (18.76%) + VRT (17.76%) 为核心（AI 半导体 + 数据中心电源），附 VST、TLN、CEG 构成 AI Power 矩阵，$255M 建仓。</p>
+      <p>Q1 2025 完全重构：清仓 MRVL、VRT，将 45.7% 集中于 INTC CALL，同步新建 CRWV、APLD、IREN、CORZ、EQT 等 AI 基础设施矩阵，AUM 升至 $1.01B (+296%)。INTC CALL 大仓体现对英特尔 AI 芯片/代工催化的短周期押注，此后 4 个季度持仓未动，成为全局 anchor 仓位。</p>
+    </div>
+    <div class="narr-card">
+      <div class="narr-ttl">Q2 2025 · 对冲结构上线 + AUM 翻倍</div>
+      <p>新增 SMH PUT 至第一大持仓 (26.85%)，首次引入空头工具，形成"做多英特尔 / 做空半导体指数"利差结构——判断的是行业内部分化，而非单一方向押注。</p>
+      <p>清仓 MOD、ONTO、CRWV、TLN；集中加码 AVGO (+70%)、CORZ (+77%)、EQT (+117%)、VST (+59%)。AUM $1.01B → $2.12B (+110%)。</p>
+    </div>
+    <div class="narr-card">
+      <div class="narr-ttl">Q3 2025 · SMH 对冲解除 + CRWV 三腿集中</div>
+      <p>SMH PUT 清仓，宽泛半导体空头对冲全面撤除，AVGO / CEG 同步清仓。取而代之的是 CRWV 三腿结构：股票 (13.61%) + CALL (7.65%) + PUT (5.84%) = 27.10%，形成"做多 CRWV 波动率 + 锁定下行"的立体持仓。</p>
+      <p>新增 NVDA PUT 作为特定对冲——同时持有 CRWV 多仓，暗示"CoreWeave 替代 Hyperscaler 算力"叙事。首次出现 DEBT 工具（CIPH/LUME/BLOO/WEST 可转换票据），显示私募一级市场获取渠道。AUM $2.12B → $4.14B (+95%)。</p>
+    </div>
+    <div class="narr-card">
+      <div class="narr-ttl">Q4 2025 · 能源叙事重塑：BE 登顶</div>
+      <p>BE (Bloom Energy) 成为第一大持仓 (15.87%, $876M)，同步新增 BE CALL，燃料电池/氢能取代核电/天然气成为新能源核心仓。NVDA PUT 与 CRWV PUT 全部清仓，对冲结构收缩，组合整体转向做多。</p>
+      <p>LITE (Lumentum) 新建 8.68%，AI 数据中心光互联组件入场。加密算力矩阵持续扩张：新增 CIFR、CLSK、KEEL，叠加存量 CORZ/IREN/HUT/APLD，比特币矿 + HPC 双模成为第二大主题集群。新建 INFY PUT，对 AI 颠覆 IT 外包服务商的定向看跌。AUM $4.14B → $5.51B (+33%)。</p>
+    </div>
+    <div class="narr-card" style="border-left-color:#dc2626">
+      <div class="narr-ttl" style="color:#dc2626">Q1 2026 · 大规模半导体看跌 + 现货 box 结构</div>
+      <p>AUM 从 $5.51B 跃至 $13.67B (+148%)，单季增量 $8.16B。配置发生根本转向：前 5 大仓位全部是半导体 PUT——SMH PUT 14.94% + NVDA PUT 11.47% + ORCL PUT 7.84% + AVGO PUT 7.36% + AMD PUT 7.09%，合计 48.7% / $6.66B。叠加 TSM PUT (3.91%) + ASML PUT (3.61%) + MU PUT (4.27%) + INTC PUT (1.16%)，半导体 PUT 总暴露达 $8.04B / 61.6%。</p>
+      <p>多只 ticker 同时持有现货 + PUT 形成 box 结构（SMH/MU/TSM/AMD/ASML/INTC/NVDA 均有现货小仓 + PUT 大仓），同时 MU 与 TSM 还各持 CALL——读作"做空整体板块、做多个别窗口、保留无限上行"的复合结构，而不是单向看空。</p>
+      <p>INTC CALL（13.54%、跨 5 个季度未动的 anchor 仓位）整体清仓，同步建立 INTC PUT，立场 180° 反转。Bloom Energy (BE) 从 #1 减仓至 #6（15.87% → 6.42%），CRWV CALL 从 14.04% 砍至 1.03%，能源/算力做多敞口主动收缩。CIFR / EQT / EQT CALL / COHR / KRC / HUT / LBRT 清仓共 8 只。</p>
+    </div>
+    <div class="narr-card">
+      <div class="narr-ttl">贯穿主题：AI Power + 算力基础设施 → 半导体高点防御</div>
+      <p>Q4'24–Q4'25 的底层叙事是数据中心电力需求爆发，发电侧路径持续演进（VST→CEG→EQT→BE），算力侧 CORZ/IREN/APLD/HUT 持仓未断。Q1 2026 叙事转向：半导体行业的周期顶端定价（前 5 PUT 标的全部是 AI 算力链龙头），暗示对"AI capex 顶 / 供给反转"的对冲准备。</p>
+      <p>CRWV (CoreWeave) 是 AI 算力需求侧代理：Q1 建仓 → Q2 清仓 → Q3–Q4 大规模回归并构建三腿结构 → Q1 2026 把 CRWV CALL 砍掉 83%，留存 CRWV 现货 4.07%，结构由"激进多头杠杆"切回"中性持有"。</p>
+    </div>
+    <div class="narr-card">
+      <div class="narr-ttl">风格特征 + AUM 轨迹</div>
+      <p>AUM 6 季度轨迹：$255M → $1.01B → $2.12B → $4.14B → $5.51B → $13.67B（累计 +5,265%）。Q1 2026 单季暴增反映 PUT 名义价值的 13F 报告口径放大效应——put 的 fair value 在 SEC 报告里反映为标的市值。</p>
+      <p>行为签名：高集中度（Q1 2026 前 5 仓 ≈ 49%）+ 期权结构做杠杆/对冲 + 极快轮动 + 立场 180° 反转能力（INTC CALL→PUT 是最强证据）。原 anchor 仓位（INTC CALL 跨 5 季度未动）瞬间清仓，说明这个团队的 conviction 是动态重估而非教条持有。</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- .wrap end -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:rgba(255,255,255,.35);letter-spacing:.06em;width:100%">
+      <span>SITUATIONAL AWARENESS LP · 13F HOLDINGS TRACKER</span>
+      <span>Data: WhalWisdom / SEC 13F · Updated: 2026-05-18 · 6 Quarters Tracked</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function showQ(id, btn) {
+  document.querySelectorAll('.qsec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('qtabs').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Inject status filter pills into every Active Holdings table header
+document.addEventListener('DOMContentLoaded', function() {
+  const filters = [
+    {label:'ALL',       cls:''},
+    {label:'NEW',       cls:'st-new'},
+    {label:'ADDED',     cls:'st-add'},
+    {label:'REDUCED',   cls:'st-red'},
+    {label:'NO CHANGE', cls:'st-nc'},
+  ];
+  document.querySelectorAll('.tbl-hd').forEach(function(hd) {
+    var txt = hd.querySelector('.tbl-hd-txt');
+    if (!txt || !txt.textContent.includes('Active Holdings')) return;
+    var table = hd.closest('.tbl-wrap').querySelector('table');
+    if (!table) return;
+    var bar = document.createElement('div');
+    bar.className = 'sfilter-bar';
+    filters.forEach(function(f, i) {
+      var btn = document.createElement('button');
+      btn.className = 'sfbtn' + (i === 0 ? ' active' : '');
+      btn.textContent = f.label;
+      btn.onclick = function() {
+        bar.querySelectorAll('.sfbtn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        table.querySelectorAll('tbody tr').forEach(function(row) {
+          if (!f.cls) { row.style.display = ''; return; }
+          var badge = row.querySelector('.stbadge');
+          row.style.display = (badge && badge.classList.contains(f.cls)) ? '' : 'none';
+        });
+      };
+      bar.appendChild(btn);
+    });
+    hd.appendChild(bar);
+  });
+});
+</script>
+</body>
+</html>
