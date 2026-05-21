@@ -160,10 +160,10 @@
   }
   .s-divider { width: 44px; height: 2px; background: var(--amber); margin: 10px 0 22px; }
 
-  /* ── TWO-COLUMN LAYOUT ── */
+  /* ── RESPONSIVE COLUMN LAYOUT ── */
   .report-columns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 28px;
     align-items: start;
   }
@@ -199,6 +199,7 @@
 
   .card-accent { width: 4px; flex-shrink: 0; }
   .card-accent.us-weekly { background: #2563EB; }
+  .card-accent.us-daily  { background: #0EA5E9; }
   .card-accent.a-share   { background: #DC2626; }
   .card-accent.macro     { background: var(--amber); }
   .card-accent.us-equity { background: #7C3AED; }
@@ -565,6 +566,11 @@
           All
           <span class="nav-count" id="cnt-all">5</span>
         </button>
+        <button class="sb-nav-item" data-filter="us-daily">
+          <span class="nav-dot" style="background:#0EA5E9"></span>
+          US Daily
+          <span class="nav-count" id="cnt-us-daily">1</span>
+        </button>
         <button class="sb-nav-item" data-filter="us-weekly">
           <span class="nav-dot" style="background:#2563EB"></span>
           US Weekly
@@ -643,18 +649,17 @@
 
     <div class="report-columns">
 
-      <!-- 周报 栏 -->
-      <div class="report-col" id="col-weekly">
+      <!-- 日报 栏 -->
+      <div class="report-col" id="col-daily">
         <div class="report-col-header">
-          <span class="col-dot" style="background:#2563EB"></span>
-          周报
+          <span class="col-dot" style="background:#0EA5E9"></span>
+          日报
         </div>
         <div class="report-grid">
 
-          <!-- 财报日历 2026-W19 -->
           <!-- 美股日报 260520 -->
-          <a href="US Daily/美股日报_260521.html" class="report-card" data-category="us-weekly">
-            <div class="card-accent us-weekly"></div>
+          <a href="US Daily/美股日报_260521.html" class="report-card" data-category="us-daily">
+            <div class="card-accent us-daily"></div>
             <div class="card-body">
               <div class="card-meta">
                 <div class="card-type">US Daily · 美股日报</div>
@@ -665,6 +670,18 @@
             </div>
           </a>
 
+        </div>
+      </div>
+
+      <!-- 周报 栏 -->
+      <div class="report-col" id="col-weekly">
+        <div class="report-col-header">
+          <span class="col-dot" style="background:#2563EB"></span>
+          周报
+        </div>
+        <div class="report-grid">
+
+          <!-- 财报日历 2026-W19 -->
           <a href="财报日历/index.html" class="report-card" data-category="us-weekly">
             <div class="card-accent us-weekly"></div>
             <div class="card-body">
@@ -849,7 +866,7 @@
   const counter  = document.getElementById('total-count');
   const empty    = document.getElementById('empty-state');
 
-  const TOTAL_REPORTS = 28;
+  const TOTAL_REPORTS = cards.length;
 
   // count per category (card count for sidebar nav)
   const counts = {};
@@ -877,7 +894,7 @@
       });
       counter.textContent = filter === 'all' ? TOTAL_REPORTS : visible;
       // show/hide columns based on whether they have visible cards
-      ['col-weekly', 'col-research'].forEach(id => {
+      ['col-daily', 'col-weekly', 'col-research'].forEach(id => {
         const col = document.getElementById(id);
         const hasVisible = [...col.querySelectorAll('.report-card')].some(c => c.style.display !== 'none');
         col.style.display = hasVisible ? '' : 'none';
