@@ -130,6 +130,25 @@ body[data-view="midsmall"] table.dt tbody tr:not([data-cap="M"]){display:none}
 body[data-view="small"] table.dt tbody tr:not([data-cap="S"]){display:none}
 body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
 
+/* ========== Beta strip (本周板块 β 全景 · grid of small cards) ========== */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--rule)}
+.beta-item{padding:8px 10px;background:var(--paper);display:flex;flex-direction:column;gap:2px;line-height:1.15}
+.beta-item .bn{font-family:var(--mono);font-size:10.5px;color:var(--accent);font-weight:600;letter-spacing:.04em}
+.beta-item .bv{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.beta-item .bd{font-size:10.5px;color:var(--muted);line-height:1.1}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* ========== Theme Map strength bar ========== */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
 /* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
 table.dt thead th[data-type]{cursor:pointer;user-select:none;position:relative;padding-right:18px}
 table.dt thead th[data-type]:hover{color:var(--ink);background:var(--rule-soft)}
@@ -206,94 +225,42 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <h2 class="sec-title">本周 <em>核心结论</em> · 一页速览</h2>
   <div class="sec-sub">5/22 当周市场结构 take-away + 5 大核心信号深度归因 + 10 主线优先级</div>
 
-  <!-- ========== Block 1 · §0 Beta 背景表 ========== -->
-  <p style="margin-top:14px"><span class="kicker">§0 · Beta 背景</span> · 大盘 + 行业 ETF 三时间尺度参照（W/E 2026-05-22）</p>
-
-  <table class="dt">
-    <thead><tr>
-      <th data-type="text" style="width:14%">基准</th>
-      <th data-type="text" style="width:36%">含义</th>
-      <th data-type="num" style="width:10%">1W</th>
-      <th data-type="num" style="width:10%">1M</th>
-      <th data-type="num" style="width:30%">归类</th>
-    </tr></thead>
-    <tbody>
-      <tr data-cap="L">
-        <td class="tk">SPY</td>
-        <td class="name">S&amp;P 500</td>
-        <td class="num pos">+1%</td>
-        <td class="num pos">+5%</td>
-        <td>大盘 baseline</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">QQQ</td>
-        <td class="name">Nasdaq 100</td>
-        <td class="num pos">+1%</td>
-        <td class="num pos">+10%</td>
-        <td>科技大盘</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">SOXX</td>
-        <td class="name">PHLX Semiconductor</td>
-        <td class="num pos"><strong>+6%</strong></td>
-        <td class="num pos"><strong>+22%</strong></td>
-        <td><span class="hl">板块独立行情</span></td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">IWM</td>
-        <td class="name">Russell 2000 小盘</td>
-        <td class="num pos">+3%</td>
-        <td class="num pos">+3%</td>
-        <td>小盘补涨</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">XLK</td>
-        <td class="name">SPDR Technology</td>
-        <td class="num pos">+2%</td>
-        <td class="num pos">+16%</td>
-        <td>科技板块顺风</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">XLU</td>
-        <td class="name">SPDR Utilities</td>
-        <td class="num pos">+3%</td>
-        <td class="num neg">-2%</td>
-        <td><span class="hl">AI 电力轮入</span></td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">XLE</td>
-        <td class="name">SPDR Energy</td>
-        <td class="num pos">+0%</td>
-        <td class="num pos">+4%</td>
-        <td>能源持平</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">XLB</td>
-        <td class="name">SPDR Materials</td>
-        <td class="num neg">-0%</td>
-        <td class="num neg">-3%</td>
-        <td>材料偏弱</td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">GDX</td>
-        <td class="name">VanEck Gold Miners</td>
-        <td class="num neg">-3%</td>
-        <td class="num neg">-8%</td>
-        <td><span class="hl">避险走弱</span></td>
-      </tr>
-      <tr data-cap="L">
-        <td class="tk">IBIT</td>
-        <td class="name">iShares Bitcoin Trust</td>
-        <td class="num neg">-4%</td>
-        <td class="num neg">-2%</td>
-        <td><span class="hl">加密反叙事</span></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="note-block">
-    <span class="kicker">Beta 解读 · 必须先看</span>
-    <p><strong>SOXX +6% 远跑赢 SPY +1%</strong>，板块超额 <em>+5pp</em>——本周市场画像 = <strong>AI 硬件链独立行情 + 避险资产被抽水</strong>。XLU +3% 与 XLK +2% 同步上行，"防守 + 算力"双线共振；GDX / IBIT 同步下挫，与"AI 估值高 + 地缘紧张"宏观共识严重背离，是本周最重要的反叙事信号。<em>注意：watchlist 本周 80↑ / 16↓ 池子中位数严重正偏，不代表市场广度——SPY +1% 才是真实 baseline</em>。</p>
+  <!-- ========== Block 1 · §0 Beta 背景 strip ========== -->
+  <div class="beta-strip">
+    <span class="kicker">§0 · 本周 <em>板块 β 全景</em> · 11 SPDR 板块极差 ~4pp · <em>9 涨 / 2 跌</em>（vs 上周 2 涨 / 9 跌，结构反转）· 含商品 ETF 极差 ~10pp</span>
+    <div class="beta-grid">
+      <div class="beta-item up"><span class="bn">SOXX</span><span class="bv">+6%</span><span class="bd">费城半导体</span></div>
+      <div class="beta-item up"><span class="bn">XLU</span><span class="bv">+3%</span><span class="bd">公用事业</span></div>
+      <div class="beta-item up"><span class="bn">XLV</span><span class="bv">+3%</span><span class="bd">医疗保健</span></div>
+      <div class="beta-item up"><span class="bn">XLRE</span><span class="bv">+3%</span><span class="bd">房地产</span></div>
+      <div class="beta-item up"><span class="bn">IWM</span><span class="bv">+3%</span><span class="bd">罗素 2000</span></div>
+      <div class="beta-item up"><span class="bn">XLK</span><span class="bv">+2%</span><span class="bd">科技</span></div>
+      <div class="beta-item up"><span class="bn">XLY</span><span class="bv">+2%</span><span class="bd">可选消费</span></div>
+      <div class="beta-item up"><span class="bn">DIA</span><span class="bv">+2%</span><span class="bd">道琼斯</span></div>
+      <div class="beta-item up"><span class="bn">XLF</span><span class="bv">+2%</span><span class="bd">金融</span></div>
+      <div class="beta-item up"><span class="bn">TLT</span><span class="bv">+1%</span><span class="bd">20Y+ 国债</span></div>
+      <div class="beta-item up"><span class="bn">QQQ</span><span class="bv">+1%</span><span class="bd">纳斯达克 100</span></div>
+      <div class="beta-item up"><span class="bn">SPY</span><span class="bv">+1%</span><span class="bd">标普 500</span></div>
+      <div class="beta-item up"><span class="bn">HYG</span><span class="bv">+1%</span><span class="bd">高收益债</span></div>
+      <div class="beta-item up"><span class="bn">XLI</span><span class="bv">+0%</span><span class="bd">工业</span></div>
+      <div class="beta-item up"><span class="bn">XLP</span><span class="bv">+0%</span><span class="bd">日常消费</span></div>
+      <div class="beta-item up"><span class="bn">XLE</span><span class="bv">+0%</span><span class="bd">能源</span></div>
+      <div class="beta-item flat"><span class="bn">UUP</span><span class="bv">+0%</span><span class="bd">美元指数</span></div>
+      <div class="beta-item dn"><span class="bn">XLB</span><span class="bv">−0%</span><span class="bd">材料</span></div>
+      <div class="beta-item dn"><span class="bn">XLC</span><span class="bv">−1%</span><span class="bd">通讯服务</span></div>
+      <div class="beta-item dn"><span class="bn">GLD</span><span class="bv">−1%</span><span class="bd">黄金</span></div>
+      <div class="beta-item dn"><span class="bn">SLV</span><span class="bv">−1%</span><span class="bd">白银</span></div>
+      <div class="beta-item dn"><span class="bn">URA</span><span class="bv">−2%</span><span class="bd">铀矿</span></div>
+      <div class="beta-item dn"><span class="bn">GDX</span><span class="bv">−3%</span><span class="bd">黄金矿企</span></div>
+      <div class="beta-item dn"><span class="bn">GDXJ</span><span class="bv">−4%</span><span class="bd">小盘金矿</span></div>
+      <div class="beta-item dn"><span class="bn">IBIT</span><span class="bv">−4%</span><span class="bd">比特币 ETF</span></div>
+    </div>
+    <div class="footer">
+      <strong>三条结构性观察</strong>：
+      ① <em>SOXX(+6) − GDXJ(−4) ≈ 10pp</em> 含商品 ETF 极差——本周由"AI 硬件链溢价"和"避险资产被抽水"两端拉开，是<em>板块主题资金主导</em>而非宏观因子主导；
+      ② <em>SPY +1% vs SOXX +6%</em>：大盘 baseline 平淡，整个超额收益集中在半导体一条线——典型"局部 risk-on"画像，<em>watchlist 中位数 ≠ 市场广度</em>；
+      ③ <strong>反叙事标记</strong>·<em>XLU 公用 +3% / XLV 医疗 +3% / XLRE 房地产 +3% 同步上涨 + XLK +2% 同步</em>——防守 + 算力双线共振、不是单纯 risk-off；同时 GDX/GDXJ/IBIT 同步下杀 = <strong>避险资产被 AI 抢资金</strong>，标注 <em>narrative overridden by flows</em>。
+    </div>
   </div>
 
   <!-- ========== Block 2 · 本周市场结构 take-away ========== -->
@@ -308,7 +275,7 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
 
   <div class="note-block">
     <span class="kicker">信号 1 · AI 硬件链独立行情 · 22 只一致上涨</span>
-    <p><strong>SOXX +6% vs SPY +1%（板块超额 +5pp）</strong>，主线 22 只标的本周一致上涨，是 SOXX 自 2026 年初以来最强的单周表现（3M +50%）。ARM <em>+47%</em> 是核心驱动——<span class="hl">5/6 Q4 FY26 收入 $1.49B vs 共识 $1.47B</span>（beat 1.4%）+ AGI CPU FY27-28 收入展望 &gt;$2B 让市场把它从"IP 授权公司"重定价为"自研芯片公司"，估值锚整体上移；CRDO <em>+27%</em> 财报 <span class="hl">$407M（+201% YoY）</span> 锁定 AEC 替代光模块的十年级产业标准转换；NVTS <em>+37%</em> 拿下 NVDA 800V HVDC Kyber rack-scale design win；ALAB <em>+32%</em> Vera Rubin 平台 sole sourcing 传闻坐实。AMD <em>+10%</em> / INTC <em>+10%</em> / QCOM <em>+18%</em> / MRVL <em>+11%</em> 是<em>板块 β 跟涨</em>（接近 SOXX 1.5-2x β），ARM/NVTS/CRDO/ALAB 超额 SOXX 30-40pp 才是<em>个股 alpha 集中</em>所在。<strong>Trader Take</strong>：本周不是入场点（thesis 已 price in 一半），但<em>也不是减仓点</em>——AVGO 5/29 财报是核心 binary catalyst，若 AI 收入指引 ≤ 共识 95% 则全面减仓 1/3、若 beat 5%+ 则 thesis 上一台阶；TSMC 月度营收 YoY +44% 跌破 +20% 持续两月才触发产业拐点，目前距离远。</p>
+    <p><strong>SOXX +6% vs SPY +1%（板块超额 +5pp）</strong>，主线 22 只标的本周一致上涨，是 SOXX 自 2026 年初以来最强的单周表现（3M +50%）。ARM <em>+47%</em> 是核心驱动——<span class="hl">5/6 Q4 FY26 收入 $1.49B vs 共识 $1.47B</span>（beat 1.4%）+ AGI CPU FY27-28 收入展望 &gt;$2B 让市场把它从"IP 授权公司"重定价为"自研芯片公司"，估值锚整体上移；CRDO <em>+27%</em> 财报 <span class="hl">$407M（+201% YoY）</span> 锁定 AEC 替代光模块的十年级产业标准转换；NVTS <em>+37%</em> 拿下 NVDA 800V HVDC Kyber rack-scale design win；ALAB <em>+32%</em> Vera Rubin 平台 sole sourcing 传闻坐实。AMD <em>+10%</em> / INTC <em>+10%</em> / QCOM <em>+18%</em> / MRVL <em>+11%</em> 是<em>板块 β 跟涨</em>（接近 SOXX 1.5-2x β），ARM/NVTS/CRDO/ALAB 超额 SOXX 30-40pp 才是<em>个股 alpha 集中</em>所在。<strong>Trader Take</strong>：本周不是入场点（thesis 已 price in 一半），但<em>也不是减仓点</em>——AVGO 6/3 财报是核心 binary catalyst，若 AI 收入指引 ≤ 共识 95% 则全面减仓 1/3、若 beat 5%+ 则 thesis 上一台阶；TSMC 月度营收 YoY +44% 跌破 +20% 持续两月才触发产业拐点，目前距离远。</p>
   </div>
 
   <div class="note-block">
@@ -331,94 +298,116 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
     <p><strong>本周最重要的单股结构性信号、警惕板块外溢</strong>。INTU 财报<em>账面 beat-and-raise</em>——5/20 公布 Q3 FY26 收入 <span class="hl">$8.56B</span>（vs 共识 $8.54B 微 beat）、Non-GAAP EPS <span class="hl">$12.80</span>（beat 1.8%）、全年指引上调至 $21.34-21.37B（+13-14%）。<strong>但同时宣布裁员 17%（逾 3,200 人）+ $300-340M 重组费用</strong>，被市场<em>解读为 GenAI 对低端 TurboTax / QBO Live full-service 工作流的内部替代速度快于预期</em>——管理层用工成本结构判断比 EPS 数字更具 information value。<strong>Beta 校准</strong>：INTU -19% vs XLK +2% = <em>-21pp 超额 = 纯公司事件</em>，不是板块 beta；本季度 10% 收入增速是近两年最低，全年指引 13-14% 要靠 H2 加速兑现 = 市场对此保持怀疑。<strong>结构性外溢风险高</strong>——CRM / ADBE / ORCL 应用型 SaaS 都可能跟随被定价：相对 Cyber（CRWD +12%、ZS +13%、SAIL +17%、TENB +18% 一致上行）和 Infra（NTAP +16% / DELL +22%）的健康，应用 SaaS 是 GenAI 替代风险首次被市场切片定价的板块。<strong>Trader Take</strong>：①INTU 本周不接（财务结构信号已发出但财务数据未体现、暴跌后 NTM P/E 仍 28-30x 不便宜）；②<strong>CRM 5/27 财报是下周最关键的 binary watch</strong>——如果 CRM 也披露大幅裁员或 GenAI 替代指引 → 整个应用 SaaS 板块 multiple compression 链式扩散，立即压缩 ADBE / NOW / WDAY 等同类敞口；③Cyber / Infra SaaS 与应用 SaaS 必须切片管理，<em>不要把 SaaS 当一个篮子看</em>。</p>
   </div>
 
-  <!-- ========== Block 4 · 10 主线优先级表 ========== -->
-  <p style="margin-top:18px"><span class="kicker">§3 · 10 主线优先级</span> · 按产业级 thesis 强度排序、按文件号锚定</p>
+  <!-- ========== Block 4 · § 02 Theme Map · 本周交易主线总览 ========== -->
+  <p style="margin-top:18px"><span class="kicker">§2 · Theme Map</span> · 本周 10 条主线全景 · 按强度排序 · 锚定文件内 #theme-NN</p>
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">#</th>
-      <th data-type="text" style="width:30%">主线</th>
-      <th data-type="text" style="width:12%">方向</th>
-      <th data-type="num" style="width:6%">标的</th>
-      <th data-type="text" style="width:48%">本周关键</th>
+      <th data-type="num" style="width:4%">#</th>
+      <th data-type="text" style="width:24%">主线</th>
+      <th data-type="text" style="width:11%">方向</th>
+      <th data-type="text" style="width:14%">强度</th>
+      <th data-type="num" style="width:11%">1W 区间</th>
+      <th data-type="text" style="width:18%">代表标的</th>
+      <th data-type="text" style="width:18%">本周核心信号</th>
     </tr></thead>
     <tbody>
       <tr data-cap="L">
         <td class="num"><strong>02</strong></td>
-        <td><a href="#theme-02" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 硬件链 · 半导体 + 通信 IC + 光通信</a></td>
-        <td><span class="pos">Bull · 核心</span></td>
-        <td class="num">22</td>
-        <td>SOXX <em>+6%</em>；ARM <em>+47%</em> / AMD <em>+10%</em> / INTC <em>+10%</em> / QCOM <em>+18%</em> 齐爆发，AVGO 5/29 财报前预期重定价</td>
+        <td class="name"><a href="#theme-02" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 硬件链 · 半导体 + 通信 IC + 光通信</a></td>
+        <td><span class="pos">↑ 上行 · 核心</span></td>
+        <td><span class="theme-bar" style="width:54px"></span><span class="theme-strength">极强</span></td>
+        <td class="num pos">+10% ~ +47%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">ARM·AMD·INTC·QCOM·MRVL·ALAB·CRDO·GFS·NVTS·VSH</td>
+        <td>SOXX +6% 远跑赢 SPY +1%；AVGO 6/3 财报前预期重定价</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>03</strong></td>
-        <td><a href="#theme-03" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 服务器 / Hardware OEM</a></td>
-        <td><span class="pos">Bull</span></td>
-        <td class="num">6</td>
-        <td>DELL <em>+22%</em> / HPE <em>+14%</em> / IBM <em>+16%</em> / NTAP <em>+16%</em> 财报周一致 beat + AI backlog 上修至 <span class="hl">$16-18B</span></td>
+        <td class="name"><a href="#theme-03" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 服务器 / Hardware OEM</a></td>
+        <td><span class="pos">↑ 上行</span></td>
+        <td><span class="theme-bar" style="width:50px"></span><span class="theme-strength">强</span></td>
+        <td class="num pos">+14% ~ +22%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">DELL·IBM·HPE·HPQ·NTAP·SMCI</td>
+        <td>财报周一致 beat + AI backlog 上修至 <span class="hl">$16-18B</span></td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>04</strong></td>
-        <td><a href="#theme-04" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI Power vs Infra Construction</a></td>
-        <td style="color:var(--accent-soft);font-weight:600">Mixed · 轮动</td>
-        <td class="num">7</td>
-        <td>CEG <em>+10%</em> / VST <em>+12%</em> / D <em>+10%</em> <strong>↑</strong> vs VRT <em>-12%</em> / PWR <em>-6%</em> / STRL <em>-14%</em> / EQPT <em>-15%</em> <strong>↓</strong> — 资金从"建电厂"轮到"发电方"</td>
+        <td class="name"><a href="#theme-04" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI Power vs Infra Construction</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 轮动</span></td>
+        <td><span class="theme-bar" style="width:52px"></span><span class="theme-strength">极强</span></td>
+        <td class="num">+10%↑ / −15%↓</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">CEG·VST·D ↑ vs VRT·PWR·STRL·EQPT ↓</td>
+        <td>资金从"建电厂"轮动到"发电方"·本周最重要叙事</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>05</strong></td>
-        <td><a href="#theme-05" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">量子计算</a></td>
-        <td><span class="pos">Bull · sentiment</span></td>
-        <td class="num">6</td>
-        <td>CHIPS Act <span class="hl">$2.013B</span> 意向函催化；RGTI <em>+48%</em> / QBTS <em>+44%</em> / IONQ <em>+23%</em> / INFQ <em>+31%</em> / BTQ <em>+29%</em></td>
+        <td class="name"><a href="#theme-05" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">量子计算</a></td>
+        <td><span class="pos">↑ 上行 · sentiment</span></td>
+        <td><span class="theme-bar" style="width:42px"></span><span class="theme-strength">强</span></td>
+        <td class="num pos">+17% ~ +48%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">RGTI·QBTS·IONQ·INFQ·BTQ·QUBT</td>
+        <td>CHIPS Act <span class="hl">$2.013B</span> 意向函 5/21 直接催化</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>06</strong></td>
-        <td><a href="#theme-06" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">商业航天 / 卫星 / 国防</a></td>
-        <td><span class="pos">Bull</span></td>
-        <td class="num">8</td>
-        <td>太空小盘 3M 普涨 <em>50-150%</em>；VOYG <em>+30%</em> / FLY <em>+22%</em> / RDW <em>+24%</em>，SpaceX 二级估值溢出 + 国防 capex 双轮</td>
+        <td class="name"><a href="#theme-06" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">商业航天 / 卫星 / 国防</a></td>
+        <td><span class="pos">↑ 上行</span></td>
+        <td><span class="theme-bar" style="width:38px"></span><span class="theme-strength">强</span></td>
+        <td class="num pos">+13% ~ +30%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">ASTS·VOYG·RDW·BKSY·FLY·IRDM·LUNR·MDA</td>
+        <td>SpaceX 二级估值溢出 + 国防 capex 双轮</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>07</strong></td>
-        <td><a href="#theme-07" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">网安 / SaaS 分化</a></td>
-        <td style="color:var(--accent-soft);font-weight:600">Mixed · 分化</td>
-        <td class="num">8</td>
-        <td>CRWD <em>+12%</em> / ZS <em>+13%</em> / TENB <em>+18%</em> / SAIL <em>+17%</em> <strong>↑</strong> vs INTU <em>-19%</em>（裁员 17% 被解读为 AI 替代信号）</td>
+        <td class="name"><a href="#theme-07" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">网安 / SaaS 分化</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 分化</span></td>
+        <td><span class="theme-bar" style="width:34px"></span><span class="theme-strength">中</span></td>
+        <td class="num">+12%↑ / −19%↓</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">CRWD·ZS·BB·RAMP·TENB·SAIL·AGYS vs INTU</td>
+        <td>Cyber ↑ + INTU −19%（裁员 17% AI 替代信号）</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>08</strong></td>
-        <td><a href="#theme-08" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">黄金 / 加密 反叙事</a></td>
-        <td><span class="neg">Bear</span></td>
-        <td class="num">6</td>
-        <td>GDX <em>-3%</em> / GDXJ <em>-4%</em> / IBIT <em>-4%</em> / MSTR <em>-10%</em> 同步下杀，narrative overridden by flows</td>
+        <td class="name"><a href="#theme-08" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">黄金 / 加密 反叙事</a></td>
+        <td><span class="neg">↓ 下行</span></td>
+        <td><span class="theme-bar" style="width:30px"></span><span class="theme-strength">中</span></td>
+        <td class="num neg">−1% ~ −10%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">GDX·GDXJ·GLD·SLV·IBIT·MSTR</td>
+        <td>narrative overridden by flows · 资金抽水</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>09</strong></td>
-        <td><a href="#theme-09" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">媒体 / 娱乐 / 内容</a></td>
-        <td><span class="pos">Bull</span></td>
-        <td class="num">9</td>
-        <td>SPOT <em>+19%</em>，MAU <span class="hl">7.61 亿</span>（+12% YoY）历史新高 + RBLX <em>+12%</em> UGC AI + 流媒体板块共振</td>
+        <td class="name"><a href="#theme-09" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">媒体 / 娱乐 / 内容</a></td>
+        <td><span class="pos">↑ 上行</span></td>
+        <td><span class="theme-bar" style="width:32px"></span><span class="theme-strength">强</span></td>
+        <td class="num pos">+12% ~ +31%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">SPOT·RBLX·LION·GENI·EVC·AMC·GETY·SMWB·ADV</td>
+        <td>SPOT MAU <span class="hl">7.61 亿</span>历史新高 + 流媒体共振</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>10</strong></td>
-        <td><a href="#theme-10" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AR/VR / 光学题材</a></td>
-        <td><span class="pos">Bull · sentiment</span></td>
-        <td class="num">5</td>
-        <td>VUZI <em>+71%</em> / OPTX <em>+49%</em> / LPTH <em>+47%</em> 智能眼镜叙事重燃，纯 sentiment 妖股池</td>
+        <td class="name"><a href="#theme-10" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AR/VR / 光学题材</a></td>
+        <td><span class="pos">↑ 上行 · sentiment</span></td>
+        <td><span class="theme-bar" style="width:28px"></span><span class="theme-strength">中</span></td>
+        <td class="num pos">+24% ~ +71%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">VUZI·OPTX·LPTH·DMRC·VELO</td>
+        <td>智能眼镜叙事重燃 · L5 妖股池</td>
       </tr>
       <tr data-cap="L">
         <td class="num"><strong>11</strong></td>
-        <td><a href="#theme-11" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">极端异动 / 妖股 / 反向</a></td>
-        <td style="color:var(--accent-soft);font-weight:600">Mixed · 极端</td>
-        <td class="num">14</td>
-        <td>OP <em>+130%</em> / UP <em>+81%</em> / FBYD <em>+57%</em> 妖股暴动 + DE <em>-6%</em> / GDS <em>-17%</em> / AIIR <em>-42%</em> 反向</td>
+        <td class="name"><a href="#theme-11" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">极端异动 / 妖股 / 反向</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 混合</span></td>
+        <td><span class="theme-bar" style="width:26px;background:var(--accent)"></span><span class="theme-strength">混合</span></td>
+        <td class="num">+130% / −42%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">OP·UP·FBYD·TE vs AIIR·MGRT·GDS·DE</td>
+        <td>妖股逼空 + 大盘 DE 反向 + 中概 GDS 暴跌</td>
       </tr>
     </tbody>
   </table>
 
   <div class="note-block">
-    <span class="kicker">如何使用本期周报 · 阅读路径</span>
-    <p>本期 <strong>96 只异动股 / 10 条主线 / 80↑ + 16↓</strong>。优先级权重：<strong>02 AI 硬件 + 03 AI 服务器 OEM + 04 AI Power 轮动 = 本周三大产业级主线</strong>，权重 &gt;50%（共 35 只标的）。<em>第二梯队</em>：05 量子（sentiment + 政策催化）+ 07 网安 / SaaS 分化（INTU 是结构性外溢信号、不是孤立事件）+ 08 黄金加密反叙事（宏观资金端预警）。<em>第三梯队</em>：06 商业航天 + 09 媒体 + 10 AR/VR + 11 极端异动——情绪 / 弹性配置。<strong>建议阅读顺序：§04（轮动逻辑核心）→ §02（最大权重）→ §07（INTU 单股深读 + Cyber 健康度）→ §08（反叙事 + 资金流预警）→ §03 → 其余按需</strong>。下周关键 binary：①AVGO 5/29 财报（AI 硬件链 thesis 兑现节点）；②CRM 5/27 财报（应用 SaaS 链式扩散判别）；③NTAP 5/28 / SMCI 5/23 / ZS 5/26（OEM + 存储 + Cyber 一致兑现窗口）。</p>
+    <span class="kicker">⚠ 主线结构本周特殊性</span>
+    <p>本期 <strong>96 只异动股 80↑ / 16↓</strong>——<em>不是 watchlist 中位数广度信号</em>。<strong>3 条产业级主线（02 AI 硬件 / 03 服务器 OEM / 04 AI Power 轮动）共 35 只标的、权重 &gt;36%</strong>；§04 双逻辑（AI Power ↑ vs Infra Construction ↓）是本周最重要的资金端切换信号、需独立深读。<em>建议阅读顺序</em>：<strong>§04（轮动逻辑核心）→ §02（最大权重）→ §07（INTU 单股深读 + Cyber 健康度）→ §08（反叙事 + 资金流预警）→ §03 → 其余按需</strong>。<strong>下周 binary 三件套</strong>：①AVGO 6/3（AI 硬件链 thesis 兑现）；②CRM 5/27（应用 SaaS 链式扩散判别）；③NTAP 5/28 / SMCI 5/23 / ZS 5/26（OEM + 存储 + Cyber 一致兑现窗口）。</p>
   </div>
 </section>
 
@@ -495,7 +484,7 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
       <td class="num pos">+11%</td>
       <td class="num pos">+19%</td>
       <td class="num pos">+153%</td>
-      <td>映射驱动（direct）：custom silicon（Trainium / Maia）+ optical DSP 双线受益 AI 资本开支；AVGO 5/29 earnings 前 ASIC 链协同反弹
+      <td>映射驱动（direct）：custom silicon（Trainium / Maia）+ optical DSP 双线受益 AI 资本开支；AVGO 6/3 earnings 前 ASIC 链协同反弹
         <span class="ki-note">MRVL +11% vs SOXX +5.67% β 接近 2x，但更准确归类是<em>ASIC + 互联双重 direct mapping</em>——AWS Trainium / MSFT Maia 出货量本周 channel check 上修，MRVL 作为<em>唯一两家都进入的 ASIC 合作方</em>受益最直接。3M +153% 是这条线核心 alpha 来源，本周加速反映 AVGO earnings 前同业 reprice。下个 catalyst 是 6 月初 MRVL 自家 earnings + AI 收入 run-rate 更新。</span></td>
     </tr>
     <tr data-cap="M">
@@ -657,10 +646,10 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <div class="cards">
     <div class="card bull">
       <div class="card-title">Bull 在买什么</div>
-      <div class="card-meta">AVGO 5/29 EARNINGS · NVDA AI INFRA · HVDC 800V</div>
+      <div class="card-meta">AVGO 6/3 EARNINGS · NVDA AI INFRA · HVDC 800V</div>
       <div class="card-body">
         <ol>
-          <li><strong>AVGO 5/29 earnings 前预期定价</strong>：买方在 reprice 整条 ASIC + 互联链——MRVL（Trainium / Maia）、CRDO（AEC）、ALAB（Retimer）作为 AVGO 同业代表，提前 reprice</li>
+          <li><strong>AVGO 6/3 earnings 前预期定价</strong>：买方在 reprice 整条 ASIC + 互联链——MRVL（Trainium / Maia）、CRDO（AEC）、ALAB（Retimer）作为 AVGO 同业代表，提前 reprice</li>
           <li><strong>ARM AGI CPU 数据中心首颗</strong>：FY27-28 收入展望 >$2B、data center royalty YoY 翻倍——Arm 从"IP 公司"切到"自研芯片公司"是估值锚的重置，不是单季 beat</li>
           <li><strong>NVDA 800V HVDC 架构定型</strong>：Kyber rack-scale + Rubin Ultra 全部走 800V，NVTS / VSH / GaN 上游链是 design-in 阶段，FY27 真正变现，FY26 是估值前置</li>
           <li><strong>AEC 取代光模块的产业标准转换</strong>：CRDO CEO 明确"AEC 已成 intra-rack 7 米内 de facto 标准、在挤压 optical"——这是十年级技术替代周期，CRDO / SMTC / ALAB 三家受益</li>
@@ -673,7 +662,7 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
       <div class="card-meta">AVGO MISS RISK · TSMC PEAK · CHANNEL INVENTORY</div>
       <div class="card-body">
         <ol>
-          <li><strong>AVGO 5/29 earnings miss 风险</strong>：当前定价已 price in AI 收入指引上修、若实际 in-line 而非 beat，整条 ASIC + 互联链可能集体 -10% 以上回吐</li>
+          <li><strong>AVGO 6/3 earnings miss 风险</strong>：当前定价已 price in AI 收入指引上修、若实际 in-line 而非 beat，整条 ASIC + 互联链可能集体 -10% 以上回吐</li>
           <li><strong>TSMC 月度营收增速见顶</strong>：当前 YoY +44%，市场共识 6-9 月会回落至 +30%——若回落速度过快，整条 AI 硬件链 thesis 进入 Bear Logic</li>
           <li><strong>NVDA Q1 FY27 财报 6 月初出</strong>：data center 收入若环比首次个位数增长（vs 当前预期双位数）= 板块 thesis 警报，所有 direct mapping 标的同步回撤</li>
           <li><strong>小盘 / 妖股估值过度前置</strong>：NVTS 3M +260% / AXTI +395% / VPG +143% 均已 price in 2027 业绩，<em>FY26 实际收入贡献仍微小</em>——任何延期都会重置叙事</li>
