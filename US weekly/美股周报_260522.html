@@ -7,11 +7,11 @@
   调性：navy/amber masthead（参考 A股映射） + Fraunces/米色正文
   用法：复制本文件 → 重命名为 美股强势股主线N_YYMMDD.html → 替换 {{...}} 占位
   ------------------------------------------------------------------
-  分档：5 档独立 P80 → 重映射到 4 档显示
-    L · 大盘   ≥ $100亿
-    M · 中小盘 $30-100亿
-    S · 小盘   $10-30亿
-    T · 微盘   ≤ $10亿
+  分档：5 档独立 P80 → 重映射到 4 档显示（260523 修正：单位 $B、阈值对齐 stock_meta 5 档 L3=$5-30B / L4+L5 合并 <$5B）
+    L · 大盘   ≥ $100B          ← L1
+    M · 中盘   $30-100B         ← L2
+    S · 小盘   $5-30B           ← L3
+    T · 微盘   <$5B             ← L4 + L5 合并
   ------------------------------------------------------------------
   10 条主线骨架（按本期实际重写）：
     01 · AI 算力·大盘半导体 + 代工 + 存储
@@ -242,8 +242,8 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <button class="vtab active" data-view="all">全部</button>
   <button class="vtab" data-view="large">大盘 L · ≥$100B</button>
   <button class="vtab" data-view="midsmall">中盘 M · $30-100B</button>
-  <button class="vtab" data-view="small">小盘 S · $10-30B</button>
-  <button class="vtab" data-view="micro">微盘 T · ≤$10B</button>
+  <button class="vtab" data-view="small">小盘 S · $5-30B</button>
+  <button class="vtab" data-view="micro">微盘 T · &lt;$5B</button>
 </nav>
 
 
