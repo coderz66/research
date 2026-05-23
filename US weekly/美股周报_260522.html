@@ -130,6 +130,13 @@ body[data-view="midsmall"] table.dt tbody tr:not([data-cap="M"]){display:none}
 body[data-view="small"] table.dt tbody tr:not([data-cap="S"]){display:none}
 body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
 
+/* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
+table.dt thead th[data-type]{cursor:pointer;user-select:none;position:relative;padding-right:18px}
+table.dt thead th[data-type]:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th[data-type]::after{content:"⇅";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--rule);opacity:.6}
+table.dt thead th[data-sort-dir="asc"]::after{content:"▲";color:var(--accent);opacity:1}
+table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent);opacity:1}
+
 @media print{body{padding:24px}.view-tabs{display:none}}
 </style>
 </head>
@@ -2451,11 +2458,48 @@ body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
      视图切换 JS（4 档独立筛选、点击 tab 切换 body[data-view]）
 ============================================================ -->
 <script>
+// 视图切换
 document.querySelectorAll('.vtab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.body.setAttribute('data-view', btn.dataset.view);
+  });
+});
+
+// 表格列点击排序（所有 table.dt 通用、thead th[data-type] 触发）
+document.querySelectorAll('table.dt').forEach(table => {
+  const ths = table.querySelectorAll('thead th');
+  ths.forEach((th, colIdx) => {
+    if (!th.dataset.type) return;
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const type = th.dataset.type;
+      const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      // 清掉同表其它列的箭头
+      ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
+      th.dataset.sortDir = dir;
+      rows.sort((a, b) => {
+        const aCell = a.children[colIdx];
+        const bCell = b.children[colIdx];
+        const aText = (aCell ? aCell.textContent : '').trim();
+        const bText = (bCell ? bCell.textContent : '').trim();
+        let cmp;
+        if (type === 'num') {
+          const aNum = parseFloat(aText.replace(/[^\-0-9.]/g, ''));
+          const bNum = parseFloat(bText.replace(/[^\-0-9.]/g, ''));
+          const aV = isNaN(aNum) ? -Infinity : aNum;
+          const bV = isNaN(bNum) ? -Infinity : bNum;
+          cmp = aV - bV;
+        } else {
+          cmp = aText.localeCompare(bText, 'zh-CN');
+        }
+        return dir === 'asc' ? cmp : -cmp;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
   });
 });
 </script>
