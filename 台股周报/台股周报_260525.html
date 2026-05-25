@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+  美股强势股主线 · HTML 模板（template）
+  ------------------------------------------------------------------
+  来源：美股强势股主线3_260519.html 抽离的结构 + 样式
+  调性：navy/amber masthead（参考 A股映射） + Fraunces/米色正文
+  用法：复制本文件 → 重命名为 美股强势股主线N_YYMMDD.html → 替换 {{...}} 占位
+  ------------------------------------------------------------------
+  分档：5 档独立 P80 → 重映射到 4 档显示（260523 修正：单位 $B、阈值对齐 stock_meta 5 档 L3=$5-30B / L4+L5 合并 <$5B）
+    L · 大盘   ≥ $100B          ← L1
+    M · 中盘   $30-100B         ← L2
+    S · 小盘   $5-30B           ← L3
+    T · 微盘   <$5B             ← L4 + L5 合并
+  ------------------------------------------------------------------
+  10 条主线骨架（按本期实际重写）：
+    01 · AI 算力·大盘半导体 + 代工 + 存储
+    02 · AI 算力·中盘卖铲人
+    03 · AI Cyber
+    04 · AI Infra·二线云 + 网络硬件 + CPaaS
+    05 · 算力托管·BTC 矿企转 AI/HPC
+    06 · 数据中心电力 / 储能 / 燃料电池 / 光伏
+    07 · 商业航天 / 国防科技
+    08 · AI 软件 / SaaS / 数据平台
+    09 · EMS / PCB / AI Server BOM
+    10 · 其他·反转 / 工业 / 妖股 / 国防小盘
+========================================================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>台股周报 · 多窗口位势复盘 · 2026-05-25</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1600px;margin:0 auto}
+em{font-style:italic;color:var(--accent)}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber、参考 A股映射_260516) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'US MOMENTUM';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1080px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* ========== SECTIONS ========== */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:16px;max-width:none}
+
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* ========== DATA TABLE ========== */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.45}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
+table.dt thead th[data-type="num"],table.dt tbody td.num{text-align:center;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:7px 9px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px;line-height:1.3}
+table.dt td.logic{font-size:12px;color:var(--ink-soft);line-height:1.4}
+table.dt td.logic strong{color:var(--ink)}
+/* 个股逻辑列默认（无 class）的 td 也用紧凑行距，避免漏 class 时行间过松 */
+table.dt tbody tr td:last-child{line-height:1.4}
+/* ki-note 内嵌段同步收紧行距（260523 user 反馈）*/
+table.dt .ki-note{line-height:1.5}
+/* 89 Industry Chain Signals 表行距紧凑（260523 user 反馈）*/
+#signals-tbl tbody td{padding:5px 8px;line-height:1.35;font-size:11.5px}
+#signals-tbl thead th{padding:7px 8px}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+.hl{background:var(--highlight);padding:0 2px}
+
+/* ========== ki-note (个股逻辑解读) ========== */
+.ki-note{display:block;margin-top:8px;padding:8px 11px 7px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}
+.ki-note::before{content:"逻辑 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-right:2px}
+.ki-note em{font-style:normal;font-weight:600;color:var(--ink);background:#FFF1B8;padding:0 3px;border-radius:2px}
+
+/* ========== note-block (牛熊闸门 / 分层判断 / 出场信号) ========== */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block strong{color:var(--ink)}
+#exec-summary .note-block{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
+
+/* ========== theme-card (主线标签卡) ========== */
+.theme-card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;margin:14px 0}
+.theme-card.bull{border-left-color:var(--bull)}
+.theme-card.bear{border-left-color:var(--bear)}
+.theme-card.mixed{border-left-color:var(--accent-soft)}
+.theme-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:6px}
+.theme-meta span.k{color:var(--accent);font-weight:700}
+.theme-meta span.v{color:var(--ink);font-weight:600;margin-right:14px}
+
+/* ========== Bull/Bear cards 并列 ========== */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.card-body ol li{margin-bottom:5px}
+.card-body strong{color:var(--ink)}
+
+/* ========== 视图 tabs (4 档独立筛选) ========== */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+body[data-view="large"] table.dt tbody tr:not([data-cap="L"]){display:none}
+body[data-view="midsmall"] table.dt tbody tr:not([data-cap="M"]){display:none}
+body[data-view="small"] table.dt tbody tr:not([data-cap="S"]){display:none}
+body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
+
+/* ========== 归因 tag（表格"归因"列用，260516 引入） ========== */
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap;margin-right:3px}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+
+/* ========== Signal table 方向标记（Industry Chain Signals §) ========== */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* ========== Beta strip (本周板块 β 全景 · grid of small cards) ========== */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:1px;background:var(--rule)}
+.beta-item{padding:7px 8px;background:var(--paper);display:flex;flex-direction:column;gap:2px;line-height:1.15;min-width:0}
+.beta-item .bn{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.02em}
+.beta-item .bv{font-family:var(--mono);font-size:13px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.beta-item .bd{font-size:9.5px;color:var(--muted);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+/* highlight: 重要的行业 β 数据用琥珀金外框 + 加粗强调 */
+.beta-item.hl{background:#FFF8E0;outline:1.5px solid var(--accent);outline-offset:-1.5px;position:relative;z-index:1}
+.beta-item.hl .bn{color:var(--ink)}
+.beta-item.hl .bv{font-size:14px}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* ========== Theme Map strength bar ========== */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
+table.dt thead th[data-type]{cursor:pointer;user-select:none;position:relative;padding-right:18px}
+table.dt thead th[data-type]:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th[data-type]::after{content:"⇅";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--rule);opacity:.6}
+table.dt thead th[data-sort-dir="asc"]::after{content:"▲";color:var(--accent);opacity:1}
+table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent);opacity:1}
+
+@media print{body{padding:24px}.view-tabs{display:none}}
+</style>
+<style>
+/* TAIWAN-WEEKLY · override: tables with .no-filter (exec summary / final read) are not view-filtered */
+body[data-view] table.dt.no-filter tbody tr { display: table-row !important; }
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标（HTML 站点结构需要保留） -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<!-- ============================================================
+     FRAGMENTS INSERT POINT · weekly v4 fragment-per-agent
+     ------------------------------------------------------------
+     拼接源：D:\claude\research\US weekly\_fragments\YYMMDD\*.html
+     拼接顺序：文件名升序
+       00_masthead.html        ← <header> masthead + view-tabs nav
+       09_exec_summary.html    ← §01 Executive Summary (Phase B / Sonnet)
+       10..49 themeNN_*.html   ← §02-§11 十条主线（AI 链 Opus / 其他 Sonnet）
+       90_final_read.html      ← §12 Final Read 综合判断+A股映射指引 (Phase B / Sonnet)
+     独立产物（不进 fragments）：A股映射_YYMMDD.html → 直接写到 US weekly\\ 根目录
+     整合时：Read shell → 把下方标记替换为所有 fragment 内容拼接 → Write 最终 HTML
+============================================================ -->
+<!-- ========== MASTHEAD ========== -->
+<header class="masthead" style="position:relative">
+  <style>.masthead::after{content:'TAIWAN AI'}</style>
+  <div class="h-eyebrow">TAIWAN EQUITY · MULTI-WINDOW SNAPSHOT · 2026-05-25</div>
+  <h1 class="h-title">台股 <em>主线</em> 复盘 · AI 链全息图谱</h1>
+  <p class="h-desc">
+    84 只台股 · <em>4 窗口</em> 涨跌（1M / 3M / 6M / 1Y）· <em>6 条主线</em> + 反叙事观察。本期 81% 标的落在 AI 硬件链——<em>算力中枢 / 板材 / 服务器 / 后段 / 存储 / MLCC</em> 构成完整 BOM 全息图。无 1W 数据、无 beta 基准——按产业链而非市值切，按 1Y 涨幅判位势，按 1M 边际看分化。
+  </p>
+  <div class="h-pills">
+    <span class="pill bull">§02 AI 算力中枢 · 8</span>
+    <span class="pill bull">§03 板材链 · 10</span>
+    <span class="pill bull">§04 AI 服务器 · 19</span>
+    <span class="pill bull">§05 AI 后段 · 14</span>
+    <span class="pill bull">§06 存储循环 · 12</span>
+    <span class="pill bull">§07 MLCC · 3</span>
+    <span class="pill">§08 反叙事 · 24</span>
+  </div>
+</header>
+
+<!-- ========== 视图 tab ========== -->
+<nav class="view-tabs">
+  <span class="vlabel">VIEW</span>
+  <button class="vtab active" data-view="all">全部 · 84</button>
+  <button class="vtab" data-view="large">大盘 ≥ $30B · 16</button>
+  <button class="vtab" data-view="small">中小盘 &lt; $30B · 68</button>
+</nav>
+
+
+<!-- ========== §01 Executive Summary ========== -->
+<section class="sec" id="exec-summary">
+  <div class="sec-num">§01 · Executive Summary</div>
+  <h2 class="sec-title">六条主线 <em>一句话</em> · 五个本期核心信号</h2>
+
+  <!-- 主线一句话表 -->
+  <table class="dt no-filter">
+    <thead>
+      <tr>
+        <th>§</th>
+        <th>主线</th>
+        <th>N</th>
+        <th>阶段</th>
+        <th data-type="num">1M 中位</th>
+        <th data-type="num">1Y 中位</th>
+        <th>核心 thesis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tk">§02</td>
+        <td class="name">AI 算力中枢</td>
+        <td class="num">8</td>
+        <td>Bull · 中段</td>
+        <td class="num pos">+28</td>
+        <td class="num pos">+245</td>
+        <td class="logic">TSMC N3/N2 满载 + ASIC 三巨头分食 Broadcom $73B backlog + ASE CoWoS 月产能冲 20K</td>
+      </tr>
+      <tr>
+        <td class="tk">§03</td>
+        <td class="name">板材链</td>
+        <td class="num">10</td>
+        <td>Bull · 加速段</td>
+        <td class="num pos">+23</td>
+        <td class="num pos">+443</td>
+        <td class="logic">Vera/Blackwell/Rubin 单卡 ABF 面积 +50/+100/+75% + 高速 CCL 单价 2x + PCB 层数跳升</td>
+      </tr>
+      <tr>
+        <td class="tk">§04</td>
+        <td class="name">AI 服务器</td>
+        <td class="num">19</td>
+        <td>Bull · 中段偏前</td>
+        <td class="num pos">+21</td>
+        <td class="num pos">+130</td>
+        <td class="logic">GB200 rack 5-6 万台 + Foxconn 营收 +30% + Delta 液冷占比 9% + Accton 白盒市占 40-50%</td>
+      </tr>
+      <tr>
+        <td class="tk">§05</td>
+        <td class="name">AI 后段</td>
+        <td class="num">14</td>
+        <td>Bull · 加速段（散热分化）</td>
+        <td class="num pos">+22</td>
+        <td class="num pos">+251</td>
+        <td class="logic">TSMC capex $52-56B + Powertech capex 翻倍至 NT$40B + 鸿勁 2026-28 产能 50% CAGR；散热段独立 derating</td>
+      </tr>
+      <tr>
+        <td class="tk">§06</td>
+        <td class="name">存储循环</td>
+        <td class="num">12</td>
+        <td>Bull · 初-中段</td>
+        <td class="num pos">+33</td>
+        <td class="num pos">+157</td>
+        <td class="logic">DRAM Q1 +60-70% QoQ + NOR Q2 +40-50% + 原厂转产 HBM 挤压 conventional DRAM + 通路开始补库</td>
+      </tr>
+      <tr>
+        <td class="tk">§07</td>
+        <td class="name">MLCC 循环</td>
+        <td class="num">3</td>
+        <td>Bull · 中段·二次发酵</td>
+        <td class="num pos">+141</td>
+        <td class="num pos">+454</td>
+        <td class="logic">Murata/Yageo/Walsin 联手提价 10-20% + GB200 单板 6500 颗、Rubin 跳到 12000 颗 + Yageo 拒新增产能</td>
+      </tr>
+      <tr>
+        <td class="tk">§08</td>
+        <td class="name">反叙事观察</td>
+        <td class="num">24</td>
+        <td>Mixed</td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="logic">散热 1M -10~-30 = 中段筹码松动 vs 拐点的关键 debate / 面板 1M +110 = AI LCD 真外溢 / 电信防守归零</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 5 核心信号 note-block -->
+  <div class="note-block">
+    <div class="kicker">五个本期核心信号</div>
+    <ol style="padding-left:22px;margin-top:4px">
+      <li><strong>板材链 1Y +443% 居首</strong>——欣兴 +846 / 台光 +685 / 南电 +745 / 景硕 +727 已完成戴维斯双击主升浪；3M +71-150% 说明还在加速，未到见顶兑现段。<em>验证点</em>：Daiwa 口径 ABF 毛利 2026 指引 22-30% / 2027 指引 30-35%——若 Q2 财报兑现，估值还有空间。</li>
+      <li><strong>MLCC 1M +141% 是本期最猛单一主题</strong>——但拥挤度极高，国巨 1Y +499 / 禾伸堂 1Y +559 已经 price in 一轮 cycle。<em>验证点</em>：Yageo/Murata 7-8 月下一轮提价 letter 是否如期，缺席即 cycle 见顶信号。</li>
+      <li><strong>散热段 1M 集体回调是这一周报最重要 alpha 信号</strong>——奇鋐 -13 / 健策 -30 / 颖崴 -12。健策 -30 起因为 NVIDIA Rubin 散热设计传改版 + IHS 二供格局担忧。<em>判断</em>：中段筹码松动而非产业拐点（GB300 单柜液冷价值 6.3-6.5 万美元，+50-80% vs GB200）——但散热与 IHS 主导权确实在 11 月 GTC 才敲定。</li>
+      <li><strong>存储四老 3M 强烈分化</strong>——4919 新唐 +200 / 2337 旺宏 +34 / 2344 华邦电 +5 / 2408 南亚科 -1。说明这一轮不是 conventional DRAM 普涨，而是按"产品结构"挑赢家：HBM/NOR/MCU/BMC 才是真受益方。<em>验证点</em>：Micron 6 月 FQ3 财报 + Q3 DRAM 长约谈判结果（70% 提价能否落地）。</li>
+      <li><strong>电信防守 1Y +1~-1% 证明本期市场 risk-on 极致</strong>——2412 中华电 +7 / 3045 台湾大 -1，完全没有避险资金流入。叠加 1326 台化 1M -9（化工弱），传统行业整体没有 alpha。<em>含义</em>：这不是"AI 链一枝独秀"的市场，是"AI 链以外没人买"的市场——卖出非 AI 链的成本被严重低估。</li>
+    </ol>
+  </div>
+
+  <!-- 主线优先级提示 -->
+  <div class="note-block" style="margin-top:14px">
+    <div class="kicker">主线优先级 · 按产业 catalyst window 排序</div>
+    <p>未来 30 天 catalyst 密集度：<strong>§05 AI 后段</strong>（6/6 NVDA GTC + 6 月 Computex 散热方案）&gt; <strong>§04 AI 服务器</strong>（6 月 ODM 营收 + 7 月美系 CSP Q2 capex）&gt; <strong>§06 存储</strong>（6 月 Micron FQ3 + 7 月 SK Hynix Q2）&gt; <strong>§07 MLCC</strong>（7-8 月下一轮提价 letter）&gt; <strong>§02 中枢</strong>（7/17 TSMC 法说）&gt; <strong>§03 板材链</strong>（Q2 财报）。<em>每条主线的 Bear case 都不是叙事质疑，而是"兑现节奏验证窗口"——这是 Bull Logic 中段的典型形态。</em></p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-ai-compute">
+  <div class="sec-num">§02 · 主线 1</div>
+  <h2 class="sec-title">AI <em>算力中枢</em> · TSMC + ASIC 设计 + 封测代工</h2>
+  <p class="sec-sub"><em>N3 满载 + N2 提前预订 + ASIC 三巨头分食 Broadcom $73B backlog，台股 AI 算力链 1Y 翻倍是结构性 re-rating 而非透支。</em></p>
+
+  <!-- 主题卡 -->
+  <div class="theme-card bull">
+    <div class="theme-meta">
+      <span class="k">叙事</span><span class="v">CoWoS 长鞭甩到 OSAT，ASIC 设计端订单可见度推到 2028</span>
+      <span class="k">阶段</span><span class="v">Bull Logic · 中段</span>
+      <span class="k">N</span><span class="v">8</span>
+    </div>
+  </div>
+
+  <!-- 牛熊闸门 -->
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · <em>正在 price in 什么</em></div>
+      <div class="card-meta">行业阶段 · 中段</div>
+      <div class="card-body">
+        <ol>
+          <li><strong>TSMC 制程定价权</strong>：N3 lead time 52-78 周、N2 三座 fab 全订满 lead time 78-104 周；N2 单片晶圆报价 $28-30K vs N3 $17-22K，单节点跳价 ~40%，2026 全年营收一致预期 ~+30% YoY。</li>
+          <li><strong>Broadcom ASIC 长单外溢</strong>：AVGO Q1 FY26 AI 营收 $8.4B（+106% YoY）/Q2 指引 $10.7B（+140% YoY），$73B backlog 已锁 TSMC 产能至 2028；MediaTek 接 Google TPUv7e 全年 $1B ASIC 营收指引、Alchip 拿 AWS Trainium 3 把 CoWoS 预订量推到 60K wafers（+200% YoY）。</li>
+          <li><strong>封测涨价 + 产能外溢</strong>：ASE 先进封装营收 2026 翻倍至 $3.2B、CoWoS 月产能从年初冲到年底 20-25K wpm；SPIL 砸 NT$2.8B 收购竹南厂区、CoWoP 接 TSMC CoWoS-L/-S 溢出订单。</li>
+        </ol>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · <em>担心什么</em></div>
+      <div class="card-meta">反向信号窗口</div>
+      <div class="card-body">
+        <ol>
+          <li><strong>ASIC 客户集中度</strong>：Alchip / 世芯收入高度绑定单一超大客户（AWS Trainium / Broadcom 系），Google 4 月对 TPU 设计端动刀的报道一旦扩大到 AWS / Meta 端，small-cap 弹性最大但回撤也最猛。</li>
+          <li><strong>N2 价格抑制需求</strong>：N2 wafer 单价跳 40%、A16/A14 还要再跳，2H26 起部分中小客户可能选择停留在 N3 而非升级，TSMC 产品 mix 上移速度若慢于市场预期 → 龙头 EPS 上修空间收窄。</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主表 · 8 列固定 -->
+  <table class="dt">
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>公司</th>
+        <th>业务定位</th>
+        <th data-type="num">1M</th>
+        <th data-type="num">3M</th>
+        <th data-type="num">6M</th>
+        <th data-type="num">1Y</th>
+        <th>归因</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="tk">2330.TW</td>
+        <td class="name">台积电</td>
+        <td class="logic">晶圆代工 / N3 N2 满载</td>
+        <td class="num pos">+6</td>
+        <td class="num pos">+18</td>
+        <td class="num pos">+69</td>
+        <td class="num pos">+138</td>
+        <td><span class="tag t-er">财报</span> <span class="tag t-cat">N2 定价</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="tk">2454.TW</td>
+        <td class="name">联发科</td>
+        <td class="logic">手机 SoC + Google TPU ASIC</td>
+        <td class="num pos">+74</td>
+        <td class="num pos">+133</td>
+        <td class="num pos">+277</td>
+        <td class="num pos">+236</td>
+        <td><span class="tag t-cat">TPUv7e 订单</span> <span class="tag t-map-d">直接映射</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="tk">3711.TW</td>
+        <td class="name">日月光投控</td>
+        <td class="logic">封测龙头 / CoWoS 溢出承接</td>
+        <td class="num pos">+24</td>
+        <td class="num pos">+62</td>
+        <td class="num pos">+193</td>
+        <td class="num pos">+350</td>
+        <td><span class="tag t-cat">capex 扩产</span> <span class="tag t-map-d">直接映射</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="tk">2303.TW</td>
+        <td class="name">联电</td>
+        <td class="logic">成熟制程 / 28nm-22nm 配套</td>
+        <td class="num pos">+68</td>
+        <td class="num pos">+85</td>
+        <td class="num pos">+169</td>
+        <td class="num pos">+177</td>
+        <td><span class="tag t-rot">轮动补涨</span> <span class="tag t-map-i">间接映射</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">3443.TW</td>
+        <td class="name">创意电子</td>
+        <td class="logic">ASIC 设计 / Broadcom 体系</td>
+        <td class="num pos">+32</td>
+        <td class="num pos">+112</td>
+        <td class="num pos">+168</td>
+        <td class="num pos">+372</td>
+        <td><span class="tag t-cat">AWS T3 订单</span> <span class="tag t-map-d">直接映射</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">3661.TW</td>
+        <td class="name">世芯-KY</td>
+        <td class="logic">ASIC 设计 / AWS Trainium</td>
+        <td class="num pos">+16</td>
+        <td class="num pos">+43</td>
+        <td class="num pos">+65</td>
+        <td class="num pos">+67</td>
+        <td><span class="tag t-map-d">直接映射</span> <span class="tag t-cat">订单可见度</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6789.TW</td>
+        <td class="name">采钰</td>
+        <td class="logic">CIS / 先进封装彩色滤光</td>
+        <td class="num">+1</td>
+        <td class="num pos">+88</td>
+        <td class="num pos">+146</td>
+        <td class="num pos">+163</td>
+        <td><span class="tag t-map-i">间接映射</span> <span class="tag t-rot">主题轮动</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">2455.TW</td>
+        <td class="name">全新</td>
+        <td class="logic">GaAs / 光通信 800G-1.6T</td>
+        <td class="num pos">+28</td>
+        <td class="num pos">+122</td>
+        <td class="num pos">+222</td>
+        <td class="num pos">+334</td>
+        <td><span class="tag t-map-d">直接映射</span> <span class="tag t-cat">CPO 订单</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ki-note -->
+  <div class="ki-note">
+    四窗口位势揭示一条清晰主线：<em>1Y 涨幅 +137% 到 +372%</em> 的全员翻倍背后，3M-6M 加速档却在分化——日月光（<em>3M +62 / 6M +193</em>）、创意（<em>3M +112 / 6M +168</em>）、全新（<em>3M +122 / 6M +222</em>）三只 ASIC + 封测延续加速，证明 CoWoS 长鞭从 TSMC 甩向 OSAT 与设计端的传导仍在中段；反观世芯 1M 仅 +16、6M +65 明显收敛，反映 AWS Trainium 客户集中度风险已开始被 price in。联发科 1M +74 是本批最锋利的边际加速，对应 TPUv7e 量产排程 2H26 落地的事件窗口已打开。台积电作为锚（1M +6 / 6M +69），告诉你龙头估值消化期、跟随股仍有 catch-up 空间。
+  </div>
+</section>
+
+
+<section class="sec" id="theme-substrate">
+  <div class="sec-num">§03 · 主线 2</div>
+  <h2 class="sec-title">AI <em>板材链</em> · ABF 载板 + 高速 PCB + 高速 CCL</h2>
+  <p class="sec-sub"><em>Blackwell 板面翻倍 + Rubin 再 +75%，三年超级扩张周期开闸；M8 PTH + 22 层 PCB 成为 GB200/300 标配，台系板材链估值同步重定价。</em></p>
+
+  <div class="theme-card bull">
+    <div class="theme-meta">
+      <span class="k">叙事</span><span class="v">AI GPU 单板面积/层数双升，ABF + 高速 CCL 进入三年缺货周期</span>
+      <span class="k">阶段</span><span class="v">Bull Logic · 加速段</span>
+      <span class="k">N</span><span class="v">10</span>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · <em>正在 price in 什么</em></div>
+      <div class="card-meta">行业阶段 · 加速段（缺货从 H1'26 启动，27/28 缺口放大）</div>
+      <div class="card-body"><ol>
+        <li><strong>ABF 单卡用量跳升</strong>：Vera CPU 载板面积较 Grace +50%，Blackwell GPU 载板面积较 Hopper 翻倍，Rubin 再较 Blackwell +75%；Unimicron / Nan Ya / Kinsus 三家 ABF 已全线 sold out</li>
+        <li><strong>高速 CCL 单价 2x</strong>：NVSwitch tray 从 M7 ($250-350/片) 切到 M8U ($550-650/片)，台光电是 GB200 NVSwitch tray 独家 CCL 供应商（22 层 M8U PTH 板）</li>
+        <li><strong>PCB 层数 + 价值量双升</strong>：GB300 compute board 22 层 HDI，Rubin 跳到 26 层 + M8；AI 服务器占 PCB 需求从 25 年 15% → 26 年 25%+，单台 AI 服务器 PCB 价值量 +30%</li>
+        <li><strong>毛利率重估</strong>：ABF 毛利 26 年指引 22-30%、27 年 30-35%（Daiwa 口径），载板厂同步走出 22-25 年的产能消化期</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · <em>担心什么</em></div>
+      <div class="card-meta">反向信号窗口</div>
+      <div class="card-body"><ol>
+        <li><strong>EMC GB300 认证失利</strong>：Doosan 已锁定 Rubin CCL 独家，台光电若 GB300 compute tray 验证持续不过，M7→M8 升级的台系红利会被韩系切走</li>
+        <li><strong>上游瓶颈卡 ABF 放量</strong>：玻纤布 / 铜箔 / 钻针同步紧张，载板产能要到 H2'26 才真正释放，1-2 季产业链营收弹性 ≠ 股价已 price in 的幅度</li>
+        <li><strong>1Y +400% 至 +845% 透支</strong>：欣兴 +845% / 景硕 +727% / 南电 +745% 的 1 年涨幅，对应 ABF 三年周期的开篇，催化兑现节奏一旦慢于报价上修，是 thesis 验证窗口而非趋势反转</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <table class="dt">
+    <thead><tr>
+      <th>Ticker</th><th>公司</th><th>业务定位</th>
+      <th data-type="num">1M</th><th data-type="num">3M</th><th data-type="num">6M</th><th data-type="num">1Y</th>
+      <th>归因</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="L"><td>2383.TW</td><td>台光电子</td><td>高速 CCL · GB200 NVSwitch M8U 独家</td><td data-type="num">+23</td><td data-type="num">+138</td><td data-type="num">+317</td><td data-type="num">+685</td><td><span class="tag t-map-d">map-direct</span> <span class="tag t-cat">M8 ASP 2x</span></td></tr>
+      <tr data-cap="L"><td>3037.TW</td><td>欣兴电子</td><td>ABF 载板 · 台系龙头</td><td data-type="num">+25</td><td data-type="num">+122</td><td data-type="num">+504</td><td data-type="num">+846</td><td><span class="tag t-map-d">map-direct</span> <span class="tag t-cat">ABF sold out</span></td></tr>
+      <tr data-cap="S"><td>8046.TW</td><td>南电</td><td>ABF 载板 · 台塑系</td><td data-type="num">+1</td><td data-type="num">+76</td><td data-type="num">+258</td><td data-type="num">+745</td><td><span class="tag t-map-d">map-direct</span> <span class="tag t-rot">轮动 lag</span></td></tr>
+      <tr data-cap="S"><td>3189.TW</td><td>景硕科技</td><td>ABF 载板 · 第三家供应商</td><td data-type="num">+27</td><td data-type="num">+108</td><td data-type="num">+407</td><td data-type="num">+727</td><td><span class="tag t-map-d">map-direct</span> <span class="tag t-cat">产能利用率拉满</span></td></tr>
+      <tr data-cap="S"><td>2368.TW</td><td>金像电</td><td>Switch / Server PCB · GCE 泰国厂 H2'26 投产</td><td data-type="num">+3</td><td data-type="num">+71</td><td data-type="num">+164</td><td data-type="num">+499</td><td><span class="tag t-map-d">map-direct</span> <span class="tag t-cat">800G switch ramp</span></td></tr>
+      <tr data-cap="S"><td>4958.TW</td><td>臻鼎-KY</td><td>PCB / FPC · 苹果主供 + AI server 切入</td><td data-type="num">+52</td><td data-type="num">+150</td><td data-type="num">+277</td><td data-type="num">+441</td><td><span class="tag t-map-i">map-indirect</span> <span class="tag t-rot">补涨</span></td></tr>
+      <tr data-cap="S"><td>2313.TW</td><td>华通</td><td>PCB / HDI · 苹果 + AI server HDI</td><td data-type="num">+39</td><td data-type="num">+32</td><td data-type="num">+288</td><td data-type="num">+405</td><td><span class="tag t-map-i">map-indirect</span> <span class="tag t-rot">1M 接力</span></td></tr>
+      <tr data-cap="S"><td>3044.TW</td><td>健鼎科技</td><td>PCB · 通信 / 网通板</td><td data-type="num">+3</td><td data-type="num">+26</td><td data-type="num">+62</td><td data-type="num">+155</td><td><span class="tag t-map-s">map-sentiment</span> <span class="tag t-rot">主线尾端</span></td></tr>
+      <tr data-cap="S"><td>6213.TW</td><td>联茂</td><td>CCL · M6/M7 量产 + M8 验证</td><td data-type="num">-3</td><td data-type="num">+100</td><td data-type="num">+168</td><td data-type="num">+236</td><td><span class="tag t-map-i">map-indirect</span> <span class="tag t-rot">1M 回吐</span></td></tr>
+      <tr data-cap="S"><td>6531.TW</td><td>爱普</td><td>铜箔基板 · 高速材料</td><td data-type="num">+34</td><td data-type="num">+156</td><td data-type="num">+172</td><td data-type="num">+283</td><td><span class="tag t-map-s">map-sentiment</span> <span class="tag t-cat">M8 题材</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">板材链是这轮台股 AI 第二条主战场，1Y 维度普遍 <em>+400% 起跳</em>，3 家 ABF 厂（欣兴 / 南电 / 景硕）1Y 区间 <em>+727% 至 +845%</em>，对应 Blackwell→Rubin 单卡载板面积翻倍 + 再 +75% 的产业级重估；CCL 端台光电 1Y <em>+685%</em> 已 price in M8U 单价 2x 与 GB200 独家身份。1M 维度呈现明显梯队：直接受益的台光电 / 欣兴 / 景硕（<em>+23 至 +27%</em>）和补涨的臻鼎 / 华通 / 爱普（<em>+34 至 +52%</em>）继续走强，而南电 / 健鼎 / 联茂（<em>-3 至 +3%</em>）进入消化期，是产业链内部的轮动分层而非主线 thesis 破位；Doosan 切入 Rubin CCL 是台光电后续最关键的反向验证窗口。</div>
+</section>
+
+
+<section id="theme-server" class="sec">
+  <div class="sec-num">§04 · 主线 3</div>
+  <h2 class="sec-title">AI <em>服务器</em> · ODM + 网通 + 电源 + 线束</h2>
+  <div class="theme-card bull"><div class="theme-meta">
+    <span class="v">19</span> 只标的 ·
+    <span class="tag t-map-d">Direct</span>
+    <span class="tag t-er">财报驱动</span>
+    <span class="tag t-cat">订单催化</span>
+    <span class="tag t-cat">NTD/USD</span>
+  </div></div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull Logic 闸门 · 行业阶段</div>
+      <div class="card-body">
+        AI server 产业链全线处于 <em>上行中段偏前</em>。Foxconn 4 月营收 YoY <em>+30%</em>、维持 2026 GB200 rack 出货 <em>50,000-60,000</em> 台口径；Quanta/Wistron/Hon Hai 三大 ODM 2025 营收齐破 <em>NT$1 兆</em> 创纪录、动能延续至 2026H2 Vera Rubin 平台过渡。Delta 液冷营收占比已到 <em>9%</em>、800VDC 切入 NVIDIA GTC 2026 主舞台。Accton 白盒交换机市占 <em>40-50%</em>，Meta 已落地、MSFT 在路上。叙事饱满但产业拐点尚未现，回调即机会。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Catalyst Window · 未来 8 周</div>
+      <div class="card-body">
+        关键 <em>6 月</em>：Computex 后 GB300 量产细节 + Foxconn/Quanta 5 月营收（月中公布、衡量 Blackwell ramp 节奏）。<em>7 月</em>：台系 ODM Q2 营收预告 + 美系 CSP（META/MSFT/GOOGL/AMZN）Q2 capex guidance 修正。<em>8 月</em>：Q2 财报季密集出，Delta/Accton/Wiwynn 毛利率指引是观察 ASP 议价能力关键。NVDA Q2 earnings（8 月底）是产业链总闸。
+      </div>
+    </div>
+  </div>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>名称</th>
+        <th>1M</th>
+        <th>3M</th>
+        <th>6M</th>
+        <th>1Y</th>
+        <th>角色定位</th>
+        <th>归因</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="mono">2308.TW</td>
+        <td>台达电</td>
+        <td class="mono pos">+10</td>
+        <td class="mono pos">+65</td>
+        <td class="mono pos">+156</td>
+        <td class="mono pos">+513</td>
+        <td>AI 电源/液冷</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">800VDC</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">2317.TW</td>
+        <td>鸿海</td>
+        <td class="mono pos">+18</td>
+        <td class="mono pos">+13</td>
+        <td class="mono pos">+19</td>
+        <td class="mono pos">+76</td>
+        <td>AI server ODM #1</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-er">4 月 +30%</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">2382.TW</td>
+        <td>广达</td>
+        <td class="mono neg">-2</td>
+        <td class="mono pos">+11</td>
+        <td class="mono pos">+16</td>
+        <td class="mono pos">+26</td>
+        <td>AI server ODM</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-counter">1M 反叙事</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">6669.TW</td>
+        <td>纬颖</td>
+        <td class="mono pos">+21</td>
+        <td class="mono pos">+46</td>
+        <td class="mono pos">+39</td>
+        <td class="mono pos">+154</td>
+        <td>CSP 白盒 server</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">META/MSFT 订单</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">2345.TW</td>
+        <td>智邦科技</td>
+        <td class="mono pos">+19</td>
+        <td class="mono pos">+81</td>
+        <td class="mono pos">+169</td>
+        <td class="mono pos">+250</td>
+        <td>白盒交换机/800G</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">META 落地+MSFT 在路</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">3231.TW</td>
+        <td>纬创</td>
+        <td class="mono pos">+5</td>
+        <td class="mono pos">+14</td>
+        <td class="mono pos">+7</td>
+        <td class="mono pos">+37</td>
+        <td>AI server ODM</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-laggard">三巨头落后</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2356.TW</td>
+        <td>英业达</td>
+        <td class="mono pos">+36</td>
+        <td class="mono pos">+46</td>
+        <td class="mono pos">+59</td>
+        <td class="mono pos">+64</td>
+        <td>server ODM</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">L6/L10 升级</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2357.TW</td>
+        <td>华硕</td>
+        <td class="mono pos">+21</td>
+        <td class="mono pos">+38</td>
+        <td class="mono pos">+21</td>
+        <td class="mono pos">+20</td>
+        <td>工作站/B2B server</td>
+        <td><span class="tag t-map-i">Indirect</span><span class="tag t-cat">AI PC + 企业 server</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2376.TW</td>
+        <td>技嘉</td>
+        <td class="mono pos">+21</td>
+        <td class="mono pos">+48</td>
+        <td class="mono pos">+38</td>
+        <td class="mono pos">+31</td>
+        <td>AI server 主板/GPU</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">GB200 主板</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">8210.TW</td>
+        <td>勤诚兴业</td>
+        <td class="mono pos">+19</td>
+        <td class="mono pos">+65</td>
+        <td class="mono pos">+63</td>
+        <td class="mono pos">+384</td>
+        <td>server 机壳</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">液冷机箱 ASP</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">6285.TW</td>
+        <td>启碁科技</td>
+        <td class="mono pos">+43</td>
+        <td class="mono pos">+58</td>
+        <td class="mono pos">+207</td>
+        <td class="mono pos">+154</td>
+        <td>网通/Wi-Fi 7</td>
+        <td><span class="tag t-map-i">Indirect</span><span class="tag t-cat">Wi-Fi 7 ramp</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2377.TW</td>
+        <td>微星科技</td>
+        <td class="mono pos">+34</td>
+        <td class="mono pos">+39</td>
+        <td class="mono pos">+24</td>
+        <td class="mono neg">-2</td>
+        <td>AI server + GPU</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-laggard">1Y 仍负</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">6442.TW</td>
+        <td>光圣</td>
+        <td class="mono pos">+10</td>
+        <td class="mono pos">+2</td>
+        <td class="mono pos">+68</td>
+        <td class="mono pos">+364</td>
+        <td>光通信模块</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">800G optics</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">3533.TW</td>
+        <td>嘉泽端子</td>
+        <td class="mono pos">+3</td>
+        <td class="mono pos">+58</td>
+        <td class="mono pos">+122</td>
+        <td class="mono pos">+98</td>
+        <td>高速连接器</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">CPU socket</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">3665.TW</td>
+        <td>贸联-KY</td>
+        <td class="mono neg">-14</td>
+        <td class="mono pos">+84</td>
+        <td class="mono pos">+53</td>
+        <td class="mono pos">+290</td>
+        <td>server 线束</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-counter">1M 急跌</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2301.TW</td>
+        <td>光宝科技</td>
+        <td class="mono pos">+34</td>
+        <td class="mono pos">+18</td>
+        <td class="mono pos">+47</td>
+        <td class="mono pos">+129</td>
+        <td>server 电源</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">PSU 涨价</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2059.TW</td>
+        <td>川湖</td>
+        <td class="mono pos">+31</td>
+        <td class="mono pos">+59</td>
+        <td class="mono pos">+42</td>
+        <td class="mono pos">+140</td>
+        <td>机柜滑轨</td>
+        <td><span class="tag t-map-d">Direct</span><span class="tag t-cat">NVL72 配套</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">2395.TW</td>
+        <td>研华</td>
+        <td class="mono pos">+41</td>
+        <td class="mono pos">+54</td>
+        <td class="mono pos">+74</td>
+        <td class="mono pos">+49</td>
+        <td>工业 PC/AI edge</td>
+        <td><span class="tag t-map-i">Indirect</span><span class="tag t-cat">edge AI</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">1605.TW</td>
+        <td>华新</td>
+        <td class="mono pos">+26</td>
+        <td class="mono pos">+3</td>
+        <td class="mono pos">+32</td>
+        <td class="mono pos">+71</td>
+        <td>AI 电力/线缆</td>
+        <td><span class="tag t-map-i">Indirect</span><span class="tag t-cat">data center 电力</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-block">
+    <div class="ki-head">Key Insight · ODM 三巨头分化</div>
+    <div class="ki-note">
+      鸿海（2317）以 <em>1M +18% / 1Y +76%</em> 领先，背后是 4 月营收 YoY <em>+30%</em>、GB200 NVL72 rack-scale 总组装独家地位 + Mexico 全球最大 GB200 工厂落地。广达（2382）<em>1M -2%</em> 是本节最大反叙事——Q1 营收增速放缓 + 市场担忧 GB300 转换期 Quanta 份额被鸿海蚕食（详 §08）。纬创（3231）<em>1M +5%</em> 同样落后，三巨头之间份额再分配信号已现。中盘英业达（2356）<em>1M +36%</em> 异军突起，L6/L10 升级带动 ASP，但规模仍不到鸿海 1/10——属"小基数大弹性"性质，不宜外推。微星（2377）<em>1M +34% 但 1Y -2%</em> 是典型反弹股，前期跌深后追赶，趋势成色未定。
+    </div>
+  </div>
+
+  <div class="ki-block">
+    <div class="ki-head">Key Insight · 网通白盒：智邦 + 启碁 + 光圣</div>
+    <div class="ki-note">
+      智邦（2345）<em>1Y +250% / 6M +169%</em> 是本节涨幅之王，逻辑是 Accton 在白盒交换机市占 <em>40-50%</em>、Meta 已落地 800G AS9817-64D，MSFT 正在切换中（vs Arista 价差 <em>65-75%</em> 是关键诱因）。启碁（6285）<em>6M +207%</em> 同样爆发，Wi-Fi 7 ramp + 北美企业网升级双驱动。光圣（6442）<em>1Y +364%</em> 是 800G 光模块直接受益，但 <em>1M 仅 +10% / 3M 仅 +2%</em>——前期涨幅过大、近期休整。三只标的共同特征：1Y 涨幅 150-360%，但 1M-3M 分化明显，反映白盒/光通信主线开始内部择股，资金从扩散转向聚焦。
+    </div>
+  </div>
+
+  <div class="ki-block">
+    <div class="ki-head">Key Insight · 电源液冷：台达独大 + 光宝跟随</div>
+    <div class="ki-note">
+      台达电（2308）<em>1Y +513%</em> 是全节最强，驱动来自 NVIDIA 800VDC 架构独家供应 + 液冷营收占比已到 <em>9%</em>、毛利率显著高于传统散热件。GTC 2026 展出 800VDC In-Row 660kW 电源 + 2.4MW CDU 液冷，已锁定 NVIDIA Vera Rubin 平台。光宝（2301）<em>1Y +129%</em> 是二线跟随者，PSU 涨价 + AI server 电源拉货带动，弹性不如台达但估值更低。两者形成"绝对龙头 + 次选标的"格局。<em>注意</em>：台达 6M +156% 已是相当陡峭涨幅，若 NVDA Q2 capex 指引不及预期，回调幅度可能不小——但 Bull Logic 下仍是机会而非风险。
+    </div>
+  </div>
+
+  <div class="ki-block">
+    <div class="ki-head">Key Insight · 配套链：连接器/线束/滑轨/工业 PC/电力</div>
+    <div class="ki-note">
+      嘉泽端子（3533）<em>6M +122%</em>、川湖（2059）<em>6M +42%</em>、勤诚兴业（8210）<em>1Y +384%</em>——三只标的共同受益 NVL72 高密度机柜 BOM 拉货，单 rack 含量从过去机型放大 <em>3-5 倍</em>。贸联-KY（3665）<em>1M -13.7%</em> 是本节第二大反叙事（详 §08），短期获利了结 + 特斯拉线束业务担忧，但 <em>3M 仍 +84%</em> 主升浪结构未破。研华（2395）<em>1M +41%</em> 异军突起，edge AI 与工业 4.0 资本支出转强是核心；华新（1605）<em>1M +26%</em> 受益 data center 电力扩建（变压器+特种线缆短缺），但 <em>3M 仅 +3%</em> 显示主线刚启动、持续性待观察。
+    </div>
+  </div>
+</section>
+
+
+<section id="theme-backend" class="sec">
+  <div class="sec-num">§05 · 主线 4</div>
+  <h2 class="sec-title">AI <em>后段</em> · 封测 + 测试 + 探针 + 散热 + 厂房</h2>
+  <div class="theme-card bull"><div class="theme-meta">
+    <span class="v">14</span> 只 · 测试设备 / 探针 / IC 封测 / 散热模组 / IHS / 液冷 / 晶圆厂工程 全后段链条
+  </div></div>
+  <!-- 牛熊闸门 · 2 段 -->
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · 行业阶段定位</div>
+      <p>AI 后段 capex cycle 仍在加速段。TSMC 2026 capex 上修至 <strong>$52–56B（YoY +32%）</strong>、70–80% 砸先进制程、10–20% 砸先进封装；Powertech 2026 capex 翻倍至 <strong>NT$40B</strong>、先进封装产能"明年已被订完"；鸿勁公告 2026–2028 年产能 <strong>50% 复合年增</strong>、CSP TPU 订单 2H26 大量出货；Micron HBM 产能 sold out through 2026。测试设备（7769/2360）、探针（6515）、封测（6239）、厂房工程（6139/2404/6196）四个子环节 1Y 涨幅 174%–828% 全部 outperform 母市场。</p>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · catalyst window</div>
+      <p>散热子环节 1M 已开始出现裂缝：健策（3653 -29.8%）连吞两根跌停、起因为 <strong>NVIDIA Rubin 散热设计传改版</strong>，奇鋐（3017 -12.6%）、颖崴（6515 -12.0%）同步走弱；这不是技术回调，是产品规格风险传导。需观察：① TSMC 7/17 法说 capex 是否守住 $52B 下限；② NVIDIA Rubin GTC（11 月）散热方案最终敲定、关键看 IHS vs cold plate 主导权；③ 鸿勁/致茂 6 月营收能否延续 1Q26 YoY +81% 量级。Bull thesis 完整、但散热段已出现 narrative re-rating，需独立看待。</p>
+    </div>
+  </div>
+
+  <!-- 主表 8 列 -->
+  <table class="dt">
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>名称</th>
+        <th>角色</th>
+        <th>1M</th>
+        <th>3M</th>
+        <th>6M</th>
+        <th>1Y</th>
+        <th>归因 / 信号</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 大盘 L 先 -->
+      <tr data-cap="L">
+        <td class="tk">7769.TW</td>
+        <td>鸿勁</td>
+        <td>SoC tester (AI/ASIC)</td>
+        <td class="num pos">+62</td>
+        <td class="num pos">+66</td>
+        <td class="num pos">+194</td>
+        <td class="num pos">+665</td>
+        <td>1Q26 营收 NT$10.7B / YoY +81%，AI/HPC/ASIC 占订单 78%；CSP TPU 订单 2H26 量产；2026–2028 产能 CAGR +50%；CPO Insertion 4 年底定规、2027 初量产 · <span class="tag t-er">earnings</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="tk">2360.TW</td>
+        <td>致茂电子</td>
+        <td>ATE / 电池 / AI 电源测试</td>
+        <td class="num pos">+28</td>
+        <td class="num pos">+101</td>
+        <td class="num pos">+204</td>
+        <td class="num pos">+662</td>
+        <td>2025 全年营收 NT$28.3B / YoY +31%、净利 +122%；管理层指引 2026 半导体测试 + AI server power 双位数增长延续 · <span class="tag t-cat">catalyst</span></td>
+      </tr>
+      <tr data-cap="L">
+        <td class="tk">3017.TW</td>
+        <td>奇鋐科技</td>
+        <td>散热 3DVC / 液冷</td>
+        <td class="num neg">-13</td>
+        <td class="num pos">+66</td>
+        <td class="num pos">+107</td>
+        <td class="num pos">+331</td>
+        <td>1M 转跌与健策同步、源自 Rubin 散热改版担忧外溢；GB300 cold plate 市占指引 25%、AMD vapor chamber 认证已过、Meta 出货中 · <span class="tag t-mapping">mapping · sentiment</span></td>
+      </tr>
+
+      <!-- 中小盘 S -->
+      <tr data-cap="S">
+        <td class="tk">3653.TW</td>
+        <td>健策</td>
+        <td>IHS / cold plate</td>
+        <td class="num neg">-29</td>
+        <td class="num pos">+28</td>
+        <td class="num pos">+45</td>
+        <td class="num pos">+195</td>
+        <td><strong>核心异动</strong>：NVIDIA Rubin 散热设计传改版、连吞 2 根跌停；2026 EPS 共识仍上修至 64.23 元（target 4827.5）；事件性 derating、非产业拐点 · <span class="tag t-cat">catalyst · risk</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6515.TW</td>
+        <td>颖崴</td>
+        <td>probe card (MEMS)</td>
+        <td class="num neg">-12</td>
+        <td class="num pos">+86</td>
+        <td class="num pos">+258</td>
+        <td class="num pos">+828</td>
+        <td>GS 给 Buy / 目标价 NT$1000、2024–2027 EPS CAGR +28%；HBM/CoWoS 探针先行；1M 回吐属高位获利了结、3M+86% 仍领跑 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">2449.TW</td>
+        <td>京元电子</td>
+        <td>IC 测试</td>
+        <td class="num pos">+11</td>
+        <td class="num neg">-3</td>
+        <td class="num pos">+56</td>
+        <td class="num pos">+240</td>
+        <td>纯 IC test 龙头、AI ASIC 测试受益但弹性弱于设备端；3M -3% 显示已脱离主线热度第一梯队 · <span class="tag t-mapping">mapping · indirect</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6239.TW</td>
+        <td>力成</td>
+        <td>封测 / HBM / FOPLP</td>
+        <td class="num pos">+48</td>
+        <td class="num pos">+21</td>
+        <td class="num pos">+105</td>
+        <td class="num pos">+174</td>
+        <td>TSMC CoWoS 产能缺口外溢、美系 AI chip 厂家转单至力成；2026 capex NT$40B 翻倍；先进封装产能 2026 已订满；Micron HBM 长期合作 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">3030.TW</td>
+        <td>德律科技</td>
+        <td>PCB / ICT 测试设备</td>
+        <td class="num pos">+33</td>
+        <td class="num pos">+106</td>
+        <td class="num pos">+187</td>
+        <td class="num pos">+286</td>
+        <td>AI server PCB 复杂度上升、ICT/AOI 测试 ASP 提升；属测试设备主题中弹性最大、估值未到拥挤 · <span class="tag t-mapping">mapping · indirect</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">2467.TW</td>
+        <td>志圣工业</td>
+        <td>曝光设备 / 烘烤炉</td>
+        <td class="num pos">+23</td>
+        <td class="num pos">+136</td>
+        <td class="num pos">+268</td>
+        <td class="num pos">+296</td>
+        <td>FOPLP / 先进封装产线扩张直接受益、曝光 + bake 设备订单同步出货；与力成 capex 翻倍逻辑同源 · <span class="tag t-mapping">mapping · indirect</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">8996.TW</td>
+        <td>高力</td>
+        <td>液冷板 / CDU</td>
+        <td class="num pos">+1</td>
+        <td class="num pos">+22</td>
+        <td class="num pos">+137</td>
+        <td class="num pos">+395</td>
+        <td>CDU + 液冷板组件、6M+137% 表明已被市场重定价；1M +1% 显示进入震荡消化、未跟随 3017/3653 下跌 = 相对强势 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6139.TW</td>
+        <td>亚翔工程</td>
+        <td>晶圆厂洁净厂房</td>
+        <td class="num pos">+14</td>
+        <td class="num pos">+49</td>
+        <td class="num pos">+84</td>
+        <td class="num pos">+247</td>
+        <td>TSMC 2026 capex $52–56B / YoY +32%、Arizona 第 3 厂在建 + 4 厂申请中；亚翔做厂房洁净系统、capex 上修 1:1 转订单 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6196.TW</td>
+        <td>帆宣科技</td>
+        <td>设备代理 + 厂务</td>
+        <td class="num pos">+26</td>
+        <td class="num pos">+69</td>
+        <td class="num pos">+119</td>
+        <td class="num pos">+187</td>
+        <td>半导体设备代理 + 厂务工程双轮、TSMC 先进制程 capex 70–80% 占比直接受益；本周 +26% 显示市场已开始定价 capex 上修 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">2404.TW</td>
+        <td>汉唐</td>
+        <td>晶圆厂工程</td>
+        <td class="num pos">+26</td>
+        <td class="num pos">+27</td>
+        <td class="num pos">+62</td>
+        <td class="num pos">+139</td>
+        <td>与亚翔同业、TSMC 厂房工程二供；6M / 1Y 涨幅低于亚翔说明订单分配较弱、但 capex 上修同样受益 · <span class="tag t-mapping">mapping · direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">6781.TW</td>
+        <td>AES-KY</td>
+        <td>锂电池 / UPS</td>
+        <td class="num pos">+13</td>
+        <td class="num pos">+5</td>
+        <td class="num pos">+1</td>
+        <td class="num pos">+37</td>
+        <td>本主线最弱标的、与 AI 后段关联间接；UPS / 数据中心备电需求承接、但弹性远低于其他后段子环节 · <span class="tag t-mapping">mapping · sentiment</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 大盘 ki-note -->
+  <div class="ki-note ki-note-large">
+    <div class="ki-label">大盘 ki-note · L 档 3 只</div>
+    <p>测试设备双雄（7769 / 2360）1Y 涨幅 662%–665% 反映的是 capex cycle 中段的盈利兑现：鸿勁 1Q26 营收 YoY +81%、AI/HPC/ASIC 占订单 78%、CSP TPU 订单 2H26 量产，致茂 2025 净利 +122%、AI server power 测试是新增量；这两只 1M 仍 +28%/+62% 表明产业 momentum 未破。奇鋐（3017）1M -13% 是 L 档唯一转跌、与健策 Rubin 散热改版事件同步——这不是散热产业逻辑破坏，而是 NVIDIA 下一代散热方案归属权未定带来的供应商 re-shuffle 担忧外溢。三只标的的关键 debate 已从"AI 需求是否真实"切到"谁拿下 Rubin 时代订单"。</p>
+  </div>
+
+  <!-- 中小盘情绪/弹性总结 -->
+  <div class="cap-summary">
+    <div class="cs-label">中小盘 · 情绪 / 弹性</div>
+    <p>S 档 11 只可分三组观察：① <strong>散热段裂缝</strong>（3653 / 6515）1M -29% / -12% 是本节最大 alpha 信号，3653 的 Rubin 改版事件是 specific catalyst、6515 高位获利了结成分更大；② <strong>测试 + 封测加速</strong>（6239 / 3030 / 2467 全部 1M +33% 至 +48%）反映 TSMC capex 翻倍 + 力成接 CoWoS 外溢单 + FOPLP 设备需求三条线同步发酵；③ <strong>厂房工程</strong>（6139 / 6196 / 2404 三只 1M +14%–26%）是 TSMC 2026 capex 上修至 $52–56B 的直接受益、亚翔涨幅明显领先汉唐说明订单分配差异已被定价。AES-KY 是边缘标的、不属同一弹性框架。</p>
+  </div>
+
+  <!-- 中小盘 ki-note -->
+  <div class="ki-note ki-note-small">
+    <div class="ki-label">中小盘 ki-note</div>
+    <p>本周中小盘核心张力：散热 vs 测试 / 厂房的方向背离。散热段在 Rubin 设计风险下 derating，测试 + 封测 + 厂房工程则在 capex 上修下集体加速——这种背离不是 sector rotation、而是 NVIDIA 产品代际切换带来的供应商盈亏重新分配。</p>
+  </div>
+
+</section>
+
+
+<section id="theme-memory" class="sec">
+  <div class="sec-num">§06 · 主线 5</div>
+  <h2 class="sec-title">存储 <em>涨价循环</em> + IC 设计周边</h2>
+  <div class="theme-meta">
+    <span class="v">12</span> 只标的
+    <span class="tag t-cat">价格周期</span>
+    <span class="tag t-map-d">AI server</span>
+    <span class="tag t-map-i">通路补库</span>
+  </div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">行业阶段定位 · Bull Logic</div>
+      <p>存储正处<strong>多年级别上行周期初-中段</strong>。Samsung/SK Hynix Q1 2026 server DRAM 报价 +60~70% QoQ、HBM3E 全年 +20%，且两家已拒绝 2-3 年长约改回季度合约，明示价格逐季抬升至 2027；NOR Flash Q1 +30%+、Q2 再 +40~50% QoQ，Macronix 稼动 100%、Winbond 2H26 才能放量。PMIC 端 uPI/Silergy 表态全年缺货，AI server 出货增长 ~28%。供给端三大原厂转产 HBM 挤压 conventional DRAM，CXMT 增量无法补缺口。</p>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Catalyst window · 触发节奏</div>
+      <p>未来 90 天三个观察点决定二次发酵 vs 见顶：① 6 月 Micron FQ3 财报指引 + Q3 DRAM 长约谈判结果（70% 提价能否落地）② 7 月 SK Hynix/Samsung Q2 财报中 HBM4 量产排程 ③ 通路商（3036/3702）5/6 月营收能否延续 4 月文晔 +89% YoY 的力度——若三条同时验证，第二波资金涌入 IC 设计端外溢；若 DRAM 长约最终砍到 +30~40%，叙事降级到"涨价兑现"段。</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>公司</th>
+          <th>分档</th>
+          <th class="num">1M</th>
+          <th class="num">3M</th>
+          <th class="num">6M</th>
+          <th class="num">1Y</th>
+          <th>归因</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-cap="L">
+          <td class="tk">2408.TW</td>
+          <td>南亚科</td>
+          <td><span class="cap-pill cap-L">L</span></td>
+          <td class="num pos">+44</td>
+          <td class="num neg">-1</td>
+          <td class="num pos">+107</td>
+          <td class="num pos">+596</td>
+          <td><span class="tag t-cat">DRAM 涨价</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">2344.TW</td>
+          <td>华邦电</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+46</td>
+          <td class="num pos">+5</td>
+          <td class="num pos">+135</td>
+          <td class="num pos">+624</td>
+          <td><span class="tag t-cat">特规 DRAM/NOR 双涨</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">2337.TW</td>
+          <td>旺宏</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+16</td>
+          <td class="num pos">+34</td>
+          <td class="num pos">+351</td>
+          <td class="num pos">+623</td>
+          <td><span class="tag t-cat">NOR Q1 +30 Q2 +40~50</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">4919.TW</td>
+          <td>新唐科技</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+51</td>
+          <td class="num pos">+200</td>
+          <td class="num pos">+340</td>
+          <td class="num pos">+206</td>
+          <td><span class="tag t-map-d">BMC 80→120 颗/rack</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">6415.TW</td>
+          <td>硅力-KY</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+42</td>
+          <td class="num pos">+117</td>
+          <td class="num pos">+243</td>
+          <td class="num pos">+67</td>
+          <td><span class="tag t-map-d">PMIC Gen4 提前 ramp</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">6257.TW</td>
+          <td>硅格</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+25</td>
+          <td class="num pos">+77</td>
+          <td class="num pos">+147</td>
+          <td class="num pos">+220</td>
+          <td><span class="tag t-cat">记忆体封测受益涨价</span><span class="tag t-map-i">indirect</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">2451.TW</td>
+          <td>创见信息</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+23</td>
+          <td class="num pos">+37</td>
+          <td class="num pos">+67</td>
+          <td class="num pos">+218</td>
+          <td><span class="tag t-cat">记忆模组 ASP 拉升</span><span class="tag t-map-i">indirect</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">3036.TW</td>
+          <td>文晔科技</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+52</td>
+          <td class="num pos">+67</td>
+          <td class="num pos">+128</td>
+          <td class="num pos">+162</td>
+          <td><span class="tag t-map-i">通路 4 月 +89 YoY</span><span class="tag t-map-d">direct</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">3702.TW</td>
+          <td>大联大</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+27</td>
+          <td class="num pos">+85</td>
+          <td class="num pos">+95</td>
+          <td class="num pos">+95</td>
+          <td><span class="tag t-map-i">通路二哥跟涨</span><span class="tag t-map-i">indirect</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">3034.TW</td>
+          <td>联咏</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+17</td>
+          <td class="num pos">+27</td>
+          <td class="num pos">+26</td>
+          <td class="num pos">+0</td>
+          <td><span class="tag t-map-d">TDDI/SoC 外溢</span><span class="tag t-map-s">sentiment</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">2379.TW</td>
+          <td>瑞昱</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+8</td>
+          <td class="num pos">+23</td>
+          <td class="num pos">+15</td>
+          <td class="num pos">+18</td>
+          <td><span class="tag t-map-d">网通 AI 推理外溢</span><span class="tag t-map-s">sentiment</span></td>
+        </tr>
+        <tr data-cap="S">
+          <td class="tk">5269.TW</td>
+          <td>祥硕科技</td>
+          <td><span class="cap-pill cap-S">S</span></td>
+          <td class="num pos">+19</td>
+          <td class="num pos">+21</td>
+          <td class="num pos">+31</td>
+          <td class="num neg">-18</td>
+          <td><span class="tag t-map-i">USB/SATA 1Y 落后</span><span class="tag t-map-s">sentiment</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ki-note">
+    <strong>K-Note：</strong>四只存储原厂 1M 集体 +16~51% 反弹，但 3M 出现明显内部分化——南亚科 -1%（standard DRAM 多、HBM 没切入）、华邦电 +5%（特规 DRAM/NOR 双涨持续兑现）、旺宏 +34%（NOR Q2 涨 40-50% 直接受益）、新唐 +200%（BMC 单 rack 80→120 颗的产业级 re-rating）。这组分化说明<strong>价格周期已切换到"按产品结构定胜负"的阶段</strong>——不能再用"存储四老"打包看，HBM/NOR/BMC 接 AI 算力链的弹性最大，纯 standard DRAM 已在第一波涨完。1Y +200~624% 量级确实把第一波涨价 price in 了，但 Q2 server DRAM +60-70% / NOR +40-50% / PMIC 缺货全年三条供给端硬数据是<strong>二次发酵的实证依据</strong>，不是叙事重复。IC 通路端 3036/3702 在 1M 转强（+52%/+27%），文晔 4 月营收 +89% YoY 创新高已确认渠道补库进入<strong>初段而非末段</strong>——通路营收同比要见到环比掉头才算见顶信号。需要警惕：联咏/瑞昱/祥硕这三只 1Y 仅 0~18%，明显在被存储+BMC 叙事外溢拉动，本身产业层 catalyst 弱，属 sentiment 类型，跟随性买入弹性最低、回撤风险最高。</strong>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-mlcc">
+  <div class="sec-num">§07 · 主线 6</div>
+  <h2 class="sec-title">MLCC <em>涨价循环</em> · 被动元件三巨头</h2>
+  <div class="theme-card bull"><div class="theme-meta">
+    <span class="tag t-cat">supply</span>
+    <span class="tag t-cat">pricing</span>
+    <span class="tag t-map-d">AI server</span>
+    <span class="v">3</span> 只标的 · 全部小盘
+  </div></div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · 行业阶段定位</div>
+      <p>MLCC 处于 <strong>上行周期中段、二次发酵阶段</strong>。三道驱动叠加：① 价格端 — Murata 4/1 启动涨价、Yageo 高压/高容/车规 MLCC + 厚膜电阻调涨 10–20%、Walsin 2/1 起 0201–1206 电阻提价 ~20%；② AI server 单板用量爆量 — GB200 单板 ~6,500 颗 MLCC（是普通 server 2 倍）、Rubin 架构升至 ~12,000 颗、X6S/X7S/X7R 高温品占 85%；③ 产能端 Yageo 拒绝新增 2026 产能、专用品稼动率 80→85%，供需缺口被锁死。Yageo Q1 营收 NT$38.2B（YoY +22.7%）、净利 +44.7%、毛利率 38.1%、book-to-bill > 1、AI 营收占比冲到 14–15%。</p>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · catalyst window</div>
+      <p>MLCC 是 <strong>典型商品周期股</strong>，一次涨价 cycle 历史上通常 6–9 个月。本期 1M 涨幅 +130~+147%、3026 禾伸堂 6M +396 / 1Y +559，<strong>拥挤度极高 + 叙事饱满</strong>。三个反向观察点：① Yageo / 华新科 / Murata 下一次提价 letter 是否如期落地（缺席 = 涨价 cycle 见顶信号）；② AI server 客户库存周转天数（一旦从拉货切到去化，spot 价立刻松动）；③ 通路商报价 vs 原厂报价价差收敛（2017 上一轮顶部前兆）。Q2 Yageo 自身展望已被分析师定调"moderate"——pricing power 仍在但增速边际放缓。</p>
+    </div>
+  </div>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>名称</th>
+        <th>市值档</th>
+        <th>1M</th>
+        <th>3M</th>
+        <th>6M</th>
+        <th>1Y</th>
+        <th>归因</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-cap="S">
+        <td class="tk">2327.TW</td>
+        <td>国巨 Yageo</td>
+        <td class="num pos">+133</td>
+        <td class="num pos">+130</td>
+        <td class="num pos">+197</td>
+        <td class="num pos">+499</td>
+        <td><span class="tag t-er">earnings</span> <span class="tag t-cat">pricing</span> <span class="tag t-map-d">AI direct</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">2492.TW</td>
+        <td>华新科 Walsin Tech</td>
+        <td class="num pos">+147</td>
+        <td class="num pos">+116</td>
+        <td class="num pos">+170</td>
+        <td class="num pos">+305</td>
+        <td><span class="tag t-cat">pricing</span> <span class="tag t-map-d">AI direct</span> <span class="tag t-cat">supply</span></td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">3026.TW</td>
+        <td>禾伸堂 Holystone</td>
+        <td class="num pos">+142</td>
+        <td class="num pos">+343</td>
+        <td class="num pos">+396</td>
+        <td class="num pos">+559</td>
+        <td><span class="tag t-map-s">sentiment</span> <span class="tag t-cat">pricing</span> <span class="tag t-map-d">AI indirect</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>三档弹性梯度清晰。</strong>2327 国巨是规模龙头、Q1 已兑现 EPS NT$3.90 / 毛利率 38.1% / AI 营收占比 15%，1M +133% 主要是估值重估而非业绩 surprise，催化是 Q2 二度提价 + 6/6 AI summit 董事长亲自主持。2492 华新科 1M +147% 居首，逻辑是切入 AI server 高毛利 X6S 供应链 + 2/1 电阻提价 ~20% 跟进 Yageo。3026 禾伸堂 6M +396 / 1Y +559 是 <strong>纯弹性小盘</strong>——MLCC #3、流通盘最小、3M +343 已是妖股形态，1M +142 属于龙一龙二补涨拉动而非个股 alpha。整条主线最关键的观察点：Yageo / Murata 7–8 月那一轮提价 letter 是否如期，缺席即 cycle 见顶信号。
+  </div>
+</section>
+
+
+<section class="sec" id="theme-counter">
+  <div class="sec-num">§08 · 反叙事观察</div>
+  <h2 class="sec-title">反叙事 <em>观察</em> · 高位回调 + 外溢机会 + 防守</h2>
+  <p class="sec-sub"><em>本期 alpha 信号汇总：散热筹码松动是中段洗筹，面板涨价是真外溢，电信防守证伪。</em></p>
+
+  <!-- A 组解读段 -->
+  <h3 style="font-family:var(--serif);font-size:18px;color:var(--ink);margin:18px 0 8px;font-weight:600">A · <em style="color:var(--accent)">AI 链 1M 回调</em>（9 只）</h3>
+  <p>散热三连跌（3017 奇鋐 -13、3653 健策 -30、6515 颖崴 -12）3M/6M/1Y 仍 +60/+100/+200 起跳，是<strong>中段筹码松动</strong>而非产业拐点——奇鋐越南 V7/V8 厂 2026Q2 月产能拉到 75 万组、GB300 单柜液冷价值跃升至 6.3-6.5 万美元（vs GB200 约 3.5 万、+50-80%），外资目标价仍上调至 NT$1,950-3,780 区间，产业 Bull Logic 未破。健策 -30 跌幅独大与 1Y +195 形成对照，疑似获利了结叠加 IHS 二供格局担忧。2382 广达 1M -2 vs 同档 2317 鸿海 +18 / 6669 缘泰电力 +21 的强分化，<strong>属公司层面订单分配问题</strong>而非 AI server 链整体走弱。1326 台化 -9 与 AI 链无关，纯化工弱势，归入防守失败类。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th>Ticker</th><th>公司</th><th>类别</th>
+      <th data-type="num">1M</th><th data-type="num">3M</th><th data-type="num">6M</th><th data-type="num">1Y</th>
+      <th>信号</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="S">
+        <td><span class="tk">3653.TW</span></td><td>健策</td><td>散热 IHS</td>
+        <td class="num neg">-30</td><td class="num pos">+28</td><td class="num pos">+45</td><td class="num pos">+195</td>
+        <td>高位获利了结</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">3665.TW</span></td><td>贸联-KY</td><td>server 线束</td>
+        <td class="num neg">-14</td><td class="num pos">+84</td><td class="num pos">+53</td><td class="num pos">+290</td>
+        <td>中段洗筹</td>
+      </tr>
+      <tr data-cap="L">
+        <td><span class="tk">3017.TW</span></td><td>奇鋐科技</td><td>散热龙头</td>
+        <td class="num neg">-13</td><td class="num pos">+66</td><td class="num pos">+107</td><td class="num pos">+331</td>
+        <td>中段洗筹</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">6515.TW</span></td><td>颖崴</td><td>探针卡</td>
+        <td class="num neg">-12</td><td class="num pos">+86</td><td class="num pos">+258</td><td class="num pos">+828</td>
+        <td>高位获利了结</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1326.TW</span></td><td>台化</td><td>化工</td>
+        <td class="num neg">-9</td><td class="num pos">+0</td><td class="num pos">+41</td><td class="num pos">+85</td>
+        <td>非 AI 弱势</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">6805.TW</span></td><td>富世达</td><td>折叠机零件</td>
+        <td class="num neg">-9</td><td class="num pos">+18</td><td class="num pos">+30</td><td class="num pos">+194</td>
+        <td>题材切换</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">4938.TW</span></td><td>和硕</td><td>NB ODM</td>
+        <td class="num neg">-4</td><td class="num pos">+13</td><td class="num pos">+15</td><td class="num neg">-5</td>
+        <td>1Y 落后真信号</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">6213.TW</span></td><td>联茂</td><td>CCL</td>
+        <td class="num neg">-3</td><td class="num pos">+100</td><td class="num pos">+168</td><td class="num pos">+236</td>
+        <td>中段洗筹</td>
+      </tr>
+      <tr data-cap="L">
+        <td><span class="tk">2382.TW</span></td><td>广达</td><td>AI server ODM</td>
+        <td class="num neg">-2</td><td class="num pos">+11</td><td class="num pos">+16</td><td class="num pos">+26</td>
+        <td>订单分配劣势</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">A 组 9 只中真正需要警惕的只有 <strong>2382 广达</strong>（vs 2317 / 6669 同档分化、订单层面）和 <strong>4938 和硕</strong>（1Y -5、AI server 含量不足）；其余 7 只 3M/1Y 仍三位数涨幅，是 Bull Logic 中段健康筹码切换。出场观察点：奇鋐越南 V7/V8 厂 2026Q2 75 万组月产能落地是否如期、GB300 液冷单柜价值 6.3-6.5 万美元是否被新进入者压价。</div>
+
+  <!-- B 组解读段 -->
+  <h3 style="font-family:var(--serif);font-size:18px;color:var(--ink);margin:24px 0 8px;font-weight:600">B · <em style="color:var(--accent)">AI 链外溢 + 防守</em>（15 只）</h3>
+  <p>三组性质差异极大：<strong>面板组（3481 群创 +110、2409 友达 +42、1802 台玻 +14）</strong>是真外溢——4 月 Innolux 已明确对 niche 工业面板提价转嫁铜/铟/PCB 成本，AI server LCD 控制面板需求叠加涨价周期，3M/6M/1Y 三档共振，1M 加速段已启动。<strong>工业机械组（7750 新代 +20、2049 上银 +35、1590 亚德客 +7、1560 中砂 +35）</strong>是 AI 厂务/半导体设备外溢的延伸，1560 中砂（半导体抛光垫）+ 7750 新代（CNC 控制器）逻辑最硬。<strong>电信防守组（2412 中华电 +1、3045 台湾大 -1）1Y 仅 +7/-1</strong>，相对加权指数大幅落后，<strong>反向证明本期市场全面 risk-on、防守仓位被抛弃</strong>，这本身是 Bull Logic 持续的反叙事确认信号。3008 大立光 +53 是苹果链独立周期，与 AI 链无映射关系。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th>Ticker</th><th>公司</th><th>类别</th>
+      <th data-type="num">1M</th><th data-type="num">3M</th><th data-type="num">6M</th><th data-type="num">1Y</th>
+      <th>信号</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="S">
+        <td><span class="tk">3481.TW</span></td><td>群创光电</td><td>面板涨价</td>
+        <td class="num pos">+110</td><td class="num pos">+98</td><td class="num pos">+299</td><td class="num pos">+278</td>
+        <td>AI LCD 真外溢</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">2409.TW</span></td><td>友达</td><td>面板</td>
+        <td class="num pos">+42</td><td class="num pos">+49</td><td class="num pos">+125</td><td class="num pos">+84</td>
+        <td>面板周期共振</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1802.TW</span></td><td>台玻</td><td>玻璃基板</td>
+        <td class="num pos">+14</td><td class="num pos">+30</td><td class="num pos">+124</td><td class="num pos">+417</td>
+        <td>面板链 indirect</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">7750.TW</span></td><td>新代</td><td>CNC 控制器</td>
+        <td class="num pos">+20</td><td class="num pos">+104</td><td class="num pos">+261</td><td class="num pos">+302</td>
+        <td>AI 厂务外溢</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1590.TW</span></td><td>亚德客-KY</td><td>工业气动</td>
+        <td class="num pos">+7</td><td class="num pos">+22</td><td class="num pos">+62</td><td class="num pos">+60</td>
+        <td>资本财温和</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">2049.TW</span></td><td>上银科技</td><td>线性导轨</td>
+        <td class="num pos">+35</td><td class="num pos">+69</td><td class="num pos">+118</td><td class="num pos">+74</td>
+        <td>半导体设备 indirect</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1560.TW</span></td><td>中砂</td><td>半导体抛光垫</td>
+        <td class="num pos">+35</td><td class="num pos">+45</td><td class="num pos">+135</td><td class="num pos">+158</td>
+        <td>半导体耗材 direct</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1303.TW</span></td><td>南亚塑料</td><td>化工</td>
+        <td class="num pos">+1</td><td class="num neg">-4</td><td class="num pos">+59</td><td class="num pos">+190</td>
+        <td>化工弱势</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">1717.TW</span></td><td>长兴材料</td><td>PCB 树脂</td>
+        <td class="num pos">+6</td><td class="num pos">+30</td><td class="num pos">+111</td><td class="num pos">+217</td>
+        <td>PCB 链 indirect</td>
+      </tr>
+      <tr data-cap="L">
+        <td><span class="tk">2412.TW</span></td><td>中华电</td><td>电信</td>
+        <td class="num pos">+1</td><td class="num pos">+1</td><td class="num pos">+3</td><td class="num pos">+7</td>
+        <td>防守仓位被弃</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">3045.TW</span></td><td>台湾大</td><td>电信</td>
+        <td class="num neg">-1</td><td class="num pos">+3</td><td class="num pos">+3</td><td class="num neg">-1</td>
+        <td>防守仓位被弃</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">3008.TW</span></td><td>大立光</td><td>苹果链光学</td>
+        <td class="num pos">+53</td><td class="num pos">+58</td><td class="num pos">+80</td><td class="num pos">+69</td>
+        <td>苹果链独立</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">3706.TW</span></td><td>神达</td><td>server 集成</td>
+        <td class="num pos">+8</td><td class="num pos">+10</td><td class="num pos">+1</td><td class="num pos">+65</td>
+        <td>AI server 二线</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">2324.TW</span></td><td>仁宝电脑</td><td>NB ODM</td>
+        <td class="num pos">+14</td><td class="num pos">+17</td><td class="num pos">+21</td><td class="num pos">+21</td>
+        <td>NB 温和</td>
+      </tr>
+      <tr data-cap="S">
+        <td><span class="tk">2353.TW</span></td><td>宏碁</td><td>PC</td>
+        <td class="num pos">+18</td><td class="num pos">+20</td><td class="num pos">+18</td><td class="num neg">-3</td>
+        <td>1M 反弹假信号</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">B 组真信号集中在 <strong>面板组（3481/2409/1802）+ 半导体外溢（1560/7750/2049）</strong>——前者有 Innolux 4 月正式提价公告 + AI server LCD 需求双驱动，后者绑半导体厂务/设备 capex。<strong>电信组 1Y 仅 +1/-1 是 Bull Logic 反向确认</strong>，市场全面 risk-on 抛弃 yield play。1717 长兴材料（PCB 树脂）可作为 §06 PCB 链的 indirect 补充观察。3008 大立光独立于 AI 主线、不并入归因。</div>
+</section>
+
+
+<!-- ========== §09 Final Read ========== -->
+<section class="sec" id="final-read">
+  <div class="sec-num">§09 · Final Read</div>
+  <h2 class="sec-title">综合 <em>判断</em> · 跨主线联动 + 下月观察</h2>
+  <p class="sec-sub"><em>台股全市场处于 AI 链 Bull Logic 中段—加速段交叠期，6 条主线 1Y 涨幅 +130~+454% 均未见产业拐点信号。</em></p>
+
+  <!-- 综合判断 -->
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">整体定位 · <em>AI 链 Bull Logic 中段—加速段</em></div>
+      <div class="card-meta">6 主线 / 84 标的 / 4 窗口位势</div>
+      <div class="card-body">
+        <ol>
+          <li><strong>产业证据全部完整</strong>：TSMC 2026 capex YoY +32% / Broadcom $73B backlog 锁产能到 2028 / ABF 三家 sold out / DRAM Q1 价格 +60-70% / MLCC 三巨头联手提价——五条独立信号交叉验证，<em>无任何产业反向信号</em>。</li>
+          <li><strong>位势上还在加速</strong>：板材链 3M 中位 +93%、MLCC 3M +130%、后段 3M +52% 均高于 6M 年化节奏——意味着市场正在 re-rate，而非 mean reversion。</li>
+          <li><strong>分化是健康分化</strong>：龙头与跟随股节奏一致（联发科 +74 / 鸿海 +18 / Yageo +132），未出现"龙头先跌"——这是中段而非末段的特征。</li>
+        </ol>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">需要警惕的 <em>三个反向信号窗口</em></div>
+      <div class="card-meta">6-8 月的 catalyst window</div>
+      <div class="card-body">
+        <ol>
+          <li><strong>散热段产业风险（11 月 GTC 之前）</strong>：NVIDIA Rubin 散热方案 IHS vs cold plate 主导权未敲定，奇鋐/健策/颖崴的 1M 已有反应；若 7-8 月供应链披露最终方案利空台系，可能从单段扩散到整个后段。</li>
+          <li><strong>MLCC 二次提价缺席</strong>：Yageo/Murata 7-8 月按惯例发下一轮 letter，若缺席 = cycle 见顶信号；这是单一主题最大风险。</li>
+          <li><strong>DRAM 长约价砍价</strong>：6 月 Micron FQ3 财报后的 Q3 DRAM 长约谈判，若 70% 提价砍到 +30~40%，存储叙事降级到"涨价兑现"段，相关标的估值高点。</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 跨主线联动 -->
+  <h3 style="font-family:var(--serif);font-size:18px;color:var(--ink);margin:24px 0 8px;font-weight:600">跨主线联动 · <em style="color:var(--accent)">三个产业链锚点</em></h3>
+  <table class="dt no-filter">
+    <thead>
+      <tr>
+        <th>锚点</th>
+        <th>主线 A</th>
+        <th>主线 B</th>
+        <th>联动方向</th>
+        <th>验证信号</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">NVIDIA GB200/300 ramp</td>
+        <td class="logic">§04 服务器（鸿海/广达）</td>
+        <td class="logic">§03 板材 + §05 散热 + §07 MLCC</td>
+        <td class="logic">单 rack BOM 拉货：PCB / ABF / 液冷 / MLCC 6500 颗</td>
+        <td class="logic">Foxconn / Quanta 5-6 月营收（月中公布）</td>
+      </tr>
+      <tr>
+        <td class="name">TSMC capex 上修 + N2 满载</td>
+        <td class="logic">§02 中枢</td>
+        <td class="logic">§05 后段（亚翔/汉唐/帆宣）</td>
+        <td class="logic">晶圆厂工程订单滞后 1-2 季度兑现</td>
+        <td class="logic">7/17 TSMC 法说 capex 守住 $52B 下限</td>
+      </tr>
+      <tr>
+        <td class="name">CSP capex 上修（MSFT/META/GOOGL/AMZN）</td>
+        <td class="logic">§02 中枢（创意/世芯 ASIC）</td>
+        <td class="logic">§04 服务器（纬颖/智邦）</td>
+        <td class="logic">ASIC 设计端订单可见度延伸到 2028 + 白盒 server 份额扩张</td>
+        <td class="logic">7 月美系 CSP Q2 财报 capex guidance 修正</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 下月观察清单 -->
+  <h3 style="font-family:var(--serif);font-size:18px;color:var(--ink);margin:24px 0 8px;font-weight:600">未来 30-60 天 · <em style="color:var(--accent)">五个可观察变量</em></h3>
+  <table class="dt no-filter">
+    <thead>
+      <tr>
+        <th>日期</th>
+        <th>事件</th>
+        <th>影响主线</th>
+        <th>关键看数</th>
+        <th>方向含义</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">6/6</td>
+        <td class="name">NVDA GTC + Computex 散热方案</td>
+        <td class="logic">§05 后段（散热）</td>
+        <td class="logic">Rubin IHS / cold plate / 液冷规格</td>
+        <td class="logic">利空台系 → 健策/奇鋐/颖崴二次下跌；利多 → 散热段反弹</td>
+      </tr>
+      <tr>
+        <td class="num">6/10-15</td>
+        <td class="name">台系 ODM 5 月营收</td>
+        <td class="logic">§04 服务器</td>
+        <td class="logic">鸿海 / 广达 / 纬创 YoY 增速</td>
+        <td class="logic">鸿海 &gt;+25% YoY 维持 Bull；&lt;+15% 启动产业减速 debate</td>
+      </tr>
+      <tr>
+        <td class="num">6/20-25</td>
+        <td class="name">Micron FQ3 财报</td>
+        <td class="logic">§06 存储</td>
+        <td class="logic">DRAM 长约价 + HBM 产能指引</td>
+        <td class="logic">长约 +60-70% 兑现 → 华邦/南亚科二次发酵；砍价至 +30-40% → 见顶</td>
+      </tr>
+      <tr>
+        <td class="num">7/15-20</td>
+        <td class="name">TSMC Q2 法说 + capex 修正</td>
+        <td class="logic">§02 中枢 + §05 后段</td>
+        <td class="logic">2026 capex 是否守 $52B 下限 / N3 N2 lead time</td>
+        <td class="logic">capex 上修 → 整条链估值再 re-rate；下修 → 后段先跌</td>
+      </tr>
+      <tr>
+        <td class="num">7-8 月</td>
+        <td class="name">Yageo/Murata 下一轮提价 letter</td>
+        <td class="logic">§07 MLCC</td>
+        <td class="logic">letter 是否如期 + 提价幅度</td>
+        <td class="logic">如期 → 国巨/华新科/禾伸堂主升浪延续；缺席 → cycle 见顶</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 关于"周报"这个名字的诚实说明 -->
+  <div class="note-block" style="margin-top:24px">
+    <div class="kicker">关于数据口径的诚实说明</div>
+    <p>本报告数据源（<em>台股260525.xlsx</em>）<strong>无 1W 列、无大盘 / 行业 ETF beta 基准</strong>——严格意义上是 multi-window 位势复盘而非 traditional 周度归因。意味着：① <strong>无法做 alpha vs beta 校准</strong>——表里所有涨跌幅都是绝对回报；② <strong>无法判断本周市场广度</strong>（涨跌家数、强度分布）；③ <strong>归因到具体催化时</strong>，时间窗口是月度而非周度（"1M +50%"覆盖多个 catalyst 叠加）。下期若能接入 TWSE 大盘 + 类股指数 + 1W 列，将可补 §00 Beta 段。</p>
+  </div>
+
+  <!-- A 股映射指引（与美股周报模板一致） -->
+  <div class="note-block" style="margin-top:14px">
+    <div class="kicker">A 股映射指引（用户独立工作流）</div>
+    <p>本期台股 6 主线中，与 A 股可直接映射的：① <strong>板材链</strong>（沪电股份/胜宏科技/生益科技/方邦电子 → §03 PCB/CCL 链）② <strong>AI 服务器</strong>（工业富联/浪潮信息/中际旭创 → §04 ODM + 光通信）③ <strong>存储</strong>（北京君正/兆易创新 → §06 NOR/MCU）④ <strong>MLCC</strong>（三环集团/风华高科 → §07）。<em>触发"跑 A 股映射"独立工作流</em>以输出深度分析。</p>
+  </div>
+</section>
+
+
+
+<!-- ============================================================
+     页脚（永久 footer、随期次更新右侧日期 + 统计）
+============================================================ -->
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  TAIWAN EQUITY · MULTI-WINDOW SNAPSHOT · AI VALUE CHAIN HOLOGRAM · 2026-05-25 · 84 STOCKS / 6 THEMES + 1 COUNTER / 4-WINDOW SNAPSHOT
+</div>
+
+<!-- ============================================================
+     视图切换 JS（4 档独立筛选、点击 tab 切换 body[data-view]）
+============================================================ -->
+<script>
+// 视图切换
+document.querySelectorAll('.vtab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.body.setAttribute('data-view', btn.dataset.view);
+  });
+});
+
+// 表格列点击排序（所有 table.dt 通用、thead th[data-type] 触发）
+document.querySelectorAll('table.dt').forEach(table => {
+  const ths = table.querySelectorAll('thead th');
+  ths.forEach((th, colIdx) => {
+    if (!th.dataset.type) return;
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const type = th.dataset.type;
+      const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      // 清掉同表其它列的箭头
+      ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
+      th.dataset.sortDir = dir;
+      rows.sort((a, b) => {
+        const aCell = a.children[colIdx];
+        const bCell = b.children[colIdx];
+        const aText = (aCell ? aCell.textContent : '').trim();
+        const bText = (bCell ? bCell.textContent : '').trim();
+        let cmp;
+        if (type === 'num') {
+          const aNum = parseFloat(aText.replace(/[^\-0-9.]/g, ''));
+          const bNum = parseFloat(bText.replace(/[^\-0-9.]/g, ''));
+          const aV = isNaN(aNum) ? -Infinity : aNum;
+          const bV = isNaN(bNum) ? -Infinity : bNum;
+          cmp = aV - bV;
+        } else {
+          cmp = aText.localeCompare(bText, 'zh-CN');
+        }
+        return dir === 'asc' ? cmp : -cmp;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+</script>
+</body>
+</html>
