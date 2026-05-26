@@ -2258,7 +2258,11 @@ document.querySelectorAll('table.dt').forEach(table => {
       if (!tbody) return;
       const rows = Array.from(tbody.querySelectorAll('tr'));
       const type = th.dataset.type;
-      const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      // 排序方向：已 asc → desc；已 desc → asc；首次点击：num 列默认 desc（大→小最常用）、text 列默认 asc
+      let dir;
+      if (th.dataset.sortDir === 'asc') dir = 'desc';
+      else if (th.dataset.sortDir === 'desc') dir = 'asc';
+      else dir = (type === 'num') ? 'desc' : 'asc';
       // 清掉同表其它列的箭头
       ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
       th.dataset.sortDir = dir;
