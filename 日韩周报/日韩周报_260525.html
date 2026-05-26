@@ -2669,7 +2669,14 @@ document.querySelectorAll('table.dt').forEach(table => {
       if (!tbody) return;
       const rows = Array.from(tbody.querySelectorAll('tr'));
       const type = th.dataset.type;
-      const dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      // 首次点击：num 列默认降序（从大到小、用户预期看 top movers/top mcap）、text 列升序
+      // 之后再点：在 asc/desc 之间切换
+      let dir;
+      if (th.dataset.sortDir) {
+        dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        dir = type === 'num' ? 'desc' : 'asc';
+      }
       ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
       th.dataset.sortDir = dir;
       rows.sort((a, b) => {
