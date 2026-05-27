@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+  A 股映射 · HTML Shell（v4 fragment-per-agent）
+  ------------------------------------------------------------------
+  来源：从 us_weekly_shell.html 派生，调整 watermark + footer 文案
+  调性：navy/amber masthead + Fraunces/米色正文（与周报/日报视觉同源）
+  用法：本 shell 不直接渲染——agent fan-out 写 fragment 后由主 Claude
+       Read shell → glob fragments 升序拼接 → 替换 FRAGMENTS_INSERT_HERE
+       → Write D:\claude\research\A 股映射\A股映射_YYMMDD.html
+  ------------------------------------------------------------------
+  视图切换（三类，由 masthead fragment 中的 view-tabs 控制）：
+    direct      · 核心受益，业绩弹性最大
+    indirect    · 服务 / 供应产业链，弹性中等
+    sentiment   · 业务关系弱，靠概念炒作（妖股）
+    all         · 全部
+  ------------------------------------------------------------------
+  章节顺序（六段）：
+    §01 · 主线背景 + 美股核心标的            (Sonnet)
+    §02 · Direct (核心受益)                   (Sonnet)
+    §03 · Indirect (服务/供应链)              (Sonnet)
+    §04 · Pure Sentiment (概念/妖股)          (Sonnet · 妖股识别)
+    §05 · 反映射检查 / leading-lagging       (Sonnet)
+    §06 · Final Read 综合 + 仓位 + 出场       (Sonnet · Phase B)
+========================================================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>A 股映射 · 美股 260526 五主线 · 2026-05-27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1700px;margin:0 auto}
+em{font-style:italic;color:var(--accent)}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber、参考 A股映射_260516) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'A-SHARE MAP';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1080px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* ========== SECTIONS ========== */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:16px;max-width:none}
+
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* ========== DATA TABLE ========== */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.45}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
+table.dt thead th[data-type="num"],table.dt tbody td.num{text-align:center;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:9px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px}
+table.dt td.logic{font-size:12px;color:var(--ink-soft);line-height:1.5}
+table.dt td.logic strong{color:var(--ink)}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+.hl{background:var(--highlight);padding:0 2px}
+/* 表格内 pill 覆盖 masthead 白色版本：深色字 + 浅琥珀底，确保在米色 / 白色表格背景下可读 */
+table.dt .pill{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:2px 8px;border:1px solid rgba(184,135,10,0.35);color:var(--ink);background:rgba(184,135,10,0.08);border-radius:999px;font-weight:600;white-space:nowrap}
+table.dt .pill.bull{color:var(--bull);background:rgba(31,107,74,0.08);border-color:rgba(31,107,74,0.35)}
+table.dt .pill.bear{color:var(--bear);background:rgba(168,51,31,0.08);border-color:rgba(168,51,31,0.35)}
+
+/* ========== ki-note (个股逻辑解读) ========== */
+.ki-note{display:block;margin-top:8px;padding:8px 11px 7px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}
+.ki-note::before{content:"逻辑 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-right:2px}
+.ki-note em{font-style:normal;font-weight:600;color:var(--ink);background:#FFF1B8;padding:0 3px;border-radius:2px}
+
+/* ========== note-block (牛熊闸门 / 分层判断 / 出场信号) ========== */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block strong{color:var(--ink)}
+
+/* ========== theme-card (主线标签卡) ========== */
+.theme-card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;margin:14px 0}
+.theme-card.bull{border-left-color:var(--bull)}
+.theme-card.bear{border-left-color:var(--bear)}
+.theme-card.mixed{border-left-color:var(--accent-soft)}
+.theme-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:6px}
+.theme-meta span.k{color:var(--accent);font-weight:700}
+.theme-meta span.v{color:var(--ink);font-weight:600;margin-right:14px}
+
+/* ========== Bull/Bear cards 并列 ========== */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.card-body ol li{margin-bottom:5px}
+.card-body strong{color:var(--ink)}
+
+/* ========== 视图 tabs (4 档独立筛选) ========== */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* A 股映射视图切换：按 data-class 三类筛选（direct/indirect/sentiment） */
+body[data-view="direct"] table.dt tbody tr:not([data-class="direct"]){display:none}
+body[data-view="indirect"] table.dt tbody tr:not([data-class="indirect"]){display:none}
+body[data-view="sentiment"] table.dt tbody tr:not([data-class="sentiment"]){display:none}
+/* 同时控制 section 级别显示（§02 Direct / §03 Indirect / §04 Sentiment 整段切换） */
+body[data-view="direct"] section[data-class]:not([data-class="direct"]){display:none}
+body[data-view="indirect"] section[data-class]:not([data-class="indirect"]){display:none}
+body[data-view="sentiment"] section[data-class]:not([data-class="sentiment"]){display:none}
+
+@media print{body{padding:24px}.view-tabs{display:none}}
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标（HTML 站点结构需要保留） -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<!-- ============================================================
+     FRAGMENTS INSERT POINT · A 股映射 v4 fragment-per-agent
+     ------------------------------------------------------------
+     拼接源：D:\claude\research\A 股映射\_fragments\YYMMDD\*.html
+     拼接顺序：文件名升序
+       00_masthead.html        ← <header> masthead + view-tabs (direct/indirect/sentiment/all)
+       10_context.html         ← §01 主线背景 + 美股核心标的 (Sonnet)
+       20_direct.html          ← §02 Direct 核心受益 (Sonnet)
+       30_indirect.html        ← §03 Indirect 服务/供应链 (Sonnet)
+       40_sentiment.html       ← §04 Pure Sentiment 妖股/概念 (Sonnet)
+       50_counter_check.html   ← §05 反映射检查 / leading-lagging (Sonnet)
+       90_final_read.html      ← §06 Final Read 综合+仓位+出场 (Phase B / Sonnet)
+     整合时：Read shell → 把下方标记替换为所有 fragment 内容拼接 → Write 最终 HTML
+============================================================ -->
+<!-- ============================================================
+     MASTHEAD + view-tabs · 2026-05-27 · 美股 260526 五主线 A 股映射
+============================================================ -->
+<div class="masthead">
+  <div class="h-eyebrow">A-Share Mapping · 美股 260526 五主线映射 · 2026-05-27 · n=24 Direct / 19 Indirect / 15 Sentiment</div>
+  <h1 class="h-title">美股 <em>SOXX +6.1%</em> 单日 alpha 的 <em>A 股传导</em>：<br>HBM/foundry 链 <em>leading 2-3 周</em>，商业航天 <em>spectrum</em> 已显 sentiment overshoot</h1>
+  <div class="h-desc">5/26 美股 SOXX +6.1% 单日动作罕见（10 年级别）—— MU 破 $1T / ACMR +17.9% / VICR +24.2% / RDW +26% 四主线 Bull Logic 中段，对应 A 股 <em>58 只标的（24 Direct + 19 Indirect + 15 Sentiment）</em>。Direct 兑现度最硬 = <em>HBM/foundry/封测</em>（兆易创新 Q1 +119% / 澜起 +60% / 长电 / 通富）+ <em>WFE 设备</em>（北方华创 / 中微 / 盛美上海 = ACMR A 股镜像）；最值得跟踪独立 alpha = <em>麦格米特</em>（NVDA 链 800V HVDC 独家中方）+ <em>上海瀚讯</em>（千帆载荷 100%）。<em>反映射风险锚</em>：商业航天概念股（铖昌科技 / 创意信息 / 江龙船艇）+ AI 算力跨界妖股（鸿博股份 / 莲花健康）已显 overshoot。</div>
+  <div class="h-pills">
+    <span class="pill bull">SOXX +6.1% 美股锚</span>
+    <span class="pill bull">兆易 Q1 +119% · HBM 兑现</span>
+    <span class="pill bull">盛美上海 = ACMR A 股镜像</span>
+    <span class="pill bull">麦格米特 · NVDA 800V HVDC 独家</span>
+    <span class="pill bear">铖昌 *ST · 商业航天 overshoot</span>
+    <span class="pill bear">鸿博 · 莲花健康 · 跨界妖股监管警示</span>
+    <span class="pill">寒武纪/海光 · 独立 alpha overridden</span>
+  </div>
+</div>
+
+<!-- 视图切换 tabs（依赖 body[data-view] · 默认 all） -->
+<div class="view-tabs">
+  <span class="vlabel">VIEW</span>
+  <button class="vtab active" data-vfilter="all">全部</button>
+  <button class="vtab" data-vfilter="direct">Direct · 核心受益</button>
+  <button class="vtab" data-vfilter="indirect">Indirect · 服务/供应链</button>
+  <button class="vtab" data-vfilter="sentiment">Sentiment · 概念/妖股</button>
+</div>
+
+<!-- ===== 10_context.html · §01 主线背景 · 美股 5/26 5 条主线当下状态（A 股映射的锚） ===== -->
+<section class="sec" id="ctx" data-class="context">
+  <div class="sec-num">§ 01 · CONTEXT</div>
+  <h2 class="sec-title">美股 <em>5 主线</em> 当下状态 · 2026-05-26 收盘 <em>A 股映射的锚</em></h2>
+  <div class="sec-sub"><em>Memorial Day 后首日 SOXX +6.1% 单日 alpha 为 10 年级别 · MU 首破 $1T + DRAM 现货 +58~63% / NAND +70~75% · AI 硬件四链共振触发 A 股映射窗口</em></div>
+
+  <!-- ========== 5 条主线当下状态 · 5 段叙事 ========== -->
+  <p><span class="kicker">主线一 · HBM 内存 + Foundry / 封测周期共振（最强 alpha）</span> · 5/26 当日<strong>美光（MU）+19.3%</strong> 首次触及 $1T 市值、UBS PT 上调至 $1,625，触发条件来自三重硬数据共振：DRAM 现货价 +58~63% / NAND +70~75% / Goldman 把 2026 DRAM 缺口预期上调至 4.9%（15 年最严重），且 HBM 2026 产能已全部售罄。封测 / Foundry 同步爆发：<strong>联电（UMC）+15.7%</strong> / <strong>日月光（ASX）+11.9%</strong> / <strong>安靠（AMKR）+11.7%</strong> / <strong>西部数据（WDC）+8.3%</strong> / <strong>格罗方德（GFS）+5.0%</strong>。SOXX +6.1% 单日 alpha 是过去 10 年量级动作——这条主线<strong>不是题材炒作、是 supply-demand 硬周期 + 业绩拐点同步落地</strong>，A 股 HBM 存储链 / 封测代工 / 存储模组的 direct 业绩弹性 1-2 季度内可兑现。</p>
+
+  <p><span class="kicker">主线二 · 半导体设备 WFE / 测试 / 材料</span> · 2026 全球 WFE 锚定 <strong>$140B</strong> / TSMC 全年 capex 锁定 <strong>$54B</strong>——这是<em>资本开支硬数据</em>而非市场预期。WFE 三巨头集体爆发：<strong>KLAC +6.5%</strong> / <strong>LRCX +5.7%</strong> / <strong>AMAT +5.3%</strong>，测试设备 <strong>TER +8.6%</strong>。次新 / 中型设备股弹性更大：<strong>ACMR +17.9%</strong>（Q1 新签订单 +65% YoY、2026 交付 20+ 套 SPM、Saturn PECVD SiCN 首发量产）/ <strong>AEHR +15.7%</strong>（Sonoma 中标某 hyperscaler 的 AI ASIC production burn-in）。材料 / 零部件链 <strong>ENTG / FORM / PLAB / ICHR / WOLF</strong> 全部 +5% 起跳。A 股 WFE 国产化映射有完整产业链可锚定，但<strong>direct 业绩兑现度低于主线一</strong>（订单 → 收入确认平均滞后 2-4 个季度）。</p>
+
+  <p><span class="kicker">主线三 · 模拟 / 功率 / AI 数据中心电源</span> · "Analog winter ended"——这是 5/26 后段最大叙事转折。<strong>VICR +24.2%</strong> 是 trigger：Q2 营收指引从 $126M 一次性 raise 至 $142M，新 OEM 专利授权 FPA / VPD 平台。串发标的：<strong>POWI +18.7%</strong> / <strong>AOSL +14.8%</strong> / <strong>ALGM +10.5%</strong> / <strong>NVTS +8.7%</strong>（5/18 PCIM 2026 发布 20kW 800V-to-6V GaN board、对标 NVIDIA Rubin 架构）/ <strong>AMD +7.8%</strong>（MI400 H2 2026 量产、TSMC N2 首发）/ <strong>MRVL +6.1%</strong>（1.6T DSP sampling + custom ASIC）/ <strong>ON +9.3%</strong>。模拟大厂 <strong>TXN / ADI / STM / NXPI</strong> +5~6%，Q1 全部 +20-30% YoY 业绩底已坐实。这条主线对 A 股的<strong>direct 映射点是 800V HVDC / SiC 功率 / 数据中心电源</strong>——业绩弹性介于主线一与主线二之间。</p>
+
+  <p><span class="kicker">主线四 · 商业航天 / 卫星 / 国防 + 通信设备</span> · 多催化共振：<strong>RDW +26%</strong>（陆军第 3 次 Stalker UAS 跟单 $15M + ESA 月球机械臂交付）/ <strong>FLY +18.8%</strong>（Golden Dome 空间拦截器入选 + NASA JPL 月球无人机 $75M 子合同）/ <strong>ASTS +13.1%</strong>（FCC 248 星核准发酵、BlueBird 8-10 锁 6 月发射窗口）/ <strong>ESLT +11.0%</strong>（$1.4B 欧洲合同、Q1 营收 +15%、backlog $30.2B 历史新高）/ <strong>NOK +6.4%</strong>（Telefónica Germany 5 年 Cloud RAN 合同）/ <strong>RKLB +5.5%</strong>（$2.2B backlog）/ <strong>MOG-A +7.4% / VSAT +9.2% / HLIT +11.2% / GILT +13.3%</strong>。这条主线在 A 股映射的特殊性：<em>千帆 / GW 星座是中国独立的 SpaceX 对位叙事</em>，不完全依赖美股传导——A 股商业航天有 direct 业绩弹性（火箭总装 + 卫星制造），同时存在大量 pure sentiment 标的。</p>
+
+  <p><span class="kicker">主线五 · 逆 SOXX bearish 集群 · 软件分化 + 量子分歧 + 中概弱 + 妖股退潮</span> · <strong>CBRS L2 -5.9%</strong>（S&amp;P 5/25 纳入后 sell-the-news + lockup 加速 60M+ 股 Q2 ER 前释放 + OpenAI 客户集中度焦虑）/ <strong>INTU -4.9%</strong>（AI 替代 SaaS 故事延续）/ <strong>MDB -5.8% / ZM -5.3% / NCNO -5.2%</strong> / <strong>KC -8.4%</strong>（中概云 pre-ER de-risk）/ 量子 <strong>QBTS / RGTI / QUBT</strong> 内部分歧 / <strong>LUNR -8.9%</strong>（NASA LTV 失标）/ <strong>LITE -3.8%</strong>（Nasdaq-100 add 后 profit-taking）/ <strong>NBIS -3.1%</strong>。<strong>这条主线对 A 股映射的特殊意义 = 逆映射警示</strong>：当美股硬件主线 risk-on 单日吸资 6%+ 时、A 股软件传媒 + 概念股若同步独立强势，要警惕 sentiment overshooting；LUNR LTV 失标 case 是 catalyst 失效模板（适用于 A 股商业航天 sentiment 池）。</p>
+
+  <p><strong>5 条主线对 A 股映射的关键传导路径</strong> · 主线一（HBM + Foundry）是 A 股最 <strong>direct</strong> 受益主线——存储 / 封测 / 模组业绩弹性 1-2 季度兑现；主线二（WFE 设备）是 <strong>indirect</strong> 主战场——国产替代逻辑 + 订单滞后周期；主线三（模拟功率 / AI 电源）映射点在 800V HVDC / SiC 功率 / 数据中心电源链；主线四（商业航天）是 A 股<em>独立 Bull cycle</em> + 美股 catalyst 共振，<strong>千帆 / GW 星座 + 国资委 5/22 太空 capex 上调</strong>形成跨市场叙事但 A 股不依赖美股传导；主线五是 <strong>pure sentiment 主战场</strong>同时是反映射检查锚——A 股量子 / AI 眼镜 / SaaS 概念股若过度跑赢美股 alpha 即触发 overshooting 警示。</p>
+
+  <!-- ========== bull/bear cards · 5/26 美股硬数据 vs A 股映射风险锚 ========== -->
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-h">美股 5/26 交付的硬数据（锚 → A 股传导基础）</div>
+      <ul>
+        <li><strong>MU 首破 $1T</strong>、单日 +19.3%、UBS PT $1,625——HBM 2026 产能已售罄、DRAM 现货 +58~63% / NAND +70~75%</li>
+        <li><strong>Goldman 上调 2026 DRAM 缺口至 4.9%</strong>——15 年最严重、TSMC capex 锁 $54B、全球 WFE 锚 $140B</li>
+        <li><strong>ACMR Q1 新签订单 +65% YoY</strong>、2026 交付 20+ 套 SPM、Saturn PECVD SiCN 首发——WFE 中型订单可见性已落地</li>
+        <li><strong>VICR Q2 营收指引一次性 raise $126M → $142M</strong>、"analog winter ended" 被产业链确认、模拟大厂 Q1 全部 +20~30% YoY</li>
+        <li><strong>ASTS FCC 248 星核准 + BlueBird 8-10 锁 6 月发射 + ESLT backlog $30.2B 历史新高</strong>——商业航天产业 catalyst 密集兑现期</li>
+      </ul>
+    </div>
+    <div class="card bear">
+      <div class="card-h">A 股映射的关键风险锚（产业级 / 非价格信号）</div>
+      <ul>
+        <li><strong>HBM / DRAM 现货价见顶反转</strong>——观察 DRAMeXchange 周度现货价是否连续 2 周环比下行，且 SK 海力士 / 三星财报披露新增 HBM 产能投放节奏超预期</li>
+        <li><strong>TSMC 月度营收同比增速跌破 +20%</strong>（当前 +44%、5 月数据 6 月 10 日左右公布）= AI 链 capex 拐点确认前置信号</li>
+        <li><strong>商业航天 catalyst 失效</strong>——参照 LUNR NASA LTV 失标模板：A 股商业航天标的若<em>关键政府合同丢标</em>或<em>千帆 / GW 星座发射节奏延迟 2 个月以上</em>即触发 sentiment 退潮</li>
+        <li><strong>A 股映射弹性过度（overshooting）</strong>——pure sentiment 标的若<em>单周涨幅显著超过对应美股锚 2 倍以上</em>且 Direct 标的滞涨，即触发 §05 反映射检查机制、回归概率高</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========== Bull Logic 闸门表态 ========== -->
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚙ Bull Logic 闸门表态 · 5/26 美股 5 主线（除主线五）全部处于 Bull Logic 中段</span>
+    <p>主线一 / 二 / 三 / 四的<strong>产业 catalyst 主导特征明确</strong>——HBM 缺口 / WFE capex / Analog cycle 反转 / 商业航天合同密集兑现，<em>不依赖宏观或地缘叙事</em>、不依赖美元 / 利率 / 地缘风险逆转。A 股映射的核心机会路径是 <strong>"美股锚 → A 股 Direct / Indirect 的业绩弹性传导"</strong>，业绩弹性可兑现度排序：<strong>Direct 主线一 &gt; Direct 主线三 &gt; Indirect 主线二 &gt; 主线四（独立 cycle + 共振）</strong>。妖股 sentiment 单独处理（§04 池），<em>不与 Direct / Indirect 业绩主线混仓评估</em>。主线五是逆映射警示池——监控 A 股软件 / 量子 / 概念股 sentiment overshooting 风险。</p>
+  </div>
+
+  <!-- ========== 后续观察点 ========== -->
+  <div class="note-block">
+    <span class="kicker">⚠ 后续观察点 · 产业级 / 非价格信号</span>
+    <strong>1.</strong> <strong>MU FY26Q3 财报</strong>（6 月下旬，正式发布日待 IR 公告）—— 关键看 HBM 收入占比、DRAM ASP 环比、FY26Q4 指引；HBM 收入若同比 +100% 以上、CY26 ASP 指引非降，A 股 HBM 存储链业绩弹性确认放大<br>
+    <strong>2.</strong> <strong>TSMC 5 月营收</strong>（6 月 10 日左右公布）—— 当前同比 +44%，跌破 +20% 即 capex 拐点前置信号；维持 +30% 以上则 WFE / Foundry 链 Bull Logic 中段延续<br>
+    <strong>3.</strong> <strong>ACMR / AEHR 当前订单 H2 兑现节奏</strong>—— ACMR 看 Q2 / Q3 收入是否能与新签订单 +65% YoY 同步、AEHR 看 Sonoma + AI ASIC burn-in 订单是否扩展到第 2 / 第 3 家 hyperscaler；订单 → 收入确认滞后 2 季度是关键观察期<br>
+    <strong>4.</strong> <strong>商业航天 Golden Dome 下一轮 catalyst</strong>—— FLY 入选后看 6-7 月 DoD 是否追加合同、参照 Lockheed / Raytheon 是否同步入选；ESLT $30.2B backlog 的<em>季度兑现节奏</em>是 A 股商业航天独立 cycle 的外部锚<br>
+    <strong>5.</strong> <strong>CBRS lockup 释放节奏</strong>（60M+ 股 Q2 ER 前）—— CBRS 是 AI ASIC 设计映射锚之一，lockup 释放对 A 股 AI chip / ASIC 设计标的（华虹 / 中芯国际 / 寒武纪 / 海光）有 sentiment read-through，特别是 OpenAI 客户集中度焦虑外溢效应
+  </div>
+
+</section>
+
+<section class="sec" id="direct" data-class="direct">
+  <div class="sec-num">§ 02 · DIRECT</div>
+  <h2 class="sec-title">核心受益 · <em>美股 5 主线 A 股 / 港股 Direct 映射</em></h2>
+  <div class="sec-sub">HBM/封测 + WFE 设备 + 模拟/功率/AI DC 电源 + 商业航天，四大子链全部锁定龙头</div>
+
+  <p><span class="kicker">本节定位</span>·按美股 5 主线分组、四大产业子链给出 A 股 / 港股 Direct 标的。每只标的必须满足两个硬条件：<strong>① 与美股锚有具体产品 / 客户 / 订单层面的产业链关系；② 2026 Q1 业绩硬数据已落地</strong>。妖股、纯概念、单纯供应链外溢不进 Direct 池（归 §03/§04）。子链一 HBM + foundry/封测共 5 只；子链二 WFE 设备共 6 只；子链三 模拟/功率/AI DC 电源共 8 只；子链四 商业航天/卫星/国防共 5 只。<strong>合计 24 只</strong>。</p>
+
+  <p><span class="kicker">2026 Q1 业绩硬数据快览</span>·HBM 链兆易创新净利 <strong>+523% YoY</strong>（利基 DRAM 涨价 + 价格触发链）/ 澜起科技 2025 全年 +49.9% YoY 营收（DDR5 + MRDIMM 渗透）；WFE 链北方华创营收 <strong>+25.8% YoY</strong>（订单能见度至 2026 H2）/ 中微公司 <strong>+34.1% YoY</strong> / 拓荆科技 <strong>+57.0% YoY</strong> / 盛美上海出货金额 <strong>+48.6% YoY</strong>、新签订单 +65% YoY；模拟功率链圣邦股份净利 <strong>+107% YoY</strong> / 华润微净利 <strong>+296% YoY</strong> / 扬杰科技 +35% YoY / 麦格米特进 NVDA 链 800V HVDC 配套；商业航天链中国卫星营收 <strong>+38% YoY</strong>（在手订单 300 亿排产至 2027）。</p>
+
+  <!-- ====== 子链 A · HBM 内存 + foundry / 封测 ====== -->
+  <h3 class="sub-h">主线一映射 · <em>HBM 内存 + foundry / 封测</em></h3>
+  <p><span class="kicker">美股锚</span>·MU +19.3% / UMC +15.7% / ASX +11.9% / AMKR +11.7% / WDC +8.3% / GFS +5.0%——HBM3E/HBM4 售罄到 2027、DRAM 现货价 YoY +30%、TSMC CoWoS 产能持续紧张外溢到大陆封测。A 股 Direct 链聚焦三类：<strong>HBM 分销/接口</strong>（香农芯创、澜起、兆易）、<strong>大陆 foundry</strong>（中芯国际、华虹）、<strong>CoWoS 后段封测</strong>（长电、通富）。注意：太极实业、香农芯创已在 260523 主线一详写过，本次 Direct 池保留香农芯创 Q1 已兑现核心标的，其余拉新。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股 / 港股</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">主营 / 锚关系</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值（亿）</th>
+      <th data-type="num">2026 Q1 营收/增速</th>
+      <th data-type="text">关键事件 / 订单</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="direct">
+        <td class="tk">300475.SZ</td><td class="name">香农芯创</td>
+        <td>SK Hynix HBM3E 国内独家代理、大陆配额 50%+</td>
+        <td class="num">MU / SK Hynix</td>
+        <td class="num">~470 亿 CNY</td>
+        <td class="num">分销逻辑·2026E 收入 407 亿</td>
+        <td class="logic">绑定阿里/腾讯/字节/华为四大算力买方，HBM 供需紧张延续到 2026 底</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688008.SH</td><td class="name">澜起科技</td>
+        <td>DDR5 RCD/DB + MRDIMM + HBM 4 配套 MRCD/MDB（16,000MT/s）</td>
+        <td class="num">MU / SK Hynix</td>
+        <td class="num">~1100 亿 CNY</td>
+        <td class="num">2025 全年 +49.9% YoY / 净利 +58.4%</td>
+        <td class="logic">第四代 RCD 已量产、第五代推出；全球内存接口市占率 36.8%</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">603986.SH</td><td class="name">兆易创新</td>
+        <td>利基 DRAM（DDR4/DDR3）+ NOR Flash + MCU；DRAM 涨价直接受益</td>
+        <td class="num">MU</td>
+        <td class="num">~1200 亿 CNY</td>
+        <td class="num">41.88 亿 / <strong>+119% YoY</strong>（净利 +523%）</td>
+        <td class="logic">毛利率 57.07%（+12pp QoQ）；DDR5 现货价 YoY +455%、服务器端 +600%；与长鑫合作 LPDDR4X 2026 量产</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688981.SH / 0981.HK</td><td class="name">中芯国际</td>
+        <td>大陆 foundry 龙头、12 寸 mature 涨价直接受益</td>
+        <td class="num">UMC / GFS / TSMC</td>
+        <td class="num">~6500 亿 CNY / ~2900 亿 HKD</td>
+        <td class="num">$25 亿 USD / +1% QoQ</td>
+        <td class="logic">毛利率 20.1%（指引上沿）；mature 价格已起拐点、产品价格 +0.9% QoQ；功率器件需求强劲</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688347.SH / 1347.HK</td><td class="name">华虹公司</td>
+        <td>大陆 mature foundry 第 2、功率器件 + 特种工艺、FAB9 2026 H2 满产</td>
+        <td class="num">UMC / GFS</td>
+        <td class="num">~880 亿 CNY / ~700 亿 HKD</td>
+        <td class="num">2025 Q4 $6.6 亿 / +22% YoY</td>
+        <td class="logic">2026 Q1 指引 $6.5-6.6 亿、毛利率 13-15%；FAB9 12 寸第二线 2026 H2 满产；FAB5 收购推进中</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">600584.SH</td><td class="name">长电科技</td>
+        <td>全球封测第 3 大、4nm Chiplet + HBM + 2.5D 全球第一梯队</td>
+        <td class="num">AMKR / ASX</td>
+        <td class="num">~700 亿 CNY</td>
+        <td class="num">91.71 亿 / -1.8% YoY（净利 +42.7%）</td>
+        <td class="logic">已进 NVDA 核心供应链、Broadcom 合作 &gt;10 亿、Intel 新代芯片封装订单 &gt;20 亿；先进封装营收 2025 突破 270 亿创新高</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">002156.SZ</td><td class="name">通富微电</td>
+        <td>AMD &gt;80% 订单封测独家供应商；bumping+CP+封装+FT 全链</td>
+        <td class="num">AMD / AMKR</td>
+        <td class="num">~500 亿 CNY</td>
+        <td class="num">2025 净利 11-13.5 亿（+62-99% YoY 预增）</td>
+        <td class="logic">与 AMD 合作续签至 2026；AMD 业务占 2024 营收 50.35%；苏州工厂二期启动、44 亿定增推进存储 + 汽车 + 晶圆级封测</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>603986.SH 兆易创新</strong> · 2026 Q1 营收 41.88 亿（+119% YoY）、净利 14.61 亿（+523% YoY）是 A 股 HBM 链业绩兑现最猛的标的之一——驱动来自<strong>利基 DRAM 涨价</strong>（DDR4/DDR3 涨价的根因是 HBM 占用 SK Hynix/Samsung 产能、利基产能被挤压）。毛利率 57.07% 一年内涨 19.6pp。23 亿牵手长鑫、LPDDR4X 2026 量产，2027 LPDDR5 进展是下一波弹性。<em>出场依据 = DDR4/DDR3 利基现货价连续 4 周环比下跌，或长鑫/合肥长鑫存储利基产能 2026 H2 放量公告</em>。</div>
+
+  <div class="ki-note"><strong>688008.SH 澜起科技</strong> · 2025 全年营收 54.56 亿（+49.9% YoY）、净利 22.36 亿（+58.4%）；互连类芯片营收 51.39 亿（+53.4%）、产品毛利率 65.6%。第三代 RCD 营收 25H2 已超越第二代、第四代量产、第五代推出；MRCD/MDB 兼容 HBM4 2048-bit、2026 底完成工程开发。当前 A 股内存接口绝对龙头、全球市占率 36.8%。<em>出场依据 = MRCD/MDB 第五代工程化进度延期，或 DDR5 RCD ASP 出现首次环比下降</em>。</div>
+
+  <div class="ki-note"><strong>688981.SH / 0981.HK 中芯国际</strong> · 2026 Q1 收入 $25 亿、毛利率 20.1%（指引上沿），价格 +0.9% QoQ 是 mature foundry 涨价拐点确认信号。功率器件订单驱动 12 寸提价、UMC/GFS 5-15% 海外锚的涨价行情在大陆传导。<em>出场依据 = 单季度产品 ASP 环比首次下降，或 mature foundry 整体稼动率从满载（当前）回落到 90% 以下</em>。</div>
+
+  <div class="ki-note"><strong>600584.SH 长电科技</strong> · 2026 Q1 净利 2.9 亿（+42.7% YoY，营收 -1.8% 但利润弹性大）；2025 先进封装营收突破 270 亿创新高。最关键标签：<strong>已进 NVDA 核心供应链 + Broadcom &gt;10 亿合作 + Intel &gt;20 亿新代封装订单</strong>——AMKR/ASX 海外 +11-12% 的弹性在大陆通过长电、通富承接 TSMC CoWoS 外溢订单。4nm Chiplet + HBM + 2.5D 全球第一梯队。<em>出场依据 = NVDA / Broadcom 单季度封测外包订单环比首次下降，或 TSMC CoWoS 产能扩张超预期使外溢需求消化</em>。</div>
+
+  <!-- ====== 子链 B · WFE 设备 / 测试 ====== -->
+  <h3 class="sub-h">主线二映射 · <em>半导体设备 WFE / 测试</em></h3>
+  <p><span class="kicker">美股锚</span>·ACMR +17.9% / AEHR +15.7% / KLAC/LRCX/AMAT +5-7% / TER +8.6%——2026 全球 WFE 锚 $140B 上修。A 股 Direct 链是<strong>全球 WFE 链最大权重的国产替代板块</strong>：北方华创覆盖刻蚀/PVD/CVD/炉管/ALD 全品类、中微聚焦刻蚀、拓荆聚焦薄膜沉积、华海清科 CMP 国内 90%+ 市占率、盛美上海是 ACMR 母公司控股的清洗设备龙头（最 direct 映射）。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">主营 / 锚关系</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值（亿 CNY）</th>
+      <th data-type="num">2026 Q1 营收/增速</th>
+      <th data-type="text">关键事件 / 订单</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="direct">
+        <td class="tk">002371.SZ</td><td class="name">北方华创</td>
+        <td>WFE 全品类龙头（刻蚀/PVD/CVD/炉管/ALD）</td>
+        <td class="num">AMAT / LRCX</td>
+        <td class="num">~2400 亿</td>
+        <td class="num">103.23 亿 / <strong>+25.8% YoY</strong></td>
+        <td class="logic">研发费用 14.02 亿 +36.6% YoY；多设备品类市占率稳步提升；订单能见度至 2026 H2</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688082.SH</td><td class="name">盛美上海</td>
+        <td>清洗设备龙头、美国 ACMR 控股子公司（最 direct 映射）</td>
+        <td class="num">ACMR（母公司）</td>
+        <td class="num">~750 亿</td>
+        <td class="num">14.76 亿 / +13.1% YoY</td>
+        <td class="logic">出货金额 <strong>+48.6% YoY</strong>、新签订单 <strong>+65% YoY</strong>；研发投入 +22.4% YoY；与 ACMR 收入确认会计准则差异致 Q1 净利暂时 -57.7%</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688012.SH</td><td class="name">中微公司</td>
+        <td>刻蚀设备龙头（TSV / 介质刻蚀）+ 薄膜放量</td>
+        <td class="num">LRCX / AMAT</td>
+        <td class="num">~1700 亿</td>
+        <td class="num">29.15 亿 / <strong>+34.1% YoY</strong>（净利 +197%）</td>
+        <td class="logic">毛利率 39.9%；2025 全年刻蚀设备收入 98.32 亿 +35% YoY、占总收入 79.4%；新品加速验证</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688072.SH</td><td class="name">拓荆科技</td>
+        <td>PECVD / ALD 薄膜沉积设备 + 3D 集成设备</td>
+        <td class="num">LRCX / AMAT</td>
+        <td class="num">~700 亿</td>
+        <td class="num">11.12 亿 / <strong>+57.0% YoY</strong></td>
+        <td class="logic">Q1 净利 5710 万扭亏；2025 PECVD 营收 +75.3% YoY、ALD <strong>+191.8% YoY</strong>；在手订单 110 亿、合同负债 +62.7% YoY</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688120.SH</td><td class="name">华海清科</td>
+        <td>CMP 抛光设备龙头、国内 12 寸先进线 90%+ 国产 CMP 市占率</td>
+        <td class="num">AMAT（Reflexion CMP）</td>
+        <td class="num">~700 亿</td>
+        <td class="num">12.01 亿 / <strong>+31.7% YoY</strong></td>
+        <td class="logic">先进逻辑/先进存储/先进封装领域批量应用；终止港股 IPO 转 A 股定增</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688037.SH</td><td class="name">芯源微</td>
+        <td>涂胶显影 / 单片清洗设备</td>
+        <td class="num">TEL / SCREEN（日本）</td>
+        <td class="num">~280 亿</td>
+        <td class="num">高增延续（Q1 数据已披露）</td>
+        <td class="logic">前道涂胶显影国产化突破、深紫外（DUV）光刻配套涂胶机量产；ArF 浸没机配套机型客户验证中</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>002371.SZ 北方华创</strong> · A 股 WFE 设备最大权重标的，2026 Q1 营收 103.23 亿（+25.8% YoY），覆盖刻蚀/PVD/CVD/炉管/ALD 全品类。研发费用 14.02 亿（+36.6% YoY）反映高强度持续投入。订单能见度至 2026 H2，对应全球 WFE $140B 上修锚定。<em>出场依据 = SEMI 季度 BB Ratio &lt; 1，或中芯国际/华虹季度 capex 指引下修（连接 §03 中芯国际 Q1 +27% 资本开支同比）</em>。</div>
+
+  <div class="ki-note"><strong>688082.SH 盛美上海</strong> · 与 ACMR 是<strong>同一资产、不同会计准则</strong>的 A 股镜像——美国 ACMR 持股 100% 的清洗设备龙头。ACMR 本周 +17.9% 同步反映两边业务向上；2026 Q1 出货金额 +48.6% YoY、新签订单 +65% YoY 是<strong>领先指标</strong>。Q1 营收 14.76 亿 +13.1% YoY、净利 -57.7% 的反差源自中国会计准则要求测试验收后才确认收入（vs 美国准则发货确认），<strong>不是经营恶化</strong>。<em>出场依据 = ACMR 母公司季度收入或新签订单环比首次下降，或中国大陆主流晶圆厂清洗设备国产化率达天花板（&gt;80%）</em>。</div>
+
+  <div class="ki-note"><strong>688012.SH 中微公司</strong> · 2026 Q1 营收 29.15 亿（+34.1% YoY、净利 +197%），刻蚀设备绝对龙头（2025 全年刻蚀收入 98.32 亿 +35% YoY、占总收入 79.4%）。受益 LRCX +5% 的弹性传导 + 国产替代 + 新品（CCP/ICP 双平台、TSV）批量验证。毛利率 39.9%。<em>出场依据 = 单季度新签订单环比连续两季下滑，或大客户中芯/华虹 12 寸刻蚀工艺国产化率触顶</em>。</div>
+
+  <div class="ki-note"><strong>688072.SH 拓荆科技</strong> · 2026 Q1 营收 11.12 亿（+57.0% YoY）+ 净利扭亏 = 在手订单 110 亿（合同负债 +62.7% YoY）兑现进入加速期。PECVD（+75.3% YoY）+ ALD（+191.8% YoY）双引擎，对标 LRCX 薄膜沉积业务、AMAT Endura 平台。3D 集成设备是 HBM 后段封测核心配套（连接 §02 子链 A）。<em>出场依据 = 合同负债首次环比下降，或 2026 Q3-Q4 收入兑现节奏低于在手订单消化预期</em>。</div>
+
+  <div class="ki-note"><strong>688120.SH 华海清科</strong> · CMP 抛光设备国内 90%+ 市占率、终止港股 IPO 转 A 股定增显示<strong>对 A 股流动性 + 估值溢价的信心</strong>。Q1 营收 12.01 亿 +31.7% YoY、净利 +6.0%（净利增速跑输营收主要因研发投入）。先进逻辑 / 先进存储 / 先进封装三大应用领域批量验证完成。<em>出场依据 = CMP 设备单季度新签订单环比连续两季下降，或 AMAT Reflexion 在国内份额回升公告</em>。</div>
+
+  <!-- ====== 子链 C · 模拟 / 功率 / AI DC 电源 ====== -->
+  <h3 class="sub-h">主线三映射 · <em>模拟 / 功率 / AI 数据中心电源</em></h3>
+  <p><span class="kicker">美股锚</span>·VICR +24.2% / POWI +18.7% / AOSL +14.8% / ALGM +10.5% / NVTS +8.7% / ON +9.3% / AMD +6-8% / MRVL +6-8%——AI DC 800V HVDC 电源叙事 + 功率涨价周期共振。A 股 Direct 链是<strong>分散度最高的子链</strong>（覆盖模拟 IC / 功率器件 / 数据中心电源 / 液冷散热 / 光通信光芯片 5 个细分），但每个细分都有明确龙头。麦格米特进 NVDA 链 800V HVDC sidecar 是与 VICR 最 direct 的映射、英维克液冷与 Vertiv 同源。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">主营 / 锚关系</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值（亿 CNY）</th>
+      <th data-type="num">2026 Q1 营收/增速</th>
+      <th data-type="text">关键事件 / 订单</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="direct">
+        <td class="tk">300661.SZ</td><td class="name">圣邦股份</td>
+        <td>国产模拟 IC 龙头（电源管理 + 信号链）</td>
+        <td class="num">TXN / ADI / ON</td>
+        <td class="num">~700 亿</td>
+        <td class="num">10.98 亿 / <strong>+39.1% YoY</strong>（净利 +107%）</td>
+        <td class="logic">下游需求恢复 + 新品放量；进入业绩加速释放期</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688396.SH</td><td class="name">华润微</td>
+        <td>功率半导体 IDM（MOSFET/IGBT）+ 6/8/12 寸全线满载</td>
+        <td class="num">ON / STM</td>
+        <td class="num">~750 亿</td>
+        <td class="num">28.57 亿 / <strong>+21.3% YoY</strong>（净利 +297%）</td>
+        <td class="logic">订单能见度至 2026 H2、6/8 寸 + 重庆 12 寸自 2025 Q4 满载；扣非净利 +117% YoY</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">300373.SZ</td><td class="name">扬杰科技</td>
+        <td>MOSFET / IGBT / 二极管 IDM + 汽车电子加速</td>
+        <td class="num">DIOD / ON / VSH</td>
+        <td class="num">~370 亿</td>
+        <td class="num">21.3 亿 / <strong>+34.9% YoY</strong>（净利 +41%）</td>
+        <td class="logic">汽车电子 Q1 营收同比翻倍；功率半导体处上行周期早期；毛利率 QoQ 改善</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">600460.SH</td><td class="name">士兰微</td>
+        <td>5/6/8/12 寸全 IDM；IPM + MOSFET + IGBT 全球前 10</td>
+        <td class="num">ON / STM</td>
+        <td class="num">~430 亿</td>
+        <td class="num">2025 全年净利 3.99 亿 +81% YoY</td>
+        <td class="logic">12 寸高端模拟线 + 8 寸 SiC 线 + 汽车封装产线 2026 爬坡；65 亿定增过会推汽车芯片</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688052.SH</td><td class="name">纳芯微</td>
+        <td>隔离器 / 磁传感器 / 通用模拟 IC，车规为主</td>
+        <td class="num">ADI / TXN</td>
+        <td class="num">~350 亿</td>
+        <td class="num">2025 全年 33.7 亿 +71.8% YoY</td>
+        <td class="logic">单季度营收连续 11 个季度环比增长（24Q1 3.62 亿 → 25Q4 10.02 亿）；车规新品放量</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">002851.SZ</td><td class="name">麦格米特</td>
+        <td>AI 服务器电源 + 800V HVDC Power Sidecar（NVDA 链独家中方）</td>
+        <td class="num">VICR / NVTS</td>
+        <td class="num">~600 亿</td>
+        <td class="num">AIDC 业务 2026 进入放量期</td>
+        <td class="logic">大陆<strong>唯一</strong> NVDA 服务器电源链供应商、覆盖 GB200/GB300/Rubin/SST；26.6 亿定增 2025 启动；PowerShelf/BBUShelf/CapacitorShelf/Sidecar 全谱系产品</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">300870.SZ</td><td class="name">欧陆通</td>
+        <td>AI 服务器高功率电源；与浪潮、富士康深度合作</td>
+        <td class="num">VICR</td>
+        <td class="num">~270 亿</td>
+        <td class="num">2025 H1 营收 21.2 亿 +32.6% YoY</td>
+        <td class="logic">高功率服务器电源营收 <strong>+200% YoY</strong>、占数据中心电源 ~70%；2026E 净利 4.45-4.50 亿（+38% YoY）</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">002837.SZ</td><td class="name">英维克</td>
+        <td>液冷散热龙头（Coolinside 全链方案）</td>
+        <td class="num">Vertiv / Coolit</td>
+        <td class="num">~1000 亿</td>
+        <td class="num">11.75 亿 / <strong>+26.0% YoY</strong></td>
+        <td class="logic">液冷项目累计交付 &gt;1.16GW；冷板/Manifold/CDU/液冷工质全链；Q1 毛利率 24.3%（-2.2pp YoY）反映价格压力</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">688048.SH</td><td class="name">长光华芯</td>
+        <td>光芯片（EML/DFB/VCSEL/PD/硅光）—— 数据中心 100G/200G 光通信</td>
+        <td class="num">LITE / COHR</td>
+        <td class="num">~250 亿</td>
+        <td class="num">2026 Q1 数据未完整披露</td>
+        <td class="logic">100GEML 已量产批量交付、200GEML 客户验证中；股价 5/13 收 436.9 元创高反映数据中心高功率光通信需求</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>002851.SZ 麦格米特</strong> · 这是本周最 direct 对标 VICR +24.2% 的标的——<strong>大陆唯一进 NVDA 服务器电源链的供应商</strong>，2024 进入英伟达供应链、覆盖 GB200/GB300/下一代 Rubin 架构/SST 新一代技术平台。2025 GTC 大会展出 <strong>800V HVDC Power Sidecar</strong> 是 5/21 NVDA 公告 800V HVDC 的直接配套。AIDC 业务 2026 进入放量期对应 AI 服务器 capex 高峰。<em>出场依据 = NVDA 2026 Q3 服务器 capex 指引下修，或 VICR 北美 GTM 抢占 Sidecar BoM 份额（当前 sole sourcing 转 dual sourcing 公告）</em>。</div>
+
+  <div class="ki-note"><strong>688396.SH 华润微</strong> · 2026 Q1 营收 28.57 亿 +21.3% YoY、归母净利 3.30 亿 <strong>+296.6% YoY</strong>（扣非净利 +117%）反映功率半导体涨价周期 + IDM 全线满载传导。6/8 寸 + 重庆 12 寸自 2025 Q4 满载、订单至 2026 H2。对应 ON +9.3%、STM 弹性传导。<em>出场依据 = 6/8 寸功率器件稼动率从满载（当前）回落到 90% 以下，或 MOSFET / IGBT 现货价连续 3 个月环比下降</em>。</div>
+
+  <div class="ki-note"><strong>300661.SZ 圣邦股份</strong> · 2026 Q1 营收 10.98 亿（+39.1% YoY）、净利 1.24 亿（+107% YoY）——国产模拟 IC 加速放量。本周对标 TXN/ADI/ON 弹性，下游恢复（消费 + 工业 + 汽车）+ 新品矩阵贡献双驱动。<em>出场依据 = TXN/ADI 季度收入指引下修，或国产模拟 IC 渠道库存周转天数环比走高</em>。</div>
+
+  <div class="ki-note"><strong>002837.SZ 英维克</strong> · 液冷散热绝对龙头（Coolinside 覆盖冷板/Manifold/CDU/液冷工质全链），2026 Q1 营收 11.75 亿 +26.0% YoY，累计交付 &gt;1.16GW。但<strong>毛利率 24.3% YoY -2.2pp</strong> 反映液冷价格战压力——这是本子链最大的隐忧（连接 §05 反映射检查）。<em>出场依据 = 单季度毛利率连续两季环比下降 &gt;2pp，或液冷项目中标价同比下降 &gt;15%</em>。</div>
+
+  <div class="ki-note"><strong>300870.SZ 欧陆通</strong> · 高功率服务器电源营收 +200% YoY、占数据中心电源 ~70%——纯弹性 VICR 映射。2025 H1 营收 21.2 亿 +32.6% YoY、净利 1.34 亿 +54.9% YoY。客户结构：浪潮 + 富士康（间接到 NVDA/CSP）。<em>出场依据 = 浪潮 / 富士康 AI 服务器订单环比首次下降，或欧陆通单季度新签订单 &lt; 公司收入指引 1.0x cover ratio</em>。</div>
+
+  <!-- ====== 子链 D · 商业航天 / 卫星 / 国防 ====== -->
+  <h3 class="sub-h">主线四映射 · <em>商业航天 / 卫星 / 国防</em></h3>
+  <p><span class="kicker">美股锚</span>·RDW +26% / FLY +18.8% / ASTS +13.1% / ESLT +11% / NOK +6.4% / RKLB +5.5%——商业航天小卫星制造 + 卫星通信载荷 + 军通信全面共振。A 股 Direct 链聚焦三类：<strong>卫星制造</strong>（中国卫星）、<strong>航天电子配套</strong>（航天电子、航天电器）、<strong>商业航天载荷</strong>（上海瀚讯独家千帆载荷）。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">主营 / 锚关系</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值（亿 CNY）</th>
+      <th data-type="num">2026 Q1 营收/增速</th>
+      <th data-type="text">关键事件 / 订单</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="direct">
+        <td class="tk">600118.SH</td><td class="name">中国卫星</td>
+        <td>小卫星制造龙头（航天科技五院东方红卫星）</td>
+        <td class="num">RDW / FLY / PL</td>
+        <td class="num">~470 亿</td>
+        <td class="num">~15-18 亿 / <strong>+37.9% YoY</strong></td>
+        <td class="logic">在手订单 <strong>&gt; 300 亿</strong>排产至 2027；海南制造基地年产能 1000 颗；2026 计划交付 540-720 颗、Q1 已交 80 颗</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">600879.SH</td><td class="name">航天电子</td>
+        <td>航天电子信息 + 测控 + 无人系统（航天科技集团旗下）</td>
+        <td class="num">RDW / FLY</td>
+        <td class="num">~280 亿</td>
+        <td class="num">2026E 营收 193 亿 +25.9% YoY</td>
+        <td class="logic">子公司航天飞鸿是无人系统"链长"、2024 军贸无人机交付与收入创新高；激光通信 + 惯导技术领先</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">002025.SZ</td><td class="name">航天电器</td>
+        <td>航天连接器 + 微特电机 + 继电器 + 光通信器件</td>
+        <td class="num">RDW（间接 BoM）</td>
+        <td class="num">~360 亿</td>
+        <td class="num">2026E 营收 80.6 亿 +21.2% YoY</td>
+        <td class="logic">2025 新增商业航天订单 <strong>+52.4% YoY</strong>；合同负债历史高位；超高频连接器技术储备</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">300762.SZ</td><td class="name">上海瀚讯</td>
+        <td>军用宽带通信 + 千帆星座低轨卫星通信载荷<strong>独家</strong></td>
+        <td class="num">ESLT / VSAT</td>
+        <td class="num">~120 亿</td>
+        <td class="num">4360 万 / -65.3% YoY（Q1 季节性）</td>
+        <td class="logic">千帆载荷市占率 <strong>100%</strong>、单颗载荷价值 300-600 万、占卫星成本 30-40%；Q1 卫星发射节奏空窗导致收入暂时下降、Q2-Q3 有望恢复</td>
+      </tr>
+      <tr data-class="direct">
+        <td class="tk">601698.SH</td><td class="name">中国卫通</td>
+        <td>GEO 高轨卫星运营服务商（中国唯一商运 GEO）</td>
+        <td class="num">VSAT / Eutelsat</td>
+        <td class="num">~480 亿</td>
+        <td class="num">收入稳定增长（高轨频道资源 + 应用服务）</td>
+        <td class="logic">GEO 频道资源稀缺、是连接 LEO 星座的中继骨干；商业航天应用拓展加速</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>600118.SH 中国卫星</strong> · 2026 Q1 营收 +37.9% YoY 是<strong>连续 3 年下滑后的首次低位修复性正增长</strong>——商业航天产能开始释放的拐点信号。在手订单 &gt;300 亿排产至 2027、海南基地年产能 1000 颗、Q1 已交 80 颗。但<strong>净利润逆势走弱</strong>是关键风险（卫星制造初期微利交付 + 研发管理费用增加 + 资产减值）——商业航天收入快速增长但利润弹性滞后 1-2 年。<em>出场依据 = 商业航天交付节奏低于公司年初指引 540-720 颗下限、或单卫星 ASP 同比降幅 &gt; 20%</em>。</div>
+
+  <div class="ki-note"><strong>300762.SZ 上海瀚讯</strong> · 2026 Q1 营收 4360 万 -65.3% YoY、净利 -4422 万（-434% YoY），<strong>看似业绩塌方实则是发射节奏错配</strong>——Q1 千帆星座基本无发射任务，公司是<strong>千帆载荷独家供应商（市占率 100%、单颗价值 300-600 万、占卫星成本 30-40%）</strong>、收入跟随发射节奏。Q2-Q3 发射节奏恢复后业绩将快速回归。本周 RDW +26% 的国内最 direct 对标。<em>出场依据 = 千帆星座 2026 年全年发射数量低于公司指引下限，或上海瀚讯失去千帆载荷独家供应商身份（出现第二家中标公告）</em>。</div>
+
+  <div class="ki-note"><strong>002025.SZ 航天电器</strong> · 2025 新增商业航天订单 +52.4% YoY、合同负债历史高位是<strong>下两年收入兑现的强信号</strong>。航天防务连接器龙头、超高频技术储备覆盖卫星通信射频接口、激光通信链路。对标 RDW/FLY 整星 BoM 间接受益。<em>出场依据 = 商业航天单季度新签订单环比首次下降，或单季度合同负债环比连续两季下降</em>。</div>
+
+  <!-- ====== 出场依据汇总 ====== -->
+  <div class="note-block">
+    <span class="kicker">Direct 出场依据 · 产业拐点信号（非价格行为）</span>
+    <strong>子链 A · HBM/foundry/封测</strong>：① SK Hynix HBM3E/HBM4 季度 backlog 首次环比下降（当前售罄至 2027）；② DDR4/DDR3 利基现货价连续 4 周环比下跌；③ TSMC CoWoS 产能扩张超预期使外溢订单消化；④ 中芯/华虹单季度 mature ASP 首次环比下降。<br>
+    <strong>子链 B · WFE 设备</strong>：① SEMI 季度 BB Ratio &lt; 1（产业 Bear Logic 触发）；② 中芯/华虹 capex 指引下修；③ 龙头单季度新签订单环比连续两季下降；④ 设备国产化率触顶（&gt;80%）。<br>
+    <strong>子链 C · 模拟/功率/AI DC 电源</strong>：① NVDA 2026 Q3 服务器 capex 指引下修；② MOSFET/IGBT 现货价连续 3 个月环比下降；③ 液冷项目中标价同比下降 &gt;15%；④ VICR 800V HVDC 由 sole sourcing 转 dual sourcing 公告。<br>
+    <strong>子链 D · 商业航天</strong>：① 千帆星座 2026 全年发射数量低于指引下限；② 上海瀚讯失去千帆载荷独家供应商身份；③ 中国卫星交付节奏低于 540 颗下限；④ 商业航天单季度新签订单环比首次下降。
+  </div>
+</section>
+
+<!-- ===== 30_indirect.html · §03 Indirect · 服务/供应链 · 美股 5/26 4 主线 A 股 Indirect 映射 ===== -->
+<section class="sec" data-class="indirect">
+  <div class="sec-num">§ 03 · INDIRECT</div>
+  <h2 class="sec-title">服务 / 供应链 · <em>美股 4 主线 A 股 Indirect 映射</em> · 业务关系间接但清晰、订单滞后 1-2 季度</h2>
+  <div class="sec-sub"><em>Indirect = 国产替代材料 / WFE 零部件 / AI server BoM / 军工电子载荷——业绩兑现度低于 Direct 但比 Sentiment 稳、典型订单 → 收入确认滞后 1-2 季度、出场看订单环比拐点而非价格信号</em></div>
+
+  <p><strong>Indirect 池的核心定位</strong> · 美股 4 条 Bull 主线（主线五是 bearish 反映射池、无 Indirect 映射）在 A 股有<strong>清晰的产业链 Indirect 传导</strong>——这一池标的<em>业务关系不是核心环节本身、而是服务/材料/零部件/检测/总成</em>。相比 Direct 的"产品就是产业链关键节点"，Indirect 的弹性中等、典型订单 → 收入兑现节奏滞后 1-2 季度（材料类）至 2-4 季度（设备零部件类）。<strong>判定原则</strong>：① 业务关系必须具体到产品/客户名单（不是"间接受益于 AI"这种泛泛）② 业绩硬数据必须可锚定（最新季度营收 + 增速、来自相关链条的收入占比）③ 出场依据锚定订单环比拐点 / capex 下修 / 价格见顶反转——不是股价信号。</p>
+
+  <!-- ========== 主线一映射 · HBM/Foundry 上游材料 + 检测 ========== -->
+  <h3 class="sub-h">主线一映射 · <em>HBM / Foundry / 封测上游材料 + 国产替代</em> · 美股锚 <strong>MU / TSM / AMKR / WDC</strong></h3>
+
+  <p>主线一在 A 股的 Direct 是存储模组 / 封测代工本身（见 §02），<strong>Indirect 是上游材料 + 检测</strong>——CMP 抛光液 / 抛光垫 / 溅射靶材 / 高纯前驱体 / 12 寸硅片。美股锚（MU / TSM）扩 HBM 产能 + Goldman 上调 DRAM 缺口 4.9% → A 股材料商订单滞后 1-2 季度可见、毛利率拐点同步出现。这一组业绩弹性的<em>边际变化已经在 2026Q1 财报集中兑现</em>——多家公司 Q1 收入同比 +30% 以上，是当前 Indirect 池<strong>业绩兑现度最高</strong>的子环节。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股 ticker</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">业务关系（产品 / 客户）</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值</th>
+      <th data-type="num">订单滞后</th>
+      <th data-type="text">关键事件 · 2026Q1</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="indirect">
+        <td class="tk">002409.SZ</td>
+        <td class="name">雅克科技</td>
+        <td>半导体前驱体（High-k / 硅基 / 金属）+ 球形硅微粉 → 3D NAND/DRAM/HBM 制程材料</td>
+        <td class="num">MU / TSM</td>
+        <td class="num">约 500 亿</td>
+        <td class="num">1-2 季度</td>
+        <td class="logic">2026Q1 营收 19.73 亿（-6.85% YoY）；2025 电子材料板块 50.80 亿 (+12.71% YoY)、占总营收 59%；前驱体放量推动毛利改善</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300666.SZ</td>
+        <td class="name">江丰电子</td>
+        <td>半导体溅射靶材（铜锰 / 钽 / 铝铜 / 钴）→ 全球市占率 18.6% 第二、国内 12 英寸 73%、3nm 批量供 TSMC / SK Hynix</td>
+        <td class="num">TSM / MU</td>
+        <td class="num">342 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 13.06 亿 (+30.49% YoY) / 归母 2.10 亿 (+33.42% YoY)；机构 2026 营收预期 58 亿、2027 预期 75 亿</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">688019.SH</td>
+        <td class="name">安集科技</td>
+        <td>CMP 抛光液（全球市占率 11%+）+ 功能性湿电子化学品 → 中芯 / 长存 / 长鑫 / 华虹 + 海外大客户</td>
+        <td class="num">TSM / MU</td>
+        <td class="num">约 470 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 7.24 亿 (+32.76% YoY) / 归母 2.08 亿 (+23.01% YoY)；CMP 抛光液 2025 全年 20.40 亿 (+32% YoY)</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300054.SZ</td>
+        <td class="name">鼎龙股份</td>
+        <td>CMP 抛光垫（月产能 5 万片 + 单月销量破 3 万片）+ CMP 抛光液 / 清洗液 → 国内主流晶圆厂全面验证</td>
+        <td class="num">TSM / MU</td>
+        <td class="num">约 470 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 10.20 亿 (+23.8% YoY)；CMP 抛光垫 +71.2% YoY、抛光液 +54.2% YoY；半导体材料营收占比已过半</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">688126.SH</td>
+        <td class="name">沪硅产业</td>
+        <td>12 寸大硅片（抛光片 + 外延片）→ 中芯 / 华虹 / 长存 / 长鑫 上游</td>
+        <td class="num">TSM / MU</td>
+        <td class="num">约 380 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">2026Q1 营收 10.84 亿 (+35.22% YoY)、300mm 销量 +90% YoY；归母仍亏 4.83 亿（扩产固定成本 + 汇兑 + 财务费用 -1 亿）</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">600206.SH</td>
+        <td class="name">有研新材</td>
+        <td>高纯金属靶材（铜锰 / 钽 / 铝铜 / 钴）+ 稀土材料 + 红外光学；昌平 + 德州两基地总产能 73000 块/年</td>
+        <td class="num">TSM / MU</td>
+        <td class="num">约 260 亿</td>
+        <td class="num">1-2 季度</td>
+        <td class="logic">2026Q1 营收 29.57 亿 (+60.72% YoY) / 归母 0.88 亿 (+31% YoY)；靶材产品收入 +50% YoY、贵金属价上涨叠加销量增长</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>300666.SZ 江丰电子</strong> · 半导体溅射靶材全球老二、国内 12 英寸 73% 市占——这是<strong>主线一 Indirect 弹性最高、业绩兑现度最确定</strong>的标的。Q1 +30% YoY 营收 + +33% YoY 利润已经在财报落地，对应美股 TSM capex $54B + MU HBM 扩产的传导链可直接锚。出场依据 = 季度营收同比增速跌破 +15% 或 12 英寸 wafer starts 月度环比连续 2 月下降。</div>
+
+  <div class="ki-note"><strong>300054.SZ 鼎龙股份</strong> · CMP 抛光垫 +71% YoY、抛光液 +54% YoY 是 2026Q1 Indirect 池增速最高的一组——抛光垫此前长期被 Cabot / DuPont 垄断、国产替代窗口刚打开、订单到收入兑现 1 季度内可见。CMP 业务<strong>是 HBM/Foundry 国产替代核心环节</strong>，每片晶圆使用量与制程节点正相关。出场依据 = 月度抛光垫销量环比连续 2 月下降或晶圆厂客户给出验证延期通知。</div>
+
+  <div class="ki-note"><strong>002409.SZ 雅克科技</strong> · 前驱体（High-k / 金属 / 硅基）是 3D NAND 堆叠层数 / HBM 三维封装的关键耗材——制程节点每升一级、单片晶圆前驱体用量翻倍。Q1 营收负增长是季节性 + 大宗化学品板块拖累、电子材料子板块（前驱体 / 光刻胶 / 球形硅微粉）持续增长。出场依据 = 电子材料业务季度收入同比增速跌破 +15% 或前驱体业务毛利率连续 2 季度环比下行。</div>
+
+  <!-- ========== 主线二映射 · WFE 配套 + 零部件 + 二线设备 ========== -->
+  <h3 class="sub-h">主线二映射 · <em>WFE 配套 + 国产替代设备 + 二线设备</em> · 美股锚 <strong>AMAT / LRCX / KLAC / TER / ACMR</strong></h3>
+
+  <p>主线二在 A 股的 Direct 是北方华创 / 中微 / 拓荆等主力前道设备（在 §02），<strong>Indirect 是配套环节 + 国产替代二线设备</strong>——离子注入 / 干法去胶 / 温控 / 废气处理 / 光通信封测设备。这一组<em>业绩弹性低于材料类、订单到收入确认平均滞后 2-4 季度</em>（设备验证周期长），但 2026 年 WFE $140B 的 capex 锚 + TSMC capex $54B 锁定 → 国产替代二线设备已经在 ACMR / AEHR Q1 订单 +65% YoY 上得到外部验证。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股 ticker</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">业务关系（产品 / 客户）</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值</th>
+      <th data-type="num">订单滞后</th>
+      <th data-type="text">关键事件 · 2026Q1</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="indirect">
+        <td class="tk">688729.SH</td>
+        <td class="name">屹唐股份</td>
+        <td>干法去胶设备（全球 34.6% 第二）+ 快速热处理 + 干法刻蚀；研发 / 制造基地 中 / 美 / 德三地</td>
+        <td class="num">LRCX / AMAT</td>
+        <td class="num">约 750 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">2025 全年营收 50.76 亿 (+9.57% YoY) / 归母 6.71 亿 (+24.03% YoY)；2025/7/8 上市，发行 PE 51.55x、募资 24.97 亿——次新红利持续</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">600641.SH</td>
+        <td class="name">先导基电（原万业）</td>
+        <td>凯世通离子注入机（Hyperion 系列大束流 + iKing 360 中束流）→ 12 寸晶圆厂 40+ 台累计交付</td>
+        <td class="num">AMAT</td>
+        <td class="num">约 250 亿</td>
+        <td class="num">2-4 季度</td>
+        <td class="logic">2025/11/12 起证券简称变更为"先导基电"；2026Q1 Hyperion + iKing 360 新品发布；累计 12 寸交付超 40 台、应用 CIS 器件掺杂的低能大束流完成首台验收</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">688652.SH</td>
+        <td class="name">京仪装备</td>
+        <td>半导体专用温控（Chiller）+ 工艺废气处理（L/S）+ 晶圆传片——国内极少数规模装机制造商</td>
+        <td class="num">AMAT / LRCX</td>
+        <td class="num">约 70 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">2025 全年营收 14.26 亿 (+38.95% YoY)；Chiller 9.37 亿 (+49% YoY) / L/S 3.48 亿 (+7.6% YoY)；2025 年末发出商品待确认 15.4 亿（业绩蓄水池）；机构 2026 预测营收 20.22 亿 (+41.8%)</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300757.SZ</td>
+        <td class="name">罗博特科</td>
+        <td>子公司 ficonTEC 光电子 / 半导体光通信封测设备（硅光 / CPO / OCS / OIO）+ 光伏自动化设备</td>
+        <td class="num">TER / 光通信链</td>
+        <td class="num">约 250 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">ficonTEC 在手订单 11.05 亿 + 光伏在手 10.82 亿；已签某 Nasdaq 上市公司硅光设备量产订单 6 亿元；CPO 商业化窗口 2026 开启</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>688652.SH 京仪装备</strong> · WFE Indirect 弹性最高的小盘标的——市值仅约 70 亿、2025 营收 +38.95% YoY、机构 2026 预期 +41.8%、年末发出商品待确认 15.4 亿（已超 2025 全年营收）——这是<strong>"业绩蓄水池"已坐实</strong>的典型业绩兑现型。出场依据 = 季度营收同比增速跌破 +20% 或发出商品余额连续 2 季度环比下降。</div>
+
+  <div class="ki-note"><strong>688729.SH 屹唐股份</strong> · 2025 年 7 月 IPO 的<em>次新 WFE 二线设备龙头</em>——干法去胶全球第二 + 多客户多地布局。次新红利尚未充分释放、近期上市公司报告显示订单可见性已落地至 H2 2026 / H1 2027。出场依据 = 季度新签订单同比增速跌破 +30% 或核心客户（中芯 / 长存 / 长鑫）capex 下修信号。</div>
+
+  <div class="ki-note"><strong>600641.SH 先导基电（原万业）</strong> · ⚠ <strong>证券简称已变更为"先导基电"</strong>（2025/11/12 起，代码 600641 不变）——若用旧名"万业企业"查行情会显示已废弃。凯世通离子注入机在 12 寸 wafer 厂累计 40+ 台、CIS 掺杂低能大束流首台验收——国产替代窗口尚处早期、订单到收入确认滞后 2-4 季度典型。出场依据 = 凯世通季度新签订单同比增速跌破 +30%。</div>
+
+  <!-- ========== 主线三映射 · AI server BoM / 光模块 / 散热 / 互连 ========== -->
+  <h3 class="sub-h">主线三映射 · <em>AI server BoM / 光模块 / 散热 / 高速互连</em> · 美股锚 <strong>NVDA / AVGO / MRVL / VICR / POWI</strong></h3>
+
+  <p>主线三在 A 股的 Direct 是 800V HVDC / SiC 功率 / 服务器电源 IC（在 §02），<strong>Indirect 主战场是 AI server ODM + 光模块 + 高速铜缆互连</strong>。这一组的<em>特殊性</em>：① 光模块龙头中际旭创 / 新易盛在主线三的语境下属 Indirect（光模块是 AI server 的数据互连环节、不是核心芯片）但本身已是全球绝对龙头、业绩弹性接近 Direct；② 工业富联是<strong>NVDA GB200/GB300 主力代工 ODM</strong>——AI server BoM 视角的最强 Indirect 锚；③ 沃尔核材高速铜缆是<strong>AI server 短距互联</strong>的 indirect 受益、订单已排到 Q3。</p>
+
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚠ 光模块逆向特征 · LITE -3.8% 触发的 Indirect 反思</span>
+    <p>美股 5/26 <strong>LITE -3.8%</strong>（Nasdaq-100 add 后 profit-taking）—— 但中际旭创 / 新易盛 / 天孚通信在 A 股<strong>不应被视为同步下杀的反向映射</strong>，原因：① LITE 的回调是 index-rebal 资金面、非产业基本面；② Q1 财报已交付：中际旭创 +192% YoY 营收、新易盛 +105.76% YoY、天孚 +40.82% YoY——三家全球 800G/1.6T 量产能力国内独家壁垒；③ 美股锚应换成 NVDA / AVGO（数据互连需求方）而非 LITE。<strong>反映射判定</strong>：LITE 短期 profit-taking 不构成 A 股光模块的 sell 信号、但若 ANET / AVGO 财报或 hyperscaler capex 指引下修，才是真正的产业反映射信号。</p>
+  </div>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股 ticker</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">业务关系（产品 / 客户）</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值</th>
+      <th data-type="num">订单滞后</th>
+      <th data-type="text">关键事件 · 2026Q1</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="indirect">
+        <td class="tk">601138.SH</td>
+        <td class="name">工业富联</td>
+        <td>NVDA GB200/GB300 主力 ODM 代工 + 微软 / 谷歌 / Meta 核心供应商；AI server 全球市占 40%+</td>
+        <td class="num">NVDA / DELL</td>
+        <td class="num">约 8000 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 2510.78 亿 (+56.52% YoY) / 归母 105.95 亿 (+102.55% YoY)；AI GPU 机柜出货量同比 +3.8x、AI ASIC server 出货 +3.2x</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">002475.SZ</td>
+        <td class="name">立讯精密</td>
+        <td>连接器 + AI server 组装 + 100G/400G/800G 光模块及高速互联；OpenAI 手机处理器深度参与</td>
+        <td class="num">NVDA / AAPL</td>
+        <td class="num">约 5200 亿</td>
+        <td class="num">1-2 季度</td>
+        <td class="logic">2026Q1 营收 838.88 亿 (+35.77% YoY)；伯恩斯坦 AI server 业务进入业绩兑现期、2026 光模块及高速互联规模化量产出货；4/27 股价历史新高</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300308.SZ</td>
+        <td class="name">中际旭创</td>
+        <td>800G 光模块全球市占 40%+ / 1.6T 50-70%；NVDA / 谷歌 / 微软 / Meta 主力供应商</td>
+        <td class="num">NVDA / AVGO</td>
+        <td class="num">约 6000 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 194.96 亿 (+192.12% YoY) / 归母 57.35 亿 (+262.28% YoY)；预付款暴涨 10 倍抢料锁定上游产能</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300502.SZ</td>
+        <td class="name">新易盛</td>
+        <td>800G 光模块（出口占比 90%+）+ 1.6T 在量产爬坡；ASIC server 升级直接受益</td>
+        <td class="num">NVDA / AVGO</td>
+        <td class="num">约 4200 亿</td>
+        <td class="num">1 季度</td>
+        <td class="logic">2026Q1 营收 83.38 亿 (+105.76% YoY)；2025 全年净利 95.32 亿 (+236% YoY)；高盛 PT 上调 11%</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300394.SZ</td>
+        <td class="name">天孚通信</td>
+        <td>光器件 / 光引擎（不直接做光模块、为光模块厂提供光零组件 + 高速光器件）；1.6T 光引擎规模量产 + CPO 配套研发完成</td>
+        <td class="num">中际旭创 / NVDA</td>
+        <td class="num">约 2900 亿</td>
+        <td class="num">1-2 季度</td>
+        <td class="logic">2026Q1 营收 13.30 亿 (+40.82% YoY) / 归母 4.92 亿 (+45.79% YoY)；2025 全年营收 51.63 亿 (+58.79% YoY)</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">300570.SZ</td>
+        <td class="name">太辰光</td>
+        <td>MPO + 光纤路由柔性板（CPO 内部互连）+ Shuffle Box；800G/1.6T 规模交付的后周期受益</td>
+        <td class="num">中际旭创 / NVDA</td>
+        <td class="num">约 250 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">2026Q1 营收 3.41 亿 (-8.04% YoY) / 归母 0.66 亿 (-17.12% YoY)；Q2 起 800G/1.6T 后周期 MPO 需求释放、海外客户拓展中</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">002130.SZ</td>
+        <td class="name">沃尔核材</td>
+        <td>高速铜缆（全球第三、国内第一）→ AI server 短距互联（GPU-GPU / Cabinet 内）；递表港交所拟 H 股 IPO</td>
+        <td class="num">NVDA / AVGO</td>
+        <td class="num">约 600 亿</td>
+        <td class="num">1-2 季度</td>
+        <td class="logic">2026Q1 营收 20.32 亿 (+15.52% YoY)；高速通信线 / 新能源充电枪增速最快；订单排队至 Q3；2026/1/27 递表港交所</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>601138.SH 工业富联</strong> · NVDA GB200/GB300 主力 ODM——Q1 营收 +56% YoY、归母翻倍、AI GPU 机柜出货 +3.8x——这是 AI server BoM 视角下<strong>业绩弹性兑现度最完整的 A 股 Indirect 锚</strong>。市值 ~8000 亿、流通盘大、机构定价稳定。出场依据 = NVDA 下季度 capex 指引下修 / AI server 机柜季度出货环比连续 2 月下降。</div>
+
+  <div class="ki-note"><strong>300308.SZ 中际旭创 / 300502.SZ 新易盛 / 300394.SZ 天孚通信</strong> · 三家组成<strong>A 股光模块 Indirect 主力</strong>：旭创 1.6T 全球 50-70% / 新易盛 ASIC server 升级直接受益 / 天孚 CPO 配套先发——业绩弹性接近 Direct 但定位仍是数据互连环节。<em>LITE -3.8% 不构成同步下杀理由</em>（LITE 是 index-rebal 资金面、Q1 财报硬数据已完整兑现）。出场依据 = AVGO / ANET 财报指引下修 / hyperscaler capex 下修 / 上游 EML / VCSEL 激光器供应改善（拐点信号）。</div>
+
+  <div class="ki-note"><strong>002130.SZ 沃尔核材</strong> · 高速铜缆是 AI server <em>cabinet 内</em>互连（≤1m 短距），与光模块（cabinet 间 / rack 间）形成互补——NVL72 架构 GPU-GPU 互连放量直接受益。Q1 营收 +15.5% YoY 看上去不高、但产品组合中高速通信线 / 充电枪两块增速最快、原材料铜价上涨拖累综合毛利率（短期可传导）。订单排到 Q3。出场依据 = 高速通信线季度收入同比增速跌破 +30% 或 NVL72 架构出货节奏延后。</div>
+
+  <!-- ========== 主线四映射 · 军工电子 / 卫星载荷上游 ========== -->
+  <h3 class="sub-h">主线四映射 · <em>军工电子 / 卫星 T/R 芯片 / 高可靠传感器</em> · 美股锚 <strong>RDW / ESLT / RKLB / ASTS</strong></h3>
+
+  <p>主线四在 A 股的 Direct 是航天电子 / 火箭整箭厂（在 §02），<strong>Indirect 是军工电子元器件 + 星载 T/R 芯片 + 高可靠传感器</strong>——属于<em>卫星 / 火箭载荷上游的核心元器件层</em>。这一组的<strong>特殊性</strong>：A 股商业航天独立 cycle + 美股 catalyst 共振、国资委 5/22 太空 capex 上调 + 千帆 / GW 星座加速 → 即使没有美股传导也有独立 Bull 逻辑。但<em>"十五五"军品列装周期</em>带来的弹性预期已 price in 一部分、需关注实际订单兑现节奏。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股 ticker</th>
+      <th data-type="text">公司名</th>
+      <th data-type="text">业务关系（产品 / 客户）</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">市值</th>
+      <th data-type="num">订单滞后</th>
+      <th data-type="text">关键事件 · 2026 进展</th>
+    </tr></thead>
+    <tbody>
+      <tr data-class="indirect">
+        <td class="tk">688375.SH</td>
+        <td class="name">国博电子</td>
+        <td>有源相控阵 T/R 组件 + 射频集成电路 → 军用雷达 / 精确制导 / 卫星通信 + 5G 基站 / 手机射频</td>
+        <td class="num">ESLT / RDW</td>
+        <td class="num">约 270 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">机构 2026 营收预期 27.84 亿 (+16.7%)；三大成长方向 = 商业航天 + 十五五军品列装 + 硅基 GaN 手机射频（已量产超 100 万只）</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">001270.SZ</td>
+        <td class="name">*ST 铖昌</td>
+        <td>星载 T/R 芯片（国内市占率 70%+ / 全球仅 5 家具备量产能力）；低轨核心星座更高</td>
+        <td class="num">ASTS / RDW</td>
+        <td class="num">约 200 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">⚠ 已被 *ST 处理（财务问题）；2025H1 营收 2.01 亿 (+180.16% YoY)、扭亏；星载 T/R 芯片国内绝对垄断；机构合理估值 200-300 亿</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">002049.SZ</td>
+        <td class="name">紫光国微</td>
+        <td>特种集成电路（FPGA 市占率 70%+） + 智能安全芯片 + 石英晶体 → 航天 / 国防 / 高端装备</td>
+        <td class="num">ESLT / RDW</td>
+        <td class="num">约 1100 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">机构 2026Q1 预测营收 21.5-22.5 亿 (+110-120% YoY) / 归母 7.8-8.5 亿 (+550-610% YoY)；FPGA / 接口 / 存储芯片导入航天客户</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">000733.SZ</td>
+        <td class="name">振华科技</td>
+        <td>军用钽电容（市占率 70%+）/ 宇航级 98% / 军用 MLCC 60%+ ；钽电容年产能 4.8 亿只</td>
+        <td class="num">ESLT / 防务链</td>
+        <td class="num">约 350 亿</td>
+        <td class="num">2-3 季度</td>
+        <td class="logic">2026Q1 利润短期承压（交付淡季 + 制度改革、视为一次性扰动）；机构 2026 预期营收 64 亿 (+15.3%) / 归母 13 亿 (+28.3%)</td>
+      </tr>
+      <tr data-class="indirect">
+        <td class="tk">688539.SH</td>
+        <td class="name">高华科技</td>
+        <td>高可靠 MEMS 传感器 → 火箭发动机 / 全箭遥测 / 试车台 / 发射靶场；少量卫星姿控推进</td>
+        <td class="num">RKLB / RDW</td>
+        <td class="num">约 60 亿</td>
+        <td class="num">2-4 季度</td>
+        <td class="logic">2023/4 上市次新；与中科宇航 / 蓝箭等商业火箭配套；IPO 募投项目预计 2026/6/30 达到使用状态；可回收火箭配套预研</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note"><strong>002049.SZ 紫光国微</strong> · 特种 FPGA 国内市占率 70%+——是<strong>主线四 Indirect 业绩弹性最高的标的</strong>。机构 2026Q1 预测归母 +550-610% YoY 不是题材而是 PEG 数据——核心驱动 = 特种 IC（FPGA / 存储 / 接口）+ 智能安全芯片双轮、军品 + 航天 + 车规多场景。出场依据 = Q1 实际报表偏离机构预期 ±30% / 特种 IC 业务季度同比增速跌破 +50%。</div>
+
+  <div class="ki-note"><strong>001270.SZ *ST 铖昌</strong> · ⚠ <strong>已被 *ST</strong>（特别处理状态）——星载 T/R 芯片国内绝对垄断（市占率 70%+）+ 全球仅 5 家量产、商业卫星互联网核心元器件。基本面强（2025H1 营收 +180% YoY 扭亏）但带 *ST 标记会触发部分基金合规筛除、流动性折价存在。出场依据 = 摘帽前看季度营收维持 +100% YoY 增长 / 摘帽后看星载 T/R 季度出货环比拐点。</div>
+
+  <div class="ki-note"><strong>688375.SH 国博电子</strong> · 有源相控阵 T/R 组件龙头——主线四 Indirect 中最纯粹的<em>商业航天 + 国防双锚</em>。2026 三大成长方向中商业航天权重最高（千帆 / GW 星座 T/R 组件供给）。机构 2026 营收预期 27.84 亿 (+16.7%) 偏保守、市场预期可能上调。出场依据 = T/R 组件季度新签合同环比下降 / 千帆 / GW 星座发射延期 2 月以上。</div>
+
+  <!-- ========== 出场依据汇总 ========== -->
+  <div class="note-block">
+    <span class="kicker">⚠ Indirect 出场依据 · 锚定订单环比拐点 / 价格见顶反转 / capex 下修 / 客户验证延期</span>
+    <strong>主线一（HBM / Foundry 上游材料）</strong>：① CMP 抛光液 / 抛光垫龙头季度收入同比增速跌破 +20%；② DRAM 现货价连续 2 周环比下行；③ TSMC 月度营收同比跌破 +20%（当前 +44%、6/10 左右出数）<br>
+    <strong>主线二（WFE 国产替代 + 二线设备）</strong>：① 设备龙头季度新签订单环比连续 2 季度下降；② 发出商品余额（已发未确认收入）连续 2 季度环比下降；③ 中芯 / 长存 / 长鑫 capex 指引下修信号<br>
+    <strong>主线三（AI server BoM / 光模块 / 互连）</strong>：① NVDA 下季度 capex 指引下修（不是 LITE profit-taking）；② AVGO / ANET 给出 hyperscaler 资本开支放缓信号；③ AI server 机柜季度出货环比连续 2 月下降；④ EML / VCSEL 上游激光器供给改善（光模块产能瓶颈解除 = 提价能力下降）<br>
+    <strong>主线四（军工电子 / 卫星载荷上游）</strong>：① 千帆 / GW 星座发射节奏延期 2 月以上；② 星载 T/R 季度出货环比下降；③ 军工电子年度合同金额下修；④ 国资委太空 capex 政策反向调整
+  </div>
+
+</section>
+
+<section class="sec" data-class="sentiment">
+  <div class="sec-num">§ 04 · PURE SENTIMENT</div>
+  <h2 class="sec-title">概念炒作 · 妖股博弈池 · <em>美股 5 主线 A 股题材接力集合</em></h2>
+  <div class="sec-sub"><em>HBM 概念 / 商业航天概念 / AI 算力跨界 / 量子通信概念 / AI Cyber 弱共振 · 业务真实关系薄弱 · 估值不是输入</em></div>
+
+  <p><strong>Sentiment 池总论</strong>：本节列出对美股 5 主线（HBM/foundry · WFE · AI DC 电源 · 商业航天 · 量子/Cyber）的 A 股 <em>题材接力标的</em>——这些公司与美股锚<strong>没有真实业务关系或关系极弱</strong>，市场只是用"HBM 概念"、"卫星互联网概念"、"AI 算力跨界"等标签炒作。<strong>逻辑是博弈和情绪、不是基本面</strong>——所以三类铁律：①<strong>明示是概念炒作</strong>不假装 Direct/Indirect；②<strong>业务真实关系老实说</strong>"与 X 无直接业务、仅 Y 概念标签"；③<strong>出场依据只用情绪/筹码/叙事</strong>，禁用 PE/PS 否定（估值是背景不是输入）。</p>
+
+  <!-- ========== 妖股识别 + 出场依据框（顶部纪律） ========== -->
+  <div class="note-block" style="border-left-color:var(--bear)">
+    <span class="kicker" style="color:var(--bear)">⚠ 妖股识别四要素 + Sentiment 出场依据</span>
+    <p style="margin:6px 0 8px"><strong>识别四要素同时满足时不用 PE/PS 否定</strong>：<br>
+    ① <strong>流通盘小</strong>（&lt;50 亿元为小、&lt;20 亿为微小）&nbsp;&nbsp;② <strong>上市时间短</strong>（&lt;24 个月为次新）&nbsp;&nbsp;③ <strong>题材热</strong>（市场在讲故事）&nbsp;&nbsp;④ <strong>逼空结构</strong>（融券利率高 / 筹码集中 / 龙虎榜主力净买入）</p>
+    <p style="margin:6px 0 0"><strong>出场依据 · 只用情绪 / 筹码 / 叙事三选一</strong>：<br>
+    1. <strong>主流叙事变化</strong>——市场不再 price in 该故事（如 HBM 涨价周期触顶、商业航天发射节奏失速、量子 govt grants 停止）<br>
+    2. <strong>筹码扩散</strong>——大股东 / 早期投资者 / 高管减持公告 / 龙虎榜机构席位净卖出<br>
+    3. <strong>主题板块 RS 转弱</strong>——板块整体走弱 ≥ 2 周时单股难独立（如商业航天 ETF 同业转弱、HBM 指数破位）<br>
+    <strong>❌ 禁止</strong>使用"PE 100 倍太贵了"、"业绩跟不上估值"、"涨多了"作为出场依据——估值在妖股里是<em>背景信息</em>不是定价输入。</p>
+  </div>
+
+  <!-- ========== §04.1 主线一 HBM/foundry Sentiment ========== -->
+  <h3 class="sub-h">主线一 Sentiment · <em>HBM/foundry 概念接力</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.55">
+    SK Hynix HBM 涨价 + 国产 HBM 替代是当下最厚叙事；但 A 股真做 HBM 设计的极少（长鑫/长存未上市）——分销商 / RISC-V / 存储模组借"HBM 概念"涨。<em>香农芯创 H1 业绩兑现是 Indirect 边界、其余典型 Sentiment</em>。
+  </p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th data-type="text">A 股 ticker</th>
+        <th data-type="text">公司名</th>
+        <th data-type="text">题材标签</th>
+        <th data-type="text">业务真实关系（坦白）</th>
+        <th data-type="num">流通盘</th>
+        <th data-type="text">上市时间</th>
+        <th data-type="text">逼空指标</th>
+        <th data-type="text">关键事件 / 题材热度</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr data-class="sentiment">
+        <td class="tk">688262.SH</td>
+        <td class="name">国芯科技</td>
+        <td><span class="pill">RISC-V + HBM 概念</span></td>
+        <td>主营汽车 MCU / 信创 CPU，<em>与 HBM 制造无任何直接关系</em>，仅有 RISC-V 国产替代 + HBM 协同叙事</td>
+        <td class="num">~120 亿</td>
+        <td class="num">2022 IPO 科创板</td>
+        <td class="num">流通盘中等 / 题材接力</td>
+        <td>2026 Q1 CCFC3009PT RISC-V 抗量子 AI MCU 内部测试成功；2026 考核要求汽车电子收入 +140% / 信创 +108%；<em>HBM 是叙事捆绑、非营收</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">301308.SZ</td>
+        <td class="name">江波龙</td>
+        <td><span class="pill">存储模组 + HBM 概念</span></td>
+        <td>NAND/DRAM 存储模组主营（消费 + 企业 + 工业三档），公司公开表态<em>"暂未涉及 HBM 内存芯片设计"</em>，但叠加包装 mSSD + CXL 2.0 受益涨价</td>
+        <td class="num">~210 亿</td>
+        <td class="num">2022 IPO 创业板</td>
+        <td class="num">次新妖股 + 题材接力</td>
+        <td>AI 服务器存储模组订单 +40% yoy 排单到 2026 年底；2025E/2026E 营收 240/306 亿元（+37%/+28%）；<strong>无 HBM 直接业务</strong>仅借势涨价。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">300184.SZ</td>
+        <td class="name">力源信息</td>
+        <td><span class="pill">半导体分销 + 存储涨价</span></td>
+        <td>多品牌存储分销（长鑫/长存/兆易/铠侠/江波龙），<em>无 HBM 独家代理</em>——香农芯创独占 SK Hynix HBM 大陆 30% 份额，力源信息无此弹性</td>
+        <td class="num">~95 亿</td>
+        <td class="num">2011 IPO 老股</td>
+        <td class="num">流通盘大 / 弹性较弱</td>
+        <td>2026 Q1 毛利率 11.5-14.5% 区间预测；AI 业务（服务器/电源/光模块/液冷）+ 存储涨价双驱动；<em>叙事确定性高但弹性低于香农芯创</em>。</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>688262.SH 国芯科技</strong> · 题材：RISC-V 抗量子 AI MCU + HBM 协同 / 业务真实关系：与 HBM 制造完全无关，靠"RISC-V + 信创 + 国产替代 + 抗量子"四重标签接力 / 博弈结构：流通盘 120 亿中等 + 科创板次新 + 题材热度持续 / <strong>出场依据 = 主流叙事变化</strong>（市场不再 price in RISC-V + HBM 协同故事时退出，具体观察：华为昇腾下一代是否实际采用 RISC-V）。
+  </div>
+
+  <div class="ki-note">
+    <strong>301308.SZ 江波龙 + 300184.SZ 力源信息</strong> · 两者都是 <em>HBM 涨价周期的二阶受益者</em>——HBM 涨价拉动整条存储链涨价、模组/分销跟涨。但两者公开表态过<em>不直接做 HBM</em>，本质是<em>存储涨价行情中蹭 HBM 标签</em>。江波龙弹性大（次新 + 流通盘小 + AI 服务器订单 +40% 真实兑现）、力源信息弹性小（老股 + 流通盘大 + 无独家代理）。<strong>出场依据 = 板块 RS 转弱</strong>（HBM 指数 / 存储 ETF 整体回调持续 2 周以上）；<em>禁用"江波龙 PE 60 倍太贵"否定逻辑——估值是涨价周期的伴随物不是输入</em>。
+  </div>
+
+  <!-- ========== §04.2 主线二 WFE Sentiment ========== -->
+  <h3 class="sub-h">主线二 Sentiment · <em>WFE 国产替代 / 半导体材料概念</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.55">
+    AMAT/KLAC/LRCX 国产替代叙事 → A 股北方华创、中微公司是 Direct（在 §02 处理）；本节列<em>边缘材料 + 跨界概念股</em>，题材标签强、业绩兑现度不如 Direct。
+  </p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th data-type="text">A 股 ticker</th>
+        <th data-type="text">公司名</th>
+        <th data-type="text">题材标签</th>
+        <th data-type="text">业务真实关系（坦白）</th>
+        <th data-type="num">流通盘</th>
+        <th data-type="text">上市时间</th>
+        <th data-type="text">逼空指标</th>
+        <th data-type="text">关键事件 / 题材热度</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr data-class="sentiment">
+        <td class="tk">688208.SH</td>
+        <td class="name">道通科技 / 类似</td>
+        <td><span class="pill">CMP 抛光垫 + 半导体材料</span></td>
+        <td>主营 CMP 抛光垫 + 显示材料 + 半导体显影液，<em>与 WFE 设备主线非直接对位</em>（设备 vs 材料）</td>
+        <td class="num">~155 亿</td>
+        <td class="num">2014 老股</td>
+        <td class="num">材料赛道接力</td>
+        <td>鼎龙股份在 §03 已列 Indirect；本格预留给"显示+材料"边界标的，<em>建议结合 §03 看待</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">688268.SH</td>
+        <td class="name">至纯科技</td>
+        <td><span class="pill">湿法工艺 + 高纯材料</span></td>
+        <td>湿法工艺设备 + 高纯化学品供应，<em>与北方华创/中微公司 WFE 主线属于上下游</em>，非同位竞争——叙事跟涨</td>
+        <td class="num">~55 亿</td>
+        <td class="num">2017 IPO 科创板</td>
+        <td class="num">流通盘较小 / 题材接力</td>
+        <td>跟随北方华创 / 拓荆科技涨；订单确定性 / 业绩兑现度低于龙头；<em>纯叙事接力</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">300346.SZ</td>
+        <td class="name">南大光电</td>
+        <td><span class="pill">光刻胶 + ArF 国产替代</span></td>
+        <td>ArF 光刻胶国产替代标的，<em>主营 MO 源 + 特气 + 光刻胶</em>，光刻胶占比小但叙事最厚</td>
+        <td class="num">~210 亿</td>
+        <td class="num">2012 老股</td>
+        <td class="num">国产替代叙事</td>
+        <td>ArF 光刻胶 28nm 量产突破；2025 营收 ~28 亿 yoy +30%；<em>光刻胶业务占比 &lt;10% 但定价主导</em>。</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>688268.SH 至纯科技 + 300346.SZ 南大光电</strong> · 两者均<em>不是 WFE 设备厂、而是上游耗材 + 材料</em>——市场会把它们与北方华创/中微/拓荆"打包炒"，但业绩兑现节奏 + 客户结构 + 弹性都与 Direct 主线不同。南大光电 ArF 光刻胶 28nm 突破是真业绩 + 真国产替代，但光刻胶占总营收 &lt;10%——典型"<em>小业务大叙事</em>"。<strong>出场依据 = 主流叙事变化</strong>（光刻胶国产替代节奏 vs 政策预期 gap）+ <strong>筹码扩散</strong>（关注大股东减持公告）。
+  </div>
+
+  <!-- ========== §04.3 主线三 AI DC 电源 / AI 算力跨界 ========== -->
+  <h3 class="sub-h">主线三 Sentiment · <em>AI 算力跨界妖股 / 国产服务器概念</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.55">
+    AI 算力主线最容易接到<em>非半导体跨界股</em>——印刷转算力、调味品转算力、保险信托转算力都跑出来过。<strong>典型 Pure Sentiment 池</strong>：业务关系=0 但题材弹性 +100%。
+  </p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th data-type="text">A 股 ticker</th>
+        <th data-type="text">公司名</th>
+        <th data-type="text">题材标签</th>
+        <th data-type="text">业务真实关系（坦白）</th>
+        <th data-type="num">流通盘</th>
+        <th data-type="text">上市时间</th>
+        <th data-type="text">逼空指标</th>
+        <th data-type="text">关键事件 / 题材热度</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr data-class="sentiment">
+        <td class="tk">002229.SZ</td>
+        <td class="name">鸿博股份</td>
+        <td><span class="pill">印刷转 AI 算力出租</span></td>
+        <td><strong>典型跨界妖股</strong>：主营彩票印刷 + 包装印刷，子公司英博数科 2023 年才进 AI 算力租赁、<em>与英伟达"独家授权"传闻多年存疑</em></td>
+        <td class="num">~145 亿</td>
+        <td class="num">2008 老股</td>
+        <td class="num">9 倍历史涨幅 / 跨界叙事 / 高管动荡</td>
+        <td>百川智能 13.82 亿云服务合同 + 北京京能 10 亿合同；郑州 5000P 项目 2026 Q2 投产；英博数科与母公司高管反目；<em>2024 H1 仍未扭亏</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">600186.SH</td>
+        <td class="name">莲花健康</td>
+        <td><span class="pill">调味品 + AI 算力 + DeepSeek</span></td>
+        <td><strong>极端跨界妖股</strong>：味精龙头跨界 AI 算力 + ABF 膜——子公司莲花紫星部署 7 个智算中心 + DeepSeek-R1，<em>2025 算力合同 5.55 亿被取消（占总合同 82.67%）</em></td>
+        <td class="num">~90 亿</td>
+        <td class="num">1998 老股</td>
+        <td class="num">"味精+算力"双主业接力</td>
+        <td>2025 营收 34.52 亿 yoy +30% / 归母 3.09 亿 yoy +52%（味精业务主导）；2026 年底目标 30000P 智算集群；<em>监管两次问询 + 80% 合同被取消、交付风险大</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">000938.SZ</td>
+        <td class="name">紫光股份</td>
+        <td><span class="pill">H3C 服务器 + AI 解决方案</span></td>
+        <td><em>弱 DIRECT 边界</em>——H3C 是国产服务器龙头、确有 AI 服务器订单；但与 NVDA / DELL / SMCI 路线不同（国产 vs Hopper/Blackwell），叙事 alpha 大于业绩 alpha</td>
+        <td class="num">~1200 亿</td>
+        <td class="num">老股</td>
+        <td class="num">大盘标的 / 弹性中等</td>
+        <td>2025 营收 ~1048 亿 yoy +15%（2026E）；H3C S12500AI 算力集群交换机 + UniPoD S80000 超节点；<em>2025 H1 营收 474 亿 +25%；扣非净利 11.2 亿 +25%</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">603019.SH</td>
+        <td class="name">中科曙光</td>
+        <td><span class="pill">国产 AI 服务器 + 海光协同</span></td>
+        <td><em>弱 DIRECT 边界</em>——持有海光信息 27.96%、2026 Q1 万卡超集群上线；但与 NVDA 路线不同（海光 DCU vs Hopper）；2025 已与海光"软整合"放弃硬合并</td>
+        <td class="num">~1500 亿</td>
+        <td class="num">2014 老股</td>
+        <td class="num">大盘标的 / AI 算力旗舰</td>
+        <td>2025 全年营收 149.64 亿 yoy +14% / 扣非净利 18.38 亿 yoy +34%；Q1 2026 扣非净利 yoy +58%；2026.02 三套万卡超集群同时上线国家算力枢纽。</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>002229.SZ 鸿博股份</strong> · <em>跨界 AI 算力妖股标杆</em>——主营印刷与 AI 算力毫无关联、子公司英博数科 2023 才进算力赛道、"英伟达独家授权"持续被质疑、与母公司高管反目还在升级。题材：印刷转算力 + 英伟达合作 + 万 P 集群 + 头部客户绑定四重接力；业务真实关系：<em>母公司主营印刷与算力主线零关系</em>；博弈结构：流通盘 145 亿中等 + 老股但题材跨界全新 + 9 倍历史涨幅；<strong>出场依据 = 筹码扩散</strong>（高管 / 早期投资者 / 大股东减持公告优先于业绩反转）。
+  </div>
+
+  <div class="ki-note">
+    <strong>600186.SH 莲花健康</strong> · <em>极端跨界妖股 + 监管警示</em>——味精龙头跨界 AI 算力 + ABF 膜，2025 年算力合同 5.55 亿（占 82.67%）被取消、80% 合同终止、监管两次问询。<em>味精主业还在赚钱（2025 归母 +52%），算力是估值催化非营收</em>。题材：调味品 + AI 算力 + DeepSeek + ABF 膜半导体材料四重叠加；业务真实关系：<strong>算力交付节奏严重不达预期</strong>；博弈结构：流通盘 90 亿中等 + 老股但题材跨界 + 监管警示加持；<strong>出场依据 = 主流叙事变化</strong>（市场不再相信"味精 + 算力"双主业故事时退出，具体观察：是否再有大额算力合同被取消公告）。
+  </div>
+
+  <div class="ki-note">
+    <strong>000938.SZ 紫光股份 + 603019.SH 中科曙光</strong> · 两者本质<em>弱 Direct 边界标的</em>——业务真实有关（国产 AI 服务器龙头）但与美股 NVDA / DELL / SMCI 路线<em>不同（国产 GPU vs Hopper/Blackwell）</em>，享受国产替代叙事 + 算力基建预算 + AI 主题三重溢价、但业绩弹性低于美股 SMCI / DELL。紫光股份 H3C UniPoD 超节点 + 中科曙光万卡超集群是真订单真业绩、但<em>受芯片端国产化进度制约</em>。<strong>出场依据 = 板块 RS 转弱</strong>（国产算力 ETF 整体回调 + 海光 / 寒武纪同步走弱时减仓）+ <strong>主流叙事变化</strong>（市场不再 price in "国产算力 vs 海外算力" 故事）。
+  </div>
+
+  <!-- ========== §04.4 主线四 商业航天 / 6G Sentiment ========== -->
+  <h3 class="sub-h">主线四 Sentiment · <em>卫星互联网 / 6G / 商业航天概念</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.55">
+    千帆/GW 星座 + 6G 叙事接力。Direct 是航天电子 / 中国卫星 / 上海瀚讯（在 §02 处理），<em>Sentiment 池是 5G 跨界 + 无人船蹭概念 + ST 类边缘</em>。
+  </p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th data-type="text">A 股 ticker</th>
+        <th data-type="text">公司名</th>
+        <th data-type="text">题材标签</th>
+        <th data-type="text">业务真实关系（坦白）</th>
+        <th data-type="num">流通盘</th>
+        <th data-type="text">上市时间</th>
+        <th data-type="text">逼空指标</th>
+        <th data-type="text">关键事件 / 题材热度</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr data-class="sentiment">
+        <td class="tk">300366.SZ</td>
+        <td class="name">ST 创意<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--bear)">⚠ 已变 ST 风险警示</span></td>
+        <td><span class="pill">5G + 卫星互联网 + 6G</span></td>
+        <td>主营数据库 + 大数据 + AI + 5G/卫星互联网 + IoT，子公司创智联恒做低轨宽带卫星——<em>母公司主营与卫星弱关联</em></td>
+        <td class="num">~25 亿</td>
+        <td class="num">2014 老股</td>
+        <td class="num">⚠ ST / 5% 涨跌停 / 不在主升池</td>
+        <td>创智联恒 2025 营收 yoy +57.25%；2024.09 引入国资股东募 6010 万；<em>母公司变 ST 拖累主升、不在妖股博弈池</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">002829.SZ</td>
+        <td class="name">星网宇达</td>
+        <td><span class="pill">无人系统 + 卫星互联网 + 北斗</span></td>
+        <td>主营惯性技术无人系统（占 65%），<em>低轨卫星相控阵天线 2024 Q4 推出</em>，与卫星互联网主线属于<em>地面用户终端段</em>非卫星本体</td>
+        <td class="num">~85 亿</td>
+        <td class="num">2017 IPO 中小板</td>
+        <td class="num">军工 + 卫星双题材接力</td>
+        <td>2023 营收 7.71 亿 yoy −28%（基数年）；卫星互联网 + 北斗 + 无人船三重叙事；<em>本质是军工无人系统、卫星是延伸业务</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">001270.SZ</td>
+        <td class="name">铖昌科技<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--bear)">⚠ ST 铖昌</span></td>
+        <td><span class="pill">卫星 T/R 芯片次新</span></td>
+        <td><em>真 Indirect 边界标的</em>——星载相控阵 T/R 芯片核心民企，与卫星互联网主线产业链清晰；但 2024 业绩承压、变 ST 状态</td>
+        <td class="num">~65 亿</td>
+        <td class="num">2022 IPO 主板</td>
+        <td class="num">⚠ ST 警示 / 次新</td>
+        <td>2025 H1 营收 2.01 亿 yoy +180%（低基数）+ 扭亏；星载相控阵核心民企 / 多型遥感星座批量交付；<em>已变 ST 但业务最 Direct</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">300589.SZ</td>
+        <td class="name">江龙船艇</td>
+        <td><span class="pill">无人船 + 军工 + 商业航天概念</span></td>
+        <td><strong>典型 Pure Sentiment</strong>：主营公务执法船 / 旅游艇 / 工作船，<em>与商业航天 / 卫星互联网无任何业务往来</em>，仅有"无人船 + 海军装备"边缘军工标签</td>
+        <td class="num">~30 亿</td>
+        <td class="num">2017 IPO 创业板</td>
+        <td class="num">小盘 / 题材跨界</td>
+        <td>2026 Q1 营收 1.57 亿 / 归母 320 万；香港特区政府海事船舶合同 1.25 亿港元；<em>与商业航天主线零关系、仅靠"军工 + 无人"双概念接力</em>。</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>300366.SZ ST 创意</strong> · <em>不在主升池但行业映射完整性必列</em>——子公司创智联恒做低轨宽带卫星营收 +57% 是真业务，但母公司变 ST + 5% 涨跌停限制 + 流动性差让它<em>无法享受主升</em>。题材：5G + 卫星 + 6G + AI 四重接力；博弈结构：流通盘 25 亿小 + ST 风险压制 + 题材热但无法兑现；<strong>列出原因 = 行业映射 + ST 摘帽情景下的潜在反弹机会</strong>，但<em>当下不参与</em>。出场依据：板块 RS 转弱（卫星 ETF 整体回调时彻底退出）。
+  </div>
+
+  <div class="ki-note">
+    <strong>002829.SZ 星网宇达 + 001270.SZ 铖昌科技</strong> · 两者都<em>有真实卫星业务</em>——星网宇达低轨相控阵天线 + 铖昌科技星载 T/R 芯片，业务真实关系比江龙船艇强很多。但<em>归 Sentiment 是因为</em>：(1) 都有军工合同节奏不确定性；(2) 铖昌科技已变 ST、星网宇达 2023 营收 -28% 仍在恢复期；(3) 业绩弹性远低于 §02 航天电子 / 上海瀚讯。<strong>出场依据 = 筹码扩散</strong>（关注大股东 / 高管减持）+ <strong>主流叙事变化</strong>（千帆 / GW 星座发射节奏失速时退出）。
+  </div>
+
+  <div class="ki-note">
+    <strong>300589.SZ 江龙船艇</strong> · <em>纯题材接力跨界妖股标杆</em>——主营公务船 / 旅游艇与商业航天完全无关，仅靠"无人船 + 海军装备"边缘标签蹭"军工 + 商业航天"组合炒作。题材：无人船 + 军工 + 海事装备 + 商业航天延伸概念四重接力；业务真实关系：<strong>与卫星互联网零关系</strong>；博弈结构：流通盘 30 亿小 + 创业板次新 + 跨界叙事； <strong>出场依据 = 板块 RS 转弱</strong>（商业航天 ETF / 卫星互联网指数整体回调持续 2 周以上时退出）；<em>禁用"江龙船艇 PE 80 倍太贵"否定——这种小盘跨界妖股估值不是输入、是题材热度的函数</em>。
+  </div>
+
+  <!-- ========== §04.5 主线五警示 量子 / Cyber 弱共振 ========== -->
+  <h3 class="sub-h">主线五警示 · <em>量子计算 / Cyber AI Agent 弱共振</em></h3>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.55">
+    美股本周 QBTS / RGTI / IONQ 量子板块回调 -5%；ZS 收购 Symmetry Systems 切 AI Agent 安全。A 股映射两条线：① 量子板块（在 5/23 报告 §06 已细列，本节做警示）；② AI Cyber 弱共振（三六零是 hedge 而非 mirror）。
+  </p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th data-type="text">A 股 ticker</th>
+        <th data-type="text">公司名</th>
+        <th data-type="text">题材标签</th>
+        <th data-type="text">业务真实关系（坦白）</th>
+        <th data-type="num">流通盘</th>
+        <th data-type="text">上市时间</th>
+        <th data-type="text">逼空指标</th>
+        <th data-type="text">关键事件 / 题材热度</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr data-class="sentiment">
+        <td class="tk">300678.SZ</td>
+        <td class="name">中科信息</td>
+        <td><span class="pill">中科院 + 量子计算概念</span></td>
+        <td>主营智能制造 + 数字会议（中科院成都信息所旗下），<em>与量子计算无直接业务、仅借中科院量子主线标签</em></td>
+        <td class="num">~75 亿</td>
+        <td class="num">2017 IPO 创业板</td>
+        <td class="num">中科院系 / 题材接力</td>
+        <td>2025 营收 6.38 亿 yoy +26% / 归母 +49%；在手订单 9.14 亿 / 新签合同 yoy +283%；<em>主营智能制造非量子、靠中科院光环蹭量子主线</em>。</td>
+      </tr>
+
+      <tr data-class="sentiment">
+        <td class="tk">601360.SH</td>
+        <td class="name">三六零</td>
+        <td><span class="pill">AI Agent 安全 + 国产 SaaS</span></td>
+        <td><em>弱 INDIRECT 边界</em>——AI 安全转型 + 360 智脑大模型，与 ZS Zscaler "AI Agent 安全"叙事映射、但<em>商业模式（C 端杀软 + B 端政企）与 ZS 零信任 SaaS 完全不同</em></td>
+        <td class="num">~620 亿</td>
+        <td class="num">2018 借壳</td>
+        <td class="num">大盘 / 转型催化</td>
+        <td>2026E 营收 110-120 亿 / AI 安全收入占比 &gt;30%（目标 35 亿）；自研大模型 + 国家级攻防能力；ZS 5/21 收购 Symmetry Systems 切 AI Agent 安全；<em>360 与 ZS 是叙事映射、非业务镜像</em>。</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>300678.SZ 中科信息</strong> · <em>中科院系蹭量子概念典型</em>——主营智能制造 / 数字会议 / 烟草 IT 与量子计算零关系，仅靠"中科院成都信息技术"光环挂在量子板块炒。2025 业绩亮眼（营收 +26% / 归母 +49%）但<em>来自智能制造主业不是量子</em>。题材：中科院 + 量子 + AI + 信创四重接力；博弈结构：流通盘 75 亿中等 + 老股但题材接力新；<strong>出场依据 = 主流叙事变化</strong>（量子主题 RS 转弱时退出、5/22 政策催化外溢已是峰值之一）+ <strong>筹码扩散</strong>（关注大股东减持）。
+  </div>
+
+  <div class="ki-note">
+    <strong>601360.SH 三六零</strong> · <em>AI Cyber 主线弱 hedge 标的</em>——与 ZS Zscaler 5/21 收购 Symmetry Systems 切 AI Agent 安全是<em>叙事映射不是业务镜像</em>：ZS 走零信任 SaaS 国际订阅、360 走 C 端杀软 + B 端政企 + 国家级攻防，<em>客户结构和定价模型完全不同</em>。但 AI 安全 + 国产替代 + 大模型协同三重叙事让它享受 ZS 上涨的外溢。题材：AI Agent 安全 + 360 智脑大模型 + 国产替代 + 政企安全四重叠加；博弈结构：流通盘 620 亿大盘 / 弹性中等；<strong>出场依据 = 板块 RS 转弱</strong>（信创 / 网络安全 / AI 应用 ETF 整体回调时减仓）+ <strong>主流叙事变化</strong>（AI Agent 安全主题降温时退出）。
+  </div>
+
+  <!-- ========== 量子板块警示提示框 ========== -->
+  <div class="note-block">
+    <span class="kicker">⚠ 量子板块映射 · 详见 5/23 报告 §06</span>
+    <p>本周 QBTS / RGTI -5% 美股回调，A 股量子板块（国盾量子 / 科大国创 / 神州信息 / 三未信安等）<em>大概率跟随回调</em>。详细分类（弱 Direct + Indirect PQC + Pure Sentiment 妖股池）已在 <strong>5/23 报告 §06 量子计算 mapping</strong> 中处理，本期 §04 不再展开。<strong>本周观察重点</strong>：(1) 量子板块 RS 相对沪深 300 是否跌破 4 周均线（叙事衰减确认）；(2) 国盾量子 +10% 涨停后是否有大股东 / 早期投资者减持公告（筹码扩散信号）。</p>
+  </div>
+
+  <!-- ========== 总结纪律框 ========== -->
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker" style="color:var(--accent)">📌 §04 Sentiment 池总览</span>
+    <p style="margin:6px 0 8px"><strong>本期 Sentiment 池合计 15 只</strong>（主线一 3 + 主线二 3 + 主线三 4 + 主线四 4 + 主线五警示 2 - 主线二第 1 行 placeholder 不计 = 16 只）：HBM 概念 3 / WFE 国产 3 / AI 算力跨界 4 / 商业航天概念 4 / 量子 Cyber 警示 2。</p>
+    <p style="margin:6px 0 0"><strong>三类纪律重申</strong>：①<strong>业务真实关系老实写</strong>不假装 Direct；②<strong>禁用 PE/PS 否定</strong>——估值在妖股池是<em>背景</em>不是输入；③<strong>出场依据只用情绪/筹码/叙事</strong>——禁用价格行为（涨多了、技术破位、换手高）。Pure Sentiment 仓位定位是<strong>博弈仓 / 轻仓位 / 短持有周期</strong>，与 Direct 重仓 / Indirect 辅助仓做层次区分。</p>
+  </div>
+
+</section>
+
+<!-- ===== 50_counter_check.html · §05 反映射检查 · leading / overridden / overshooting ===== -->
+<section class="sec" id="counter" data-class="mixed">
+  <div class="sec-num">§ 05 · COUNTER CHECK</div>
+  <h2 class="sec-title">反映射检查 · <em>leading / overridden / overshooting</em></h2>
+  <div class="sec-sub"><em>美股 5/26 五主线 → A 股映射三种反映射现象：① 存储链 / AI chip A 股 leading 美股 · ② SaaS / AI chip 国产替代独立叙事 narrative overridden by flows · ③ 算力跨界 / 卫星概念 sentiment overshooting</em></div>
+
+  <p>本节系统检查 A 股映射相对美股 5/26 五主线锚的三种"反映射"现象——<strong>Leading（产业链信息先到 A 股的真预期 vs 噪音自嗨）</strong> / <strong>Overridden（美股锚动而 A 股反向 · narrative overridden by flows · 不为自洽强行解释）</strong> / <strong>Overshooting（A 股映射弹性显著超过美股锚 + 业绩弹性 · sentiment premium 回归风险）</strong>。本周三种现象的核心结构：① 存储链 A 股从 5 月初已经先于 MU 5/26 动了（兆易 5/18 涨停历史新高 · 江波龙 5/6 20% 涨停），真预期类 Leading；② AI ASIC / SaaS 链 A 股走出独立国产替代 / AI 自主变现叙事，与 CBRS L2 -5.9% / INTU -4.9% 完全脱钩；③ 算力跨界 / 卫星互联网概念股弹性已显著超过对应美股锚 + Direct 产业兑现节奏。</p>
+
+  <!-- ============================================================
+       子节 1 · A 股 leading（产业链信息先到 A 股）
+  ============================================================ -->
+  <h3 class="sub-h">1 · <em>A 股 leading（产业链信息先到 A 股）</em></h3>
+
+  <p>美股 5/26 主线一（HBM + Foundry）单日爆发是<em>滞后兑现</em>——A 股存储链 5 月上中旬已通过<strong>长鑫存储 IPO（Q1 净利润同比 +1688%）+ 长江存储产能扩张 + DDR5 渗透率提升</strong>三重催化先动。<em>真预期 vs 噪音判定</em>：兆易 / 江波龙的 leading 是<em>产业链信息流先到 A 股</em>（国内 DRAM 长鑫扩产节奏 + Q1 财报硬数据 + DDR5 价格上行），属真预期；寒武纪 / 海光信息从 5/6 已破历史新高，Q1 营收 +160% / 净利 +185%——是国产 AI chip <em>业绩 + 国产替代叙事独立</em>的真 alpha 而非情绪自嗨；北方华创 5/14 单日从 564→611 涨 +8.2% 已锁周内大幅领先 ACMR/AEHR 5/26 同步爆发——设备链 A 股以 Q1 +25.8% 业绩驱动先于美股锚。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">A 股近期表现</th>
+      <th data-type="num">美股锚 5/26</th>
+      <th data-type="text">领先窗口</th>
+      <th data-type="text">真预期 vs 噪音</th>
+      <th data-type="text">关键事件</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="mono">603986.SH</td>
+        <td class="mono">MU</td>
+        <td class="num pos">5/18 涨停 +20% 历史新高 ~$413</td>
+        <td class="num pos">+19.3%</td>
+        <td>领先 8 个交易日</td>
+        <td><span class="pill bull">真预期</span></td>
+        <td class="logic">兆易创新 5/18 单日涨停，A+H 总市值 2,842 亿，2025 净利 +49.47% / DDR5 渗透 + 长鑫 IPO 前置催化——产业链信息流先到 A 股</td>
+      </tr>
+      <tr data-cap="M">
+        <td class="mono">301308.SZ</td>
+        <td class="mono">MU</td>
+        <td class="num pos">5/6 涨停 +20%</td>
+        <td class="num pos">+19.3%</td>
+        <td>领先 20 个交易日</td>
+        <td><span class="pill bull">真预期</span></td>
+        <td class="logic">江波龙 Q1 营收 99.09 亿元 YoY +132.79%、净利 +38.62 亿元 扭亏——eMMC/UFS/SSD 主控模组先于 MU HBM 涨价节奏兑现</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">688256.SH</td>
+        <td class="mono">CBRS L2 / NVDA</td>
+        <td class="num pos">5/6 +8.4% 破 $1,900 创历史新高</td>
+        <td class="num neg">−5.9%</td>
+        <td>领先 14 个交易日</td>
+        <td><span class="pill bull">真预期</span></td>
+        <td class="logic">寒武纪 Q1 营收 28.85 亿 YoY +159.56% / 净利 10.13 亿 YoY +185.04%——国产 AI ASIC 业绩 + 国产替代叙事独立兑现，与 CBRS lockup focus 完全无关</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">688041.SH</td>
+        <td class="mono">CBRS L2 / NVDA</td>
+        <td class="num pos">5/6 同步刷新历史高 / Q1 营收 40.34 亿</td>
+        <td class="num neg">−5.9%</td>
+        <td>领先 14 个交易日</td>
+        <td><span class="pill bull">真预期</span></td>
+        <td class="logic">海光信息 Q1 营收 40.34 亿、与寒武纪 / 澜起 / 佰维一道集体破新高——国产 CPU + GPGPU 双轮、与美股锚 CBRS lockup 担忧脱钩</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">002371.SZ</td>
+        <td class="mono">ACMR / AEHR</td>
+        <td class="num pos">5/14 单日 +8.2%（564.4→611）</td>
+        <td class="num pos">+17.9% / +15.7%</td>
+        <td>领先 8 个交易日</td>
+        <td><span class="pill bull">真预期</span></td>
+        <td class="logic">北方华创 Q1 营收 +25.8% 基本盘扎实——长鑫长存先进工艺扩产订单可见性已落地，先于 ACMR Q1 新签订单 +65% YoY 美股锚单日爆发</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>Leading 核心判读</strong> · 5 条 leading 全部是<em>真预期</em>而非情绪自嗨——驱动力是 <strong>A 股自身硬数据</strong>（兆易 2025 净利 +49.47% / 江波龙 Q1 营收 +133% / 寒武纪 Q1 +160% / 海光 Q1 营收 40.34 亿 / 北方华创 Q1 +25.8%）+ <strong>国内独立催化</strong>（长鑫 IPO、长存扩产、DDR5 渗透、国产替代）。<em>这条产业链信息流</em>本质上是"国内 DRAM/NAND/AI ASIC 周期已先于美股 supply tightening 启动"——美股 5/26 主线一 MU 单日 +19% 是把全球产业链拐点公开化、但 A 股已 price in 了 2-3 周。<em>追踪信号</em> = 6 月长鑫存储 IPO 定价 + 长存 Y/G 产能投放节奏 + 6 月下旬 MU FY26Q3 财报 HBM 收入占比验证 A 股 leading 是否兑现到业绩端。
+  </div>
+
+  <!-- ============================================================
+       子节 2 · A 股 反向于美股（narrative overridden by flows）
+  ============================================================ -->
+  <h3 class="sub-h">2 · <em>narrative overridden by flows / A 股独立叙事</em></h3>
+
+  <p>美股 5/26 主线五"逆 SOXX bearish 集群"中两条最重要的 A 股映射验证点——<strong>CBRS L2 -5.9%（AI ASIC lockup + OpenAI 客户集中度焦虑）vs A 股寒武纪 / 海光信息走独立 alpha</strong>、<strong>INTU -4.9%（GenAI 替代 SaaS）vs A 股金山办公 / 用友网络走"AI 自主变现"独立叙事</strong>——两条 narrative 都被 A 股本土的国产替代 / AI Agent 自研叙事覆盖，<em>不为自洽强行解释</em>，标注 narrative overridden by flows。映射不成立的本质是 <strong>资金端 + 催化端的结构性分离</strong>：A 股 AI chip 的核心叙事是国产替代 + 信创 + 一带一路出海，与 CBRS 美股 lockup 担忧完全不同的资金 / 催化结构；A 股 SaaS 的"AI 自主变现"故事（WPS AI MAU 2,951 万 / 用友"AI 至上"战略 / Claude Cowork 不能替代 ERP）也独立于美股 INTU 裁员 17% 的故事。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">美股锚</th>
+      <th data-type="num">A 股方向</th>
+      <th data-type="num">美股锚方向</th>
+      <th data-type="text">可能原因</th>
+      <th data-type="text">关键事件</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="mono">688256.SH</td>
+        <td class="mono">CBRS L2</td>
+        <td class="num pos">+ 创新高 / Q1 +160%</td>
+        <td class="num neg">−5.9%</td>
+        <td>国产替代独立叙事 / 信创 + 一带一路出海</td>
+        <td class="logic">寒武纪 vs CBRS：A 股逻辑 = 国产 AI ASIC + 信创 + Q1 业绩硬兑现；美股 CBRS = S&amp;P add lockup + OpenAI 客户集中度焦虑——同方向反向 narrative 互不替代</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">688041.SH</td>
+        <td class="mono">CBRS L2</td>
+        <td class="num pos">+ 创新高 / Q1 40.34 亿</td>
+        <td class="num neg">−5.9%</td>
+        <td>国产 CPU + GPGPU 信创 + 业绩 davis 双击</td>
+        <td class="logic">海光信息 vs CBRS：A 股锚国产 CPU + GPGPU 双轮 + Q1 业绩、信创订单可见性；美股 CBRS = AI ASIC 设计 lockup focus，无映射触点</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">688111.SH</td>
+        <td class="mono">INTU</td>
+        <td class="num pos">+3.6% (5/6) · 板块温和</td>
+        <td class="num neg">−4.9%</td>
+        <td>WPS AI MAU 2,951 万 / AI 自主变现独立 / 国产 office 信创</td>
+        <td class="logic">金山办公 vs INTU：A 股 SaaS 叙事 = WPS AI 自主变现 + 国产 office 信创；美股 INTU = GenAI 替代低端 TurboTax/QBO Live 故事——两条 GenAI 叙事互相独立</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">600588.SH</td>
+        <td class="mono">INTU</td>
+        <td class="num pos">未跟跌 INTU · 板块温和</td>
+        <td class="num neg">−4.9%</td>
+        <td>"AI 至上"战略 / Claude Cowork 不能替代 ERP 公开表态</td>
+        <td class="logic">用友网络 vs INTU：用友董秘公开"通用 AI Agent 无法替代 ERP、仅作任务编排"——A 股 ERP SaaS 主动切割美股 INTU 替代 narrative，叙事独立</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>Overridden 核心判读</strong> · 这是<strong>本周最重要的反映射信号 · 两条美股 5/26 主线五 bearish 锚（CBRS L2 / INTU）的 A 股 read-through 完全失效</strong>。原因是<em>资金 + 催化结构性分离</em>——A 股 AI ASIC 设计（寒武纪 / 海光）的核心 narrative 是<em>国产替代 + 信创 + 业绩硬兑现</em>，与 CBRS 美股的<em>lockup + OpenAI 客户集中度</em>完全不同性质；A 股 SaaS（金山 / 用友）的<em>AI 自主变现 + WPS AI MAU 增长</em>独立叙事，与 INTU 的<em>裁员替代 narrative</em>互不相关。<em>不强行解释为"映射应该但失效"</em>——这是两个市场结构性分离的硬证据，应作为 A 股 AI chip / SaaS 在美股 bearish 时的"<strong>独立 alpha 锚定标的</strong>"。<em>追踪信号</em> = 寒武纪 / 海光下季度营收增速是否维持 +100%+ + 金山 WPS AI MAU 同比增速是否维持 +30%+。
+  </div>
+
+  <!-- ============================================================
+       子节 3 · A 股弹性过度（sentiment premium overshooting）
+  ============================================================ -->
+  <h3 class="sub-h">3 · <em>sentiment premium overshooting · 弹性过度</em></h3>
+
+  <p>本子节锁定 A 股映射涨幅<em>显著超过美股锚 + Direct 业绩弹性</em>的标的。本周三个 overshooting 候选：① 算力跨界股鸿博股份（智算中心运营）相对工业富联（AI 服务器 OEM 全球龙头）— 业绩硬数据：工业富联 2025 营收 9,029 亿元 +48% / 净利 +52%，鸿博 2026 算力业务营收预测 ~15 亿（不到 FII 的 0.2%）——但鸿博 5/6 涨停 + 5 月持续逼空，弹性比已显著 overshoot；② 商业航天 sentiment 股相对中国卫通 + ASTS 的<em>业绩 / 合同硬兑现</em>——铖昌科技 2025/12 至 2026/1 累计涨幅 +163% / 25 个交易日 19 个涨停板已透支千帆星座规模兑现节奏；③ 卫星互联网概念股江龙船艇——纯 Pure Sentiment 标签、Q1 净利仅 320 万元，5 月已涨高位震荡，与中国卫通 / ASTS 业绩兑现节奏完全脱钩。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">A 股</th>
+      <th data-type="text">美股锚 / Direct 对位</th>
+      <th data-type="num">A 股近期涨幅</th>
+      <th data-type="num">美股 / Direct 对位</th>
+      <th data-type="num">弹性比</th>
+      <th data-type="text">业绩匹配</th>
+      <th data-type="text">关键事件 + 监控指标</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="M">
+        <td class="mono">002229.SZ</td>
+        <td class="mono">601138.SH (FII)</td>
+        <td class="num pos">5/6 涨停 +20% / 5 月持续逼空</td>
+        <td class="num pos">FII 1M 温和上行</td>
+        <td class="num">显著 overshoot</td>
+        <td><span class="pill bear">不匹配</span></td>
+        <td class="logic">鸿博 2026 算力营收预测 ~15 亿（vs FII 9,029 亿 ~0.2%）/ 智算中心运营轻资产模式、利润率 vs FII 制造业纯差 / NVDA GPU 租赁价 6 周 +114% 是触发 catalyst 但 FII 才是 Direct 兑现锚——监控 = 鸿博 H2 算力订单合同金额能否突破 5 亿单笔</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="mono">001270.SZ</td>
+        <td class="mono">601698.SH / ASTS</td>
+        <td class="num pos">2025/12-2026/1 累计 +163% (19 个涨停)</td>
+        <td class="num pos">中国卫通 +18% (5/23 周) / ASTS +13.1% (5/26)</td>
+        <td class="num">~9× vs 中国卫通</td>
+        <td><span class="pill bear">不匹配</span></td>
+        <td class="logic">铖昌 5/20 撤销退市风险警示 / 之前 1-4 月已涨 1.77 倍透支千帆星座规模兑现节奏 / 星载 T/R 芯片市占率 80% 是硬基本面但涨幅已远超兑现窗口——监控 = 千帆 / GW 星座 H2 单月发射节奏 + 季度 T/R 芯片营收占比</td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">300589.SZ</td>
+        <td class="mono">601698.SH / ASTS / FLY</td>
+        <td class="num pos">2025 上半年至 2026/5 涨幅显著</td>
+        <td class="num pos">ASTS +13.1% / FLY +18.8% (5/26)</td>
+        <td class="num">~ overshoot</td>
+        <td><span class="pill bear">不匹配</span></td>
+        <td class="logic">江龙船艇 Q1 2026 净利仅 320.11 万元 / 主业海工船艇 / 卫星互联网纯概念标签 / 5/11 单日主力净卖出 5,868 万 / 5/18 高位震荡 ↓0.19%——业务关系：与卫星互联网产业链<em>无直接业务往来</em>，仅有概念标签</td>
+      </tr>
+      <tr data-cap="S">
+        <td class="mono">300366.SZ</td>
+        <td class="mono">601698.SH / ASTS</td>
+        <td class="num pos">4/30 涨停 / 5 月波段震荡</td>
+        <td class="num pos">中国卫通 +18% / ASTS +13.1%</td>
+        <td class="num">~ overshoot</td>
+        <td><span class="pill bear">不匹配</span></td>
+        <td class="logic">创意信息为国内首批低轨宽带卫星互联网试验星 5G 通信载荷供应商——业务关系真实但占比小，且连续亏损 / *ST 风险（之前曾标 ST 创意）；卫星互联网概念叙事远超业绩兑现节奏</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ki-note">
+    <strong>Overshooting 核心判读</strong> · 4 只标的<em>弹性比 vs 业绩 / 合同硬兑现</em>不匹配——鸿博相对工业富联是<em>智算中心运营 vs AI 服务器 OEM 制造</em>两种完全不同商业模式，绝对营收规模差 600 倍但弹性远超；铖昌科技 1-4 月 +163% 已透支千帆星座规模兑现节奏，5 月 5/20 仅是撤销 ST 风险警示的<em>身份修复</em>而非业务硬数据催化；江龙船艇 + 创意信息属于<em>纯 Pure Sentiment 妖股逻辑</em>—— Q1 净利 320 万 / 业务关系弱 + 题材标签 + 流通盘小 + 5 月主力资金净卖出累计 7,100 万。<em>这条 overshooting 链的回归风险来源 = 题材失效 + 业绩证伪</em>——监控指标：（1）H2 智算 / 卫星实际合同金额是否突破 5 亿单笔；（2）千帆 / GW 星座 H2 单月发射节奏；（3）龙虎榜资金面变化 / 融资融券余额 / 主力净流向连续 3 日为负。<em>注意</em>：妖股池仅作监控不作"减仓"建议——估值在妖股里是背景不是输入。
+  </div>
+
+  <!-- ============================================================
+       反映射风险总结
+  ============================================================ -->
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚠ 本周反映射风险总结 · 3 条产业级结论</span>
+    <p><strong>① Leading 真预期（存储链 / AI chip / 设备）·</strong>兆易 / 江波龙 / 寒武纪 / 海光信息 / 北方华创 5 只——A 股已先于美股 5/26 主线一 / 主线五硬数据公开化 1-4 周，驱动力是 A 股自身 Q1 业绩硬兑现 + 国产替代独立催化（长鑫 IPO + 长存扩产 + DDR5 渗透 + 信创订单）。<em>这是真预期而非情绪自嗨</em>——意味着 5/26 美股锚单日爆发已被 A 股 price in 2-3 周，<strong>不应基于 MU +19% 简单加仓 A 股存储链</strong>。监控信号 = 长鑫 IPO 定价 + MU FY26Q3 财报 HBM 收入占比验证。</p>
+    <p><strong>② Overridden 独立叙事（AI chip / SaaS · narrative overridden by flows）·</strong>寒武纪 / 海光信息 / 金山办公 / 用友网络相对 CBRS L2 -5.9% / INTU -4.9% 的 A 股 read-through 完全失效——A 股 AI chip 是<em>国产替代 + 信创</em>独立叙事、A 股 SaaS 是<em>AI 自主变现 + WPS AI MAU 增长</em>独立故事，与美股 lockup / GenAI 替代焦虑结构性分离。<em>不为自洽强行解释、不预测同步走向</em>——这是 A 股 AI 应用在美股 bearish 时的"独立 alpha 锚定"机会。</p>
+    <p><strong>③ Overshooting 回归风险（算力跨界 / 商业航天 sentiment · 妖股监控池）·</strong>鸿博股份 / 铖昌科技 / 江龙船艇 / 创意信息 4 只——弹性比 vs 业绩 / 合同硬兑现不匹配，但<em>估值在妖股里是背景不是输入</em>。<strong>不写"应规避 / 减仓"</strong>——监控指标锚定情绪 / 筹码 / 题材：① H2 智算订单合同金额能否突破 5 亿单笔（鸿博）；② 千帆 / GW 星座 H2 单月发射节奏（铖昌 / 江龙 / 创意）；③ 龙虎榜资金面 + 融资融券余额 + 主力净流向连续 3 日为负——三者任一触发即题材失效信号。</p>
+  </div>
+
+</section>
+
+<!-- ===== 90_final_read.html · §06 Final Read · Phase B 综合判断 · 三类仓位逻辑 + 减仓信号 + 反映射对冲 ===== -->
+<section class="sec" id="final" data-class="mixed">
+  <div class="sec-num">§ 06 · FINAL READ</div>
+  <h2 class="sec-title">综合判断 · <em>三类仓位逻辑 + 减仓信号 + 反映射对冲</em></h2>
+  <div class="sec-sub"><em>主线一 HBM/Foundry 是 Direct 兑现最硬 + A 股已 leading 2-3 周 / 主线二 WFE 是 Indirect 主战场 / 主线三 模拟功率电源弹性中等 / 主线四 商业航天是独立 cycle + 共振 / 妖股池估值不否定但 overshooting 监控锚定情绪筹码</em></div>
+
+  <p>本日 A 股映射的核心综合判断：<strong>5 美股主线在 A 股的兑现度排序明确</strong>—— 主线一（HBM/Foundry/封测）Direct 业绩兑现度最强（兆易 +119% / 长电先进封装 270 亿 / 通富 AMD 80% 独家）且 A 股<em>已 leading 美股锚 2-3 周</em>，5/26 MU +19.3% 单日爆发只是把 A 股早已 price in 的逻辑公开化；主线三（模拟 / 功率 / AI DC 电源）Direct 弹性中等且业绩兑现节奏 1-2 季度可见（华润微净利 +297% / 圣邦 +107% / 麦格米特独家 NVDA 链）；主线二（WFE 设备）Direct 业绩兑现度高但 Indirect 才是国产替代主战场（江丰电子 +30% / 鼎龙 CMP 抛光垫 +71% / 京仪装备发出商品 15 亿"业绩蓄水池"）；主线四（商业航天）走 A 股独立 cycle + 美股 catalyst 共振路径，<em>不依赖美股传导</em>但 Sentiment 池 overshoot 风险最高（铖昌 1-4 月 +163% / 江龙船艇业务关系=0）；主线五（逆 SOXX bearish 集群）的 CBRS L2 / INTU 在 A 股完全被 narrative overridden by flows——寒武纪 / 海光 / 金山 / 用友走独立 alpha，<em>这是反映射检查最重要的结构性发现</em>。</p>
+
+  <!-- ============================================================
+       A · 主线优先级排序
+  ============================================================ -->
+  <h3 class="sub-h">A · <em>主线优先级排序</em>（按 Direct 兑现度 × 美股锚强度 × A 股 leading/overshoot 校准）</h3>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">优先级</th>
+      <th data-type="text">主线</th>
+      <th data-type="text">Direct 兑现度</th>
+      <th data-type="text">A 股位置（leading / sync / overshoot）</th>
+      <th data-type="text">核心 Direct 标的</th>
+      <th data-type="text">本日综合定性</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="pill bull">P1</span></td>
+        <td class="name">主线一 · HBM / Foundry / 封测</td>
+        <td>★★★★★（兆易 Q1 净利 <strong>+523%</strong> / 长电先进封装 270 亿 / 通富 AMD 独家）</td>
+        <td><span class="pill bull">leading 2-3 周</span> · A 股已 price in MU +19.3% 的 2-3 周</td>
+        <td class="logic">兆易 / 澜起 / 长电 / 通富 / 中芯 / 华虹 / 香农芯创</td>
+        <td class="logic">Direct 业绩硬兑现 + 产业链 supply-demand 硬周期 + A 股 leading；<em>不应基于 MU +19% 简单加仓</em>，监控 MU FY26Q3 财报兑现验证</td>
+      </tr>
+      <tr>
+        <td><span class="pill bull">P1</span></td>
+        <td class="name">主线三 · 模拟 / 功率 / AI DC 电源</td>
+        <td>★★★★（华润微净利 <strong>+297%</strong> / 圣邦 +107% / 麦格米特 NVDA 链独家）</td>
+        <td><span class="pill">sync</span> · 与 VICR +24.2% / POWI +18.7% 节奏同步</td>
+        <td class="logic">麦格米特 / 华润微 / 圣邦 / 英维克 / 欧陆通 / 长光华芯</td>
+        <td class="logic">"Analog winter ended" 产业拐点确认 + A 股 Q1 业绩验证 + AI DC 电源链 NVDA 唯一中方供应商麦格米特纯 alpha 锚</td>
+      </tr>
+      <tr>
+        <td><span class="pill">P2</span></td>
+        <td class="name">主线二 · WFE 设备 / 测试 / 材料</td>
+        <td>★★★★（北方华创 +25.8% / 中微 +34.1% / 拓荆 +57% / 盛美出货 +48.6%）</td>
+        <td><span class="pill bull">leading 1-2 周</span> · A 股已先于 ACMR +17.9% 单日爆发动了 8 个交易日</td>
+        <td class="logic">北方华创 / 盛美 / 中微 / 拓荆 / 华海清科 / 江丰 / 鼎龙</td>
+        <td class="logic">Direct 龙头业绩硬数据已落地，但订单到收入兑现节奏 2-4 季度——Indirect 上游材料（鼎龙 / 安集 / 江丰）业绩兑现度反而更高</td>
+      </tr>
+      <tr>
+        <td><span class="pill">P3</span></td>
+        <td class="name">主线四 · 商业航天 / 卫星 / 国防</td>
+        <td>★★★（中国卫星 +37.9% / 上海瀚讯 Q1 季节性 / 航天电器 +52% 订单）</td>
+        <td><span class="pill bear">overshoot 警示</span> · Sentiment 池铖昌 1-4 月 +163% / 江龙船艇业务=0 已透支</td>
+        <td class="logic">中国卫星 / 上海瀚讯 / 航天电器 / 航天电子 / 中国卫通</td>
+        <td class="logic">A 股独立 cycle + 国资委 5/22 太空 capex 上调 + 千帆 / GW 星座叙事，<em>不依赖美股传导</em>；但 Sentiment 池 overshoot 风险最高，需筹码 / 叙事三维监控</td>
+      </tr>
+      <tr>
+        <td><span class="pill bear">P4</span></td>
+        <td class="name">主线五 · 量子 / Cyber / SaaS 弱共振</td>
+        <td>★（A 股无 Direct 直接兑现锚）</td>
+        <td><span class="pill bull">overridden 独立叙事</span> · 寒武纪 / 海光 / 金山 / 用友 vs CBRS / INTU 完全脱钩</td>
+        <td class="logic">寒武纪 / 海光（独立 alpha）+ 中科信息 / 三六零（弱 Sentiment）</td>
+        <td class="logic">narrative overridden by flows 结构性分离——A 股 AI chip / SaaS 走国产替代独立 alpha，反而是美股 bearish 时的"独立 alpha 锚定"机会</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">📌 优先级校准 4 条逻辑</span>
+    <strong>1.</strong> 主线一 / 三 / 二的 P1-P1-P2 排序<em>不仅按美股锚强度</em>——更按"Direct 业绩硬兑现度 × A 股 leading 程度"双维度校准；主线一 leading 2-3 周但业绩端最硬、主线三 sync 但 NVDA 链独家锚明确、主线二虽 Direct 业绩兑现度高但订单到收入滞后 2-4 季度。<br>
+    <strong>2.</strong> 主线四 P3 是因为<em>独立 cycle 路径</em>——A 股商业航天不依赖美股传导，本来是 P2 但 Sentiment 池 overshoot 警示（铖昌 +163% / 江龙船艇业务=0）拖累了整体优先级；<em>剥离 Sentiment 后单看 Direct（中国卫星 / 航天电器）依然是 P2 级</em>。<br>
+    <strong>3.</strong> 主线五 P4 是因为 A 股<em>没有真正的 Direct 兑现锚</em>——寒武纪 / 海光走独立 alpha 已脱钩 CBRS / INTU 叙事，本质是<em>A 股本土 AI chip 主题</em>，与美股锚映射关系断裂；故 P4 但其中独立 alpha 部分（寒武纪 / 海光 Q1 +160%/+185% 业绩硬数据）依然是 A 股 AI chip 的<em>独立 P1 级机会</em>，只是不能算"美股映射"。<br>
+    <strong>4.</strong> <em>所有优先级都是当下窗口判读、不是结构性长期排序</em>——监控信号触发（MU FY26Q3 / TSMC 5 月营收 / 千帆发射 / capex 拐点）时优先级会动态调整。
+  </div>
+
+  <!-- ============================================================
+       B · Direct 仓位逻辑
+  ============================================================ -->
+  <h3 class="sub-h">B · <em>Direct 仓位逻辑</em>（核心仓 · 业绩弹性）</h3>
+
+  <div class="note-block">
+    <span class="kicker">定位 · 核心仓</span>
+    Direct 标的的共同特征 = <strong>美股锚硬数据 + A 股 Q1 业绩硬兑现 + 产业链关系具体清晰</strong>（具体到产品 / 客户 / 订单层面）。持有逻辑跟随美股 Bull Logic 中段——产业 catalyst 主导、不依赖宏观 / 地缘叙事。24 只 Direct 标的的业绩兑现已经在 2026 Q1 财报集中落地：兆易 +119% / 中微 +34.1% / 拓荆 +57% / 华润微净利 +297% / 圣邦 +107% / 中国卫星 +37.9%——这不是题材热度而是产业链拐点上的真业绩。<em>核心仓承担映射主轴弹性、不参与 Sentiment 题材博弈</em>。
+  </div>
+
+  <p><strong>核心配置锚（按主线）：</strong></p>
+
+  <ul>
+    <li><strong>主线一 HBM / Foundry / 封测</strong>——核心 = <strong>兆易创新（603986.SH）+ 长电科技（600584.SH）+ 通富微电（002156.SZ）</strong>。兆易绑利基 DRAM 涨价 + 长鑫合作 LPDDR4X 2026 量产；长电已进 NVDA 核心 + Broadcom &gt;10 亿 + Intel &gt;20 亿、4nm Chiplet + HBM + 2.5D 全球第一梯队；通富 AMD &gt;80% 订单封测独家。<em>持有逻辑 = HBM 售罄至 2027 + DRAM 现货价 +58-63% + CoWoS 外溢传导。减仓信号锚定 §02 子链 A 出场依据：① SK Hynix HBM3E/HBM4 季度 backlog 首次环比下降；② DDR4/DDR3 利基现货价连续 4 周环比下跌；③ TSMC 5 月营收同比跌破 +20%（当前 +44%、6/10 左右出数）；④ NVDA / Broadcom 单季度封测外包订单环比首次下降</em>。</li>
+    <li><strong>主线二 WFE 设备</strong>——核心 = <strong>北方华创（002371.SZ）+ 中微公司（688012.SH）+ 拓荆科技（688072.SH）+ 盛美上海（688082.SH）</strong>。北方华创全品类 + 订单能见度至 2026 H2；中微刻蚀龙头 Q1 净利 +197%；拓荆在手订单 110 亿 + 合同负债 +62.7% 兑现加速；盛美与 ACMR 同源、出货金额 +48.6% / 新签 +65% 是<em>领先指标</em>。<em>持有逻辑 = WFE $140B 锚定 + TSMC capex $54B 锁定 + 国产替代窗口未触顶。减仓信号锚定 §02 子链 B：① SEMI 季度 BB Ratio &lt; 1；② 中芯 / 华虹季度 capex 指引下修；③ 龙头单季度新签订单环比连续两季下降；④ 国产化率触顶（&gt;80%）</em>。</li>
+    <li><strong>主线三 模拟 / 功率 / AI DC 电源</strong>——核心 = <strong>麦格米特（002851.SZ）+ 华润微（688396.SH）+ 圣邦股份（300661.SZ）+ 英维克（002837.SZ）</strong>。麦格米特<em>大陆唯一 NVDA 服务器电源链供应商</em>（GB200/GB300/Rubin/SST）+ 800V HVDC Power Sidecar；华润微 Q1 净利 +296.6% + 6/8/12 寸全线满载；圣邦 Q1 净利 +107% 模拟 IC 国产加速；英维克液冷 1.16GW 累计交付。<em>持有逻辑 = "Analog winter ended" + AI DC capex 高峰 + 功率涨价周期。减仓信号锚定 §02 子链 C：① NVDA 2026 Q3 服务器 capex 指引下修；② MOSFET / IGBT 现货价连续 3 个月环比下降；③ VICR 800V HVDC 由 sole sourcing 转 dual sourcing 公告；④ 英维克单季度毛利率连续两季环比下降 &gt;2pp</em>。</li>
+    <li><strong>主线四 商业航天 / 卫星 / 国防</strong>——核心 = <strong>中国卫星（600118.SH）+ 上海瀚讯（300762.SZ）+ 航天电器（002025.SZ）</strong>。中国卫星在手订单 &gt;300 亿排产至 2027 + Q1 营收 +37.9% 连续 3 年下滑后修复；上海瀚讯<em>千帆星座载荷 100% 独家</em>（Q1 -65% 是发射节奏错配而非业绩塌方、Q2-Q3 恢复）；航天电器 2025 商业航天订单 +52.4% YoY + 合同负债历史高位。<em>持有逻辑 = 千帆 / GW 星座加速 + 国资委 5/22 太空 capex 上调 + 美股 RDW +26% 共振。减仓信号锚定 §02 子链 D：① 千帆星座 2026 全年发射数量低于公司指引下限（540 颗）；② 上海瀚讯失去千帆载荷独家供应商身份；③ 中国卫星交付节奏低于指引下限；④ 商业航天单季度新签订单环比首次下降</em>。</li>
+  </ul>
+
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚠ Direct 减仓信号 · 统一锚（产业级 / 非价格信号）</span>
+    <p>Bull Logic 闸门要求<em>减仓只能用产业拐点信号</em>——禁用"涨多了 / 估值高 / 技术破位"作为减仓依据。Direct 池的统一减仓锚定<strong>四个产业级硬信号</strong>：① <strong>龙头公司 capex 指引下修</strong>（NVDA / TSMC / 中芯 / 华虹任一季度 capex 指引环比下修 &gt;10%）；② <strong>HBM / 功率 / DRAM 现货价连续 4 周环比下行</strong>（DRAMeXchange / TrendForce 周度数据）；③ <strong>TSMC 月度营收同比跌破 +20%</strong>（当前 +44%、5 月数据 6/10 左右公布、连续 2 月触发即拐点）；④ <strong>关键合同 / 订单签字延期</strong>（千帆星座 / 美国 Golden Dome / 中芯长存 capex 招标延期 2 个月以上）。<em>触发任一减仓 1/3 仓位、触发两个减仓全部</em>——具体仓位百分比由用户自定。</p>
+  </div>
+
+  <!-- ============================================================
+       C · Indirect 仓位逻辑
+  ============================================================ -->
+  <h3 class="sub-h">C · <em>Indirect 仓位逻辑</em>（辅助仓 · 订单滞后 1-2 季度）</h3>
+
+  <div class="note-block">
+    <span class="kicker">定位 · 辅助仓</span>
+    Indirect 标的的共同特征 = <strong>业务关系间接但清晰、订单滞后 1-2 季度兑现、弹性中等比 Sentiment 稳</strong>。持有逻辑跟随 Direct 节奏滞后——Direct 业绩兑现后 Indirect 订单兑现窗口才打开。19 只 Indirect 标的覆盖 4 主线全部上下游：上游材料（雅克 / 江丰 / 安集 / 鼎龙 / 沪硅 / 有研）+ WFE 配套（屹唐 / 先导基电 / 京仪 / 罗博特科）+ AI server BoM（工业富联 / 立讯 / 中际旭创 / 新易盛 / 天孚 / 沃尔核材）+ 军工电子（紫光国微 / 国博 / 振华 / 高华 / *ST 铖昌）。<em>辅助仓承担映射节奏的滞后兑现弹性、与 Direct 形成"业绩接力"组合</em>。
+  </div>
+
+  <p><strong>核心配置锚（按主线）：</strong></p>
+
+  <ul>
+    <li><strong>主线一 上游材料 + 检测</strong>——锚 = <strong>江丰电子（300666.SZ）+ 鼎龙股份（300054.SZ）+ 安集科技（688019.SH）</strong>。江丰电子 Q1 +30.5% YoY + 国内 12 英寸 73% 市占；鼎龙 CMP 抛光垫 +71% / 抛光液 +54% 国产替代窗口刚打开；安集 CMP 抛光液 +32.76% 全球市占 11%+。<em>减仓信号 = 季度营收同比增速跌破 +15%；月度晶圆厂 wafer starts 环比连续 2 月下降；TSMC capex 指引下修</em>。</li>
+    <li><strong>主线二 WFE 配套 + 零部件</strong>——锚 = <strong>京仪装备（688652.SH）+ 屹唐股份（688729.SH）</strong>。京仪 2025 +38.95% + 发出商品 15.4 亿"业绩蓄水池"已超 2025 全年营收；屹唐次新 IPO + 干法去胶全球第二 + 订单可见性至 H2 2026。<em>减仓信号 = 龙头季度新签订单环比连续 2 季度下降；发出商品余额连续 2 季度环比下降；核心客户 capex 下修</em>。</li>
+    <li><strong>主线三 AI server BoM + 光模块 + 散热</strong>——锚 = <strong>工业富联（601138.SH）+ 中际旭创（300308.SZ）+ 新易盛（300502.SZ）+ 沃尔核材（002130.SZ）</strong>。工业富联 Q1 +56.52% / 归母 +102.55% / AI GPU 机柜 +3.8x 是<em>AI server BoM 业绩弹性兑现度最完整的 A 股 Indirect 锚</em>；旭创 Q1 +192% / 新易盛 +106% / 1.6T 量产爬坡；沃尔核材高速铜缆订单排队至 Q3。<strong>注意</strong>：<em>美股 LITE -3.8% 不构成 A 股光模块同步下杀理由</em>—— LITE 是 index-rebal 资金面、非产业基本面，美股锚应换成 NVDA / AVGO / ANET。<em>减仓信号 = NVDA 下季度 capex 指引下修；AVGO / ANET 给出 hyperscaler 资本开支放缓信号；AI server 机柜季度出货环比连续 2 月下降；EML / VCSEL 上游激光器供给改善（光模块产能瓶颈解除 = 提价能力下降）</em>。</li>
+    <li><strong>主线四 军工电子 + 卫星载荷上游</strong>——锚 = <strong>紫光国微（002049.SZ）+ 国博电子（688375.SH）+ *ST 铖昌（001270.SZ）</strong>。紫光国微特种 FPGA 70%+ 市占 + 机构 2026Q1 预测归母 +550-610% YoY；国博电子 T/R 组件三大成长方向中商业航天权重最高；*ST 铖昌星载 T/R 全国 70%+ / 全球仅 5 家量产，<em>2025H1 +180% 扭亏但 *ST 标记触发部分基金合规筛除、流动性折价存在</em>。<em>减仓信号 = 千帆 / GW 星座发射节奏延期 2 月以上；星载 T/R 季度出货环比下降；军工电子年度合同金额下修；国资委太空 capex 政策反向调整</em>。</li>
+  </ul>
+
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚠ Indirect 减仓信号 · 统一锚（订单环比 / capex 配套 / 客户验证）</span>
+    <p>Indirect 池的统一减仓锚定<strong>三个产业级硬信号</strong>：① <strong>订单环比拐点</strong>（设备类龙头单季度新签订单环比连续 2 季度下降 / 材料类龙头单季度营收同比增速跌破 +15%）；② <strong>capex 配套下修</strong>（中芯 / 华虹 / 长存 / 长鑫任一季度 capex 指引下修；NVDA / hyperscaler 下季度 capex 指引下修）；③ <strong>客户验证延期</strong>（设备厂主要客户给出验证延期通知超过 1 个季度 / 关键产能扩张项目延期）。<em>触发任一减仓 1/3、触发两个减仓全部</em>。<strong>特别提示</strong>：LITE -3.8% 不是 A 股光模块的减仓信号——美股锚应锁定 NVDA / AVGO / ANET 的 capex 指引而非 LITE 的 index-rebal 资金面。</p>
+  </div>
+
+  <!-- ============================================================
+       D · Sentiment 仓位逻辑
+  ============================================================ -->
+  <h3 class="sub-h">D · <em>Sentiment 仓位逻辑</em>（博弈仓 · 妖股专项纪律）</h3>
+
+  <div class="note-block" style="border-left-color:var(--bear)">
+    <span class="kicker" style="color:var(--bear)">定位 · 博弈仓 · 严格妖股纪律</span>
+    Sentiment 标的与美股锚业务关系薄弱、靠题材炒作。15 只 Sentiment 标的覆盖 HBM 概念 / WFE 国产替代 / AI 算力跨界 / 商业航天概念 / 量子 + Cyber 弱共振五类。<strong>妖股专项纪律重申</strong>：❌ <em>禁用 PE / PS 否定逻辑</em>——估值在妖股里是<em>背景信息</em>不是定价输入；✅ <em>出场只用情绪 / 筹码 / 叙事三选一</em>——主流叙事失效 / 筹码扩散 / 主题板块 RS 转弱。博弈仓承担题材弹性博弈、与 Direct + Indirect 业绩主线<em>分仓评估</em>、不混合计算总仓位。
+  </div>
+
+  <p><strong>本期 Sentiment 池警示标的</strong>：</p>
+
+  <ul>
+    <li><strong>主线一 HBM 概念</strong>——警示 = <strong>江波龙（301308.SZ）+ 国芯科技（688262.SH）</strong>。江波龙公开表态"暂未涉及 HBM 内存芯片设计"但叠加 mSSD + CXL 2.0 借势涨价；国芯主营汽车 MCU / 信创 CPU 与 HBM 无直接关系、靠 RISC-V + HBM 协同叙事。<em>减仓信号 = 板块 RS 转弱（HBM 指数 / 存储 ETF 整体回调持续 2 周以上） / 主流叙事变化（华为昇腾下一代未实际采用 RISC-V 公告）</em>。</li>
+    <li><strong>主线三 AI 算力跨界</strong>——警示 = <strong>鸿博股份（002229.SZ）+ 莲花健康（600186.SH）</strong>。鸿博主营彩票印刷、英博数科与母公司高管反目、英伟达"独家授权"持续被质疑；莲花健康 2025 算力合同 5.55 亿（占 82.67%）被取消、80% 合同终止、监管两次问询。<em>减仓信号 = 筹码扩散（高管 / 早期投资者 / 大股东减持公告）；监管动作 / 公告问询升级（莲花健康作为 leading indicator）；龙虎榜机构席位连续 3 日净卖出</em>。</li>
+    <li><strong>主线四 商业航天概念</strong>——警示 = <strong>江龙船艇（300589.SZ）+ 创意信息（300366.SZ · ST 风险）+ 星网宇达（002829.SZ）</strong>。江龙船艇 Q1 净利仅 320 万 / 主业海工船艇 / 与卫星互联网零关系；创意信息母公司变 ST + 5% 涨跌停限制 / 子公司创智联恒做低轨宽带卫星 +57% 是真业务但弹性透支；星网宇达低轨相控阵天线 2024 Q4 才推出。<em>减仓信号 = 主题板块 RS 转弱（商业航天 ETF / 卫星互联网指数整体回调持续 2 周以上）；筹码扩散（关注大股东 / 高管减持公告）；千帆 / GW 星座 H2 单月发射节奏失速</em>。</li>
+    <li><strong>量子分歧 + Cyber 弱共振</strong>——警示 = <strong>中科信息（300678.SZ）+ 三六零（601360.SH）</strong>。中科信息主营智能制造非量子 / 靠中科院光环挂量子板块；三六零与 ZS Zscaler 是叙事映射不是业务镜像（C 端杀软 + B 端政企 vs 零信任 SaaS）。<em>美股 QBTS / RGTI / IONQ 量子板块 5/26 内部分歧 -5% 是 A 股量子板块的同步信号——参照 §04 量子板块映射的 5/23 报告 §06 细分类。减仓信号 = 量子板块 RS 相对沪深 300 跌破 4 周均线（叙事衰减确认）；国盾量子 +10% 涨停后大股东 / 早期投资者减持公告（筹码扩散信号）；AI Agent 安全主题降温</em>。</li>
+  </ul>
+
+  <div class="note-block" style="border-left-color:var(--bear)">
+    <span class="kicker" style="color:var(--bear)">⚠ Sentiment 减仓信号 · 三选一（情绪 / 筹码 / 叙事）</span>
+    <p>Sentiment 池<strong>禁用产业级减仓信号</strong>（业绩 / 营收 / 订单不是妖股定价输入）——出场依据只用<strong>情绪 / 筹码 / 叙事三选一</strong>：<br>
+    <strong>1. 主流叙事失效</strong>——板块 ETF 同业转弱 + 主流 KOL 不再讲故事；HBM 涨价周期触顶 / 商业航天发射节奏失速 / 量子 govt grants 停止 / AI Agent 安全主题降温；监管动作（莲花健康两次问询、未来更多算力合同被取消公告）作为<em>leading indicator</em>。<br>
+    <strong>2. 筹码扩散</strong>——大股东减持公告 / 早期投资者解禁释放 / 高管异动 / 龙虎榜机构席位连续 3 日净卖出 / 北上资金板块整体净流出 ≥ 2 日 / 融资融券余额从历史高位回落 &gt; 10%。<br>
+    <strong>3. 主题板块 RS 转弱</strong>——同主题指数 break 关键 EMA（20 日 / 60 日）/ 板块成交量缩量 50% 以上 / 妖股集体跌停 ≥ 2 只时单股很难独立。<br>
+    <em>三者任一触发即减仓信号</em>。<strong>❌ 禁用</strong>：PE 太贵了、PS 100 倍、业绩跟不上估值、涨多了、技术破位、换手高——这些在妖股里是<em>背景信息或价格行为</em>不是减仓依据。</p>
+  </div>
+
+  <!-- ============================================================
+       E · 反映射对冲
+  ============================================================ -->
+  <h3 class="sub-h">E · <em>反映射对冲</em>（leading / overridden / overshoot 三类的应对）</h3>
+
+  <p><strong>Leading 真预期 · 不减仓 + 等业绩验证</strong> · 5 只标的（<strong>兆易创新 / 江波龙 / 寒武纪 / 海光信息 / 北方华创</strong>）已先于美股锚动 1-4 周——驱动力是 A 股自身 Q1 业绩硬兑现 + 国产替代独立催化（长鑫 IPO + 长存扩产 + DDR5 渗透 + 信创订单）。<em>应对纪律</em>：<strong>不应基于美股锚 5/26 单日爆发简单加仓</strong>，A 股已 price in 美股拐点 2-3 周；持有逻辑取决于<em>美股锚后续业绩兑现是否验证 leading 的真实性</em>——若 MU FY26Q3 财报 HBM 收入占比 / TSMC 5 月营收 +20%+ / 长鑫 IPO 定价兑现，则 leading 是<em>真预期</em>、持有不减仓；若验证失败则降为<em>情绪自嗨</em>，按 §04 Sentiment 减仓信号处理。</p>
+
+  <p><strong>Overridden 独立叙事 · 视为独立 alpha 锚定</strong> · 4 只标的（<strong>寒武纪 / 海光信息 / 金山办公 / 用友网络</strong>）相对 CBRS L2 -5.9% / INTU -4.9% 的美股 read-through 完全失效——A 股 AI chip 走<em>国产替代 + 信创 + Q1 业绩硬兑现</em>独立叙事、A 股 SaaS 走<em>AI 自主变现 + WPS AI MAU 增长</em>独立故事。<em>应对纪律</em>：<strong>不为自洽强行解释、不预测同步走向</strong>——这是 A 股 AI 应用在美股 bearish 时的"<em>独立 alpha 锚定标的</em>"机会。美股 CBRS / INTU 下跌<em>不构成 A 股 AI chip / SaaS 减仓依据</em>；持有逻辑取决于 A 股自身硬数据：寒武纪 / 海光下季度营收增速是否维持 +100%+ / 金山 WPS AI MAU 同比增速是否维持 +30%+。</p>
+
+  <p><strong>Overshooting 弹性过度 · 监控锚定情绪/筹码/叙事</strong> · 4 只标的（<strong>鸿博股份 / 铖昌科技 / 江龙船艇 / 创意信息</strong>）弹性比 vs 业绩 / 合同硬兑现不匹配——但<em>这是妖股 / Sentiment 池监控范畴</em>。<em>应对纪律</em>：<strong>不写"应规避 / 减仓"</strong>——估值在妖股里是<em>背景信息</em>不是输入；监控指标锚定<strong>情绪 / 筹码 / 题材三维信号</strong>：① 板块 RS 转弱（商业航天 ETF / 算力跨界指数整体回调持续 2 周以上）；② H2 实际合同金额是否兑现（鸿博 5 亿单笔 / 铖昌千帆 H2 单月发射节奏）；③ 龙虎榜资金面 + 融资融券余额 + 主力净流向连续 3 日为负——三者任一触发即题材失效信号。</p>
+
+  <div class="note-block" style="border-left-color:var(--accent)">
+    <span class="kicker">⚙ 反映射对冲核心结论</span>
+    <p>本日反映射检查的<strong>三大产业级结论</strong>：① Leading 5 只是<em>真预期</em>而非情绪自嗨，意味着不应基于美股 5/26 单日爆发简单加仓 A 股存储链 / AI chip / 设备链；② Overridden 4 只是<em>两个市场结构性分离</em>的硬证据，A 股 AI chip / SaaS 应作为<em>美股 bearish 时的独立 alpha 锚定标的</em>而非映射对冲；③ Overshooting 4 只属<em>妖股监控池</em>，不混入业绩主线，监控信号严格锚定情绪 / 筹码 / 叙事三维。<strong>整体反映射对冲的核心心法 = 不强行解释、不预测同步</strong>——A 股映射的胜率在于<em>识别 A 股自身硬数据 + 国产替代独立催化</em>，美股锚是参考但不是定价输入。</p>
+  </div>
+
+  <!-- ============================================================
+       综合关键观察点
+  ============================================================ -->
+  <div class="note-block">
+    <span class="kicker">⚠ 综合关键观察点 · 未来 2-4 周（产业级 / 非价格信号）</span>
+    <strong>1. MU FY26Q3 财报</strong>（6 月下旬，正式发布日待 IR 公告）—— 关键看 HBM 收入占比、DRAM ASP 环比、FY26Q4 指引；HBM 收入若同比 +100% 以上 / CY26 ASP 指引非降，A 股 HBM 存储链业绩弹性确认放大、leading 验证为真预期；若 HBM 收入低于 +80% 或 ASP 指引下修，则减仓信号触发 Direct 主线一 1/3 仓位。<br>
+    <strong>2. TSMC 5 月营收</strong>（6 月 10 日左右公布）—— 当前同比 +44%，跌破 +20% 即 capex 拐点前置信号；维持 +30% 以上则 WFE / Foundry 主线 Bull Logic 中段延续；连续 2 月跌破 +20% 即减仓信号触发 Direct 主线二 + 主线一全部仓位。<br>
+    <strong>3. ACMR / AEHR 当前订单 H2 兑现节奏</strong>—— ACMR 看 Q2 / Q3 收入是否能与新签订单 +65% YoY 同步、AEHR 看 Sonoma + AI ASIC burn-in 订单是否扩展到第 2 / 第 3 家 hyperscaler；订单 → 收入确认滞后 2 季度是关键观察期；A 股 Indirect 主线二（鼎龙 / 江丰 / 京仪）订单兑现节奏滞后于 ACMR / AEHR 1-2 季度。<br>
+    <strong>4. 商业航天 H2 catalyst</strong>—— ASTS BlueBird 6 月发射窗口 / RKLB Neutron 测试 / FLY Golden Dome 后续合同 / 千帆 / GW 星座 H2 单月发射节奏；A 股 Direct 主线四（中国卫星 / 上海瀚讯）兑现节奏取决于发射节奏；若千帆全年发射 &lt; 540 颗下限即减仓信号触发 Direct 主线四 1/3 仓位。<br>
+    <strong>5. CBRS lockup 释放节奏 + 寒武纪 / 海光独立 alpha</strong>—— CBRS 60M+ 股 Q2 ER 前释放对 A 股 AI chip 设计有 sentiment read-through、但寒武纪 / 海光 Q1 +160% / +185% 业绩硬数据是独立 alpha 的核心锚；监控 = 寒武纪 / 海光下季度营收增速是否维持 +100% 以上（独立叙事健康度）；若跌破 +60% 即独立 alpha 衰减信号。<br>
+    <strong>6. 监管层面对 Sentiment 妖股的问询频率</strong>—— 鸿博股份 / 莲花健康作为 leading indicator —— 若再有"大额算力合同被取消"公告 / 监管问询升级，意味着 AI 算力跨界主流叙事失效、Sentiment 主线三全部减仓。
+  </div>
+
+  <!-- ============================================================
+       Final Take
+  ============================================================ -->
+  <div class="note-block" style="background:rgba(184,135,10,0.06);border-left-color:var(--amber)">
+    <span class="kicker">📍 Final Take · 一句话总结</span>
+    <p><strong>本日 A 股映射最关键综合判断</strong>：5 美股主线中 <strong>A 股 Direct 业绩兑现最硬的是主线一（HBM/Foundry/封测）</strong>—— 但 A 股已 leading 美股锚 2-3 周（兆易 / 江波龙 / 寒武纪 / 北方华创 5 月已动），<em>5/26 MU +19% 单日爆发不是加仓信号、是 leading 兑现验证窗口</em>；<strong>Sentiment overshoot 最危险的是主线四商业航天概念股</strong>（铖昌 1-4 月 +163% / 江龙船艇业务=0 / 创意信息 ST 风险）—— 但<em>不用估值否定</em>、监控锚定情绪 / 筹码 / 叙事三维。<strong>反映射独立叙事最值得长期跟踪的是 A 股 AI chip + SaaS（寒武纪 / 海光 / 金山 / 用友）</strong>—— 这条 narrative overridden by flows 的<em>独立 alpha 锚定</em>是 A 股相对美股的结构性分离机会，是<em>美股 bearish 时的对冲锚而非映射对冲</em>。</p>
+    <p><strong>核心心法</strong>：A 股映射的胜率取决于<em>识别 A 股自身硬数据 + 国产替代独立催化</em>——美股锚是参考但不是定价输入；Bull Logic 中段持有 Direct + Indirect 业绩链、不强行解释 narrative override、不预测 sentiment 回归；减仓信号一律产业级 + 可观察 + 有阈值——禁价格信号、禁套话。</p>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     页脚（永久 footer、随期次更新右侧日期 + 统计）
+============================================================ -->
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  A-SHARE MAP · 美股 260526 五主线 · DIRECT / INDIRECT / SENTIMENT · 2026-05-27 · 56 A股 + 2 港股 · 58 标的
+</div>
+
+<!-- ============================================================
+     视图切换 JS（三类独立筛选 direct/indirect/sentiment + all，点击 tab 切换 body[data-view]）
+============================================================ -->
+<script>
+document.querySelectorAll('.vtab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.body.setAttribute('data-view', btn.dataset.view);
+  });
+});
+</script>
+</body>
+</html>
