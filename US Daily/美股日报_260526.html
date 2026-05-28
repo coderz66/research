@@ -128,11 +128,11 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
 .beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
 .beta-strip .kicker{display:block;margin-bottom:10px}
 .beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
-.beta-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--rule)}
-.beta-item{padding:8px 10px;background:var(--paper);display:flex;flex-direction:column;gap:2px;line-height:1.15}
-.beta-item .bn{font-family:var(--mono);font-size:10.5px;color:var(--accent);font-weight:600;letter-spacing:.04em}
-.beta-item .bv{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
-.beta-item .bd{font-size:10.5px;color:var(--muted);line-height:1.1}
+.beta-grid{display:flex;flex-wrap:nowrap;gap:1px;background:var(--rule);overflow-x:auto}
+.beta-item{flex:1 1 0;min-width:0;padding:7px 6px;background:var(--paper);display:flex;flex-direction:column;gap:1px;line-height:1.1;text-align:center;align-items:center}
+.beta-item .bn{font-family:var(--mono);font-size:9.5px;color:var(--accent);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.beta-item .bv{font-family:var(--mono);font-size:12.5px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.beta-item .bd{font-size:9px;color:var(--muted);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .beta-item.up .bv{color:var(--bull)}
 .beta-item.dn .bv{color:var(--bear)}
 .beta-item.flat .bv{color:var(--muted)}
@@ -1424,7 +1424,9 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
     }
     var txt = cell.textContent.trim();
     if(type==='num'){
-      var n = parseFloat(txt.replace(/[^\d.\-+]/g,''));
+      // 把 Unicode 负号 U+2212 / U+FF0D 等替换为 ASCII '-'，再过滤
+      var clean = txt.replace(/[−－–—]/g, '-').replace(/[^\d.\-+]/g,'');
+      var n = parseFloat(clean);
       return isNaN(n) ? -Infinity : n;
     }
     return txt.toLowerCase();
