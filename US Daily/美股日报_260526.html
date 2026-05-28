@@ -1411,11 +1411,17 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
   US EQUITY · DAILY THEME MAP · ATTRIBUTION EDITION · 2026-05-26 · 70 STOCKS / 5 THEMES
 </div>
 
+<!-- JS: TABLE SORTING (v2 · num 列首次点击 desc / text 列首次 asc · 加载时按"日涨跌幅"列降序初始化) -->
 <script>
 (function(){
   function getCellValue(tr, idx, type){
     var cell = tr.children[idx];
     if(!cell) return type==='num' ? -Infinity : '';
+    // 优先读 data-sort-value（处理单位混用 / HTML 装饰）
+    if(cell.dataset && cell.dataset.sortValue !== undefined){
+      var dv = parseFloat(cell.dataset.sortValue);
+      if(!isNaN(dv)) return dv;
+    }
     var txt = cell.textContent.trim();
     if(type==='num'){
       var n = parseFloat(txt.replace(/[^\d.\-+]/g,''));
@@ -1431,19 +1437,46 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
       return v1.localeCompare(v2);
     };
   }
+  function sortTable(table, th, forceAsc){
+    var tbody = table.querySelector('tbody');
+    var headerRow = th.parentNode;
+    var idx = Array.from(headerRow.children).indexOf(th);
+    var type = th.getAttribute('data-type') || 'text';
+    var asc;
+    if(forceAsc !== undefined){
+      asc = forceAsc;
+    } else {
+      // 首次点击：num 列默认 desc / text 列默认 asc
+      // 后续点击：切换方向
+      var hasAsc = th.classList.contains('asc');
+      var hasDesc = th.classList.contains('desc');
+      if(!hasAsc && !hasDesc){
+        asc = (type !== 'num');  // num 首次 desc(=false), text 首次 asc(=true)
+      } else {
+        asc = !hasAsc;
+      }
+    }
+    headerRow.querySelectorAll('th').forEach(function(h){ h.classList.remove('asc'); h.classList.remove('desc'); });
+    th.classList.add(asc ? 'asc' : 'desc');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(comparer(idx, asc, type));
+    rows.forEach(function(tr){ tbody.appendChild(tr); });
+  }
+  // 绑定 click
   document.querySelectorAll('table.dt thead th').forEach(function(th){
-    th.addEventListener('click', function(){
-      var table = th.closest('table');
-      var tbody = table.querySelector('tbody');
-      var headerRow = th.parentNode;
-      var idx = Array.from(headerRow.children).indexOf(th);
-      var type = th.getAttribute('data-type') || 'text';
-      var asc = !th.classList.contains('asc');
-      headerRow.querySelectorAll('th').forEach(function(h){ h.classList.remove('asc'); h.classList.remove('desc'); });
-      th.classList.add(asc ? 'asc' : 'desc');
-      var rows = Array.from(tbody.querySelectorAll('tr'));
-      rows.sort(comparer(idx, asc, type));
-      rows.forEach(function(tr){ tbody.appendChild(tr); });
+    th.addEventListener('click', function(){ sortTable(th.closest('table'), th); });
+  });
+  // 加载时按"日涨跌幅"列自动降序排序（仅 5 个主线 theme 表）
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('table[id^="theme"]').forEach(function(table){
+      var ths = table.querySelectorAll('thead th');
+      for(var i=0; i<ths.length; i++){
+        var label = ths[i].textContent.trim();
+        if(label === '日涨跌幅' || label === '日涨跌'){
+          sortTable(table, ths[i], false);  // forceAsc=false → 降序
+          break;
+        }
+      }
     });
   });
 })();
