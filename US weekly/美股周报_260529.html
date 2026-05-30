@@ -187,7 +187,51 @@ table.dt thead th[data-type]::after{content:"⇅";position:absolute;right:6px;to
 table.dt thead th[data-sort-dir="asc"]::after{content:"▲";color:var(--accent);opacity:1}
 table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent);opacity:1}
 
-@media print{body{padding:24px}.view-tabs{display:none}}
+/* ========== 左侧固定目录 TOC（260530 加 · JS 自动扫描 section[id] 生成） ========== */
+html{scroll-behavior:smooth}
+#toc-nav{position:fixed;top:0;left:0;bottom:0;width:212px;z-index:1000;background:var(--navy);
+  border-right:3px solid var(--amber);overflow-y:auto;padding:54px 0 30px;
+  font-family:var(--mono);-webkit-font-smoothing:antialiased}
+#toc-nav::-webkit-scrollbar{width:6px}
+#toc-nav::-webkit-scrollbar-thumb{background:rgba(212,160,23,.35);border-radius:3px}
+#toc-nav .toc-head{position:relative;padding:4px 18px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px}
+#toc-nav .toc-head .t1{font-size:11px;letter-spacing:.2em;color:var(--amber-light);text-transform:uppercase;font-weight:600}
+#toc-nav .toc-head .t2{font-size:9.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.05em}
+#toc-nav a{display:flex;gap:8px;align-items:baseline;padding:6px 14px 6px 18px;text-decoration:none;
+  border-left:2px solid transparent;line-height:1.3}
+#toc-nav a .n{font-size:9.5px;color:var(--amber);font-weight:600;min-width:24px;letter-spacing:.02em;flex-shrink:0}
+#toc-nav a .t{font-size:10.5px;color:rgba(255,255,255,.7);font-weight:500;letter-spacing:.01em}
+#toc-nav a:hover{background:rgba(255,255,255,.05)}
+#toc-nav a:hover .t{color:#fff}
+#toc-nav a.active{background:rgba(184,135,10,.16);border-left-color:var(--amber)}
+#toc-nav a.active .t{color:#fff;font-weight:600}
+#toc-nav a.active .n{color:var(--amber-light)}
+/* 正文整体右移让出目录宽度（仅 margin-left / masthead 宽度被覆盖，其余继承原样） */
+body{margin-left:212px}
+.masthead{width:calc(100vw - 212px);margin-left:-56px}
+section[id]{scroll-margin-top:64px}
+/* ---- 收起/展开 目录 ---- */
+#toc-nav{transition:transform .26s ease}
+body{transition:margin-left .26s ease}
+.masthead{transition:width .26s ease,margin-left .26s ease}
+#toc-collapse{position:absolute;top:-1px;right:14px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1px solid rgba(212,160,23,.45);border-radius:5px;color:var(--amber-light);
+  font-size:14px;line-height:1;cursor:pointer;user-select:none}
+#toc-collapse:hover{background:rgba(184,135,10,.25);color:#fff}
+body.toc-collapsed #toc-nav{transform:translateX(-100%)}
+body.toc-collapsed{margin-left:auto}
+body.toc-collapsed .masthead{width:100vw;margin-left:calc(-50vw + 50%)}
+#toc-reopen{display:none;position:fixed;left:0;top:92px;z-index:1001;
+  background:var(--navy);color:var(--amber-light);border:1px solid var(--amber);border-left:none;
+  border-radius:0 8px 8px 0;padding:13px 6px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;writing-mode:vertical-rl;text-orientation:upright;
+  box-shadow:2px 2px 10px rgba(0,0,0,.28)}
+#toc-reopen:hover{background:var(--navy-light);color:#fff}
+body.toc-collapsed #toc-reopen{display:block}
+.toc-no-anim #toc-nav,.toc-no-anim.toc-collapsed,.toc-no-anim .masthead{transition:none!important}
+/* 窄屏 / 打印：收起目录，正文复位 */
+@media (max-width:980px){#toc-nav{display:none}#toc-reopen{display:none!important}body{margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}}
+@media print{#toc-nav{display:none}body{padding:24px;margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}.view-tabs{display:none}}
 </style>
 </head>
 <body data-view="all">
@@ -289,12 +333,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="num" style="width:4%">#</th>
-      <th data-type="text" style="width:24%">主线</th>
+      <th data-type="text" style="width:16.5%">主线</th>
       <th data-type="text" style="width:11%">方向</th>
-      <th data-type="text" style="width:14%">强度</th>
+      <th data-type="text" style="width:9%">强度</th>
       <th data-type="num" style="width:11%">1W 区间</th>
       <th data-type="text" style="width:18%">代表标的</th>
-      <th data-type="text" style="width:18%">本周核心信号</th>
+      <th data-type="text" style="width:30.5%">本周核心信号</th>
     </tr></thead>
     <tbody>
       <tr data-cap="L">
@@ -432,12 +476,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
   <thead><tr>
     <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:9%">公司</th>
+    <th data-type="text" style="width:6.3%">公司</th>
     <th data-type="num" style="width:3%">1W</th>
     <th data-type="num" style="width:3%">1M</th>
     <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:7%">归因</th>
-    <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text" style="width:4.9%">归因</th>
+    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -672,12 +716,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
   <thead><tr>
     <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:9%">公司</th>
+    <th data-type="text" style="width:6.3%">公司</th>
     <th data-type="num" style="width:3%">1W</th>
     <th data-type="num" style="width:3%">1M</th>
     <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:7%">归因</th>
-    <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text" style="width:4.9%">归因</th>
+    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -821,12 +865,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
   <thead><tr>
     <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:9%">公司</th>
+    <th data-type="text" style="width:6.3%">公司</th>
     <th data-type="num" style="width:3%">1W</th>
     <th data-type="num" style="width:3%">1M</th>
     <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:7%">归因</th>
-    <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text" style="width:4.9%">归因</th>
+    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -988,12 +1032,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="text" style="width:6.3%">公司</th>
       <th data-type="num" style="width:3%">1W</th>
       <th data-type="num" style="width:3%">1M</th>
       <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:7%">归因</th>
-      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text" style="width:4.9%">归因</th>
+      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="L">
@@ -1194,12 +1238,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="text" style="width:6.3%">公司</th>
       <th data-type="num" style="width:3%">1W</th>
       <th data-type="num" style="width:3%">1M</th>
       <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:7%">归因</th>
-      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text" style="width:4.9%">归因</th>
+      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="S">
@@ -1320,12 +1364,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="text" style="width:6.3%">公司</th>
       <th data-type="num" style="width:3%">1W</th>
       <th data-type="num" style="width:3%">1M</th>
       <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:7%">归因</th>
-      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text" style="width:4.9%">归因</th>
+      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="M">
@@ -1500,12 +1544,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="text" style="width:6.3%">公司</th>
       <th data-type="num" style="width:3%">1W</th>
       <th data-type="num" style="width:3%">1M</th>
       <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:7%">归因</th>
-      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text" style="width:4.9%">归因</th>
+      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="M">
@@ -1634,12 +1678,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
   <thead><tr>
     <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:9%">公司</th>
+    <th data-type="text" style="width:6.3%">公司</th>
     <th data-type="num" style="width:3%">1W</th>
     <th data-type="num" style="width:3%">1M</th>
     <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:7%">归因</th>
-    <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text" style="width:4.9%">归因</th>
+    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -1786,12 +1830,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
   <table class="dt">
     <thead><tr>
       <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="text" style="width:6.3%">公司</th>
       <th data-type="num" style="width:3%">1W</th>
       <th data-type="num" style="width:3%">1M</th>
       <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:7%">归因</th>
-      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text" style="width:4.9%">归因</th>
+      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="S">
@@ -1931,12 +1975,12 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
 <table class="dt">
 <thead><tr>
   <th data-type="text" style="width:4%">Ticker</th>
-  <th data-type="text" style="width:9%">公司</th>
+  <th data-type="text" style="width:6.3%">公司</th>
   <th data-type="num" style="width:3%">1W</th>
   <th data-type="num" style="width:3%">1M</th>
   <th data-type="num" style="width:3%">3M</th>
-  <th data-type="text" style="width:7%">归因</th>
-  <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+  <th data-type="text" style="width:4.9%">归因</th>
+  <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
 </tr></thead>
 <tbody>
   <tr data-cap="M">
@@ -2421,6 +2465,81 @@ document.querySelectorAll('table.dt').forEach(table => {
     });
   });
 });
+
+// 左侧固定目录 TOC（自动扫描 section[id] 生成 + scroll-spy 高亮当前章节）
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  if(!secs.length) return;
+  var nav = document.createElement('nav');
+  nav.id = 'toc-nav';
+  var head = document.createElement('div');
+  head.className = 'toc-head';
+  head.innerHTML = '<div class="t1">Contents<span id="toc-collapse" title="收起目录">&laquo;</span></div><div class="t2">本期主线导航</div>';
+  nav.appendChild(head);
+  secs.forEach(function(sec){
+    var numEl = sec.querySelector('.sec-num');
+    var titEl = sec.querySelector('.sec-title');
+    var num = numEl ? numEl.textContent.trim() : '';
+    var tit = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+    var a = document.createElement('a');
+    a.href = '#' + sec.id;
+    a.innerHTML = '<span class="n">'+num+'</span><span class="t">'+tit+'</span>';
+    nav.appendChild(a);
+  });
+  document.body.insertBefore(nav, document.body.firstChild);
+
+  // 收起 / 展开 目录
+  var reopen = document.createElement('div');
+  reopen.id = 'toc-reopen';
+  reopen.title = '展开目录';
+  reopen.textContent = '目录';
+  document.body.appendChild(reopen);
+  function setCollapsed(v){
+    document.body.classList.toggle('toc-collapsed', v);
+    try{ localStorage.setItem('wkTocCollapsed', v ? '1' : '0'); }catch(e){}
+  }
+  var cbtn = nav.querySelector('#toc-collapse');
+  if(cbtn) cbtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); setCollapsed(true); });
+  reopen.addEventListener('click', function(){ setCollapsed(false); });
+  // 还原上次状态（无动画，避免加载闪烁）
+  var saved; try{ saved = localStorage.getItem('wkTocCollapsed'); }catch(e){}
+  if(saved === '1'){
+    document.body.classList.add('toc-no-anim','toc-collapsed');
+    requestAnimationFrame(function(){ document.body.classList.remove('toc-no-anim'); });
+  }
+
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  // scroll-spy：当前章节 = 顶部已越过参考线(120px)的最后一个 section（对手动滚动与锚点跳转都稳定）
+  var curId = null;
+  function setActive(id){
+    if(id === curId) return;
+    curId = id;
+    links.forEach(function(l){ l.classList.remove('active'); });
+    var a = map[id];
+    if(!a) return;
+    a.classList.add('active');
+    if(a.offsetTop < nav.scrollTop || a.offsetTop > nav.scrollTop + nav.clientHeight - 40){
+      nav.scrollTop = a.offsetTop - nav.clientHeight/2;
+    }
+  }
+  function onScroll(){
+    var line = 120, current = secs[0].id;
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top <= line) current = secs[i].id;
+      else break;
+    }
+    // 触底时强制点亮最后一节
+    if(window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = secs[secs.length-1].id;
+    setActive(current);
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(function(){ onScroll(); ticking = false; }); }
+  }, {passive:true});
+  onScroll();
+})();
 </script>
 </body>
 </html>
