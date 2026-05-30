@@ -93,6 +93,19 @@ table.dt .ki-note{line-height:1.5}
 #signals-tbl thead th{padding:7px 8px}
 table.dt .pos{color:var(--bull);font-weight:600}
 table.dt .neg{color:var(--bear);font-weight:600}
+/* ===== 主线个股表 7 列固定列宽 · shell 单一真相源（260530 加）=====
+   颜色/字体/卡片/渐变一向由 shell 锁定、fragment 继承不生成；列宽过去是 10 个
+   theme fragment 各写 inline、是唯一能跑偏的视觉参数。现收口到这里：theme 的
+   <th> 不再写 inline width，改列宽只动这一处即全主线生效。
+   作用域 section[id^="theme-"] 仅命中 theme-02..11 个股表，不影响
+   §2 Theme Map(#exec-summary) / §12 信号表 / §13 catalyst 表（单实例、保留 inline）。*/
+section[id^="theme-"] table.dt th:nth-child(1){width:4%}    /* Ticker */
+section[id^="theme-"] table.dt th:nth-child(2){width:6.3%}  /* 公司 */
+section[id^="theme-"] table.dt th:nth-child(3){width:3%}    /* 1W */
+section[id^="theme-"] table.dt th:nth-child(4){width:3%}    /* 1M */
+section[id^="theme-"] table.dt th:nth-child(5){width:3%}    /* 3M */
+section[id^="theme-"] table.dt th:nth-child(6){width:4.9%}  /* 归因 */
+section[id^="theme-"] table.dt th:nth-child(7){width:75.8%} /* 关键产业事实 + ki-note */
 .hl{background:var(--highlight);padding:0 2px}
 
 /* ========== ki-note (个股逻辑解读) ========== */
@@ -437,19 +450,19 @@ body.toc-collapsed #toc-reopen{display:block}
   <!-- Block 4 · §3 5 个核心信号深度归因 -->
   <p style="margin-top:18px"><span class="kicker">§3 · 本周 5 个最重要信号 · 深度归因</span></p>
   <div class="note-block"><span class="kicker">信号 1 · Dell AI 服务器超预期 → AI 硬件供应链全线确认</span>
-    <p>DELL FY27Q1（5/28）营收 <span class="hl">$43.8B（+88% YoY）</span>、non-GAAP EPS <span class="hl">$4.86（+214%）</span>、AI server 单季营收 <span class="hl">$16.1B</span>、全年 AI server 指引上修至 <span class="hl">$60B</span>（财报前 YTD 已 +140%），股价单周 +66% 领涨。这是本周最重的信号——它把 AI 硬件需求从 GPU 厂的口头指引第一次落到 OEM 整机的<em>已确认营收 + 上修口径</em>。halo 沿整条链全面外溢：SMCI Q3FY26 营收 <span class="hl">$10.24B（+122.6% YoY）</span>、non-GAAP EPS $0.84 vs $0.31、80% 营收来自 AI GPU 平台、Blackwell backlog 约 <span class="hl">$13B</span>（+38%）；存储配套 NTAP Q4 EPS $2.43、营收 $1.95B（+12%）beat（+41%）；HPE 作为同业被读作"tide lifts all boats"非份额流失（+27%）。三只财报标的全 beat 无 miss，确认 Blackwell 出货爬坡正向 OEM 端兑现，是本周 AI 算力主线最硬的产业锚。</p>
+    <p><strong>核心逻辑：AI 硬件需求第一次从 GPU 厂的口头指引落到 OEM 整机的"已确认营收 + 全年上修"，需求确定性沿整条供应链外溢。</strong>DELL FY27Q1（5/28）营收 <span class="hl">$43.8B（+88% YoY）</span>、non-GAAP EPS <span class="hl">$4.86（+214%）</span>、AI server 单季营收 <span class="hl">$16.1B</span>、全年 AI server 指引上修至 <span class="hl">$60B</span>（财报前 YTD 已 +140%），股价单周 +66% 领涨。这是本周最重的信号——它把 AI 硬件需求从 GPU 厂的口头指引第一次落到 OEM 整机的<em>已确认营收 + 上修口径</em>。halo 沿整条链全面外溢：SMCI Q3FY26 营收 <span class="hl">$10.24B（+122.6% YoY）</span>、non-GAAP EPS $0.84 vs $0.31、80% 营收来自 AI GPU 平台、Blackwell backlog 约 <span class="hl">$13B</span>（+38%）；存储配套 NTAP Q4 EPS $2.43、营收 $1.95B（+12%）beat（+41%）；HPE 作为同业被读作"tide lifts all boats"非份额流失（+27%）。三只财报标的全 beat 无 miss，确认 Blackwell 出货爬坡正向 OEM 端兑现，是本周 AI 算力主线最硬的产业锚。</p>
   </div>
   <div class="note-block"><span class="kicker">信号 2 · SNOW 引爆 2026 最广 software/SaaS 重估</span>
-    <p>SNOW FY27Q1（5/27）单日 <span class="hl">+36.5%（史上最佳）</span>、全周 +54%，Q1 product 收入 blowout 叠加 <span class="hl">$6B AWS 多年合约</span>，单点引爆 2026 年最广泛的 AI 软件 rally。意义不在 SNOW 一只——它<em>反转了整个 SaaS 板块的叙事方向</em>：从"AI 会取代软件"（SaaSpocalypse）切到"AI workload 把数据/软件平台变成算力刚需下游、消费式计费量价齐升"。halo 以惊人广度传导：NOW +25%、TEAM +31%、WDAY +20%、ASAN +21%、ORCL +19%、IBM +18%，连微盘 SaaS（PD +41% / GTLB +21%）全面 re-rate。5 月因此成为 <em>2001 年以来软件最佳单月</em>。需区分的是 APP（+26%）属个股 alpha（广告 AI 变现），不与订阅 re-rate 混为一谈。这是一次<em>资金端重定价快于基本面验证</em>的 re-rate，下一步看 6 月 CRM/ADBE/MDB 财报能否把"情绪重估"转成"业绩兑现"。</p>
+    <p><strong>核心逻辑：SNOW 单点 blowout 反转了整个 SaaS 板块的叙事方向——从"AI 取代软件"切到"AI workload 把软件/数据平台变成算力刚需下游"，触发 2026 年最广的软件 re-rate。</strong>SNOW FY27Q1（5/27）单日 <span class="hl">+36.5%（史上最佳）</span>、全周 +54%，Q1 product 收入 blowout 叠加 <span class="hl">$6B AWS 多年合约</span>，单点引爆 2026 年最广泛的 AI 软件 rally。意义不在 SNOW 一只——它<em>反转了整个 SaaS 板块的叙事方向</em>：从"AI 会取代软件"（SaaSpocalypse）切到"AI workload 把数据/软件平台变成算力刚需下游、消费式计费量价齐升"。halo 以惊人广度传导：NOW +25%、TEAM +31%、WDAY +20%、ASAN +21%、ORCL +19%、IBM +18%，连微盘 SaaS（PD +41% / GTLB +21%）全面 re-rate。5 月因此成为 <em>2001 年以来软件最佳单月</em>。需区分的是 APP（+26%）属个股 alpha（广告 AI 变现），不与订阅 re-rate 混为一谈。这是一次<em>资金端重定价快于基本面验证</em>的 re-rate，下一步看 6 月 CRM/ADBE/MDB 财报能否把"情绪重估"转成"业绩兑现"。</p>
   </div>
   <div class="note-block"><span class="kicker">信号 3 · 存储 pricing power 超级周期 · 定价叙事而非财报</span>
-    <p>存储链是本周第二条 alpha 主线，但驱动是<em>定价权 + Dell halo</em>而非财报。四维全部向上：DRAM 合约价 QoQ <span class="hl">+55–60%</span>、NAND +33–38%、DRAM 现货同比涨约 6 倍；HBM <em>2026 全年售罄</em>；Micron 营收同比近三倍至 <span class="hl">$23.9B</span>、毛利率创纪录 <span class="hl">75%</span>、CEO 称只能满足核心客户 55–60% 需求——供需缺口是趋势确认而非末段。关键校准：<strong>MU 本周 +27% 不是财报驱动</strong>——MU 财报落在 6 月下旬，本周涨幅是存储涨价叙事 + Dell AI server halo 的提前 price-in，财报为下一段燃料。弹性沿市值递增：小盘存储/封测链 MX +53%、IMOS +43% 走极端情绪弹性，代工封测 UMC +21%、ASX +17% 走产能景气外溢。6 月谈判季合约价涨幅是否延续、MU 财报指引能否兑现 75%+ 毛利，是叙事强度的下一个 binary。</p>
+    <p><strong>核心逻辑：存储是本周第二条 alpha 主线，驱动是定价权 + Dell halo 而非财报——DRAM/NAND 合约价暴涨叠加 HBM 全年售罄，确认供需缺口处在趋势中段而非末段。</strong>四维全部向上：DRAM 合约价 QoQ <span class="hl">+55–60%</span>、NAND +33–38%、DRAM 现货同比涨约 6 倍；HBM <em>2026 全年售罄</em>；Micron 营收同比近三倍至 <span class="hl">$23.9B</span>、毛利率创纪录 <span class="hl">75%</span>、CEO 称只能满足核心客户 55–60% 需求——供需缺口是趋势确认而非末段。关键校准：<strong>MU 本周 +27% 不是财报驱动</strong>——MU 财报落在 6 月下旬，本周涨幅是存储涨价叙事 + Dell AI server halo 的提前 price-in，财报为下一段燃料。弹性沿市值递增：小盘存储/封测链 MX +53%、IMOS +43% 走极端情绪弹性，代工封测 UMC +21%、ASX +17% 走产能景气外溢。6 月谈判季合约价涨幅是否延续、MU 财报指引能否兑现 75%+ 毛利，是叙事强度的下一个 binary。</p>
   </div>
   <div class="note-block"><span class="kicker">信号 4 · 能源/防御/比特币集体走弱 = risk-on 单极 · 反叙事监控</span>
-    <p>本周最重要的<em>反叙事信号</em>是 risk-on 资金的极端单向性。XLE <span class="hl">-5%</span>（能源）、XLP <span class="hl">-2%</span>（必需消费）、IBIT <span class="hl">-5%</span>（比特币）三类本应在不同情境下提供对冲的资产同步失血，而资金单极涌入 AI 硬件——11 个 SPDR sector 仅 5 涨。两个具体的产业层反叙事更值得标记：① <strong>电力链</strong>——GEV 本周 -7%，尽管电气化 DC 订单约 <span class="hl">$2.4B</span>（超 2025 全年）、2026 指引上修至 $44.5–45.5B，基本面仍在扩张；股价跌的核心是 CEO 在 Bernstein 大会对 data center 需求<em>松口</em>（多州 pushback）+ 看空估值报告 + 高管减持，是典型的 <em>narrative overridden by valuation/flows</em>。② <strong>油价传导</strong>——油价周内 -5% 在反转组内映射出相反方向：廉航 ULCC +24%（燃油成本下降）vs 油轮 ECO -16%（运价预期走弱）。能源走弱叠加金矿逆势上行（GDX +4% / GDXJ +6%），说明本周不是单一宏观叙事，而是资金结构在主导。</p>
+    <p><strong>核心逻辑：本周资金极端单极涌入 AI 硬件，能源/必需消费/比特币三类对冲资产同步失血、11 个 SPDR sector 仅 5 涨——这是 risk-on 单极的资金结构信号，不是单一宏观叙事。</strong>XLE <span class="hl">-5%</span>（能源）、XLP <span class="hl">-2%</span>（必需消费）、IBIT <span class="hl">-5%</span>（比特币）本应在不同情境下分别提供对冲，本周却同向失血，而资金单极灌入 AI 硬件主线。这是本周最值得标记的<em>反叙事信号</em>：资产间的对冲关系被资金结构碾平，避险与进攻不再分流——当对冲资产与进攻资产一起跌，说明驱动的不是某个宏观叙事的方向，而是 flows 本身的单极性。三个产业层旁证进一步印证"flows 而非 macro 在主导"，且方向互不一致：① 电力链 GEV -7%，尽管 DC 订单约 <span class="hl">$2.4B</span>（超 2025 全年）、2026 指引上修至 $44.5–45.5B 基本面仍在扩张，股价仍因 CEO 在 Bernstein 大会对 DC 需求<em>松口</em> + 看空估值报告 + 高管减持而 <em>narrative overridden by flows</em>；② 油价周内 -5% 在反转组内映射相反方向，廉航 ULCC +24%（燃油成本降）vs 油轮 ECO -16%（运价预期弱）；③ 金矿逆势上行（GDX +4% / GDXJ +6%）。三组方向各异，恰恰反证本周由资金结构而非统一宏观叙事主导——这是需要持续监控的 <em>narrative overridden by flows</em> 状态。</p>
   </div>
   <div class="note-block"><span class="kicker">信号 5 · 太空板块被 Blue Origin New Glenn 爆炸 whipsaw</span>
-    <p>5/29 尾盘 <em>Blue Origin New Glenn 热试车爆炸</em>，把本周强势的太空板块情绪一刀切成两半，是单一 binary event 撕裂板块的教科书样本。板块周内本由 <span class="hl">SpaceX IPO 估值传闻</span>（目标已传低于 $2T）+ 密集个股里程碑驱动（ASTS 冲 52 周高 $133.80、RDW 中标 NASA Dragonfly 创年内新高、LUNR 52 周高）。爆炸事件的尾盘传导沿两条镜像链分化：<strong>硬资产/发射敏感标的砸盘</strong>——ASTS 5/29 -17% 至 $111（尽管 ASTS 实际用 SpaceX Falcon 9、BlueBird 8-10 任务 6 月中、与 New Glenn 无技术关联，仍被板块恐慌误伤）、PL -8%；<strong>客户承接预期标的逆涨</strong>——妖股 SPCE 全周 +125%、5/29 逆势 +11% 至 $5（押注承接 Blue Origin 停飞的 New Shepard 亚轨道旅游客户）。同一事件在"硬资产敞口 vs 客户承接预期"两条传导链上镜像分化，不能统一打"太空板块走弱"——归因必须分开。SPCE 是妖股（低价 + 题材 + 逼空），逻辑是博弈情绪，估值是背景不是输入。</p>
+    <p><strong>核心逻辑：Blue Origin New Glenn 爆炸这一 binary event 把本周强势的太空板块沿"硬资产敞口 vs 客户承接预期"两条镜像链一刀切开，归因必须分链、不能统一打"板块走弱"。</strong>5/29 尾盘 <em>Blue Origin New Glenn 热试车爆炸</em>，把本周强势的太空板块情绪一刀切成两半，是单一 binary event 撕裂板块的教科书样本。板块周内本由 <span class="hl">SpaceX IPO 估值传闻</span>（目标已传低于 $2T）+ 密集个股里程碑驱动（ASTS 冲 52 周高 $133.80、RDW 中标 NASA Dragonfly 创年内新高、LUNR 52 周高）。爆炸事件的尾盘传导沿两条镜像链分化：<strong>硬资产/发射敏感标的砸盘</strong>——ASTS 5/29 -17% 至 $111（尽管 ASTS 实际用 SpaceX Falcon 9、BlueBird 8-10 任务 6 月中、与 New Glenn 无技术关联，仍被板块恐慌误伤）、PL -8%；<strong>客户承接预期标的逆涨</strong>——妖股 SPCE 全周 +125%、5/29 逆势 +11% 至 $5（押注承接 Blue Origin 停飞的 New Shepard 亚轨道旅游客户）。同一事件在"硬资产敞口 vs 客户承接预期"两条传导链上镜像分化，不能统一打"太空板块走弱"——归因必须分开。SPCE 是妖股（低价 + 题材 + 逼空），逻辑是博弈情绪，估值是背景不是输入。</p>
   </div>
 </section>
 
@@ -475,13 +488,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
   <thead><tr>
-    <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:6.3%">公司</th>
-    <th data-type="num" style="width:3%">1W</th>
-    <th data-type="num" style="width:3%">1M</th>
-    <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:4.9%">归因</th>
-    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -715,13 +728,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
   <thead><tr>
-    <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:6.3%">公司</th>
-    <th data-type="num" style="width:3%">1W</th>
-    <th data-type="num" style="width:3%">1M</th>
-    <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:4.9%">归因</th>
-    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -864,13 +877,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
   <thead><tr>
-    <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:6.3%">公司</th>
-    <th data-type="num" style="width:3%">1W</th>
-    <th data-type="num" style="width:3%">1M</th>
-    <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:4.9%">归因</th>
-    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -1031,13 +1044,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:6.3%">公司</th>
-      <th data-type="num" style="width:3%">1W</th>
-      <th data-type="num" style="width:3%">1M</th>
-      <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:4.9%">归因</th>
-      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="L">
@@ -1237,13 +1250,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:6.3%">公司</th>
-      <th data-type="num" style="width:3%">1W</th>
-      <th data-type="num" style="width:3%">1M</th>
-      <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:4.9%">归因</th>
-      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="S">
@@ -1363,13 +1376,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:6.3%">公司</th>
-      <th data-type="num" style="width:3%">1W</th>
-      <th data-type="num" style="width:3%">1M</th>
-      <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:4.9%">归因</th>
-      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="M">
@@ -1543,13 +1556,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:6.3%">公司</th>
-      <th data-type="num" style="width:3%">1W</th>
-      <th data-type="num" style="width:3%">1M</th>
-      <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:4.9%">归因</th>
-      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="M">
@@ -1677,13 +1690,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
   <thead><tr>
-    <th data-type="text" style="width:4%">Ticker</th>
-    <th data-type="text" style="width:6.3%">公司</th>
-    <th data-type="num" style="width:3%">1W</th>
-    <th data-type="num" style="width:3%">1M</th>
-    <th data-type="num" style="width:3%">3M</th>
-    <th data-type="text" style="width:4.9%">归因</th>
-    <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
   </tr></thead>
   <tbody>
     <tr data-cap="L">
@@ -1829,13 +1842,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
   <table class="dt">
     <thead><tr>
-      <th data-type="text" style="width:4%">Ticker</th>
-      <th data-type="text" style="width:6.3%">公司</th>
-      <th data-type="num" style="width:3%">1W</th>
-      <th data-type="num" style="width:3%">1M</th>
-      <th data-type="num" style="width:3%">3M</th>
-      <th data-type="text" style="width:4.9%">归因</th>
-      <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
     </tr></thead>
     <tbody>
       <tr data-cap="S">
@@ -1974,13 +1987,13 @@ body.toc-collapsed #toc-reopen{display:block}
 
 <table class="dt">
 <thead><tr>
-  <th data-type="text" style="width:4%">Ticker</th>
-  <th data-type="text" style="width:6.3%">公司</th>
-  <th data-type="num" style="width:3%">1W</th>
-  <th data-type="num" style="width:3%">1M</th>
-  <th data-type="num" style="width:3%">3M</th>
-  <th data-type="text" style="width:4.9%">归因</th>
-  <th data-type="text" style="width:75.8%">关键产业事实 + 个股逻辑（ki-note）</th>
+  <th data-type="text">Ticker</th>
+  <th data-type="text">公司</th>
+  <th data-type="num">1W</th>
+  <th data-type="num">1M</th>
+  <th data-type="num">3M</th>
+  <th data-type="text">归因</th>
+  <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
 </tr></thead>
 <tbody>
   <tr data-cap="M">
