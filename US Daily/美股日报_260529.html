@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>美股盘后跟踪 · 2026年5月29日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1680px;margin:0 auto}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+em{font-style:italic;color:var(--accent)}
+.serif{font-family:var(--serif)}
+.mono{font-family:var(--mono);font-feature-settings:"tnum" 1}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'US DAILY';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1180px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* SECTION HEADERS */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-8px;margin-bottom:18px}
+
+/* SUB SECTION */
+.sub-h{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);margin:24px 0 8px;letter-spacing:-.005em}
+.sub-h em{font-style:italic;color:var(--accent)}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+/* PROSE */
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* DATA GRID */
+.grid{display:grid;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:14px 0}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+.grid .cell{padding:11px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule-soft)}
+.grid .cell:last-child{border-right:none}
+.grid .cell .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:3px}
+.grid .cell .val{font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600;line-height:1.1}
+.grid .cell .note{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* PROFILE CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.card-body strong{color:var(--ink)}
+
+/* TABLES */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.35}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;cursor:pointer;user-select:none;position:relative;white-space:nowrap}
+table.dt thead th:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th::after{content:" ⇅";font-size:9px;color:var(--hairline);font-family:var(--mono)}
+table.dt thead th.asc::after{content:" ▲";color:var(--accent)}
+table.dt thead th.desc::after{content:" ▼";color:var(--accent)}
+table.dt thead th.num,table.dt tbody td.num{text-align:right;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink)}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+.tag.t-macro{background:#E5EBF2;color:var(--ink)}
+.tag.t-geo{background:#F2E5E5;color:var(--bear)}
+/* TIER TAGS（L1 Mega / L2 Large / L3 Mid / L4 Small）— 用于 theme 表格 L 列 */
+.tag.l1{background:#1B2635;color:#D4A017;font-weight:600}
+.tag.l2{background:#2D3D52;color:#fff}
+.tag.l3{background:#8B6F35;color:#fff}
+.tag.l4{background:#D9D2C2;color:#1B2635}
+.hl{background:var(--highlight);padding:0 2px}
+/* §01-C 板块 β 涨跌原因归因表 — 内容紧凑（信息密度高、字号调小） */
+#beta-attr-tbl{font-size:11px;line-height:1.3}
+#beta-attr-tbl thead th{font-size:9px;padding:6px 8px}
+#beta-attr-tbl tbody td{padding:5px 8px}
+#beta-attr-tbl tbody td.name{font-size:11px}
+
+/* THEME ROW IN OVERVIEW */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* SIGNAL TABLE */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* FOOTNOTE */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12px;color:var(--ink-soft);line-height:1.5}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block.geo{background:#FFF5E6;border-left-color:var(--bear)}
+
+/* MARKET BETA STRIP */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:flex;flex-wrap:nowrap;gap:1px;background:var(--rule);overflow-x:auto}
+.beta-item{flex:1 1 0;min-width:0;padding:7px 6px;background:var(--paper);display:flex;flex-direction:column;gap:1px;line-height:1.1;text-align:center;align-items:center}
+.beta-item .bn{font-family:var(--mono);font-size:9.5px;color:var(--accent);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.beta-item .bv{font-family:var(--mono);font-size:12.5px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.beta-item .bd{font-size:9px;color:var(--muted);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* KI-NOTE: editorial commentary on key info points */
+.ki-note{display:block;margin-top:6px;padding-top:5px;border-top:1px dotted var(--rule);font-family:var(--serif);font-style:italic;font-size:12.5px;font-weight:400;color:var(--ink-soft);line-height:1.5;letter-spacing:.005em}
+.ki-note::before{content:"解读 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:600;margin-right:1px}
+.ki-note em{font-style:italic;font-weight:600;color:var(--ink)}
+
+@media print{body{padding:24px}.masthead{padding:24px 30px}}
+</style>
+</head>
+<body>
+
+<!-- 左上返回 index 浮标 -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<div class="masthead">
+  <div class="h-eyebrow">US Equity Daily · Issue No. 05 · 2026-05-29 (周五) · n=69 异动 / 7 主线</div>
+  <h1 class="h-title"><em>软件 / SaaS 财报 alpha</em> 凌驾偏空宏观：<br>DELL AI server backlog $51B 引爆 · <em>软件层全面 re-rating</em> 盖过 flat SOXX</h1>
+  <div class="h-desc">SPDR <em>2 涨 9 跌</em>、极差 4.0pp，XLK +2.2% 独力拉盘、XLP −1.8% 最差——表面是 risk-on，本质是 <em>软件密集财报 beat 集群把资金从 bond-proxy 防御（XLP/XLV/XLU/XLRE）单边轮出</em>。宏观偏空但被无视：4 月整体 PCE <em>+3.8%</em>（三年高位、油价驱动）+ 核心 PCE +3.3%（环比 +0.2% 偏软），10Y 稳在 4.45%；美伊 60 天停火草案 → 油价继续下行（Brent 5 月 −19% 六年最大月跌）、XLE −1.2%。最一致的板块共振 alpha = <em>企业软件 / 数据云 / 网络安全 / AI 服务器存储四链共振</em>（DELL +32.8% AI server backlog $51.3B、OKTA +30.1% 身份安全 re-rating、NTAP +22.4% AI 存储、CRM Agentforce ARR $1.2B +205%）；最危险的裂缝 = <em>Edge AI 需求降温</em>——AMBA −21.4%（毛利率压缩 + 指引仅 in-line、AI 推理下沉终端的领先指标）；半导体被冷落（SOXX −0.1% 持平、软件 rotation 抽水）。</div>
+  <div class="h-pills">
+    <span class="pill">SPDR 2 涨 9 跌 · 极差 4.0pp · XLP −1.8% 最差</span>
+    <span class="pill bull">DELL +32.8% · AI server backlog $51.3B</span>
+    <span class="pill bull">OKTA +30.1% · 身份安全 re-rating</span>
+    <span class="pill bull">CRM Agentforce ARR $1.2B (+205% YoY)</span>
+    <span class="pill bear">AMBA −21.4% · Edge AI 毛利压缩 + 指引 in-line</span>
+    <span class="pill bear">PCE 3.8% 三年高位 · SOXX 持平 软件冷落半导体</span>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="sec-num">§ 00 — Today's β</div>
+  <h2 class="sec-title">板块 <em>β 全景</em>：软件独涨 vs bond-proxy 防御单边轮出</h2>
+
+  <div class="beta-strip">
+    <span class="kicker">当日 <em>板块 β 全景</em> · 板块极差 4.0pp · 11 个 SPDR 主要板块 <em>2 涨 9 跌</em>（不含 NDX/SPX/DJI/IWM/SOX 指数）</span>
+    <div class="beta-grid">
+      <div class="beta-item up"><span class="bn">XLK</span><span class="bv">+2.2%</span><span class="bd">科技</span></div>
+      <div class="beta-item up"><span class="bn">DJI</span><span class="bv">+0.7%</span><span class="bd">道指</span></div>
+      <div class="beta-item up"><span class="bn">XLF</span><span class="bv">+0.6%</span><span class="bd">金融</span></div>
+      <div class="beta-item up"><span class="bn">NDX</span><span class="bv">+0.4%</span><span class="bd">纳指 100</span></div>
+      <div class="beta-item up"><span class="bn">SPX</span><span class="bv">+0.2%</span><span class="bd">标普 500</span></div>
+      <div class="beta-item flat"><span class="bn">SOX</span><span class="bv">−0.1%</span><span class="bd">费城半导体</span></div>
+      <div class="beta-item dn"><span class="bn">XLB</span><span class="bv">−0.4%</span><span class="bd">材料</span></div>
+      <div class="beta-item dn"><span class="bn">XLI</span><span class="bv">−0.4%</span><span class="bd">工业</span></div>
+      <div class="beta-item dn"><span class="bn">IWM</span><span class="bv">−0.5%</span><span class="bd">罗素 2000</span></div>
+      <div class="beta-item dn"><span class="bn">XLU</span><span class="bv">−0.5%</span><span class="bd">公用事业</span></div>
+      <div class="beta-item dn"><span class="bn">XLC</span><span class="bv">−0.8%</span><span class="bd">通信服务</span></div>
+      <div class="beta-item dn"><span class="bn">XLV</span><span class="bv">−0.9%</span><span class="bd">医疗健康</span></div>
+      <div class="beta-item dn"><span class="bn">XLRE</span><span class="bv">−0.9%</span><span class="bd">房地产</span></div>
+      <div class="beta-item dn"><span class="bn">XLY</span><span class="bv">−1.0%</span><span class="bd">非必需消费</span></div>
+      <div class="beta-item dn"><span class="bn">XLE</span><span class="bv">−1.2%</span><span class="bd">能源</span></div>
+      <div class="beta-item dn"><span class="bn">XLP</span><span class="bv">−1.8%</span><span class="bd">必需消费</span></div>
+    </div>
+    <div class="footer">
+      <strong>三条结构性观察</strong>：
+      ① 极差 4.0pp（XLK +2.2% 独涨 vs XLP −1.8% 最差）= <strong>软件财报 alpha 拉 XLK，bond-proxy 防御（XLP/XLV/XLU/XLRE 全在跌幅前列）被月末再平衡 + risk-on 配置切换单边轮出</strong>，不是宏观 β 普涨；
+      ② <strong>市场广度极窄</strong>：11 SPDR 仅 2 涨 9 跌、IWM −0.5%、SOX 持平——SPY 靠 XLK 单一权重勉强翻正 +0.2%，等权实为下跌日；watchlist 异动中位数 ≠ 市场广度；
+      ③ <strong>反叙事标记</strong>·三处不强行自洽：GDX +2.6% / GDXJ +3.9% 避险与软件 risk-on 同涨（<em>narrative split</em>，flows 分层）；SOX 持平 = AI 算力今日缺席软件 rally（<em>narrative overridden</em>，资金选择性）；XLU −0.5% = AI 数据中心电力受益叙事被 bond-proxy 流出压制（<em>narrative overridden by flows</em>）。
+    </div>
+  </div>
+  <div class="note-block">
+    <span class="kicker">⚠ 数据层 vs 归因层</span>
+    本节是"<em>本日 β 全貌</em>"——只看数字事实。<strong>"为什么板块这样涨/跌"的归因放在 §01 Macro Drivers</strong>，不在本节硬编宏观故事。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 01 — Macro Drivers</div>
+  <h2 class="sec-title">Macro Drivers · <em>宏观与板块 β 归因</em>：PCE 在线 + 伊朗停火草案 + 软件财报三重共振</h2>
+  <div class="sec-sub">本节是"<em>为什么市场是这个样子</em>"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件 / 地缘事件 / 政策动作。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
+
+  
+  <h3 class="sub-h">A · <em>本日宏观事件</em>：4 月 PCE 出炉 · 月底关键数据日</h3>
+
+  <table class="dt" id="macro-tbl">
+  <thead><tr>
+    <th data-type="text">事件 / 数据</th>
+    <th data-type="text">类型</th>
+    <th data-type="num">实际值</th>
+    <th data-type="num">预期值</th>
+    <th data-type="text">影响渠道</th>
+    <th data-type="text">资产价格反应</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="name">4 月核心 PCE 同比（Fed 首选通胀指标）</td>
+      <td><span class="tag t-macro">通胀数据</span></td>
+      <td class="num"><strong>+3.3%</strong></td>
+      <td class="num">+3.3%</td>
+      <td>核心 PCE 同比持平预期，但环比 +0.2% 低于预期 +0.3%（月率偏软）——整体结论：通胀未进一步加速、环比降温确认；但油价冲击已推升整体 PCE 至 +3.8% YoY（前值 +3.5%），关税传导继续抬升底层价格压力</td>
+      <td class="num">10Y 收益率 <strong>4.45%</strong>（较前日微降约 1bp，收益率下行支撑长久期资产）</td>
+    </tr>
+    <tr>
+      <td class="name">4 月整体 PCE 同比（含食品能源）</td>
+      <td><span class="tag t-macro">通胀数据</span></td>
+      <td class="num"><strong>+3.8%</strong></td>
+      <td class="num">+3.8%</td>
+      <td>伊朗战争油价冲击为主要上行驱动；月率 +0.4% 低于预期 +0.5%，说明能量分项价格实际较预期温和；核心服务黏性持续，关税传导商品价格仍在累积</td>
+      <td>整体 PCE 处于三年高位，但市场将"核心环比偏软"解读为 Fed 不需要再度加息 → 风险偏好修复有基础</td>
+    </tr>
+    <tr>
+      <td class="name">10 年期美债收益率（日内走势）</td>
+      <td><span class="tag t-macro">利率</span></td>
+      <td class="num"><strong>4.45%</strong></td>
+      <td class="num">—</td>
+      <td>月底仓位调整 + 核心 PCE 环比温和 → 收益率小幅下行（约 1bp）；10Y 处于近期区间下沿附近，利好长久期软件/SaaS 估值扩张；仍处于限制性区间，未触发显著 bond-rally</td>
+      <td>TLT +0.0%（几乎持平，印证收益率仅微幅下行）；UUP −0.1%（美元微弱）</td>
+    </tr>
+    <tr>
+      <td class="name">月底仓位再平衡（month-end rebalancing）</td>
+      <td><span class="tag t-macro">流动性/结构</span></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>5 月最后一个交易日，养老金 / 共同基金按月末权重被动再平衡；权益大涨月份通常需要减股票买债券，但本日防御板块（XLP/XLU/XLV）大幅下跌 → 再平衡流量被软件财报驱动的主动买入所压制，未形成传统防御轮动</td>
+      <td>IWM −0.6%（小盘无财报催化，遭月末再平衡卖出）；防御板块跌幅超月末正常区间</td>
+    </tr>
+  </tbody>
+  </table>
+
+  
+  <h3 class="sub-h">B · <em>地缘事件</em>：美伊停火 60 天草案达成 · 油价月度跌幅创六年最大</h3>
+
+  <div class="note-block geo">
+    <span class="kicker">本日地缘要点</span>
+    <strong>① 美伊 60 天停火延长备忘录（MOU）</strong>：美伊谈判代表就延长停火 60 天并启动核谈判达成初步共识（MOU 草案），仍待特朗普签字确认。Strait of Hormuz 封锁风险实质性下降 → Brent 原油单日 −1.2%（至 $92.56），5 月月度跌幅 −19%，创六年最大月跌；WTI −1.9% 至 $87.18，5 月月度跌幅 −16.5%。<br>
+    <strong>② XLE 能源板块承压</strong>：油价持续下行直接压低 XLE −1.2%；Hormuz 通道前景改善意味着能源供应收紧叙事边际消退，做多能源的地缘溢价被迅速定价出去。<br>
+    <strong>③ 中美贸易</strong>：本日无新增实质性关税动作；前期关税传导继续在通胀数据中体现（PCE 关税分项持续积累），但无新事件驱动。<br>
+    <strong>④ 俄乌 / 中东其他</strong>：无显著边际变化。
+  </div>
+
+  <p><span class="kicker">地缘定价路径</span>·美伊停火草案 → Brent 油价继续下行 → XLE 能源板块直接承压（供应溢价消退）；同时油价下行理论上有助于压制通胀预期、支持 Fed 按兵不动，但本日市场焦点在软件财报而非地缘，地缘定价对非能源板块影响有限。黄金矿股 GDX/GDXJ 同日走强（+2.7%/+3.9%），与软件风险资产并存——参见 §01-C 反叙事标记。</p>
+
+  
+  <h3 class="sub-h">C · <em>板块 β 涨跌原因归因</em>（把 §00 的每个板块挂到具体事件链）</h3>
+
+  <table class="dt" id="beta-attr-tbl">
+  <thead><tr>
+    <th data-type="text">板块 / 指数</th>
+    <th data-type="num">当日</th>
+    <th data-type="text">方向</th>
+    <th data-type="text">驱动事件（来自 A/B 子节）</th>
+    <th data-type="text">传导链路</th>
+    <th data-type="text">反叙事？</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="name">XLK 科技</td>
+      <td class="num pos">+2.2%</td>
+      <td><span class="pos">↑ 强势</span></td>
+      <td>软件财报密集 beat（DELL +33%/OKTA +30%/NTAP +22%）+ 10Y 收益率温和下行（4.45%，核心 PCE 环比偏软）</td>
+      <td>企业软件财报超预期 → 板块集体重估；10Y 微降提供贴现率支撑；XLK 涨幅远超 SPY +0.2%，纯属个股 alpha 聚合效应，非宏观 beta</td>
+      <td>无——XLK 强势与核心 PCE 在线 + 收益率稳定逻辑一致</td>
+    </tr>
+    <tr>
+      <td class="name">GDX 黄金矿股</td>
+      <td class="num pos">+2.7%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>黄金现货支撑 + 去美元化 / 央行购金结构性叙事 + 期权看涨流量</td>
+      <td>GLD +1.1%（黄金自身上行）→ 矿股杠杆放大；10Y 收益率未上行保护实际利率；与软件风险偏好同日并存</td>
+      <td><strong>是</strong> · <strong>narrative split</strong>：risk-on 软件（XLK +2.2%）与避险黄金（GDX +2.7%）同日上涨 = 两个互斥叙事并存；不强行解释——flows 分层，软件资金来自防御板块卖出，黄金资金来自独立配置需求</td>
+    </tr>
+    <tr>
+      <td class="name">GDXJ 小型金矿</td>
+      <td class="num pos">+3.9%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>同 GDX，小盘矿股贝塔放大</td>
+      <td>GLD 上行 × 杠杆系数 → GDXJ 弹性更大；当日看涨期权成交量异常放大（calls:puts > 5:1）</td>
+      <td>同 GDX · narrative split 标记</td>
+    </tr>
+    <tr>
+      <td class="name">GLD 黄金</td>
+      <td class="num pos">+1.1%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>美元微弱（UUP −0.1%）+ 央行购金需求 + 月末再平衡被动配置流入</td>
+      <td>名义 10Y 未显著上行 → 实际利率保持中性 → 黄金持仓成本未恶化；去美元化主题持续</td>
+      <td>是（同 GDX narrative split）</td>
+    </tr>
+    <tr>
+      <td class="name">XLF 金融</td>
+      <td class="num pos">+0.6%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>收益率曲线相对稳定 + 风险偏好微幅回升</td>
+      <td>10Y 未上行（利差收益不扩大），但大盘正向情绪带动金融小幅跟涨；无独立催化</td>
+      <td>无明确催化，属技术性跟涨</td>
+    </tr>
+    <tr>
+      <td class="name">DIA 道指</td>
+      <td class="num pos">+0.7%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>无独立宏观催化；大盘权重股支撑</td>
+      <td>道指成分含大量传统工业/金融，受软件财报溢出效应带动；与 SPY 正向同步</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">QQQ 纳指 100</td>
+      <td class="num pos">+0.4%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>XLK 带动，科技权重高</td>
+      <td>软件财报 → XLK → QQQ；但 QQQ 中含 SOXX 相关半导体权重，SOXX 持平拖累 QQQ 相对 XLK 偏弱</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">SPY 标普 500</td>
+      <td class="num pos">+0.2%</td>
+      <td><span class="pos">↑ 微涨</span></td>
+      <td>XLK 强势被 9/11 板块下跌稀释；指数层面上涨来自科技分量的极窄贡献</td>
+      <td>等权 S&amp;P 500 实质上是下跌日；市值加权 SPY 靠 XLK 勉强翻正 = 上涨宽度极窄</td>
+      <td>无；但宽度指标严重分化（见 §00）</td>
+    </tr>
+    <tr>
+      <td class="name">SOXX 费城半导体</td>
+      <td class="num">−0.1%</td>
+      <td><span class="flat">→ 持平</span></td>
+      <td>无 AI 硬件财报或订单催化（NVDA/AMD 非本日报告）</td>
+      <td>半导体缺乏当日独立 catalyst；在软件主导日，AI 算力缺席 = 相对去配；SOXX 持平区分了"软件财报日"与"AI 硬件主导日"</td>
+      <td><strong>是</strong> · <strong>narrative overridden</strong>：过往 AI 叙事日 SOXX 与软件同涨，本日 SOXX 持平 = 资金选择性流入软件，不含算力，是结构性而非宏观 beta</td>
+    </tr>
+    <tr>
+      <td class="name">IWM 罗素 2000</td>
+      <td class="num neg">−0.6%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>月末再平衡卖出小盘 + 小盘无软件财报 beta + PCE 关税通胀压制小盘利润率预期</td>
+      <td>小盘企业对利率/通胀更敏感；月末再平衡往往卖出高波动小盘；今日资金流向集中于软件大盘，小盘遭冷落</td>
+      <td>无；大小盘分化符合"软件巨头财报驱动 + 宏观不确定"的结构性预期</td>
+    </tr>
+    <tr>
+      <td class="name">XLB 材料</td>
+      <td class="num neg">−0.4%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>油价下行（大宗商品联动）+ 无独立催化</td>
+      <td>商品板块间接受油价下行影响；铜等基础金属无正向催化；月末再平衡减持</td>
+      <td>无明确催化，属技术性 drift</td>
+    </tr>
+    <tr>
+      <td class="name">XLI 工业</td>
+      <td class="num neg">−0.4%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>无宏观或行业催化</td>
+      <td>工业板块缺乏本日正向 catalyst；与小盘一同遭受月末再平衡卖出；IWM 下行传导</td>
+      <td>无明确催化，属技术性 drift</td>
+    </tr>
+    <tr>
+      <td class="name">XLU 公用事业</td>
+      <td class="num neg">−0.5%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>资金轮出 bond-proxy → 软件；月末再平衡减防御</td>
+      <td>XLU 是典型 bond-proxy，本日资金从防御板块流向软件科技（risk-on 轮动）；虽 10Y 仅微降，但 XLU 流出压力来自主动配置切换</td>
+      <td><strong>是</strong> · <strong>narrative overridden by flows</strong>：XLU 本具备 AI 数据中心电力受益叙事，但本日被 bond-proxy 流出 + 软件财报主导的配置切换压制；产业逻辑未变，资金行为主导</td>
+    </tr>
+    <tr>
+      <td class="name">XLC 通信服务</td>
+      <td class="num neg">−0.8%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>无独立催化；Meta/Alphabet 非本日财报</td>
+      <td>通信服务在无个股 catalyst 的情况下承压；可能与月末获利了结相关（本月涨幅较好）</td>
+      <td>无明确催化，属技术性 drift</td>
+    </tr>
+    <tr>
+      <td class="name">XLV 医疗健康</td>
+      <td class="num neg">−0.9%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>资金轮出防御 + 无正向催化</td>
+      <td>XLV 含大量 bond-proxy 特征（JNJ/UNH 等稳定现金流股），随 XLU/XLP 一同遭流出；软件主导日防御板块统一被减持</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLRE 房地产</td>
+      <td class="num neg">−0.9%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>10Y 收益率仍处限制性区间（4.45%）+ 资金轮出 bond-proxy</td>
+      <td>REIT 对利率高度敏感；10Y 未实质下行 → 无 rerating 支撑；月末再平衡 + bond-proxy 流出双重压力</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLY 非必需消费</td>
+      <td class="num neg">−1.0%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>PCE 整体通胀升至 3.8% → 消费者实际购买力受压 + 关税成本传导</td>
+      <td>PCE 高通胀直接打压消费者支出预期；关税对耐用品/服装成本影响传导；IWM 小盘弱势同步拖累</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLE 能源</td>
+      <td class="num neg">−1.2%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>美伊停火草案（B①）→ 油价 Brent −1.2% / WTI −1.9%</td>
+      <td>Hormuz 地缘溢价消退 → 原油直接定价下行 → XLE 承压；5 月月度油价跌幅 −19% 为六年最大，能源板块地缘 beta 持续兑现</td>
+      <td>无——XLE 下行与油价下行逻辑高度一致</td>
+    </tr>
+    <tr>
+      <td class="name">XLP 必需消费</td>
+      <td class="num neg">−1.8%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>资金从 bond-proxy 最强烈流出 + PCE 高通胀挤压消费品利润率预期</td>
+      <td>XLP 是本日跌幅最大板块 = bond-proxy 流出最彻底；整体 PCE 升至 3.8%（三年高位）压制 KO/PG 等核心持股的成本转嫁能力预期；月末获利了结加速下行</td>
+      <td>无；XLP 大跌与"软件财报驱动 risk-on 资金轮出防御"高度一致</td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">§01 归因纪律 + 本日反叙事总结</span>
+    本日归因主线：<strong>①软件财报 beat 集群（DELL/OKTA/NTAP）→ XLK 独力拉盘</strong>；<strong>②核心 PCE 环比偏软 + 10Y 收益率稳定在 4.45% → 长久期贴现率支撑未恶化</strong>；<strong>③美伊停火草案 → 油价继续下行 → XLE 承压</strong>；<strong>④月末再平衡 + bond-proxy 流出 → XLP/XLU/XLV/XLRE 统一受压</strong>。<br>
+    <em>三个反叙事标记</em>：① GDX/GLD 与软件同涨 = <strong>narrative split（risk-on + 避险并存）</strong>，flows 分层，非矛盾；② SOXX 持平 = <strong>narrative overridden</strong>，AI 算力今日缺席软件 rally，资金选择性；③ XLU 下跌 = <strong>narrative overridden by flows</strong>，AI 电力受益叙事被 bond-proxy 流出压制。以上三处不强行自洽解释。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 02 — Executive Summary</div>
+  <h2 class="sec-title"><em>本日一句话总结</em>：软件 / SaaS 财报 alpha 凌驾偏空宏观，四链共振 re-rating + Edge AI 现裂缝</h2>
+
+  <p>5/29 是<strong>窄幅软件领导日</strong>。SPY +0.2% / QQQ（NDX）+0.4% / DIA +0.7% / IWM −0.5% / SOXX −0.1%（持平）；SPDR 11 板块 <strong>2 涨 9 跌</strong>、极差 4.0pp——XLK +2.2% 独力领涨，XLP −1.8%（当日最差）/ XLY −1.0% / XLE −1.2% / XLRE −0.9% / XLV −0.9% 落后。贵金属强（GDX +2.6% / GDXJ +3.9% / GLD +1.1%）。上涨集中于软件 / AI 软件层龙头，<strong>bond-proxy 防御板块（XLP/XLV/XLU/XLRE）被月末再平衡 + risk-on 配置切换单边轮出</strong>。</p>
+
+  <p><strong>本日主导因子</strong>·两股力量定调：① <em>软件 / SaaS 财报 alpha 集群</em>——DELL FQ1 FY27 AI 服务器收入 $16.1B（+757% YoY）、<strong>backlog $51.3B</strong>、FY27 AI server 指引上调至 $60B（单日 +32.8%）；OKTA Q1 FY27 EPS beat 23%、cRPO +12% YoY（+30.1%，引爆网络安全板块全面 re-rating）；NTAP AI 存储创纪录（+22.4%）；CRM Agentforce ARR 首破 $1.2B（+205% YoY）成为整个 AI SaaS 板块的货币化定价锚。四条软件/数据/安全/硬件链共振，<strong>在 SOXX 持平（AI 半导体缺席）的背景下独立兑现财报 alpha，不是板块 β</strong>。② <em>偏空宏观被无视</em>——4 月整体 PCE +3.8% YoY（三年高位、油价驱动）+ 核心 PCE +3.3%（环比 +0.2% 偏软），10Y 稳在 4.45%；美伊 60 天停火草案 → Brent 油价继续下行（5 月 −19%、六年最大月跌）、XLE −1.2%。黏性通胀本应压制风险偏好，但被软件财报叙事盖过（<em>narrative overridden by earnings</em>）。</p>
+
+  <p><strong>关键认知校准</strong>·本日精选 <span class="num">69</span> 只异动股（<span class="num">50</span> 涨 / <span class="num">19</span> 跌，覆盖 7 主线），但这是 <em>|ret_1D|&gt;3% + 流动性门的动量筛选产物</em>。真实市场广度是 <strong>SPDR 2 涨 9 跌、IWM −0.5%、SOX 持平</strong>——软件是孤岛，不是普涨；科技异动中位数远高于全市场广度，<em>不能当作 regime 全貌</em>。</p>
+
+  <p>七条主线：§04 <em>应用软件 SaaS 财报潮</em>（CRM Agentforce ARR $1.2B 定价锚、PD +33.7% / ASAN +15.6% / TEAM +15.3% 真财报 + 11 只 re-rating sympathy）/ §05 <em>数据云 & AI 平台</em>（IBM 量子 Foundry $10B、ESTC RPO +28% 四年最强、ORCL 国防 AI 大单、DDOG/PLTR sympathy）/ §06 <em>网络安全 & 身份治理</em>（OKTA +30.1% 真财报引爆、PANW/CRWD/SAIL 全面 re-rating）/ §07 <em>AI 服务器 & 企业硬件存储</em>（DELL +32.8% backlog $51.3B + NTAP +22.4% 第二条独立 alpha、HPE/SMCI/CLS direct map）/ §08 <em>半导体分化</em>（<strong>AMBA −21.4% Edge AI 毛利压缩 + 指引 in-line 为最高信号 bear read</strong>、软件 rotation 抽水 INTC/TXN/ASX 跑输持平的 SOXX、MX +29.6% 电源 IC 妖股逆势）/ §09 <em>商业航天 & eVTOL</em>（Blue Origin 火箭测试爆炸撕裂板块、SPCE +36.4% 逼空、ASTS −14.8% 硬利空）/ §10 <em>能源存储 & 工业周期</em>（NXT +14.0% 并购 catalyst 逆势、FLNC/FCEL −11%+ 清洁能源资金离场）。</p>
+
+  <p>本日财报密集——CRM / BRZE（5/27 AH）、DELL / OKTA / NTAP / AMBA / ESTC / ASAN / PD（5/28 AH，5/29 反应）见 <strong>§11 财报快查</strong>。下一棒盘后变量 = <em>HPE FQ2 财报（6/1 周一 AH）</em>，是 AI 服务器链次日定价锚；GTLB / PANW 6/2、CRWD 6/3、ORCL 6/16 见 <strong>§12 Forward</strong>。</p>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 03 — Theme Map</div>
+  <h2 class="sec-title">本日交易主线总览 · 7 条主线（4 涨 · 1 分化 · 2 跌）</h2>
+  <div class="sec-sub">本期 <span class="num">69</span> 只异动股按当日市场关注度分到 7 条主线。软件财报 alpha 四链共振（应用软件 / 数据云 / 网络安全 / AI 服务器存储）构成 bullish 四条；半导体分化（Edge AI 降温 + rotation 抽水）+ 能源存储离场构成 bearish 两条；商业航天内部极化分化（SPCE 逼空 vs ASTS 硬利空）单独一条。</div>
+
+  <table class="dt" id="theme-tbl">
+  <thead><tr>
+    <th data-type="num">#</th>
+    <th data-type="text">主线</th>
+    <th data-type="text">方向</th>
+    <th data-type="text">强度</th>
+    <th data-type="num">涨跌幅区间</th>
+    <th data-type="text">代表标的</th>
+    <th data-type="text">本日核心信号</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td class="name">应用软件 & SaaS 财报潮</td><td><span class="pos">↑ 上行</span></td><td><span class="theme-bar" style="width:54px"></span><span class="theme-strength">极强</span></td><td class="num pos">+5.9% ~ +33.7%</td><td class="mono">CRM·PD·ASAN·TEAM·NOW·WDAY</td><td>CRM Agentforce ARR 首破 $1.2B（+205% YoY）定价锚 · PD/ASAN/TEAM 真财报 + 11 只板块 re-rating sympathy</td></tr>
+    <tr><td class="num">2</td><td class="name">数据云 & AI 平台</td><td><span class="pos">↑ 上行</span></td><td><span class="theme-bar" style="width:48px"></span><span class="theme-strength">强</span></td><td class="num pos">+5.5% ~ +12.7%</td><td class="mono">IBM·ESTC·ORCL·DDOG·PLTR·SNOW</td><td>IBM 量子 Foundry $10B + CHIPS $1B · ESTC RPO +28% 四年最强 · ORCL 国防 AI 大单 · DELL read-through</td></tr>
+    <tr><td class="num">3</td><td class="name">网络安全 & 身份治理</td><td><span class="pos">↑ 上行</span></td><td><span class="theme-bar" style="width:50px"></span><span class="theme-strength">极强</span></td><td class="num pos">+6.4% ~ +30.1%</td><td class="mono">OKTA·PANW·CRWD·SAIL·FTNT·RBRK</td><td>OKTA Q1 FY27 EPS beat 23% + cRPO +12% 引爆安全板块全面 re-rating · Arete Sell→Buy 反向改向</td></tr>
+    <tr><td class="num">4</td><td class="name">AI 服务器 & 企业硬件存储</td><td><span class="pos">↑ 上行</span></td><td><span class="theme-bar" style="width:52px"></span><span class="theme-strength">极强</span></td><td class="num pos">+5.4% ~ +32.8%</td><td class="mono">DELL·NTAP·HPE·SMCI·CLS·CRDO</td><td>DELL AI server backlog $51.3B + ISG 利润率 10.5% 证伪低毛利稀释 · NTAP AI 存储第二条独立 alpha</td></tr>
+    <tr><td class="num">5</td><td class="name">半导体分化：Edge AI / 模拟 / 材料 / rotation</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:46px"></span><span class="theme-strength">强</span></td><td class="num neg">−21.4% ~ +29.6%</td><td class="mono">AMBA·INTC·TXN·AXTI·MRAM / MX</td><td>AMBA Edge AI 毛利压缩 + 指引 in-line（最高信号 bear read）· 软件 rotation 抽水跑输持平 SOXX · MX 妖股逆势</td></tr>
+    <tr><td class="num">6</td><td class="name">商业航天 & eVTOL（内部极化）</td><td><span class="flat">⇅ 分化</span></td><td><span class="theme-bar" style="width:40px"></span><span class="theme-strength">分化</span></td><td class="num">−14.8% ~ +36.4%</td><td class="mono">SPCE·OUST / ASTS·KRMN·RJET</td><td>Blue Origin New Glenn 静态点火爆炸打击 ASTS · SPCE SpaceX IPO 情绪 + 低浮筹逼空翻倍</td></tr>
+    <tr><td class="num">7</td><td class="name">能源存储 & 工业周期分化</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:38px"></span><span class="theme-strength">强</span></td><td class="num neg">−11.6% ~ +14.0%</td><td class="mono">NXT / FLNC·FCEL·SYM·EQPT·IHRT</td><td>NXT 并购 Prevalon ($365M) 逆势 catalyst · FLNC/FCEL 清洁能源资金离场 −11%+ · SYM 财报 EPS miss 92%</td></tr>
+  </tbody>
+  </table>
+  <div class="note-block">
+    <span class="kicker">⚠ 本日主线归类要点</span>
+    本日主线呈<strong>"软件财报 alpha 四链共振 + 半导体内部分化"</strong>特征。<em>关键判断</em>：① 软件四链（§04-§07）虽方向一致，但驱动各异——§04/§06/§07 是<strong>真财报 beat</strong>（CRM/OKTA/DELL/NTAP），§05 多为<strong>分析师升级 + read-through sympathy</strong>，归因要区分"信息 alpha"与"情绪传导"；② 半导体（§08）大跌但 <strong>SOXX 持平不构成全产业 Bear Logic</strong>——AMBA 的"Edge AI 毛利压缩 + 指引 in-line"是<em>终端推理需求降温的领先指标</em>、需追踪扩散，但 INTC/TXN/ASX 的下跌多为软件 rotation 抽水的 β 效应（无自身利空），两者性质不同；③ §06 OKTA 引爆的安全板块多数是 <strong>6/2-6/4 财报前的提前定价</strong>（PANW/CRWD/RBRK 本日无财报），sympathy 能否转 alpha 取决于下周财报兑现。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">★ FOCUS — 本日重点事件深读</div>
+  <h2 class="sec-title"><em>核心催化深读</em>：财报 / 大订单驱动的 6 个高信号事件（预期差 + 产业逻辑）</h2>
+  <div class="sec-sub">本节对当日"<em>财报或大订单驱动的核心大幅涨跌</em>"做差异化深读——不等权对待 69 只异动，把决定 regime / 主线方向的少数事件单独拔高，重点写<strong>超预期在哪、为什么超预期、以及产业链 read-through</strong>。卡片左侧<span class="pos">绿条 = 多</span> / <span class="neg">红条 = 空</span>；本日 4 多（DELL / OKTA / CRM / NTAP）+ 2 空（AMBA / SYM）。其余标的按主线在 §04+ 铺开。</div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">① <em>DELL</em> · Dell Technologies · <span class="num pos">+32.8%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">财报 + AI server backlog $51.3B · 5/28 AH</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪</span>·近年罕见的碾压式 beat——FQ1 FY27 营收 $43.8B（YoY +88%）、AI 服务器确认收入 $16.1B（<strong>+757% YoY</strong>）、单季新签 $24.4B、<strong>backlog 升至 $51.3B</strong>。但真正炸场、市场没 price in 的是 <strong>ISG（基础设施）利润率改善至 10.5%</strong>——市场最大空头论点是"AI 服务器是低毛利组装、量增利不增、稀释整体利润"，DELL 用存储 + 传统服务器高毛利对冲、把 ISG 利润率<em>抬上去</em>，直接证伪。FY27 营收指引上调 ~$27B 至 $167B（midpoint·YoY ~+50%）、AI server 提至 $60B。</p>
+        <p><span class="kicker">产业逻辑 / read-through</span>·本日 regime 的引爆点，是 AI capex 从"GPU / 训练集群"向"企业级服务器 + 数据存储"二阶外溢的最强单点确认。read-through 沿企业硬件全链打通：服务器同业（<em>HPE +12.6% / SMCI +11.6%</em>）、ODM 代工（<em>CLS +9.8%</em>）、高速连接（<em>CRDO +6.2%</em>）、计算 IP（<em>ARM +5.4%</em>），以及 §05 数据云的 ORCL / PLTR / DDOG（企业 AI 部署越多、软件层消耗越大）。<strong>但与 §08 张力对照</strong>：DELL 证明"出货 + 利润率双强"，而 AMBA（Edge AI 毛利压缩）提示 AI 链<em>并非处处都强</em>——基建端（infra）强、终端端（edge）弱。<strong>观察点</strong>·下季 AI 服务器新签 backlog 环比方向（本季 $51.3B）+ ISG 利润率能否守住 10%+ + HPE 6/1 财报能否兑现 DELL 式 beat。</p>
+      </div>
+    </div>
+    <div class="card bull">
+      <div class="card-title">② <em>OKTA</em> · Okta · <span class="num pos">+30.1%</span> <span class="tag l3">L3</span></div>
+      <div class="card-meta">财报 + 安全板块 re-rating 引爆 · 5/28 AH</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪</span>·Q1 FY27 营收 $765M（+11% YoY、beat $13M）、Non-GAAP EPS $0.91 vs $0.74（<strong>beat 23%</strong>）、cRPO $2.499B（+12% YoY）；但市场没 price in 的是<strong>盈利质量的结构性跃迁</strong>——FCF margin 35%、GAAP 首次扭亏。空头此前的核心论点是"OKTA 增速放缓（仅 +11%）+ 被微软 Entra ID 蚕食 + 2023 安全事件阴影 + 只烧钱"，本季用 FCF + 全年指引全线上调直接推翻。<strong>Arete 从 Sell 直接升 Buy（PT $127）</strong>——反向覆盖改向是最强信号，历来触发空头回补 + 动量买盘叠加的拥挤修正。</p>
+        <p><span class="kicker">产业逻辑 / read-through</span>·OKTA 在财报 call 明确点名 <strong>AI agent 身份管理（非人类账户治理）</strong>为新增量市场——这是把"身份安全"从守成赛道重估为 AI 受益赛道的关键叙事。引爆整个网络安全板块全面 re-rating：身份治理 direct map（<em>SAIL +13.8%</em>，AI agent 权限治理独立叙事）、数据安全（<em>RBRK +11.8%</em>）、以及 6/2-6/4 财报前提前定价的龙头（<em>PANW +9.3% / CRWD +8.9%</em>）。核心信号 = <strong>企业安全预算未受宏观压缩</strong>，与 §04 CRM Agentforce、§05 ESTC 共同拼出"企业软件支出韧性"的产业级图景。<strong>观察点</strong>·Q2 cRPO 是否守 +12% 以上（~8 月）+ PANW（6/2）/ CRWD（6/3）财报能否把板块 sympathy 转为独立 alpha。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">③ <em>CRM</em> · Salesforce · <span class="num pos">+8.5%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">财报 · Agentforce ARR $1.2B · 5/27 AH</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪</span>·Q1 FY27 营收 $11.13B vs $11.05B（beat 0.7%）、Non-GAAP EPS $3.88 vs $3.12（<strong>beat 24%</strong>）；但真正重估的是 <strong>Agentforce ARR 首破 $1.2B（+205% YoY）</strong>——且 <strong>50% 新增 booking 来自老客户扩容</strong>，证伪"AI agent 只是一次性尝鲜采购"。+8.5% 是"先跌后涨"结构：财报后初跌源于全年指引未大幅上调，隔日市场重新定价 Agentforce 可持续性。市场原本 price in "Agentforce 叫好不叫座、ARR 体量太小"，$1.2B 规模 + 老客户复购把这个假设打破。</p>
+        <p><span class="kicker">产业逻辑 / read-through</span>·CRM 是本日<strong>整个 AI SaaS 板块的货币化定价锚</strong>——§04 几乎所有 sympathy 名（NOW +14.4% / WDAY +12.4% / ADBE +7.4% / HUBS +11.0%）都在用 CRM 的 Agentforce 数据重新定价自己的 AI 货币化倍数。与 WDAY 的 agentic AI new ACV +200% YoY 构成"企业 AI agent 需求共振"的双独立数据点，揭示 regime 信号：<strong>AI 之于 SaaS 从"利空（替代 seat）"转为"利好（ARPU 扩张 + 新产品交叉销售）"</strong>。这是"SaaSpocalypse"叙事反转的核心证据。<strong>观察点</strong>·下季 Agentforce ARR 增速能否维持 + 6 月 Dreamforce 前瞻客户案例 + GTLB（6/2）/ ADBE（6/11）能否接力验证 AI 货币化。</p>
+      </div>
+    </div>
+    <div class="card bull">
+      <div class="card-title">④ <em>NTAP</em> · NetApp · <span class="num pos">+22.4%</span> <span class="tag l3">L3</span></div>
+      <div class="card-meta">财报 · AI 存储创纪录 · 5/28 AH</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪</span>·FQ4 FY26 营收 $1.95B（+12% YoY）、FY26 all-flash 营收 $4.2B（+11%）、Keystone（存储即服务）YoY <strong>+65%</strong>、单季 <strong>~500 个 AI 与数据准备 win</strong>；FY27 营收指引 $7.325–7.575B（+8% midpoint）、EPS $8.70–9.00（+9%）双双超共识。市场原本把 NTAP 当"成熟低增长企业存储"定价，没 price in 的是 <strong>AI 训练数据落盘对企业存储的二阶拉动</strong>——AI win 数 + Keystone +65% 把它重估为"AI 数据层"标的。</p>
+        <p><span class="kicker">产业逻辑 / read-through</span>·NTAP 是 DELL 之外<strong>第二条独立的 AI 硬件财报 alpha</strong>——单看 DELL 是"AI 服务器"，DELL + NTAP 同日同向 beat 拼出的是"AI capex 从算力外溢到企业存储 + 服务器全栈"的产业级图景，证明这是需求兑现而非单季脉冲。read-through 至存储链与 AI 数据准备环节，并与 §05 数据云（数据落盘 → 数据平台消耗）形成闭环。<strong>观察点</strong>·下季 all-flash 与 Keystone 增速能否维持 + AI win 数环比 + 企业 AI 部署放量时存储采购的弹性系数（看是否跟 DELL backlog 同步加速）。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card bear">
+      <div class="card-title">⑤ <em>AMBA</em> · Ambarella（Edge AI 视觉 SoC）· <span class="num neg">−21.4%</span> <span class="tag l4">L4</span></div>
+      <div class="card-meta">财报 · 毛利压缩 + 指引 in-line · 5/28 AH · 本日最大跌幅</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪（向下）</span>·表面是双 beat——Q1 FY27 营收 $100.4M（+16.9% YoY、小 beat ~$98M）、Non-GAAP EPS $0.11 vs $0.10。但 −21.4% 不是总量能解释的，真正击穿预期的是三处硬伤：① <strong>GAAP 毛利率 58.4% vs 去年 60.0%（−1.6pp）</strong>，产品组合 / 定价承压；② GAAP 净亏损 $18.1M，规模效应未兑现盈利；③ <strong>Q2 指引中值 $108M 仅触及一致预期 $107–108M</strong>。对一只 40x+ 倍数、靠"Edge AI 加速兑现"叙事支撑的标的，<em>"in-line 即利空"</em>——市场原本 price in 的是毛利率扩张 + 指引上修。</p>
+        <p><span class="kicker">产业逻辑 / read-through（本日最高信号 bear read）</span>·AMBA 是 <strong>AI 推理下沉到终端（汽车 ADAS / 安防摄像头）的领先指标</strong>。毛利压缩 + 平淡指引 read-through 到整条 Edge AI 链——揭示<strong>终端市场需求扩张速度不及 AI infra 端</strong>，证伪"Edge AI 同步加速兑现"叙事一角。这与本日 §07 DELL/NTAP 的"基建端暴强"形成<em>关键对照</em>：<strong>AI 链不是处处都强——infra（服务器/存储）强、edge（终端推理）弱</strong>，是本日除软件 alpha 外最重要的结构信号。<strong>观察点</strong>·下季度汽车 / IoT 出货能否兑现指引上沿 $111M + 毛利率能否企稳回升 + 是否扩散到其他 Edge AI 推理 SoC（终端推理需求拐点的二次确认）。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">⑥ <em>SYM</em> · Symbotic（仓储机器人）· <span class="num neg">−4.9%</span> <span class="tag l2">L2</span></div>
+      <div class="card-meta">财报 · EPS miss 92% · Goldman 维持 Sell · 财报后第 3 日</div>
+      <div class="card-body">
+        <p><span class="kicker">预期差在哪（向下）</span>·Q2 FY26 收入 $676M beat（vs 预期 $663M），但 <strong>EPS $0.01 vs 预期 $0.12（miss 92%）</strong>深幅不及。市场原本 price in 的是"收入增长 → 利润率改善"的兑现节奏，结果收入达标而盈利大幅落空——揭示<strong>规模化部署阶段的利润率压力</strong>（系统集成 / 项目执行成本吞噬毛利）。Goldman 下调目标价 $54→$45 并维持 Sell。本日 −4.9% 是财报后第 3 日延续消化（3 日累跌 −12.2%），第一/二日已定价大部分利空。</p>
+        <p><span class="kicker">产业逻辑 / read-through</span>·与 AMBA 构成本日<strong>第二条"AI / 自动化相邻硬件，需求在但利润质量出裂缝"</strong>的 bear 线索——SYM 的仓储机器人 backlog $22.7B 为长期需求背书（需求不缺），裂缝在<em>把订单转化为利润的执行环节</em>。read-through 至工业自动化 / 机器人集成赛道：<strong>"订单强 ≠ 盈利强"</strong>的定价校准（与 AMBA 的"出货增 ≠ 毛利增"、甚至 DELL 早先被质疑的"AI server 低毛利"是同一类问题，只是 DELL 证伪、SYM/AMBA 证实）。<strong>观察点</strong>·下季毛利率与系统部署成本能否改善 + backlog 转收入的兑现节奏 + 是否拖累工业自动化板块对"需求强但利润弱"的整体重定价。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 04 — Theme #1</div>
+  <h2 class="sec-title">应用软件 · <em>SaaS 财报潮</em>：CRM/BRZE/PD/ASAN 真财报 alpha + 板块全面 re-rating</h2>
+  <div class="sec-sub">5/27-5/28 AH 软件密集财报周：Salesforce Agentforce ARR 首破 $1.2B、Braze 第四季连续加速、PD 新 CEO + 回购，ASAN 估值修复——四只真财报驱动 alpha；其余 11 只（NOW/WDAY/ADBE/INTU/HUBS/AMPL/ZETA/INTA/BL/GTLB）属板块 re-rating sympathy，超额幅度取决于各自 narrative 强弱。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>行业阶段：Bull Logic</strong>——企业软件正从"AI 演示层"进入"AI 货币化兑现层"。触发证据：CRM Agentforce ARR $1.2B +205% YoY（首次超 $1B 规模验证）；BRZE AI-powered engagement 连续四季加速（NRR 恢复至 110%）；WDAY new ACV agentic AI +200% YoY（5/21 财报已验证）。核心 narrative：Agentforce / AI Agent 工作流替代人工 → 企业 seat 扩张或新产品交叉销售，客户 ARPU 上行。<strong>Catalyst window</strong>：6 月 Salesforce World Tour / Dreamforce 前瞻（Agentforce 客户案例公开）；ADBE Q2 FY2026 财报 6/11（市场验证创意 AI 货币化）；GTLB Q1 FY2027 财报 6/2（Duo AI 渗透率关键检验）。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>CRM（5/27 AH）</strong>：Q1 FY2027 营收 $11.13B vs 一致预期 $11.05B（beat 0.7%），Non-GAAP EPS $3.88 vs $3.12（beat 24%），Agentforce ARR 首破 $1.2B（+205% YoY）；初盘后因"FY27 full-year guidance 未大幅上调"一度跌 3%，隔日市场重新定价上修逻辑 → +8.5%。② <strong>BRZE（5/27 AH）</strong>：Q1 FY2027 营收 $211M +30%，为第四连续季度有机加速，FY27 outlook 上调至 $895-899M。③ <strong>PD（5/28 AH）</strong>：营收 $121M +1% YoY，ARR 持平 $496M，宣布新 CEO John DiLullo + $100M 回购——运营层改善预期驱动 +33.7%。④ <strong>ASAN（5/28 AH）</strong>：Q1 FY2027 营收 $205.1M +9.5% beat，non-GAAP margin 11.5%（+720bp YoY），收购 StackAI 布局 AI automation。</p>
+
+  <table class="dt" id="theme04-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">PD</td>
+      <td class="name">PagerDuty</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+33.7%</td>
+      <td><span class="tag t-er">财报</span> <span class="tag t-cat">催化剂</span></td>
+      <td><strong>5/28 AH 财报：营收 $121M +1% YoY；新 CEO DiLullo + $100M 回购 + 第四季连续 GAAP 盈利</strong><em class="ki-note">真财报。PD 属妖股结构（流通盘小 $0.7B），+33.7% 的驱动是三件事叠加：新 CEO 叙事（Tejada → DiLullo 信号公司求变）+ 回购力度超预期（占市值约 14%）+ GAAP 盈利第四季连续兑现。营收仅 +1% YoY 是基本面弱项——但今日是"管理层 + 资本配置"驱动，非营收 alpha。read-through：小盘 SaaS 新管理层重组叙事（可关注 AMPL/ASAN 类似重构标的）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ASAN</td>
+      <td class="name">Asana</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+15.6%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>5/28 AH 财报：Q1 FY2027 营收 $205.1M +9.5%；non-GAAP margin +720bp YoY；收购 StackAI 布局 AI workflow</strong><em class="ki-note">真财报。超预期在利润率而非收入增速（NRR 96% 偏低但稳定，margin 飞速修复是主叙事）。StackAI 收购引入 AI workflow automation 能力，管理层 pitch 是"Asana 从 work management → AI orchestration"，与 CRM Agentforce / WDAY 的 agentic 路径同向。read-through 对 workflow AI 类小盘（HUBS/BRZE）均正面。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TEAM</td>
+      <td class="name">Atlassian</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+15.3%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>Q3 FY2026 营收 $1,787M +32% YoY；Service Collection ARR 突破 $1B；RPO $3,996M +37%</strong><em class="ki-note">真财报（Q3 FY2026 于本周报告）。+32% 增速 + RPO 加速 +37% 是今日 +15.3% 的核心驱动。Service Management（ITSM）突破 $1B ARR 意味着 Atlassian 完成从"开发者工具"→"企业服务管理"的扩张验证。对 GitLab（6/2 财报）有正面预期铺垫。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMPL</td>
+      <td class="name">Amplitude</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+13.7%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；自身财报 5/6 已发（营收 $93.5M +17%，Statsig 战略合作 $16M 增量 ARR）</strong><em class="ki-note">sympathy。AMPL 5/6 财报超预期（+17% YoY），今日涨幅 +13.7% 远超 XLK beta +2.2pp = 超额 +11.5pp，来自 CRM/BRZE 财报对"数据 + AI analytics"需求侧的正向传导：Agentforce 需要 analytics 层（Amplitude 的 Agent Analytics 产品直接受益叙事）。小盘弹性放大 sympathy。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ZETA</td>
+      <td class="name">Zeta Global</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+13.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/1 财报：营收 $396.3M +49.9%（vs 预期 $370.5M，beat 7%）；FY2026 全年指引上调至 $1,785M midpoint</strong><em class="ki-note">sympathy。ZETA 本身财报质量极强（5/1 beat 7%），今日 +13.4% = 财报后动量延续 + CRM Agentforce 正向映射（Athena AI 平台 narrative 共振）。ZETA 和 CRM 共享"AI 驱动 enterprise marketing automation 货币化"叙事，是 direct mapping。超级规模客户 ARPU +21% 是支撑板块 re-rating 的高质量信号。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HUBS</td>
+      <td class="name">HubSpot</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+11.0%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/7 财报：营收 $881M +23%；客户数近 30 万；国际收入 +29%</strong><em class="ki-note">sympathy。HUBS 自身财报（5/7）强劲，今日跟涨 CRM 逻辑清晰：两者都是 CRM/marketing SaaS，Agentforce 货币化路径对 HUBS 的 AI-powered CRM 叙事形成直接验证。+11.0% vs XLK +2.2% = 超额 +8.8pp，属于"高质量 sympathy"（有自身财报基本面背书 + 产业叙事共振）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GTLB</td>
+      <td class="name">GitLab</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+11.2%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；GTLB 财报 6/2（下周），今日受 TEAM +15% 拉动</strong><em class="ki-note">sympathy，且是财报前预期铺垫。Atlassian 的强劲数据（RPO +37%、Service Collection $1B）对 GTLB 形成"同类验证"——开发者工具 → AI agent 化是共同叙事。6/2 财报是下一个硬催化：Duo Agent Platform 渗透率 + ARR 增速是关键变量；若 FY27 指引保守（管理层已提示 ~300bp non-recurring 顺风消退）可能出现反转。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BRZE</td>
+      <td class="name">Braze</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+9.7%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>5/27 AH 财报：Q1 FY2027 营收 $211M +30%；第四季连续有机加速；NRR 110%；FY27 指引上调至 $895-899M</strong><em class="ki-note">真财报。+30% 增速 + NRR 恢复至 110%（从此前低谷）是 BRZE 的实质预期差：市场担忧 NRR 见底风险，今日数据证伪。大客户（$500K+）+33% YoY 是增长质量验证。+9.7% 低于同日 ASAN（+15.6%），因 BRZE 已是中小盘（$2.6B），部分动能被估值已修复吸收；整体属真财报 alpha。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NOW</td>
+      <td class="name">ServiceNow</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+14.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；NOW 4/22 已发财报（Q1 2026 营收 $3.77B +22%，cRPO +24%）；今日为板块 re-rating</strong><em class="ki-note">sympathy，但质量极高。NOW 是 AI agentic workflow 领域的 L1 龙头，自身 Now Assist 商业化路径（每席位 $2.5-4K 增量）与 CRM Agentforce 形成 narrative 共振。+14.4% vs XLK +2.2% = 超额 +12.2pp，市场在用 NOW 价格重新定价整个 AI agent enterprise SaaS 板块 TAM。L1 大盘有此超额 = 机构主动加仓，不是散户情绪。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CRM</td>
+      <td class="name">Salesforce</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+8.5%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>5/27 AH 财报：Q1 FY2027 营收 $11.13B vs $11.05B（beat 0.7%）；EPS $3.88 vs $3.12（beat 24%）；Agentforce ARR $1.2B +205% YoY</strong><em class="ki-note">真财报。+8.5% 属"先跌后涨"结构——财报后初跌源于全年指引未大幅上调，隔日市场重定价 Agentforce 可持续性（50% 新增 booking 来自老客户扩容，证伪"只是一次性）。作为今日板块最核心 catalyst，CRM 的 Agentforce 数据是所有 AI SaaS sympathy 的定价锚。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INTU</td>
+      <td class="name">Intuit</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+5.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/20 财报（营收指引上调至 $21.34-21.37B +13-14%）；但同步宣布裁员 17%（~3,000 人）</strong><em class="ki-note">sympathy，叙事有裂缝。INTU 5/20 财报已驱动一轮 -20% 下跌（Goldman 下调 PT $720→$519），今日 +5.9% 是技术性反弹 + 板块情绪提振。AI agent 货币化叙事对 INTU 的 Intuit Assist 有正面支撑，但裁员背后的"AI 替代人工"定价压力仍在——是板块反弹中最脆弱的 L2 名字。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ADBE</td>
+      <td class="name">Adobe</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+7.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；ADBE 下次财报 6/11；今日受 AI creative SaaS re-rating 拉动</strong><em class="ki-note">sympathy。ADBE 无财报，+7.4% 纯为板块 re-rating：CRM Agentforce 验证"AI 能向企业用户收钱"，市场重新 price in Adobe Firefly / AI 创意工具货币化路径。6/11 财报是硬催化——Firefly ARR 与订阅净增是关键验证变量。今日超额 +5.2pp 属中等强度 sympathy，反映市场对 ADBE AI 叙事信心提升但尚未完全定价。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">WDAY</td>
+      <td class="name">Workday</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+12.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/21 财报（Q1 FY2027 营收 $2.54B vs $2.52B beat，new ACV agentic AI +200% YoY）</strong><em class="ki-note">sympathy（5/21 报告），今日是财报后第二波动量延续 + CRM Agentforce 共振。WDAY new ACV agentic AI +200% YoY 与 CRM Agentforce +205% 构成"企业 AI agent 需求共振"——市场正在 re-rate 整个 HR/ERP/CRM SaaS 层的 AI 货币化倍数。+12.4% 超额 +10.2pp 是 L2 里最强，反映 WDAY 自身财报背书 + 叙事高度匹配今日主线。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INTA</td>
+      <td class="name">Intapp</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+12.1%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/5 财报（Q3 FY2026 营收 $146M，Cloud ARR +31%，NRR 123%）</strong><em class="ki-note">sympathy，但基本面极佳。INTA 服务法律/金融/咨询等专业服务行业，Celeste AI 平台贡献超过 15% 净新订单——是"垂直行业 AI SaaS"的典型。NRR 123% 是本批次最强，今日 +12.1% 是小盘高质量基本面 + 板块情绪双轮驱动。read-through：专业服务行业 AI workflow 化是独立于通用 CRM 的增量叙事。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BL</td>
+      <td class="name">BlackLine</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+8.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>板块 sympathy；5/6 财报（Q1 2026 营收 $183.2M +9.7%，non-GAAP margin 21.6%，FY2026 全年指引上调）</strong><em class="ki-note">sympathy。BL 定位财务自动化 SaaS，增速 ~10% 偏慢但盈利化领先。今日 +8.4% 主要是板块情绪提振（AI agent 叙事对 financial close automation 有正向延伸）。超额 +6.2pp 属中等，无独立 alpha；若板块 re-rating 退潮 BL 弹性最弱，因增速基本面支撑不足。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · <em>AI Agent 货币化首次规模验证</em></div>
+      <div class="card-meta">INDUSTRY RE-RATING · APP SOFTWARE / AI SaaS · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>Agentforce ARR $1.2B +205% YoY（CRM）</strong>：首次突破十亿规模，50% 来自老客户扩容——证伪"AI 只是 demo"，验证 ARPU 扩张路径可持续。<br>
+        ② <strong>Agentic AI new ACV +200% YoY（WDAY）</strong>：WDAY 与 CRM 同量级数字，意味着 AI agent ROI 已被企业采购者接受，budget cycle 开始向 AI workflow 倾斜。<br>
+        ③ <strong>BRZE 有机加速第四季（+30% 营收，NRR 110%）</strong>：NRR 反弹证明存量客户在 AI 功能上持续扩量，不是一次性购买。<br>
+        ④ <strong>TEAM Service Collection ARR $1B（+30% YoY）</strong>：开发者工具向 enterprise service management 扩张验证，AI 赋能 ITSM 扩圈正在发生。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · <em>Sympathy 名缺乏个股支撑 / NRR 见顶担忧</em></div>
+      <div class="card-meta">RISK FACTORS · VALUATION + NARRATIVE FRAGILITY · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>11 只 sympathy 名今日无新催化</strong>：NOW/ADBE/WDAY/INTU/HUBS/AMPL/ZETA/INTA/BL/GTLB 全部早于今日发布财报，今日涨幅是情绪传导而非信息 alpha——板块 re-rating 若退潮，这些名字最先回落。<br>
+        ② <strong>CRM 估值已高 + 指引未大幅上调</strong>：Agentforce ARR $1.2B 相对 CRM 总营收 $11.1B 仍是 ~11%，全年指引偏保守，BofA 已下调至 Underperform——高期望差风险存在。<br>
+        ③ <strong>PD 营收增速仅 +1%，ARR 持平</strong>：+33.7% 完全依赖"新管理层 + 回购"叙事，若 DiLullo 接掌后季度营收不加速，估值支撑消失。<br>
+        ④ <strong>INTU 裁员 17% 是结构性风险信号</strong>：AI 替代传统 SaaS guided-help 的定价威胁尚未被市场完全 price in，反弹脆弱。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 05 — Theme #2</div>
+  <h2 class="sec-title">数据云 · 数据库 · <em>AI 平台</em>：软件层 re-rating 与财报驱动并行共振</h2>
+  <div class="sec-sub">本主线 8 只标的覆盖数据基础设施到 AI 应用平台全链——以 Dell AI server 财报为外部 catalyst，叠加 ESTC 真财报、IBM 量子基金落地、ORCL 国防 AI 大单三重独立硬事件，板块整体 re-rating 强度为本日所有非半导体主线之首。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>行业阶段：Bull Logic 成立。</strong>2026 年以来企业 AI workload 从实验性迁移至生产级部署，带动数据平台（SNOW product revenue +34% YoY、DDOG 季度首破 $1B）和 AI 软件层（PLTR AIP US revenue +104% YoY）同步加速。ORCL OCI 国防 AI 大单 + IBM 量子 Foundry $10B 投入确认，属于需求侧新增量而非预期兑现。Catalyst window：ORCL FQ4 财报（6 月 16 日）——AI 云订单 RPO 是否如分析师预期超越微软 Azure 增速是下一关键验证节点。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>Dell Q1 FY27 AI server 收入 $16.1B（+757% YoY）、backlog $51.3B</strong>，作为全链 read-through 拉动 ORCL/PLTR/DDOG/NET sympathy 共振；② <strong>ESTC 盘后（5/28 AH）真财报</strong>：Q4 FY26 revenue $451M beat 一致预期 $446M（+1.1%），RPO +28% YoY 四年最强，今日涨幅为 AH 财报次日动量；③ <strong>IBM 5/21 公告量子 Foundry（Anderon）$10B 承诺 + $1B CHIPS Act 拨款</strong>，5/29 Wedbush 重申 Outperform $320 PT 强化投资者再定价；④ <strong>ORCL 5/29 双重升级</strong>：Wedbush PT $275 + Oppenheimer 置顶推荐，并确认国防 AI DoD 8 家入围云合作伙伴资格。</p>
+
+  <table class="dt" id="theme5-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">IBM</td>
+      <td class="name">IBM</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+12.7%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>量子 Foundry $10B + CHIPS Act $1B 拨款 + Wedbush 重申 Outperform</strong>（超额 +10.5pp vs XLK）<em class="ki-note">5/21 IBM 公告与美国商务部联合建立 Anderon 量子晶圆代工厂（美国首个）——$10B 五年承诺、$1B CHIPS 政府拨款叠加 IBM 自筹 $1B；5/29 Wedbush $320 PT 重申 + 分析师将 IBM 纳入"企业 AI 部署核心受益"框架。量子是 5 年期叙事、但政府资金锚定为其提供"不依赖短期盈利"的估值空间扩展逻辑。Dell AI server backlog $51.3B 作为 read-through 验证 IBM hybrid cloud/watsonx 的企业需求。市值 $248B 基本对应全球企业软件第四大平台地位。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ESTC</td>
+      <td class="name">Elastic</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+12.3%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>Q4 FY26 AH（5/28）财报次日：revenue $451M beat、RPO $1.98B +28% YoY（四年最强）</strong>（超额 +10.1pp vs XLK）<em class="ki-note">5/28 盘后真财报：Q4 revenue $451M vs 预期 $446M（beat +1.1%）；CRPO $1.2B +20%、总 RPO $1.98B +28%——加速 vs 上季 +15%，是四年最强 backlog 增速，市场此前预期疲软（下半年 SaaS 收缩叙事）。FY27 指引 $1.985B-$2B 暗示 +14-15% 增速，处于 reacceleration 通道。向量数据库 / 语义搜索在 AI 原生 app 里的渗透是结构性驱动——企业 AI inference 需要混合 vector+keyword 搜索层，ESTC 是主要受益方之一。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ORCL</td>
+      <td class="name">Oracle</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+10.8%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>双重分析师升级（Wedbush PT $275 / Oppenheimer 置顶）+ 国防 DoD 8 家 AI 云合作伙伴入围</strong>（超额 +8.6pp）<em class="ki-note">无 5/29 财报（下季财报 6/16）。催化集中在卖方：Wedbush PT $195→$275（+41%）、Oppenheimer 置顶 PT $235，均指向 OCI AI 基础设施订单 RPO 加速——OpenAI、Meta、NVDA、US federal 为 ORCL 主要锚定客户。DoD 8 家 AI 云合作伙伴资格确认为中期新增量（classified AI workload 定价权属于寡头市场）。ORCL FQ4 earnings 6/16 是下一节点：AI 订单 bookings 增速是否持续 > 50% YoY 是 Bull Logic 延续的核心验证。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">DDOG</td>
+      <td class="name">Datadog</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+9.8%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>RBC PT $219→$250（+14%）重申 Buy + Q1 FY26 首破 $1B 季度收入（+32% YoY）动量延续</strong>（超额 +7.6pp）<em class="ki-note">无 5/29 新财报（下季 8/6）。5/29 RBC Matthew Hedberg PT 上调 +14% 是即时催化。Q1 收入 $1.006B 是 DDOG 历史首次季度破 $10 亿，+32% YoY 超出市场对可观测性增速见顶的预期。结构性逻辑：AI inference 在生产环境部署后产生大量 logs/metrics/traces，DDOG 作为 AI 工作负载监控的默认层 TAM 持续扩张。Dell AI server backlog $51.3B 为 DDOG 提供间接需求映射（企业 AI 部署越多、监控支出越大）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PLTR</td>
+      <td class="name">Palantir</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+9.2%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>Dell 财报 Dell AI Factory with NVDA 合作验证 + AIP 企业部署 US revenue +104% YoY 叙事强化</strong>（超额 +7.0pp）<em class="ki-note">无 5/29 独立财报（Q1 FY26 已于 5/5 发布）。Dell Q1 FY27 AI server backlog $51.3B 直接验证 Palantir AIP 在 Dell AI Factory（NVDA 生态）的企业部署角色——GE Aerospace、Navy ShipOS 等工业 AIP 案例为 Dell 企业 AI 客户的典型 entry point。US commercial revenue +104% YoY 是 PLTR 当前最硬的多头论点，Dell 财报为此提供外部印证而非内部更新。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NET</td>
+      <td class="name">Cloudflare</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+6.0%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>Anthropic 合作（Cloudflare Environments for Claude Managed Agents）+ AI agent 流量增长叙事</strong>（超额 +3.8pp）<em class="ki-note">无 5/29 新财报（Q1 5/7 已发布）。5 月中旬发布的 Anthropic 合作产品为 AI agent 提供隔离沙盒执行环境——AI agent 每个 request 流量走 Cloudflare Workers，体量以"每月数十亿次"计，是 NET 从安全/CDN 扩展至 AI 基础设施层的具象化落地。Q1 已经 beat + guidance raise，今日 +6% 更接近 AI 叙事增量定价而非纯 sympathy。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MSFT</td>
+      <td class="name">Microsoft</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+5.5%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>AI 年化收入 run-rate $37B（+123% YoY）+ Morgan Stanley 指向 Azure 数据中心产能 5GW→20GW（FY28）</strong>（超额 +3.3pp）<em class="ki-note">无 5/29 独立催化（下季财报 7/29）。5/27 Morgan Stanley 报告预测 Azure 数据中心功率从 FY24 约 5GW 扩至 FY28 约 20GW；叠加 Wedbush PT $575、Pershing Square（Bill Ackman）新近重仓的机构叙事。MSFT 今日 +5.5% 基本与 XLK β 一致叠加 AI 板块 sympathy——无独立 alpha 事件，主要扮演本主线"β anchor"角色；Build 大会（6/2-6/3）前的窗口期买盘累积。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SNOW</td>
+      <td class="name">Snowflake</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+6.8%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>t-1 财报动量延续（5/27 AH 财报 +36%）· 今日为财报第二日</strong>（超额 +4.6pp）<em class="ki-note">5/27 盘后财报核心事件：Q1 FY27 product revenue $1.33B +34% YoY（beat 预期 $1.32B）、NRR 126% 三季度来首次回升、$6B 五年期 AWS 战略协议。今日 +6.8% 是财报次日动量延续而非新催化——通常财报后第二日若仍有 +5%+ 说明共识修正（多家上调 PT）尚未被股价充分 discount。HSBC 升级 Buy、Goldman/Morgan Stanley/Wedbush/RBC/KeyBanc 均在 5/28-29 上调 PT。向量数据库（Cortex AI）+ Snowflake Intelligence 助手是本轮 re-rating 的叙事核心。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>需求端三重独立验证</em></div>
+      <div class="card-meta">ENTERPRISE AI DEPLOYMENT · DATA INFRA · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>Dell AI server backlog $51.3B</strong>：单季 AI 订单 $24.4B、revenue $16.1B（+757% YoY）——企业 AI 硬件支出加速作为全链最领先指标，直接映射 ORCL OCI / PLTR AIP / DDOG observability 需求侧<br>
+        ② <strong>SNOW Q1 FY27 NRR 126%</strong>：连续三季度 125% 后首次回升，叠加 $6B AWS 协议——data cloud 客户扩张动能重新加速，打破"SaaS 增长见顶"叙事<br>
+        ③ <strong>ESTC RPO $1.98B +28% YoY</strong>：四年最强 backlog 增速 + CRPO +20%——企业 AI 原生应用带动 vector+semantic search 合同预签明显提速<br>
+        ④ <strong>IBM Anderon 量子 Foundry $10B + $1B CHIPS</strong>：政府锚定投资为 IBM 量子商业化路径提供 5 年资金保障，watsonx hybrid cloud 是 AI 软件层的近期变现渠道
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 关注 · <em>估值扩张叠加产业链集中度</em></div>
+      <div class="card-meta">BEAR WATCH · VALUATION + CONCENTRATION · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>SNOW 客户集中度</strong>：$6B AWS 协议深化与单一超大客户绑定——若 AWS 自建 data platform 竞争加剧（Redshift Serverless 持续迭代），SNOW 的平台中立性叙事面临挑战<br>
+        ② <strong>ORCL capex 压力</strong>：OCI 为抢占 AI 基础设施市场持续加码 capex——若 FQ4（6/16）指引不及预期（AI bookings 增速低于 +50% YoY），多重升级带来的估值空间将快速收窄<br>
+        ③ <strong>PLTR 估值 / 股本稀释</strong>：US revenue +104% 对应约 140x NTM P/S——任何 AIP 合同节奏放缓或政府端预算削减将触发估值压缩，当前价位没有容错空间<br>
+        ④ <strong>IBM 量子兑现时间轴</strong>：Anderon 目标 2029 年交付大规模量子系统——5 年内财务回报不可见，若 watsonx AI 软件收入增速未能在未来 2-3 季度提速，量子叙事支撑的估值可持续性存疑
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 06 — Theme #3</div>
+  <h2 class="sec-title">网络安全 · 身份治理：<em>OKTA 真财报引爆安全板块全面 re-rating</em></h2>
+  <div class="sec-sub">OKTA 5/28 AH 发布 Q1 FY27 财报，EPS beat 23%、cRPO +12% YoY、FY27 全年指引上调——触发 Arete 将其从 Sell 升 Buy 等多家分析师同日上调目标价，催生安全板块估值重估。PANW（+9.3%）、CRWD（+8.9%）、FTNT（+6.4%）本日均未发财报，纯 sympathy re-rating；BAND（+12.7%）为独立 Q1 财报驱动，与安全板块逻辑分离。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic · 网络安全行业处上行通道</strong>。企业 zero-trust 迁移与 AI agent 身份管理需求形成双重需求曲线，OKTA 本季 FCF margin 35%、GAAP 首次扭亏印证盈利模型兑现；cRPO +12% 显示未来 12 个月收入可见度稳固。行业尚未出现订单取消或 NRR 压缩的产业拐点信号。<br>
+    <strong>当前框架</strong>：OKTA 财报 beat + 指引上调 = 叙事饱满中段，不是末段。PANW/CRWD 大盘龙头以 re-rating 方式参与，产业 capex 没有过热信号。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·OKTA Q1 FY27（截至 4/30）：营收 $765M vs 共识 $752M（beat 1.7%）；Non-GAAP EPS $0.91 vs 预期 $0.74（beat 23.0%）；cRPO $2.499B +12% YoY；RPO $4.719B +16% YoY；FCF $271M，FCF margin 35%；FY27 全年指引收入 $3.185B–$3.205B、Non-GAAP 营业利润率 25–26%、FCF margin 27–28%（全线上调）。Arete 将 OKTA 由 Sell 升 Buy、PT $127；BTIG PT →$105；KeyBanc →$103；Erste Group Buy $127。BAND Q1 独立财报：营收 $209M vs 预期 $202M（beat 3.7%），EPS $0.38 vs $0.29（beat 31%），全年指引上调；Salesforce AgentForce Contact Centre 战略合作。</p>
+
+  <table class="dt" id="theme6-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">OKTA</td>
+      <td class="name">Okta（身份）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+30.1%</td>
+      <td><span class="tag t-er">财报</span> <span class="tag t-cat">催化剂</span></td>
+      <td><strong>Q1 FY27 营收 $765M +11% YoY（beat $13M）；EPS $0.91 beat 23%；cRPO $2.499B +12% YoY；FY27 全年指引上调；Arete Sell→Buy $127 等 4 家同日上调</strong><em class="ki-note">市场此前对 OKTA 持怀疑态度：增速放缓、竞争加剧（Entra ID）、2023 安全事件阴影未散。本季 FCF margin 35%、GAAP 首次扭亏，同时 AI agent 身份管理（非人类账户）被明确点名为新增量市场，推翻了"OKTA 只是传统 IAM 守成者"的空头叙事。Arete 从 Sell 直接升 Buy 是最强信号——反向覆盖改向历来带来拥挤的价格修正动能。观察点：Q2 FY27 cRPO 是否维持 +12% 以上（约 2026 年 8 月报）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SAIL</td>
+      <td class="name">SailPoint（身份治理）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+13.8%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>身份治理与 OKTA 直接映射；FY26 Q4 ARR $1.125B +28% YoY（3 月已报）；SaaS ARR +38%；OKTA 财报验证 IAM 需求端无减速</strong><em class="ki-note">SAIL 覆盖企业权限管理（Governance/IGA），与 OKTA 覆盖的认证/访问控制互补而非竞争，是今日 direct map 弹性最强的标的。超额 β 约 +11.5pp（vs XLK +2.2%），超出纯 sympathy 解释范围，部分市场参与者将其重新定价为 AI agent 权限管理的独立叙事（非人类账户治理需求）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RBRK</td>
+      <td class="name">Rubrik（数据安全/备份）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+11.8%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>安全板块 re-rating sympathy；6/4 发 Q1 FY27 财报（待报）；数据安全 + 勒索软件恢复叙事与 zero-trust 共振</strong><em class="ki-note">RBRK 不直接竞争身份管理，但同属安全预算同一采购周期，本日超额 +9.6pp 属于安全板块估值整体向上重估的溢出效应。观察点：6/4 RBRK 财报——若年化订阅收入（ARR）超预期，将把 sympathy 转化为独立 alpha。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BAND</td>
+      <td class="name">Bandwidth（CPaaS）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+12.7%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>Q1 2026 营收 $209M +20% YoY（beat $7M）；EPS $0.38 beat 31%；Salesforce AgentForce 战略合作；全年指引上调</strong><em class="ki-note">BAND 是本日唯一与安全板块逻辑无关的独立财报驱动标的——CPaaS 基础设施（企业语音/消息 API），叙事锚是 AI 语音 agent 通话量扩张。与 OKTA 板块归因分离。Salesforce 合作点名 Agent 通话路由，是企业 AI 落地的基础设施层信号，与安全板块共振仅为时间窗口重叠。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GRRR</td>
+      <td class="name">Gorilla Technology</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+15.4%</td>
+      <td><span class="tag t-er">财报</span> <span class="tag t-cat">催化剂</span></td>
+      <td><strong>⚠ 小盘妖股。Q1 2026 营收 $28.2M +55% YoY；经营现金流转正 +$6.6M；全年指引上调 $160–200M；同期宣布泰国 200MW AI 园区 + NeutraDC 5.5MW 数据中心协议（潜在营收 $2B 5年）</strong><em class="ki-note">财报 beat + 大单催化双驱动，流通盘极小（$0.4B），逻辑是博弈与叙事，不是基本面。AI 数据中心协议体量（$2B）是市值的 5 倍以上，大概率存在估值溢出。本日超额约 +13pp = 妖股动量，禁用估值否定，亦不宜以同等权重参与安全板块归因。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RPD</td>
+      <td class="name">Rapid7</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+12.6%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>5/5 已报 Q1 2026：ARR $832M、营收 $210M；OKTA 财报触发 SIEM/漏洞管理赛道 re-rating；超额 +10.4pp</strong><em class="ki-note">RPD 自身 5/5 财报结果平稳（ARR 增速偏低个位数），本日涨幅主要来自 OKTA 引发的安全板块估值抬升。市值仅 $0.5B，流动性弱，小盘放大 β 效应，超额幅度不完全代表基本面改善。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PANW</td>
+      <td class="name">Palo Alto Networks</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+9.3%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>6/2 AH 发 FY26 Q3 财报（未报）；OKTA 财报确认企业安全支出韧性，PANW 作为平台化防火墙龙头直接受益 re-rating；超额 +7.1pp = 个股 alpha 叠加板块 β</strong><em class="ki-note">PANW 是安全板块市值最大标的，此前已经历平台化转型（NGS ARR）的叙事验证期。OKTA 数据显示企业不削减安全预算，与 PANW 的大客户续约和 platformization bundle 逻辑正向共振。6/2 财报若 NGS ARR 增速维持 +30% 以上，本日 re-rating 有基本面支撑。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CRWD</td>
+      <td class="name">CrowdStrike</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+8.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>6/3 AH 发 FY27 Q1 财报（未报）；OKTA 身份安全 beat 确认安全预算不受宏观压缩，CRWD 端点 + 云安全平台 sympathy；超额 +6.7pp</strong><em class="ki-note">CRWD 本日无独立催化，涨幅完全来自 OKTA 的板块 re-rating 传导。2024 年 7 月 IT 事故阴影持续消化，市场在 6/3 财报前已提前定价复苏预期。若 6/3 ARR 或 NRR 超预期，本日 sympathy 升级为独立 alpha；若不及预期，则回吐今日部分涨幅。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CLBT</td>
+      <td class="name">Cellebrite（取证）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+11.6%</td>
+      <td><span class="tag t-map-i">indirect map</span></td>
+      <td><strong>5/14 已报 Q1 2026：营收 $128.3M +19% YoY，订阅收入 +23%，ARR $493M +21%；今日 OKTA 引发数字安全板块整体上移</strong><em class="ki-note">CLBT 服务执法机构数字取证（手机数据提取），与企业 IAM 路线无直接交叉，归 indirect map——同属安全政府支出预算，但驱动力独立。本季自身财报强劲，今日叠加板块 β，超额约 +9.4pp 含双重因素。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">QLYS</td>
+      <td class="name">Qualys</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+8.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>5/5 已报 Q1 2026：营收 $175.6M +10% YoY，Non-GAAP EPS $1.95 beat 8.4%；全年指引上调；OKTA 财报触发漏洞管理/云安全赛道 sympathy</strong><em class="ki-note">QLYS 增速偏低（10% vs 同类 15–30%）但盈利质量极高（EBITDA margin 47%）。本日 re-rating 更多来自板块 β，自身 5/5 财报已消化。高利润率使其在安全板块估值重估中有一定保护，但增速溢价受限。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TENB</td>
+      <td class="name">Tenable</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+8.8%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>4/30 已报 Q1 2026：营收 $262.1M +9.6% YoY，EPS $0.47 beat；Tenable One（AI 暴露管理平台）占新增业务 41%（+8pp YoY）；全年指引上调</strong><em class="ki-note">TENB 的关键变量是 Tenable One 渗透率——从传统 Nessus 扫描器向 AI 驱动暴露管理的平台迁移节奏。OKTA 财报确认大型企业安全预算韧性，对 TENB 的 upsell 能力是正向 read-through。超额 +6.6pp 属合理 sympathy 幅度。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FTNT</td>
+      <td class="name">Fortinet</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+6.4%</td>
+      <td><span class="tag t-map-i">indirect map</span></td>
+      <td><strong>未发财报（Q1 已于 5 月初报完）；OKTA 板块 re-rating sympathy；超额 +4.2pp；OT/防火墙赛道与 IAM 共振较弱</strong><em class="ki-note">FTNT 产品重心在网络防火墙和 OT 安全，与身份安全赛道的收入相关性低于 CRWD/PANW，今日涨幅更多属于安全板块大 β 而非叙事直接共振。超额约 +4pp 是本主线最低，符合 indirect map 定位。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CGNT</td>
+      <td class="name">Cognyte（分析情报）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+9.9%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>⚠ 小盘。6/3 发 Q1 FY27 财报（未报）；政府情报分析软件，与企业 IAM 叙事无直接关联；今日随安全板块情绪上行</strong><em class="ki-note">CGNT 服务政府安全情报部门，业务逻辑与 OKTA 几乎无交叉，本日涨幅主要是小盘安全股的情绪溢出（sentiment map）。市值 $0.8B，流动性弱，噪音比高。6/3 财报是实质性催化点。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>身份安全 + AI Agent 双需求曲线启动</em></div>
+      <div class="card-meta">KEY DRIVER · IDENTITY SECURITY / IAM · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>OKTA cRPO +12% YoY（$2.499B）</strong>：未来 12 个月收入可见度稳固，企业身份安全预算未受宏观压缩<br>
+        ② <strong>FCF margin 35%、GAAP 首次扭亏</strong>：盈利模型兑现，"OKTA 只烧钱"空头假设失效，估值重定锚<br>
+        ③ <strong>AI agent 身份管理（非人类账户）作为新增量</strong>：Earnings call 明确点名，SAIL/RBRK 作为 IGA/数据权限层同步受益<br>
+        ④ <strong>多家分析师反向改向（Arete Sell→Buy $127）</strong>：反向覆盖改向历来触发空头回补 + 动量买盘叠加，短期流动性效应显著<br>
+        ⑤ <strong>PANW/CRWD 6/2–6/3 财报预期</strong>：OKTA 确认安全支出韧性 → 市场提前定价平台化龙头的超预期概率上升
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 关注点 · <em>增速天花板与竞争格局</em></div>
+      <div class="card-meta">RISK FACTORS · IAM / CYBERSECURITY · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>OKTA 收入增速 +11%</strong>：绝对值远低于 CRWD（+25%+）/SAIL（+28%）同类，FY27 指引 9–10% 意味着增速未加速，高 FCF 是结构性改善还是收割期待验证<br>
+        ② <strong>Microsoft Entra ID 竞争持续</strong>：OKTA 在大型企业端与微软捆绑销售的竞争未减轻，AI agent 身份管理微软已有布局，OKTA 护城河取决于中立性溢价<br>
+        ③ <strong>PANW/CRWD 6/2–6/3 财报若不及预期</strong>：今日 re-rating 建立在对两家龙头财报乐观预期之上，若任一 miss 则今日 sympathy 涨幅面临回吐<br>
+        ④ <strong>小盘流动性风险（GRRR/CGNT/RPD）</strong>：三只合计市值 &lt;$1.7B，今日涨幅含妖股动量成分，与板块基本面脱钩风险高
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 07 — Theme #4</div>
+  <h2 class="sec-title">AI 服务器 · <em>企业硬件 · 存储</em>：DELL $51B backlog 引爆，财报 alpha 在 SOXX 持平的背景下独立兑现</h2>
+  <div class="sec-sub">本主线判 <em>Bull Logic</em>。关键 insight：今日 <strong>SOXX −0.1%（持平）</strong>——AI 半导体整体缺席，但 DELL/NTAP 凭各自财报逆势暴涨，HPE/SMCI/CLS/CRDO/ARM 沿供应链 read-through 跟涨。<strong>这批硬件是个股财报 alpha + direct map，不是板块 β</strong>：板块没动，钱靠"AI 训练 capex 外溢到企业服务器/存储"这条产业逻辑单点定价。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic（行业上行 → 全攻势）。</strong>行业阶段：AI capex 正从"GPU/训练集群"向"企业级服务器 + 数据存储"二阶外溢——DELL AI 服务器 backlog $51.3B、FY27 AI server 指引上调至 $60B，NTAP all-flash + AI 数据准备需求拉动存储进入加速段，证明这是产业级需求兑现、非单季脉冲。Catalyst window：本周 DELL（5/28 AH）+ NTAP（5/28 AH）财报已落地引爆，<strong>下一棒 HPE 6/1（周一）盘后财报</strong>——若 Networks-for-AI 订单与 Juniper 整合同步 beat，主线动能延续；同期 CRWV/超大规模厂商 capex 指引是产业级前瞻锚。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>DELL FQ1 FY27（5/28 AH）大幅 beat</strong>：营收 $43.8B（YoY +88%），AI 服务器确认收入 $16.1B、新签订单 $24.4B、backlog 升至 <strong>$51.3B</strong>，FY27 AI server 指引上调至 $60B、全年营收指引上调至 $167B（midpoint·YoY ~+50%），ISG 营收 $29.0B（YoY +181%）；② <strong>NTAP FQ4 FY26（5/28 AH）创纪录</strong>：营收 $1.95B（YoY +12%）、FY26 all-flash $4.2B（+11%）、Keystone YoY +65%、单季 ~500 个 AI/数据准备 win，FY27 营收指引 $7.325–7.575B（+8% midpoint）；③ HPE +12.6% 为 <strong>Dell read-through sympathy</strong>（HPE 财报在 6/1，非本日）。</p>
+
+  <table class="dt" id="theme4-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">DELL</td>
+      <td class="name">Dell Technologies</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+32.8%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>FQ1 FY27 全面 beat·AI 服务器 backlog $51.3B、FY27 AI server 指引上调至 $60B</strong><em class="ki-note">营收 $43.8B（YoY +88%）、record Q1 现金流 $4.1B；AI 服务器确认 $16.1B（YoY +757%）、新签 $24.4B、backlog $51.3B。ISG 营收 $29.0B（YoY +181%）、ISG 利润率改善至 <em>10.5%</em>——这条最关键：市场最担心的"AI 服务器低毛利稀释整体利润"被证伪，存储与传统服务器的高毛利对冲住了 AI 低毛利。全年营收指引上调 ~$27B 至 $167B（midpoint·YoY ~+50%）、EPS 指引上调 ~$5。这是本主线的引爆点，read-through 给整条企业硬件供应链。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NTAP</td>
+      <td class="name">NetApp</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+22.4%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>FQ4 FY26 创纪录·all-flash $4.2B + AI 数据准备 ~500 win、FY27 指引超预期</strong><em class="ki-note">Q4 营收 $1.95B（YoY +12%）、FY26 全年 $6.93B（+5%），all-flash 营收 $4.2B（+11%）、Keystone（存储即服务）YoY +65%、公有云 $688M（+18%）。单季 ~500 个 AI 与数据准备 win——存储正吃 AI 训练数据落盘的二阶需求。FY27 营收指引 $7.325–7.575B（+8% midpoint）、EPS $8.70–9.00（+9%），双双超共识。企业存储被重新定价为"AI 数据层"标的，是 DELL 之外第二条独立财报 alpha。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TSSI</td>
+      <td class="name">TSS Inc</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+21.7%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>数据中心机架集成妖股·DELL backlog 引爆情绪 + 自身 AI rack 双倍扩产叙事</strong><em class="ki-note">市值仅 $0.4B 的微盘机架集成商。本日 +21.7% 主因 DELL $51B backlog 引爆"AI rack 集成"情绪共振——TSSI 自身有催化（Q1 系统集成营收 YoY +88%、2026 计划机架集成量翻倍、Georgetown 新厂 + Round Rock 仓储 5/1 启用、FY26 EBITDA 指引 $20–22M 偏上限），但 Q1 财报在更早、5/29 单日脉冲是 DELL sympathy 放大的动量。流通盘小 + 题材热 + 上市叙事新 → 博弈情绪驱动，<em>估值是背景不是输入</em>，不用基本面框架钉。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">UIS</td>
+      <td class="name">Unisys</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+18.0%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>IT 服务微盘妖股·无本日新催化、纯 AI 硬件情绪外溢 + 逼空动量</strong><em class="ki-note">市值 $0.3B 微盘。Q1 财报在 5/5（新签 TCV YoY +45% 至 $158M、营业利润率 +250bp），<em>非本日事件</em>——5/29 +18.0% 无独立催化，是 DELL/AI 硬件情绪外溢到一切"企业 IT + AI" 标签微盘股的动量逼空。3D +43%、1W +60% 的斜率本身就是妖股特征。纯 sentiment 弹性最大但持续性最差，与基本面脱钩。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HPE</td>
+      <td class="name">Hewlett Packard Enterprise</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+12.6%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>AI 服务器同业·DELL read-through sympathy（HPE 自身财报在 6/1，非本日）</strong><em class="ki-note">+12.6% 收 $43.09、成交量 6670 万股达 3 月均量 260%。关键校准：<em>HPE 本日无自身财报</em>——FQ2 财报在 6/1（周一）盘后，本日是 DELL $51B backlog 引爆的直接映射。逻辑是"涨潮抬起所有船"而非 DELL 抢 HPE 份额。HPE 自身 FQ1（3 月）Networking 营收 YoY +151%（含 Juniper）、Networks-for-AI 累计订单目标上调至 $1.7–1.9B，但 Cloud&AI 营收 YoY −2.7%。6/1 财报是本主线下一棒真 catalyst：看 Juniper 整合 + AI server 订单能否兑现 DELL 式 beat。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CRDO</td>
+      <td class="name">Credo Technology</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+6.2%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>AEC 高速连接·AI 服务器互联 direct map（无本日财报、5/20 partnership 余温）</strong><em class="ki-note">+6.2%、1W +22%。Credo 做数据中心高速有源电缆（AEC）+ 光 DSP，是 AI 服务器机架内/机架间互联的瓶颈环节，DELL/NTAP backlog 扩张 → 机架密度上升 → AEC 连接需求 direct read-through。本日无自身财报，催化是 5/20 与 Rebellions 合作建 AI factory（ZeroFlap AEC 进 RebelPOD）+ OFC 2026 展出 800G/1.6T 光 DSP 的余温。估值 >100x PE、>30x PS——AI 连接稀缺标的，已 price in 多年高增长，弹性大但对产业拐点敏感。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CLS</td>
+      <td class="name">Celestica</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+9.8%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>ODM/AI 硬件代工·DELL/超大规模 server 放量 direct map（无本日催化）</strong><em class="ki-note">+9.8%，但 3D 仅 +3.9%、1W +8.6%——斜率明显弱于 DELL/NTAP，说明本日是 DELL backlog 兑现的供应链跟涨而非自身事件。Celestica 是 AI 服务器/网络硬件的 ODM 代工与系统组装商，DELL ISG 营收 YoY +181% + $51B backlog → 代工订单 direct read-through。CCS（连接与云解决方案）段绑定超大规模客户 capex。无本日财报，纯映射弹性，需看下季自身 backlog 与利润率确认传导是否落地。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SMCI</td>
+      <td class="name">Super Micro Computer</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+11.6%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>AI 服务器同业·DELL sympathy（DLC 液冷 70–80% 份额，但与 DELL 比拼财务深度受质疑）</strong><em class="ki-note">+11.6% 至 ~$48（年内低点 +145%）。本日 sympathy of DELL，无自身财报（FQ3 FY26 营收 $10.24B 在更早）。SMCI 在直接液冷（DLC）机架持 70–80% 份额，受益液冷渗透率向 30–40% 抬升。但 DELL read-through 对 SMCI 是<em>双刃</em>：DELL 越证明 AI 服务器是"资产负债表 + 供应链 + 客户融资"的生意，市场越质疑 SMCI 在融资深度/采购杠杆/企业信任层上能否撑同样的热情倍数。映射弹性 + 公司治理折价并存。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ARM</td>
+      <td class="name">Arm Holdings</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+5.4%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>AI 计算 IP·企业服务器 ARM 化 indirect-to-direct map（无本日催化）</strong><em class="ki-note">+5.4%、1W +18.5%，市值 $356.7B（L1）。本日无自身财报，是 AI 服务器主线情绪外溢——DELL/超大规模厂商 AI 服务器放量利好 ARM 架构在数据中心 CPU（Neoverse/Grace 等定制芯片）的渗透，royalty 长尾受益。相对涨幅温和（+5.4% vs DELL +32.8%）符合"IP 上游、传导间接 + 弹性钝化"的位置。下一自身 catalyst 在 FY27 royalty 收入披露（约 2026 年 8 月），看 Neoverse 数据中心渗透加速度。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">AI 服务器 / 存储 <em>需求兑现</em> · 产业级</div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>DELL AI 服务器 backlog $51.3B</strong>：FY27 AI server 指引上调至 $60B、新签订单单季 $24.4B（8-K / FQ1 FY27）<br>
+        ② <strong>ISG 利润率改善至 10.5%</strong>：证伪"AI 低毛利稀释"——存储 + 传统服务器高毛利对冲（DELL FQ1）<br>
+        ③ <strong>NTAP all-flash $4.2B + AI win ~500/季</strong>：企业存储吃 AI 数据落盘二阶需求，FY27 指引 +8% 超共识<br>
+        ④ <strong>供应链 direct map 已就位</strong>：HPE/CLS/SMCI/CRDO/ARM 沿机架→连接→IP 全链跟涨，AI capex 外溢路径打通
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">出场信号 · <em>产业级、可执行</em></div>
+      <div class="card-meta">EXIT TRIGGERS · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① 当 DELL 下季 AI 服务器 <strong>新签订单 backlog 环比首次下降</strong>（本季 $51.3B），AI 服务器需求兑现见顶<br>
+        ② 当 DELL/HPE <strong>ISG 利润率重新跌回个位数</strong>（本季 10.5%），AI 低毛利稀释逻辑反扑 → 量增利不增<br>
+        ③ 当超大规模厂商（CRWV/MSFT/META 等）<strong>下季 capex 指引区间首次下修</strong>，AI 训练 capex 外溢到企业硬件的链条断裂<br>
+        ④ <em>禁止</em>用"spike 后回吐 / 涨多了 / 估值高"作 Bull Logic 下出场依据
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 08 — Theme #5</div>
+  <h2 class="sec-title">半导体 · <em>模拟 / 材料 / 代工 / Edge AI 分化</em>：软件财报日资金抽离半导体，AMBA 弱毛利印证 Edge AI 需求降温</h2>
+  <div class="sec-sub">本主线 1 涨 9 跌——MX 逆势 +29.6% 为电源 IC 妖股情绪独立事件；其余 9 只跑输持平的 SOXX（−0.1%），核心矛盾是"<em>今日软件密集财报、半导体被冷落</em>"的板块轮动（rotation）抽水 + 各自个股利空叠加。最高信号 bear read = <strong>AMBA −21.4%（Edge AI 视觉 SoC 财报：营收/EPS 小 beat 但毛利率压缩 + 指引仅 in-line）</strong>，作为 AI 推理下沉的领先指标，是 Edge AI 终端需求降温的产业信号。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>行业阶段：模拟 / 代工 = 库存修复中段、方向不明（防守）；Edge AI 视觉推理 = 高估值兑现压力下的需求验证期（偏防守）。</strong>两个子板块均不在 Bull Logic 全攻势区。判断依据：① 模拟（TXN/SMTC）+ 特殊工艺代工（TSEM）+ 封测（ASX）的需求面缺乏当日正向硬数据，今日下跌主要是从前期 photonics / AI 连接涨幅中获利回吐 + 软件抽水的 β 效应；② Edge AI 推理（AMBA）本应是 AI 下沉到终端（汽车/安防）的 Bull narrative，但今日财报毛利率 58.4%（同比 −1.6pp）+ 指引中值 $108M 仅触及一致预期 → 对 40x+ 倍数的 Edge AI 标的而言"in-line 即利空"，需求叙事被证伪一角。<strong>Catalyst window</strong>：AXTI 看 6 月 MOFCOM 对华 InP 出口许可批复节奏（>$100M backlog 受卡）；AMBA 看下季度汽车/IoT 出货能否兑现指引上沿；模拟链看 TXN/ADI 下次财报的库存 + bookings 拐点。</div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>AMBA（5/28 AH 财报）</strong>：Q1 FY2027 营收 $100.4M +16.9% YoY（小 beat ~$98M 一致预期），non-GAAP EPS $0.11 vs $0.10（小 beat），<em>但 GAAP 毛利率 58.4% vs 去年同期 60.0%（−1.6pp）、GAAP 净亏损 $18.1M</em>；Q2 FY2027 营收指引 $105-111M（中值 $108M）仅与一致预期 $107-108M 持平——次日 −21.4%。② <strong>AXTI</strong>：化合物半导体衬底受对华出口管制掣肘，>$100M InP 在手订单的确认节奏完全取决于中国 MOFCOM 出口许可批复（单次 60+ 个工作日），−10.8%。③ <strong>MRAM</strong>：5/11 因 $40M、2.5 年国防分包合同单日 +47.8% 后情绪退潮、内管层连续减持，−15.6%。④ <strong>SMTC</strong>：5/26 财报实为强劲（营收创纪录 $291M +16% YoY、CopperEdge 1.6T 放量），今日 −8.3% 是从 ~$157 高位获利回吐 + CopperEdge 信息披露集体诉讼悬顶，非新 miss。⑤ <strong>MX</strong>：8 代 AI 服务器 / 智能手机电源 MOSFET 新品 + "战略定位"乐观情绪推动，两周累涨 +66%，无正式收购确认。</p>
+
+  <table class="dt" id="theme08-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">MX</td>
+      <td class="name">Magnachip</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+29.6%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>电源 IC 妖股逆势独立行情：8 代 AI 服务器 / 智能手机电源 MOSFET 新品 + "战略定位"乐观，两周累涨 +66%</strong><em class="ki-note">纯情绪。MX 满足妖股结构——L4 微盘（$0.2B）、流通盘极小、电源管理蹭"AI 数据中心 + AI 手机电源效率"题材。+29.6% 驱动是 8 代 40V/60V 服务器 MOSFET + 12V 手机电池保护 MOSFET 新品叙事 + "strategic positioning" 乐观，并无正式战略评估 / 收购公告确认。对这类标的<em>估值是背景不是输入</em>，逻辑是博弈和情绪，与今日半导体 β 完全脱钩，不能用基本面框架解读，弹性最大但持续性最差。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INTC</td>
+      <td class="name">Intel</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">−5.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>无个股新催化；软件财报日资金从半导体轮入软件，L1 龙头吃 β 抽水</strong><em class="ki-note">板块轮动。INTC −5.1% 跑输 SOXX（−0.1%）约 5pp，但本日无 Intel 自身硬利空 / 财报，主因是今日软件密集财报吸走半导体资金 + 此前 foundry 转型叙事缺乏新进展下的获利了结。作为半导体权重最大的 L1 名字之一，承接板块 rotation 的 β 抽水最直接。无明确个股 alpha 信号，归板块轮动而非公司治理问题。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TXN</td>
+      <td class="name">Texas Instruments</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">−3.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>模拟龙头无新催化；模拟周期库存修复未完成，今日随板块获利回吐</strong><em class="ki-note">板块轮动。TXN −3.2% 接近"板块 β + 小幅超额"，本日无 TI 自身事件。模拟芯片周期处库存修复中段（方向不明），缺乏 Bull narrative 支撑，软件抽水日承接资金外流。作为模拟基准股，TXN 的温和下跌反映的是模拟链需求面"没有坏消息也没有好消息"的 drift 状态——观察点是下次财报 bookings / 库存天数能否确认拐点，今日无产业增量信息。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ASX</td>
+      <td class="name">ASE Technology</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">−5.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>封测 OSAT 龙头；1W 仍 +17.5%，今日 −5.5% 为高位获利回吐</strong><em class="ki-note">板块轮动。ASX 是先进封装（OSAT）核心，1W 累涨 +17.5%（受 AI 先进封装 CoWoS 外溢 / 2.5D 封装需求叙事推动），今日 −5.5% 是从强势区间获利回吐 + 软件抽水的双重效应，3D 区间仅 −1.5% 显示回调温和。无封测产业利空硬数据，属前期涨幅的技术性消化而非需求面恶化；先进封装产能仍是 AI 硬件链的瓶颈环节，今日下跌不改中期 read。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TSEM</td>
+      <td class="name">Tower Semiconductor</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">−7.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>特殊工艺代工；前期 photonics 题材大涨后获利回吐，1W −8.5%</strong><em class="ki-note">板块轮动。TSEM 是纯晶圆代工厂中聚焦 RF / 硅光（SiPho）/ 电源管理的特殊工艺玩家，前期受 AI 硅光子（photonics）连接需求叙事推动大幅上涨。今日 −7.4%、1W −8.5% 是 photonics 主题降温后交易者锁定收益的回吐，叠加软件财报日的半导体抽水。无 Tower 自身订单 / 产能利空，属"主题 rally 退潮 + β 抽水"叠加；硅光在 AI 数据中心光互连的长期 read 不变，但短期估值已大幅透支。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SMTC</td>
+      <td class="name">Semtech</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">−8.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>5/26 财报实为强劲（营收创纪录 $291M +16% YoY、CopperEdge 1.6T 放量）；今日 −8.3% 是高位获利回吐 + 诉讼悬顶</strong><em class="ki-note">板块轮动（非新 miss）。SMTC 是 AI 数据中心有源铜缆（CopperEdge ACC）+ 光模块驱动（FiberEdge）连接概念，5/26 财报营收创纪录、管理层指引"数据中心增长全年加速"。今日 −8.3% 不是基本面恶化，而是股价从 ~$157 高位获利回吐 + CopperEdge 产品信息披露相关集体诉讼悬顶情绪 + 软件抽水日的板块外流。基本面 read 仍正面（1.6T ACC 放量是 AI 铜连接 direct beneficiary），今日属交易面回调而非产业拐点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AXTI</td>
+      <td class="name">AXT Inc</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">−10.8%</td>
+      <td><span class="tag t-cat">催化剂</span> <span class="tag t-map-i">indirect map</span></td>
+      <td><strong>化合物半导体衬底对华出口管制掣肘：>$100M InP 在手订单确认节奏取决于中国 MOFCOM 许可批复（60+ 工作日）</strong><em class="ki-note">催化剂（政策 / 出口管制）。AXTI 子公司 Tongmei 的磷化铟（InP）/ 砷化镓（GaAs）三大衬底产品线 2025/2 起全部需中国商务部出口许可——Q4/2025 营收已因许可发放慢于预期 miss。当前 >$100M InP backlog，AI 数据中心光模块对 InP 衬底需求强（这是需求侧 Bull），但收入完全被 Beijing 监管时间表卡住（这是当下利空）。−10.8% 反映市场对许可批复节奏的悲观重定价。这是 AI 光连接链上游被地缘政策掐住的 indirect 映射利空，观察点是 6 月许可发放速度。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ATOM</td>
+      <td class="name">Atomera</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−10.7%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>材料 IP 妖股情绪退潮：1W 仍 +17.3%，今日 −10.7% 为题材股高位回吐</strong><em class="ki-note">纯情绪。ATOM 是 MST 材料 IP 授权公司（pre-revenue 性质、L4 微盘 $0.4B），无实质量产收入，纯靠"半导体材料突破"题材波动。1W 仍 +17.3%、3D −17.6%——典型妖股高波动结构，今日 −10.7% 是前期情绪冲高后的回吐，与半导体 β 无稳定关系。对这类标的<em>估值不存在、PS 不适用</em>，逻辑是题材博弈；今日下跌是情绪退潮而非任何产业 / 客户面利空，弹性极大但无基本面锚。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MRAM</td>
+      <td class="name">Everspin</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−15.6%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>MRAM 存储妖股：5/11 因 $40M 国防分包合同单日 +47.8% 后情绪退潮 + 内管层连续减持</strong><em class="ki-note">纯情绪。MRAM 是 Toggle / xSPI 磁性存储（MRAM）小盘玩家（L4 $0.7B），5/11 因 $40M、2.5 年美国国防分包合同（航空航天 / 国防应用）单日暴涨 +47.8% 创 52 周新高。今日 −15.6%、3D −19.3% 是合同催化兑现后的情绪退潮 + 过去一年 18 笔内幕减持 / 0 买入的筹码压力释放。基本面层面 Q1 营收 +13% YoY 尚稳，但当前波动是"事件驱动情绪 unwind"——非新利空，属妖股冲高回落的标准节奏。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMBA</td>
+      <td class="name">Ambarella</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">−21.4%</td>
+      <td><span class="tag t-er">财报</span> <span class="tag t-guide-cut">指引下调</span></td>
+      <td><strong>5/28 AH 财报：营收 $100.4M +16.9% YoY（小 beat）、EPS $0.11 vs $0.10（小 beat），但毛利率压缩至 58.4%（−1.6pp YoY）+ 净亏损 $18.1M + Q2 指引中值 $108M 仅 in-line</strong><em class="ki-note">真财报（高信号 bear read）。AMBA 是 Edge AI 视觉推理 SoC（汽车 ADAS / 安防摄像头），表面：营收 +16.9% + EPS 双 beat。实质硬伤三点——① GAAP 毛利率 58.4% vs 去年 60.0%（−1.6pp），产品组合 / 定价承压；② GAAP 净亏损 $18.1M，盈利能力未兑现规模效应；③ Q2 指引中值 $108M 仅触及一致预期 $107-108M，对 40x+ 倍数的 Edge AI 名字"in-line 即指引令人失望"。作为 AI 推理下沉到终端（汽车 / 安防）的领先指标，AMBA 的毛利压缩 + 平淡指引 read-through 到 Edge AI 链——终端市场（汽车 / 安防）需求扩张速度不及 AI infra 端，证伪"Edge AI 加速兑现"叙事一角。观察点：下季度汽车 / IoT 出货能否兑现指引上沿 $111M。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · <em>MX 电源 IC 妖股逆势 + AI 连接 / 先进封装结构需求不变</em></div>
+      <div class="card-meta">SENTIMENT SPIKE + STRUCTURAL DEMAND · POWER IC / OSAT / SiPho · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>MX +29.6% 逆势独立行情</strong>：8 代 AI 服务器 / 手机电源 MOSFET 新品 + 战略定位乐观，两周累涨 +66%——纯情绪妖股，与板块 β 脱钩。<br>
+        ② <strong>SMTC CopperEdge 1.6T ACC 放量</strong>：5/26 财报营收创纪录 $291M +16% YoY，AI 数据中心有源铜缆 direct beneficiary，今日跌为获利回吐非基本面恶化。<br>
+        ③ <strong>ASX 先进封装 1W +17.5%</strong>：OSAT 龙头吃 AI CoWoS / 2.5D 封装瓶颈红利，先进封装产能仍是 AI 硬件链卡点。<br>
+        ④ <strong>AXTI >$100M InP backlog</strong>：AI 光模块对 InP 衬底需求侧强劲，利空是出口许可节奏而非需求——许可放行即弹性。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear · <em>Edge AI 需求降温 + 软件 rotation 抽水 + 模拟库存未修复</em></div>
+      <div class="card-meta">EDGE AI MARGIN + ROTATION + CYCLE · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>AMBA 毛利率 58.4%（−1.6pp）+ 指引仅 in-line</strong>：Edge AI 视觉推理领先指标，毛利压缩 + 平淡指引 read-through 终端（汽车 / 安防）需求扩张不及 AI infra 端。<br>
+        ② <strong>软件财报日 rotation 抽水</strong>：INTC −5.1% / TXN −3.2% / TSEM −7.4% / ASX −5.5% 均无自身利空，资金从半导体轮入软件的 β 效应——跑输持平的 SOXX 即板块外流证据。<br>
+        ③ <strong>模拟周期库存修复未完成</strong>：TXN / SMTC 缺乏需求面 Bull 硬数据，模拟链处"无好消息"的 drift 状态。<br>
+        ④ <strong>MRAM / ATOM 妖股情绪退潮</strong>：MRAM 国防合同催化兑现后 −15.6%、ATOM 材料 IP 题材回吐 −10.7%，事件驱动情绪 unwind，无基本面锚。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 09 — Theme #6</div>
+  <h2 class="sec-title">商业航天 · eVTOL · 前沿硬件分化：<em>Blue Origin 事故撕裂板块，SPCE 逼空逆势翻倍，ASTS 硬利空单日 −14.8%</em></h2>
+  <div class="sec-sub">同一天，同一个板块，两条完全对立的叙事并行——Blue Origin New Glenn 火箭静态点火测试爆炸（发射台受损），精准打击与其有发射绑定的 ASTS；而 SPCE 凭借 SpaceX IPO 情绪溢出 + 低浮筹逼空结构，一周累积涨幅超 +124%，成为本周最大妖股。这不是板块共振，是板块内部的极化分化。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>行业阶段：情绪主导期，基本面分化剧烈，闸门分标的。</strong><br>
+    <strong>SPCE / OUST（情绪 &amp; 题材主线）→ 纯情绪博弈框架</strong>：商业航天零收入、太空旅游 TAM 尚未验证，估值不是输入；SPCE 逻辑完全来自 SpaceX IPO 情绪溢出 + 低浮筹逼空，不能用 PE / PS 否定。催化窗口 = SpaceX IPO 上市前（目标 2026 年 6 月中旬 Nasdaq 挂牌），情绪动能边界在 IPO 定价落地后。OUST 有硬催化（分析师目标价上调 + 国防合作 + NVIDIA 认证），属题材上行期。<br>
+    <strong>ASTS / KRMN / RJET（硬利空驱动下行）→ Bear Logic 防守框架</strong>：ASTS 发射能力受限是真实运营风险，不是情绪噪音；KRMN Q1 miss + 指引不及 Street；RJET 无 5/29 新利空，更可能是 post-IPO 高位获利回吐。Bear Logic 适用："买预期卖兑现"，价格信号可参考。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·<strong>① Blue Origin New Glenn 火箭 5/29 静态点火测试爆炸</strong>，LC-36A 发射台受损，短期内无法执行发射任务——ASTS 受直接打击（Blue Origin 是其 BlueBird 卫星主要发射方之一，本月已是第二次事故）；<strong>② SPCE 累计叙事链条</strong>：Jefferies Buy / $5 PT 维持（5/26）+ 诉讼和解获批（5/19）+ VSS Unity 重启滑翔测试 + Q4 商业飞行路线图 + SpaceX IPO 情绪外溢，空头比例约 22%，低浮筹触发短线覆仓；<strong>③ OUST 多重催化积累</strong>：Rosenblatt PT $40→$53 Buy 重申 + ARGUS 反无人机战略合作 + Rev8 LiDAR 通过 NVIDIA DRIVE Hyperion 认证；<strong>④ KRMN Q1 财报（5/13）余震</strong>：revenue $151.2M vs 预期 $153.2M（miss 1.3%），全年指引中位数低于 Street 一致预期，股价持续承压。</p>
+
+  <table class="dt" id="theme9-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">SPCE</td>
+      <td class="name">Virgin Galactic</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+36.4%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>SpaceX IPO 情绪外溢 + 低浮筹逼空；1W +124.7%</strong>；空头比例 ~22%、流通盘极小，Jefferies Buy/$5 PT 维持（5/26）+ Q4 商业飞行路线图 + 诉讼和解落地提供叙事锚点，但核心驱动是博弈而非基本面。市值 $0.3B，零收入，票价 $75 万/人。<em class="ki-note">SPCE 是本周最典型的情绪妖股：SpaceX IPO 窗口（目标 6 月中旬 Nasdaq 上市）是板块情绪催化剂，但 SPCE 无实际 SpaceX 关联；低浮筹结构 + 22% 空头 = 空头覆仓被动推高。真实催化仅限"路线图可信度有所改善"，非硬收入事件。一旦 SpaceX IPO 定价落地或情绪退潮，覆仓动能即消失。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">OUST</td>
+      <td class="name">Ouster（激光雷达）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+8.8%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>Rosenblatt PT $40→$53 重申 Buy + ARGUS 反无人机合作 + Rev8 通过 NVIDIA DRIVE Hyperion 认证</strong>；1W +31.2%，12M +309.9%。三重催化同步落地：国防应用（计数无人机拦截）+ 自动驾驶 Tier-1 认证（NVIDIA DRIVE 平台入场）+ 分析师上调 25%。<em class="ki-note">Ouster 的逻辑切点是从"自动驾驶配件商"向"国防/智能交通双驱动"升维。NVIDIA DRIVE Hyperion 认证打开了车 OEM 的规模采购渠道；ARGUS 合作则验证其产品在 counter-UAS 场景的适配性——两个应用方向均处于早期量产前，催化密度决定股价弹性而非当前利润率。下一观察点：Rev8 首批国防订单金额（预计 2026Q3 披露）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ASTS</td>
+      <td class="name">AST SpaceMobile</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">−14.8%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>Blue Origin New Glenn 5/29 爆炸，LC-36A 发射台受损，BlueBird 卫星发射计划受阻</strong>；本月已是第二次 Blue Origin 事故（4 月 BlueBird 7 号入轨失败）。ASTS 已有多个发射方（SpaceX/Rocket Lab），但 Blue Origin 爆炸叠加前期股价已涨 83% YTD，市场借机获利回吐。1W 仍 +17.9%。<em class="ki-note">ASTS 的下跌是"硬风险叙事重定价"而非情绪噪音：发射成功率是 LEO 卫星直连业务的核心变量——每次事故都直接推迟覆盖星座的部署节奏，进而推迟收入规模化。ASTS 已将发射方多元化（SpaceX 作为主力），但 Blue Origin 仍占计划发射的一部分。下一观察点：管理层是否更新 2026 年 BlueBird 部署目标数量（预计下次 earnings call 或投资者日）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KRMN</td>
+      <td class="name">Karman Holdings（国防结构件）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">−12.7%</td>
+      <td><span class="tag t-er-miss">财报暴雷</span></td>
+      <td><strong>Q1 revenue $151.2M vs 预期 $153.2M（miss 1.3%）；全年指引中位数低于 Street；股价持续承压（5/13 财报后已跌 10%，今日再跌）</strong>。YoY 增速 +51% 仍强劲，但高估值（新 IPO + 国防题材溢价）对 miss 容错极低。1W −11.9%。<em class="ki-note">KRMN 是典型"高增速新 IPO + 题材溢价"组合——市场定价的是完美执行，任何低于一致预期的数字都会触发估值重置。Q1 收入 miss 1.3% 看似微小，但 IPO 后首个完整季度未达预期 + 指引中位数不及 Street = 叙事受损。需关注 Q2 backlog 转化节奏（管理层 guidance call 显示 backlog 仍强劲）作为修复信号。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RJET</td>
+      <td class="name">Republic Airways（支线航空）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−13.2%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>无 5/29 新利空；Q1 业绩反而强劲（revenue +34% YoY，$527.4M；运营利润率 10.3%；全年 ~$2B 指引维持）</strong>。3D −17.8% 显示这是持续性抛售，推测为 IPO 后解禁/获利回吐 + 支线航空机队成本压力（Mesa 合并整合费用）叠加。<em class="ki-note">RJET 的下跌与 Blue Origin 事故无关，也非财报驱动。Republic Airways 于 2025 年底完成与 Mesa Air 合并，IPO 后的股东结构决定了存在系统性抛盘压力——前期锁定期过后，早期进入的股东有套现需求。基本面层面，+34% 收入增长 + 10%+ 运营利润率在支线航空属稳健，但这不足以对冲筹码结构的压力。下一可观察点：Q2 块时数据（预计 7 月披露），验证 Mesa 整合协同效应。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>逼空 + 题材催化双轮驱动</em></div>
+      <div class="card-meta">SENTIMENT MOMENTUM · SPACE / LIDAR · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>SpaceX IPO 情绪溢出（SPCE）</strong>：SpaceX 目标 6 月中旬 Nasdaq 挂牌，带动整个商业航天板块情绪升温，低浮筹标的弹性最大。SPCE 空头比例 ~22%、日均换手约 9M 股，1W 覆仓推高 +124.7%。<br>
+        ② <strong>OUST 多重催化积累</strong>：NVIDIA DRIVE Hyperion 认证 + ARGUS 国防合作 + Rosenblatt PT $40→$53，三个独立信号同周落地，远超 XLI β 解释范围。12M 涨幅 +309.9%，处于题材上行期中段。<br>
+        ③ <strong>KRMN backlog 仍强劲</strong>：全年指引上调至 $720M–$735M revenue（+51% YoY），adjusted EBITDA $208.5M–$219.5M；若 Q2 backlog 转化率回升，当前估值重置是超跌机会。<br>
+        ④ <strong>SPCE 叙事锚点有改善</strong>：Jefferies $5 PT 维持 Buy + 诉讼和解落地 + Q4 商业飞行时间线具体化，不是纯裸逼空，但基本面仍是零收入，题材驱动为主。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 信号 · <em>发射风险 + 高位筹码 + 财报 miss 三重压力</em></div>
+      <div class="card-meta">HARD RISKS · LAUNCH / EARNINGS / LOCKUP · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>ASTS 发射能力风险二连击</strong>：4 月 BlueBird 7 号入轨失败 + 5/29 Blue Origin 爆炸，LC-36A 发射台受损；BlueBird 星座部署节奏推迟 = 收入规模化推迟。虽已有 SpaceX 作为替代发射方，但时间表不确定性上升。<br>
+        ② <strong>KRMN 新 IPO 估值无容错</strong>：首个完整季度 revenue miss 1.3% 即触发估值重置，高溢价要求完美执行。指引中位数低于 Street 额外增加一层叙事损伤。<br>
+        ③ <strong>RJET IPO 后筹码结构压力</strong>：Republic-Mesa 合并完成后 IPO 募资，早期股东存在套现窗口；Q1 业绩虽强，筹码结构驱动的持续抛盘与基本面脱钩。<br>
+        ④ <strong>SPCE SpaceX IPO 落地即退潮</strong>：一旦 SpaceX 定价完成，情绪溢出效应消失，SPCE 重回零收入现实定价；高空头比例已经部分覆仓，后续覆仓动能递减。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 10 — Theme #7</div>
+  <h2 class="sec-title">能源存储 · <em>燃料电池 + 工业周期分化</em>：资金离场清洁能源，NXT 逆势靠并购 catalyst</h2>
+  <div class="sec-sub">本日 XLI −0.4% / XLU −0.5% 构成弱 β 背景。储能（FLNC）与燃料电池（FCEL）双双深跌 −11%+，是本日 beta 最差的工业/能源子板块——既有政策尾部风险（IRA 信贷加速退坡）叠加 FLNC 控股方抛售筹码悬压，也是资金今日大幅流入软件/SaaS 的镜像对立面。NXT 以 $365M 并购 Prevalon Energy 进入 BESS + AI 数据中心市场为唯一正 catalyst，属个股硬事件驱动、与板块走势完全解耦。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>储能 / 燃料电池：Bear Logic 适用。</strong>行业方向当前不明确，政策主导边际变化——"One Big Beautiful Bill"已将居民侧储能税收抵免截至 2025 年底，工商业侧虽延续至 2033 年但信贷额度逐步退坡，市场正在重新定价政策尾部风险。FLNC 在上行周期（今年 5 月单月上涨逾 80%）中控股方选择 $21/股抛售 2,000 万股，属"买预期卖兑现"的典型筹码结构。FCEL 估值极度扩张（300%+ 自 4 月低点拉升）后，任何无新催化的交易日均有自然回落动力。在产业信号（订单/装机/度电成本拐点）未见明确改善之前，本主线维持 Bear Logic 框架。<br><br>
+    <strong>NXT（太阳能 / BESS 平台）：Bull Logic 适用，但仅限于并购落地后的新叙事。</strong>FY2026 收入增长 20%、创纪录 backlog，FY2027 指引上调，且本次并购将平台从单一太阳能跟踪器扩展至 BESS + AI 数据中心储能，是产业上行叙事的实质扩容。催化窗口：并购预计在监管审批后闭合，市场将关注 Prevalon 1.3 GW AI/超大规模数据中心固定合同的落地节奏。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·
+    <strong>NXT +14.0%</strong>：5 月 28 日盘后公告以最高 $3.65 亿收购 Prevalon Energy（Mitsubishi Power Americas + EES 合资），进入 BESS 和 AI 数据中心市场；同步上调 FY2027 指引；RBC/Northland/Roth 等多家上调目标价至 $149–$175。
+    <strong>FLNC −11.6%</strong>：5 月 12 日启动的 2,000 万股控股方二级出售（$21.00/股定价）持续压制筹码；叠加 IRA 信贷退坡担忧，做空力量集中释放。
+    <strong>FCEL −11.2%</strong>：自 4 月低点暴涨 300%+ 后动能自然衰减，无新催化，获利盘出逃；工厂产能利用率仅 40%，盈利兑现远期。
+    <strong>SYM −4.9%</strong>：Q2 FY2026 EPS $0.01 vs 预期 $0.12 大幅 miss（收入 beat），Goldman Sachs 下调目标价至 $45（维持 Sell）；3 日跌幅 −12.2% 说明财报利空后延续消化。
+  </p>
+
+  <table class="dt" id="theme10-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">NXT</td>
+      <td class="name">Nextpower（原 Nextracker）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+14.0%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>收购 Prevalon Energy（$365M）+ 上调 FY2027 指引 + 多家目标价上调</strong><em class="ki-note">5/28 盘后公告：以最高 $3.65 亿（$1.5 亿现金 + $0.5 亿股票 + $1.65 亿或有对价）收购 Prevalon Energy，获取 6 GWh 已部署 BESS 资产和 1.3 GW AI 数据中心固定合同。叙事从"单一太阳能跟踪器"升级为"全栈能源基础设施"，且 AI 数据中心储能是当前最热叙事载体之一。多家分析师同日上调目标价（RBC $149 / Northland $162 / Roth $175）。FY2026 收入 +20%、backlog 创纪录是底层支撑。观察点：Prevalon 并购监管审批进度 + 下季度 AI 数据中心合同新签规模。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CDZI</td>
+      <td class="name">Cadiz（水资源）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+11.4%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>美国垦务局签署 Mojave 地下水银行评估资金协议（5/26）</strong><em class="ki-note">纯情绪/妖股。$0.4B 市值、高杠杆（D/E 7.5x）、几乎无收入（P/S 24.9x）。5/26 公告与美国垦务局签署资金协议，用于 Mojave 地下水银行技术评估——属于项目推进的行政节点，非订单/合同。资金本身由 Cadiz 提供给政府评估，不是政府补贴 Cadiz。弹性来自流通盘极小 + 水资源概念热度，不反映基本面改善。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SYM</td>
+      <td class="name">Symbotic（仓储机器人）</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">−4.9%</td>
+      <td><span class="tag t-er-miss">财报暴雷</span></td>
+      <td><strong>Q2 FY2026 EPS $0.01 vs 预期 $0.12（miss 92%）；Goldman Sachs 目标价 $54→$45（Sell）</strong><em class="ki-note">Q2 收入 $676M beat（vs 预期 $663M），但 EPS 深幅 miss 令市场失望。Goldman 下调目标价并维持 Sell，指出近期利润率压力。3 日跌幅 −12.2% 显示财报利空正在消化第二波——财报后第一日下跌、第二/三日延续。backlog $22.7B 为长期需求背书，但短期内 EPS 节奏成为压制因子。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FLNC</td>
+      <td class="name">Fluence Energy（储能系统）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−11.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>控股方 2,000 万股二级抛售（$21.00/股，5/12 启动）持续压制 + IRA 信贷退坡担忧</strong><em class="ki-note">FLNC 自 5 月高点已跌约 13%。控股方（AES + Siemens 系）5/12 以 $21/股启动 2,000 万股出售——公司本身不收取任何出售所得，但额外的混合货架注册引发后续融资稀释担忧。叠加 IRA "One Big Beautiful Bill"加速退坡令储能需求端前景模糊，资金借今日软件强势顺势抽离。Citi 5/13 上调目标价至 $26，是唯一正向信号但被筹码结构压制。观察点：下季度订单 backlog 是否延续增长，以及新 IRA 框架下工商业侧税收抵免实际适用率。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FCEL</td>
+      <td class="name">FuelCell Energy（燃料电池）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−11.2%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>自 4 月低点 +300% 后无新催化，获利盘集中出逃；工厂产能利用率仅 40%</strong><em class="ki-note">FCEL 本周累跌 −17.9%，归因为动量逆转而非具体负面事件。工厂当前仅以 40% 产能运行，盈利兑现依赖满产假设。AI 数据中心燃料电池叙事（近期上涨主因）属长期逻辑，短期催化稀薄——5/19 董事会任命（网络安全专家 John Livingston）属行政动作，不改变基本面轨迹。当前市值 $1.3B 对应的估值需要极强的产能爬坡假设。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">EQPT</td>
+      <td class="name">EquipmentShare（设备租赁）</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">−8.8%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>5/28 Keybanc 工业会议演讲后无正面催化；工业周期需求边际走弱</strong><em class="ki-note">EQPT 5/28 参加 Keybanc 工业与基础材料会议，CEO 发表演讲，但未披露新订单或指引上调。−8.8% 跌幅远超 XLI −0.4% 基准，显示存在个股层面负向信号（或机构会议后预期落差）。3 日跌幅仅 −3.4%，说明本日跌幅有一次性放大成分，可能是流动性较低时段（Memorial Day 周）的成交薄放大效应。无明确产业拐点信号。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">IHRT</td>
+      <td class="name">iHeartMedia（广播/播客）</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">−11.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>高杠杆传统媒体；Goldman 目标价 $2.25（Sell）+ BoA $4.00（中性）；XLC −0.8% 板块拖累放大</strong><em class="ki-note">IHRT $0.6B 市值、高杠杆资本结构，传统广播广告景气低迷，数字/播客虽增长（Q1 +9.6% YoY）但尚不足以对冲利息压力。Goldman Sachs 维持 Sell 目标价 $2.25，显示卖方对去杠杆路径存疑。本日跌幅属于高杠杆小盘传媒在资金Risk-Off情绪中被放大，XLC −0.84% 为板块 β 参照，IHRT 超额下跌主要由杠杆结构脆弱性驱动。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SPOT</td>
+      <td class="name">Spotify（流媒体）</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">−3.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>XLC −0.84% β 接近，5/21 Investor Day 正面反应消退；Q2 指引软（经营利润 + 订阅者低于预期）</strong><em class="ki-note">SPOT −3.7% vs XLC −0.8%，超额跌幅约 −2.9pp——存在轻微个股 alpha 负值，但不构成新利空。5/21 Investor Day 后市场正面反应已在过去一周充分定价；Q1 财报（4/28）虽 EPS/收入双 beat，但 Q2 经营利润和订阅者指引低于预期留下尾部。UMG AI 授权协议属长期战略正向因子，短期内无收入贡献。本日基本属于 XLC 板块 β 拖拽 + 前期正向预期部分兑现消退，无新负面催化。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">NXT 并购扩张：<em>太阳能 → 全栈能源 + AI 数据中心</em></div>
+      <div class="card-meta">CATALYST · SOLAR / BESS · 2026-05-28</div>
+      <div class="card-body">
+        ① <strong>Prevalon 并购（$365M 上限）</strong>：获取 6 GWh 已部署 BESS 资产 + 1.3 GW AI 超大规模数据中心固定合同，直接对接超级需求叙事。<br>
+        ② <strong>FY2027 指引上调</strong>：并购假设已并入指引，为收购合理性提供即期财务锚。<br>
+        ③ <strong>多券商同日上调目标价</strong>：RBC $149 / Northland $162 / Roth $175，共识方向一致，短期做空阻力上升。<br>
+        ④ <strong>FY2026 底层强度</strong>：收入 +20%、backlog 创纪录，收购是从强势出发而非困境中扩张，财务杠杆可控（现金对价 $1.5 亿，与经营现金流匹配）。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">储能 / 燃料电池 Bear Logic：<em>政策退坡 + 筹码悬压 + 动量逆转三重叠加</em></div>
+      <div class="card-meta">BEAR DRIVERS · CLEAN ENERGY / STORAGE · 2026-05-29</div>
+      <div class="card-body">
+        ① <strong>IRA "One Big Beautiful Bill" 退坡</strong>：居民侧储能税收抵免已于 2025 年底终止；工商业侧虽延续至 2033 年但信贷额度逐年递减，需求侧政策支撑持续弱化。<br>
+        ② <strong>FLNC 控股方 2,000 万股抛售悬压</strong>：$21/股锚定定价，市场在此价位附近承压；混合货架注册进一步放大后续稀释预期。<br>
+        ③ <strong>FCEL 基本面与估值严重背离</strong>：产能利用率仅 40%，无近期盈利路径，300%+ 动量涨幅建立在纯叙事而非合同/收入基础上，任何叙事冷却即触发系统性回吐。<br>
+        ④ <strong>资金结构性离场</strong>：本日软件/SaaS 板块强势吸走成长类资金，清洁能源是对立面——板块内无财报/新订单硬催化时，资金优先被高确定性 alpha 收割。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 11 — Earnings Today</div>
+  <h2 class="sec-title">本日<em>财报快查</em>：5/28 AH（5/29 反应）+ 5/27 AH（次日动量）</h2>
+  <div class="sec-sub">本日 5/29 异动主要来自 5/28 盘后财报的次日定价——DELL / OKTA / NTAP / AMBA / ESTC / ASAN / PD 均为 5/28 AH 发布、5/29 全天反应；CRM / BRZE 为 5/27 AH（5/29 为第二日动量延续）。<strong>下一棒盘后变量 = HPE FQ2（6/1 周一 AH），是 AI 服务器链次日定价锚</strong>（见 §12）。</div>
+
+  <table class="dt" id="er-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">时点</th>
+    <th data-type="num">EPS 实/预</th>
+    <th data-type="num">收入 实/预</th>
+    <th data-type="text">指引修正</th>
+    <th data-type="num">股价反应</th>
+    <th data-type="text">关键变量</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="tk">DELL</td><td class="name">Dell Technologies</td><td>5/28 AH</td><td class="num">$4.86 <span class="pos">beat</span></td><td class="num">$43.8B / $34.8B <span class="pos">beat</span></td><td><span class="pos">raise</span> FY27 营收 $167B / AI server $60B</td><td class="num pos">+32.8% (5/29)</td><td>AI server 收入 $16.1B（+757% YoY）· backlog $51.3B · 新签 $24.4B · ISG 利润率 10.5% 证伪低毛利稀释</td></tr>
+    <tr><td class="tk">OKTA</td><td class="name">Okta</td><td>5/28 AH</td><td class="num">$0.91 / $0.74 <span class="pos">beat 23%</span></td><td class="num">$765M / $752M <span class="pos">beat</span></td><td><span class="pos">raise</span> FY27 全线上调</td><td class="num pos">+30.1% (5/29)</td><td>cRPO +12% YoY · FCF margin 35% · GAAP 首次扭亏 · AI agent 身份管理新增量 · Arete Sell→Buy</td></tr>
+    <tr><td class="tk">NTAP</td><td class="name">NetApp</td><td>5/28 AH</td><td class="num">FY27 EPS $8.70–9.00 <span class="pos">raise</span></td><td class="num">$1.95B（+12% YoY）<span class="pos">record</span></td><td><span class="pos">raise</span> FY27 营收 $7.325–7.575B</td><td class="num pos">+22.4% (5/29)</td><td>all-flash $4.2B · Keystone +65% · ~500 AI/数据准备 win · 重估为"AI 数据层"标的</td></tr>
+    <tr><td class="tk">AMBA</td><td class="name">Ambarella</td><td>5/28 AH</td><td class="num">$0.11 / $0.10 <span class="pos">beat</span></td><td class="num">$100.4M（+16.9%）<span class="pos">beat</span></td><td><span class="neg">soft</span> Q2 中值 $108M 仅 in-line</td><td class="num neg">−21.4% (5/29)</td><td>GAAP 毛利率 58.4%（−1.6pp YoY）· 净亏损 $18.1M · Edge AI 终端需求降温领先信号</td></tr>
+    <tr><td class="tk">ESTC</td><td class="name">Elastic</td><td>5/28 AH</td><td class="num"><span class="pos">beat</span></td><td class="num">$451M / $446M <span class="pos">beat</span></td><td><span class="pos">in-line→reaccel</span> FY27 +14–15%</td><td class="num pos">+12.3% (5/29)</td><td>RPO $1.98B +28% YoY（四年最强）· cRPO +20% · 向量/语义搜索 AI 原生渗透</td></tr>
+    <tr><td class="tk">ASAN</td><td class="name">Asana</td><td>5/28 AH</td><td class="num"><span class="pos">beat</span></td><td class="num">$205.1M（+9.5%）<span class="pos">beat</span></td><td><span class="pos">margin↑</span></td><td class="num pos">+15.6% (5/29)</td><td>Non-GAAP margin +720bp YoY · 收购 StackAI 布局 AI workflow · NRR 96% 偏低但稳</td></tr>
+    <tr><td class="tk">PD</td><td class="name">PagerDuty</td><td>5/28 AH</td><td class="num">第四季连续 GAAP 盈利</td><td class="num">$121M（+1% YoY）</td><td><span class="signal-flat">flat ARR $496M</span></td><td class="num pos">+33.7% (5/29)</td><td>新 CEO DiLullo + $100M 回购（~14% 市值）· 营收增速弱但"管理层+资本配置"驱动</td></tr>
+    <tr><td class="tk">TEAM</td><td class="name">Atlassian</td><td>本周</td><td class="num">Q3 FY26 <span class="pos">beat</span></td><td class="num">$1,787M（+32% YoY）</td><td><span class="pos">strong</span></td><td class="num pos">+15.3% (5/29)</td><td>Service Collection ARR 破 $1B · RPO $3,996M +37% · 开发者工具→企业服务管理扩张</td></tr>
+    <tr><td class="tk">CRM</td><td class="name">Salesforce</td><td>5/27 AH</td><td class="num">$3.88 / $3.12 <span class="pos">beat 24%</span></td><td class="num">$11.13B / $11.05B <span class="pos">beat</span></td><td><span class="signal-flat">maintain</span> 全年未大幅上调</td><td class="num pos">+8.5% (5/29·第2日)</td><td>Agentforce ARR $1.2B（+205% YoY）· 50% 新增 booking 来自老客户扩容 · AI SaaS 货币化定价锚</td></tr>
+    <tr><td class="tk">BRZE</td><td class="name">Braze</td><td>5/27 AH</td><td class="num"><span class="pos">beat</span></td><td class="num">$211M（+30% YoY）</td><td><span class="pos">raise</span> FY27 $895–899M</td><td class="num pos">+9.7% (5/29)</td><td>第四季连续有机加速 · NRR 恢复至 110%（证伪见底担忧）· 大客户 +33% YoY</td></tr>
+    <tr><td class="tk">SYM</td><td class="name">Symbotic</td><td>本周（第3日）</td><td class="num">$0.01 / $0.12 <span class="neg">miss 92%</span></td><td class="num">$676M / $663M <span class="pos">beat</span></td><td><span class="neg">Goldman Sell $45</span></td><td class="num neg">−4.9% (3日 −12.2%)</td><td>收入 beat 但 EPS 深 miss · 规模化部署利润率压力 · backlog $22.7B 长期背书</td></tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">⚠ 财报后第一交易日 vs 第二交易日</span>
+    <strong>5/28 AH → 5/29 全天反应（首日定价）</strong>：DELL +32.8% / OKTA +30.1% / NTAP +22.4%（三大财报 beat 一次定价）；AMBA −21.4%（双 beat 但毛利压缩 + 指引 in-line，"in-line 即利空"）；ESTC +12.3% / ASAN +15.6% / PD +33.7%。<br>
+    <strong>5/27 AH → 5/29 第二日动量</strong>：CRM +8.5%（财报后初跌、隔日重定价 Agentforce 可持续性）；BRZE +9.7%；SNOW +6.8%（见 §05，财报后第二日 +5%+ 说明卖方 PT 上调尚未充分 discount）。<br>
+    <strong>本周早些财报第 3 日延续</strong>：SYM −4.9%（财报后利空延续消化第三波）。<br>
+    <em>注意</em>：§04/§05/§06 中大量 sympathy 名（NOW/WDAY/PANW/CRWD/ORCL/DDOG/PLTR 等）本日<strong>无自身财报</strong>，涨幅是板块 re-rating 情绪传导或财报前提前定价，不是信息 alpha——归因已在各主线明细区分。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 12 — Forward Watchlist</div>
+  <h2 class="sec-title">未来 1–5 个交易日<em>关键检验点</em></h2>
+  <div class="sec-sub">本日两个核心 question：(1) 软件财报 alpha 四链共振能否延续——下周 HPE/GTLB/PANW/CRWD 财报密集落地，是 sympathy 转 alpha 还是回吐的分水岭；(2) AMBA 暴露的"Edge AI 需求降温"是单点事件还是 AI 链终端侧系统性裂缝的起点。</div>
+
+  <table class="dt" id="watch-tbl">
+  <thead><tr>
+    <th data-type="text">观察变量</th>
+    <th data-type="text">为什么重要</th>
+    <th data-type="text">触发时间</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="name">HPE FQ2 财报（AH）</td><td>AI 服务器主线（§07）下一棒真 catalyst——DELL backlog $51.3B 引爆后，HPE 看 Networks-for-AI 订单 + Juniper 整合能否兑现 DELL 式 beat；若 beat，AI 硬件链 alpha 延续；若 miss，今日 HPE +12.6% sympathy 回吐</td><td>6/1 周一 AH</td></tr>
+    <tr><td class="name">GTLB Q1 FY27 财报（AH）</td><td>§04 应用软件主线——Duo Agent Platform 渗透率 + ARR 增速是 AI 编码货币化关键检验；管理层已提示 ~300bp non-recurring 顺风消退，若指引保守可能反转今日 +11.2% sympathy</td><td>6/2 周二 AH</td></tr>
+    <tr><td class="name">PANW FY26Q3 财报（AH）</td><td>§06 网络安全主线——OKTA 已确认企业安全预算韧性，PANW 看 NGS ARR 增速能否维持 +30%+；若 beat，把 OKTA 引爆的板块 re-rating 转为龙头独立 alpha</td><td>6/2 周二 AH</td></tr>
+    <tr><td class="name">CRWD Q1 FY27 财报（AH）</td><td>§06 安全主线第二棒——端点 + 云安全 ARR / NRR 验证；本日 +8.9% 完全是 OKTA sympathy + 财报前提前定价，结果不及共识则乐观定价逆转</td><td>6/3 周三 AH</td></tr>
+    <tr><td class="name">AMBA 下季汽车 / IoT 出货 + 毛利率</td><td>Edge AI 终端推理领先指标——若毛利率 58.4% 继续压缩 + 指引未能兑现上沿 $111M，"Edge AI 需求降温"从单点变趋势，read-through 到整条终端 AI 推理 SoC 链；与 §07 infra 端强形成"AI 链分化"确认</td><td>下一季报 + 月度产业数据</td></tr>
+    <tr><td class="name">ORCL FQ4 财报（AH）</td><td>§05 数据云主线——OCI AI 基础设施订单 RPO 增速能否持续 &gt;50% YoY 是 Bull Logic 延续核心；本日 +10.8% 靠 Wedbush/Oppenheimer 双升级 + DoD 8 家 AI 云资格，需财报兑现</td><td>6/16</td></tr>
+    <tr><td class="name">MSFT Build 大会 + ADBE Q2 财报</td><td>§04/§05——Build（6/2-6/3）是 Azure AI + Copilot 货币化前瞻窗口；ADBE 6/11 看 Firefly ARR，验证 CRM Agentforce 引领的"AI 能向企业收钱"叙事能否在创意 SaaS 复制</td><td>6/2-6/3 / 6/11</td></tr>
+    <tr><td class="name">SpaceX IPO 上市（Nasdaq）</td><td>§09 商业航天——SPCE +36.4% 逼空动能完全来自 SpaceX IPO 情绪外溢 + 低浮筹，情绪边界在 IPO 定价落地后；同时 Blue Origin New Glenn 发射台修复进度决定 ASTS 发射能力恢复节奏</td><td>目标 ~6 月中旬</td></tr>
+    <tr><td class="name">5 月非农就业 + Fed speak</td><td>4 月 PCE 已出（核心 +3.3% 环比偏软），下一宏观锚是 5 月 NFP——黏性通胀 + 就业韧性组合决定 10Y（当前 4.45%）方向，进而影响软件 / 长久期估值的贴现率支撑能否延续</td><td>6/5 周五（NFP）</td></tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">⚠ 主线 catalyst window 汇总（产业级、非价格信号）</span>
+    <strong>§04 应用软件</strong>：CRM Agentforce ARR 增速兑现 / GTLB 6/2 Duo AI / ADBE 6/11 Firefly / 6 月 Dreamforce 客户案例。<br>
+    <strong>§05 数据云 & AI 平台</strong>：ORCL 6/16 OCI AI bookings &gt;50% YoY / MSFT Build 6/2 / IBM 量子 Foundry 兑现节奏。<br>
+    <strong>§06 网络安全</strong>：PANW 6/2 NGS ARR / CRWD 6/3 端点 ARR / RBRK 6/4——OKTA 引爆的 re-rating 能否转独立 alpha。<br>
+    <strong>§07 AI 服务器存储</strong>：HPE 6/1（下一棒）/ DELL 下季 backlog 环比方向 / 超大规模厂商 capex 指引。<br>
+    <strong>§08 半导体分化</strong>：AMBA Edge AI 毛利 + 出货是否扩散（终端需求拐点）/ AXTI 6 月 MOFCOM 对华 InP 出口许可批复节奏 / 模拟链 bookings 拐点。<br>
+    <strong>§09 商业航天</strong>：SpaceX IPO 定价（SPCE 情绪边界）/ Blue Origin 发射台修复（ASTS 发射恢复）。<br>
+    <strong>§10 能源存储</strong>：NXT Prevalon 并购监管审批 + AI 数据中心合同新签 / IRA 工商业侧税收抵免实际适用率。
+  </div>
+</section>
+
+<section class="sec" style="margin-top:48px">
+  <div class="sec-num">END OF REPORT</div>
+  <div style="border-top:3px solid var(--ink);padding-top:20px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7">
+    <div><strong style="color:var(--ink)">数据范围</strong> · 2026 年 5 月 29 日（交易日 周五）· <span class="num">69</span> 只当日异动标的 / 7 主线（流动性门 当日成交额 ≥ $3M + |ret_1D|&gt;3% 硬底线 + 按市值分档分位筛选 + 人工归类）</div>
+    <div><strong style="color:var(--ink)">数据来源</strong> · 个股 / ETF EOD 价格：Financial Modeling Prep（后复权）· 财报：8-K / 10-Q / IR · 宏观：BEA / BLS / Fed / EIA · 地缘新闻：CNBC / Reuters / Bloomberg / AP / FT</div>
+    <div><strong style="color:var(--ink)">归因方法</strong> · 板块 β 归因到具体宏观 / 地缘事件（§01）· 个股归因到财报型 / 催化剂型 / 映射型 / 板块轮动 / 无明确催化（§04+）· 不硬编故事</div>
+    <div style="margin-top:8px;color:var(--accent)">提示 · 表格列均可点击表头排序 ⇅</div>
+  </div>
+</section>
+
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  US EQUITY · DAILY THEME MAP · ATTRIBUTION EDITION · 2026-05-29 · 69 STOCKS / 7 THEMES
+</div>
+
+<script>
+(function(){
+  function getCellValue(tr, idx, type){
+    var cell = tr.children[idx];
+    if(!cell) return type==='num' ? -Infinity : '';
+    if(cell.dataset && cell.dataset.sortValue !== undefined){
+      var dv = parseFloat(cell.dataset.sortValue);
+      if(!isNaN(dv)) return dv;
+    }
+    var txt = cell.textContent.trim();
+    if(type==='num'){
+      var clean = txt.replace(/[−－–—]/g, '-').replace(/[^\d.\-+]/g,'');
+      var n = parseFloat(clean);
+      return isNaN(n) ? -Infinity : n;
+    }
+    return txt.toLowerCase();
+  }
+  function comparer(idx, asc, type){
+    return function(a, b){
+      var v1 = getCellValue(asc ? a : b, idx, type);
+      var v2 = getCellValue(asc ? b : a, idx, type);
+      if(type==='num'){ return v1 - v2; }
+      return v1.localeCompare(v2);
+    };
+  }
+  function sortTable(table, th, forceAsc){
+    var tbody = table.querySelector('tbody');
+    var headerRow = th.parentNode;
+    var idx = Array.from(headerRow.children).indexOf(th);
+    var type = th.getAttribute('data-type') || 'text';
+    var asc;
+    if(forceAsc !== undefined){ asc = forceAsc; }
+    else {
+      var hasAsc = th.classList.contains('asc');
+      var hasDesc = th.classList.contains('desc');
+      if(!hasAsc && !hasDesc){ asc = (type !== 'num'); } else { asc = !hasAsc; }
+    }
+    headerRow.querySelectorAll('th').forEach(function(h){ h.classList.remove('asc'); h.classList.remove('desc'); });
+    th.classList.add(asc ? 'asc' : 'desc');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(comparer(idx, asc, type));
+    rows.forEach(function(tr){ tbody.appendChild(tr); });
+  }
+  document.querySelectorAll('table.dt thead th').forEach(function(th){
+    th.addEventListener('click', function(){ sortTable(th.closest('table'), th); });
+  });
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('table[id^="theme"]').forEach(function(table){
+      var ths = table.querySelectorAll('thead th');
+      for(var i=0; i<ths.length; i++){
+        var label = ths[i].textContent.trim();
+        if(label === '日涨跌幅' || label === '日涨跌'){ sortTable(table, ths[i], false); break; }
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
