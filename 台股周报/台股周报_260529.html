@@ -2464,14 +2464,27 @@ document.querySelectorAll('table.dt').forEach(table => {
   head.className = 'toc-head';
   head.innerHTML = '<div class="t1">Contents<span id="toc-collapse" title="收起目录">&laquo;</span></div><div class="t2">本期主线导航</div>';
   nav.appendChild(head);
+  // 特殊 section 的短标题映射（按 id）
+  var TOC_OVERRIDE = {
+    'exec-summary': 'Summary',
+    'final-read': 'Final Read',
+  };
   secs.forEach(function(sec){
     var numEl = sec.querySelector('.sec-num');
     var titEl = sec.querySelector('.sec-title');
-    var num = numEl ? numEl.textContent.trim() : '';
-    var titRaw = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
-    // TOC 只取核心标题：按 ·/+/—/-/： 分隔取第 1 段（隐藏子标题如"+ TSMC + ASIC + 封测"或"+ IC 设计周边"）
-    var tit = titRaw.split(/[·•—\-：:|+]/)[0].trim();
-    if(!tit || tit.length < 2) tit = titRaw;  // 兜底
+    // 编号只取 §XX 部分（去掉 "· 主线 X" / "· Executive Summary" 等后缀）
+    var numRaw = numEl ? numEl.textContent.trim() : '';
+    var numMatch = numRaw.match(/§\d+/);
+    var num = numMatch ? numMatch[0] : numRaw;
+    // 标题：特殊节用 override、其他取 sec-title 按 ·/+/—/-/： 分隔的第 1 段
+    var tit;
+    if(TOC_OVERRIDE[sec.id]){
+      tit = TOC_OVERRIDE[sec.id];
+    } else {
+      var titRaw = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+      tit = titRaw.split(/[·•—\-：:|+]/)[0].trim();
+      if(!tit || tit.length < 2) tit = titRaw;
+    }
     var a = document.createElement('a');
     a.href = '#' + sec.id;
     a.innerHTML = '<span class="n">'+num+'</span><span class="t">'+tit+'</span>';
