@@ -2468,7 +2468,10 @@ document.querySelectorAll('table.dt').forEach(table => {
     var numEl = sec.querySelector('.sec-num');
     var titEl = sec.querySelector('.sec-title');
     var num = numEl ? numEl.textContent.trim() : '';
-    var tit = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+    var titRaw = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+    // TOC 只取核心标题：按 ·/+/—/-/： 分隔取第 1 段（隐藏子标题如"+ TSMC + ASIC + 封测"或"+ IC 设计周边"）
+    var tit = titRaw.split(/[·•—\-：:|+]/)[0].trim();
+    if(!tit || tit.length < 2) tit = titRaw;  // 兜底
     var a = document.createElement('a');
     a.href = '#' + sec.id;
     a.innerHTML = '<span class="n">'+num+'</span><span class="t">'+tit+'</span>';
