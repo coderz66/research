@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+  币安 TradFi 永续合约 · 全量普查 · 2026-06-02
+  ------------------------------------------------------------------
+  数据源：Binance fapi/v1/exchangeInfo（contractType=TRADIFI_PERPETUAL）
+  范围：USDⓈ-M 全部 TradFi perp，65 个，TRADING 状态
+  说明：交易所自身全量接口，非公告增量 → 无遗漏
+========================================================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>币安 TradFi 永续合约全量普查 · 2026-06-02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1480px;margin:0 auto}
+em{font-style:italic;color:var(--accent)}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'TRADFI · 65';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:140px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,0.65);max-width:1080px;line-height:1.6;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+.pill.new{color:#FFD86B;border-color:rgba(212,160,23,0.7);background:rgba(212,160,23,0.08)}
+.pill.hot{color:#FFD86B;border-color:rgba(212,160,23,0.9);background:rgba(212,160,23,0.18);font-weight:700}
+
+.sec{margin:42px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--ink-soft);margin-top:-4px;margin-bottom:16px}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+p{margin-bottom:10px;color:var(--ink-soft)}
+p strong{color:var(--ink);font-weight:600}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0 14px}
+.stat{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.stat-value{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--ink);line-height:1.05}
+.stat-value em{color:var(--accent);font-style:italic}
+.stat-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.stat.bull{border-left-color:var(--bull)}
+.stat.bear{border-left-color:var(--bear);background:#FAEDE8;border-left-width:4px}
+.stat.warn{border-left-color:var(--amber)}
+.stat.hot{border-left-color:var(--amber);background:#FFF8E0;border-left-width:4px}
+
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.45}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
+table.dt thead th[data-type="num"]{text-align:center}
+table.dt tbody td{padding:6px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:middle}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:700;white-space:nowrap}
+table.dt tbody td.under{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap}
+table.dt tbody td.date{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap}
+table.dt tbody td.num{font-family:var(--mono);font-feature-settings:"tnum" 1;text-align:center}
+table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px}
+table.dt td.logic{font-size:12px;color:var(--ink-soft);line-height:1.4}
+table.dt a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent-soft);font-family:var(--mono);font-size:10.5px}
+table.dt a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+table.dt tbody tr.group-h td{background:#F4EFE0;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink);font-weight:700;text-transform:uppercase;padding:7px 10px;border-top:1px solid var(--accent-soft);border-bottom:1px solid var(--accent-soft)}
+table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:600;white-space:nowrap;margin-right:3px;line-height:1.4}
+.tag.t-equity{background:#D4E5F4;color:#1B4569;font-weight:700}
+.tag.t-etf{background:#E0DAF0;color:#3E2A6B;font-weight:700}
+.tag.t-mag7{background:#1B2635;color:#FFD86B;font-weight:700;border:1px solid #B8870A}
+.tag.t-commodity{background:#3D2E18;color:#FFD86B;font-weight:700}
+.tag.t-pre-ipo{background:#3C5279;color:#FFD86B;font-weight:700;border:1px solid #B8870A}
+.tag.t-new{background:#FFD86B;color:#5B3F00;font-weight:700}
+.tag.t-warn{background:#F4DCD3;color:var(--bear);border:1px solid #C8907A;font-weight:700}
+
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block strong{color:var(--ink)}
+.note-block.warn{border-left-color:var(--bear);background:#F8E9E4}
+.note-block.info{border-left-color:var(--accent);background:#FBF1D8}
+.note-block.hot{border-left-color:var(--amber);background:#FFF8E0;border-left-width:4px}
+.note-block.gap{border-left-color:#7B6D40;background:#F0EBDB;border-left-width:4px}
+.note-block.gap .kicker{color:#7B6D40}
+
+.sector-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 4px}
+.scard{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:9px 12px}
+.scard .sn{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:3px}
+.scard .sv{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ink);line-height:1.05}
+.scard .sv em{color:var(--accent);font-style:italic}
+.scard .sl{font-family:var(--mono);font-size:9.5px;color:var(--ink-soft);margin-top:2px;line-height:1.35}
+
+.tl{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:13px 16px 11px;margin:14px 0}
+.tl-h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.tl-rail{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.tl-cell{padding:6px 8px;background:var(--rule-soft);border-left:2px solid var(--accent-soft);font-size:10.5px;line-height:1.35}
+.tl-cell.hot{background:#FFF8E0;border-left-color:var(--amber)}
+.tl-cell .tdate{font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:700;margin-bottom:2px}
+.tl-cell .ttitle{color:var(--ink-soft);font-size:10.5px}
+.tl-cell .ttitle strong{color:var(--ink);font-weight:600}
+
+.foot{margin-top:48px;padding-top:16px;border-top:2px solid var(--ink);font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;line-height:1.6}
+.foot strong{color:var(--ink-soft)}
+
+@media print{body{padding:24px}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="h-eyebrow">BINANCE TRADFI PERPETUALS · FULL CENSUS · AS OF 2026-06-02</div>
+  <div class="h-title">币安 <em>TradFi</em> 永续合约 · 全量普查</div>
+  <div class="h-desc">截至 2026-06-02，币安 USDⓈ-M 共 <em>65</em> 个 TradFi 永续合约——个股 47 + ETF 7 + 商品 8 + Pre-IPO 3，<em>全部 USDT 本位、全部 TRADING 状态</em>。数据直接取自交易所 <em>exchangeInfo</em> 接口（contractType = TRADIFI_PERPETUAL），非公告增量逐条拼凑，故对当前在挂合约<em>无遗漏</em>。</div>
+  <div class="h-pills">
+    <span class="pill hot">TRADFI PERP 65</span>
+    <span class="pill">个股 47</span>
+    <span class="pill">ETF 7</span>
+    <span class="pill">商品 8</span>
+    <span class="pill new">PRE-IPO 3</span>
+    <span class="pill">全 USDT 本位</span>
+    <span class="pill">杠杆 5–100×</span>
+  </div>
+</div>
+
+<!-- ============ §00 概览 ============ -->
+<section class="sec">
+  <div class="sec-num">§ 00 · OVERVIEW</div>
+  <div class="sec-title">全景 <em>概览</em></div>
+
+  <div class="stat-grid">
+    <div class="stat hot"><div class="stat-label">TradFi Perp 总数</div><div class="stat-value"><em>65</em></div><div class="stat-sub">全 USDT 本位 · 全 TRADING</div></div>
+    <div class="stat"><div class="stat-label">个股 + ETF</div><div class="stat-value">54</div><div class="stat-sub">个股 47 + ETF 7</div></div>
+    <div class="stat"><div class="stat-label">商品</div><div class="stat-value">8</div><div class="stat-sub">贵金属 4 · 工业金属 1 · 能源 3</div></div>
+    <div class="stat warn"><div class="stat-label">Pre-IPO（新品类）</div><div class="stat-value">3</div><div class="stat-sub">SpaceX · OpenAI · Quantinuum</div></div>
+  </div>
+
+  <div class="sector-cards">
+    <div class="scard"><div class="sn">Mag7</div><div class="sv"><em>7</em></div><div class="sl">已集齐 7/7</div></div>
+    <div class="scard"><div class="sn">半导体 / AI 硬件</div><div class="sv"><em>15</em></div><div class="sl">芯片+存储+光器件+neocloud</div></div>
+    <div class="scard"><div class="sn">加密 / 金融</div><div class="sv"><em>6</em></div><div class="sl">COIN·MSTR·CRCL·HOOD·V·PAYP</div></div>
+    <div class="scard"><div class="sn">软件 / 网络</div><div class="sv"><em>4</em></div><div class="sl">PLTR·ORCL·CSCO·BBX</div></div>
+    <div class="scard"><div class="sn">医药 GLP-1</div><div class="sv"><em>2</em></div><div class="sl">LLY·NVO（6-01 新进）</div></div>
+    <div class="scard"><div class="sn">航天 / 卫星 / 稀土</div><div class="sv"><em>3</em></div><div class="sl">RKLB·ASTS·USAR</div></div>
+    <div class="scard"><div class="sn">能源 / 储能</div><div class="sv"><em>2</em></div><div class="sl">FLNC·BE</div></div>
+    <div class="scard"><div class="sn">蓝筹 / 消费 / 中概</div><div class="sv"><em>8</em></div><div class="sl">JPM·BRKB·DIS·UBER·WMT·HD·NOK·BABA</div></div>
+  </div>
+
+  <div class="note-block info">
+    <span class="kicker">数据口径 · 为什么"无遗漏"</span>
+    本表不靠逐条公告拼凑，而是直接拉交易所 <strong>fapi/v1/exchangeInfo</strong> 全量合约，按 <strong>contractType == "TRADIFI_PERPETUAL"</strong>（等价于 underlyingSubType 含 "TradFi"）过滤，再按 underlyingType 分 EQUITY / COMMODITY / PREMARKET 三类。已剔除 underlyingType=INDEX 的 DEFI / BTCDOM / ALL——那是 crypto 指数，不属 TradFi。底层公司全称、杠杆经各合约官方公告页逐一核验。<strong>这是发行清单信号，反映发行节奏 + 审核通过，不代表币安观点。</strong>
+  </div>
+</section>
+
+<!-- ============ §01 Pre-IPO ============ -->
+<section class="sec">
+  <div class="sec-num">§ 01 · PRE-IPO PERPETUAL CONTRACTS</div>
+  <div class="sec-title">Pre-IPO Perp · <em>新品类</em></div>
+  <p class="sec-sub">底层为尚未上市公司的预期估值锚；underlyingType = PREMARKET。全市场首创品类，2026-05 起步。</p>
+  <table class="dt">
+    <thead><tr><th>合约</th><th>底层</th><th>公司 / 定位</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">SPCXUSDT</td><td class="under">SpaceX</td><td class="name">Space Exploration Technologies · 估值锚 ~$1.75–2T</td><td class="date">2026-05-21</td><td class="num">5×</td><td class="logic">全市场首个 pre-IPO perp；上线 5 日累计成交 $280M</td></tr>
+      <tr><td class="tk">OPENAIUSDT</td><td class="under">OpenAI</td><td class="name">OpenAI Group PBC · AI 大模型</td><td class="date">2026-05-26</td><td class="num">20×</td><td class="logic">第二个 pre-IPO，杠杆较 SPCX 由 5× 提到 20×</td></tr>
+      <tr><td class="tk">QNTXUSDT</td><td class="under">Quantinuum</td><td class="name">Quantinuum Inc. · 量子计算（Honeywell 系）</td><td class="date">2026-05-29</td><td class="num">20×</td><td class="logic">拟以 "QNT" 上 Nasdaq，预估 ~2.54 亿股</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ §02 商品 ============ -->
+<section class="sec">
+  <div class="sec-num">§ 02 · COMMODITY PERPETUAL CONTRACTS</div>
+  <div class="sec-title">商品 <em>Perp</em></div>
+  <p class="sec-sub">贵金属 + 工业金属 + 能源；underlyingType = COMMODITY。黄金（2025-12-11）是全部 TradFi perp 的首发。</p>
+  <table class="dt">
+    <thead><tr><th>合约</th><th>底层</th><th>对应基准 / ETF</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th>子类</th></tr></thead>
+    <tbody>
+      <tr class="group-h"><td colspan="6">贵金属 <span class="ct">· 4 个</span></td></tr>
+      <tr><td class="tk">XAUUSDT</td><td class="under">黄金 XAU</td><td class="name">现货黄金 · GLD</td><td class="date">2025-12-11</td><td class="num">50×</td><td><span class="tag t-commodity">首发</span></td></tr>
+      <tr><td class="tk">XAGUSDT</td><td class="under">白银 XAG</td><td class="name">现货白银 · SLV</td><td class="date">2026-01-07</td><td class="num">50×</td><td><span class="tag t-commodity">贵金属</span></td></tr>
+      <tr><td class="tk">XPTUSDT</td><td class="under">铂 XPT</td><td class="name">现货铂 · PPLT</td><td class="date">2026-01-30</td><td class="num">50×&dagger;</td><td><span class="tag t-commodity">贵金属</span></td></tr>
+      <tr><td class="tk">XPDUSDT</td><td class="under">钯 XPD</td><td class="name">现货钯 · PALL</td><td class="date">2026-01-30</td><td class="num">50×&dagger;</td><td><span class="tag t-commodity">贵金属</span></td></tr>
+      <tr class="group-h"><td colspan="6">工业金属 <span class="ct">· 1 个</span></td></tr>
+      <tr><td class="tk">COPPERUSDT</td><td class="under">铜 COPPER</td><td class="name">现货铜 · CPER</td><td class="date">2026-03-06</td><td class="num">100×</td><td><span class="tag t-commodity">工业金属</span></td></tr>
+      <tr class="group-h"><td colspan="6">能源 <span class="ct">· 3 个</span></td></tr>
+      <tr><td class="tk">CLUSDT</td><td class="under">WTI 原油</td><td class="name">美油基准 · USO</td><td class="date">2026-04-01</td><td class="num">100×</td><td><span class="tag t-commodity">能源</span></td></tr>
+      <tr><td class="tk">BZUSDT</td><td class="under">Brent 原油</td><td class="name">全球基准 · BNO</td><td class="date">2026-04-01</td><td class="num">100×</td><td><span class="tag t-commodity">能源</span></td></tr>
+      <tr><td class="tk">NATGASUSDT</td><td class="under">天然气</td><td class="name">Henry Hub · UNG（AI 数据中心电力叙事）</td><td class="date">2026-04-01</td><td class="num">100×</td><td><span class="tag t-commodity">能源</span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:var(--muted);font-family:var(--mono)">&dagger; 铂 / 钯未见单独杠杆公告，按贵金属档（金、银均 50×）列示。</p>
+</section>
+
+<!-- ============ §03 ETF ============ -->
+<section class="sec">
+  <div class="sec-num">§ 03 · ETF PERPETUAL CONTRACTS</div>
+  <div class="sec-title">ETF <em>Perp</em></div>
+  <p class="sec-sub">底层为交易所交易基金；接口 underlyingType = EQUITY，此处单列。宽基 + 杠杆/主题 + 国别三类。</p>
+  <table class="dt">
+    <thead><tr><th>合约</th><th>底层</th><th>全称</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th>类型</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">QQQUSDT</td><td class="under">QQQ</td><td class="name">Invesco QQQ Trust（纳指 100）</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-etf">宽基</span></td></tr>
+      <tr><td class="tk">SPYUSDT</td><td class="under">SPY</td><td class="name">SPDR S&amp;P 500 ETF</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-etf">宽基</span></td></tr>
+      <tr><td class="tk">SOXLUSDT</td><td class="under">SOXL</td><td class="name">Direxion 半导体 3× 做多 ETF</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-etf">杠杆</span></td></tr>
+      <tr><td class="tk">DRAMUSDT</td><td class="under">DRAM</td><td class="name">Roundhill Memory ETF（SK海力士/三星/美光/闪迪）</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-etf">主题·存储</span></td></tr>
+      <tr><td class="tk">EWYUSDT</td><td class="under">EWY</td><td class="name">iShares MSCI 韩国 ETF</td><td class="date">2026-03-16</td><td class="num">10×</td><td><span class="tag t-etf">国别</span></td></tr>
+      <tr><td class="tk">EWJUSDT</td><td class="under">EWJ</td><td class="name">iShares MSCI 日本 ETF</td><td class="date">2026-03-19</td><td class="num">10×</td><td><span class="tag t-etf">国别</span></td></tr>
+      <tr><td class="tk">EWTUSDT</td><td class="under">EWT</td><td class="name">iShares MSCI 台湾 ETF</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-etf">国别</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ §04 个股 ============ -->
+<section class="sec">
+  <div class="sec-num">§ 04 · SINGLE-STOCK PERPETUAL CONTRACTS</div>
+  <div class="sec-title">个股 <em>Perp</em> · 47 只</div>
+  <p class="sec-sub">underlyingType = EQUITY（剔除 7 只 ETF 后）。按主题分组，组内按上线日升序。杠杆：5-19 前批次 10×，5-26 起批次升 20×。</p>
+  <table class="dt">
+    <thead><tr><th>合约</th><th>底层</th><th>公司全称</th><th>行业 / 子链</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th>标签</th></tr></thead>
+    <tbody>
+      <tr class="group-h"><td colspan="7">Mag7 / 大型科技 <span class="ct">· 7 个（已集齐 7/7）</span></td></tr>
+      <tr><td class="tk">TSLAUSDT</td><td class="under">TSLA</td><td class="name">Tesla</td><td>Auto / AI</td><td class="date">2026-01-28</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">AMZNUSDT</td><td class="under">AMZN</td><td class="name">Amazon</td><td>Cloud / Retail</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">METAUSDT</td><td class="under">META</td><td class="name">Meta Platforms</td><td>Communication</td><td class="date">2026-03-26</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">NVDAUSDT</td><td class="under">NVDA</td><td class="name">NVIDIA</td><td>Semis / GPU</td><td class="date">2026-03-26</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">GOOGLUSDT</td><td class="under">GOOGL</td><td class="name">Alphabet</td><td>Communication</td><td class="date">2026-03-26</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">AAPLUSDT</td><td class="under">AAPL</td><td class="name">Apple</td><td>Info Tech</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+      <tr><td class="tk">MSFTUSDT</td><td class="under">MSFT</td><td class="name">Microsoft</td><td>Software / Cloud</td><td class="date">2026-04-20</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">半导体 / AI 硬件 <span class="ct">· 15 个</span></td></tr>
+      <tr><td class="tk">INTCUSDT</td><td class="under">INTC</td><td class="name">Intel</td><td>IDM</td><td class="date">2026-02-02</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">TSMUSDT</td><td class="under">TSM</td><td class="name">Taiwan Semiconductor ADR</td><td>Foundry</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">MUUSDT</td><td class="under">MU</td><td class="name">Micron Technology</td><td>Memory</td><td class="date">2026-04-07</td><td class="num">10×</td><td><span class="tag t-equity">MEMORY</span></td></tr>
+      <tr><td class="tk">SNDKUSDT</td><td class="under">SNDK</td><td class="name">Sandisk</td><td>Memory / NAND</td><td class="date">2026-04-07</td><td class="num">10×</td><td><span class="tag t-equity">MEMORY</span></td></tr>
+      <tr><td class="tk">AVGOUSDT</td><td class="under">AVGO</td><td class="name">Broadcom</td><td>Semis / ASIC</td><td class="date">2026-04-20</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">AMDUSDT</td><td class="under">AMD</td><td class="name">Advanced Micro Devices</td><td>Semis / GPU</td><td class="date">2026-05-06</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">QCOMUSDT</td><td class="under">QCOM</td><td class="name">Qualcomm</td><td>Semis / Mobile</td><td class="date">2026-05-06</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">LITEUSDT</td><td class="under">LITE</td><td class="name">Lumentum Holdings</td><td>光器件 / 光模块</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">OPTICAL</span></td></tr>
+      <tr><td class="tk">MRVLUSDT</td><td class="under">MRVL</td><td class="name">Marvell Technology</td><td>Semis / 定制芯片</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">CRWVUSDT</td><td class="under">CRWV</td><td class="name">CoreWeave</td><td>AI 云 / neocloud</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">AI CLOUD</span></td></tr>
+      <tr><td class="tk">CBRSUSDT</td><td class="under">CBRS</td><td class="name">Cerebras Systems</td><td>AI 芯片（IPO+5d）</td><td class="date">2026-05-19</td><td class="num">10×</td><td><span class="tag t-new">IPO EVENT</span></td></tr>
+      <tr><td class="tk">NBISUSDT</td><td class="under">NBIS</td><td class="name">Nebius Group（荷兰）</td><td>AI 云 / neocloud</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">AI CLOUD</span></td></tr>
+      <tr><td class="tk">WDCUSDT</td><td class="under">WDC</td><td class="name">Western Digital</td><td>Storage / HDD</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">MEMORY</span></td></tr>
+      <tr><td class="tk">ARMUSDT</td><td class="under">ARM</td><td class="name">Arm Holdings ADR</td><td>Semis IP</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
+      <tr><td class="tk">COHRUSDT</td><td class="under">COHR</td><td class="name">Coherent Corp.</td><td>光通信 / 激光</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">OPTICAL</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">加密 / 金融 <span class="ct">· 6 个</span></td></tr>
+      <tr><td class="tk">HOODUSDT</td><td class="under">HOOD</td><td class="name">Robinhood Markets</td><td>Fintech / 券商</td><td class="date">2026-02-02</td><td class="num">10×</td><td><span class="tag t-equity">FINTECH</span></td></tr>
+      <tr><td class="tk">MSTRUSDT</td><td class="under">MSTR</td><td class="name">Strategy（原 MicroStrategy）</td><td>BTC proxy</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
+      <tr><td class="tk">CRCLUSDT</td><td class="under">CRCL</td><td class="name">Circle Internet Group</td><td>稳定币发行（USDC）</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
+      <tr><td class="tk">COINUSDT</td><td class="under">COIN</td><td class="name">Coinbase Global</td><td>加密交易所</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
+      <tr><td class="tk">PAYPUSDT</td><td class="under">PAYP</td><td class="name">PayPay Corp（日本支付，软银系）</td><td>Payments</td><td class="date">2026-03-23</td><td class="num">10×</td><td><span class="tag t-warn">非 PayPal</span></td></tr>
+      <tr><td class="tk">VUSDT</td><td class="under">V</td><td class="name">Visa</td><td>Payments</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">FINTECH</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">软件 / 网络 <span class="ct">· 4 个</span></td></tr>
+      <tr><td class="tk">PLTRUSDT</td><td class="under">PLTR</td><td class="name">Palantir Technologies</td><td>AI 软件 / 数据</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">SOFTWARE</span></td></tr>
+      <tr><td class="tk">ORCLUSDT</td><td class="under">ORCL</td><td class="name">Oracle</td><td>Software / Cloud</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">SOFTWARE</span></td></tr>
+      <tr><td class="tk">CSCOUSDT</td><td class="under">CSCO</td><td class="name">Cisco Systems</td><td>Networking</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">NETWORK</span></td></tr>
+      <tr><td class="tk">BBXUSDT</td><td class="under">BBX</td><td class="name">BlackBerry（NYSE: BB）</td><td>网安 / IoT</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-warn">= BlackBerry</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">医药 GLP-1 <span class="ct">· 2 个（6-01 首次进医药）</span></td></tr>
+      <tr><td class="tk">LLYUSDT</td><td class="under">LLY</td><td class="name">Eli Lilly</td><td>Pharma / GLP-1</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">PHARMA</span></td></tr>
+      <tr><td class="tk">NVOUSDT</td><td class="under">NVO</td><td class="name">Novo Nordisk ADR</td><td>Pharma / GLP-1</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">PHARMA</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">航天 / 卫星 / 稀土材料 <span class="ct">· 3 个</span></td></tr>
+      <tr><td class="tk">USARUSDT</td><td class="under">USAR</td><td class="name">USA Rare Earth（稀土磁材）</td><td>战略材料</td><td class="date">2026-05-06</td><td class="num">10×</td><td><span class="tag t-equity">MATERIALS</span></td></tr>
+      <tr><td class="tk">RKLBUSDT</td><td class="under">RKLB</td><td class="name">Rocket Lab USA</td><td>Aerospace</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">SPACE</span></td></tr>
+      <tr><td class="tk">ASTSUSDT</td><td class="under">ASTS</td><td class="name">AST SpaceMobile</td><td>卫星直连</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">SPACE</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">能源 / 储能 <span class="ct">· 2 个</span></td></tr>
+      <tr><td class="tk">FLNCUSDT</td><td class="under">FLNC</td><td class="name">Fluence Energy</td><td>储能</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">STORAGE</span></td></tr>
+      <tr><td class="tk">BEUSDT</td><td class="under">BE</td><td class="name">Bloom Energy</td><td>燃料电池</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">FUEL CELL</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">蓝筹 / 消费 / 工业 / 电信 <span class="ct">· 7 个</span></td></tr>
+      <tr><td class="tk">DISUSDT</td><td class="under">DIS</td><td class="name">Walt Disney</td><td>Media</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">UBERUSDT</td><td class="under">UBER</td><td class="name">Uber Technologies</td><td>Consumer Disc</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">HDUSDT</td><td class="under">HD</td><td class="name">Home Depot</td><td>Retail</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">WMTUSDT</td><td class="under">WMT</td><td class="name">Walmart</td><td>Staples</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">JPMUSDT</td><td class="under">JPM</td><td class="name">JPMorgan Chase</td><td>Banks</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">BRKBUSDT</td><td class="under">BRKB</td><td class="name">Berkshire Hathaway B</td><td>Conglomerate</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
+      <tr><td class="tk">NOKUSDT</td><td class="under">NOK</td><td class="name">Nokia ADR</td><td>Telecom</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">TELECOM</span></td></tr>
+
+      <tr class="group-h"><td colspan="7">中概 <span class="ct">· 1 个</span></td></tr>
+      <tr><td class="tk">BABAUSDT</td><td class="under">BABA</td><td class="name">Alibaba ADR</td><td>China / Cloud</td><td class="date">2026-04-20</td><td class="num">10×</td><td><span class="tag t-equity">CHINA ADR</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ §05 关键发现 ============ -->
+<section class="sec">
+  <div class="sec-num">§ 05 · KEY READS</div>
+  <div class="sec-title">关键发现 · <em>非套话</em></div>
+
+  <div class="note-block warn">
+    <span class="kicker">易错点 1 · 两个底层身份必须纠正</span>
+    <strong>PAYP ≠ PayPal。</strong>PAYPUSDT 底层是 <strong>PayPay Corp</strong>（日本软银系移动支付，NASDAQ: PAYP），不是 PayPal（PYPL）。<br>
+    <strong>BBX = BlackBerry。</strong>BBXUSDT 底层是 BlackBerry（NYSE: <strong>BB</strong>），币安因 BB 代码占用改用 BBX——别按字面误读成"BBX Capital"。
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">关键点 2 · 杠杆在系统性加档（10× → 20×）</span>
+    所有 2026-05-19 及之前上线的个股 / ETF 发的是 <strong>10×</strong>；<strong>2026-05-26 批次起统一升到 20×</strong>（5-26 的 NBIS/WDC/ARM/BE/COHR + 6-01 的 LLY/NVO/BB/NOK/EWT/ASTS 经公告核验均 20×）。Pre-IPO 同步：SPCX 5× → OpenAI / Quantinuum 20×。商品端能源（CL/BZ/NATGAS）+ 铜 100×，贵金属 50×。<strong>币安在放大 TradFi perp 风险敞口。</strong>
+  </div>
+
+  <div class="note-block hot">
+    <span class="kicker">关键点 3 · 品类推进时间线（半年走完）</span>
+    <div class="tl" style="margin-top:8px">
+      <div class="tl-rail">
+        <div class="tl-cell"><div class="tdate">2025-12</div><div class="ttitle"><strong>黄金首发</strong><br>XAU</div></div>
+        <div class="tl-cell"><div class="tdate">2026-01</div><div class="ttitle"><strong>贵金属全家桶</strong><br>XAG/XPT/XPD</div></div>
+        <div class="tl-cell"><div class="tdate">2026-01–02</div><div class="ttitle"><strong>首批个股</strong><br>TSLA·COIN·MSTR</div></div>
+        <div class="tl-cell"><div class="tdate">2026-03–04</div><div class="ttitle"><strong>能源+Mag7+宽基ETF</strong><br>CL/BZ·NVDA·QQQ</div></div>
+        <div class="tl-cell"><div class="tdate">2026-05</div><div class="ttitle"><strong>AI 链铺满</strong><br>存储/光/neocloud</div></div>
+        <div class="tl-cell hot"><div class="tdate">2026-05-21</div><div class="ttitle"><strong>Pre-IPO 开闸</strong><br>SpaceX/OpenAI</div></div>
+        <div class="tl-cell hot"><div class="tdate">2026-06-01</div><div class="ttitle"><strong>医药+卫星+量子</strong><br>LLY/NVO·ASTS·QNTX</div></div>
+      </div>
+    </div>
+    从单一黄金到 65 个标的、横跨贵金属 / 能源 / Mag7 / 全 AI 硬件链 / 加密关联股 / GLP-1 药企 / 航天卫星 / Pre-IPO / 量子计算——半年内 TradFi perp 从概念验证扩成<strong>覆盖主流资产类别的衍生品货架</strong>。
+  </div>
+
+  <div class="note-block gap">
+    <span class="kicker">范畴外 · 但不算遗漏（单独标出）</span>
+    2026-06-01 币安同步宣布上架 <strong>~7,000 只美股 tokenized "bStocks"</strong>（BNB Chain 链上代币化股票，"super app" 战略）。这是<strong>独立产品线——现货代币化股票，不是永续合约</strong>，按既定"tokenized stock（Backed/Dinari/xStocks 系）不纳入分析"的口径，不计入上面 65 个 TradFi perp。量级巨大，单列于此以免误判为漏项；若需要单独梳理这条线可另开。
+  </div>
+</section>
+
+<div class="foot">
+  <strong>数据源</strong>：Binance fapi/v1/exchangeInfo（全量在挂合约，contractType=TRADIFI_PERPETUAL）；底层身份 / 杠杆经各合约官方公告页逐一核验。<br>
+  <strong>口径</strong>：截至 2026-06-02 · USDⓈ-M · 仅 TRADING 状态 · 已剔除 underlyingType=INDEX 的 crypto 指数（DEFI/BTCDOM/ALL）。<br>
+  <strong>性质</strong>：listing 清单信号，反映发行节奏 + 审核通过，不代表交易所观点。
+</div>
+
+</body>
+</html>
