@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!--
 ========================================================================
-  币安 TradFi 永续合约 · 全量普查 · 2026-06-02
+  币安 TradFi 永续合约 · 全量普查 · 2026-06-06
   ------------------------------------------------------------------
   数据源：Binance fapi/v1/exchangeInfo（contractType=TRADIFI_PERPETUAL）
-  范围：USDⓈ-M 全部 TradFi perp，65 个，TRADING 状态
+  范围：USDⓈ-M 全部 TradFi perp，75 个，TRADING 状态
   说明：交易所自身全量接口，非公告增量 → 无遗漏
 ========================================================================
 -->
@@ -125,13 +125,14 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
 <body>
 
 <div class="masthead">
-  <div class="h-eyebrow">BINANCE TRADFI PERPETUALS · FULL CENSUS · AS OF 2026-06-02</div>
+  <div class="h-eyebrow">BINANCE TRADFI PERPETUALS · FULL CENSUS · AS OF 2026-06-06</div>
   <div class="h-title">币安 <em>TradFi</em> 永续合约 · 全量普查</div>
-  <div class="h-desc">截至 2026-06-02，币安 USDⓈ-M 共 <em>65</em> 个 TradFi 永续合约——个股 47 + ETF 7 + 商品 8 + Pre-IPO 3，<em>全部 USDT 本位、全部 TRADING 状态</em>。数据直接取自交易所 <em>exchangeInfo</em> 接口（contractType = TRADIFI_PERPETUAL），非公告增量逐条拼凑，故对当前在挂合约<em>无遗漏</em>。</div>
+  <div class="h-desc">截至 2026-06-06，币安 USDⓈ-M 共 <em>75</em> 个 TradFi 永续合约——美股个股 54 + ETF 7 + 韩股个股 3 + 商品 8 + Pre-IPO 3，<em>全部 USDT 本位、全部 TRADING 状态</em>。数据直接取自交易所 <em>exchangeInfo</em> 接口（contractType = TRADIFI_PERPETUAL），非公告增量逐条拼凑，故对当前在挂合约<em>无遗漏</em>。本次较 6-02 版净增 10 个（Anthropic Pre-IPO + 韩股 3 + 美股 6），Quantinuum 已 IPO 转上市个股。</div>
   <div class="h-pills">
-    <span class="pill hot">TRADFI PERP 65</span>
-    <span class="pill">个股 47</span>
+    <span class="pill hot">TRADFI PERP 75</span>
+    <span class="pill">美股个股 54</span>
     <span class="pill">ETF 7</span>
+    <span class="pill new">韩股 3</span>
     <span class="pill">商品 8</span>
     <span class="pill new">PRE-IPO 3</span>
     <span class="pill">全 USDT 本位</span>
@@ -145,26 +146,28 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
   <div class="sec-title">全景 <em>概览</em></div>
 
   <div class="stat-grid">
-    <div class="stat hot"><div class="stat-label">TradFi Perp 总数</div><div class="stat-value"><em>65</em></div><div class="stat-sub">全 USDT 本位 · 全 TRADING</div></div>
-    <div class="stat"><div class="stat-label">个股 + ETF</div><div class="stat-value">54</div><div class="stat-sub">个股 47 + ETF 7</div></div>
+    <div class="stat hot"><div class="stat-label">TradFi Perp 总数</div><div class="stat-value"><em>75</em></div><div class="stat-sub">全 USDT 本位 · 全 TRADING（6-02 → 75，+10）</div></div>
+    <div class="stat"><div class="stat-label">美股个股 + ETF</div><div class="stat-value">61</div><div class="stat-sub">个股 54 + ETF 7</div></div>
+    <div class="stat new"><div class="stat-label">韩股个股（新类别）</div><div class="stat-value">3</div><div class="stat-sub">SK海力士 · 三星 · 现代（KR_EQUITY）</div></div>
     <div class="stat"><div class="stat-label">商品</div><div class="stat-value">8</div><div class="stat-sub">贵金属 4 · 工业金属 1 · 能源 3</div></div>
-    <div class="stat warn"><div class="stat-label">Pre-IPO（新品类）</div><div class="stat-value">3</div><div class="stat-sub">SpaceX · OpenAI · Quantinuum</div></div>
+    <div class="stat warn"><div class="stat-label">Pre-IPO（新品类）</div><div class="stat-value">3</div><div class="stat-sub">SpaceX · OpenAI · Anthropic</div></div>
   </div>
 
   <div class="sector-cards">
     <div class="scard"><div class="sn">Mag7</div><div class="sv"><em>7</em></div><div class="sl">已集齐 7/7</div></div>
-    <div class="scard"><div class="sn">半导体 / AI 硬件</div><div class="sv"><em>15</em></div><div class="sl">芯片+存储+光器件+neocloud</div></div>
-    <div class="scard"><div class="sn">加密 / 金融</div><div class="sv"><em>6</em></div><div class="sl">COIN·MSTR·CRCL·HOOD·V·PAYP</div></div>
-    <div class="scard"><div class="sn">软件 / 网络</div><div class="sv"><em>4</em></div><div class="sl">PLTR·ORCL·CSCO·BBX</div></div>
-    <div class="scard"><div class="sn">医药 GLP-1</div><div class="sv"><em>2</em></div><div class="sl">LLY·NVO（6-01 新进）</div></div>
-    <div class="scard"><div class="sn">航天 / 卫星 / 稀土</div><div class="sv"><em>3</em></div><div class="sl">RKLB·ASTS·USAR</div></div>
+    <div class="scard"><div class="sn">半导体 / AI 硬件</div><div class="sv"><em>17</em></div><div class="sl">芯片+存储+光器件+neocloud+DELL+量子</div></div>
+    <div class="scard"><div class="sn">加密 / 金融</div><div class="sv"><em>7</em></div><div class="sl">COIN·MSTR·CRCL·HOOD·V·PAYP·IREN</div></div>
+    <div class="scard"><div class="sn">软件 / 网络</div><div class="sv"><em>6</em></div><div class="sl">PLTR·ORCL·CSCO·BBX·NOW·CRM</div></div>
+    <div class="scard"><div class="sn">医药 GLP-1</div><div class="sv"><em>2</em></div><div class="sl">LLY·NVO</div></div>
+    <div class="scard"><div class="sn">航天/卫星/无人机/稀土</div><div class="sv"><em>4</em></div><div class="sl">RKLB·ASTS·USAR·ONDS</div></div>
     <div class="scard"><div class="sn">能源 / 储能</div><div class="sv"><em>2</em></div><div class="sl">FLNC·BE</div></div>
-    <div class="scard"><div class="sn">蓝筹 / 消费 / 中概</div><div class="sv"><em>8</em></div><div class="sl">JPM·BRKB·DIS·UBER·WMT·HD·NOK·BABA</div></div>
+    <div class="scard"><div class="sn">蓝筹/消费/工业/电信/中概</div><div class="sv"><em>9</em></div><div class="sl">JPM·BRKB·DIS·UBER·WMT·HD·NOK·IBM·BABA</div></div>
+    <div class="scard hot"><div class="sn">🇰🇷 韩股（新）</div><div class="sv"><em>3</em></div><div class="sl">SKHYNIX·SAMSUNG·HYUNDAI</div></div>
   </div>
 
   <div class="note-block info">
     <span class="kicker">数据口径 · 为什么"无遗漏"</span>
-    本表不靠逐条公告拼凑，而是直接拉交易所 <strong>fapi/v1/exchangeInfo</strong> 全量合约，按 <strong>contractType == "TRADIFI_PERPETUAL"</strong>（等价于 underlyingSubType 含 "TradFi"）过滤，再按 underlyingType 分 EQUITY / COMMODITY / PREMARKET 三类。已剔除 underlyingType=INDEX 的 DEFI / BTCDOM / ALL——那是 crypto 指数，不属 TradFi。底层公司全称、杠杆经各合约官方公告页逐一核验。<strong>这是发行清单信号，反映发行节奏 + 审核通过，不代表币安观点。</strong>
+    本表不靠逐条公告拼凑，而是直接拉交易所 <strong>fapi/v1/exchangeInfo</strong> 全量合约，按 <strong>contractType == "TRADIFI_PERPETUAL"</strong>（等价于 underlyingSubType 含 "TradFi"）过滤，再按 underlyingType 分 EQUITY / KR_EQUITY / COMMODITY / PREMARKET 四类。已剔除 underlyingType=INDEX 的 DEFI / BTCDOM / ALL——那是 crypto 指数，不属 TradFi。底层公司全称、杠杆经各合约官方公告页逐一核验。<strong>这是发行清单信号，反映发行节奏 + 审核通过，不代表币安观点。</strong>
   </div>
 </section>
 
@@ -172,18 +175,22 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
 <section class="sec">
   <div class="sec-num">§ 01 · PRE-IPO PERPETUAL CONTRACTS</div>
   <div class="sec-title">Pre-IPO Perp · <em>新品类</em></div>
-  <p class="sec-sub">底层为尚未上市公司的预期估值锚；underlyingType = PREMARKET。全市场首创品类，2026-05 起步。币安定价口径：<strong>隐含估值 = 永续现价 × 币安预估完全稀释股数</strong>（股数由币安公告给出、标注"仅供参考、IPO 后按实际调整"）。价格数据截至 2026-06-02。</p>
+  <p class="sec-sub">底层为尚未上市公司的预期估值锚；underlyingType = PREMARKET。全市场首创品类，2026-05 起步。币安定价口径：<strong>隐含估值 = 永续现价 × 币安预估完全稀释股数</strong>（股数由币安公告给出、标注"仅供参考、IPO 后按实际调整"）。价格数据截至 2026-06-06。<strong>Quantinuum（QNTX）已于 6-04 上市、合约转为已上市个股</strong>，移出本节（见 §04）。</p>
   <table class="dt">
     <thead><tr><th>合约</th><th>公司 / 定位</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th data-type="num">币安预估股数</th><th data-type="num">现价 USDT<br>(隐含每股)</th><th data-type="num">隐含估值</th><th>真实最近锚 / 溢价</th></tr></thead>
     <tbody>
       <tr><td class="tk">SPCXUSDT</td><td class="name">SpaceX · 商业航天（Space Exploration Technologies）</td><td class="date">2026-05-21</td><td class="num">5×</td><td class="num">118.7 亿<br><span style="color:var(--muted);font-size:10px">11.87B·拆股后</span></td><td class="num">197.11</td><td class="num"><strong>≈ $2.34T</strong></td><td class="logic">IPO 目标 $1.75T（6/12 纳指）· Forge 二级 $128.87/股 · <span style="color:var(--bull)">隐含 +34% over IPO ask</span></td></tr>
       <tr><td class="tk">OPENAIUSDT</td><td class="name">OpenAI Group PBC · AI 大模型</td><td class="date">2026-05-26</td><td class="num">20×</td><td class="num">10 亿<br><span style="color:var(--muted);font-size:10px">1B·整数约定</span></td><td class="num">1,478.49</td><td class="num"><strong>≈ $1.48T</strong></td><td class="logic">上轮 $852B（2026/3·$122B 募资）· <span style="color:var(--bull)">隐含 +74% over 上轮</span></td></tr>
-      <tr><td class="tk">QNTXUSDT</td><td class="name">Quantinuum Inc. · 量子计算（Honeywell 系）</td><td class="date">2026-05-29</td><td class="num">20×</td><td class="num">2.539 亿<br><span style="color:var(--muted);font-size:10px">253.9M</span></td><td class="num">97.64</td><td class="num"><strong>≈ $24.8B</strong></td><td class="logic">IPO 上调目标 $14.3B（6/5·代码 QNT·$53–55/股）· <span style="color:var(--bull)">隐含 +73% over IPO ask</span></td></tr>
+      <tr><td class="tk">ANTHROPICUSDT</td><td class="name">Anthropic PBC · AI 大模型（Claude）</td><td class="date">2026-06-02</td><td class="num">20×</td><td class="num">10 亿<br><span style="color:var(--muted);font-size:10px">1B·整数约定</span></td><td class="num">1,688.97</td><td class="num"><strong>≈ $1.69T</strong></td><td class="logic">Series H $965B（2026/5·$65B 募资·超 OpenAI 成最贵 AI 初创·收入 run-rate $47B）· 6/1 递交 S-1 · <span style="color:var(--bull)">隐含 +75% over 上轮</span></td></tr>
     </tbody>
   </table>
   <div class="note-block">
     <span class="kicker">定价机制 · 每股价 ≠ 真实股价</span>
-    币安永续报价是<strong>隐含每股</strong>，不是公司真实股权价：QNTX 报 $97.64，而真实 IPO 才定价 $53–55/股；SPCX 报 $197.11，而 Forge 二级（拆股后）才 $128.87。差异有两层——① 币安用自定股本基数（OpenAI 的"10 亿股"纯属凑整，OpenAI 是 capped-profit/PBC 结构、投资人持 PPU 而非普通股）；② 永续是纯价格博弈、price in 了上市首日 pop。<strong>三家隐含估值全部显著高于一级最新定价（+34% / +74% / +73%）</strong>，是典型 pre-IPO 影子市场抢跑行为，OpenAI 与量子 QNTX 溢价最猛（量子板块本轮在炒）。币安保留 IPO 后按实际股本调整 contract size 的权利，故这三个股数 IPO 后大概率被改写。
+    币安永续报价是<strong>隐含每股</strong>，不是公司真实股权价：SPCX 报 $197.11，而 Forge 二级（拆股后）才 $128.87。差异有两层——① 币安用自定股本基数（OpenAI / Anthropic 的"10 亿股"纯属凑整，二者均 capped-profit/PBC 结构、投资人持 PPU 而非普通股）；② 永续是纯价格博弈、price in 了上市首日 pop。<strong>三家隐含估值全部显著高于一级最新定价（SPCX +34% / OpenAI +74% / Anthropic +75%）</strong>，是典型 pre-IPO 影子市场抢跑行为。Anthropic 以 $965B 一级估值超 OpenAI（$852B）成全球最贵 AI 初创，币安隐含更给到 $1.69T。
+  </div>
+  <div class="note-block warn">
+    <span class="kicker">实证 · Pre-IPO 溢价上市即蒸发（QNTX 案例）</span>
+    Quantinuum <strong>6-04 在纳指 IPO</strong>：定价 $60（高于 $53–55 区间）、募资 $1.68B、首日开盘 $68（+13%）收平、市值 $15.7B。<strong>币安 QNTX 永续从 6-02 的 $97.64（隐含 $24.8B）跌到 6-06 的 $55.46——上市前的影子溢价随合约转轨真实股价直接蒸发约 43%。</strong>这是 pre-IPO perp 的核心风险样本：上市前可以炒到一级估值的 1.7 倍，落地一刻向真实价格收敛。币安预估的 253.9M 股事后看与实际总股本（≈261M，按 $15.7B / ~$60 反推）接近。
   </div>
 </section>
 
@@ -233,8 +240,8 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
 <!-- ============ §04 个股 ============ -->
 <section class="sec">
   <div class="sec-num">§ 04 · SINGLE-STOCK PERPETUAL CONTRACTS</div>
-  <div class="sec-title">个股 <em>Perp</em> · 47 只</div>
-  <p class="sec-sub">underlyingType = EQUITY（剔除 7 只 ETF 后）。按主题分组，组内按上线日升序。杠杆：5-19 前批次 10×，5-26 起批次升 20×。</p>
+  <div class="sec-title">个股 <em>Perp</em> · 54 只</div>
+  <p class="sec-sub">underlyingType = EQUITY（剔除 7 只 ETF 后）。按主题分组，组内按上线日升序。杠杆：5-19 前批次 10×，5-26 起批次升 20×。6-03 批次新增 6 只（DELL/IBM/NOW/CRM/IREN/ONDS）+ Quantinuum（QNTX）6-04 上市后从 Pre-IPO 转入本节，均 20×。</p>
   <table class="dt">
     <thead><tr><th>合约</th><th>底层</th><th>公司全称</th><th>行业 / 子链</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th>标签</th></tr></thead>
     <tbody>
@@ -247,7 +254,7 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
       <tr><td class="tk">AAPLUSDT</td><td class="under">AAPL</td><td class="name">Apple</td><td>Info Tech</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
       <tr><td class="tk">MSFTUSDT</td><td class="under">MSFT</td><td class="name">Microsoft</td><td>Software / Cloud</td><td class="date">2026-04-20</td><td class="num">10×</td><td><span class="tag t-mag7">MAG7</span></td></tr>
 
-      <tr class="group-h"><td colspan="7">半导体 / AI 硬件 <span class="ct">· 15 个</span></td></tr>
+      <tr class="group-h"><td colspan="7">半导体 / AI 硬件 <span class="ct">· 17 个</span></td></tr>
       <tr><td class="tk">INTCUSDT</td><td class="under">INTC</td><td class="name">Intel</td><td>IDM</td><td class="date">2026-02-02</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
       <tr><td class="tk">TSMUSDT</td><td class="under">TSM</td><td class="name">Taiwan Semiconductor ADR</td><td>Foundry</td><td class="date">2026-04-06</td><td class="num">10×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
       <tr><td class="tk">MUUSDT</td><td class="under">MU</td><td class="name">Micron Technology</td><td>Memory</td><td class="date">2026-04-07</td><td class="num">10×</td><td><span class="tag t-equity">MEMORY</span></td></tr>
@@ -263,35 +270,41 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
       <tr><td class="tk">WDCUSDT</td><td class="under">WDC</td><td class="name">Western Digital</td><td>Storage / HDD</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">MEMORY</span></td></tr>
       <tr><td class="tk">ARMUSDT</td><td class="under">ARM</td><td class="name">Arm Holdings ADR</td><td>Semis IP</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">SEMIS</span></td></tr>
       <tr><td class="tk">COHRUSDT</td><td class="under">COHR</td><td class="name">Coherent Corp.</td><td>光通信 / 激光</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">OPTICAL</span></td></tr>
+      <tr><td class="tk">DELLUSDT</td><td class="under">DELL</td><td class="name">Dell Technologies</td><td>AI 服务器 / ISG</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · AI SERVER</span></td></tr>
+      <tr><td class="tk">QNTXUSDT</td><td class="under">QNTX</td><td class="name">Quantinuum（NASDAQ: QNT）</td><td>量子计算 · 6-04 上市</td><td class="date">2026-05-29</td><td class="num">20×</td><td><span class="tag t-new">IPO 毕业</span></td></tr>
 
-      <tr class="group-h"><td colspan="7">加密 / 金融 <span class="ct">· 6 个</span></td></tr>
+      <tr class="group-h"><td colspan="7">加密 / 金融 <span class="ct">· 7 个</span></td></tr>
       <tr><td class="tk">HOODUSDT</td><td class="under">HOOD</td><td class="name">Robinhood Markets</td><td>Fintech / 券商</td><td class="date">2026-02-02</td><td class="num">10×</td><td><span class="tag t-equity">FINTECH</span></td></tr>
       <tr><td class="tk">MSTRUSDT</td><td class="under">MSTR</td><td class="name">Strategy（原 MicroStrategy）</td><td>BTC proxy</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
       <tr><td class="tk">CRCLUSDT</td><td class="under">CRCL</td><td class="name">Circle Internet Group</td><td>稳定币发行（USDC）</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
       <tr><td class="tk">COINUSDT</td><td class="under">COIN</td><td class="name">Coinbase Global</td><td>加密交易所</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">CRYPTO</span></td></tr>
       <tr><td class="tk">PAYPUSDT</td><td class="under">PAYP</td><td class="name">PayPay Corp（日本支付，软银系）</td><td>Payments</td><td class="date">2026-03-23</td><td class="num">10×</td><td><span class="tag t-warn">非 PayPal</span></td></tr>
       <tr><td class="tk">VUSDT</td><td class="under">V</td><td class="name">Visa</td><td>Payments</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">FINTECH</span></td></tr>
+      <tr><td class="tk">IRENUSDT</td><td class="under">IREN</td><td class="name">IREN Ltd（原 Iris Energy）</td><td>BTC 矿企 → AI/HPC 数据中心</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · BTC→AI HPC</span></td></tr>
 
-      <tr class="group-h"><td colspan="7">软件 / 网络 <span class="ct">· 4 个</span></td></tr>
+      <tr class="group-h"><td colspan="7">软件 / 网络 <span class="ct">· 6 个</span></td></tr>
       <tr><td class="tk">PLTRUSDT</td><td class="under">PLTR</td><td class="name">Palantir Technologies</td><td>AI 软件 / 数据</td><td class="date">2026-02-09</td><td class="num">10×</td><td><span class="tag t-equity">SOFTWARE</span></td></tr>
       <tr><td class="tk">ORCLUSDT</td><td class="under">ORCL</td><td class="name">Oracle</td><td>Software / Cloud</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">SOFTWARE</span></td></tr>
       <tr><td class="tk">CSCOUSDT</td><td class="under">CSCO</td><td class="name">Cisco Systems</td><td>Networking</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">NETWORK</span></td></tr>
       <tr><td class="tk">BBXUSDT</td><td class="under">BBX</td><td class="name">BlackBerry（NYSE: BB）</td><td>网安 / IoT</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-warn">= BlackBerry</span></td></tr>
+      <tr><td class="tk">NOWUSDT</td><td class="under">NOW</td><td class="name">ServiceNow</td><td>企业 SaaS / AI agent</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · SOFTWARE</span></td></tr>
+      <tr><td class="tk">CRMUSDT</td><td class="under">CRM</td><td class="name">Salesforce</td><td>企业 SaaS / Agentforce</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · SOFTWARE</span></td></tr>
 
       <tr class="group-h"><td colspan="7">医药 GLP-1 <span class="ct">· 2 个（6-01 首次进医药）</span></td></tr>
       <tr><td class="tk">LLYUSDT</td><td class="under">LLY</td><td class="name">Eli Lilly</td><td>Pharma / GLP-1</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">PHARMA</span></td></tr>
       <tr><td class="tk">NVOUSDT</td><td class="under">NVO</td><td class="name">Novo Nordisk ADR</td><td>Pharma / GLP-1</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">PHARMA</span></td></tr>
 
-      <tr class="group-h"><td colspan="7">航天 / 卫星 / 稀土材料 <span class="ct">· 3 个</span></td></tr>
+      <tr class="group-h"><td colspan="7">航天 / 卫星 / 无人机 / 稀土 <span class="ct">· 4 个</span></td></tr>
       <tr><td class="tk">USARUSDT</td><td class="under">USAR</td><td class="name">USA Rare Earth（稀土磁材）</td><td>战略材料</td><td class="date">2026-05-06</td><td class="num">10×</td><td><span class="tag t-equity">MATERIALS</span></td></tr>
       <tr><td class="tk">RKLBUSDT</td><td class="under">RKLB</td><td class="name">Rocket Lab USA</td><td>Aerospace</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">SPACE</span></td></tr>
       <tr><td class="tk">ASTSUSDT</td><td class="under">ASTS</td><td class="name">AST SpaceMobile</td><td>卫星直连</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">SPACE</span></td></tr>
+      <tr><td class="tk">ONDSUSDT</td><td class="under">ONDS</td><td class="name">Ondas Holdings</td><td>无人机 / 自主系统（国防）</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · DRONE</span></td></tr>
 
       <tr class="group-h"><td colspan="7">能源 / 储能 <span class="ct">· 2 个</span></td></tr>
       <tr><td class="tk">FLNCUSDT</td><td class="under">FLNC</td><td class="name">Fluence Energy</td><td>储能</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">STORAGE</span></td></tr>
       <tr><td class="tk">BEUSDT</td><td class="under">BE</td><td class="name">Bloom Energy</td><td>燃料电池</td><td class="date">2026-05-26</td><td class="num">20×</td><td><span class="tag t-equity">FUEL CELL</span></td></tr>
 
-      <tr class="group-h"><td colspan="7">蓝筹 / 消费 / 工业 / 电信 <span class="ct">· 7 个</span></td></tr>
+      <tr class="group-h"><td colspan="7">蓝筹 / 消费 / 工业 / 电信 <span class="ct">· 8 个</span></td></tr>
       <tr><td class="tk">DISUSDT</td><td class="under">DIS</td><td class="name">Walt Disney</td><td>Media</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
       <tr><td class="tk">UBERUSDT</td><td class="under">UBER</td><td class="name">Uber Technologies</td><td>Consumer Disc</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
       <tr><td class="tk">HDUSDT</td><td class="under">HD</td><td class="name">Home Depot</td><td>Retail</td><td class="date">2026-05-15</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
@@ -299,6 +312,7 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
       <tr><td class="tk">JPMUSDT</td><td class="under">JPM</td><td class="name">JPMorgan Chase</td><td>Banks</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
       <tr><td class="tk">BRKBUSDT</td><td class="under">BRKB</td><td class="name">Berkshire Hathaway B</td><td>Conglomerate</td><td class="date">2026-05-18</td><td class="num">10×</td><td><span class="tag t-equity">BLUE CHIP</span></td></tr>
       <tr><td class="tk">NOKUSDT</td><td class="under">NOK</td><td class="name">Nokia ADR</td><td>Telecom</td><td class="date">2026-06-01</td><td class="num">20×</td><td><span class="tag t-equity">TELECOM</span></td></tr>
+      <tr><td class="tk">IBMUSDT</td><td class="under">IBM</td><td class="name">IBM</td><td>企业 IT / 混合云 / 量子</td><td class="date">2026-06-03</td><td class="num">20×</td><td><span class="tag t-new">新 · ENTERPRISE</span></td></tr>
 
       <tr class="group-h"><td colspan="7">中概 <span class="ct">· 1 个</span></td></tr>
       <tr><td class="tk">BABAUSDT</td><td class="under">BABA</td><td class="name">Alibaba ADR</td><td>China / Cloud</td><td class="date">2026-04-20</td><td class="num">10×</td><td><span class="tag t-equity">CHINA ADR</span></td></tr>
@@ -306,10 +320,34 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
   </table>
 </section>
 
-<!-- ============ §05 关键发现 ============ -->
+<!-- ============ §05 韩股 ============ -->
 <section class="sec">
-  <div class="sec-num">§ 05 · KEY READS</div>
+  <div class="sec-num">§ 05 · KR EQUITY PERPETUAL CONTRACTS</div>
+  <div class="sec-title">🇰🇷 韩股个股 <em>Perp</em> · 新类别</div>
+  <p class="sec-sub">underlyingType = <strong>KR_EQUITY</strong>——币安 TradFi perp 首次纳入<strong>非美单一个股</strong>。三只均 2026-06-02 上线、20×、USDT 结算、24/7、追踪对应韩国上市公司真实股价。⚠️ 因 FSC 牌照限制，<strong>韩国本地用户被禁用</strong>。价格截至 2026-06-06。</p>
+  <table class="dt">
+    <thead><tr><th>合约</th><th>底层</th><th>公司全称</th><th>行业 / AI 关联</th><th data-type="num">上线日</th><th data-type="num">杠杆</th><th data-type="num">现价 USDT · 24h</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">SKHYNIXUSDT</td><td class="under">SKHYNIX</td><td class="name">SK 海力士</td><td>HBM 存储龙头 · 英伟达 HBM 主供 · Anthropic 战投</td><td class="date">2026-06-02</td><td class="num">20×</td><td class="num">1,255.00 <span style="color:var(--bear)">−17%</span></td></tr>
+      <tr><td class="tk">SAMSUNGUSDT</td><td class="under">SAMSUNG</td><td class="name">三星电子</td><td>存储 + 代工 · Anthropic 战投</td><td class="date">2026-06-02</td><td class="num">20×</td><td class="num">199.70 <span style="color:var(--bear)">−12%</span></td></tr>
+      <tr><td class="tk">HYUNDAIUSDT</td><td class="under">HYUNDAI</td><td class="name">现代汽车</td><td>整车 / EV</td><td class="date">2026-06-02</td><td class="num">20×</td><td class="num">431.27 <span style="color:var(--bear)">−3%</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note-block">
+    <span class="kicker">读法 · AI 存储复合体的映射</span>
+    三只里 <strong>SK 海力士 + 三星</strong> 是 HBM/DRAM 核心，且同时是 <strong>Anthropic 的战略基础设施投资人</strong>（与 Micron 并列）——币安同期上 Anthropic Pre-IPO + 韩股存储双雄，等于把"AI 内存供应链"在 perp 货架上配齐。6-06 当日 SK 海力士 <strong>−17%</strong>、三星 <strong>−12%</strong>，是 AI 存储板块一次急跌（20× 杠杆放大波动），现代汽车 −3% 明显抗跌、与存储不同步。注：KR perp 报价以 USDT 计价、追踪真实韩股走势，非原始 KRW 价。
+  </div>
+</section>
+
+<!-- ============ §06 关键发现 ============ -->
+<section class="sec">
+  <div class="sec-num">§ 06 · KEY READS</div>
   <div class="sec-title">关键发现 · <em>非套话</em></div>
+
+  <div class="note-block hot">
+    <span class="kicker">本次更新（6-02 → 6-06）· 净增 10 + 1 转轨</span>
+    <strong>① 国别扩张：</strong>首上韩股 3 只（SK海力士/三星/现代，新 underlyingType = KR_EQUITY），TradFi perp 从"纯美股"破圈到非美单一个股。<strong>② Pre-IPO 再添重磅：</strong>Anthropic（Claude 母公司，$965B 一级估值已超 OpenAI）。<strong>③ 美股 +6：</strong>DELL/IBM/NOW/CRM/IREN/ONDS（AI 服务器 / 企业软件 / BTC→AI HPC / 无人机）。<strong>④ Quantinuum 毕业：</strong>6-04 上市，QNTX 从 Pre-IPO 转为已上市个股 perp。总数 65 → <strong>75</strong>。
+  </div>
 
   <div class="note-block warn">
     <span class="kicker">易错点 1 · 两个底层身份必须纠正</span>
@@ -319,7 +357,7 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
 
   <div class="note-block">
     <span class="kicker">关键点 2 · 杠杆在系统性加档（10× → 20×）</span>
-    所有 2026-05-19 及之前上线的个股 / ETF 发的是 <strong>10×</strong>；<strong>2026-05-26 批次起统一升到 20×</strong>（5-26 的 NBIS/WDC/ARM/BE/COHR + 6-01 的 LLY/NVO/BB/NOK/EWT/ASTS 经公告核验均 20×）。Pre-IPO 同步：SPCX 5× → OpenAI / Quantinuum 20×。商品端能源（CL/BZ/NATGAS）+ 铜 100×，贵金属 50×。<strong>币安在放大 TradFi perp 风险敞口。</strong>
+    所有 2026-05-19 及之前上线的个股 / ETF 发的是 <strong>10×</strong>；<strong>2026-05-26 批次起统一升到 20×</strong>（5-26 的 NBIS/WDC/ARM/BE/COHR、6-01 的 LLY/NVO/BB/NOK/EWT/ASTS、6-02 韩股三只、6-03 的 DELL/IBM/NOW/CRM/IREN/ONDS 经公告核验<strong>均 20×</strong>）。Pre-IPO 同步：SPCX 5× → OpenAI / Quantinuum / Anthropic 20×。商品端能源（CL/BZ/NATGAS）+ 铜 100×，贵金属 50×。<strong>20× 已成新标的默认档，配合韩股 24/7 交易，币安在系统性放大 TradFi perp 风险敞口。</strong>
   </div>
 
   <div class="note-block hot">
@@ -333,20 +371,22 @@ table.dt tbody tr.group-h .ct{color:var(--muted);font-weight:500;margin-left:8px
         <div class="tl-cell"><div class="tdate">2026-05</div><div class="ttitle"><strong>AI 链铺满</strong><br>存储/光/neocloud</div></div>
         <div class="tl-cell hot"><div class="tdate">2026-05-21</div><div class="ttitle"><strong>Pre-IPO 开闸</strong><br>SpaceX/OpenAI</div></div>
         <div class="tl-cell hot"><div class="tdate">2026-06-01</div><div class="ttitle"><strong>医药+卫星+量子</strong><br>LLY/NVO·ASTS·QNTX</div></div>
+        <div class="tl-cell hot"><div class="tdate">2026-06-02</div><div class="ttitle"><strong>破圈韩股+Anthropic</strong><br>SKHynix/三星·ANTHROPIC</div></div>
+        <div class="tl-cell hot"><div class="tdate">2026-06-03–04</div><div class="ttitle"><strong>企业软件+QNTX上市</strong><br>NOW/CRM/DELL·QNT IPO</div></div>
       </div>
     </div>
-    从单一黄金到 65 个标的、横跨贵金属 / 能源 / Mag7 / 全 AI 硬件链 / 加密关联股 / GLP-1 药企 / 航天卫星 / Pre-IPO / 量子计算——半年内 TradFi perp 从概念验证扩成<strong>覆盖主流资产类别的衍生品货架</strong>。
+    从单一黄金到 75 个标的、横跨贵金属 / 能源 / Mag7 / 全 AI 硬件链 / 加密关联股 / GLP-1 药企 / 航天卫星 / 无人机 / Pre-IPO / 量子计算 / <strong>韩股（首个非美国别）</strong>——半年内 TradFi perp 从概念验证扩成<strong>覆盖主流资产类别 + 跨国别的衍生品货架</strong>。下一个边界大概率是更多国别个股。
   </div>
 
   <div class="note-block gap">
     <span class="kicker">范畴外 · 但不算遗漏（单独标出）</span>
-    2026-06-01 币安同步宣布上架 <strong>~7,000 只美股 tokenized "bStocks"</strong>（BNB Chain 链上代币化股票，"super app" 战略）。这是<strong>独立产品线——现货代币化股票，不是永续合约</strong>，按既定"tokenized stock（Backed/Dinari/xStocks 系）不纳入分析"的口径，不计入上面 65 个 TradFi perp。量级巨大，单列于此以免误判为漏项；若需要单独梳理这条线可另开。
+    2026-06-01 币安同步宣布上架 <strong>~7,000 只美股 tokenized "bStocks"</strong>（BNB Chain 链上代币化股票，"super app" 战略）。这是<strong>独立产品线——现货代币化股票，不是永续合约</strong>，按既定"tokenized stock（Backed/Dinari/xStocks 系）不纳入分析"的口径，不计入上面 75 个 TradFi perp。量级巨大，单列于此以免误判为漏项；若需要单独梳理这条线可另开。
   </div>
 </section>
 
 <div class="foot">
   <strong>数据源</strong>：Binance fapi/v1/exchangeInfo（全量在挂合约，contractType=TRADIFI_PERPETUAL）；底层身份 / 杠杆经各合约官方公告页逐一核验。<br>
-  <strong>口径</strong>：截至 2026-06-02 · USDⓈ-M · 仅 TRADING 状态 · 已剔除 underlyingType=INDEX 的 crypto 指数（DEFI/BTCDOM/ALL）。<br>
+  <strong>口径</strong>：截至 2026-06-06 · USDⓈ-M · 仅 TRADING 状态 · 四类 EQUITY / KR_EQUITY / COMMODITY / PREMARKET · 已剔除 underlyingType=INDEX 的 crypto 指数（DEFI/BTCDOM/ALL）。<br>
   <strong>性质</strong>：listing 清单信号，反映发行节奏 + 审核通过，不代表交易所观点。
 </div>
 
