@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+  美股强势股主线 · HTML 模板（template）
+  ------------------------------------------------------------------
+  来源：美股强势股主线3_260519.html 抽离的结构 + 样式
+  调性：navy/amber masthead（参考 A股映射） + Fraunces/米色正文
+  用法：复制本文件 → 重命名为 美股强势股主线N_YYMMDD.html → 替换 {{...}} 占位
+  ------------------------------------------------------------------
+  分档：5 档独立 P80 → 重映射到 4 档显示（260523 修正：单位 $B、阈值对齐 stock_meta 5 档 L3=$5-30B / L4+L5 合并 <$5B）
+    L · 大盘   ≥ $100B          ← L1
+    M · 中盘   $30-100B         ← L2
+    S · 小盘   $5-30B           ← L3
+    T · 微盘   <$5B             ← L4 + L5 合并
+  ------------------------------------------------------------------
+  10 条主线骨架（按本期实际重写）：
+    01 · AI 算力·大盘半导体 + 代工 + 存储
+    02 · AI 算力·中盘卖铲人
+    03 · AI Cyber
+    04 · AI Infra·二线云 + 网络硬件 + CPaaS
+    05 · 算力托管·BTC 矿企转 AI/HPC
+    06 · 数据中心电力 / 储能 / 燃料电池 / 光伏
+    07 · 商业航天 / 国防科技
+    08 · AI 软件 / SaaS / 数据平台
+    09 · EMS / PCB / AI Server BOM
+    10 · 其他·反转 / 工业 / 妖股 / 国防小盘
+========================================================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>美股周报 · 2026-06-05</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1600px;margin:0 auto}
+em{font-style:italic;color:var(--accent)}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber、参考 A股映射_260516) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'US MOMENTUM';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1080px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* ========== SECTIONS ========== */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:16px;max-width:none}
+
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* ========== DATA TABLE ========== */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.45}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
+table.dt thead th[data-type="num"],table.dt tbody td.num{text-align:center;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:7px 9px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px;line-height:1.3}
+table.dt td.logic{font-size:12px;color:var(--ink-soft);line-height:1.4}
+table.dt td.logic strong{color:var(--ink)}
+/* 个股逻辑列默认（无 class）的 td 也用紧凑行距，避免漏 class 时行间过松 */
+table.dt tbody tr td:last-child{line-height:1.4}
+/* ki-note 内嵌段同步收紧行距（260523 user 反馈）*/
+table.dt .ki-note{line-height:1.5}
+/* 89 Industry Chain Signals 表行距紧凑（260523 user 反馈）*/
+#signals-tbl tbody td{padding:5px 8px;line-height:1.35;font-size:11.5px}
+#signals-tbl thead th{padding:7px 8px}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+/* ===== 主线个股表 7 列固定列宽 · shell 单一真相源（260530 加）=====
+   颜色/字体/卡片/渐变一向由 shell 锁定、fragment 继承不生成；列宽过去是 10 个
+   theme fragment 各写 inline、是唯一能跑偏的视觉参数。现收口到这里：theme 的
+   <th> 不再写 inline width，改列宽只动这一处即全主线生效。
+   作用域 section[id^="theme-"] 仅命中 theme-02..11 个股表，不影响
+   §2 Theme Map(#exec-summary) / §12 信号表 / §13 catalyst 表（单实例、保留 inline）。*/
+section[id^="theme-"] table.dt th:nth-child(1){width:4%}    /* Ticker */
+section[id^="theme-"] table.dt th:nth-child(2){width:6.3%}  /* 公司 */
+section[id^="theme-"] table.dt th:nth-child(3){width:3%}    /* 1W */
+section[id^="theme-"] table.dt th:nth-child(4){width:3%}    /* 1M */
+section[id^="theme-"] table.dt th:nth-child(5){width:3%}    /* 3M */
+section[id^="theme-"] table.dt th:nth-child(6){width:4.9%}  /* 归因 */
+section[id^="theme-"] table.dt th:nth-child(7){width:75.8%} /* 关键产业事实 + ki-note */
+.hl{background:var(--highlight);padding:0 2px}
+
+/* ========== ki-note (个股逻辑解读) ========== */
+.ki-note{display:block;margin-top:8px;padding:8px 11px 7px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}
+.ki-note::before{content:"逻辑 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-right:2px}
+.ki-note em{font-style:normal;font-weight:600;color:var(--ink);background:#FFF1B8;padding:0 3px;border-radius:2px}
+
+/* ========== note-block (牛熊闸门 / 分层判断 / 出场信号) ========== */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block strong{color:var(--ink)}
+#exec-summary .note-block{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
+/* 牛熊闸门统一琥珀渐变（260530：所有 theme 的 Bull/Mixed/Bear Logic 闸门加 class="note-block gate"）*/
+.note-block.gate{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
+
+/* ========== theme-card (主线标签卡) ========== */
+.theme-card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;margin:14px 0}
+.theme-card.bull{border-left-color:var(--bull)}
+.theme-card.bear{border-left-color:var(--bear)}
+.theme-card.mixed{border-left-color:var(--accent-soft)}
+.theme-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:6px}
+.theme-meta span.k{color:var(--accent);font-weight:700}
+.theme-meta span.v{color:var(--ink);font-weight:600;margin-right:14px}
+
+/* ========== Bull/Bear cards 并列 ========== */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.card-body ol li{margin-bottom:5px}
+.card-body strong{color:var(--ink)}
+
+/* ========== 视图 tabs (4 档独立筛选) ========== */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+body[data-view="large"] table.dt tbody tr:not([data-cap="L"]){display:none}
+body[data-view="midsmall"] table.dt tbody tr:not([data-cap="M"]){display:none}
+body[data-view="small"] table.dt tbody tr:not([data-cap="S"]){display:none}
+body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
+
+/* ========== 归因 tag（表格"归因"列用，260516 引入） ========== */
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap;margin-right:3px}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+
+/* ========== Signal table 方向标记（Industry Chain Signals §) ========== */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* ========== Beta strip (本周板块 β 全景 · grid of small cards) ========== */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:1px;background:var(--rule)}
+.beta-item{padding:7px 8px;background:var(--paper);display:flex;flex-direction:column;gap:2px;line-height:1.15;min-width:0}
+.beta-item .bn{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.02em}
+.beta-item .bv{font-family:var(--mono);font-size:13px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.beta-item .bd{font-size:9.5px;color:var(--muted);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+/* highlight: 重要的行业 β 数据用琥珀金外框 + 加粗强调 */
+.beta-item.hl{background:#FFF8E0;outline:1.5px solid var(--accent);outline-offset:-1.5px;position:relative;z-index:1}
+.beta-item.hl .bn{color:var(--ink)}
+.beta-item.hl .bv{font-size:14px}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* ========== Theme Map strength bar ========== */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
+table.dt thead th[data-type]{cursor:pointer;user-select:none;position:relative;padding-right:18px}
+table.dt thead th[data-type]:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th[data-type]::after{content:"⇅";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--rule);opacity:.6}
+table.dt thead th[data-sort-dir="asc"]::after{content:"▲";color:var(--accent);opacity:1}
+table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent);opacity:1}
+
+/* ========== 左侧固定目录 TOC（260530 加 · JS 自动扫描 section[id] 生成） ========== */
+html{scroll-behavior:smooth}
+#toc-nav{position:fixed;top:0;left:0;bottom:0;width:212px;z-index:1000;background:var(--navy);
+  border-right:3px solid var(--amber);overflow-y:auto;padding:54px 0 30px;
+  font-family:var(--mono);-webkit-font-smoothing:antialiased}
+#toc-nav::-webkit-scrollbar{width:6px}
+#toc-nav::-webkit-scrollbar-thumb{background:rgba(212,160,23,.35);border-radius:3px}
+#toc-nav .toc-head{position:relative;padding:4px 18px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px}
+#toc-nav .toc-head .t1{font-size:11px;letter-spacing:.2em;color:var(--amber-light);text-transform:uppercase;font-weight:600}
+#toc-nav .toc-head .t2{font-size:9.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.05em}
+#toc-nav a{display:flex;gap:8px;align-items:baseline;padding:6px 14px 6px 18px;text-decoration:none;
+  border-left:2px solid transparent;line-height:1.3}
+#toc-nav a .n{font-size:9.5px;color:var(--amber);font-weight:600;min-width:24px;letter-spacing:.02em;flex-shrink:0}
+#toc-nav a .t{font-size:10.5px;color:rgba(255,255,255,.7);font-weight:500;letter-spacing:.01em}
+#toc-nav a:hover{background:rgba(255,255,255,.05)}
+#toc-nav a:hover .t{color:#fff}
+#toc-nav a.active{background:rgba(184,135,10,.16);border-left-color:var(--amber)}
+#toc-nav a.active .t{color:#fff;font-weight:600}
+#toc-nav a.active .n{color:var(--amber-light)}
+/* 正文整体右移让出目录宽度（仅 margin-left / masthead 宽度被覆盖，其余继承原样） */
+body{margin-left:212px}
+.masthead{width:calc(100vw - 212px);margin-left:-56px}
+section[id]{scroll-margin-top:64px}
+/* ---- 收起/展开 目录 ---- */
+#toc-nav{transition:transform .26s ease}
+body{transition:margin-left .26s ease}
+.masthead{transition:width .26s ease,margin-left .26s ease}
+#toc-collapse{position:absolute;top:-1px;right:14px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1px solid rgba(212,160,23,.45);border-radius:5px;color:var(--amber-light);
+  font-size:14px;line-height:1;cursor:pointer;user-select:none}
+#toc-collapse:hover{background:rgba(184,135,10,.25);color:#fff}
+body.toc-collapsed #toc-nav{transform:translateX(-100%)}
+body.toc-collapsed{margin-left:auto}
+body.toc-collapsed .masthead{width:100vw;margin-left:calc(-50vw + 50%)}
+#toc-reopen{display:none;position:fixed;left:0;top:92px;z-index:1001;
+  background:var(--navy);color:var(--amber-light);border:1px solid var(--amber);border-left:none;
+  border-radius:0 8px 8px 0;padding:13px 6px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;writing-mode:vertical-rl;text-orientation:upright;
+  box-shadow:2px 2px 10px rgba(0,0,0,.28)}
+#toc-reopen:hover{background:var(--navy-light);color:#fff}
+body.toc-collapsed #toc-reopen{display:block}
+.toc-no-anim #toc-nav,.toc-no-anim.toc-collapsed,.toc-no-anim .masthead{transition:none!important}
+/* 窄屏 / 打印：收起目录，正文复位 */
+@media (max-width:980px){#toc-nav{display:none}#toc-reopen{display:none!important}body{margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}}
+@media print{#toc-nav{display:none}body{padding:24px;margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}.view-tabs{display:none}}
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标（HTML 站点结构需要保留） -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<!-- ============================================================
+     FRAGMENTS INSERT POINT · weekly v4 fragment-per-agent
+     ------------------------------------------------------------
+     拼接源：D:\claude\research\US weekly\_fragments\YYMMDD\*.html
+     拼接顺序：文件名升序
+       00_masthead.html        ← <header> masthead + view-tabs nav
+       09_exec_summary.html    ← §01 Executive Summary (Phase B / Sonnet)
+       10..49 themeNN_*.html   ← §02-§11 十条主线（AI 链 Opus / 其他 Sonnet）
+       90_final_read.html      ← §12 Final Read 综合判断+A股映射指引 (Phase B / Sonnet)
+     独立产物（不进 fragments）：A股映射_YYMMDD.html → 直接写到 US weekly\\ 根目录
+     整合时：Read shell → 把下方标记替换为所有 fragment 内容拼接 → Write 最终 HTML
+============================================================ -->
+<header class="masthead">
+  <div class="h-eyebrow">US EQUITY WEEKLY · MOMENTUM THEME MAP · W/E 2026-06-05</div>
+  <div class="h-title">非农爆表点燃 <em>利率冲击</em> · AI 与商品 <em>同步失血</em></div>
+  <div class="h-desc">5 月非农 +172K（共识 80K 的 2 倍+）→ Warsh 鹰派 confirm、年内加息概率升至 ~70% → 利率 + 美元双升，长久期成长（AI 硬件/航天/量子/加密）与美元计价商品（金银/比特币/铀）全线杀跌，资金轮入价值/周期/金融/能源/医疗；11 个 SPDR sector 6 涨 5 跌——涨的全是防御+价值，watchlist 中位数 ≠ 市场广度，本周是成长杀跌、价值独涨的极端分化。</div>
+  <div class="h-pills">
+    <span class="pill">71 只异动 · 8 主线</span>
+    <span class="pill bear">非农 +172K vs 80K · 加息概率 70%</span>
+    <span class="pill bear">XLK −6% · SOXX −5% · QQQ −5%</span>
+    <span class="pill bear">GDX −12 · SLV −10 · IBIT −18 · URA −11</span>
+    <span class="pill bull">XLE +2 · XLV +2 · XLF +1 · XLRE +2</span>
+    <span class="pill bull">MRVL +29 财报 alpha · HPE +14</span>
+    <span class="pill bear">AVGO −14 AI 指引重置</span>
+    <span class="pill">SpaceX IPO $1.77T 抽水 · MSTR 首次卖币</span>
+  </div>
+</header>
+
+<nav class="view-tabs">
+  <span class="vlabel">视图</span>
+  <button class="vtab active" data-view="all">全部</button>
+  <button class="vtab" data-view="large">大盘 ≥$100B</button>
+  <button class="vtab" data-view="midsmall">中盘 $30-100B</button>
+  <button class="vtab" data-view="small">小盘 $5-30B</button>
+  <button class="vtab" data-view="micro">微盘 &lt;$5B</button>
+</nav>
+
+
+<section class="sec" id="exec-summary">
+  <div class="sec-num">§01</div>
+  <h2 class="sec-title">本周 <em>核心结论</em> · 一页速览</h2>
+  <div class="sec-sub">W/E 2026-06-05 市场结构 take-away + 8 主线 Theme Map + 5 大核心信号深度归因 · 脊椎 = 非农爆表 → 利率+美元双升 → 成长全杀、价值独涨</div>
+
+  <!-- Block 1 · Beta β strip · 25 ETF · 高→低排序 · 单行 -->
+  <div class="beta-strip">
+    <span class="kicker">§0 · 本周 <em>板块 β 全景</em> · 25 ETF 周度回报 · 按回报<em>高→低</em>排序</span>
+    <div class="beta-grid">
+      <div class="beta-item up hl"><span class="bn">XLE</span><span class="bv">+2%</span><span class="bd">能源</span></div>
+      <div class="beta-item up hl"><span class="bn">XLV</span><span class="bv">+2%</span><span class="bd">医疗保健</span></div>
+      <div class="beta-item up"><span class="bn">XLRE</span><span class="bv">+2%</span><span class="bd">房地产</span></div>
+      <div class="beta-item up hl"><span class="bn">XLF</span><span class="bv">+1%</span><span class="bd">金融</span></div>
+      <div class="beta-item up hl"><span class="bn">UUP</span><span class="bv">+1%</span><span class="bd">美元</span></div>
+      <div class="beta-item up"><span class="bn">XLP</span><span class="bv">+1%</span><span class="bd">必需消费</span></div>
+      <div class="beta-item up"><span class="bn">XLI</span><span class="bv">+1%</span><span class="bd">工业</span></div>
+      <div class="beta-item dn"><span class="bn">XLU</span><span class="bv">-0%</span><span class="bd">公用事业</span></div>
+      <div class="beta-item dn"><span class="bn">DIA</span><span class="bv">-0%</span><span class="bd">道指</span></div>
+      <div class="beta-item dn"><span class="bn">TLT</span><span class="bv">-1%</span><span class="bd">20Y 国债</span></div>
+      <div class="beta-item dn"><span class="bn">XLB</span><span class="bv">-1%</span><span class="bd">原材料</span></div>
+      <div class="beta-item dn"><span class="bn">HYG</span><span class="bv">-1%</span><span class="bd">高收益债</span></div>
+      <div class="beta-item dn"><span class="bn">SPY</span><span class="bv">-3%</span><span class="bd">标普 500</span></div>
+      <div class="beta-item dn"><span class="bn">IWM</span><span class="bv">-3%</span><span class="bd">罗素 2000</span></div>
+      <div class="beta-item dn"><span class="bn">XLC</span><span class="bv">-3%</span><span class="bd">通信服务</span></div>
+      <div class="beta-item dn hl"><span class="bn">QQQ</span><span class="bv">-5%</span><span class="bd">纳指 100</span></div>
+      <div class="beta-item dn"><span class="bn">XLY</span><span class="bv">-5%</span><span class="bd">可选消费</span></div>
+      <div class="beta-item dn"><span class="bn">GLD</span><span class="bv">-5%</span><span class="bd">黄金</span></div>
+      <div class="beta-item dn hl"><span class="bn">SOXX</span><span class="bv">-5%</span><span class="bd">费城半导体</span></div>
+      <div class="beta-item dn hl"><span class="bn">XLK</span><span class="bv">-6%</span><span class="bd">科技</span></div>
+      <div class="beta-item dn"><span class="bn">SLV</span><span class="bv">-10%</span><span class="bd">白银</span></div>
+      <div class="beta-item dn"><span class="bn">URA</span><span class="bv">-11%</span><span class="bd">铀</span></div>
+      <div class="beta-item dn"><span class="bn">GDX</span><span class="bv">-12%</span><span class="bd">大金矿</span></div>
+      <div class="beta-item dn"><span class="bn">GDXJ</span><span class="bv">-16%</span><span class="bd">小金矿</span></div>
+      <div class="beta-item dn hl"><span class="bn">IBIT</span><span class="bv">-18%</span><span class="bd">比特币</span></div>
+    </div>
+    <div class="footer">三条结构性观察：① 本周是一次<em>价值/防御独涨、成长全杀</em>的极端 regime 切换——11 个 SPDR sector 6 涨 5 跌（涨：XLE/XLV/XLRE/XLF/XLP/XLI 全是能源+医疗+地产+金融+必需消费+工业的价值防御端；跌：XLK <em>-6%</em>/XLY/XLC/XLU/XLB 的成长+可选消费端），与上周科技单极 melt-up 完全镜像反转。② <em>美元计价商品链系统性崩盘</em>是本周第二条主线：UUP <em>+1%</em>（美元走强）的另一面是 GDXJ <em>-16%</em>/GDX -12/SLV -10/URA -11/GLD -5/IBIT <em>-18%</em> 同步血洗——金银铀比特币全是"现货以美元定价、贴现率敏感"的资产，利率+美元双升把它们一并 derate，不是单一商品供需事件。③ ⚠ <em>watchlist 中位 ≠ 市场广度</em>：本周 movers 42 涨/29 跌看似均衡，但市场真实结构是 SPY <em>-3%</em>/QQQ <em>-5%</em> 的成长普跌 + 唯独价值独涨——watchlist 里 42 只上涨集中在工业/货运/价值轮动这一条线，绝不能读成"市场普涨"，全市场广度是负的。</div>
+  </div>
+
+  <!-- Block 1.5 · §0.5 · 宏观 + 地缘事件 · 核心事件分析及市场影响 -->
+  <p style="margin-top:18px"><span class="kicker">§0.5 · 宏观 + 地缘事件</span> · 核心事件分析及市场影响</p>
+  <div class="note-block" style="border-left-color:var(--bear)">
+    <p><strong>① 6/5 五月非农 +172K vs 共识 80K（2 倍+）· 本周全市场 risk-off 的总开关。</strong>新增就业 <span class="hl">+172K vs 共识 80K</span>，失业率 <span class="hl">4.3%</span> 持平，时薪 AHE <span class="hl">+3.4% y/y</span>。<em>事件本身</em>：劳动力市场远比预期强韧，叠加 Fed 主席 <span class="hl">Kevin Warsh（鹰派）</span>"hot jobs report puts Fed cuts further out of reach"的定调，CME FedWatch 把 6/16-17 FOMC 降息预期一举打崩、年内"<strong>加息</strong>"概率升到 <span class="hl">~70%</span>。<em>资金链路</em>：rates↑ + USD↑（UUP 周 <span class="hl">+1.30%</span>、10Y 收益率大幅走高、TLT -0.82 / HYG -1.10）→ 直接 derate 所有"现金流在远端、现值靠叙事"的长久期资产。<em>板块解释</em>：这一个数据点同时解释了本周三件事——高估值成长 derate（XLK <span class="hl">-6%</span> / QQQ -5 / SOXX -5）、美元计价商品崩（GDX -12 / SLV -10 / IBIT -18）、资金轮入价值防御（XLE +2 / XLV +2 / XLF +1 / XLI +1）。<strong>本周一切异动的归因锚都要先回到这个总开关</strong>，再叠加各主线的个股/事件层。</p>
+    <p><strong>② SpaceX 正式申报 IPO · 募 $75B、估值 $1.77–1.8T · 一级抽空整个商业航天投资盘。</strong><em>事件本身</em>：SpaceX 拟发 <span class="hl">555.6M 股 @ $135</span>、募 <span class="hl">$75B</span>、估值 <span class="hl">$1.77–1.8T</span>——世界上最纯、最大的火箭资产即将开放机构直接配置渠道。<em>资金链路</em>：二级市场原本通过 ASTS / RKLB / LUNR 这批"SpaceX 替代敞口"间接持有火箭+卫星暴露，一级本体可直接买之后，这批高溢价 proxy 立刻被边际减持，Jefferies 已公开布局"做空 space"的相对价值交易，叠加 Blue Origin New Glenn 试车爆炸把"发射 binary 风险"重新摆上桌。<em>板块解释</em>：这是航天主线 13 只<span class="hl">全部下跌</span>（-17~-41%）的资金面根因——不是任何公司 backlog 被证伪，是<strong>一级巨型供给直接抽干二级的边际增量资金</strong>，叠加利率杀久期，过去一年 ASTS +328% / RKLB +329% 的巨幅获利盘集中踩踏。</p>
+    <p><strong>③ MSTR 五年来首次卖 BTC · 击穿 Saylor"永不卖"叙事 · 加密盘 $160B+ 蒸发。</strong><em>事件本身</em>：Strategy（MSTR）卖出 <span class="hl">32 枚 BTC @ $77,135</span>——2022 年 12 月以来首次净 disposal，用于支付 STRC 永续优先股股息，击穿 Saylor 的核心"永不卖"叙事。<em>资金链路</em>：比特币跌破 $70K → <span class="hl">$64.7K</span>，crypto 盘 <span class="hl">$160B+</span> 蒸发，Saylor 自己把资金流向归因为"轮入 AI 基础设施"——即加密叙事的承重墙在利率拐点上自己松了口。<em>板块解释</em>：这与非农总开关共振，把量子/加密/高估值投机这一最高久期资产组（IONQ/QBTS/BLSH -21~-23、VLN -40）一并打穿；MSTR 是<em>妖股属性</em>，看 BTC 价格 + mNAV 折溢价、不看 P/S。</p>
+    <p><strong>下周 macro 观察</strong>：① <span class="hl">6/16-17 FOMC（Warsh 首秀）</span>——年内加息概率 ~70% 是本周一切 derate 的源头，措辞是否延续鹰派是所有长久期资产（成长/航天/量子/金银/比特币）的总开关；② 后续通胀（CPI/PCE）能否确认劳动力强韧未传导到核心通胀；③ SpaceX IPO 路演密度与最终估值区间——越坐实、二级航天抽水越持续；④ BTC 能否守住 $64.7K + MSTR 卖币是否从"一次性付息"演变为常态化净卖出；⑤ 美元 UUP 走向——美元是否见顶决定金银铀比特币这条商品链的 derate 是延续还是修复。</p>
+  </div>
+
+  <!-- Block 2 · 本周市场结构 take-away -->
+  <p style="margin-top:18px"><span class="kicker">§1 · 本周市场结构 take-away</span> · 三个问题、一条 regime 切换叙事</p>
+  <div class="note-block">
+    <p>本周市场只发生了一件事：<em>6/5 非农 +172K vs 共识 80K 的爆表，配合鹰派新主席 Warsh 把年内加息概率推到 ~70%，触发了一次教科书式的利率+美元双升 regime 切换</em>——而这一个宏观开关，统一解释了 watchlist 上看似散落的全部异动。<strong>本周市场画像是"成长全杀、价值独涨"的极端轮动</strong>，与上周科技单极 melt-up 完全镜像：11 个 SPDR sector 6 涨 5 跌，但涨的全是能源/医疗/金融/地产/必需消费/工业（XLE +2 / XLV +2 / XLF +1 / XLI +1）这一条价值防御链，跌的全是科技/可选消费/通信（XLK <span class="hl">-6%</span> / XLY -5 / XLC -3）这一条成长链；SPY <span class="hl">-3%</span> / QQQ <span class="hl">-5%</span> 的负广度被 watchlist 里 42 只上涨的表象掩盖——<strong>watchlist 中位绝不等于市场广度，本周真实广度是负的，42 只上涨高度集中在工业/货运/价值轮动这一条 regime 受益线上</strong>。决定性的产业变化是：<em>AI 半导体本周从"普涨 beta"进入"分化 alpha"</em>——这是最重要的产业级信号。同属 AI 链、同一周，资金把组内劈成精确的两半：MRVL 在 SOXX -5 的板块 derate 里逆势 <span class="hl">+29%</span>（Q1FY27 record rev $2.418B、Q2 指引 +35%YoY 加速、上调全年），HPE +14（EPS $0.79 vs $0.54、AI 订单近翻倍）——这是真 beat+raise 的逆 β alpha；而 AVGO <span class="hl">-14%</span> 是"beat 但 CEO Tan 未上调 $100B AI 目标、Q3 AI 指引低于 whisper"的<em>预期重置</em>，QCOM/INTC -14 则是无个股事件、纯随板块 multiple 压缩跟跌。这意味着 AI 硬件超级周期没有破，但市场已开始用"有没有 beat+raise 锚"来精确切割 alpha 与 beta，<strong>普涨阶段结束、选股阶段开始</strong>。本周最需要拆解的是"成长同跌、但逻辑各不相同"这一陷阱——绝不能笼统打"成长杀跌"：① <em>半导体 derate</em>（QCOM/INTC）是利率脊椎压 multiple，基本面未坏、是估值故事；② <em>航天崩盘</em>（13 只 -17~-41）是 SpaceX IPO $75B 一级抽水 + 利率杀久期的<strong>资金面拐点</strong>，与 backlog 无关，本质是过去一年 +328% 巨幅获利盘的踩踏；③ <em>量子/加密破裂</em>（IONQ/QBTS/MSTR -21~-24）是最高久期投机资产的去杠杆，叠加 MSTR 卖币<strong>击穿叙事</strong>这一独立爆点；④ <em>金银铀比特币血洗</em>（GDXJ -16 / SLV -10 / IBIT -18）是美元计价商品链被 UUP +1.3 一并 derate。四条跌因表面同向、底层四套机制，归因必须分开下锚、不能合并成一句"risk-off"。本周的反叙事监控信号集中在两处：一是 <em>FLNC 在 risk-off 里逆势 +21%</em>（NVIDIA 点名为 DSX Vera Rubin AI 数据中心唯一电池储能伙伴）——产业刚需背书可以压过利率冲击，是"AI 电力订单 > 估值久期"的活证；二是 <em>FDX -20% 是 FedEx Freight 分拆 6/1 除权的机械下移、不是杀跌</em>，把它误读成财报 miss 会得出完全错误的货运景气判断。一句话定调：本周是一次由单一宏观数据点驱动的 regime 切换，成长四条链各自以不同机制失血、价值防御链独涨，<strong>AI 半导体从 beta 进入 alpha 是唯一值得长期记住的产业级变化</strong>，其余多是资金面与久期定价的短周期校准。</p>
+  </div>
+
+  <!-- Block 3 · §2 Theme Map · 8 主线全景 -->
+  <p style="margin-top:18px"><span class="kicker">§2 · Theme Map</span> · 本周 8 条主线全景 · 按强度排序 · 锚定文件内 #theme-NN</p>
+  <table class="dt">
+    <thead><tr>
+      <th data-type="num" style="width:4%">#</th>
+      <th data-type="text" style="width:16.5%">主线</th>
+      <th data-type="text" style="width:11%">本周触发</th>
+      <th data-type="text" style="width:9%">强度</th>
+      <th data-type="num" style="width:11%">1W 区间</th>
+      <th data-type="text" style="width:17%">代表标的</th>
+      <th data-type="text" style="width:31.5%">β 校准 + 下周 catalyst</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="num"><strong>02</strong></td>
+        <td class="name"><a href="#theme-02" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 半导体分化</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ alpha 分化</span></td>
+        <td><span class="theme-bar" style="width:54px"></span><span class="theme-strength">极强</span></td>
+        <td class="num">−14% ~ +29%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">MRVL·HPE vs AVGO·QCOM·INTC</td>
+        <td>MRVL <span class="hl">+29%</span> 逆 SOXX -5 = 纯 alpha；AVGO −14 是<em>不上调 $100B AI 目标</em>的预期重置；catalyst：AVGO 卖方 FY27 目标是否下修</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>03</strong></td>
+        <td class="name"><a href="#theme-03" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">商业航天 / 卫星</a></td>
+        <td><span class="neg">↓ 资金面崩盘</span></td>
+        <td><span class="theme-bar" style="width:51px"></span><span class="theme-strength">极强</span></td>
+        <td class="num neg">−17% ~ −41%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">ASTS·RKLB·LUNR·PL·AVEX</td>
+        <td>13 只<span class="hl">全杀</span>·无 β 锚（pre-rev 久期）；SpaceX IPO <span class="hl">$75B</span> 一级抽水 + 利率杀久期；catalyst：IPO 路演节奏 + FOMC</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>08</strong></td>
+        <td class="name"><a href="#theme-08" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">工业 / 多元化价值</a></td>
+        <td><span class="pos">↑ regime 轮动</span></td>
+        <td><span class="theme-bar" style="width:46px"></span><span class="theme-strength">强</span></td>
+        <td class="num pos">+5% ~ +12%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">GEO·SAIC·DE·AXON·IESC</td>
+        <td>14 只全涨·对应 XLI +1 / XLF +1 板块 β；GEO/SAIC/AXON 叠 alpha（财报+合同）；catalyst：FOMC 决定轮动延续</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>04</strong></td>
+        <td class="name"><a href="#theme-04" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">量子 / 加密去杠杆</a></td>
+        <td><span class="neg">↓ 叙事破裂</span></td>
+        <td><span class="theme-bar" style="width:44px"></span><span class="theme-strength">强</span></td>
+        <td class="num neg">−21% ~ −40%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">MSTR·IONQ·QBTS·BLSH·VLN</td>
+        <td>最高久期投机同步去杠杆；<span class="hl">MSTR 卖币</span>击穿"永不卖"、BTC→$64.7K；catalyst：BTC 守位 + mNAV 折溢价</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>07</strong></td>
+        <td class="name"><a href="#theme-07" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">货运 / 物流</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 除权表象</span></td>
+        <td><span class="theme-bar" style="width:36px"></span><span class="theme-strength">中</span></td>
+        <td class="num">−20% ~ +13%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">ODFL·ARCB·PCAR vs FDX</td>
+        <td>FDX <span class="hl">−20%</span> = FDXF 分拆<em>机械除权非杀跌</em>；纯 LTL 逆 risk-off +6~+13 = 价值轮动；catalyst：LTL tonnage 数据</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>05</strong></td>
+        <td class="name"><a href="#theme-05" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">AI 电力 / 储能</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 刚需 vs 久期</span></td>
+        <td><span class="theme-bar" style="width:32px"></span><span class="theme-strength">中</span></td>
+        <td class="num">−22% ~ +21%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">FLNC vs WYFI·BLDP</td>
+        <td>FLNC <span class="hl">+21%</span> 逆势（NVIDIA 点名唯一储能伙伴）vs WYFI/BLDP -22 杀久期；catalyst：FLNC master supply 订单兑现</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>06</strong></td>
+        <td class="name"><a href="#theme-06" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">软件 / SaaS 分化</a></td>
+        <td><span style="color:var(--accent);font-weight:600">⇅ 真增长 vs 估值</span></td>
+        <td><span class="theme-bar" style="width:30px"></span><span class="theme-strength">中</span></td>
+        <td class="num">−27% ~ +19%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">TWLO·DOCN vs ODD·PAYP</td>
+        <td>TWLO <span class="hl">+19%</span>（beat+上调+agentic AI）逆 XLK -6 = +25pp alpha；ODD −27 财报崩；catalyst：CRM/ADBE 6 月中报</td>
+      </tr>
+      <tr data-cap="L">
+        <td class="num"><strong>09</strong></td>
+        <td class="name"><a href="#theme-09" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft)">微盘妖股 / 独立异动</a></td>
+        <td><span class="pos">↑ idiosyncratic</span></td>
+        <td><span class="theme-bar" style="width:26px;background:var(--accent)"></span><span class="theme-strength">中</span></td>
+        <td class="num pos">+12% ~ +66%</td>
+        <td class="mono" style="font-family:var(--mono);font-size:11px">OPTU·BBCP·MEC·CDNL·CNK</td>
+        <td>逐只独立·与 risk-off 脱钩；OPTU <span class="hl">+66%</span> 要约+逼空、BBCP/MEC beat+raise；估值非输入；catalyst：各自事件</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Block 4 · §3 5 个核心信号深度归因 -->
+  <p style="margin-top:18px"><span class="kicker">§3 · 本周 5 个最重要信号 · 深度归因</span></p>
+  <div class="note-block"><span class="kicker">信号 1 · 非农爆表 → 利率+美元双升是全市场 risk-off 的总开关</span>
+    <p><strong>核心逻辑：6/5 非农 +172K vs 共识 80K 配合鹰派 Warsh 把年内加息概率推到 ~70%，单一数据点同时引爆了成长 derate、商品崩盘、价值轮动三件事，是本周一切异动必须先回的归因锚。</strong>新增就业 <span class="hl">+172K vs 共识 80K</span>（2 倍+）、失业率 4.3% 持平、时薪 +3.4% y/y，劳动力市场的强韧让 Fed Chair Warsh "cuts further out of reach"的鹰派定调获得确认，CME FedWatch 把 6/16-17 FOMC 降息预期打崩、年内加息概率升至 <span class="hl">~70%</span>。传导极干净：rates↑ + USD↑（UUP +1.30 / TLT -0.82 / HYG -1.10）→ 贴现率上行直接 derate 所有长久期资产。板块层一一对应：高估值成长 derate（XLK <span class="hl">-6%</span> / SOXX -5 / QQQ -5）、美元计价商品崩（GDX -12 / SLV -10 / IBIT -18）、资金轮入价值防御（XLE +2 / XLV +2 / XLF +1 / XLI +1），11 个 sector 6 涨 5 跌且涨跌分界恰好是"价值 vs 成长"。<em>旁证</em>：SPY -3 / IWM -3 确认这是全市场负广度而非局部回调。本周所有主线的个股层归因都要先减去这条 macro β 底色，再看是否有 alpha。</p>
+  </div>
+  <div class="note-block"><span class="kicker">信号 2 · MRVL +29 vs AVGO −14 · AI 半导体从普涨 beta 进入分化 alpha</span>
+    <p><strong>核心逻辑：同属 AI 半导体、同一周，市场用"有没有 beat+raise 锚"把组内精确劈成逆 β alpha 与预期重置两半——这标志 AI 硬件从普涨阶段进入选股阶段，是本周唯一的产业级结构变化。</strong>MRVL 在 SOXX <span class="hl">-5%</span> 的板块 derate 周里逆势 <span class="hl">+29%</span>，驱动是 Q1FY27 record rev <span class="hl">$2.418B +28%YoY</span>、数据中心 $1.833B 占 76%、Q2 指引 <span class="hl">$2.7B +35%YoY 加速</span>、上调 FY27 至 $11.5B（+40%）/ FY28 $16.5B，叠加 Teralynx T100 102.4Tbps 交换芯片——纯个股 alpha，与板块 β 完全脱钩；HPE +14 同属逆 β 真财报（EPS $0.79 vs $0.54、AI 订单+backlog 近翻倍）。反面是枢纽 <span class="hl">AVGO -14%</span>：Q2 AI 半导体 $10.8B +143% beat、数字仍强劲，但 <em>CEO Tan 未上调 $100B FY27 AI 目标</em> + Q3 AI 指引 $16.0B 低于 whisper $17.2B → 从"持续超预期上修"切到"符合但不再上修"，YTD +40% 抢跑盘 de-rate。QCOM/INTC -14 则无个股事件、纯随板块 multiple 压缩。<em>旁证</em>：光模块/IP 微盘（AAOI +12 / VSH +10 / CEVA +9）逆势走强，是资金在链内找"有独立 catalyst、估值未抢跑"的细分载体。AI 超级周期未破，但 alpha 与 beta 已被精确切割。</p>
+  </div>
+  <div class="note-block"><span class="kicker">信号 3 · SpaceX IPO $75B · 一级抽水把商业航天从叙事扩张打成资金面崩盘</span>
+    <p><strong>核心逻辑：SpaceX 申报 $75B IPO 让机构能直接配置火箭本体，反向抽空二级"替代敞口"标的的边际买盘——这是航天 13 只全杀的资金面拐点，与任何公司 backlog 无关。</strong>SpaceX 拟发 <span class="hl">555.6M 股 @ $135</span>、募 <span class="hl">$75B</span>、估值 <span class="hl">$1.77–1.8T</span>——当世界上最纯、最大的火箭资产即将开放机构直接配置渠道，二级里通过 ASTS / RKLB / LUNR 间接持有"SpaceX 暴露"的高溢价 proxy 立刻被相对减持，Jefferies 已公开布局"做空 space"的相对价值交易。叠加利率脊椎杀 pre-revenue 久期（航天与 AI/量子/加密同源 derate）+ Blue Origin New Glenn 试车爆炸把"发射 binary 风险"重新摆上桌，本主线 <span class="hl">13 只全部下跌</span>，跌幅从 ASTS/RKLB 的 -17/-23 一路压到 AVEX <span class="hl">-41%</span>。关键校准：过去一年 ASTS <span class="hl">+328%</span> / RKLB +329% 的巨幅获利盘高度集中，一级抽水 + 利率两个开关同向拨动触发踩踏——<em>不是 backlog 被证伪</em>（RKLB 在手 backlog 仍 $2.2B、LUNR CLPS task order 未变）。<em>旁证</em>：SPCE 盘中因 IPO 前逼空一度反弹、$64M 空头被烧，但周线仍 -29%，方向未改。这是 Bear Logic 下"叙事饱满 + 资金面拐点"的标准去杠杆。</p>
+  </div>
+  <div class="note-block"><span class="kicker">信号 4 · 美元走强 → 金银铀比特币系统性血洗 + MSTR 卖币击穿加密叙事</span>
+    <p><strong>核心逻辑：UUP +1.3 的美元走强把所有"现货以美元定价、贴现率敏感"的资产一并 derate，金银铀比特币同步崩盘是同一笔利率冲击在商品链上的镜像，MSTR 首次卖币则是加密叙事承重墙的独立爆点。</strong>美元 UUP 周 <span class="hl">+1.30%</span>、10Y 收益率大幅走高的另一面，是美元计价商品链系统性失血：GDXJ <span class="hl">-16%</span> / GDX -12 / SLV -10 / URA -11 / GLD -5 / IBIT <span class="hl">-18%</span>——金银铀比特币全是"无现金流、现值靠美元贴现"的资产，利率+美元双升把它们无差别 derate，<em>不是单一商品的供需事件</em>。加密端叠加一个独立爆点：<span class="hl">MSTR 五年来首次卖 BTC（32 枚 @ $77,135）</span>用于付 STRC 优先股息，击穿 Saylor"永不卖"叙事，BTC 跌破 $70K→<span class="hl">$64.7K</span>、crypto 盘 <span class="hl">$160B+</span> 蒸发，Saylor 自己归因为"资金轮入 AI 基础设施"——即叙事承重墙自己松了口。MSTR -24 是<em>妖股属性</em>，看 BTC 价格 + mNAV 折溢价、不用 P/S。<em>旁证</em>：量子端 IONQ/QBTS -21、投机微盘 VLN -40，是同一利率拐点在最高久期资产上的杠杆放大版。这条信号要监控的是<em>美元是否见顶</em>——美元方向决定整条商品链 derate 是延续还是修复。</p>
+  </div>
+  <div class="note-block"><span class="kicker">信号 5 · risk-off 驱动价值/工业 regime 轮动 · 14 只全涨但广度仍是负的</span>
+    <p><strong>核心逻辑：本周价值/工业全线上涨不是绝对景气改善，而是非农爆表把资金从成长强制逼向"现金流确定、估值不高"的防御端的 regime shift——必须用 β 校准把板块轮动 beta 与少数个股 alpha 切开，且警惕 watchlist 上涨表象掩盖的负广度。</strong>工业/多元化价值 14 只<span class="hl">全线上涨</span>，与同期 AI 半导体 / 航天 / 加密全杀镜像，板块 β 是最硬实证：<span class="hl">XLI +0.61 / XLF +1.40 / XLRE +1.61</span> vs SPY -2.50 / IWM -3.02，工业相对大盘录得 +3pp 以上超额。但归因必须分两层：多数标的（DE +8 / JCI +7 / URI +7 / GWW +5 / CARR +5 / FAST +6）本周无个股催化、纯吃板块轮动 beta；少数叠加结构性 alpha——<span class="hl">GEO +12</span>（移民政策订单 + $1B Newark 合同）、<span class="hl">SAIC +10</span>（6/1 财报 EPS $3.23 vs $2.28 大幅 beat、backlog $22.9B）、AXON +8（Q1 rev +34% + 反无人机 +700% YoY + 上调指引）、IESC +6（数据中心电气 backlog $3.9B +62%），这四只跑赢板块 β 的部分才是真 alpha。⚠ <strong>关键校准</strong>：本周 watchlist movers 42 涨/29 跌的表象掩盖了 SPY -3 / QQQ -5 的真实负广度——42 只上涨高度集中在工业/货运/价值这一条 regime 受益线，<em>watchlist 中位绝不等于市场广度</em>。<em>旁证</em>：货运链 ODFL/ARCB/PCAR +6~+13 逆 risk-off 上涨，是同一价值轮动在运输板块的映射（FDX -20 是分拆除权、须单独剔除）。catalyst 锚在 6/16-17 FOMC——若 Warsh 确认加息推迟降息，价值/工业相对强势延续；意外转鸽则资金快速回流成长、轮动 thesis 减弱。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-02">
+  <div class="sec-num">§02</div>
+  <h2 class="sec-title">AI 半导体 · <em>定制硅/光模块 alpha vs 广义半导体 derate</em></h2>
+  <div class="sec-sub"><em>两颗芯片的故事：beat+raise 跑赢 vs beat 但不上调指引</em></div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 主线内部牛熊分化</span>
+    <p><strong>1. 行业阶段定位</strong>：本主线本周不能用单一牛熊套——内部明确分成两层，须分层定位。<strong>定制硅/互连/光模块子链（Bull 中段）</strong>：MRVL Q1FY27 record rev <span class="hl">$2.418B +28%YoY</span>、数据中心 $1.833B +27% 占总营收 76%、Q2 指引 <span class="hl">$2.7B 中值 +35%YoY 加速</span>、上调 FY27 至 $11.5B（+40%）/ FY28 $16.5B（+45%），叠加 Teralynx T100 102.4Tbps 交换芯片切超大规模 AI 集群——订单（custom ASIC + 互连）、价格（AI 含量结构升级）、capex（hyperscaler 自研芯片预算扩张）三维全部向上，子链在 Bull 中段而非末段，本周回调对这一层是组内轮动不是拐点。<strong>广义大盘半导体（Bear/derate 防御）</strong>：QCOM/INTC 本周无个股事件，纯随板块 <em>derate</em> 跟跌——这一层本周走的是 Bear 防御逻辑，由宏观利率脊椎驱动而非产业拐点，估值 derate 是 multiple 压缩不是基本面恶化。<strong>关键枢纽 AVGO（预期重置）</strong>：Q2 AI 半导体收入 $10.8B +143% beat、但 CEO Tan <em>未上调</em> $100B FY27 AI 目标、Q3 AI 指引 $16.0B vs whisper $17.2B 低于市场抢跑预期——这是从"持续超预期上修"切到"符合但不再上修"的预期重置，-15% 是 YTD +40% 抢跑盘的 de-rate、不是 beat miss。本周宏观背景必锚：<strong>6/5 非农 +172K vs 共识 80K</strong> → rates↑ + USD↑ → 长久期成长 multiple 压缩，<span class="hl">SOXX -5%</span> / <span class="hl">XLK -6%</span> 板块级 derate 是 QCOM/INTC 杀跌的 beta 底色；MRVL/HPE 逆板块 β 上涨是真财报 alpha——这正是本主线"分化"二字的产业根因，资金在同一条 AI 链里精确切割"有 beat+raise 锚"与"无个股事件"。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–4 周三个 binary 事件决定分化方向。① <em>AVGO 预期重置的消化节奏</em>——市场在重新校准"AI 收入超预期上修"是否仍是 AVGO 的常态，关注后续卖方对 FY27 $100B 目标是维持还是下修的一致预期变化，若 $100B 仍被守住则 -15% 属预期重置出清、定制硅 thesis 不破；若卖方开始下修则定制硅龙头 derate 向下游扩散。② <em>MRVL 的 follow-through 与定制硅订单能见度</em>——Teralynx T100 本季开始送样，2.0Tbps 互连与 custom ASIC 客户名单（已知与多家 hyperscaler 绑定）的进展是验证 +35% 加速指引可持续性的产业读数；MRVL beat+raise 后两周从 $160s→$290，能否守住是子链情绪锚。③ <em>利率脊椎对广义半导体 derate 的持续性</em>——6/16-17 FOMC 与 Fed Warsh 鹰派 confirm 决定 SOXX/XLK 板块级 multiple 压缩是延续还是企稳；若利率续升则 QCOM/INTC 等无个股事件标的 derate 延长，定制硅 alpha 与广义 beta 的剪刀差扩大。任一观察点上修即强化"定制硅 alpha 独立于板块 beta"的分化 thesis。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本主线本周的核心叙事是<strong>两颗芯片的故事</strong>——同属 AI 半导体、同一条产业链，资金却把组内劈成精确分化的两半，须逐类校准而非笼统打"半导体走强/走弱"。<strong>定制硅/互连真财报 alpha（逆板块 β）</strong>：<strong>MRVL +29%</strong> 是本周最大大盘 alpha——在 SOXX -5% 的板块级 derate 周里逆势暴涨，驱动是 Q1FY27 record rev <span class="hl">$2.418B +28%YoY</span>、Q2 指引 <span class="hl">$2.7B +35%YoY 加速</span>、上调 FY27-28 全年，外加 Teralynx T100 102.4Tbps 交换芯片切超大规模 AI 集群——这是纯个股 alpha，与板块 beta 完全脱钩。<strong>HPE +14%</strong> 同属逆 β 真财报 alpha：周一 6/1 报 EPS <span class="hl">$0.79 vs $0.54</span>、rev <span class="hl">$10.678B vs $9.889B</span>、rev +40%/EPS +108% YoY、record backlog、AI 订单+backlog 近翻倍、Juniper 整合超进度，报后 +29%。<strong>预期重置枢纽</strong>：<strong>AVGO -14%</strong> 是本主线最关键的预期校准——6/3 报 Q2 AI 半导体收入 $10.8B +143% beat、Q3 AI 指引 $16.0B（+200% YoY）、总营收指引 $29.4B（+84% YoY），数字本身仍强劲，但 <em>CEO Tan 未上调 $100B FY27 AI 目标</em> + Q3 AI 指引低于 whisper $17.2B → 从"持续超预期上修"切到"符合但不再上修"，YTD +40% 抢跑盘 de-rate -15%。<strong>广义半导体 derate（无个股事件）</strong>：<strong>QCOM -14% / INTC -14%</strong> 本周均无个股财报，纯随 SOXX -5% / XLK -6% 板块级 multiple 压缩跟跌，INTC 叠加 3M +128% 后获利了结。<strong>光模块/IP/微盘逆势走强</strong>：AAOI +12（光互连 direct）、VSH +10（模拟/分立周期）、CEVA +9 / ADEA +8（半导体 IP）、SVCO +17 / OPTX +14（EDA/光学微盘）——这一层在 derate 周里逆势，是资金在 AI 链里寻找"有独立 catalyst / 估值未抢跑"的细分载体。</p>
+
+  <p><span class="kicker">财报季分析</span>·本周必须把"本周真财报驱动"与"无个股事件随板块跟跌"严格切开，否则归因全错。<strong>本周真财报有三个，方向各异</strong>：① <em>MRVL Q1FY27（5 月末报）</em>——record rev <strong>$2.418B +28%YoY</strong>（vs 指引中值高 $18.0M）、NG EPS $0.80、GM 58.9%、OCF $638.8M record；数据中心 $1.833B +27% 占总营收 76%；Q2 指引 <strong>$2.7B 中值 +35%YoY 加速</strong>、上调 FY27 $11.5B（+40%）/ FY28 $16.5B（+45%）——这是本组唯一 beat+raise 的完整 alpha，定调"定制硅/互连"子链 thesis。② <em>HPE Q2'26（6/1 周一报）</em>——EPS <strong>$0.79 vs $0.54</strong>（+$0.25）、rev <strong>$10.678B vs $9.889B</strong>、rev +40%/EPS +108% YoY、record backlog、订单翻倍+、Juniper 整合 + Catalyst 计划超进度、AI 订单+backlog 近翻倍，报后 +29%——同属真财报 alpha。③ <em>AVGO Q2FY26（6/3 周三报、周四 6/4 -15%）</em>——adj EPS $2.44 vs $2.40 beat、rev $22.19B vs $22.27B 微 miss、rev +48%YoY、Q2 AI 半导体 $10.8B +143% beat；<strong>但 CEO Tan 未上调 $100B FY26/27 AI 目标、Q3 AI 指引 $16.0B vs 预期 $17.2B miss、基础软件 $7.32B miss</strong>——beat 但预期重置，这是 财报型 + 指引下修 的双标签典型。<strong>本周无个股财报随板块跟跌的</strong>：<em>QCOM</em>（7 月底报）、<em>INTC</em>（无本周财报）均纯随半导体 derate + AVGO read-through 杀跌、不计入财报驱动。<strong>小盘端走周期/题材的</strong>：VSH（模拟分立周期上行、3M +245%）、AAOI（AI 数据中心光互连）、CEVA/ADEA（IP 授权）、SVCO（Silvaco EDA）、OPTX（Syntec 光学）——本周走产业景气/题材映射、非本周新财报驱动。</p>
+
+  <p><span class="kicker">时间催化</span>·未来 2–4 周三个 binary 观察点，每个都有可观察数据、阈值与时点。① <em>AVGO $100B FY27 AI 目标的卖方一致预期演变（即时—2 周）</em>——核心看后续卖方对 FY27 AI 收入目标是维持 $100B 还是开始下修；阈值是若 $100B 仍被守住、卖方维持，则 -15% 属 YTD +40% 抢跑盘的预期重置出清、定制硅龙头 thesis 不破；若卖方陆续下修则 derate 风险向定制硅下游扩散。AVGO Q3 AI 指引 $16.0B（+200% YoY）数字本身强劲，市场失望的是"不再超预期上修"而非绝对增速——这一区分决定本主线分化是健康轮动还是 thesis 转向。② <em>MRVL 的 follow-through 与定制硅订单能见度（持续）</em>——Teralynx T100 本季开始客户送样、custom ASIC 与互连客户名单进展是验证 +35% 加速指引可持续性的产业读数；阈值是 MRVL beat+raise 后股价从 $160s→$290 能否守住、custom silicon 订单能见度若延续则子链 thesis 进入第二段燃料。③ <em>6/16-17 FOMC 与利率脊椎对广义半导体 derate 的持续性（6 月中）</em>——Fed Warsh 鹰派 confirm + 非农 +172K 后年内加息概率 ~70%，决定 SOXX/XLK 板块级 multiple 压缩是延续还是企稳；阈值是利率若续升则 QCOM/INTC 等无个股事件标的 derate 延长、定制硅 alpha 与广义 beta 剪刀差扩大，利率企稳则广义半导体跌势收敛。任一观察点上修即强化"定制硅 alpha 独立于板块 beta"的分化 thesis。</p>
+
+  <p><span class="kicker">订单与产业链</span>·四维扫描在本主线内部呈现明显分层，是判断各标的弹性兑现先后的产业链坐标。<strong>订单</strong>：定制硅子链订单动能最强——MRVL Q2 指引 +35%YoY 加速、上调全年至 FY27 $11.5B / FY28 $16.5B，custom ASIC 与互连随 hyperscaler 自研芯片预算扩张；HPE record backlog、AI 订单+backlog 近翻倍是整机端硬数据；AVGO Q2 AI 半导体 $10.8B +143%、Q3 指引 $16.0B（+200% YoY）订单绝对量仍在历史高位——订单本身没有走弱，市场重置的是"上修斜率"。<strong>价格</strong>：定制硅/互连价值量随 AI 含量结构升级（Teralynx 102.4Tbps、custom ASIC ASP 远高于通用芯片）；光互连端 AAOI 随 800G/1.6T 光模块出货放量、InP/激光器价值量提升；广义手机/PC 芯片（QCOM/INTC）无价格弹性、纯随板块估值 derate。<strong>库存</strong>：定制硅/AI 整机端库存健康、需求由 hyperscaler capex 拉动而非补库存；广义半导体（QCOM 手机端）库存周期与 AI 链脱钩，是 derate 时被无差别杀跌的一类。<strong>capex</strong>：上游 hyperscaler 自研芯片预算扩张是 MRVL/AVGO custom silicon 的需求源头，2026 自研 ASIC 渗透率上行挤压通用 GPU 份额；上游代工走 TSMC N3/N2、HBM 配 SK Hynix——MRVL（互连/ASIC）、AVGO（custom ASIC/networking）、AAOI（光互连）、HPE（AI server 整机）的景气均随 hyperscaler capex 上行外溢，确定性递减、节奏递延。本主线分化的产业本质：<em>定制硅/互连/光模块</em>有独立于板块的 hyperscaler capex 锚，<em>广义大盘半导体</em>无个股锚、只能随利率脊椎 multiple 压缩。</p>
+
+  <table class="dt">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+  </tr></thead>
+  <tbody>
+    <tr data-cap="L">
+      <td class="tk">MRVL</td>
+      <td class="name">Marvell Technology<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$179B · L</span></td>
+      <td class="num pos">+29%</td>
+      <td class="num pos">+53%</td>
+      <td class="num pos">+194%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+29%</span> 是本周<em>最大大盘 alpha</em>——在 SOXX -5% 的板块级 derate 周里逆势暴涨，纯个股 alpha、与板块 beta 完全脱钩。驱动是 Q1FY27 record rev + Q2 加速指引 + Teralynx T100 切超大规模 AI 集群，beat+raise 后两周股价从 $160s→$290。<br>
+        <strong>财报</strong>：<em>5 月末 Q1FY27</em> record rev <span class="hl">$2.418B +28%YoY</span>（vs 指引中值高 $18.0M）、NG EPS $0.80、GM 58.9%、OCF $638.8M record；数据中心 $1.833B +27% 占总营收 <em>76%</em>；Q2 指引 <span class="hl">$2.7B 中值 +35%YoY 加速</span>、上调 FY27 $11.5B（+40%）/ FY28 $16.5B（+45%）。<br>
+        <strong>产业链</strong>：上游 TSMC N3/N2 流片 custom ASIC + 互连芯片；下游 hyperscaler 自研 AI 加速器（custom silicon 深度绑定多家云厂）+ AI 集群 networking；横向对 AVGO（custom ASIC/networking 直接竞品）+ NVDA NVLink 生态。Teralynx T100 102.4Tbps 本季开始送样。
+        <span class="ki-note">定制硅/互连 Bull 中段，alpha 来自 beat+raise + 加速指引而非板块 beta——SOXX -5% 周逆势 +29% 是纯个股 alpha 教科书。市场 reprice 的是"custom silicon + 互连"从配角切到 AI capex 核心受益位、Q2 +35% 加速验证 hyperscaler 自研芯片预算外溢。MRVL 是本主线"两颗芯片"里赢的那颗，beat+raise 锚明确、是定制硅子链 thesis 定调者。</span>
+      </td>
+    </tr>
+    <tr data-cap="L">
+      <td class="tk">AVGO</td>
+      <td class="name">Broadcom<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$2020B · L</span></td>
+      <td class="num neg">-14%</td>
+      <td class="num neg">-9%</td>
+      <td class="num pos">+17%</td>
+      <td><span class="tag t-er">财报</span> <span class="tag t-guide-cut">指引下修</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">-14%</span> 是本主线最关键的<em>预期重置</em>——6/3 报、6/4 单日 -15%。数字本身仍强劲（Q2 AI 半导体 $10.8B +143% beat、Q3 总营收指引 $29.4B +84% YoY），市场失望的是"不再超预期上修"而非绝对增速，YTD +40% 抢跑盘 de-rate。<br>
+        <strong>财报</strong>：<em>6/3 Q2FY26</em> adj EPS $2.44 vs $2.40 beat、rev $22.19B vs $22.27B 微 miss、rev +48%YoY；Q2 AI 半导体 <span class="hl">$10.8B +143%</span> beat；但 <em>CEO Tan 未上调 $100B FY27 AI 目标</em>、Q3 AI 指引 <span class="hl">$16.0B vs 预期 $17.2B</span> miss、基础软件 $7.32B miss。<br>
+        <strong>产业链</strong>：上游 TSMC N3/N2 + HBM；下游 hyperscaler custom ASIC（与多家云厂自研 AI 芯片深度绑定）+ AI networking（Tomahawk/Jericho 交换）；横向对 MRVL（custom silicon 直接竞品，本周此消彼长）+ NVDA 生态。AI 收入绝对量仍历史高位。
+        <span class="ki-note">财报型 + 指引下修 双标签典型——beat 但不上调即 de-rate。-14% 不是基本面恶化（Q3 AI +200% YoY 仍强），是从"持续超预期上修"切到"符合但不再上修"的预期重置，YTD +40% 抢跑盘出清。AVGO 是"两颗芯片"里预期被重置的那颗，看点是后续卖方对 $100B FY27 目标维持 vs 下修——守住则 -15% 属出清、定制硅 thesis 不破。</span>
+      </td>
+    </tr>
+    <tr data-cap="L">
+      <td class="tk">INTC</td>
+      <td class="name">Intel<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$608B · L</span></td>
+      <td class="num neg">-14%</td>
+      <td class="num neg">-12%</td>
+      <td class="num pos">+128%</td>
+      <td><span class="tag t-rot">轮动</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">-14%</span> 是无个股事件的板块 derate 跟跌——本周无个股财报，纯随 SOXX -5% / XLK -6% 板块级 multiple 压缩，叠加 <em>3M +128% 后获利了结</em>。利率脊椎驱动的 derate，不是基本面恶化。<br>
+        <strong>财报</strong>：本周非财报季、无个股事件。3M +128% 主要反映前期代工重组/政府入股/外部客户预期的困境反转 re-rating，本周是高位回吐 + 板块 derate 双重退潮，不归入财报驱动。<br>
+        <strong>产业链</strong>：核心是 IDM 代工（Intel Foundry）+ CPU（Xeon 服务器/PC）；下游 PC/服务器 OEM；横向对 TSMC（代工）+ AMD/ARM（CPU）+ NVDA（AI 加速）。与本周 AI 定制硅子链关联弱，更多是大盘半导体 beta 载体。
+        <span class="ki-note">板块轮动——SOXX -5% derate 周里无个股事件标的被无差别杀跌，-14% 是 multiple 压缩 + 3M +128% 获利了结，非基本面拐点。INTC 在本主线属"广义大盘半导体"层、无独立 catalyst 锚，本周走的是 Bear 防御逻辑（利率脊椎驱动），与 MRVL/AVGO 的定制硅子链分化明确，是 derate 时跟跌的典型。</span>
+      </td>
+    </tr>
+    <tr data-cap="L">
+      <td class="tk">QCOM</td>
+      <td class="name">QUALCOMM<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$256B · L</span></td>
+      <td class="num neg">-14%</td>
+      <td class="num pos">+12%</td>
+      <td class="num pos">+59%</td>
+      <td><span class="tag t-rot">轮动</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">-14%</span> 是无个股事件的板块 derate 跟跌——7 月底才报财报，本周纯随半导体 derate + AVGO read-through 杀跌。手机基带基本盘与 AI 定制硅弹性脱钩，是 derate 时被无差别压缩的一类。<br>
+        <strong>财报</strong>：<em>无本周财报</em>，下次约 7 月底报。本周涨跌纯由板块 beta 决定，AVGO 预期重置的 read-through 加重了半导体整体的 risk-off 情绪，不计入个股事件。<br>
+        <strong>产业链</strong>：核心是手机 SoC/基带（royalty 基本盘）+ 数据中心 CPU（server CPU 叙事在途）；上游 TSMC N3；下游手机 OEM（Apple/Samsung/小米）+ 新增数据中心；横向对 ARM/MediaTek（手机）+ INTC（server CPU）。AI 弹性受手机基本盘稀释。
+        <span class="ki-note">板块轮动——无个股事件、纯随 SOXX -5% derate + AVGO read-through，-14% 是 multiple 压缩不是基本面恶化。QCOM 在本主线属"广义大盘半导体"层，手机 royalty 基本盘对 AI 弹性形成稀释、无定制硅独立 catalyst，本周走 Bear 防御逻辑（利率脊椎），与 MRVL beat+raise alpha 形成主线内剪刀差。</span>
+      </td>
+    </tr>
+    <tr data-cap="M">
+      <td class="tk">HPE</td>
+      <td class="name">Hewlett Packard Enterprise<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$51B · M</span></td>
+      <td class="num pos">+14%</td>
+      <td class="num pos">+62%</td>
+      <td class="num pos">+134%</td>
+      <td><span class="tag t-er">财报</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+14%</span> 是逆板块 β 真财报 alpha——在 SOXX -5% derate 周里逆势上涨，周一 6/1 报后 +29%。驱动是 AI server 整机端订单+backlog 近翻倍 + Juniper 整合超进度，与 MRVL 同属"有个股 beat 锚"的逆 β 赢家。<br>
+        <strong>财报</strong>：<em>6/1 周一 Q2'26</em> EPS <span class="hl">$0.79 vs $0.54</span>（+$0.25）、rev <span class="hl">$10.678B vs $9.889B</span>；rev +40% / EPS +108% YoY；record backlog、订单翻倍+、AI 订单+backlog 近翻倍、Juniper 整合 + Catalyst 计划超进度。<br>
+        <strong>产业链</strong>：核心是 AI server 整机（与 NVDA/AMD GPU 配套）+ 网络（Juniper 整合后切 AI networking）+ 混合云；上游 GPU/存储/互连供应商；下游 hyperscaler + 企业 AI 部署；横向对 Dell/SMCI（AI server OEM）+ Cisco/Arista（networking）。
+        <span class="ki-note">真财报 alpha——SOXX -5% 周逆势 +14% 是个股 beat 驱动、与板块 derate 脱钩。rev +40%/EPS +108% + AI 订单近翻倍 + Juniper 整合超进度三重验证 AI 整机需求强劲。HPE 是本主线"AI server 整机端"逆 β 赢家，与 MRVL 同属"有 beat 锚"的赢家层，Juniper 切 AI networking 是后续 re-rating 看点。</span>
+      </td>
+    </tr>
+    <tr data-cap="S">
+      <td class="tk">AAOI</td>
+      <td class="name">Applied Optoelectronics<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$13.6B · S</span></td>
+      <td class="num pos">+12%</td>
+      <td class="num neg">-1%</td>
+      <td class="num pos">+85%</td>
+      <td><span class="tag t-map-d">直接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+12%</span> 在小盘逆 β 走强——光互连 direct 受益于 AI 数据中心 800G/1.6T 光模块出货放量。derate 周里逆势，是资金在 AI 链里寻找"有独立 catalyst / 估值未抢跑"的细分载体，光模块需求与 hyperscaler capex direct 绑定。<br>
+        <strong>财报</strong>：本周非财报季。关键是 AI 数据中心光互连需求结构性上行——高速光模块（800G→1.6T）随 AI 集群规模扩张放量，是 AOI 收入弹性的核心变量。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是数据中心光模块（800G/1.6T）+ 激光器/光器件垂直整合；上游 InP/激光芯片（AXTI 类衬底）；下游 hyperscaler 数据中心（与 AI 集群 networking direct 绑定）；横向对 Coherent/Lumentum/中际旭创（光模块龙头）。
+        <span class="ki-note">直接映射——光互连是 AI 集群 networking 的 direct 受益环节，需求与 hyperscaler capex 同步。3M +85% 反映光模块从 400G 向 800G/1.6T 升级的价值量跃迁。AAOI 是本主线"光模块"逆 β 标的，与 MRVL 互连芯片同属 AI networking 受益链、direct 暴露明确，弹性来自小市值 + 光速率升级周期叠加。</span>
+      </td>
+    </tr>
+    <tr data-cap="S">
+      <td class="tk">VSH</td>
+      <td class="name">Vishay Intertechnology<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$7.1B · S</span></td>
+      <td class="num pos">+10%</td>
+      <td class="num pos">+70%</td>
+      <td class="num pos">+245%</td>
+      <td><span class="tag t-map-i">间接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+10%</span> 在小盘逆 β 走强——模拟/分立器件周期上行，AI server 电源与互联系统对被动/功率元件用量倍增（每台 AI server 需大量高压 MOSFET、电容、电感）。属 indirect 受益，3M +245% 反映被动/分立周期反转。<br>
+        <strong>财报</strong>：本周非财报季。关键是模拟/分立器件周期从底部反转——AI server 电源方案（高压 MOSFET、功率电感、电流检测）+ 汽车/工业需求复苏共同拉动 book-to-bill 回升。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是被动元件（电阻/电容/电感）+ 分立器件（MOSFET/二极管）；下游 AI server 电源（与 MPS/英飞凌方案配套）+ 汽车/工业/航天国防；上游硅晶圆 + 自有 fab；横向对村田/TDK（被动）+ 安森美/英飞凌（分立）。
+        <span class="ki-note">间接映射——被动/分立元件是 AI 整机"隐形必需"，景气滞后核心算力但每台 AI server 必备。3M +245% 是周期反转 + AI 电源需求双驱动。VSH 是本主线"AI 电源被动元件"indirect 标的，非核心算力但确定性高，弹性来自小市值 + 模拟/分立周期拐点叠加，与定制硅子链共振但驱动来自整机用量而非算力本身。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">SVCO</td>
+      <td class="name">Silvaco Group<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.3B · T</span></td>
+      <td class="num pos">+17%</td>
+      <td class="num neg">-9%</td>
+      <td class="num pos">+250%</td>
+      <td><span class="tag t-map-s">情绪映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+17%</span> 是 $0.3B 微盘情绪弹性——EDA 软件题材随 AI 芯片设计复杂度叙事被资金推涨，derate 周里逆势。流通盘极小 + 半导体 EDA 题材热，3M +250% 是题材重定价的极端微盘脉冲，博弈情绪驱动。<br>
+        <strong>财报</strong>：微盘 EDA 公司、季报披露有限。叙事锚是 AI 芯片设计复杂度上升拉动 EDA/TCAD 工具用量结构性增长，但 SVCO 体量小、收入弹性高度依赖少数客户。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是 TCAD/EDA 仿真软件（器件级/工艺级建模）；下游晶圆厂/IDM 工艺研发 + 化合物半导体设计；横向对 Synopsys/Cadence（EDA 龙头，体量差千倍）。AI 芯片设计复杂度是 EDA 用量的上游叙事变量。
+        <span class="ki-note">情绪映射——$0.3B 微盘 + EDA 题材热，逻辑是博弈和情绪、非基本面，妖股属性不用 PE/PS 否定。SVCO 是本主线"半导体 EDA"微盘情绪载体，AI 芯片设计复杂度是其题材锚但收入弹性受小体量稀释，3M +250% 反映题材重定价、弹性最大但持续性最弱、与定制硅子链基本面脱钩。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">OPTX</td>
+      <td class="name">Syntec Optics<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.4B · T</span></td>
+      <td class="num pos">+14%</td>
+      <td class="num pos">+49%</td>
+      <td class="num pos">+78%</td>
+      <td><span class="tag t-map-s">情绪映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+14%</span> 是 $0.4B 微盘情绪弹性——光学元件题材随 AI 光互连/光模块叙事被推涨，derate 周里逆势。流通盘小 + 光学题材搭 AAOI 类光互连热度，1M +49% 是题材映射放大 beta 的微盘载体，博弈驱动为主。<br>
+        <strong>财报</strong>：微盘光学元件公司、季报披露有限。叙事锚是 AI 数据中心光互连放量对精密光学元件（透镜/光学组件）的连带需求，但 OPTX 与高速光模块核心环节关联较间接、更多是情绪映射。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是精密光学元件/光学组件制造（注塑光学/金刚石车削）；下游光通信/国防/医疗/消费光学；横向对各精密光学代工。与 AI 光互连核心环节（光模块/激光器）关联间接，更多搭光学题材热度。
+        <span class="ki-note">情绪映射——$0.4B 微盘 + 光学题材，逻辑是博弈和情绪、非基本面，妖股属性不用估值否定。OPTX 与 AI 光互连核心环节关联间接，本周是微盘 + 光学题材组合放大 beta 的载体，3M +78% 相对其它微盘温和。它是本主线"光学元件"情绪映射标的，弹性来自微盘 + 题材搭车，持续性弱、与光模块核心基本面脱钩。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">CEVA</td>
+      <td class="name">Ceva Inc<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.2B · T</span></td>
+      <td class="num pos">+9%</td>
+      <td class="num pos">+26%</td>
+      <td class="num pos">+128%</td>
+      <td><span class="tag t-map-d">直接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+9%</span> 在微盘逆 β 走强——半导体 IP 授权 direct 受益于边缘 AI / DSP 在终端设备的渗透。derate 周里逆势，是资金在 IP 端寻找有结构性增长锚的载体。3M +128% 反映边缘 AI / 连接 IP 授权量增长的题材重定价。<br>
+        <strong>财报</strong>：本周非财报季。关键是 DSP / 无线连接（蓝牙/Wi-Fi）/ 边缘 AI IP 授权随终端设备智能化渗透增长——royalty 基数随每代 SoC 复杂度抬高。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是半导体 IP 授权（DSP/边缘 AI/无线连接）；商业模式 licensing + royalty；下游手机/IoT/汽车 SoC 设计商；横向对 ARM（IP 龙头）+ Cadence Tensilica（DSP IP）。边缘 AI 在终端的渗透是 royalty 增长的结构性变量。
+        <span class="ki-note">直接映射——边缘 AI / DSP IP 是 AI 在终端落地的 direct 受益环节，royalty 基数随 SoC 复杂度结构性抬高。3M +128% 反映边缘 AI IP 授权的题材重定价。CEVA 是本主线"半导体 IP"小盘标的，与 ARM 同属 IP 授权模式（体量差百倍），弹性来自小市值 + 边缘 AI 渗透叙事，driver 是 compute/IP 端而非定制硅 pricing。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">ADEA</td>
+      <td class="name">Adeia Inc<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.0B · T</span></td>
+      <td class="num pos">+8%</td>
+      <td class="num neg">-1%</td>
+      <td class="num pos">+46%</td>
+      <td><span class="tag t-map-i">间接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> 在微盘逆 β 温和走强——半导体/媒体 IP 授权 indirect 受益于半导体题材热度。derate 周里逆势但弹性温和，IP 授权模式现金流稳定、对半导体周期 beta 暴露低于设计/制造端，是组内偏防御的 IP 载体。<br>
+        <strong>财报</strong>：本周非财报季。关键是半导体（混合键合/3D 封装 IP）+ 媒体（流媒体/数字电视）双线 IP 授权——半导体 IP 随先进封装渗透增长，授权模式收入能见度高。下次财报约 Q2 财报季。<br>
+        <strong>产业链</strong>：核心是 IP 授权（半导体混合键合/3D 封装 + 媒体内容分发）；商业模式纯 licensing；下游半导体厂（先进封装授权）+ 流媒体/电视厂商；横向对其它 IP 授权商。半导体 IP 端受益先进封装（HBM/chiplet）渗透。
+        <span class="ki-note">间接映射——半导体 IP 授权（混合键合/3D 封装）indirect 受益于先进封装渗透，授权模式现金流稳定、对半导体周期 beta 暴露低。3M +46% 在组内偏温和、反映 IP 授权的防御属性。ADEA 是本主线"IP 授权"小盘标的，半导体+媒体双线分散风险，弹性来自题材搭车而非定制硅核心 driver，是组内偏防御的 IP 载体。</span>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li>MRVL beat+raise 逆板块 β：record rev $2.418B +28%、Q2 指引 $2.7B +35% 加速、上调 FY27-28，custom silicon + 互连切 AI capex 核心受益位</li>
+        <li>定制硅独立 alpha：MRVL/AVGO custom ASIC 随 hyperscaler 自研芯片预算扩张，AI 含量结构升级使 ASP 远高于通用芯片</li>
+        <li>HPE AI 整机端 beat：rev +40% / EPS +108%、AI 订单+backlog 近翻倍、Juniper 切 AI networking 整合超进度</li>
+        <li>光模块/IP 逆 β 细分：AAOI（800G/1.6T 光互连 direct）+ CEVA（边缘 AI IP）有独立 catalyst、估值未抢跑</li>
+        <li>AVGO 数字本身仍强：Q2 AI $10.8B +143%、Q3 指引 $16.0B（+200% YoY），订单绝对量在历史高位</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li>AVGO 预期重置：CEO Tan 未上调 $100B FY27 AI 目标、Q3 AI 指引 $16.0B vs whisper $17.2B，"不再超预期上修"触发 YTD +40% 抢跑盘 de-rate</li>
+        <li>利率脊椎 derate：非农 +172K → 年内加息概率 70%，SOXX -5% / XLK -6% 板块级 multiple 压缩对无个股事件标的（QCOM/INTC）无差别杀跌</li>
+        <li>广义大盘半导体无锚：QCOM 手机基本盘 + INTC 代工反转对 AI 弹性脱钩，derate 时只能随板块 beta 跟跌</li>
+        <li>定制硅 derate 传导风险：若卖方陆续下修 AVGO $100B 目标，derate 可能从枢纽向定制硅下游扩散</li>
+        <li>微盘情绪弹性脆弱：SVCO/OPTX（$0.3-0.4B）逆势靠题材放大 beta，半导体情绪退潮时回撤同样剧烈、持续性弱</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事 callout · 同一条 AI 链的精确切割</span>
+    <p>本主线最值得标注的是<strong>资金在同一条 AI 半导体链里做出的精确分化</strong>，而非笼统的"半导体 risk-off"。SOXX -5% 的板块级 derate 是利率脊椎（非农 +172K → 加息概率 70%）压成长 multiple 的结果，但资金没有无差别抛售——它精确切割出"有 beat+raise 个股锚"的 MRVL +29% / HPE +14（逆 β alpha）、"beat 但不上修"的 AVGO -14（预期重置）、"无个股事件"的 QCOM/INTC -14（纯 derate 跟跌）三层。这说明本周 AI 半导体的真信号<em>不是板块涨跌</em>、而是<strong>定制硅/互连/光模块子链与广义大盘半导体的剪刀差</strong>：前者有 hyperscaler capex 独立锚、后者只能随利率脊椎 multiple 压缩。判断分化是健康轮动还是 thesis 转向，唯一可靠依据是 AVGO $100B FY27 目标的卖方一致预期演变 + MRVL custom silicon 订单能见度，而非任何标的的单周价格行为。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-03">
+  <div class="sec-num">§03</div>
+  <h2 class="sec-title">商业航天 / 卫星 · <em>高 beta momentum 崩盘</em></h2>
+  <div class="sec-sub">一级抽水 + 利率杀久期，叙事饱满后的获利了结</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bear Logic · 行业下行</span>
+    <p><strong>1. 行业阶段定位</strong>：商业航天本周从<em>叙事扩张末段</em>转入<em>去杠杆下行</em>——这是一次资金面拐点，不是产业基本面破裂，但行业方向本周确认下行。三股力量同时挤压同一群高 beta 标的：① <span class="hl">SpaceX IPO 申报</span>（拟发 555.6M 股 @ $135、募 <strong>$75B</strong>、估值 <strong>$1.77–1.8T</strong>）从一级市场反向抽空整个商业航天的二级投资盘——当世界上最纯、最大的火箭资产即将给到机构直接配置渠道，二级里的 ASTS / RKLB / LUNR 这些"SpaceX 替代敞口"立刻被边际抛售，Jefferies 已公开布局"做空 space"的相对价值交易。② <span class="hl">6/5 非农 +172K vs 共识 80K</span> 爆表 → Fed Warsh 鹰派 confirm、年内加息概率升到 ~70%、利率与美元双升，整段长久期 pre-revenue 成长被 derate，航天与 AI / 量子 / 加密同源杀跌（SOXX -5 / QQQ -5 同框）。③ <span class="hl">Blue Origin New Glenn 试车爆炸</span>，把"binary launch event 风险"重新摆回桌面、给做空提供事件由头。关键背景：过去一年 ASTS <strong>+328%</strong>、RKLB <strong>+329%</strong>，巨幅获利盘高度集中，一旦一级抽水 + 利率两个宏观开关同向拨动，了结盘踩踏放大。本质是<em>叙事饱满 + 资金面拐点</em>共振，而非任一公司合同 backlog 被证伪——这是 Bear Logic 下"买预期、卖兑现"的标准动作，价格信号可以作为本周方向依据。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周三个 binary 决定 thesis 是企稳还是继续减弱。① <strong>SpaceX IPO 定价 / 路演节奏</strong>——这是板块最大的单一变量：路演越密、估值区间越坐实，二级抽水越持续，是当前下行 thesis 的主引擎；若 IPO 推迟或缩量，抽水压力部分缓解。② <strong>6/16-17 FOMC + 后续通胀数据</strong>——若 Warsh 确认偏鹰路径、利率继续上行，长久期航天的 derate 还有续杀空间；任何"加息预期降温"都会让最受伤的高 beta 标的（AVEX / PL / LUNR）反弹弹性最大。③ <strong>RKLB Neutron 首飞 + ASTS BlueBird 发射节奏</strong>——链内龙头的真实里程碑若如期兑现，能给"基本面没坏、只是资金面走"提供反证、阻断纯情绪踩踏。三个里有两个是宏观 / 资金面（IPO + FOMC），一个是产业里程碑——当前主导方向由前两个决定，thesis 减弱方向明确：一级抽水 + 利率不转向，板块下行压力不解除。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本周商业航天是全 watchlist 跌幅最深、最整齐的一条主线——<span class="hl">13 只标的全部下跌</span>，无一逆势，跌幅带从 ASTS / RKLB 的 -17/-23% 一路压到 AVEX 的 <em>-41%</em>。这与 5 月底"双引擎里程碑驱动单边上行"的画面完全镜像反转，归因必须切到资金面，而不能套用任何"个股利空"叙事。<strong>第一推手是一级市场抽水</strong>：<span class="hl">SpaceX 正式申报 IPO</span>（募 $75B、估值 $1.77–1.8T），把整个商业航天的边际增量资金从二级"替代敞口"标的里抽走——机构原本通过 ASTS / RKLB / LUNR 间接持有"火箭 + 卫星"暴露，现在 SpaceX 本体即将可直接配置，二级里这批高溢价 proxy 立刻被相对减持，Jefferies 公开布局"做空 space"的对冲交易给了卖压制度性出口。<strong>第二推手是宏观 derate</strong>：6/5 非农爆表（+172K vs 80K）→ 利率 + 美元双升，长久期 pre-revenue 成长全线 derate，航天与 AI 硬件 / 量子 / 加密同源（SOXX -5 / QQQ -5），这群"现金流在远端"的标的对贴现率最敏感、首当其冲。<strong>第三是事件由头</strong>：Blue Origin New Glenn 试车爆炸，给"发射 binary 风险"重新定价、为做空提供叙事。需强调一个反例不破坏方向——SPCE 盘中一度因 IPO 前逼空反弹、$64M 空头被烧，但周线仍 <em>-29%</em>，方向未改。本质：<em>叙事饱满后的获利了结 + 一级抽走二级流动性的资金面拐点</em>，过去一年 ASTS +328% / RKLB +329% 的巨幅获利盘集中了结，不是任何公司 backlog 被证伪——这是 Bear Logic 下的标准去杠杆，而非基本面拐点。</p>
+
+  <p><span class="kicker">财报季分析</span>·本周航天<em>无新财报落地于驱动窗口</em>——这一点至关重要：13 只全杀，但没有任何一只是被本周业绩 miss 砸下来的，全部是资金面 + 板块事件，必须明确排除"财报驱动"归因。<strong>已报、此前走 follow-through 的几只本周被资金面盖过</strong>：ASTS / RKLB / LUNR / PL 均在 5 月中旬完成最新季报，此前是财报后 re-rate 的位势延续（ASTS 3M +5%、RKLB 3M +57%、LUNR 3M +67% 仍为正），但本周一级抽水 + derate 的资金面力量完全压过了基本面 follow-through，证明本周方向由资金面而非业绩决定。<strong>纯催化 / 情绪、无本季报数支撑的</strong>：SPCE（pre-revenue 妖股、$0.3B 微盘、靠题材而非业绩）、SATL / SPIR / BKSY / HAWK（小盘遥感 / ISR，公开财务有限），这几只是板块情绪 beta 的高弹性放大端，跌幅普遍 -24 至 -28%。<strong>HAWK 标注</strong>：HawkEye 360（射频地理定位 / ISR）为次新 / 新进池标的（1M / 3M 数据 NaN、标 <em>△</em>），缺历史位势参照，本周 -24% 是板块情绪外溢、无个股级利空。需纠正一处可能的误判——FLY（Firefly Aerospace）-22% 不是财报 miss，是月面着陆 / 小火箭赛道随板块 derate 的同源杀跌。整段看：财报维度本周对航天的解释力≈零，<em>归因锚全部落在资金面（IPO 抽水 + 利率）+ 板块事件（New Glenn）</em>，任何把跌幅归到"业绩不及预期"的写法都是误判。</p>
+
+  <p><span class="kicker">时间催化</span>·未来 2-4 周三个时点 / 阈值决定板块是企稳还是续杀。<strong>① SpaceX IPO 定价与路演节奏 — 时点临近、最大单一变量</strong>：$75B 募资、$1.77–1.8T 估值的发行越往前推进，对二级"替代敞口"标的的抽水越持续——路演密度、最终估值区间、定价日是当前下行 thesis 的主引擎；若发行推迟或缩量，二级 proxy 的相对减持压力部分缓解，最受伤的高 beta（AVEX / PL / LUNR）反弹弹性最大。<strong>② 6/16-17 FOMC + 后续通胀 — 利率开关</strong>：6/5 非农已把年内加息概率推到 ~70%，若 Warsh 在 FOMC 确认偏鹰、利率继续上行，长久期 pre-revenue 航天还有续杀空间；反之任何"鹰派预期降温"都会让这批对贴现率最敏感的标的优先反弹——这是与 IPO 抽水并列的第二个资金面时钟。<strong>③ RKLB Neutron 首飞 + ASTS BlueBird 发射节奏 — 唯一的产业反证</strong>：链内龙头 RKLB（$86B）Neutron 中型火箭首飞、ASTS（$54B）卫星直连手机的 BlueBird 在轨推进，若如期兑现，能给"基本面没坏、只是资金面在走"提供硬证据、阻断纯情绪踩踏；里程碑延期则坐实"叙事兑现期承压"。综合：三个时点里两个是资金面（IPO + FOMC）、一个是产业里程碑，当前主导方向由前两个把持——<em>一级抽水 + 利率不转向，板块下行压力不解除</em>，这是本周可观察、可证伪的明确方向。</p>
+
+  <p><span class="kicker">订单与产业链</span>·四维拆解，核心结论是"资金面在杀、产业基本面未坏"，分层看弹性。<strong>订单（NASA / 国防合同）</strong>——本周维度未恶化：LUNR 仍持 CLPS 月面运载 task order 与 backlog，RDW 有 NASA Dragonfly 导航部件 + 国防无人机后续订单，RKLB 在手 backlog 仍达 <strong>$2.2B</strong>（Q1 营收 +64% YoY，为整段行业订单端真实放量提供基本面背书），ASTS BlueBird 在轨推进——订单端没有任何一笔被取消或下修，本周跌幅与合同维度脱钩。<strong>价格（一级估值锚）</strong>——这是本周最关键、也是方向相反的维度：SpaceX IPO 定价 $135 / 股、$1.77–1.8T 估值，<em>不是抬升而是抽走</em>二级隐含估值——当一级给到机构直接配置渠道，二级 proxy 的溢价被压缩，是本周价格维度的核心利空（与 5 月底 IPO 传闻"反向锚定抬升"的逻辑彻底反转）。<strong>库存（发射运力）</strong>——New Glenn 爆炸使可用发射运力短期收紧、SpaceX Falcon 9 议价权进一步抬升，但这对链内标的偏中性、不构成本周杀跌主因。<strong>capex / 资金面</strong>——本周真正的"库存"是<em>二级市场的边际增量资金</em>，被 SpaceX IPO 这个 $75B 巨型一级供给直接抽干，叠加利率上行抬高 pre-revenue 标的的折现成本，这才是 13 只整齐下跌的资金面根因。产业链分层（弹性递增）：RKLB / ASTS（链内龙头、有真实 backlog，回吐 -23/-17% 相对抗跌）→ LUNR / PL / FLY / RDW（有合同的中小盘，-22 至 -37%）→ AVEX / SATL / SPIR / BKSY / HAWK / SPCE（纯情绪 / 次新 / 微盘，无个股订单锚、跌幅最深 -24 至 -41%）。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text" style="width:4%">Ticker</th>
+      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="num" style="width:3%">1W</th>
+      <th data-type="num" style="width:3%">1M</th>
+      <th data-type="num" style="width:3%">3M</th>
+      <th data-type="text" style="width:7%">归因</th>
+      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="M">
+        <td class="tk">RKLB</td>
+        <td class="name">Rocket Lab<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$86B · M</span></td>
+        <td class="num neg">-23%</td>
+        <td class="num pos">+30%</td>
+        <td class="num pos">+57%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-23%</span>——链内火箭龙头，本周从位势高位回吐，但 1M +30% / 3M +57% 仍为正，说明这是<em>叙事饱满后的获利了结</em>而非趋势破坏。过去一年 <span class="hl">+329%</span> 的巨幅获利盘在 SpaceX IPO 申报（$75B 抽水）+ 6/5 非农利率上行双开关下集中了结——RKLB 正是机构"SpaceX 二级替代敞口"的首选，一级本体可直接配置后被相对减持。Jefferies 布局"做空 space"对冲交易直指这类高溢价龙头。<br>
+          <strong>财报</strong>：Q1 已报、本周无新财报。营收 <strong>+64% YoY</strong>、在手 backlog <strong>$2.2B</strong>——订单端为整段行业真实放量提供基本面背书，本周跌幅与合同维度脱钩。下次 binary = Neutron 中型火箭首飞窗口。<br>
+          <strong>产业链</strong>：上游自研 Electron / Neutron 火箭 + 卫星组件（Photon 平台）；下游 = NASA / 国防 / 商业卫星发射客户；与 SpaceX 在小 / 中型发射赛道直接竞争，本次正是被 SpaceX IPO 一级抽水误伤的链内龙头。
+          <span class="ki-note">$86B 的 M 档，本周 -23% 是板块轮动（资金面去杠杆）为主、催化（IPO 抽水 + New Glenn 事件）为辅。这是 Bear Logic 下的标准了结：1M / 3M 仍正、$2.2B backlog 未被证伪，基本面没坏、走的是资金面。回吐幅度小于纯情绪小盘，说明真实 backlog 提供了相对抗跌锚；thesis 减弱方向取决于 SpaceX IPO 抽水持续性与利率走向，而非火箭订单。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">ASTS</td>
+        <td class="name">AST SpaceMobile<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$54B · M</span></td>
+        <td class="num neg">-17%</td>
+        <td class="num pos">+32%</td>
+        <td class="num pos">+5%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-17%</span> 为全组最抗跌——卫星直连手机龙头，从高位回吐但 1M +32% 仍稳。过去一年 <span class="hl">+328%</span> 的获利盘在 SpaceX IPO 抽水 + 利率 derate 下集中了结。ASTS 作为"卫星 + 火箭"复合叙事的二级旗舰，是机构 SpaceX 替代敞口的核心持仓，一级本体可配置后被相对减持。-17% 跌幅明显小于纯情绪小盘，说明 BlueBird 在轨进度与运营商绑定提供了真实基本面锚。<br>
+          <strong>财报</strong>：Q1 FY26 已于 5 月中报、本周无新财报。本周下跌纯资金面，与业绩无关。下次 binary = BlueBird Block-2 在轨发射 / 商用网络铺设节奏。<br>
+          <strong>产业链</strong>：上游自研相控阵卫星载荷；发射端多供应商（SpaceX Falcon 9 主力）；下游绑定 AT&T / Verizon / Vodafone 等运营商直连手机网络。SpaceX IPO 既是发射供应商本体上市、又是二级敞口竞争——对 ASTS 是双向影响，本周以"抽水"一面主导。
+          <span class="ki-note">$54B 的 M 档，-17% 是板块轮动（去杠杆）+ 催化（IPO 抽水）。3M +5% 已基本回吐前期涨幅，但 1M +32% 显示中期趋势未破。这是 Bear Logic 下叙事兑现期的标准承压——直连手机网络的产业逻辑没坏，BlueBird 发射节奏与运营商合同是反证锚。thesis 减弱方向取决于 IPO 抽水与利率，发射里程碑如期则阻断踩踏。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">PL</td>
+        <td class="name">Planet Labs<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$16.6B · S</span></td>
+        <td class="num neg">-37%</td>
+        <td class="num neg">-19%</td>
+        <td class="num pos">+27%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-37%</span> 为中盘最深——遥感卫星数据龙头，本周从高位剧烈回吐，1M -19% 显示位势已转负。PL 自营 200+ 颗遥感星座，作为高 beta 卫星运营标的，对一级抽水 + 利率 derate 双重敏感；过去三个月 +27% 的获利盘在 SpaceX IPO 申报 + 非农利率上行下集中踩踏。无个股级利空，纯资金面 + 板块情绪扩散。<br>
+          <strong>财报</strong>：最新季报已报、本周无新财报。订阅 ARR 模式、国防 / 情报客户 backlog 此前放量——基本面维度本周未恶化，跌幅与订单脱钩。下次催化看国防 / 情报新单与季度 RPO 兑现。<br>
+          <strong>产业链</strong>：上游自营 PlanetScope / SkySat 星座、不绑单一火箭；下游 = 美国国防 / 情报机构（NRO / NGA）、农业、政府订阅客户；横向竞争 BlackSky（BKSY）、Satellogic（SATL）、Maxar。订阅 ARR 提供现金流确定性，但高 beta 估值在 derate 中弹性放大。
+          <span class="ki-note">$16.6B 的 S 档，-37% 是板块轮动（去杠杆）+ 催化（IPO 抽水）共同放大的高 beta 回吐。1M 转负 -19% 说明位势已破，但 3M +27% 表明仍未跌穿三个月前起点。基本面（国防 backlog / ARR）未坏，这是资金面主导的踩踏。弹性大于 ASTS / RKLB 这类有 backlog 龙头，板块情绪退潮中回吐更深；thesis 减弱由利率 + IPO 抽水主导。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">LUNR</td>
+        <td class="name">Intuitive Machines<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$7.3B · S</span></td>
+        <td class="num neg">-33%</td>
+        <td class="num pos">+12%</td>
+        <td class="num pos">+67%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-33%</span>——月球着陆 / 月面服务龙头，从 3M +67% 的强位势高位剧烈回吐，但 1M +12% 仍正。这是订单驱动 re-rate 后的获利了结，触发同样是 SpaceX IPO 抽水 + 利率 derate 两个资金面开关，而非 CLPS 合同出问题。LUNR 商业模式为月面运载服务、不依赖单一发射商，故 New Glenn 爆炸对其直接冲击有限，本周跌幅以板块 beta + 抽水为主。<br>
+          <strong>财报</strong>：Q1 FY26 已于 5 月中报、record 营收 + Adj EBITDA 转正、CLPS backlog 此前放量——本周无新财报，基本面未恶化。下次催化 = IM-3（CLPS 飞行）发射窗口与后续 CLPS task order。<br>
+          <strong>产业链</strong>：上游对接 NASA CLPS 框架（商业月球运载主承包商之一）；横向竞争 Firefly（FLY，Blue Ghost）、Astrobotic；下游载荷客户含 NASA 科学任务 + 商业月面服务。真实 CLPS 订单 + backlog 提供基本面锚，区别于纯题材标的。
+          <span class="ki-note">$7.3B 的 S 档，-33% 是板块轮动（去杠杆）+ 催化（IPO 抽水）放大的高 beta 回吐。3M +67% 仍正、1M +12% 未破，说明这是叙事兑现期的资金面踩踏而非订单证伪——record 营收 + EBITDA 转正 + CLPS backlog 是基本面反证锚。弹性大于 ASTS / RKLB，板块情绪退潮中回吐更深；CLPS 里程碑如期是阻断踩踏的关键观察点。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">FLY</td>
+        <td class="name">Firefly Aerospace<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$7.9B · S</span></td>
+        <td class="num neg">-22%</td>
+        <td class="num pos">+4%</td>
+        <td class="num pos">+83%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-22%</span>——小火箭 + 月面着陆（Blue Ghost）双线赛道，本周随板块 derate 同源杀跌，但 3M +83% 显示位势仍处高位、1M +4% 基本持平。需厘清：FLY -22% <em>不是财报 miss</em>，是月面 / 小发射赛道随 SpaceX IPO 抽水 + 利率上行的整齐回吐。作为有真实发射 / 着陆里程碑的中小盘，跌幅小于纯情绪次新。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口，跌幅与业绩脱钩。里程碑链 = Blue Ghost 月面着陆任务 + Alpha / MLV 小中型火箭发射节奏。下次催化看发射窗口与 NASA / 国防订单兑现。<br>
+          <strong>产业链</strong>：上游自研 Alpha 小火箭 + MLV 中型火箭 + Blue Ghost 月面着陆器；下游 = NASA CLPS（与 LUNR 同框竞争）+ 国防 + 商业发射客户；横向在月面着陆与小发射两条线均有真实在研产品。
+          <span class="ki-note">$7.9B 的 S 档，-22% 纯板块轮动（资金面去杠杆）——无个股利空，是月面 / 小发射赛道随 SpaceX IPO 抽水的同源回吐。3M +83% 仍为全组强位势之一，1M 持平说明趋势未破。这是 Bear Logic 下叙事兑现期承压，Blue Ghost 着陆与小火箭发射里程碑是基本面反证锚；弹性介于龙头与纯情绪小盘之间。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">ONDS</td>
+        <td class="name">Ondas Holdings<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$6.6B · S</span></td>
+        <td class="num neg">-21%</td>
+        <td class="num pos">+12%</td>
+        <td class="num pos">+6%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">情绪映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-21%</span>——无人机 / 自治系统 + 工业无线网络，本周随"航天 + 国防无人"概念合并板块同步回吐，但 1M +12% 仍正。ONDS 业务偏无人机自治系统、与核心发射 / 卫星链关联较弱，本周下跌以板块情绪 beta + 利率 derate 为主，无个股级利空。属"航天 / 国防 momentum"概念退潮中的高弹性放大端。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口，跌幅与业绩脱钩。业务以无人机系统（Ondas Autonomous Systems）+ 工业无线（FullMAX）为主，订单确认节奏偏项目制。下次催化看国防 / 商业无人机订单兑现。<br>
+          <strong>产业链</strong>：上游自研无人机平台 + 工业无线网络协议；下游 = 国防 / 关键基础设施 / 商业无人机客户；与核心商业航天发射链是"国防无人 + 航天"概念层面的间接关联、非直连卫星 / 发射环节。
+          <span class="ki-note">$6.6B 的 S 档，-21% 是板块轮动 + 情绪映射——无人机 / 自治概念与航天 momentum 合并，本周随板块情绪退潮回吐。与核心发射 / 卫星链关联弱，更多是"太空 + 国防无人"概念合并下的情绪传导标的；1M +12% 仍正但 3M +6% 接近持平，位势弹性中等。无个股订单锚，板块情绪退潮中回吐弹性高于有合同支撑标的。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">AVEX</td>
+        <td class="name">Aevex Aerospace<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$2.0B · T</span></td>
+        <td class="num neg">-41%</td>
+        <td class="num neg">-12%</td>
+        <td class="num">na</td>
+        <td><span class="tag t-map-s">情绪映射</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-41%</span> 为全组最深——航空国防 / ISR（情报-监视-侦察）+ 无人机系统次新，本周在板块情绪退潮中跌幅最大。AVEX 作为无个股订单锚的次新，是板块 beta 的最高弹性放大端：5 月底板块情绪 sympathy 时它涨得最猛，本周 SpaceX IPO 抽水 + 利率 derate 退潮时回吐也最狠，1M 转负 -12%。3M na 反映上市时间短、缺历史位势参照。<br>
+          <strong>财报</strong>：业务以国防 / ISR 服务为主（无人机情报、精确定位、航空作战支持），上市时间短、公开财务披露有限，本周无个股级订单 / 财报硬催化。跌幅难锚定到具体 expectation gap，纯板块情绪外溢。<br>
+          <strong>产业链</strong>：定位航空国防服务（非直连卫星 / 发射环节），下游客户为美国国防与情报机构；与核心商业航天发射链关联弱，更多是"太空 + 国防"概念合并下的情绪传导标的。
+          <span class="ki-note">$2.0B 的 T 档，情绪映射 + 板块轮动——无个股里程碑 / 订单锚的国防 ISR 次新，本周 -41% 是板块 sympathy 退潮的最高弹性放大。与核心发射 / 卫星链业务关联弱，涨时最猛、跌时最深；这正是 Bear Logic 下"无 backlog 锚 = 纯情绪弹性"的典型——板块去杠杆中这类标的踩踏最剧烈，没有基本面反证锚可依。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">SPCE</td>
+        <td class="name">Virgin Galactic<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.3B · T</span></td>
+        <td class="num neg">-29%</td>
+        <td class="num pos">+65%</td>
+        <td class="num pos">+74%</td>
+        <td><span class="tag t-map-s">情绪映射</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-29%</span>——亚轨道太空旅游妖股，本周周线随板块去杠杆下跌，但需厘清盘中博弈：SPCE 盘中一度因 <em>SpaceX IPO 前逼空反弹</em>、<span class="hl">$64M 空头被烧</span>，但全周仍 -29%、方向未改。1M +65% / 3M +74% 显示此前位势极强，本周是高弹性获利盘 + 板块情绪退潮的回吐。逼空反弹是博弈插曲，不改资金面下行主线。<br>
+          <strong>财报</strong>：仍处 pre-revenue / 烧钱阶段、靠题材而非业绩，本周无财报、无订单催化。里程碑链 = Delta 级新飞船试飞 → 商业飞行窗口。下次实质 catalyst = 新飞船试飞能否如期，把妖股逻辑切回基本面的唯一锚点。<br>
+          <strong>产业链</strong>：亚轨道太空旅游赛道，直接对标 Blue Origin New Shepard；上游自建母舰 + 飞船、无外部发射依赖；下游 = 高净值个人太空旅游客户。SpaceX IPO 题材 + 逼空结构使其成为板块里波动最剧的高弹性标的。
+          <span class="ki-note"><em>妖股</em>——$0.3B 微盘 + 太空旅游题材 + 逼空结构（高融券 / 流通筹码集中）三要素齐备，逻辑是博弈和情绪不是基本面，估值不构成 sell signal。本周盘中逼空 $64M 空头被烧、周线仍 -29%：博弈插曲不改资金面下行主线。情绪映射 + 催化（IPO 题材 / 逼空）双驱动，弹性全组最大但持续性最弱，板块去杠杆中博弈资金踩踏快。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">BKSY</td>
+        <td class="name">BlackSky<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.9B · T</span></td>
+        <td class="num neg">-28%</td>
+        <td class="num neg">-14%</td>
+        <td class="num pos">+46%</td>
+        <td><span class="tag t-map-s">情绪映射</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-28%</span>——实时地理空间情报 / 遥感卫星运营商，本周随卫星板块高 beta 回吐，1M 转负 -14%、3M +46% 仍正。BKSY 与 PL / SATL 同属遥感星座运营赛道，对一级抽水 + 利率 derate 敏感，本周纯资金面 + 板块情绪扩散，无个股利空。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口。业务为对地观测卫星 + AI 分析订阅，国防 / 情报客户为主，订单端此前放量、本周未恶化。下次催化看国防 / 情报新单与星座扩张节奏。<br>
+          <strong>产业链</strong>：上游自营 Gen-3 高分辨率星座；下游 = 国防 / 情报机构 + 政府 + 商业地理空间客户；横向竞争 PL、SATL、Maxar。订阅模式提供现金流，但高 beta 估值在 derate 中弹性放大。
+          <span class="ki-note">$1.9B 的 T 档，情绪映射 + 板块轮动——遥感小盘高 beta，本周 -28% 是资金面去杠杆 + 板块情绪扩散的放大回吐。1M 转负显示位势已破，3M +46% 仍未跌穿三月前起点。基本面（国防订阅订单）未坏，弹性大于 PL 等中盘；板块情绪退潮中回吐深，thesis 减弱由利率 + IPO 抽水主导而非自身订单。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">SATL</td>
+        <td class="name">Satellogic<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.2B · T</span></td>
+        <td class="num neg">-25%</td>
+        <td class="num neg">-0%</td>
+        <td class="num pos">+130%</td>
+        <td><span class="tag t-map-s">情绪映射</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-25%</span>——高分辨率对地观测卫星运营商，本周随板块高 beta 回吐，但 3M <em>+130%</em> 为全组最强位势之一、1M 基本持平。SATL 是过去三个月涨幅最猛的小盘之一，获利盘在 SpaceX IPO 抽水 + 利率 derate 下集中了结，本周回吐 -25% 仍未伤及三个月强趋势。纯资金面 + 板块情绪，无个股利空。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口。业务为高频对地观测 + 数据订阅，公开财务有限。3M +130% 此前由订单 / 星座扩张预期驱动。下次催化看政府 / 商业遥感新单。<br>
+          <strong>产业链</strong>：上游自营高分辨率对地观测星座；下游 = 政府 / 农业 / 商业遥感客户；横向竞争 PL、BKSY。小盘高 beta，估值弹性在 derate 中放大。
+          <span class="ki-note">$1.2B 的 T 档，情绪映射 + 板块轮动——3M +130% 的高弹性小盘，本周 -25% 是资金面去杠杆中获利盘集中了结。1M 持平 / 3M 仍 +130%，说明强趋势未破、本周是资金面踩踏而非基本面证伪。弹性全组靠前，板块情绪退潮回吐深；无大订单锚，thesis 减弱由利率 + IPO 抽水主导。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">SPIR</td>
+        <td class="name">Spire Global<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.8B · T</span></td>
+        <td class="num neg">-25%</td>
+        <td class="num neg">-6%</td>
+        <td class="num pos">+80%</td>
+        <td><span class="tag t-map-s">情绪映射</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-25%</span>——气象 / 船舶 / 航空追踪数据卫星运营商，本周随板块高 beta 回吐，3M +80% 仍为强位势、1M -6% 小幅转负。SPIR 是 RF 信号情报 + 数据订阅型卫星小盘，对一级抽水 + 利率 derate 敏感，本周纯资金面 + 板块情绪扩散，无个股利空。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口。业务为多领域数据订阅（气象 / AIS 船舶 / ADS-B 航空），订单端此前放量。下次催化看政府 / 商业数据合同兑现。<br>
+          <strong>产业链</strong>：上游自营 LEMUR 纳卫星星座；下游 = 政府气象机构 + 航运 / 航空 / 国防数据客户；横向与 PL / BKSY 在遥感数据赛道部分重叠。订阅 ARR 提供现金流，小盘高 beta 估值弹性放大。
+          <span class="ki-note">$0.8B 的 T 档，情绪映射 + 板块轮动——数据订阅型卫星小盘，本周 -25% 是资金面去杠杆 + 板块情绪扩散的放大回吐。3M +80% 仍正、1M 小幅转负，强趋势未破。基本面（数据订阅 ARR）未坏，弹性大；板块情绪退潮中回吐深，thesis 减弱由利率 + IPO 抽水主导而非自身订单。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">RDW</td>
+        <td class="name">Redwire<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.9B · T</span></td>
+        <td class="num neg">-25%</td>
+        <td class="num pos">+91%</td>
+        <td class="num pos">+116%</td>
+        <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-25%</span>——航天结构与基础设施供应商，本周从 1M <em>+91%</em> 的极强位势高位剧烈回吐。这是订单驱动 re-rate 后的获利了结：过去一个月 +91% 的获利盘在 SpaceX IPO 抽水 + 利率 derate 下集中踩踏，但 3M +116% 显示三月趋势未破。RDW 收入来自交付航天结构件 / 部件、不直接承担发射风险，本周跌幅纯资金面、与订单脱钩。<br>
+          <strong>财报</strong>：本周无新财报落地于驱动窗口。里程碑链 = NASA Dragonfly 导航部件（经 APL 转包、土卫六任务多年期深空合同）+ 国防无人机后续订单。订单端持续中标支撑 backlog，本周未恶化。下次催化看后续国防 / NASA 合同落地。<br>
+          <strong>产业链</strong>：上游航天结构件 / 部件制造（太阳传感器、机械臂、3D 打印在轨制造）；下游 = NASA 深空科学任务（经 APL 转包）+ 美国国防；横向在航天基础设施供应环节与多家中小航天厂竞争。
+          <span class="ki-note">$3.9B 的 T 档，板块轮动（去杠杆）+ 催化（IPO 抽水）——1M +91% 的高弹性小盘，本周 -25% 是获利盘集中了结。3M +116% 趋势未破，有 Dragonfly 多年期 + 国防无人机硬合同支撑，区别于纯情绪次新（AVEX）。资金面踩踏而非订单证伪——发射事件不直接证伪零部件供应 thesis；弹性大但有 backlog 锚，回吐韧性强于无锚小盘。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">HAWK</td>
+        <td class="name">HawkEye 360<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.0B · T · △次新</span></td>
+        <td class="num neg">-24%</td>
+        <td class="num">na</td>
+        <td class="num">na</td>
+        <td><span class="tag t-map-s">情绪映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-24%</span>——射频地理定位 / ISR 卫星运营商，<em>次新 / 新进池标的</em>（1M / 3M 数据 NaN、标 <em>△</em>），缺历史位势参照。本周下跌纯板块情绪外溢——作为刚进池的高 beta 次新，在 SpaceX IPO 抽水 + 利率 derate 的板块去杠杆中被同步抛售，无个股级利空。次新缺历史锚，弹性放大端。<br>
+          <strong>财报</strong>：上市 / 进池时间短、公开财务披露有限，本周无个股级订单 / 财报硬催化。业务为 RF 信号探测 + 地理定位情报（国防 / 情报客户）。跌幅难锚定到具体 expectation gap，定性为板块情绪外溢。<br>
+          <strong>产业链</strong>：上游自营 RF 信号探测卫星星座；下游 = 美国国防 / 情报机构 + 盟友政府；横向与 PL / BKSY / SATL 在地理空间情报赛道部分重叠，差异化在射频频谱探测。
+          <span class="ki-note">$3.0B 的 T 档，情绪映射——RF 地理定位 ISR 次新（△标记、1M / 3M NaN 缺位势参照），本周 -24% 纯板块情绪外溢。作刚进池的高 beta 次新，板块去杠杆中被同步抛售、无个股订单锚可依。弹性大、持续性弱，板块情绪退潮回吐风险高于有合同支撑标的；缺历史数据，方向跟随板块 beta。</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li>本周杀跌纯资金面（IPO 抽水 + 利率），无任何公司 backlog 被取消或下修，基本面未坏</li>
+        <li>链内龙头 RKLB $2.2B backlog / Q1 +64% YoY、LUNR record 营收 + EBITDA 转正确认订单端真实放量</li>
+        <li>RKLB / ASTS / LUNR / FLY / SATL 多数 3M 仍为正，去杠杆未跌穿中期趋势起点</li>
+        <li>SpaceX IPO 把"商业航天可机构配置"主题正式坐实，长期是赛道扩容而非证伪</li>
+        <li>若利率转向 / IPO 缩量，最受伤的高 beta（AVEX / PL / LUNR）反弹弹性最大</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li>SpaceX IPO（$75B 募资）持续抽走二级"替代敞口"增量资金，Jefferies 已布局做空 space</li>
+        <li>6/5 非农爆表 → 年内加息概率 ~70%，长久期 pre-revenue 航天还有续 derate 空间</li>
+        <li>过去一年 ASTS +328% / RKLB +329% 巨幅获利盘集中了结，踩踏自我放大</li>
+        <li>AVEX / SATL / SPIR / BKSY / HAWK 纯情绪 / 次新无订单锚，板块退潮回吐弹性最大</li>
+        <li>多数标的 pre-revenue / 持续烧钱，叙事兑现期 binary launch 风险（New Glenn 已演示）抬升</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">资金面拐点 vs 基本面：本周必须切开看</span>
+    <p>本周 13 只航天<em>整齐全杀</em>，最危险的归因错误是把它读成"产业基本面破裂"。真相是<span class="hl">资金面拐点</span>：SpaceX IPO 申报（募 $75B、估值 $1.77–1.8T）把二级里"火箭 + 卫星替代敞口"的增量资金一次性抽走，叠加 6/5 非农爆表推升利率、derate 长久期 pre-revenue 成长，两个宏观开关同向拨动，引爆过去一年 ASTS +328% / RKLB +329% 的集中获利盘。证据有三：① 无任何公司 backlog 被取消 / 下修（RKLB $2.2B、LUNR CLPS、RDW Dragonfly 均在手）；② 多数标的 3M 仍正（SATL +130 / RDW +116 / FLY +83 / SPIR +80），去杠杆未跌穿中期趋势；③ 杀跌弹性与"订单锚强弱"严格对应——有 backlog 的 RKLB / ASTS 仅 -17/-23%，无锚纯情绪的 AVEX -41%。Bear Logic 下行确认，但 thesis 减弱的开关是<em>资金面（IPO 抽水 + 利率），不是产业订单</em>——这两个开关哪个转向，最受伤的高 beta 反弹弹性就最大。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-04">
+  <div class="sec-num">§04</div>
+  <h2 class="sec-title">量子 / 加密 · <em>高估值投机去杠杆</em></h2>
+  <div class="sec-sub">利率拐点同步杀长久期投机两端，MSTR 卖币破叙事</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bear Logic · 行业下行 / 防守</span>
+    <p><strong>1. 行业阶段定位</strong>：本组（量子 + 加密 + 高估值投机微盘）本周不是孤立板块事件，而是 <span class="hl">6/5 非农 +172K vs 共识 80K</span>（2 倍+）触发的<em>宏观利率拐点</em>对最敏感久期资产的统一定价——CME FedWatch 年内"加息"概率升至 ~70%、Fed Warsh 鹰派 confirm，UUP 周 +1.30%、10Y 收益率大幅走高。传导逻辑很干净：贴现率上行直接 derate 所有"现金流在远期、现值靠叙事"的资产，而量子（无盈利、纯远期 POC 叙事，P/S 几十至几百倍）与加密（BTC 周 -14% / 4 周 -22.7%、$160B+ 蒸发）正是利率敏感度谱系的两个极端。SOXX 周 -5.15、XLK -5.61 已确认成长 derate，本组高 beta 标的（IONQ/QBTS/BLSH）跌幅 -21~-23% 是 derate 的杠杆放大版。叠加两个板块级利空：① 量子端 <span class="hl">Quantinuum $1.5B IPO 上市即破发</span>（开盘 $68→$62），抽走存量纯量子标的的边际买盘 + CHIPS 量子拨款大头（~$10 亿）给 IBM、纯玩家仅 $100M each，预期重置；② 加密端 <span class="hl">MSTR 5 年来首次卖 BTC（32 枚 @ $77,135、~$250 万）</span>击穿 Saylor"永不卖"叙事，资金从 crypto/量子轮向 AI infra。本组定价靠叙事强度而非现金流，利率是总开关——Bear Logic 防守段。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周看三个 binary。① <strong>利率/美元路径</strong>——6/16-17 FOMC 与 Warsh 措辞是总开关，若鹰派延续则本组 derate 继续、反弹无产业基础；这是"买预期卖兑现"框架下最该盯的宏观变量。② <strong>BTC 价格 + MSTR 折溢价</strong>——MSTR 是妖股属性、估值不是 sell signal，真正可观察的是 BTC 能否守住 $64.7K 一线、以及 mNAV 是否从溢价转折价（折价 = 杠杆叙事被质疑的资金端信号，比 P/S 更有意义）；Saylor 卖币若从"付 STRC 优先股息的一次性"演变为常态化净卖出，"永不卖"叙事彻底失效。③ <strong>量子兑现度</strong>——IONQ RPO 转化节奏 + Quantinuum 二级市场表现是题材能否从故事回到落地的镜像。三个窗口里利率最近、弹性最大，决定本轮去杠杆的近端方向。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本组全员深跌、无一幸免，归因主基调为 <em>宏观利率 derate + 板块级叙事破裂</em>，不是个股财报。利率敏感度谱系两端同步去杠杆：量子端 IONQ <strong>-21%</strong>、QBTS <strong>-21%</strong> 是高 beta 投机资产在贴现率上行下的杠杆放大，叠加 Quantinuum $1.5B IPO 上市破发（开盘 $68 快速滑向 $62）抽走纯量子标的边际买盘——早期 hype 已 price in，弱开盘逼大资金从其他 pure-play 撤离，触发板块普跌；加密端 BLSH <strong>-23%</strong>（加密交易所，量价双杀）、MSTR <strong>-24%</strong>（杠杆 BTC 代理）。MSTR 是本组叙事承重墙的<em>反向爆点</em>：<span class="hl">5 年来首次卖 BTC（32 枚 @ $77,135、~$250 万，首次净 disposal since 2022 年 12 月）</span>用于支付 STRC 永续优先股股息，击穿 Saylor"永不卖"的核心叙事，BTC 跌破 $70K→$64.7K、crypto 盘 $160B+ 蒸发，Saylor 自己归因为"资金轮入 AI 基础设施"。投机微盘层弹性更剧烈：VLN <strong>-40%</strong>（Valens 半导体动量微盘、组内最大跌幅）、VELO <strong>-34%</strong>（Velo3D 3D 打印）——无 β 锚、无财报，纯高 beta 投机资产在 risk-off 中被资金优先抛弃。值得注意的反差：IONQ 3M 仍 +59、QBTS 3M +28、VLN 3M +56、VELO 3M +31——本周回撤是巨幅获利盘在利率拐点上的集中兑现，<em>1W 深跌但 3M 正收益说明这是趋势内的去杠杆而非趋势反转</em>。本组无 SOX/SPX 直接 β 锚（量子非半导体指数成分、加密自成体系），高 beta 在顺风期放大弹性、逆风期回撤同样剧烈。妖股层（MSTR/VLN/VELO）<em>不用 PE/PS 否定</em>——估值在此是背景而非买卖输入，定价由叙事强度与筹码结构主导。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组本周<em>无个股财报催化</em>，是"纯宏观/事件驱动 vs 财报驱动"判断的清晰反例——所有跌幅归因到利率 derate + 板块级事件，没有一只标的本周报业绩。量子端 <strong>IONQ</strong> 上一份财报（5/6 Q1）record 营收 <span class="hl">$64.7M（+755% YoY）</span>、RPO <em>$470M（+554% YoY）</em>、上修 FY26 指引至 $260–270M，本周下跌与基本面无关，纯是高估值（P/S 约 109）资产在贴现率上行下的久期定价 + Quantinuum IPO 破发的板块 sympathy；<strong>QBTS</strong>（D-Wave，退火/超导路线，P/S ~791）同理，无本周财报、随板块 derate。加密端 <strong>MSTR</strong> 的"事件"不是财报而是 <em>10b5-1/8-K 级别的资本动作披露</em>——首次卖币 + STRC 优先股股息资金安排，Simply Wall St 等已将其重构为"优先股股息与资本结构故事"，本质是 BTC 杠杆代理的资产负债管理转向，盈利质量口径仍取决于 BTC 标记价值（mNAV）而非经营现金流；<strong>BLSH</strong>（Bullish 加密交易所）随加密成交量与币价双杀，无本周个股业绩。投机微盘 <strong>VLN</strong>（Valens 半导体、汽车/工业 MIPI A-PHY 连接芯片）、<strong>VELO</strong>（Velo3D 金属 3D 打印、航天/国防供应链）本周均无财报锚——VLN 3M +56、VELO 3M +31 的此前涨势靠动量与题材，本周回撤是获利盘兑现，估值无规模营收支撑、定价系于情绪。本组财报季的核心启示：<em>少数标的（IONQ）有真实营收弹性给叙事锚点，但本周下跌与财报无关、纯由利率与板块事件驱动</em>——这正是 Bear Logic 防守段"买预期卖兑现"在最高久期资产上的体现。</p>
+
+  <p><span class="kicker">时间催化</span>·近端三个可观察 binary，按宏观权重排序。<strong>① 利率端（最近、最强）</strong>——<span class="hl">6/16-17 FOMC</span> 与 Fed Warsh 措辞是本组的总开关，时间窗就在两周内；阈值清晰：若鹰派延续（年内加息概率维持 ~70%）则本组 derate 继续、任何反弹无产业基础，若措辞转鸽则最高久期资产弹性回补最快。这是本组唯一真正意义上的近端 binary，凌驾于所有个股催化。<strong>② BTC 价格 + MSTR 折溢价（持续可观察）</strong>——BTC 能否守住 <span class="hl">$64.7K</span> 一线决定 MSTR/BLSH 的方向；更关键的可观察变量是 MSTR 的 <em>mNAV 从溢价向折价的拐点</em>——溢价是杠杆叙事被认可、折价是被质疑的资金端信号，比 P/S 更前瞻；以及 Saylor 卖币是否从"一次性付优先股息"演变为<em>常态化净卖出</em>（若是，"永不卖"叙事彻底失效、digital asset treasury 模式被重定价）。<strong>③ 量子兑现度（中段）</strong>——Quantinuum 二级市场能否站稳 $62 上方 + IONQ 下季 RPO 向确认营收的转化节奏，是题材从"故事"回到"落地"的镜像；CHIPS 量子拨款后续 recipient 名单（大头给 IBM、纯玩家 $100M each）是政策端 binary。投机微盘 VLN/VELO 无明确个股时间催化，涨跌系于板块 risk-on 是否延续、由情绪与轮动节奏主导，时点不可锚定。整体看，利率端 binary 决定本轮去杠杆近端方向，加密与量子兑现度决定题材能否在利率压力下守住中段。</p>
+
+  <p><span class="kicker">订单与产业链</span>·本组是软硬叙事链而非传统产能链，四维健康度里 <em>capex（研发/资本动作）与价格（BTC/估值锚）权重远大于库存/订单</em>——无实体产能去库存、无现货价可锚（加密除外）。<strong>价格维度（本组最重）</strong>：加密端 BTC 是直接现货锚——周 -14%、跌破 $70K→<span class="hl">$64.7K</span>、crypto 盘 $160B+ 蒸发，是 MSTR（杠杆代理）/BLSH（交易所）定价的产业基本面；量子端无现货报价，定价体现为 P/S 隐含的远期想象（IONQ ~109、QBTS ~791），价格信号是叙事强度的镜像。<strong>资本动作/capex 维度</strong>：MSTR 的核心"产业事实"是资本结构——首次卖币付 <em>STRC 永续优先股股息</em>标志从"无限期囤币"转向主动资产负债管理，这是 digital asset treasury 模式的范式拐点；量子端竞争是技术路线之争（IONQ 离子阱 vs Quantinuum 离子阱 IPO vs QBTS 退火/超导 vs IBM 超导），研发里程碑与 fidelity/qubit 进展决定谁能从 POC 走向规模交付。<strong>订单维度</strong>：量子端 IONQ RPO <em>$470M（+554% YoY）</em>是最硬的在手订单锚、QBTS 政府/科研 POC 为主；加密端无传统订单概念。<strong>库存维度</strong>：全链商业化早期或纯金融资产，无实体库存周期，信息量最低。⚠ 全链核心矛盾：<span class="hl">资金端定价与基本面兑现度 gap 在利率上行时被强制收敛</span>——量子 P/S 几百倍、MSTR mNAV 溢价、VLN/VELO 题材动量，全部建立在"贴现率低 + risk-on 延续"的前提上，本周非农把这个前提抽掉，两端同步去杠杆。微盘 VLN（Valens 汽车连接芯片、与量子/加密无业务交集，纯动量微盘）/VELO（金属 3D 打印、航天供应链，与本组弱关联）属 sentiment 外溢——无可锚定的量子/加密产业数据，仅在"高估值投机"标签下同步被抛。MSTR↔BLSH 是 direct 加密映射，VLN/VELO 是纯投机 sympathy，IONQ/QBTS 是 direct 量子映射，三组与利率的敏感度同向、与彼此的产业关联度递减。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text" style="width:4%">Ticker</th>
+      <th data-type="text" style="width:9%">公司</th>
+      <th data-type="num" style="width:3%">1W</th>
+      <th data-type="num" style="width:3%">1M</th>
+      <th data-type="num" style="width:3%">3M</th>
+      <th data-type="text" style="width:7%">归因</th>
+      <th data-type="text" style="width:71%">关键产业事实 + 个股逻辑（ki-note）</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="M">
+        <td class="tk">MSTR</td>
+        <td class="name">Strategy<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$45B · M</span></td>
+        <td class="num neg">-24%</td>
+        <td class="num neg">-36%</td>
+        <td class="num neg">-10%</td>
+        <td><span class="tag t-cat">催化</span> <span class="tag t-map-d">直接映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-24%</span>、1M -36%，是本组的<em>叙事反向爆点</em>。本周核心事件不是财报而是 <span class="hl">5 年来首次卖 BTC（32 枚 @ $77,135、~$250 万，首次净 disposal since 2022 年 12 月）</span>——用于支付 STRC 永续优先股股息，击穿 Saylor"永不卖"核心叙事。叠加 BTC 周 -14% 跌破 $70K→$64.7K、crypto 盘 $160B+ 蒸发，杠杆 BTC 代理在利率上行 + 币价双杀下放大下行。过去一年 -70%。<br>
+          <strong>财报/催化</strong>：本周无财报，事件是 <em>8-K/资本动作披露</em>——首次卖币 + STRC 优先股股息资金安排，被重构为"优先股股息与资本结构故事"，标志从"无限期囤币"转向主动资产负债管理。Saylor 自己归因为"资金轮入 AI 基础设施"。盈利质量取决于 BTC 标记价值（mNAV）而非经营现金流。<br>
+          <strong>产业链</strong>：BTC 杠杆代理，上游绑比特币现货价（$64.7K 是产业基本面锚）+ 可转债/优先股融资结构，下游是 digital asset treasury 模式的<em>范式标杆</em>（一众 DAT 公司仿其囤币）；与 BLSH（加密交易所）是 direct 加密映射。
+          <span class="ki-note">妖股属性明确、<em>估值不是 sell signal</em>——P/S 在此无意义，定价由 BTC 价格 + mNAV 折溢价主导、不是基本面。本周真正的信号不是跌幅而是<em>"永不卖"叙事被自家卖币动作击穿</em>：可观察变量是 mNAV 从溢价转折价的拐点（折价 = 杠杆叙事被质疑）+ 卖币是否常态化。利率上行强制收敛 DAT 模式的资金端定价，本组加密端的承重墙。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">IONQ</td>
+        <td class="name">IonQ<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$26B · S</span></td>
+        <td class="num neg">-21%</td>
+        <td class="num pos">+8%</td>
+        <td class="num pos">+59%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-21%</span> 是高 beta 量子龙头在贴现率上行下的杠杆放大——SOXX -5.15、XLK -5.61 derate 确认，IONQ 跌幅约其 4 倍。叠加 <span class="hl">Quantinuum $1.5B IPO 上市破发</span>（开盘 $68→$62）抽走纯量子标的边际买盘 + CHIPS 拨款大头给 IBM、纯玩家仅 $100M。注意 3M 仍 <strong>+59</strong>——本周是趋势内去杠杆、非趋势反转。无 SOX 直接 β 锚（量子非半导体成分）。<br>
+          <strong>财报/催化</strong>：本周无财报。上一份 5/6 Q1 record 营收 <span class="hl">$64.7M（+755% YoY）</span>、RPO <em>$470M（+554% YoY）</em>、上修 FY26 至 $260–270M，本周下跌与基本面无关、纯利率 + 板块事件 derate。<br>
+          <strong>产业链</strong>：离子阱（trapped-ion）龙头，本周对位 Quantinuum 同走离子阱路线 IPO、QBTS 退火/超导、IBM 超导；下游政府/国防/科研 POC + 商业云（AWS Braket、Azure Quantum、GCP）。CHIPS 量子拨款 recipient 名单是政策端 binary。
+          <span class="ki-note">量子龙头 derate——本周下跌纯由利率上行 + Quantinuum IPO 破发驱动，<em>与 +755% 营收基本面无关</em>。P/S 约 109 是题材定价的<em>背景而非买卖输入</em>，3M +59 说明趋势未破、本周是获利盘在利率拐点上的集中兑现。可观察变量是下季 RPO 向确认营收的转化 + Quantinuum 二级市场能否站稳，决定题材能否在利率压力下守住中段。本组量子端承重墙。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">QBTS</td>
+        <td class="name">D-Wave Quantum<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$11B · S</span></td>
+        <td class="num neg">-21%</td>
+        <td class="num pos">+0%</td>
+        <td class="num pos">+28%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-21%</span>，与 IONQ 同步——纯量子标的在利率 derate + Quantinuum IPO 破发下的板块普跌，无个股事件、纯 sympathy。3M 仍 <strong>+28</strong>、1M 持平，本周回撤是高 beta 投机资产在 risk-off 中被优先抛弃，趋势内去杠杆。无 SOX 直接 β 锚。<br>
+          <strong>财报/催化</strong>：本周无财报。退火/超导路线、P/S ~791，估值已 price in 大量远期想象，本周下跌是估值在贴现率上行下的久期定价 + 板块 sympathy。<br>
+          <strong>产业链</strong>：量子退火（annealing）+ 门模型超导路线，对位 IONQ 离子阱、IBM/Quantinuum；下游政府/科研/企业 POC 为主，CHIPS 拨款纯玩家档（$100M 级）受益预期，但大头给 IBM 后预期重置。
+          <span class="ki-note">D-Wave，量子板块第二承重，本周与 IONQ 同向同幅——板块级 derate + Quantinuum IPO 破发的 sympathy，无个股催化。<em>不用 P/S 否定</em>——P/S ~791 是叙事定价背景，3M +28 趋势未破。本质是利率敏感度谱系最高端资产的去杠杆，方向系于 6/16-17 FOMC + Quantinuum 二级表现，无独立产业兑现近端 binary。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">BLSH</td>
+        <td class="name">Bullish<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$5.4B · S</span></td>
+        <td class="num neg">-23%</td>
+        <td class="num neg">-39%</td>
+        <td class="num neg">-23%</td>
+        <td><span class="tag t-map-d">直接映射</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-23%</span>、1M -39%、3M -23——本组唯一三档全负，是加密交易所对币价 + 成交量双杀的<em>直接放大</em>。BTC 周 -14% 跌破 $64.7K、crypto 盘 $160B+ 蒸发，交易所营收（与成交活跃度高度挂钩）在 risk-off 中量价双杀，跌幅深于 MSTR。无 β 锚、随加密 derate。<br>
+          <strong>财报/催化</strong>：本周无个股财报。Bullish 是机构级加密现货 + 衍生品交易所，营收直接绑加密成交量与币价；MSTR 卖币 + "永不卖"叙事破裂的负面情绪外溢，加剧交易所板块抛压。<br>
+          <strong>产业链</strong>：加密交易所基础设施，上游绑 BTC/ETH 等主流币价与机构资金流，下游为机构/专业交易客户；与 MSTR 是 direct 加密映射——同受 BTC 价格 + crypto risk-off 驱动，但 BLSH 是<em>纯成交量代理</em>（无杠杆囤币的资产结构），弹性更直接挂钩交易活跃度。
+          <span class="ki-note">加密交易所，本组对 BTC 价格 + 成交量最直接的代理。三档全负反映加密 risk-off 的深度——币价跌 + 成交萎缩双杀营收预期。<em>不用估值否定</em>，可观察变量是 BTC 能否守 $64.7K + 加密成交量回暖。与 MSTR direct 同向但传导更直接（成交量 vs 杠杆资产标记），是加密去杠杆链条里弹性最纯的成交量敞口。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">VLN</td>
+        <td class="name">Valens Semiconductor<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.4B · T</span></td>
+        <td class="num neg">-40%</td>
+        <td class="num neg">-16%</td>
+        <td class="num pos">+56%</td>
+        <td><span class="tag t-map-s">情绪映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-40%</span> 为本组最大跌幅——无 β 锚的高估值动量微盘，在 risk-off 中被资金优先抛弃、弹性最剧烈。注意 3M 仍 <strong>+56</strong>：本周深跌是此前题材动量获利盘在利率拐点上的集中兑现，回撤幅度远超基本面变化，纯投机属性。<br>
+          <strong>财报/催化</strong>：本周无财报。Valens 主营 MIPI A-PHY 长距连接芯片（汽车 ADAS / 工业机器视觉），是高速串行连接 IP 与芯片商；本周下跌无个股事件，纯是"高估值投机"标签下随板块 risk-off 被抛，估值无规模营收支撑、定价系于动量情绪。<br>
+          <strong>产业链</strong>：汽车 / 工业连接半导体（A-PHY/HDBaseT），与量子硬件、加密<em>均无业务交集</em>，仅在"高 beta 投机微盘"标签下与本组 sympathy 联动；自身映射母线是汽车半导体 / ADAS 连接，本周搭去杠杆顺风被错杀。
+          <span class="ki-note">动量微盘、<em>妖股属性明确不用估值否定</em>——P/S 无意义，1W -40% 由筹码与情绪主导。与量子/加密零业务交集，纯 sentiment 外溢——"高估值投机"标签下的同步抛售。3M +56 说明趋势内去杠杆，弹性极大但持续性最弱：资金回流则反弹最猛、risk-off 延续则回撤最深。本组投机属性最纯粹的一只。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">VELO</td>
+        <td class="name">Velo3D<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.5B · T</span></td>
+        <td class="num neg">-34%</td>
+        <td class="num pos">+17%</td>
+        <td class="num pos">+31%</td>
+        <td><span class="tag t-map-s">情绪映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-34%</span>，高 beta 3D 打印投机微盘在 risk-off 中的剧烈回撤。1M 仍 +17、3M +31——本周深跌是题材动量获利盘兑现，无个股事件、无 β 锚，纯投机资产在利率拐点上被资金优先抛弃。<br>
+          <strong>财报/催化</strong>：本周无财报。Velo3D 主营金属增材制造（金属 3D 打印），下游为航天 / 国防 / 工业精密件供应链；本周下跌纯随"高估值投机微盘"标签 risk-off，估值无规模营收锚、定价系于题材热度。<br>
+          <strong>产业链</strong>：金属增材制造设备 + 服务，下游航天/国防/工业；与量子、加密<em>无业务交集</em>，仅在高 beta 投机标签下与本组 sympathy；真正映射母线是商业航天/国防制造（与 T02 航天链弱关联），本周被去杠杆顺风错杀。
+          <span class="ki-note">金属 3D 打印投机微盘，<em>不用估值否定</em>——P/S 无意义，1W -34% 由情绪与筹码主导。与本组量子/加密零业务交集、纯 sentiment 外溢，本质是"高估值投机"标签下的同步抛售。1M/3M 仍正、趋势内去杠杆，弹性大但持续性系于板块 risk-on 是否延续。与 VLN 同属本组投机微盘的纯博弈标的。</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body">
+        <ol>
+          <li>3M 多只仍正收益（IONQ +59、QBTS +28、VLN +56、VELO +31），本周是趋势内去杠杆非反转</li>
+          <li>IONQ 营收 +755% YoY、RPO $470M、上修 FY26 指引，量子龙头叙事真实锚点未变</li>
+          <li>若 6/16-17 FOMC 措辞转鸽，最高久期资产弹性回补最快</li>
+          <li>BTC 守住 $64.7K + 加密成交量回暖则 MSTR/BLSH 弹性修复</li>
+          <li>妖股层高 beta + 题材热，risk-on 回归时 momentum 自我强化</li>
+        </ol>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body">
+        <ol>
+          <li>非农爆表 + Warsh 鹰派、年内加息概率 ~70%，贴现率上行是本组总开关</li>
+          <li>MSTR 卖币击穿"永不卖"叙事，digital asset treasury 模式面临重定价</li>
+          <li>Quantinuum $1.5B IPO 上市破发，抽走纯量子标的边际买盘 + CHIPS 大头给 IBM</li>
+          <li>估值极端：IONQ P/S ~109、QBTS ~791，远超基本面兑现度，利率上行强制收敛</li>
+          <li>VLN/VELO 与量子/加密无业务交集，纯 sentiment 外溢、无产业锚</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">收尾 · 利率敏感度谱系两端的同步去杠杆</span>
+    <p>本组本周的本质是<strong>一次宏观利率拐点对最高久期资产的统一定价</strong>，而非孤立的板块崩盘。量子（无盈利、纯远期 POC 叙事，P/S 几十至几百倍）与加密（BTC 周 -14%、MSTR 卖币破叙事）是<em>利率敏感度谱系的两个极端</em>，在 <span class="hl">非农 +172K</span> 把"低贴现率 + risk-on 延续"前提抽掉后同步去杠杆——SOXX -5.15 derate 是温和版、本组 -21~-40% 是杠杆放大版。⚠ 关键反差：1W 深跌但 3M 多只仍正（IONQ +59 / VLN +56），说明这是<em>趋势内的资金集中兑现而非趋势反转</em>；本周真正的结构性信号是 <span class="hl">MSTR 5 年来首次卖 BTC 击穿"永不卖"叙事</span>——这不是价格波动而是 digital asset treasury 模式的范式拐点，可观察变量是 mNAV 折溢价拐点与卖币是否常态化。本组妖股层（MSTR/VLN/VELO）<em>估值是背景不是买卖输入</em>，定价由叙事强度 + 筹码结构主导；近端方向系于 6/16-17 FOMC，利率不转向则反弹无产业基础。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-05">
+  <div class="sec-num">§05</div>
+  <h2 class="sec-title">AI 电力 / <em>储能</em></h2>
+  <div class="sec-sub">储能逆 risk-off 上涨，氢能与算力代理随高 beta 回吐</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 链内分化</span>
+    <p><strong>1. 行业阶段定位</strong>：AI 电力主线本周内部裂成两半，故定 <strong>Mixed Logic</strong>，两套逻辑并存不强行统一。<em>储能侧</em>处于"刚需兑现 + 政策催化"段，Bull thesis 完整且本周被硬催化推升：电网级储能龙头 FLNC 在 <em>6/1</em> 被 NVIDIA 点名为 DSX Vera Rubin AI 数据中心设计的<strong>唯一电池储能合作伙伴</strong>，单日跳涨、周线 <span class="hl">+21%</span>，方向与全市场 risk-off 完全相反——这是产业基础（数据中心电力刚需 → 储能 master supply agreement）压过利率冲击的直接证据。储能链下沉到重力储能 NRGV <span class="hl">+8%</span>、大气取能微盘 AIRJ <span class="hl">+8%</span>，弹性承接同向资金。<em>高 beta 侧</em>则相反：AI 算力代理 WYFI（Bit Digital 分拆的数据中心/GPU 算力商）与氢燃料电池 BLDP 双双 <span class="hl">-22%</span>，被本周利率+美元双升的长久期 derate 直接打穿。这条主线本质是"产业刚需 vs 估值久期"在同一主题内的对撞：储能因订单/政策/NVIDIA 背书定价于刚需层，算力代理与氢能因高估值+高 beta 定价于资金层，二者本周走向相反。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周三条线索决定链条收敛或继续分化——① <strong>FLNC NVIDIA 合作落地节奏</strong>：看 DSX Vera Rubin 设计中 2-3 小时电池时长（高于此前分析师约 1 小时假设）是否转化为新增 master supply agreement 与 backlog 增量，订单兑现则储能 alpha 可延续，仅停留在设计背书则回吐风险上升。② <strong>利率/美元方向</strong>：6/16-17 FOMC 是 binary——若 Warsh 鹰派 confirm、加息预期延续，WYFI/BLDP 这类长久期高 beta 继续承压；若数据转弱、derate 缓和，则回吐部分修复。③ <strong>储能微盘营收兑现</strong>：NRGV 重力储能、AIRJ 大气取能 3M 分别 +81/+39 的脉冲弹性能否落到订单/营收，是验证题材资金可持续性的关键时点。三者共同构成本链由"政策/背书定价"向"订单定价"过渡的确认窗口。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本周本链最核心的变化是<em>储能逆势涨</em>与<em>算力代理/氢能随 beta 跌</em>形成镜像，必须分开归因、不强行统一。储能侧：FLNC <span class="hl">+21%</span> 在全市场 risk-off（QQQ -4.50 / XLK -5.61 / SOXX -5.15）中逆势大涨，核心 trigger 是 <em>6/1</em> Siemens、NVIDIA、Fluence、nVent 联合发布下一代 AI 超算设施电力蓝图，FLNC 成为 NVIDIA 生态七套基础设施 OEM 设计中<strong>唯一被点名的电池储能合作伙伴</strong>，设计指定 <strong>2-3 小时</strong>电池时长（远高于此前分析师约 1 小时假设），单日跳涨约 +44%。这是把"AI 数据中心电力刚需"从叙事变成具名订单背书的硬催化，方向与利率冲击完全相反，是本周本链最纯粹的产业 alpha。储能链下沉承接：NRGV <span class="hl">+8%</span>（重力储能）、AIRJ <span class="hl">+8%</span>（大气取能微盘）同向小涨，资金把"AI 电力刚需"主题从龙头外溢到高弹性储能技术。高 beta 侧：与储能镜像，WYFI <span class="hl">-22%</span>（Bit Digital 分拆的 AI 算力/数据中心商）、BLDP <span class="hl">-22%</span>（氢燃料电池）双双暴跌——这<em>不是</em>个股利空，而是本周利率+美元双升对长久期高 beta 成长的 derate（板块轮动）。WYFI 近端催化（5/22 $160M AI 算力协议、5/27 Bit Digital $100M 融资便利）均在前两周已兑现，本周无新增利空，纯粹随 risk-off 杀久期；BLDP 则是 3M <span class="hl">+145%</span> 巨幅累积涨幅后的高位获利了结，被同周利率冲击放大。一周之内储能涨、算力代理与氢能跌两套方向并存，是本期 AI 电力主线最清晰的刚需 vs 久期分化样本。</p>
+
+  <p><span class="kicker">财报季分析</span>·本链涨跌的定价驱动分两类——<em>有催化/财报背书的</em>与<em>纯随 beta 漂移的</em>——必须区别归因。先看<strong>有硬催化的</strong>：FLNC 本周 +21% 的核心驱动是 <em>6/1</em> NVIDIA 具名背书<strong>而非财报</strong>——其 Q2 FY2026 财报实为 mixed，EPS <span class="hl">-$0.16</span>（in line）、收入 <span class="hl">$465M vs 共识约 $629M</span>（miss 约 26%）、YoY +7.7%，单看财报偏弱；但市场定价权完全落在 NVIDIA DSX Vera Rubin 设计背书 + record backlog + hyperscaler 签署 master supply agreement 的<em>订单可见度</em>层，而非当季营收 miss，这是 Bull Logic 下"产业趋势 &gt; 静态财报"的典型——储能刚需逻辑使市场穿透单季 miss 看多年订单。NRGV/AIRJ 本周无财报硬数据，+8% 是 FLNC 龙头催化的外溢承接，弹性来自题材而非业绩兑现，3M 分别 +81/+39 的累积涨幅说明资金驱动为主、营收落地待后续季报。再看<strong>纯随 beta 的</strong>：WYFI <span class="hl">-22%</span> 与任何 miss 无关——其近端催化（$160M 五年 AI 算力协议、Bit Digital $100M 延迟提取定期贷款便利）均在 5 月下旬已公布且偏正面，本周无新增个股事件，下跌纯是 AI 算力/数据中心高 beta 在利率冲击下的久期 derate（板块轮动）；BLDP <span class="hl">-22%</span> 同理，氢燃料电池 3M +145 巨幅后无新催化，高位获利了结叠加 risk-off 放大。结论：FLNC 有 NVIDIA 背书 + 订单可见度支撑、可信度高；NRGV/AIRJ 题材外溢、待营收验证；WYFI/BLDP 本周波动纯由板块 beta 定价，与基本面脱钩。</p>
+
+  <p><span class="kicker">时间催化</span>·近端三个 binary 观察窗口，每个带明确阈值与时点：① <strong>FLNC NVIDIA 合作订单化（未来 2-4 周）</strong>——DSX Vera Rubin 设计指定的 <span class="hl">2-3 小时</span>电池时长（高于此前约 1 小时假设）是否转化为新增 hyperscaler master supply agreement 与 backlog 增量；若新签订单跟进，则 +21% 的 alpha 具备基本面支撑、可延续，若仅停留在"设计点名"层而无订单转化，则脉冲回吐风险上升。② <strong>6/16-17 FOMC（利率 binary）</strong>——本周脊椎是 hot NFP（+172K vs 共识 80K）推升年内加息概率至约 70%，Warsh 鹰派表态；FOMC 若 confirm 鹰派，WYFI/BLDP 这类长久期高 beta 继续承压，若数据边际转弱、derate 缓和，则本周 -22% 的久期杀跌部分修复。③ <strong>储能微盘营收兑现（后续季报）</strong>——NRGV 重力储能商业化进度、AIRJ 大气取能产能落地，是验证 NRGV 3M <strong>+81%</strong>、AIRJ 3M +39 这类微盘脉冲弹性能否落到订单/营收的关键 binary；产能/订单兑现则题材可持续，落空则资金回吐。三者共同构成本链由"政策/背书定价"回归"订单定价"的确认窗口，时点集中在未来 2-4 周（NVIDIA 订单 + FOMC）与后续季报（储能微盘营收）。</p>
+
+  <p><span class="kicker">订单与产业链</span>·按四维度拆本链景气——<strong>订单</strong>：储能侧 FLNC 是核心读数，NVIDIA DSX Vera Rubin 设计点名其为唯一电池储能合作伙伴 + record backlog + hyperscaler 签署 master supply agreement，订单层 thesis 完整且本周获硬背书，单季营收 miss 不改多年可见度；NRGV 重力储能与 AIRJ 大气取能订单基数小、以题材承接为主，营收兑现待验证。<strong>价格</strong>：电网级储能受益于数据中心电力时长需求升级——DSX 设计把电池时长标准从约 1 小时拉到 2-3 小时，单位项目储能容量需求上修，是 FLNC 这类龙头的量价双升逻辑；氢燃料电池（BLDP）单位成本仍是规模化前的痛点。<strong>库存/产能</strong>：瓶颈在储能侧产能爬坡与电池供应链——FLNC 需匹配 hyperscaler 长时储能需求的交付能力，NRGV/AIRJ 微盘产能落地是弹性兑现的供给侧约束；WYFI 作为算力代理瓶颈在 GPU 算力部署（Paris 区域 NVIDIA GPU 系统 7 月投产）而非储能。<strong>capex</strong>：下游 hyperscaler（MSFT/META/AMZN/GOOGL）AI 数据中心电力 capex 是整条链的需求源——储能链（FLNC/NRGV/AIRJ）直接受电力 capex 拉动且本周获 NVIDIA 生态背书强化，AI 算力代理（WYFI）受 GPU 算力 capex 拉动但本周被久期 derate 盖过，氢燃料电池（BLDP）作为远端分布式供电选项在高位轮出。四维度合看：订单/capex 端储能 thesis 因 NVIDIA 背书更完整，价格/产能端是兑现节奏约束，本周分化矛盾不在产业基础而在利率久期对高 beta 部分的压制。</p>
+
+  <table class="dt">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">公司</th>
+    <th data-type="num">1W</th>
+    <th data-type="num">1M</th>
+    <th data-type="num">3M</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+  </tr></thead>
+  <tbody>
+    <tr data-cap="T">
+      <td class="tk">FLNC</td>
+      <td class="name">Fluence Energy<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.9B · T</span></td>
+      <td class="num pos">+21%</td>
+      <td class="num pos">+69%</td>
+      <td class="num pos">+55%</td>
+      <td><span class="tag t-cat">催化</span> <span class="tag t-map-d">直接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+21%</span> 在全市场 risk-off（QQQ -4.50 / XLK -5.61）中逆势大涨——这是本链最纯粹的产业 alpha，方向与利率冲击完全相反。trigger 是 <em>6/1</em> NVIDIA 具名背书：Siemens、NVIDIA、Fluence、nVent 联合发布 AI 超算设施电力蓝图，FLNC 成为 NVIDIA 生态七套基础设施 OEM 设计中<strong>唯一被点名的电池储能合作伙伴</strong>，单日跳涨约 +44%。1M <span class="hl">+69%</span> / 3M +55 显示趋势连续，储能刚需逻辑使资金穿透 risk-off。<br>
+        <strong>财报</strong>：本周上涨核心是 NVIDIA 背书<em>而非财报</em>——Q2 FY2026 实为 mixed，EPS <span class="hl">-$0.16</span>（in line）、收入 <span class="hl">$465M vs 共识约 $629M</span>（miss 约 26%）、YoY +7.7%。市场定价权落在 record backlog + hyperscaler master supply agreement 的订单可见度层，而非当季营收 miss，是 Bull Logic 下产业趋势穿透静态财报的典型。<br>
+        <strong>产业链</strong>：电网级电池储能系统集成商，定位 AI 数据中心电力刚需的<em>长时储能</em>供给侧。DSX Vera Rubin 设计指定 2-3 小时电池时长（高于此前约 1 小时假设），单项目储能容量需求上修。上游依赖电芯供应链与产能爬坡；下游直连 hyperscaler 数据中心电力 capex（MSFT/META/AMZN/GOOGL）；横向与传统储能集成商竞争，NVIDIA 生态点名是稀缺背书。
+        <span class="ki-note">本链核心 alpha（催化 + 直接映射）——6/1 NVIDIA 点名唯一电池储能伙伴 + 2-3 小时时长标准 + record backlog 驱动逆 risk-off +21。储能是 AI 数据中心电力刚需的直接受益方，市场穿透单季营收 miss 看多年订单可见度，<em>不用静态财报否定</em>；catalyst 看 NVIDIA 背书能否转化为新增 master supply agreement 与 backlog 增量。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">NRGV</td>
+      <td class="name">Energy Vault<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.9B · T</span></td>
+      <td class="num pos">+8%</td>
+      <td class="num pos">+30%</td>
+      <td class="num pos">+81%</td>
+      <td><span class="tag t-map-d">直接映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> 在 risk-off 周逆势小涨——承接 FLNC 龙头 NVIDIA 催化的外溢资金，是"AI 电力刚需"主题从储能龙头下沉到重力储能技术的弹性承接。1M <span class="hl">+30%</span> / 3M <span class="hl">+81%</span> 显示前期累积巨幅涨幅，资金把数据中心长时储能需求映射到差异化储能方案，但本周涨幅基于题材外溢而非个股硬催化。<br>
+        <strong>财报</strong>：本周无财报硬数据驱动。营收基数仍小，弹性来自 AI 电力储能题材承接，兑现的持续性需后续季报验证订单/营收落地节奏。<br>
+        <strong>产业链</strong>：重力储能 + 电池储能混合方案，定位电网级长时储能供给——重力储能提供差异化长时方案，对数据中心 24/7 用电是稀缺供给选项。上游依赖储能系统集成与项目执行；下游对接公用事业及潜在数据中心长时储能采购；横向与 FLNC 等电池储能集成商竞争长时储能份额。商业化进度是估值核心 binary。
+        <span class="ki-note">储能链弹性承接器（直接映射）——本周 +8% 是 FLNC NVIDIA 催化的外溢，重力储能差异化长时方案映射数据中心 24/7 电力刚需。3M +81 反映题材热度，但营收基数小、兑现待验证，弹性大于龙头但持续性依赖订单落地；本周与 FLNC 同向是储能刚需逻辑在小盘的传导。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">AIRJ</td>
+      <td class="name">AirJoule Technologies<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.3B · T</span></td>
+      <td class="num pos">+8%</td>
+      <td class="num pos">+39%</td>
+      <td class="num pos">+39%</td>
+      <td><span class="tag t-map-s">情绪映射</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> 微盘逆势小涨——承接 AI 电力主题资金外溢，在 FLNC 龙头催化周被资金标记为高弹性承接器。1M <span class="hl">+39%</span> / 3M +39 的同步说明这是脉冲式题材资金驱动；微盘流通盘小，波动远超基本面斜率，本周上涨是情绪映射而非个股硬催化或订单兑现。<br>
+        <strong>财报</strong>：本周无财报硬数据。营收基数极小（$0.3B 微盘），处商业化早期，弹性纯来自 AI 电力/数据中心冷却供能题材的情绪承接，兑现节奏待产能与订单验证。<br>
+        <strong>产业链</strong>：大气取水/取能技术，定位数据中心冷却与分布式供能的题材延伸——大气取水对受水资源约束的数据中心冷却是潜在供给方案。上游依赖材料与吸附技术；下游为题材延伸的数据中心冷却/供能场景，当前商业化早期；横向与传统冷却及储能方案竞争题材资金。产能落地是高弹性能否兑现的关键 binary。
+        <span class="ki-note">AI 电力主题的情绪映射弹性（情绪映射）——本周 +8% 是题材资金外溢，大气取能映射数据中心冷却/供能延伸场景。微盘流通盘小放大波动，逻辑是博弈而非基本面，<em>不用估值否定</em>；但兑现锚是产能与订单落地，叙事先行于现金流，3M +39 的弹性持续性依赖商业化进度。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">WYFI</td>
+      <td class="name">WhiteFiber<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.2B · T</span></td>
+      <td class="num neg">-22%</td>
+      <td class="num pos">+9%</td>
+      <td class="num pos">+50%</td>
+      <td><span class="tag t-rot">轮动</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">-22%</span> 是 AI 算力/数据中心高 beta 在利率冲击下的久期 derate——<em>不是</em>个股利空。WYFI 是 Bit Digital（BTBT）分拆的 AI 算力/数据中心商，本周下跌与储能侧 FLNC 逆涨形成镜像：储能定价于刚需层，算力代理定价于久期/资金层。1M +9 / 3M <span class="hl">+50%</span> 显示前期巨幅累积，本周回吐是高 beta 随 risk-off 杀久期，归因 轮动。<br>
+        <strong>财报</strong>：本周无财报。近端催化均在前两周已兑现且偏正面——<em>5/22</em> 签署 <span class="hl">$160M</span> 五年 AI 算力基础设施协议（Paris 区域 NVIDIA GPU 系统、7 月投产），<em>5/27</em> 获 Bit Digital Capital <span class="hl">$100M</span> 延迟提取定期贷款便利（可增至 $150M）。本周无新增利空，纯随板块 beta 漂移。<br>
+        <strong>产业链</strong>：AI/HPC 算力与数据中心基础设施商（Bit Digital 分拆），定位 GPU 算力租赁/部署——为 AI 工作负载提供 NVIDIA GPU 算力。上游依赖 NVIDIA GPU 供应与数据中心电力接入；下游对接 investment-grade 科技客户 AI 算力 capex；横向与其他 neocloud/算力商竞争。Bit Digital 持约 2700 万股，母子定价联动。
+        <span class="ki-note">久期 derate 受害者（轮动）——本周 -22% 与任何 miss 无关，$160M AI 算力协议 + $100M 融资便利均在 5 月下旬已兑现，下跌纯是 AI 算力高 beta 随利率+美元双升杀久期。与储能侧 FLNC 逆涨镜像：算力代理定价于资金/久期层，catalyst 看 6/16-17 FOMC 利率方向能否缓和久期压制。</span>
+      </td>
+    </tr>
+    <tr data-cap="T">
+      <td class="tk">BLDP</td>
+      <td class="name">Ballard Power<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.9B · T</span></td>
+      <td class="num neg">-22%</td>
+      <td class="num pos">+3%</td>
+      <td class="num pos">+145%</td>
+      <td><span class="tag t-rot">轮动</span></td>
+      <td><strong>本周边际变化</strong>：1W <span class="hl">-22%</span> 是 3M <span class="hl">+145%</span> 巨幅累积涨幅后的高位获利了结，叠加本周利率冲击对长久期高 beta 的 derate——1M 仍 +3、3M +145，前期涨幅未被本周回吐抹去。氢燃料电池作为 AI 电力的远端分布式供电选项，在 risk-off 周缺近端订单兑现而最先被止盈，与储能侧 FLNC 逆涨形成对冲，归因 轮动。<br>
+        <strong>财报</strong>：本周无财报硬催化。3M +145 的巨幅涨幅前期已计入氢能/数据中心供电叙事，本周无新增利好，高位股在利率冲击下承压回吐，纯随板块 beta 定价。<br>
+        <strong>产业链</strong>：质子交换膜（PEM）氢燃料电池，定位数据中心分布式/不间断供电的远端选项——可作为不依赖电网的现场清洁供电方案，对受输配电瓶颈约束的数据中心是补充供给。上游依赖电堆材料与制造规模；下游对接需现场/分布式电力的数据中心及商用车客户；横向与储能（FLNC）、地热、SMR 核电竞争 DC 供电份额。规模化与单位成本下降是兑现关键。
+        <span class="ki-note">远端供电选项，叙事降温时最先止盈（轮动）——本周 -22% 是 3M +145 高位回吐叠加利率冲击杀久期。氢燃料电池作为数据中心分布式供电的远端选项，缺近端订单兑现，在 risk-off 周弹性方向与储能侧对冲；规模化与单位成本下降节奏决定能否摆脱纯题材定价。</span>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li>FLNC 获 NVIDIA 点名 DSX Vera Rubin 设计<strong>唯一电池储能合作伙伴</strong>，AI 数据中心电力刚需具名落地</li>
+        <li>DSX 设计把电池时长标准从约 1 小时拉到 <strong>2-3 小时</strong>，单项目储能容量需求上修，量价双升</li>
+        <li>储能链 record backlog + hyperscaler master supply agreement，订单可见度穿透单季营收 miss</li>
+        <li>储能逆 risk-off 上涨证明 AI 电力刚需逻辑可压过利率冲击，NRGV/AIRJ 弹性承接外溢资金</li>
+        <li>AI 数据中心电力 capex 是多年级结构性需求源，单周 beta 波动不改长周期方向</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li>FLNC Q2 FY2026 收入 $465M vs 共识约 $629M（miss 约 26%），NVIDIA 背书尚未转化为订单</li>
+        <li>WYFI/BLDP 双双 -22%，AI 算力代理与氢能在利率+美元双升下高 beta derate</li>
+        <li>NRGV/AIRJ 微盘 3M +81/+39 多为题材资金驱动，营收/产能兑现节奏未验证</li>
+        <li>BLDP 3M +145 巨幅累积后缺近端订单，远端供电选项叙事降温时最先止盈</li>
+        <li>6/16-17 FOMC 若 Warsh 鹰派 confirm，长久期高 beta 部分继续承压</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">Counter-narrative · 储能逆涨 vs 算力/氢能随 beta 跌</span>
+    <p>本链是本周"产业刚需穿透 risk-off"的清晰样本：在 QQQ -4.50 / XLK -5.61 的成长杀跌周，储能龙头 FLNC 却凭 <em>6/1</em> NVIDIA 点名唯一电池储能合作伙伴逆势 <strong>+21%</strong>——这不是普通板块轮动，而是 AI 数据中心电力刚需逻辑（具名订单背书 + 2-3 小时时长标准）压过利率冲击的直接证据，储能定价于刚需层而非久期层。与此同时同主线的 AI 算力代理 WYFI 与氢燃料电池 BLDP 双双 <strong>-22%</strong>，被利率+美元双升的长久期 derate 打穿。这种储能涨、算力/氢能跌的分化不强行统一解释——FLNC/NRGV/AIRJ 是刚需/政策/背书定价（催化 + 映射），WYFI/BLDP 是久期/资金定价（轮动），两套逻辑并存，正是 AI 电力主线在产业链不同环节处于不同景气阶段的本质。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-06">
+  <div class="sec-num">§06</div>
+  <h2 class="sec-title">软件 / SaaS · <em>内部分化</em></h2>
+  <div class="sec-sub">risk-off 杀久期，真增长/AI 落地逆势走强</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 板块内部分化</span>
+    <p><strong>1. 行业阶段定位</strong>：本周软件是<em>宏观主导下的内部分化</em>，不是上周（260529）SNOW 引爆的板块级 Bull re-rate。6/5 非农 <span class="hl">+172K vs 共识 80K</span>（2 倍+）→ Fed Warsh 鹰派 confirm、年内加息概率升至 ~70%、利率与美元双升（UUP 周 <span class="hl">+1.30%</span>），软件作为<strong>长久期成长资产</strong>整体承压——XLK 周 <span class="hl">-5.61%</span>、QQQ -4.50% 是板块 β 基准，分母端 risk-off derate 是本周软件的总开关。在这个 β 为负的环境里，能逆势走强的标的必须有<em>非 β 来源的真 alpha</em>：要么是自家财报 + 指引上修（TWLO），要么是 AI 云/算力承接的真实订单（DOCN），要么是低久期防御属性（CDW IT 分销，现金流近端、估值锚不受利率挤压）。分化的两端清晰：<strong>逆势上行端</strong> = AI 通信/云 + IT 分销（TWLO/DOCN/BAND/CDW），有真增长或 AI 落地接住；<strong>杀跌端</strong> = 消费科技/支付（ODD/CRSR/PAYP/CXDO），既无 AI 货币化故事、又叠加自家基本面恶化（ODD 财报崩 + 广告 CAC 危机、PAYP 次新破发）。本周不能把软件当一个同质板块归因——它是 risk-off 滤网下"<em>真增长留、估值故事走</em>"的二分。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周决定分化能否延续的 binary 集中在三处。<strong>① TWLO 的 AI 通信叙事 follow-through</strong>：本周 +19% 由 Q1 beat + 上调 FY2026 outlook（NG 营业利润 YoY +31%、FCF 指引 >$1B）+ SIGNAL 大会 agentic AI 产品（Conversation Memory/Orchestrator/Intelligence）+ 多家投行 PT 上调至 $200–250 带（Needham $250 / Rosenblatt $230 / BofA & Oppenheimer $235）共同驱动——阈值是后续 voice AI 货币化能否在 Q2 营收端兑现，坐实则 CPaaS 从"低增长管道"重估为"AI agent 通信层"。<strong>② DOCN AI 云 capacity 兑现</strong>：3M <span class="hl">+212%</span> 已 price in AI 推理云叙事，阈值是 GPU droplet 收入占比与 ARR 加速能否续证。<strong>③ 杀跌端基本面拐点</strong>：ODD Q2 指引营收再 <span class="hl">-25~30% YoY</span>、广告 CPA 同比 +83%——其广告 CAC 危机是否见底（依赖最大广告平台算法扰动修复），是消费科技端能否止跌的关键。本周无板块级软件财报接力（CRM/ADBE/MDB 在 6 月中下旬），故分化主要由宏观利率方向 + 个股事件驱动，而非同步财报季。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·软件本周的主轴是 <strong>risk-off 滤网下的真增长 vs 估值故事二分</strong>，须严格按"<em>逆势 alpha</em> vs <em>顺势杀跌</em>"切归因，不能当同质板块。<strong>逆势上行端（β 为负环境里的真 alpha）</strong>：TWLO +19% 是本组最强大盘逆势——以 XLK -6% 为软件 β 基准，超额 <span class="hl">+25pp</span> 全是个股 alpha，来自 Q1 beat + 上调 FY2026 outlook + SIGNAL agentic AI 发布 + 投行 PT 集体上调；DOCN +9%（超额 +15pp）靠 AI 推理云叙事，3M <span class="hl">+212%</span> 全组最强、市场把它从"中小开发者云"重估为"AI 算力承接平台"；BAND +11%（L4 小盘、超额 +17pp）是 TWLO 同链 CPaaS halo + 3M <span class="hl">+336%</span> 极端动量延续；CDW +6%（超额 +12pp）逻辑独立——IT 分销是<em>低久期防御现金流</em>，利率上行时估值锚不被挤压，反而受益资金从高久期成长轮入；PINS +7% / TTAN +7% 为弱跟涨。<strong>顺势杀跌端（无 AI 故事 + 自家恶化）</strong>：ODD -27% 是 6/2 财报崩——Q1 营收 <span class="hl">$197.9M YoY -26%</span>、swing 转净亏 $(21.4)M、Q2 指引再 -25~30%，广告 CAC 危机（CPA 同比 +83%）；PAYP -23% 是次新（3 月 IPO 募 $880M）破发 + 本周全市场最差单股，Weiss 给 sell；CRSR -26% / CXDO -23% 随消费科技/小盘 risk-off 杀久期。归因核心：逆势端是<strong>个股 alpha + 防御现金流</strong>，杀跌端是<strong>财报 miss + 次新破发 + 板块 derate</strong>，两端不同源。</p>
+
+  <p><span class="kicker">财报季分析</span>·须区分"<em>本周谁有自家财报硬催化</em>"与"<em>谁是宏观 derate/动量延续</em>"。<strong>本周有财报（硬催化）</strong>：TWLO 与 ODD 是仅有的两只，恰好是分化的两极。TWLO 近期 Q1 录得三年来最强营收与毛利增速、<strong>NG 营业利润 YoY +31%</strong>、FCF 指引上调至 <strong>>$1B（2026）</strong>，叠加 SIGNAL 大会发布 agentic AI 产品矩阵 + 三年重组收官——是"被低估的 turnaround"在 AI pivot 确认后重定价，本周 +19% 是 beat + 叙事升级的双击。ODD 6/2 Q1 财报相反：营收 <strong>$197.9M YoY -26%</strong>（虽超共识 $187.9M 但同比深跌）、Adj EBITDA 转负 $(7.0)M、净亏 $(21.4)M（去年同期 +$37.8M 净利），<strong>Q2 指引营收再 -25~30% YoY</strong>，根因是最大广告平台算法扰动使获客成本飙升（CPA 同比 +83%），ad-driven DTC 商业模式受冲击——-27% 是实打实的财报 miss + 指引下修。<strong>无本周财报（宏观/动量驱动）</strong>：DOCN/BAND/CDW/PINS/TTAN 逆势 + CRSR/PAYP/CXDO 杀跌均非财报窗口——DOCN/BAND 是 AI 云/CPaaS 动量延续，CDW 是防御现金流轮入，CRSR/CXDO 是消费科技 risk-off，PAYP 是次新破发。本周软件无板块级财报接力，CRM/ADBE/MDB 集中在 6 月中下旬。</p>
+
+  <p><span class="kicker">时间催化</span>·三个 binary 阈值 + 时点，决定本周分化能否延续。<strong>① TWLO voice AI 货币化兑现（Q2 财报约 8 月初）</strong>：本周 +19% 已 price in SIGNAL agentic AI 叙事 + PT 上调至 $200–250 带，阈值是 Conversation Memory/Orchestrator 等产品能否在 Q2 营收端拉动 usage 增长——坐实则 CPaaS 从"管道"重估为"AI agent 通信层"、alpha 延续；仅靠预期则回吐敏感。<strong>② ODD 广告 CAC 拐点（Q2 财报约 8 月初）</strong>：阈值是最大广告平台算法扰动修复 + CPA 指数（H1'26 已升至 2.8、同比 +83%）能否回落——未见底则 -25~30% 指引下修延续、消费科技端继续承压。<strong>③ 6 月中下旬板块软件财报季 CRM / ADBE / MDB / CRWD</strong>：阈值是企业 AI 支出能否流入 SaaS 营收 + 指引上修方向，是平台型 SaaS re-rate（上周 SNOW 引爆）能否在 risk-off 环境续证的同类背书——若 in-line 而无 consumption 加速，则成长软件在利率上行环境里持续 derate。叙事面看，本周宏观（利率/美元方向）权重高于个股财报，软件作为长久期资产对 Fed 路径高度敏感，6/16-17 FOMC 是上游总约束。</p>
+
+  <p><span class="kicker">订单与产业链</span>·按四维拆，重点是分化两端的产业基础差异。<strong>订单</strong>：逆势端有真实订单/usage 支撑——TWLO SIGNAL 大会后客户对 agentic AI 通信兴趣升温、voice AI 是新增 usage 曲线；DOCN AI droplet（GPU 云）ARR 加速、承接中小客户 AI 推理负载；CDW 作为 IT 分销，订单受企业 IT 硬件/软件采购周期驱动（防御、近端现金流）。杀跌端订单恶化——ODD 受广告平台算法扰动、获客漏斗堵塞，Q2 营收指引再降，是订单/获客端的硬恶化信号。<strong>价格（计费/take rate）</strong>：TWLO 计费随通信 usage 放量 + AI 产品加价；DOCN 消费式云计价随 AI workload 调用放大；ODD 则是 ad-driven DTC，CPA 飙升直接压缩单位经济（价端恶化）。<strong>库存（RPO/backlog）</strong>：TWLO 重组后利润率与 FCF 改善、订单结构健康；DOCN ARR/NRR 是观察点；CDW backlog 随 IT 采购节奏。<strong>capex</strong>：逆势端上游受益云厂/企业 IT capex 传导（DOCN 接 AI 推理、CDW 接企业 IT 硬件更新）；杀跌端 ODD/PAYP/CXDO 无 capex 传导链、纯需求端/估值端驱动。核心：逆势端有产业基础接住，杀跌端是基本面 + 估值双杀，本周无个股级订单取消（除 ODD 广告端恶化）。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="S">
+        <td class="tk">TWLO</td>
+        <td class="name">Twilio<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$28B · S</span></td>
+        <td class="num pos">+19%</td>
+        <td class="num pos">+18%</td>
+        <td class="num pos">+77%</td>
+        <td><span class="tag t-er">财报型</span><span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+19%</span>，<strong>本组最强大盘逆势 alpha</strong>。以 XLK -6% 为软件 β 基准，超额 <span class="hl">+25pp</span> 全归个股 alpha——在 risk-off 杀久期的环境里逆势大涨，本质是<em>自家财报 beat + AI pivot 确认</em>的双击，非板块 β。市场把 TWLO 从"低增长 CPaaS 管道"重估为"voice AI / agentic 通信层"，3M <span class="hl">+77%</span> 是 turnaround 叙事的持续兑现。<br>
+          <strong>财报</strong>：近期 Q1 录三年来最强营收与毛利增速，<span class="hl">NG 营业利润 YoY +31%</span>，2026 FCF 指引上调至 <span class="hl">>$1B</span>，三年重组收官。SIGNAL 大会发布 agentic AI 产品（Conversation Memory / Orchestrator / Intelligence），深化高价值语音/消息工作流。投行 PT 集体上调至 $200–250 带（Needham $250 / Rosenblatt $230 / BofA & Oppenheimer $235）。下次财报：Q2 2026 约 8 月初。<br>
+          <strong>产业链</strong>：上游绑定云算力 + LLM（做 voice/messaging AI 推理）；下游为用通信 API 的企业（客服/营销/认证场景）；竞争对 Sinch/Vonage 在 CPaaS、对应用层 CX 平台——TWLO 用"通信 API 基础设施 + Segment 数据 + agentic AI"卡企业沟通层，AI 把管道升级为智能编排。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +19% = 超额 +25pp 全是<strong>财报型 alpha</strong>——Q1 beat + FCF 上调 + SIGNAL agentic AI + 投行 PT 集体抬升四重驱动。risk-off 周里能逆势的核心是真增长 + AI 落地，是本组唯一大盘逆势龙头；看点是 voice AI usage 能否在 Q2 营收兑现。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">DOCN</td>
+        <td class="name">DigitalOcean<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$15.9B · S</span></td>
+        <td class="num pos">+9%</td>
+        <td class="num pos">+6%</td>
+        <td class="num pos">+212%</td>
+        <td><span class="tag t-cat">催化</span><span class="tag t-map-d">直接映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+9%</span>，以 XLK -6% 为软件 β 基准超额 +15pp 的逆势 alpha。DOCN 走"AI 推理云"独立叙事，risk-off 周仍逆势靠 AI 算力承接预期；3M <span class="hl">+212%</span> 全组最强——市场把它从"中小开发者云"重估为"AI 算力下沉平台"，GPU droplet 是核心重估点。本周无财报，是动量 + AI 云叙事延续。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季核心云 ARR 维持增长、AI/GPU droplet 收入占比提升是货币化抓手；管理层指引 AI 产品线（GenAI 平台/GPU 算力租赁）拉动 ARPU。下次财报：Q2 2026 约 8 月初——验证 AI 云收入占比与 ARR 加速。<br>
+          <strong>产业链</strong>：上游绑定 NVDA GPU（GPU droplet 算力）+ 自建数据中心；下游为中小开发者/初创/AI 应用团队（轻量、自助式云）；竞争对 AWS/Azure/GCP 在大客户端、对 Vultr/Linode 在中小云——DOCN 用"简单定价 + 中小客户 AI 算力下沉"卡 hyperscaler 覆盖不到的长尾 AI 需求。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +9% = 超额 +15pp 是<strong>AI 云叙事 alpha</strong>。3M +212% 已 price in 大量 AI 推理云乐观预期，1M 仅 +6% 显示近端动量降温；GPU droplet 货币化是 thesis 核心，估值已不便宜、需 Q2 ARR 加速续证，回吐敏感度高于现金流型逆势标的。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">CDW</td>
+        <td class="name">CDW<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$14.8B · S</span></td>
+        <td class="num pos">+6%</td>
+        <td class="num pos">+22%</td>
+        <td class="num pos">+8%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span>，以 XLK -6% 为软件 β 基准超额 +12pp，但逻辑<em>与 AI 软件无关</em>——CDW 是 IT 硬件/软件分销，本质<strong>低久期防御现金流</strong>，利率上行时估值锚不被挤压，反而受益资金从高久期成长软件轮入价值/近端现金流。1M <span class="hl">+22%</span> 显示防御轮动已持续，本周 risk-off 加速这一资金迁移。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季企业/政府 IT 采购需求温和复苏、毛利率受高利润服务占比提升支撑；管理层指引 IT refresh 周期 + AI 硬件（服务器/终端）采购带动分销量。下次财报：Q2 2026 约 7 月底/8 月初。<br>
+          <strong>产业链</strong>：上游对接 OEM（Dell/HP/Cisco/MSFT 等硬件软件原厂）；下游为企业/政府/教育/医疗 IT 采购部门（分销 + 集成 + 托管服务）；竞争对 Insight Enterprises/SHI 等分销同业——CDW 用"规模采购 + 服务附加 + 客户覆盖广度"卡 IT 分销中枢，AI 硬件更新是增量但非估值核心。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +6% 是<strong>防御现金流轮动</strong>，不是 AI 软件 alpha——IT 分销低久期、利率上行受益资金避险轮入。本组里唯一"非成长逻辑"逆势标的，归因须与 TWLO/DOCN 的 AI 增长切开；1M +22% 是 risk-off 资金迁移的累积体现。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">PINS</td>
+        <td class="name">Pinterest<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$13.7B · S</span></td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+1%</td>
+        <td class="num pos">+7%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+7%</span>，以 XLK -6% 为软件 β 基准超额 +13pp 的弱逆势。PINS 本周无个股催化，是 risk-off 环境里<em>相对防御的广告平台</em>受益——电商/视觉广告平台现金流近端、估值锚低于纯成长 SaaS，资金在杀久期时相对青睐。1M +1% / 3M +7% 显示整体平淡，本周逆势更多是低 β 防御属性而非主动 alpha。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季 MAU 与广告 ARPU 稳健、电商导购（shoppable pins）货币化推进；管理层指引 AI 推荐/广告优化提升参与度与 take rate。下次财报：Q2 2026 约 7 月底/8 月初。<br>
+          <strong>产业链</strong>：上游绑定第一方视觉/兴趣数据 + AI 推荐引擎；下游为投放视觉广告的品牌/电商；竞争对 Meta/Google 广告闭环 + 各社交平台——PINS 用"高购买意图视觉发现 + 电商导购"差异化卡中端广告预算，AI 提升推荐与转化效率。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +7% 是<strong>低 β 防御受益</strong>，非主动 alpha——广告平台现金流近端、risk-off 杀久期时相对抗跌。1M/3M 均平淡，本周逆势主要是估值锚低于纯成长 SaaS 的被动防御，弹性与确定性弱于 TWLO/CDW。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">TTAN</td>
+        <td class="name">ServiceTitan<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$6.3B · S</span></td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+23%</td>
+        <td class="num neg">-7%</td>
+        <td><span class="tag t-map-d">直接映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+7%</span>，以 XLK -6% 为软件 β 基准超额 +13pp。TTAN 是垂直 SaaS（家庭服务/暖通管道行业管理软件），本周随软件分化中的逆势端跟涨，归 direct——AI 模块（调度/报价/客服自动化）契合企业 AI 落地叙事。1M <span class="hl">+23%</span> 弹性居前但 3M -7% 显示前期承压，本周是压缩后修复 + 逆势资金青睐真增长垂直 SaaS。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季平台 GTV 与收入维持高增、净留存健康；AI 产品（自动调度/智能报价）渗透是 ARPU 增量；管理层指引垂直行业渗透率提升 + AI 模块加价。下次财报：约 8 月底。<br>
+          <strong>产业链</strong>：上游接入云算力 + AI 做行业工作流自动化；下游为家庭服务承包商（暖通/管道/电气等蓝领服务业数字化）；竞争对 Housecall Pro/Jobber 等垂直同业 + 横向 SaaS——TTAN 用"行业 know-how + 垂直工作流深度"卡蓝领服务数字化，黏性强、替换成本高。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +7% 是<strong>垂直 SaaS 真增长 + 压缩修复</strong>。1M +23% 弹性居前、3M -7% 显示前期承压深；AI 模块货币化是增量曲线，垂直行业护城河强于横向 SaaS，但中盘成长在利率上行环境仍受久期约束。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">PAYP</td>
+        <td class="name">PayPay<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$13.2B · S</span></td>
+        <td class="num neg">-23%</td>
+        <td class="num neg">-29%</td>
+        <td class="num">NaN</td>
+        <td><span class="tag t-cat">催化</span><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-23%</span>，<strong>本周全市场最差单股之一</strong>，杀跌端代表。PAYP 是 3 月 IPO 的日本支付次新（募 $880M、IPO 估值 $10.7B），本周破发加速——以 XLK -6% 为软件 β 基准，超额跌 -17pp 是次新特有的<em>解禁前估值消化 + 缺乏锚定买盘</em>。risk-off 周高估值次新最先被抛售，无 AI 货币化故事接住，1M -29% 显示 IPO 蜜月期彻底结束。<br>
+          <strong>财报</strong>：本周非财报窗口，次新尚无完整公开财报周期。日本最大移动支付 app（3800 万用户）、综合数字金融平台，但盈利路径与货币化节奏是市场分歧核心。分析师分化：Weiss 给 <span class="hl">sell</span>、BofA 给 buy/$26 PT（vs 现价 ~$15）。<br>
+          <strong>产业链</strong>：上游绑定 SoftBank 生态（持股/流量导入）+ 日本银行/信用卡清算网络；下游为日本 C 端支付用户 + B 端商户；竞争对 LINE Pay/Rakuten Pay 等日本本土钱包——PAYP 用"用户规模 + 超级 app 金融延伸"卡日本移动支付，但盈利兑现与估值是次新核心分歧。
+          <span class="ki-note">XLK β -6% 应跌，超额跌 -17pp 是<strong>次新破发 + risk-off 抛售</strong>——3 月 IPO 蜜月结束、高估值缺锚定买盘、无 AI 故事接住。妖股/次新属性：估值不是核心输入、缺乏完整财报周期，看的是解禁节奏 + 流通盘消化，分析师严重分化（Weiss sell vs BofA buy）。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">BAND</td>
+        <td class="name">Bandwidth<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.9B · T</span></td>
+        <td class="num pos">+11%</td>
+        <td class="num pos">+55%</td>
+        <td class="num pos">+336%</td>
+        <td><span class="tag t-map-d">直接映射</span><span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+11%</span>，逆势端小盘弹性之最。以 XLK -6% 为软件 β 基准超额 +17pp——BAND 是 TWLO 同链 CPaaS，随 voice AI 通信叙事 halo + 自身动量延续跟涨，归 direct + 催化。3M <span class="hl">+336%</span> 全组最极端动量——$1.9B 小盘 + CPaaS/voice AI 题材契合，弹性被极致放大。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季通信平台收入维持增长、企业级语音/消息 API 是核心；AI voice（agentic 通信）是新增 usage 故事；管理层指引企业 AI 通信需求拉动平台用量。下次财报：约 8 月初。<br>
+          <strong>产业链</strong>：上游绑定电信网络互联 + 云算力（做 voice AI 推理）；下游为用语音/消息 API 的企业（与 TWLO 同客户群）；竞争对 TWLO/Sinch 在 CPaaS——BAND 用"自有电信网络 + 企业级语音 API"差异化卡高质量语音通信，voice AI 是 usage 增量。
+          <span class="ki-note">XLK β -6% 应跌，逆势 +11% 是<strong>CPaaS halo + 极端动量</strong>——TWLO 同链 voice AI 叙事外溢 + $1.9B 小盘弹性放大。3M +336% 已是极端动量、含金量低于 TWLO 自家 beat；voice AI usage 是故事但小盘回吐敏感度最高，本组逆势端弹性最强但最不稳。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">CRSR</td>
+        <td class="name">Corsair Gaming<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.3B · T</span></td>
+        <td class="num neg">-26%</td>
+        <td class="num pos">+24%</td>
+        <td class="num pos">+51%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-26%</span>，杀跌端小盘代表。以 XLK -6% 为软件 β 基准，超额跌 -20pp——CRSR 是游戏外设/消费科技硬件，无 AI SaaS 货币化故事，risk-off 杀久期时小盘消费科技首当其冲。但 1M <span class="hl">+24%</span> / 3M <span class="hl">+51%</span> 显示本周大跌是<em>前期高动量后的获利回吐</em>，回吐幅度被小盘流动性放大。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季游戏外设/组件需求随 PC 升级周期波动、毛利率受产品组合影响；管理层指引高端游戏硬件 + 创作者设备需求。下次财报：约 8 月初。<br>
+          <strong>产业链</strong>：上游绑定 PC 组件供应链（内存/芯片/代工）；下游为 PC 游戏玩家/内容创作者；竞争对 Logitech/Razer 等外设厂——CRSR 用"高端游戏外设 + DIY 组件 + 创作者设备"卡 PC 游戏硬件，需求随 PC 升级周期与游戏景气波动，无软件型估值锚。
+          <span class="ki-note">XLK β -6% 应跌，超额跌 -20pp 是<strong>消费科技 risk-off + 高动量回吐</strong>——无 AI SaaS 故事、小盘消费硬件杀久期首当其冲。1M +24%/3M +51% 显示本周大跌是前期动量回吐而非基本面崩，硬件属性需求随 PC 周期波动，估值不是核心输入。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">ODD</td>
+        <td class="name">Oddity Tech<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.8B · T</span></td>
+        <td class="num neg">-27%</td>
+        <td class="num neg">-34%</td>
+        <td class="num neg">-31%</td>
+        <td><span class="tag t-er-miss">财报不及</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-27%</span>，<strong>杀跌端震中（自家财报崩）</strong>。以 XLK -6% 为软件 β 基准，超额跌 -21pp 全是个股负 alpha——6/2 Q1 财报 + Q2 指引下修双杀，与 risk-off β 叠加。1M -34% / 3M -31% 显示这是<em>持续基本面恶化</em>而非单周事件，ad-driven 美妆电商科技的商业模式受广告平台冲击，叙事彻底逆转。<br>
+          <strong>财报</strong>：Q1 2026（6/2）已报。营收 <span class="hl">$197.9M YoY -26%</span>（虽超共识 $187.9M 但同比深跌）、Adj EBITDA 转负 <span class="hl">$(7.0)M</span>、净亏 $(21.4)M（去年同期 +$37.8M 净利）；<strong>Q2 指引营收再 -25~30% YoY</strong>。根因：最大广告平台算法扰动使获客成本飙升，CPA 指数 H1'26 升至 2.8、<span class="hl">同比 +83%</span>。下次财报：Q2 2026 约 8 月初——广告 CAC 是否见底是 thesis 拐点。<br>
+          <strong>产业链</strong>：上游依赖数字广告平台（Meta/Google/TikTok）做获客 + AI 做产品推荐/匹配；下游为线上美妆/护肤消费者（DTC 直营）；竞争对 e.l.f./传统美妆 + DTC 同业——ODD 用"AI 驱动 DTC + 自研品牌矩阵"卡线上美妆，但 ad-driven 模式对广告平台成本高度敏感，是当前致命点。
+          <span class="ki-note">XLK β -6% 应跌，超额跌 -21pp 全是<strong>财报不及 + 指引下修</strong>——营收 -26%、转净亏、Q2 再降 25~30%、广告 CPA 同比 +83%。ad-driven DTC 模式受广告平台算法扰动重创，1M/3M 连续深跌显示持续恶化非单周事件；拐点取决于广告 CAC 见底，在见底信号出现前是杀跌端最弱标的。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">CXDO</td>
+        <td class="name">Crexendo<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.3B · T</span></td>
+        <td class="num neg">-23%</td>
+        <td class="num neg">-22%</td>
+        <td class="num pos">+7%</td>
+        <td><span class="tag t-rot">板块轮动</span><span class="tag t-map-s">情绪映射</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">-23%</span>，杀跌端微盘。以 XLK -6% 为软件 β 基准，超额跌 -17pp——CXDO 是 $0.3B 云通信微盘，risk-off 周微盘 SaaS 流动性差、估值故事被无差别抛售。无本周个股催化，1M -22% 显示这是<em>微盘成长在利率上行环境的持续 derate</em>，3M +7% 说明更早前有过题材脉冲、本周回到基本面。<br>
+          <strong>财报</strong>：本周非财报窗口。最新季 UCaaS（云通信/呼叫中心）平台收入维持增长、SaaS 占比提升；管理层指引云通信渠道 + 平台许可双引擎。下次财报：约 8 月初。<br>
+          <strong>产业链</strong>：上游接入电信网络 + 云基础设施；下游为中小企业云电话/呼叫中心需求；竞争对 RingCentral/8x8/Zoom Phone 等 UCaaS 大厂——CXDO 体量微小、易被平台型 UCaaS 挤压，护城河弱，微盘流动性使涨跌弹性被放大。
+          <span class="ki-note">XLK β -6% 应跌，超额跌 -17pp 是<strong>微盘 SaaS risk-off derate + 情绪</strong>——$0.3B 流动性差、估值故事被无差别抛售。UCaaS 微盘易被大厂挤压、护城河弱；3M +7% 显示更早题材脉冲已退、本周回归基本面，妖股/微盘属性下涨跌靠情绪与流动性、估值不是输入。</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li>TWLO <strong>Q1 beat + FY2026 outlook 上调</strong>（NG 营业利润 +31%、FCF >$1B）+ SIGNAL agentic AI 发布，CPaaS 从管道重估为 voice AI 通信层</li>
+        <li>risk-off 杀久期下，真增长 + AI 落地标的（TWLO/DOCN/BAND）能逆势走出非 β 的个股 alpha</li>
+        <li>CDW 等 IT 分销是<em>低久期防御现金流</em>，利率上行受益资金从高久期成长软件轮入</li>
+        <li>AI 云/算力承接是真实需求曲线——DOCN GPU droplet、TTAN 垂直 SaaS AI 模块货币化打开 ARPU</li>
+        <li>投行对 TWLO PT 集体上调至 $200–250 带（Needham/Rosenblatt/BofA/Oppenheimer），叙事获机构背书</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li>软件是长久期资产，6/5 非农爆表 → 利率/美元双升使全板块 β 为负（XLK -6%），成长软件持续 derate 压力</li>
+        <li>ODD 财报崩（营收 -26%、转净亏、Q2 再降 25~30%）+ 广告 CPA 同比 +83%，ad-driven DTC 模式受重创、拐点未现</li>
+        <li>逆势端高动量小盘（BAND 3M +336% / DOCN 3M +212%）已 price in 大量乐观预期，回吐敏感度高</li>
+        <li>PAYP 等次新破发显示高估值缺锚定买盘，risk-off 周首当其冲，解禁前估值消化未完</li>
+        <li>本周软件无板块级财报接力（CRM/ADBE/MDB 在 6 月中下旬），分化由宏观利率主导、个股催化稀薄</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">情绪总结</span>
+    <p>本周软件是 <em>risk-off 滤网下的真增长 vs 估值故事二分</em>，不是同质板块涨跌。6/5 非农爆表 → 利率/美元双升使软件作为长久期资产整体承压（XLK -6%），能逆势的只有非 β 来源的真 alpha：TWLO（财报 beat + AI pivot）、DOCN/BAND（AI 云/CPaaS 动量）、CDW（防御现金流轮动）。杀跌端 ODD（财报崩 + 广告 CAC 危机）、PAYP（次新破发）、CRSR/CXDO（消费科技/微盘 derate）则是基本面 + 估值双杀。下一步看利率方向（6/16-17 FOMC）与 TWLO/ODD 各自 Q2 财报，前者决定久期资产分母端、后者决定分化两极能否延续。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-07">
+  <div class="sec-num">§07</div>
+  <h2 class="sec-title">货运 / 物流 · <em>分化</em></h2>
+  <div class="sec-sub">FDX 分拆除权拖累表象，纯 LTL 逆 risk-off 重定价</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 表象分化、内核三重正向</span>
+    <p><strong>1. 行业阶段定位</strong>：本组表面是"龙头 <span class="hl">FDX -20%</span> 暴跌、纯 LTL 与卡车 OEM 集体 +6～+13"的极端分化，但这是<em>会计现象与产业现象叠加在一张表里造成的错觉</em>，必须先把两件事切开。FDX 的 -20% 是 <strong>FedEx Freight (FDXF) 分拆 6/1 生效的机械除权</strong>——记录日 <span class="hl">5/15</span>，每持 2 股 FDX 派 1 股 FDXF（FedEx 保留 19.9%），FDXF 已"regular way"在 NYSE 独立挂牌，价值从母体剥离出去、母公司股价等额下移，<strong>不是基本面恶化、绝非财报 miss</strong>。把 FDXF 这块 LTL 业务从 FDX 估值里拿走后，剩下的快递 + 地面网络反而是更纯粹的周期资产。真正的产业信号在另一侧：<strong>纯 LTL（ODFL/ARCB/CVLG）与卡车 OEM（PCAR）在全市场 risk-off、QQQ -5、SOXX -5 的一周里逆势 +6～+13</strong>，这不是 beta 反弹，而是三重独立驱动的共振——① <em>价值/周期轮动</em>：6/5 非农 +172K vs 共识 80K 爆表，利率与美元双升，资金从长久期成长（AI/航天/加密）切向有真实现金流、低估值的工业周期股，运输是这条轮动链的核心承载（XLI +0.61 / XLF +1.40 同向）；② <em>FDXF 分拆催化的板块重定价</em>：FDXF 作为北美 LTL 纯标的独立挂牌，把市场注意力重新拉回"纯 LTL 的高 ROIC / 网络密度 / 定价权"这一叙事，ODFL（行业标杆 95%+ 准点率 + 行业最低成本/磅）与 ARCB 作为可比纯标的被重新审视、估值锚上移；③ <em>货运量预期改善</em>：hot NFP 隐含的就业与消费韧性直接抬升对工业货运量（tonnage）见底回升的预期，LTL 是宏观货运需求最敏感的 leading indicator。三条线在同一周叠加，构成本组"分化表象下的统一正向内核"。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周三个可观察 binary。① <strong>FDXF 独立交易后的相对定价</strong>（即时）：FDXF 作为新挂牌纯 LTL 标的，市场会把它与 ODFL 直接对标 ROIC / OR（operating ratio）/ 每股网络价值——若 FDXF 获得接近 ODFL 的 LTL 估值倍数，将<em>验证 sum-of-parts 解锁逻辑</em>、反向利好 FDX 母体（拆分释放价值），这是本组最重要的事件，FDX 的 -20% 在这条线证伪前不应被当作杀跌读。② <strong>月度 LTL tonnage / 运价数据</strong>（2-4 周）：ODFL 与 ARCB 通常按月披露货运量与每票收入（revenue per shipment），若 tonnage 同比降幅收窄或环比转正，确认货运量见底、轮动逻辑获产业数据背书；反之 tonnage 续弱则本周涨幅更多是估值轮动而非景气拐点。③ <strong>卡车 OEM 订单（Class 8 net orders）</strong>（月度）：PCAR 弹性绑定北美 Class 8 卡车订单与 backlog，ACT/FTR 的月度 net orders 数据 + 2027 排放法规预买（pre-buy）窗口是其叙事变量。三个信号方向一致向上则本组从"轮动驱动"升级为"景气拐点驱动"，alpha 持续性显著增强；任一走弱则需把本周涨幅降权为 risk-off 资金的防御性轮动。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本组 6 只标的呈现"<strong>一只机械除权暴跌 + 五只逆势上涨</strong>"的分化表象，<em>必须先把 FDX 的除权效应剥离才能看清真实信号</em>。<span class="hl">FDX -20%</span>（市值 $98B、L2）是本组唯一下跌标的，但这<strong>100% 是 FedEx Freight 分拆 6/1 生效的机械除权</strong>——记录日 5/15、每 2 股 FDX 派 1 股 FDXF、FDXF 独立挂牌 NYSE，母公司股价等额下移，<em>归因为公司事件（分拆）、绝不是财报 miss、绝不是杀跌</em>。除 FDX 外，其余五只全部逆全市场 risk-off 上涨：<span class="hl">ARCB +13%</span>（LTL、$3.0B、本组涨幅之王）、<span class="hl">CVLG +10%</span>（合约物流、$1.0B）、<span class="hl">ODFL +8%</span>（LTL 龙头、$46B）、<span class="hl">R +6%</span>（Ryder 租赁、$9.6B）、<span class="hl">PCAR +6%</span>（PACCAR 卡车 OEM、$59B）。在 QQQ -5 / SOXX -5 / SPY -2 的一周里运输股集体 +6～+13，是显著的<em>板块级 alpha</em>，对应 XLI +0.61 的工业 beta 但远超之（ARCB 超额 +12pp），来源是 6/5 非农爆表驱动的价值/周期轮动 + FDXF 分拆催化的纯 LTL 重定价 + 货运量见底预期三重共振。ODFL / ARCB 作为纯 LTL 标的弹性最大，CVLG 微盘弹性放大，PCAR 的卡车 OEM 链与货运景气间接联动，R 的车队租赁则更偏稳健现金流防御。<strong>不要把本组当"运输普涨"笼统归因</strong>——FDX 是会计事件、其余是轮动 + 重定价，两套逻辑切开看。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组本周<em>无新增财报 catalyst，涨跌全部由事件 / 轮动驱动</em>，关键是区分"会计事件"与"产业轮动"两类，不能笼统套财报季叙事。<strong>FDX</strong> 本周核心事件是<em>分拆而非财报</em>——FedEx 财年 Q4（5 月季末）通常在 6 月中下旬披露，本周 -20% 与业绩无关，纯属 FDXF 剥离的除权；需注意 <strong>Morgan Stanley 6/3 维持 Underweight、目标价 <span class="hl">$230→$160</span></strong>，这是卖方对分拆后母体（剥离高 ROIC 的 LTL 后、剩余快递业务周期性更强）的估值下修，是分析师观点调整、<em>不是基本面暴雷</em>，与 -20% 除权跌幅是两件独立的事。<strong>纯 LTL 与 OEM</strong>（ODFL / ARCB / PCAR）本周均无财报，上涨是估值轮动 + 货运量预期改善的<em>预期驱动</em>，而非业绩兑现——ODFL 作为行业标杆通常按季披露 operating ratio 与 tonnage，ARCB 按月更新 LTL 货运量，二者本周涨幅锚定的是宏观轮动而非已确认数字，<em>不为涨幅硬编精确财报数字</em>。<strong>R（Ryder）</strong>的车队租赁与供应链管理收入相对稳定，本周 +6 更偏防御性现金流资产在 risk-off 中的避风港属性。<strong>CVLG（Covenant）</strong>作为 $1.0B 微盘合约物流商，+10 的弹性来自小盘属性放大轮动信号，缺乏可锚定的本周财报 catalyst。归因落点：FDX = 分拆除权（公司事件）+ MS 评级下修；其余 = 轮动 + 重定价预期，<strong>无一是财报 beat/miss 驱动</strong>。</p>
+
+  <p><span class="kicker">时间催化</span>·本组未来 2-4 周的 binary 全部围绕"<em>FDXF 独立定价能否验证 LTL 重定价逻辑 + 货运量数据能否确认景气拐点</em>"展开，须分标的盯各自变量。<strong>FDX</strong> 的关键时点是 <span class="hl">FDXF 独立交易后的相对估值兑现</span>——市场会把 FDXF 与 ODFL 直接对标 ROIC / operating ratio，若 FDXF 获接近 ODFL 的 LTL 倍数，则 sum-of-parts 解锁逻辑成立、反向利好 FDX 母体；同时 FedEx 财年 Q4 财报（6 月中下旬）是分拆后<em>首份剔除 LTL 的母体业绩</em>，将首次让市场看清剥离后快递 + 地面网络的真实盈利质量，是 -20% 除权之外的真正基本面 binary。<strong>ODFL / ARCB</strong> 看<em>月度 LTL tonnage 与 revenue per shipment</em>——若货运量同比降幅收窄或环比转正，则本周轮动获产业数据背书、涨幅可持续；ARCB 作为纯 LTL 标的对 tonnage 拐点最敏感，是本组景气信号的 leading indicator。<strong>PCAR</strong> 盯 <em>Class 8 卡车 net orders 月度数据</em>与 2027 排放法规 pre-buy 窗口——北美重卡订单是其 backlog 与产能利用率的直接驱动，订单回升确认工业周期上行。<strong>R</strong> 看车队租赁利用率与二手车价格（残值），<strong>CVLG</strong> 作微盘缺独立 catalyst、随板块情绪波动。三个核心信号（FDXF 估值兑现 / tonnage 拐点 / Class 8 订单）方向一致向上，则本组从"轮动驱动"升级为"景气拐点驱动"。</p>
+
+  <p><span class="kicker">订单与产业链</span>·本组横跨 LTL 零担（ODFL / ARCB）、合约物流（CVLG）、综合快递 + 货运（FDX）、车队租赁与供应链（R）、卡车整车制造（PCAR），是一条<em>从货运需求到运力供给的完整产业链条</em>，本周边际变化集中在四个维度。<strong>订单 / 货运量</strong>：LTL tonnage 是本组核心 leading indicator——hot NFP 隐含就业与消费韧性，抬升对工业货运量见底回升的预期，ODFL / ARCB 作为纯 LTL 标的直接受益；PCAR 的 Class 8 卡车订单（backlog）是运力供给端的同步信号，与货运需求形成上下游闭环。<strong>价格</strong>：LTL 行业的核心护城河是定价权与 operating ratio——ODFL 以行业最低成本/磅 + 95%+ 准点率维持 70% 出头的 OR（行业最优），FDXF 独立挂牌把这一"纯 LTL 定价权 + 网络密度"叙事重新推到台前，是本周板块重定价的催化源。<strong>库存 / 运力</strong>：分拆后 FDXF 作为独立 LTL 运营商可更专注 LTL 网络优化与运力投放，FDX 母体则聚焦快递 + 地面网络整合（Network 2.0 降本），sum-of-parts 解锁是产业结构调整的核心逻辑。<strong>capex / 产能</strong>：PCAR 的卡车产能与 R 的车队规模扩张挂钩货运景气，二者 capex 节奏是运力供给的先行指标。<em>产业链映射</em>：货运需求（LTL tonnage）→ 运力供给（PCAR 卡车 / R 租赁车队）是一条 <strong>direct</strong> 传导链——货运量回升驱动卡车订单与车队扩张；FDXF 分拆则是 <strong>催化事件</strong>，通过重新定价纯 LTL 叙事 indirect 抬升 ODFL / ARCB 的估值锚。归因须把 FDX 的会计除权与其余的产业轮动严格切开。</p>
+
+<table class="dt">
+<thead><tr>
+  <th data-type="text">Ticker</th>
+  <th data-type="text">公司</th>
+  <th data-type="num">1W</th>
+  <th data-type="num">1M</th>
+  <th data-type="num">3M</th>
+  <th data-type="text">归因</th>
+  <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+</tr></thead>
+<tbody>
+  <tr data-cap="M">
+    <td class="tk">ODFL</td>
+    <td class="name">Old Dominion<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$46B · M</span></td>
+    <td class="num pos">+8%</td>
+    <td class="num pos">+21%</td>
+    <td class="num pos">+25%</td>
+    <td><span class="tag t-rot">轮动</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> vs XLI +1（超额 +7pp）、vs QQQ -5 形成鲜明反向——LTL 龙头($46B)在全市场 risk-off 周逆势走强，月内 +21 / 3M +25 趋势完整。驱动是 6/5 非农爆表后的价值/周期轮动 + <em>FDXF 分拆把"纯 LTL 高 ROIC / 定价权"叙事重新推上台</em>，ODFL 作为行业标杆被重定价。<br>
+      <strong>财报/事件</strong>：本周无新财报。ODFL 通常按季披露 operating ratio 与 tonnage，本周涨幅是<em>估值轮动 + 货运量见底预期</em>而非业绩兑现，<em>不硬编财报数字</em>。一致评级偏中性、估值在运输股中长期最贵，反映其行业最优盈利质量。<br>
+      <strong>产业链/业务</strong>：核心业务是 LTL 零担运输——以<em>行业最低成本/磅 + 95%+ 准点率 + 70% 出头 operating ratio</em>（行业最优）构筑护城河；下游绑定工业 + 零售货主，是宏观货运需求最敏感的 leading indicator，上游运力对应卡车产能。
+      <span class="ki-note">ODFL 是本组<em>纯 LTL 重定价</em>的核心承载（轮动）——本周 +8 是 hot NFP 驱动的价值轮动 + FDXF 分拆催化纯 LTL 叙事 + 货运量见底预期三重共振，超额 +7pp 是板块 alpha 不是个股事件。ODFL 估值在运输股中最贵，但 Bull Logic 下不用估值否定，看点是后续月度 tonnage 能否同比降幅收窄、确认景气拐点。</span>
+    </td>
+  </tr>
+  <tr data-cap="M">
+    <td class="tk">PCAR</td>
+    <td class="name">PACCAR<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$59B · M</span></td>
+    <td class="num pos">+6%</td>
+    <td class="num">+0%</td>
+    <td class="num neg">-3%</td>
+    <td><span class="tag t-rot">轮动</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span>、但月内持平 / 3M -3——卡车 OEM 龙头($59B)本周随工业周期轮动反弹，但中期趋势平淡，弹性弱于纯 LTL。驱动是 6/5 非农爆表抬升工业货运量预期 → 间接利好重卡订单预期，叠加价值股轮动。<br>
+      <strong>财报/事件</strong>：本周无新财报。PCAR 弹性绑定北美 <em>Class 8 卡车 net orders</em> 与 backlog，本周涨幅是宏观轮动预期驱动，<em>非业绩或订单数据兑现</em>。3M -3 反映重卡周期此前偏弱、订单 backlog 消化中。<br>
+      <strong>产业链/业务</strong>：核心业务是 Class 8 重卡整车制造（Kenworth / Peterbilt / DAF 品牌）+ 零部件（PACCAR Parts 高毛利现金牛）+ 金融服务；处于货运产业链<em>运力供给端</em>，订单与货运需求（LTL tonnage）形成上下游闭环，2027 排放法规 pre-buy 是潜在催化。
+      <span class="ki-note">PCAR 是货运链<em>运力供给端</em>标的（轮动）——本周 +6 是工业周期轮动 + 货运量回升预期间接传导，但月内持平 / 3M -3 说明重卡周期弹性弱于 LTL，本周更偏 risk-off 防御性轮动。看点是 Class 8 net orders 月度数据与 2027 排放 pre-buy 窗口能否启动新一轮订单周期，PACCAR Parts 高毛利现金流提供估值底。</span>
+    </td>
+  </tr>
+  <tr data-cap="S">
+    <td class="tk">R</td>
+    <td class="name">Ryder System<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$9.6B · S</span></td>
+    <td class="num pos">+6%</td>
+    <td class="num pos">+10%</td>
+    <td class="num pos">+34%</td>
+    <td><span class="tag t-rot">轮动</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span>、月内 +10 / 3M +34 趋势强劲——车队租赁与供应链龙头($9.6B)在 risk-off 周走稳，是本组<em>偏防御性现金流</em>的代表。驱动是价值/周期轮动 + 稳定租赁现金流在动荡市的避风港属性。<br>
+      <strong>财报/事件</strong>：本周无新财报。R 收入相对稳定（车队租赁 + 供应链管理 + 专用运输三段），本周 +6 是<em>板块轮动 + 防御配置</em>，3M +34 反映其稳健现金流在利率上行环境受青睐。<em>不硬编财报数字</em>。<br>
+      <strong>产业链/业务</strong>：核心业务是<em>商用车队全周期租赁（FMS）+ 供应链管理（SCS）+ 专用运输（DTS）</em>；车队租赁利用率与二手车残值挂钩货运景气，但合约化收入结构使其周期性弱于纯货运商，是货运链里相对稳健的现金流资产。
+      <span class="ki-note">R 是货运链<em>稳健现金流</em>标的（轮动）——本周 +6 是价值轮动 + 防御配置双驱动，3M +34 的趋势来自合约化租赁收入在利率上行 + risk-off 环境受青睐。周期性弱于纯 LTL（ODFL/ARCB），弹性中等但确定性高。看点是车队利用率与二手车残值能否随货运量回升而改善，是本组里 beta 最低的配置。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">ARCB</td>
+    <td class="name">ArcBest<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.0B · T</span></td>
+    <td class="num pos">+13%</td>
+    <td class="num pos">+27%</td>
+    <td class="num pos">+66%</td>
+    <td><span class="tag t-rot">轮动</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+13%</span>（本组涨幅之王）、月内 +27 / 3M +66——纯 LTL 标的($3.0B)在 risk-off 周爆发，超额 +12pp vs XLI 是显著板块 alpha + 小盘弹性放大。驱动是 FDXF 分拆催化纯 LTL 重定价（ARCB 是与 FDXF / ODFL 直接可比的纯标的）+ 价值轮动 + 货运量预期改善三重叠加。<br>
+      <strong>财报/事件</strong>：本周无新财报。ArcBest 按月更新 LTL 货运量（tonnage / shipments），本周涨幅是<em>重定价 + 轮动预期</em>而非业绩兑现。3M +66 的强势反映其作为纯 LTL 标的对货运量拐点的高弹性，<em>不硬编财报数字</em>。<br>
+      <strong>产业链/业务</strong>：核心业务是 LTL 零担运输（Asset-Based 资产型 LTL 为主）+ 资产轻型物流（Asset-Light）；作为纯 LTL 标的，是 FDXF 独立挂牌后市场对标重定价的<em>direct</em> 受益者，对月度 tonnage 拐点最敏感，是本组景气信号 leading indicator。
+      <span class="ki-note">ARCB 是 FDXF 分拆<em>板块重定价的最大受益者</em>（轮动）——作为纯 LTL 可比标的($3.0B)，FDXF 独立挂牌把纯 LTL 估值锚上移，叠加价值轮动 + 货运量预期改善 + 小盘弹性，1W +13 / 3M +66 弹性远超大盘 ODFL。是本组对货运量拐点最敏感的 leading indicator，看点是月度 tonnage 能否环比转正确认景气，小盘属性放大双向波动。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">CVLG</td>
+    <td class="name">Covenant Logistics<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$1.0B · T</span></td>
+    <td class="num pos">+10%</td>
+    <td class="num pos">+33%</td>
+    <td class="num pos">+65%</td>
+    <td><span class="tag t-rot">轮动</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+10%</span>、月内 +33 / 3M +65——合约物流微盘($1.0B)在 risk-off 周强势，微盘属性放大轮动信号。驱动是价值/周期轮动 + 货运景气见底预期，小盘弹性把板块 beta 放大成两位数涨幅。<br>
+      <strong>财报/事件</strong>：本周无新财报。Covenant 是 $1.0B 微盘合约物流商，本周 +10 缺乏可锚定的独立 catalyst，是<em>板块轮动 + 微盘弹性</em>叠加，<em>不为涨幅硬编故事</em>。3M +65 反映前期货运景气预期改善 + 小盘资金博弈。<br>
+      <strong>产业链/业务</strong>：核心业务是<em>合约整车运输（Expedited / Dedicated）+ 仓储 + 物流管理</em>；处于货运链中游，下游绑定特定货主合约，周期性随货运量波动，微盘属性使其弹性大于大盘运输股但确定性低。
+      <span class="ki-note">CVLG 是货运链<em>微盘合约物流</em>标的（轮动）——本周 +10 是价值轮动 + 货运见底预期被微盘弹性放大，缺独立 catalyst，随板块情绪波动。3M +65 主要是货运景气预期 + 小盘资金博弈。弹性大于大盘运输股但确定性低，归因落到板块轮动 + 微盘属性，<em>不孤立解读为公司基本面拐点</em>，看点是合约货量与板块情绪能否延续。</span>
+    </td>
+  </tr>
+  <tr data-cap="M">
+    <td class="tk">FDX</td>
+    <td class="name">FedEx<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$98B · M</span></td>
+    <td class="num neg">-20%</td>
+    <td class="num neg">-12%</td>
+    <td class="num neg">-7%</td>
+    <td><span class="tag t-cat">公司事件 / 分拆</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">-20%</span>——本组唯一下跌，但这<strong>100% 是 FedEx Freight (FDXF) 分拆 6/1 生效的机械除权，绝不是杀跌、绝不是财报 miss</strong>。FDXF 这块 LTL 业务从 FDX 估值里剥离独立挂牌，母公司股价等额下移，是<em>会计现象</em>。月内 -12 / 3M -7 同样含除权成分。<br>
+      <strong>财报/事件</strong>：本周核心是<em>分拆而非财报</em>——记录日 <span class="hl">5/15</span>、每持 2 股 FDX 派 1 股 FDXF（FedEx 保留 19.9%）、FDXF 已"regular way"在 NYSE 独立交易。另：<strong>Morgan Stanley 6/3 维持 Underweight、目标价 <span class="hl">$230→$160</span></strong>——这是卖方对剥离高 ROIC LTL 后母体（剩余快递业务周期性更强）的估值下修，是分析师观点、<em>与 -20% 除权是两件独立的事，均非基本面暴雷</em>。<br>
+      <strong>产业链/业务</strong>：分拆后 FDX 母体聚焦<em>快递 Express + 地面网络 Ground（Network 2.0 降本）</em>，FDXF 独立运营北美 LTL；sum-of-parts 解锁是核心逻辑——若 FDXF 获接近 ODFL 的 LTL 估值倍数，反向利好 FDX 母体价值释放。
+      <span class="ki-note">FDX -20% 是 <strong>FDXF 分拆 6/1 生效的机械除权</strong>（公司事件 / 分拆），<em>绝不能读作杀跌或财报 miss</em>——记录日 5/15、每 2 股派 1 股 FDXF、FedEx 留 19.9%。MS 6/3 维持 Underweight、PT $230→$160 是对剥离 LTL 后母体的估值下修，与除权是两件独立的事。看点是 FDXF 独立后能否获接近 ODFL 的 LTL 倍数、验证 sum-of-parts 解锁，以及 6 月中下旬母体首份剔除 LTL 的财季业绩。本周表象暴跌是会计错觉，<strong>不是基本面恶化</strong>。</span>
+    </td>
+  </tr>
+</tbody>
+</table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li><strong>价值/周期轮动承载</strong>：6/5 非农 +172K 爆表，资金从长久期成长切向有真实现金流的工业周期股，运输是核心承载（ODFL/ARCB 逆 risk-off +8～+13）。</li>
+        <li><strong>纯 LTL 重定价</strong>：FDXF 分拆独立挂牌把"纯 LTL 高 ROIC / 定价权 / 网络密度"叙事推上台，ODFL/ARCB 作为可比纯标的估值锚上移。</li>
+        <li><strong>货运量见底预期</strong>：hot NFP 隐含就业消费韧性，抬升 LTL tonnage 回升预期，LTL 是宏观货运需求最敏感 leading indicator。</li>
+        <li><strong>FDX sum-of-parts 解锁</strong>：FDXF 若获接近 ODFL 的 LTL 倍数，验证拆分释放价值、反向利好母体，-20% 是除权不是杀跌。</li>
+        <li><strong>OEM/租赁链联动</strong>：PCAR（Class 8 订单）+ R（车队租赁）作运力供给端，随货运景气回升获益。</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li><strong>轮动未必=景气拐点</strong>：本周涨幅可能纯是 risk-off 资金的防御性轮动，若月度 tonnage 续弱则估值轮动缺产业数据背书。</li>
+        <li><strong>ODFL 估值最贵</strong>：运输股中 ODFL 长期估值最高，若货运量拐点证伪，高估值标的回撤空间大。</li>
+        <li><strong>FDX 母体周期性增强</strong>：剥离高 ROIC LTL 后剩余快递业务周期性更强，MS 维持 Underweight、PT 砍至 $160 反映对母体盈利质量的担忧。</li>
+        <li><strong>微盘弹性双刃</strong>：ARCB/CVLG 小盘属性放大涨幅，但货运景气或资金情绪逆转时回撤同样剧烈。</li>
+        <li><strong>重卡周期弱</strong>：PCAR 月内持平 / 3M -3，Class 8 订单尚未确认回升，运力供给端景气滞后。</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">情绪总结 · 会计错觉 vs 产业信号</span>
+    <p>本组本周的核心叙事是<strong>把 FDX 的 -20% 机械除权与纯 LTL 的逆势重定价严格切开</strong>——FDXF 分拆 6/1 生效，FDX 的 -20% 是<em>会计现象、不是基本面恶化</em>，把它当杀跌读是本组最大的归因陷阱。真正的产业信号在另一侧：ODFL/ARCB/CVLG 在 QQQ -5 的一周逆势 +8～+13，是 6/5 非农爆表驱动的<strong>价值/周期轮动 + FDXF 分拆催化的纯 LTL 重定价 + 货运量见底预期</strong>三重共振，对应 XLI 工业 beta 但远超之（ARCB 超额 +12pp = 板块 alpha）。Bull Logic 下纯 LTL 龙头估值贵不构成 sell signal，<em>看点是月度 tonnage 与 Class 8 订单能否把"轮动驱动"升级为"景气拐点驱动"</em>。FDXF 独立后的相对定价是验证 sum-of-parts 逻辑、反向读 FDX 的最关键 binary。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-08">
+  <div class="sec-num">§08</div>
+  <h2 class="sec-title">工业 / 多元化价值 · <em>防御轮动 + 国防政府服务</em></h2>
+  <div class="sec-sub">risk-off 周资金从成长杀跌中轮入价值/周期/政府服务工业</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 价值/防御轮动上行</span>
+    <p><strong>1. 行业阶段定位</strong>：本主线处于<em>资金轮动启动段</em>——驱动不是工业基本面自身的景气拐点，而是 6/5 非农爆表（<strong>+172K vs 共识 80K</strong>、AHE +3.4% y/y）触发的利率+美元双升与全市场 risk-off，把资金从长久期成长（XLK −5.61 / QQQ −4.50 / SOXX −5.15）逼向价值/周期/防御工业与金融。板块 β 是本周最硬的实证：<strong>XLRE +1.61 / XLF +1.40 / XLI +0.61</strong>，而 SPY −2.50 / IWM −3.02——即工业相对大盘录得 <em>+3pp 以上的相对超额</em>，这是一次纯粹由资金面驱动的相对收益行情，不是绝对景气改善。本主线 14 只全部上涨、与成长盘全线杀跌形成镜像，正是 risk-off 周"现金流确定、订单可见、估值不高"的工业/政府服务被动接盘的典型形态。在 Bull Logic 下，这种轮动应理解为<em>趋势确认而非反转</em>：当 Fed Warsh 鹰派定调、年内加息概率升到 ~70%，利率维持高位的久期溢价就持续压成长、抬价值，工业/政府服务的相对强势具备 macro regime 的延续性，本周回调买入的资金是在 price in 利率高位常态化。需注意主线内部分两层：多数标的（DE/JCI/URI/GWW/RELX/CARR/FAST/GFL/ABM/DXPE）是 <strong>板块轮动</strong>的被动 beta 受益者，少数（IESC/AXON/SAIC/GEO）叠加<em>结构性 alpha</em>——数据中心电气基建、安防科技财报 beat、政府 IT 合同、移民政策订单，这四只的上涨有 macro 轮动之外的独立催化支撑，弹性与确定性都高于纯轮动标的。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2-4 周盯三条 binary。① <strong>利率/宏观 regime 延续性</strong>——6/16-17 FOMC 与 Warsh 措辞是本主线轮动逻辑的总开关，若 Fed 确认"加息进一步推迟降息"，价值/工业相对强势延续；若意外转鸽，资金可能快速回流成长、轮动 thesis 减弱，这是整条主线最大的 macro binary。② <strong>结构性 alpha 标的的独立催化兑现</strong>——IESC <strong>$3.9B backlog（+62% YoY）</strong>能否随数据中心 capex 持续转收入、GEO 与 ICE 的<em>多设施出售案</em>（CEO Zoley 指引 Q2/Q3 2026 落地、当前托管约 25,000 ICE beds）是否签约、AXON 反无人机 + AI 产品（+700% YoY）放量节奏，这三条是把"轮动 beta"升级为"个股 alpha"的实证窗口。③ <strong>政府服务订单流</strong>——SAIC（Q1 FY26 已 6/1 报、book-to-bill 1.1、backlog $22.9B）与 GEO 的联邦合同节奏决定政府服务子线的中期弹性，移民政策与国防 IT 预算是其订单池上限锚。任一兑现 → 主线从"被动轮动"向"主动配置"升级，弹性沿"独立催化强度"重排；若 FOMC 转鸽 + alpha 标的催化落空，则纯 板块轮动 标的最先回吐。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本周工业/多元化价值 14 只全线上涨，是 6/5 非农爆表后 risk-off 资金轮动的镜像受益方——与同期 AI 半导体（XLK −5.61）、商业航天（ASTS −17 / RKLB −23）、加密（IBIT −18）全线杀跌形成鲜明对照。涨幅结构清晰分两层：<strong>纯轮动层</strong>（板块轮动）多数集中在 <span class="hl">+5% 到 +8%</span> 区间——DE +8 / JCI +7 / URI +7 / RELX +7 / GWW +5 / CARR +5 / FAST +6 / GFL +6，这一组本周无个股财报、无新合同公告，涨幅 100% 来自板块 β（XLI +0.61 / XLF +1.40 / XLRE +1.61）+ 价值轮动，是利率高位环境下"现金流确定、估值不高"标的的被动接盘。<strong>结构性 alpha 层</strong>弹性更锐利且有独立催化：<strong>GEO <span class="hl">+12%</span></strong>（移民政策订单 + $1B Newark 合同 + ICE 多设施出售案）、<strong>SAIC +10%</strong>（6/1 财报 EPS $3.23 vs $2.28 大幅 beat）、<strong>ABM +9 / DXPE +9</strong>（设施服务/工业分销小盘弹性）、<strong>AXON +8%</strong>（5/6 Q1 财报 rev +34% + 反无人机 +300% + 上调 FY 指引）、<strong>IESC +6%</strong>（数据中心电气基建 backlog $3.9B）。归因纪律：DE/JCI/URI/GWW/RELX/CARR/FAST 是 <em>板块轮动 被动 beta</em>，本周无催化、纯吃轮动；GEO/SAIC/AXON/IESC 是 <em>板块轮动 + 催化/财报 叠加</em>——既有轮动顺风、又有自身订单/财报/政策的独立 alpha 支撑，这四只跑赢板块 β 的部分才是真正的个股超额。本周主线的核心 read：在成长盘极端失血的一周里，工业/政府服务的全线上涨证明这不是个股 alpha 的普涨，而是 <em>regime shift 驱动的资金再配置</em>。</p>
+
+  <p><span class="kicker">财报季分析</span>·本主线财报呈现"少数硬催化、多数零财报"的分化结构。<strong>有财报且构成真 alpha 的两只</strong>：<strong>AXON</strong>（Axon Enterprise）<strong>5/6 报 Q1 FY26</strong>——rev <strong>$807M +34% YoY</strong>，软件服务 $355M +35%，ARR <strong>$1.5B +35%</strong>、净留存 125%，AI 产品 +700% YoY、反无人机 +300% YoY，国际收入翻倍占比 20%，<em>上调全年指引至 30-32% 增长</em>、维持 25.5% adj EBITDA margin——这是基本面 beat + 指引上修的 财报 alpha，本周 +8% 是财报 follow-through 而非纯轮动。<strong>SAIC</strong>（Science Applications）<strong>6/1 报 Q1 FY26</strong>——rev <strong>$1.91B vs 共识 $1.83B</strong>（beat 4.1%），adj EPS <strong>$3.23 vs $2.28</strong>（beat 41.8%），adj EBITDA $222M vs $175M（beat 26.8%），backlog <strong>$22.9B</strong>（funded $3.7B）、book-to-bill 1.1，FCF $118M（去年同期 −$44M）——政府 IT 强 beat，本周 +10% 直接由财报驱动。<strong>有财报但属轮动 read-through 的</strong>：<strong>IESC</strong>（IES Holdings）FQ2 FY26（3/31 季末、5 月报）rev <strong>$974M +17%</strong>、operating income $112.3M +21%、backlog 跳增 <strong>62% 至 $3.9B</strong>（数据中心驱动、Infrastructure Solutions 占 64%），叠加 1 月 $143M 收购 Gulf Island 扩数据中心产能——基本面强劲但本周 +6% 涨幅温和，更多是数据中心电气主题 + 轮动叠加。<strong>无本周财报、纯轮动的</strong>：DE（农机周期）/JCI/CARR（暖通）/URI（设备租赁）/GWW/FAST（工业分销）/RELX（信息分析）/GFL（固废）/ABM/DXPE——这一组上涨全部来自板块 β + 价值轮动，<em>无个股业绩 beat 背书</em>，归 板块轮动。GEO 无本周财报，涨幅来自政策/合同催化（见订单段）。归因纪律上须把 AXON/SAIC 的 财报 alpha 与 DE/JCI 等的 板块轮动 beta 严格分开——前者跑赢板块 β 的部分是可持续个股 alpha，后者随轮动潮汐起落。</p>
+
+  <p><span class="kicker">时间催化</span>·近端 binary 分 macro 与个股两层。<strong>macro 层（总开关）</strong>：<strong>6/16-17 FOMC</strong> 是整条主线轮动逻辑的最大 binary——Fed Warsh 鹰派定调下年内加息概率 ~70%，若会议确认利率高位常态化，价值/工业相对强势延续；若措辞转鸽、降息预期回升，资金可能快速回流成长盘、本主线 板块轮动 标的（DE/JCI/URI/GWW 等纯轮动 beta）最先回吐。这条 binary 对纯轮动层敏感度最高、对有独立催化的 alpha 层（IESC/AXON/SAIC/GEO）敏感度较低。<strong>个股催化层</strong>：① <strong>GEO 多设施出售案</strong>——CEO Zoley 已指引与 ICE 就多个设施出售在谈、<em>Q2/Q3 2026 可能落地</em>，叠加 ICE Detention Reengineering Initiative（9/30/2026 实施新羁押模型）与 WEXMAC-TITUS 预合格供应商名单，是 GEO 最近端的合同 binary。② <strong>IESC 数据中心 backlog 转收入节奏</strong>——$3.9B backlog（RPO $2.3B）能否随 hyperscaler capex 持续兑现，下次 FQ3 FY26 财报（约 8 月）是验证窗口。③ <strong>AXON 下季财报</strong>——验证 AI 产品 +700%、反无人机 +300% 的放量可持续性与上调后指引达成度。④ <strong>SAIC 后续 book-to-bill</strong>——$22.9B backlog 的 funded 比例与新签订单流决定政府 IT 子线中期弹性。敏感度排序：纯轮动标的（DE/JCI/URI/GWW/CARR/FAST/RELX/GFL）对 FOMC 最敏感、弹性随 macro regime 起落；alpha 标的（IESC/AXON/SAIC/GEO）对各自的合同/财报/政策 binary 最敏感、确定性更高。</p>
+
+  <p><span class="kicker">订单与产业链</span>·四维拆解——<strong>订单（合同/backlog）</strong>：本主线订单可见度是其防御属性的核心。<strong>SAIC backlog $22.9B</strong>（funded $3.7B）、book-to-bill 1.1，政府 IT 订单流稳健；<strong>IESC backlog $3.9B（+62% YoY）</strong>、RPO $2.3B，数据中心电气基建是增量主引擎（Infrastructure Solutions 占 Q2 收入 64%）；<strong>GEO $1B Newark Delaney Hall 合同</strong> + 托管约 <strong>25,000 ICE beds</strong> + 多设施出售案在谈，移民政策是其订单池上限锚；URI 设备租赁、GWW/FAST/DXPE 工业 MRO 分销订单与工业活动度正相关，本周随周期轮动受益。<strong>价格</strong>：工业分销（GWW/FAST/DXPE）定价权随通胀环境维持、AHE +3.4% y/y 的工资通胀对服务型标的（ABM/SAIC）是成本压力但可转嫁；DE 农机受农产品价格周期压制（3M −1）。<strong>库存/产能</strong>：IESC 1 月 $143M 收购 Gulf Island 扩数据中心电气产能、直接对接 hyperscaler capex 痛点，是产能维度最硬的 alpha 实证；URI 设备车队利用率反映工业活动度。<strong>capex</strong>：本主线既是 capex 受益方（IESC 接 hyperscaler 数据中心 capex、URI 接基建/工业 capex），也对利率高位环境下的资本开支节奏敏感——利率压成长 capex 但价值/基建 capex（数据中心电力、政府基建）相对刚性，这是本主线 risk-off 周仍能上涨的产业基础。GFL 固废是纯防御现金流（费率刚性、与经济周期弱相关），ABM 设施服务同属防御稳态。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+    </tr></thead>
+    <tbody>
+      <tr data-cap="L">
+        <td class="tk">DE</td>
+        <td class="name">Deere<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$146B · L</span></td>
+        <td class="num pos">+8%</td>
+        <td class="num neg">-1%</td>
+        <td class="num neg">-1%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> 是本主线唯一大盘标的、亦是纯轮动层弹性最高的——6/5 非农后 risk-off 资金从成长杀跌中轮入价值/周期工业，DE 作为农机周期龙头被动接盘。1M −1 / 3M −1 显示本周涨幅是<em>近端轮动脉冲</em>而非趋势性 re-rate，前期因农产品价格周期压制走平、本周随板块 β（XLI +0.61）反弹。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动纯 板块轮动，无业绩 beat 背书。上次 FQ2 FY26 已报；农机需求随农场收入与农产品价格周期波动，本周涨幅与自家基本面边际无关，是 macro regime shift 的被动受益。近端 binary：6/16-17 FOMC 决定轮动延续性、农产品价格走向决定中期景气。<br>
+          <strong>产业链</strong>：上游钢材/液压件，下游北美/巴西农户与建筑设备客户；Precision Ag 精准农业软件是结构性增量但本周非催化；竞争对 CNH/AGCO/Kubota。
+          <span class="ki-note">农机/建筑设备周期龙头，本主线唯一 L1 大盘<em>压舱标的</em>。本周 +8% 是 risk-off 资金轮入周期价值的被动 beta，非个股 alpha——3M −1 印证前期受农产品价格周期压制。在轮动层中弹性最高（大盘流动性好、资金优先配置），但确定性依赖 FOMC 维持利率高位的 macro 延续性，纯轮动属性、无独立催化。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">AXON</td>
+        <td class="name">Axon Enterprise<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$35B · M</span></td>
+        <td class="num pos">+8%</td>
+        <td class="num pos">+26%</td>
+        <td class="num neg">-15%</td>
+        <td><span class="tag t-er">财报</span> <span class="tag t-cat">催化</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+8%</span> 是财报 follow-through + 轮动叠加——非纯 板块轮动，AXON 跑赢板块 β 的部分来自 5/6 Q1 财报的<em>结构性 alpha</em>。1M <span class="hl">+26%</span> 是本主线中盘最强势者、反映财报后资金持续流入；3M −15 留出修复空间（前期成长股估值压制回吐后本轮反弹）。执法/安防科技在 risk-off 周仍获配置，因其政府客户现金流确定、ARR 模式可见度高。<br>
+          <strong>财报/催化</strong>：<strong>5/6 Q1 FY26 报</strong>——rev <strong>$807M +34% YoY</strong>、软件服务 $355M +35%、ARR <strong>$1.5B +35%</strong>、净留存 125%，<em>AI 产品 +700% YoY、反无人机 +300% YoY</em>，国际收入翻倍占比 20%；<em>上调全年指引至 30-32% 增长</em>、维持 25.5% adj EBITDA margin——基本面 beat + 指引上修的 财报 alpha。近端 binary：下季财报验证 AI/反无人机放量可持续性。<br>
+          <strong>产业链</strong>：Taser 硬件 + Evidence.com/Axon Cloud 软件 SaaS + Fleet 车载 + 反无人机系统；下游美国/国际执法机构、军方；护城河来自数据生态锁定 + 高净留存；竞争壁垒极高。
+          <span class="ki-note">执法/安防科技 SaaS 龙头，本主线<em>财报 alpha</em>代表。ARR $1.5B +35% + 净留存 125% 是订阅模式的高确定性现金流，risk-off 周受青睐。反无人机 +300%、AI +700% 是国防无人机叙事的 software 受益侧，与 §07 国防硬件链形成 software-hardware 互补。本周 +8% 是 财报 + 板块轮动 叠加，跑赢板块 β 部分是可持续个股 alpha，不靠纯轮动。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">JCI</td>
+        <td class="name">Johnson Controls<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$83B · M</span></td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+0%</td>
+        <td class="num pos">+9%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+7%</span> 由 risk-off 资金轮入工业/楼宇受益——JCI 作为暖通/楼宇自动化大盘标的被动接盘板块 β。1M +0 / 3M +9 显示本周涨幅是近端轮动脉冲叠加在温和上行趋势之上，前期受数据中心冷却/楼宇 retrofit 需求支撑。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 数据中心冷却主题外溢。上次 FQ2 FY26 已报；暖通需求与商业建筑活动度 + 数据中心 capex（冷却基础设施）正相关，本周涨幅主要来自轮动而非自家边际变化。近端 binary：FOMC、数据中心冷却订单节奏。<br>
+          <strong>产业链</strong>：HVAC 暖通 + 楼宇自动化 + 消防安防；数据中心液冷/风冷是结构性增量（与 IESC 电气基建同属数据中心 capex 受益）；下游商业地产/数据中心/工业；竞争对 CARR/Trane/Honeywell。
+          <span class="ki-note">暖通/楼宇自动化大盘龙头，本主线<em>轮动层</em>受益者。本周 +7% 是 risk-off 轮入 + 数据中心冷却主题双重支撑，3M +9 反映温和上行趋势。数据中心 capex 是其与纯周期工业的差异化——冷却基础设施需求相对刚性，但本周涨幅核心仍是 板块轮动 beta，非个股财报 alpha。在轮动层中确定性中等、有数据中心结构性背书。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">URI</td>
+        <td class="name">United Rentals<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$62B · M</span></td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+11%</td>
+        <td class="num pos">+32%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+7%</span> 是 risk-off 轮入周期工业 + 设备租赁——URI 作为设备租赁龙头被动受益。三窗口 +7/+11/<span class="hl">+32%</span> 同向放大，是本主线中盘趋势最强者之一（3M +32 远超板块），反映工业/基建活动度持续 + 数据中心/电力基建建设潮带动租赁设备需求。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 基建/数据中心建设主题。上次 Q1 FY26 已报；设备租赁车队利用率与工业/基建/数据中心建设活动度高度正相关，是 AI 数据中心建设潮的"卖铲人"间接受益方。近端 binary：FOMC、基建/数据中心 capex 节奏。<br>
+          <strong>产业链</strong>：通用 + 专业设备租赁车队；下游建筑/工业/能源/数据中心建设客户；AI 数据中心建设潮是结构性需求增量；竞争对 Sunbelt/Ashtead、Herc。
+          <span class="ki-note">设备租赁龙头，本主线<em>周期 + 基建主题</em>双驱动标的。3M +32 的强趋势区别于纯防御轮动——URI 是 AI 数据中心/电力基建建设潮的间接"卖铲人"，租赁需求随建设活动度放量。本周 +7% 是 板块轮动 轮入叠加在已有的基建强趋势之上，确定性高于纯周期农机（DE），有数据中心建设的结构性需求背书。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">RELX</td>
+        <td class="name">RELX<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$59B · M</span></td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+0%</td>
+        <td class="num pos">+0%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+7%</span> 是 risk-off 资金轮入<em>防御型信息服务</em>——RELX 作为信息分析/科学出版的订阅现金流标的，在利率高位 + 成长杀跌环境下被当作"确定现金流"避风港接盘。1M +0 / 3M +0 显示本周涨幅是<em>纯近端轮动脉冲</em>、前期走平后随价值轮动反弹，无趋势性 re-rate。本周无个股财报、无新催化。<br>
+          <strong>财报/催化</strong>：驱动纯 板块轮动，无业绩 beat。信息分析订阅模式现金流高度可见、与经济周期弱相关，是 risk-off 周的防御配置标的；本周涨幅与自家基本面边际无关。近端 binary：FOMC 决定防御轮动延续性。<br>
+          <strong>产业链</strong>：风险/法律/科学技术/展览四大信息分析业务；订阅模式高留存；AI 分析工具嵌入是结构性增量；下游企业/学术/法律客户；竞争对 Thomson Reuters/Wolters Kluwer。
+          <span class="ki-note">信息分析/科学出版龙头，本主线<em>防御现金流</em>代表。订阅模式现金流可见度极高、与经济周期弱相关，是 risk-off 周资金避风港。1M/3M 双 +0 印证本周 +7% 是纯近端轮动脉冲、非趋势——典型的"利率高位 + 成长失血时资金找确定现金流"被动接盘。纯 板块轮动 属性、无独立催化，弹性依赖防御轮动延续性。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">GWW</td>
+        <td class="name">W.W. Grainger<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$59B · M</span></td>
+        <td class="num pos">+5%</td>
+        <td class="num pos">+11%</td>
+        <td class="num pos">+17%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+5%</span> 是 risk-off 轮入工业 MRO 分销——GWW 作为工业维护/维修/运营品分销龙头被动受益。三窗口 +5/+11/+17 同向温和上行，反映工业活动度持续 + 分销定价权稳健，本周涨幅是轮动脉冲叠加在已有上行趋势之上。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 工业 MRO 需求韧性。上次 Q1 FY26 已报；MRO 分销与工业生产活动度正相关、定价权随通胀维持，是工业景气的稳态受益者；本周涨幅核心来自轮动。近端 binary：FOMC、工业 PMI/活动度数据。<br>
+          <strong>产业链</strong>：工业 MRO 品类分销（安全/设备/工具/紧固件）；高利润率分销模式、定价权强；下游制造/能源/医疗等广义工业客户；竞争对 FAST/MSC Industrial、Amazon Business。
+          <span class="ki-note">工业 MRO 分销龙头，本主线<em>稳态分销</em>受益者。MRO 需求与工业活动度正相关、定价权随通胀维持，现金流稳健是 risk-off 周的配置理由。三窗口同向温和上行说明趋势健康，本周 +5% 是 板块轮动 轮入叠加在稳态上行之上。与 FAST 同属工业分销子链，纯轮动 beta、定价权是护城河、无本周个股催化。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">CARR</td>
+        <td class="name">Carrier Global<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$53B · M</span></td>
+        <td class="num pos">+5%</td>
+        <td class="num neg">-1%</td>
+        <td class="num pos">+16%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+5%</span> 是 risk-off 轮入暖通/楼宇——CARR 与 JCI 同属 HVAC 子链、被动接盘板块 β。1M −1 / 3M +16 显示本周涨幅是近端轮动脉冲、叠加在中期上行趋势之上（数据中心冷却 + 楼宇能效升级支撑 3M +16）。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 数据中心冷却/楼宇能效主题。上次 Q1 FY26 已报；HVAC 需求与商业建筑 + 数据中心 capex 正相关，本周涨幅主要来自轮动。近端 binary：FOMC、数据中心冷却订单 + 楼宇 retrofit 需求。<br>
+          <strong>产业链</strong>：HVAC 暖通 + 制冷（剥离消防安防后纯化为气候解决方案）；数据中心液冷是结构性增量；下游商业/住宅/数据中心；竞争对 JCI/Trane/Daikin。
+          <span class="ki-note">气候解决方案/暖通龙头，本主线<em>轮动层</em>受益者，与 JCI 同属 HVAC 子链。剥离消防安防后纯化为暖通制冷主业，数据中心液冷是结构性背书。本周 +5% 是 板块轮动 轮入 + 数据中心冷却主题，3M +16 反映中期上行。纯轮动 beta，数据中心 capex 是与纯周期工业的差异点，无本周个股财报 alpha。</span>
+        </td>
+      </tr>
+      <tr data-cap="M">
+        <td class="tk">FAST</td>
+        <td class="name">Fastenal<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$51B · M</span></td>
+        <td class="num pos">+6%</td>
+        <td class="num pos">+5%</td>
+        <td class="num pos">+1%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span> 是 risk-off 轮入工业紧固件/MRO 分销——FAST 作为紧固件 + 工业供应分销龙头被动受益。三窗口 +6/+5/+1 温和，本周涨幅是近端轮动脉冲，3M +1 显示前期走平、本轮随价值轮动反弹。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 工业分销需求韧性。FAST 月度销售数据是工业活动度高频指标；上次季报已报；MRO/紧固件需求与制造活动度正相关、Onsite/vending 模式黏性强，本周涨幅核心来自轮动。近端 binary：FOMC、月度销售数据、工业 PMI。<br>
+          <strong>产业链</strong>：紧固件 + 工业供应分销，Onsite 现场服务 + 工业自动售货机模式深度绑定客户；下游制造/建筑/工业客户；竞争对 GWW/MSC Industrial。
+          <span class="ki-note">紧固件/工业分销龙头，本主线<em>稳态分销</em>受益者，与 GWW 同属工业分销子链。Onsite + vending 模式的客户黏性是护城河，月度销售数据是工业活动度高频锚。本周 +6% 是 板块轮动 轮入、3M +1 反映前期走平后的轮动反弹。纯轮动 beta，与制造活动度正相关，无本周个股催化。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">IESC</td>
+        <td class="name">IES Holdings<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$13.9B · S</span></td>
+        <td class="num pos">+6%</td>
+        <td class="num pos">+7%</td>
+        <td class="num pos">+67%</td>
+        <td><span class="tag t-cat">催化</span> <span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span> 是数据中心电气基建主题 + 轮动叠加——IESC 跑出的<em>结构性 alpha</em>体现在 3M <span class="hl">+67%</span> 的极端强趋势（远超本主线任何标的），是 AI 数据中心电气基建的直接受益方。本周涨幅温和但置于 3M +67 的趋势背景看，资金在持续配置数据中心电气链。本周无新财报（FQ2 已报）、无新合同公告。<br>
+          <strong>财报/催化</strong>：<strong>FQ2 FY26（3/31 季末）已报</strong>——rev <strong>$974M +17%</strong>、operating income $112.3M +21%、backlog 跳增 <strong>62% 至 $3.9B</strong>（RPO $2.3B），数据中心驱动、Infrastructure Solutions 占收入 64%；1 月完成 <strong>$143M 收购 Gulf Island</strong>扩数据中心电气产能。近端 binary：FQ3 FY26 财报（约 8 月）验证 backlog 转收入节奏。<br>
+          <strong>产业链</strong>：电气基础设施 + 通信 + 住宅多业务，Infrastructure Solutions 段直接承接 hyperscaler 数据中心电气工程；上游电气设备/电缆；下游数据中心运营商/电网；竞争对 EME（EMCOR）/MYR/Quanta。
+          <span class="ki-note">数据中心电气基建<em>结构性 alpha</em>标的，本主线最强趋势者（3M +67）。backlog $3.9B（+62% YoY）直接 price in AI 数据中心电气 capex 放量——这是 §02 AI 算力主题的"电气工程承包"受益侧。本周 +6% 是 催化（数据中心主题）+ 板块轮动 叠加，跑赢轮动的部分是数据中心 backlog 的独立 alpha。与 URI（设备租赁）、JCI/CARR（冷却）同属数据中心建设链不同环节，纯 backlog 驱动、确定性高。</span>
+        </td>
+      </tr>
+      <tr data-cap="S">
+        <td class="tk">GFL</td>
+        <td class="name">GFL Environmental<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$11.9B · S</span></td>
+        <td class="num pos">+6%</td>
+        <td class="num neg">-2%</td>
+        <td class="num neg">-20%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+6%</span> 是 risk-off 轮入<em>纯防御现金流</em>——GFL 作为固废处理标的，费率刚性、与经济周期弱相关，是利率高位 + 成长失血环境的避风港接盘。但 3M <span class="hl">−20%</span> 显示前期大幅回调，本周是超跌反弹 + 防御轮动叠加、非趋势性强势。本周无个股财报、无新催化。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 防御属性。上次季报已报；固废费率随合同刚性、量随经济活动温和波动，现金流稳定是防御配置理由；3M −20 反映前期估值/杠杆担忧回调，本周轮动带来超跌修复。近端 binary：FOMC 决定防御轮动延续性。<br>
+          <strong>产业链</strong>：固废收集/处理 + 液废 + 土壤修复；费率合同模式现金流刚性；下游市政/工商客户；竞争对 WM/RSG（Republic Services）/WCN。
+          <span class="ki-note">固废处理<em>防御现金流</em>标的。费率刚性、与经济周期弱相关，是 risk-off 周的避风港。但 3M −20 显示前期大幅回调（杠杆/估值担忧），本周 +6% 是超跌反弹 + 防御轮动叠加、而非趋势性强势——区别于 IESC 的结构性 alpha。纯 板块轮动 beta，防御属性是配置理由，需注意 3M −20 的前期弱势背景。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">GEO</td>
+        <td class="name">GEO Group<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.1B · T</span></td>
+        <td class="num pos">+12%</td>
+        <td class="num pos">+14%</td>
+        <td class="num pos">+76%</td>
+        <td><span class="tag t-cat">催化</span> <span class="tag t-map-d">政策直接</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+12%</span> 领涨本主线，是<em>移民政策订单</em>驱动的结构性 alpha——非纯轮动。三窗口 +12/+14/<span class="hl">+76%</span> 同向强放大，3M +76 反映移民政策收紧 + ICE 羁押扩张的持续 re-rate。本周涨幅由 ICE 多设施出售案推进 + 政策催化驱动，与 risk-off 轮动方向一致但有独立政策 alpha。本周无财报。<br>
+          <strong>财报/催化</strong>：催化 政策催化 + 政策直接 移民政策直接受益。基本面边际：托管约 <strong>25,000 ICE beds</strong>、$1B Newark Delaney Hall 合同（CEO 称公司史上最成功扩张）、与 ICE 就<em>多设施出售</em>在谈（Zoley 指引 Q2/Q3 2026 落地）、入选 WEXMAC-TITUS 预合格名单；2025 利润 $250M+（+700% YoY）。近端 binary：设施出售签约、ICE Detention Reengineering（9/30/2026 新模型）。<br>
+          <strong>产业链</strong>：私营羁押/监狱运营 + 电子监控 + 政府服务；下游 ICE/联邦/州政府；移民政策是核心需求驱动；竞争对 CoreCivic (CXW)。前 GEO 高管现任 ICE 局长、政企关系深。
+          <span class="ki-note"><em>移民政策直接受益</em>结构性 alpha 标的，本主线本周涨幅冠军（+12%）。3M +76 是政策 re-rate 的持续兑现——移民收紧 + ICE 羁押扩张是确定性需求。妖股属性需注意（小盘 $3.1B、政策博弈），但与纯情绪炒作不同，GEO 有 $1B 合同 + 25,000 beds 的实质订单背书，<em>估值不是 sell signal，看移民政策 + 合同节奏</em>。Q2/Q3 设施出售案是近端硬催化。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">SAIC</td>
+        <td class="name">SAIC<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$4.5B · T</span></td>
+        <td class="num pos">+10%</td>
+        <td class="num pos">+21%</td>
+        <td class="num pos">+20%</td>
+        <td><span class="tag t-er">财报</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+10%</span> 由 <strong>6/1 财报大幅 beat</strong> 直接驱动——非轮动，是 财报 alpha。三窗口 +10/+21/+20 同向，1M +21 反映财报后资金持续流入 + 政府 IT 板块在 risk-off 周获配置。政府 IT 现金流确定、与防御轮动方向一致，财报 beat 放大了配置吸引力。<br>
+          <strong>财报/催化</strong>：<strong>6/1 报 Q1 FY26</strong>——rev <strong>$1.91B vs 共识 $1.83B</strong>（beat 4.1%），adj EPS <strong>$3.23 vs $2.28</strong>（beat 41.8%），adj EBITDA $222M（beat 26.8%），backlog <strong>$22.9B</strong>（funded $3.7B）、book-to-bill 1.1，FCF $118M（去年同期 −$44M）——政府 IT 强 beat + margin 扩张。近端 binary：后续 book-to-bill + 国防 IT 预算。<br>
+          <strong>产业链</strong>：政府 IT 现代化 + 国防/情报系统集成 + 太空/任务系统；下游美国联邦/国防/情报客户；护城河来自长期合同 backlog + 安全许可；竞争对 LDOS（Leidos）/Booz Allen/CACI。
+          <span class="ki-note">政府 IT 系统集成<em>财报 alpha</em>标的。6/1 Q1 财报 EPS $3.23 vs $2.28（beat 41.8%）+ margin 扩张是本周 +10% 的直接驱动，跑赢板块 β 部分是可持续个股 alpha。$22.9B backlog + book-to-bill 1.1 提供订单可见度——政府 IT 现金流确定，与 risk-off 防御轮动方向一致、财报 beat 放大配置吸引力。纯 财报 驱动，不靠轮动 beta。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">ABM</td>
+        <td class="name">ABM Industries<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$2.3B · T</span></td>
+        <td class="num pos">+9%</td>
+        <td class="num pos">+5%</td>
+        <td class="num neg">-2%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+9%</span> 是 risk-off 轮入<em>设施服务</em>——ABM 作为设施管理/清洁/工程服务小盘标的被动受益，小盘弹性放大了轮动涨幅。1M +5 / 3M −2 显示本周涨幅是近端轮动脉冲、前期走平。本周无个股财报、无新合同公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 设施服务防御属性。上次季报已报；设施管理服务现金流随长期合同稳定、与商业地产活动度相关，本周涨幅来自轮动。AHE +3.4% 工资通胀是成本压力但可转嫁。近端 binary：FOMC、商业地产/数据中心设施服务订单。<br>
+          <strong>产业链</strong>：设施管理 + 工程 + 停车 + 航空服务多业务；下游商业地产/工业/机场/数据中心客户；劳动密集型、与商业活动度相关；竞争对 Cintas/分散设施服务商。
+          <span class="ki-note">设施服务小盘标的，本主线<em>轮动层</em>受益者。设施管理现金流随长期合同稳定，risk-off 周获防御配置，小盘弹性放大轮动涨幅（本周 +9%）。3M −2 显示前期走平、本轮纯轮动反弹。劳动密集型，工资通胀是成本压力但可转嫁。纯 板块轮动 beta，数据中心设施服务是潜在增量但本周非催化。</span>
+        </td>
+      </tr>
+      <tr data-cap="T">
+        <td class="tk">DXPE</td>
+        <td class="name">DXP Enterprises<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$2.3B · T</span></td>
+        <td class="num pos">+9%</td>
+        <td class="num neg">-13%</td>
+        <td class="num pos">+16%</td>
+        <td><span class="tag t-rot">板块轮动</span></td>
+        <td><strong>本周边际变化</strong>：1W <span class="hl">+9%</span> 是 risk-off 轮入工业分销 + 小盘弹性放大——DXPE 作为工业产品/泵系统/MRO 分销小盘标的被动受益。1M <span class="hl">−13%</span> / 3M +16 显示波动剧烈——本周是前期回调（1M −13）后的轮动反弹，小盘流动性低导致弹性双向放大。本周无个股财报、无新订单公告。<br>
+          <strong>财报/催化</strong>：驱动 板块轮动 + 工业分销小盘弹性。上次季报已报；工业泵/旋转设备 + MRO 分销与能源/工业 capex 正相关，本周涨幅来自轮动 + 超跌反弹。近端 binary：FOMC、能源/工业活动度。<br>
+          <strong>产业链</strong>：工业泵/旋转设备 + MRO + 计量服务分销；下游能源/石化/工业客户；与能源 capex（XLE +2.45）相关；竞争对 Applied Industrial/分散工业分销商。
+          <span class="ki-note">工业产品/泵系统分销小盘标的，本主线<em>轮动层</em>高波动成员。1M −13 / 3M +16 显示小盘流动性低、弹性双向放大——本周 +9% 是前期回调后的轮动 + 超跌反弹。与能源 capex 相关（XLE 本周 +2.45 同向受益）。纯 板块轮动 beta，小盘弹性大但确定性低，无独立催化、随轮动潮汐起落。</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li>6/5 非农爆表 + Fed Warsh 鹰派（年内加息概率 ~70%）→ 利率高位常态化，价值/工业相对成长的超额（XLI/XLF/XLRE vs SPY/IWM）具 macro regime 延续性</li>
+        <li>结构性 alpha 四只有独立催化：IESC 数据中心 backlog <strong>$3.9B（+62%）</strong>、AXON Q1 rev +34% + 上调指引、SAIC 6/1 财报 EPS beat 41.8%、GEO 移民政策 $1B 合同 + 25,000 ICE beds</li>
+        <li>政府服务/防御工业现金流确定、订单可见度高（SAIC backlog $22.9B、book-to-bill 1.1），risk-off 周资金优先配置</li>
+        <li>数据中心建设链多环节受益（IESC 电气、URI 设备租赁、JCI/CARR 冷却）——AI capex 是工业 alpha 的结构性背书</li>
+        <li>多数标的多窗口同向放大（URI +32/IESC +67/GEO +76/SAIC +20），资金持续配置而非单日脉冲</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li>纯轮动层（DE/JCI/URI/GWW/CARR/FAST/RELX/GFL）涨幅 100% 来自 板块轮动 beta，无个股 alpha——6/16-17 FOMC 若意外转鸽、资金回流成长则最先回吐</li>
+        <li>本主线是相对收益行情非绝对景气改善：工业 ETF XLI 仅 +0.61，绝对涨幅有限、靠跑赢 SPY −2.50 取胜，macro regime 一变即逆转</li>
+        <li>GEO/IESC 等已大幅 re-rate（3M +76/+67），独立催化若证伪（设施出售案搁浅、数据中心 capex 放缓）则高位脆弱</li>
+        <li>工资通胀（AHE +3.4% y/y）对劳动密集服务标的（ABM/SAIC）是成本压力，DXPE 等小盘流动性低、波动双向放大</li>
+        <li>DE 受农产品价格周期压制（3M −1）、GFL 前期大幅回调（3M −20），轮动反弹缺乏自身基本面趋势支撑</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">资金端 vs 基本面 gap · 轮动可持续性</span>
+    <p>本主线最关键的判别是<strong>区分 板块轮动 beta 与 财报/催化 个股 alpha</strong>：纯轮动层（DE/JCI/URI/GWW/CARR/FAST/RELX/GFL/ABM/DXPE）的上涨是 6/5 非农触发的 risk-off 资金面行情，<em>与自身基本面边际无关</em>、随 FOMC 与利率 regime 起落，本质是相对收益（跑赢 SPY −2.50）而非绝对景气改善——这一层的可持续性完全押注利率维持高位。而结构性 alpha 层（IESC 数据中心 backlog / AXON 财报 + 反无人机 / SAIC 政府 IT beat / GEO 移民政策合同）有 macro 轮动之外的<em>独立催化支撑</em>，即便轮动退潮也有自身订单/财报基本面托底。归因纪律上须警惕把整条主线的全线上涨误读为工业景气改善——这是 <strong>regime shift 驱动的资金再配置，不是基本面普涨</strong>，纯轮动标的的强势与 macro regime 强绑定，alpha 标的的强势才有独立持续性。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="theme-09">
+  <div class="sec-num">§09</div>
+  <h2 class="sec-title">微盘妖股 / <em>独立异动</em></h2>
+  <div class="sec-sub">小盘博弈层，逐只 idiosyncratic 归因，估值不是输入</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 博弈/情绪驱动（非基本面闸门）</span>
+    <p><strong>1. 行业阶段定位</strong>：本组<em>不是一条产业主线</em>，而是把 6 只不归属前八条主线、靠<strong>小盘博弈结构</strong>异动的标的收口的一篮子——共性是<span class="hl">流通盘小 + 题材或事件点火 + 筹码/逼空结构放大弹性</span>，逻辑是<strong>资金博弈与情绪映射，不是景气周期</strong>。因此这一组的核心闸门规则只有一条：<strong>PE/PS 高低不是 sell signal、便宜不是买入理由</strong>——估值在妖股里是背景不是输入，弹性来自小流通盘 + 空头集中 + 筹码集中这一结构本身。但本周一个关键区分必须前置说清：<em>本组多数标的本周有真实硬 catalyst、不是无锚纯题材</em>——<span class="hl">OPTU</span> 是 CSC $2.50/股要约 + $500M 私募增资的资本重组、<span class="hl">BBCP</span> 是 Q2 收入 +14% beat + 上调全年指引、<span class="hl">MEC</span> 是 Q1 beat + 上调指引、<span class="hl">CDNL</span> 是 ALGC/Piedmont 并购 + $524M backlog 驱动的成长股，这些有可锚定的事件/基本面；纯靠次新 + 流动性的只有 <span class="hl">ELMT</span>（关键材料 IPO 次新）。本组真正的妖股属性集中在<em>微盘 + 低流通盘把事件弹性放大数倍</em>这一层——OPTU 周内 +66、要约价 $2.50 较 5/29 收盘 $0.658 溢价 ~280%，是要约 + 逼空 + 微盘三重叠加的极端脉冲。<span class="hl">CNK</span>($3.2B)必须从本组<em>切开单独看</em>：它是院线龙头靠 5 月创纪录票房（Michael / The Devil Wears Prada 2 / Mortal Kombat II）驱动的<strong>基本面独立异动、非妖股</strong>。</p>
+    <p><strong>2. 关键 catalyst window</strong>：本组无板块级时间催化，须<em>逐只</em>盯各自 binary 变量。<strong>事件型</strong>——OPTU 看 CSC $2.50/股、上限 120M 股 / $300M 的要约去化进度与 $500M 私募增资落地，要约价是硬地板但溢价已 price in，逼空回补耗尽后弹性收敛；CDNL 看 Piedmont(6/2 收)与 ALGC($254.7M)并购整合 + $524M backlog 的兑现节奏，Stifel 已上调目标价 $41→$63。<strong>财报型</strong>——BBCP 看 Q3 收入能否延续 +14% 增速 + $417.5M 全年指引兑现、MEC 看 Datacenter & Critical Power 新项目 ramp 能否填补 Commercial Vehicle 需求疲弱、$590-620M 全年指引兑现。<strong>次新型</strong>——ELMT 看上市后季度经营数据首次披露 + 中美关税/PRC 11/10 暂停一年的钨出口限制是否重启（关键材料叙事的真实锚）。<strong>基本面独立项</strong>——CNK 看 6-8 月暑期档票房延续度 + 6/11 季度分红除权，与本组妖股无任何映射。各自的 catalyst <em>互不传导</em>，本组不能当一篮子主题配置。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本组 6 只标的方向<em>全部上涨但驱动各异</em>，必须逐只独立归因，绝不当一条主线看。<strong>极端脉冲型</strong>——<span class="hl">OPTU +66</span>是本周第一微盘脉冲，6/1 单日因 CSC Investments 发起 <span class="hl">$2.50/股、上限 120M 股 / $300M</span> 要约 + $500M 私募增资重组消息暴涨 80%+，股价从 $0.60s 拉至 $1.10+，要约价较 5/29 收盘 $0.658 溢价约 280%——这是资本重组事件 + 微盘逼空双重叠加的极端弹性，<em>不是无锚纯题材</em>。<strong>财报 beat + 上调型</strong>——<span class="hl">BBCP +33</span>(3M +55)是 6/4 Q2 FY26 收入 <span class="hl">$106.8M +14%</span> beat $98.6M、EPS $0.04 beat $0.01、上调全年指引 $417.5M(超 Street 3.3%) 点燃、报后单日 +24；<span class="hl">MEC +24</span>(1M +42 / 3M +73)是 Q1 EPS beat 28.6% + 上调全年指引 $590-620M。<strong>并购成长型</strong>——<span class="hl">CDNL +17</span>(3M +103)是 ALGC($254.7M)+Piedmont(6/2 收)并购 + $524M backlog + Q1 收入 +105% 驱动的基建并购成长故事，Stifel 目标价 $41→$63。<strong>关键材料次新</strong>——<span class="hl">ELMT +12</span>(3M na、印证上市未满三月)是美国唯一垂直整合钨/钼制造商 IPO 次新，受去中国化关键材料叙事 + 次新流动性博弈。<strong>基本面独立异动</strong>——<span class="hl">CNK +12</span>是院线龙头($3.2B)靠 5 月创纪录票房驱动，<em>非妖股</em>、须单独切开。<strong>不要把本组当一条主线归因</strong>——每只是独立 idiosyncratic 故事，且本周清一色与大盘 risk-off（SPY -3）脱钩、各走各的事件 alpha。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组关键区分是<em>谁有可锚定的财报 catalyst、谁靠资本事件/次新</em>——不能笼统说"财报季"。<strong>有真实财报硬 catalyst 者</strong>：BBCP 6/4 报 Q2 FY26 收入 <span class="hl">$106.8M YoY +14%</span> beat 共识 $98.6M、EPS $0.04 beat $0.01、营业利润 +46%、Adj EBITDA +17% 至 $26.4M，<em>并上调全年指引至 $417.5M 中值（超 Street 3.3%）</em>——beat + raise 双击是 +33 的硬锚；MEC Q1 2026 EPS -$0.15 vs 共识 -$0.21（<span class="hl">beat 28.6%</span>）、收入 $144.8M YoY +6.8% beat $141.3M，<em>上调全年指引 $590-620M</em>，但 Adj EBITDA 因 Commercial Vehicle 需求疲弱 + Datacenter 项目启动成本承压。<strong>并购驱动而非纯财报者</strong>：CDNL Q1 2026 收入 <span class="hl">$167.5M YoY +105%</span>（ALGC $254.7M 收购贡献）、backlog $524M、全年指引上调至 $675-685M——增长主要来自并购整合而非内生 beat。<strong>资本事件而非财报者</strong>：OPTU +66 的点火是 CSC 要约 + $500M 增资<em>资本结构重组</em>，与季度财报无关，归因落到资本事件本身。<strong>次新无可锚财报者</strong>：ELMT 3M na 印证刚上市，本周涨幅是关键材料 IPO 叙事 + 次新流动性博弈，<em>不硬编精确财报数字</em>。<strong>基本面运营数据驱动者</strong>：CNK 6/1 披露 5 月创纪录国内票房 + 创纪录人均食饮消费，是运营月度数据而非季报，JPMorgan 目标价 $36 但 Goldman 5/5 给 Sell——多空分歧仍在。</p>
+
+  <p><span class="kicker">时间催化</span>·本组无统一 binary event 时间线，须<em>逐只</em>拆出各自阈值与时点。<strong>资本事件标的看去化进度</strong>：OPTU 的核心 binary 是 CSC <span class="hl">$2.50/股、上限 120M 股 / $300M</span> 要约的接受率与 $500M 私募增资落地节奏——要约价是股价硬地板，但 +66 后溢价已大幅 price in，逼空回补一旦耗尽弹性即收敛，须放在 1M -21 / 3M -27 的深度受损背景下看，是<em>事件反弹而非趋势反转</em>。<strong>并购成长标的看整合节奏</strong>：CDNL 看 Piedmont(6/2 收)+ALGC 并购整合 + $524M backlog 的季度兑现，Stifel 已把目标价从 $41 拉到 $63，下一观察点是并购增速能否延续。<strong>财报标的看下季增速</strong>：BBCP 看 Q3 收入能否延续 +14% + $417.5M 全年指引兑现、MEC 看 Datacenter & Critical Power 新项目 ramp 能否对冲 Commercial Vehicle 需求疲弱。<strong>次新标的看首次季报 + 政策</strong>：ELMT 看上市后首份季度经营数据 + PRC 11/10 暂停一年的钨出口限制 2026-27 是否重启（关键材料叙事真实锚）。<strong>独立项</strong>：CNK 看 6-8 月暑期档票房延续度，6/11 派发 $0.09/股季度分红（5/28 记录日）——除权技术性影响须与票房 momentum 分开看。逐只独立，<strong>不存在板块级时间催化</strong>。</p>
+
+  <p><span class="kicker">订单与产业链</span>·本组横跨有线电视/光纤(OPTU)、混凝土泵送设备(BBCP)、金属成型工程(MEC)、土木基建总包(CDNL)、钨钼关键材料(ELMT)、电影院线(CNK)等<em>完全不相干</em>的产业，<strong>没有共同供应链</strong>——本组的定义就是"无统一产业链、按个股事件逐只跟踪"。但每只仍有各自所属链的边际变化值得拆开盯：<strong>有真实订单/backlog 锚者</strong>——CDNL backlog <span class="hl">$524M</span> + 全年指引 $675-685M 是基建总包真实在手订单，对美国东南基建投资链是 <em>direct</em>；MEC 的 Datacenter & Critical Power 新项目是切入 AI 数据中心电力基建链的 indirect 映射，但 Commercial Vehicle 需求疲弱压制 EBITDA；BBCP 的混凝土泵送服务对应美国非住宅建筑活动，是周期 indirect。<strong>关键材料链锚者</strong>——ELMT 是美国唯一垂直整合钨/钼制造商，控制从原料到成品全链、供应链<em>去中国化</em>，下游绑定航空航天/国防/半导体/核能（裂变+聚变），是去中国化关键材料链的 <em>direct</em> 受益者；中国占全球钨精矿 ~80%，PRC 出口限制是其叙事的政策催化锚。<strong>资本事件而非订单者</strong>——OPTU 是有线电视/光纤(Lightpath/Optimum East Cable)资产，本周涨幅来自资本结构重组（要约 + 增资）而非业务订单，产业链映射弱。<strong>独立基本面者</strong>——CNK 的"订单"是票房 + 食饮人均消费，5 月创纪录得益于片单（Michael / Devil Wears Prada 2 / Mortal Kombat II），与本组任何标的及 AI/科技链零映射，归因须锚定票房周期与片单强度。各自的订单/产业链信号<strong>互不传导</strong>——这正是本组"独立异动"的定义。</p>
+
+<table class="dt">
+<thead><tr>
+  <th data-type="text">Ticker</th>
+  <th data-type="text">公司</th>
+  <th data-type="num">1W</th>
+  <th data-type="num">1M</th>
+  <th data-type="num">3M</th>
+  <th data-type="text">归因</th>
+  <th data-type="text">关键产业事实 + 个股逻辑（ki-note）</th>
+</tr></thead>
+<tbody>
+  <tr data-cap="T">
+    <td class="tk">CNK</td>
+    <td class="name">Cinemark<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$3.2B · T</span></td>
+    <td class="num pos">+12%</td>
+    <td class="num pos">+13%</td>
+    <td class="num pos">+13%</td>
+    <td><span class="tag t-cat">催化</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+12%</span> vs SPY -3（超额 +15pp = 个股 alpha）——本组<em>唯一基本面独立异动、非妖股</em>。驱动是 6/1 披露 <span class="hl">5 月创纪录国内票房</span> + 创纪录人均食饮消费，与大盘 risk-off 完全脱钩。1W/1M/3M 均 +12～+13 涨势平稳，是基本面 re-rating 而非博弈脉冲，<em>必须从本组妖股里切开单独看</em>。<br>
+      <strong>财报/事件</strong>：本周非季报，核心是 6/1 月度运营数据——5 月国内票房创历史最佳，得益于强片单（<em>Michael / The Devil Wears Prada 2 / Mortal Kombat II</em>）+ 人均食饮消费创纪录。多空分歧仍在：JPMorgan 5/4 目标价 $35→$36，但 Goldman 5/5 给 <em>Sell</em>。6/11 派 $0.09/股季度分红（5/28 记录日）。<br>
+      <strong>产业链/业务</strong>：核心业务是电影院线放映 + 影院食饮零售，收入 = 票房分账 + 高毛利食饮 + 广告；驱动来自暑期/年度片单强度与上座率，与本组任何标的及 AI/科技链<em>零映射</em>。
+      <span class="ki-note">CNK 是本组<em>唯一真基本面驱动</em>的标的（催化 票房）——5 月创纪录票房 + 人均食饮创纪录是可计量运营数据，不是逼空也不是次新博弈。涨势平稳（1W/1M/3M 均 +12~13）、与妖股性质完全不同，<strong>不能用妖股逻辑套</strong>。下一观察点是 6-8 月暑期档票房延续度能否兑现 alpha，Goldman Sell vs JPM Buy 的分歧待票房数据解。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">OPTU</td>
+    <td class="name">Optimum Comms<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.3B · T</span></td>
+    <td class="num pos">+66%</td>
+    <td class="num neg">-21%</td>
+    <td class="num neg">-27%</td>
+    <td><span class="tag t-cat">催化</span><span class="tag t-map-s">情绪映射</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+66%</span>——本周第一微盘脉冲。6/1 单日暴涨 80%+，根因是 <span class="hl">CSC Investments II 发起 $2.50/股、上限 120M 股 / $300M 现金要约</span> + $500M 私募增资的资本结构重组，要约价较 5/29 收盘 $0.658 溢价约 <em>280%</em>，股价从 $0.60s 拉至 $1.10+。这是<em>资本事件 + 微盘逼空双重叠加</em>的极端弹性，须放在 1M -21 / 3M -27 深度受损背景下看，是事件反弹而非趋势反转。<br>
+      <strong>财报/事件</strong>：本周非财报驱动。核心 catalyst 是 CSC 现金要约 + $500M 私募增资 + 设立非受限子公司管理 Optimum East Cable 与 Lightpath 多数股权——一系列资本结构重组动作。要约价 $2.50 是股价硬地板，但 +66 后溢价已大幅 price in。<br>
+      <strong>产业链/业务</strong>：核心业务是有线电视/宽带(Optimum East Cable) + 光纤(Lightpath 企业级)，本周涨幅来自资本运作而非业务订单，对任何产业链<em>映射弱</em>；涨跌跟随要约接受率与去杠杆叙事，非景气。
+      <span class="ki-note">OPTU +66 是<em>资本重组事件 + 微盘逼空</em>双重驱动（催化 要约 + 情绪映射 逼空），<strong>不是无锚纯题材</strong>——CSC $2.50/股要约 + $500M 增资是真实硬 catalyst，微盘 + 低流通盘把弹性放大成 +66 脉冲。妖股属性在于小盘 + 逼空结构，<strong>估值在此是背景不是输入</strong>。但要约溢价已 price in、逼空回补耗尽后弹性收敛，且 1M -21 / 3M -27 说明这是深跌后的事件反弹而非反转成立。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">BBCP</td>
+    <td class="name">Concrete Pumping<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.4B · T</span></td>
+    <td class="num pos">+33%</td>
+    <td class="num pos">+29%</td>
+    <td class="num pos">+55%</td>
+    <td><span class="tag t-er">财报型</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+33%</span>(3M +55)——混凝土泵送设备服务商($0.4B)，<em>不是纯题材妖股</em>，本周有真实硬 catalyst：6/4 Q2 FY26 财报 beat + 上调全年指引点燃，报后单日 +24。微盘属性放大了 beat+raise 的弹性。<br>
+      <strong>财报/事件</strong>：Q2 FY26（6/4 报）收入 <span class="hl">$106.8M YoY +14%</span> beat 共识 $98.6M、EPS $0.04 beat $0.01（beat $0.03）、营业利润 <em>+46%</em>、Adj EBITDA +17% 至 $26.4M；<em>上调全年收入指引至 $417.5M 中值（超 Street 3.3%）</em>。beat + raise 双击是 +33 的硬锚。<br>
+      <strong>产业链/业务</strong>：核心业务是混凝土泵送 + 废弃物管理服务（Brundage-Bone / Eco-Pan），对应美国非住宅建筑施工活动，是建筑周期的 <em>indirect</em> 标的；微盘 + 低流通盘把财报弹性放大。
+      <span class="ki-note">BBCP +33 是<em>财报 beat + 上调指引</em>驱动（财报型），不是纯情绪妖股——收入 +14% beat + EPS beat $0.03 + 全年指引上调 3.3% 是可锚定硬 catalyst。微盘属性放大弹性，但 +33 有实质基本面支撑，区别于无锚题材股。下一观察点是 Q3 收入能否延续 +14% 增速 + $417.5M 全年指引兑现，<strong>估值是背景不是输入</strong>，看基本面增速延续度。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">MEC</td>
+    <td class="name">Mayville Eng<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.5B · T</span></td>
+    <td class="num pos">+24%</td>
+    <td class="num pos">+42%</td>
+    <td class="num pos">+73%</td>
+    <td><span class="tag t-er">财报型</span><span class="tag t-map-i">间接映射</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+24%</span>、月内 +42、3M +73——金属成型工程承包商($0.5B)，本周延续 Q1 beat + 上调指引余热 + Datacenter 新项目叙事；<em>非纯题材</em>，有可锚财报。微盘属性放大弹性。<br>
+      <strong>财报/事件</strong>：Q1 2026 EPS -$0.15 vs 共识 -$0.21（<span class="hl">beat 28.6%</span>）、收入 $144.8M YoY +6.8% beat $141.3M，<em>上调全年指引至 $590-620M</em>；但 Adj EBITDA $6.5M(4.5% 利润率)因 Commercial Vehicle 端需求疲弱 + Datacenter & Critical Power 项目启动成本承压——财报是 beat 但盈利质量有压制项。<br>
+      <strong>产业链/业务</strong>：核心业务是金属冲压/成型/焊接代工，下游绑定商用车、建筑、农业、<em>数据中心 & Critical Power</em> 等终端；新增 Datacenter 项目是切入 AI 数据中心电力基建链的 <em>indirect</em> 映射，是 3M +73 的叙事升级点。
+      <span class="ki-note">MEC +24 是<em>Q1 beat + 上调指引 + Datacenter 叙事</em>驱动（财报型 + 间接映射）——EPS beat 28.6% + 全年指引 $590-620M 是硬 catalyst，Datacenter & Critical Power 新项目把它挂上 AI 电力基建链(indirect)。但 Commercial Vehicle 需求疲弱压制 EBITDA、盈利质量有保留。微盘放大弹性，<strong>估值是背景不是输入</strong>，下一观察点是 Datacenter 项目 ramp 能否对冲商用车疲弱。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">CDNL</td>
+    <td class="name">Cardinal Infra<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.8B · T</span></td>
+    <td class="num pos">+17%</td>
+    <td class="num pos">+11%</td>
+    <td class="num pos">+103%</td>
+    <td><span class="tag t-cat">催化</span><span class="tag t-map-d">直接映射</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+17%</span>、<span class="hl">3M +103</span>——美国东南基建总包($0.8B 清单 mcap / 实际近 $2.4B)，本周续涨由 6/2 收购 Piedmont Pipe Construction + 并购整合叙事 + backlog 扩张驱动；3M +103 是并购成长股而非纯妖股博弈。<br>
+      <strong>财报/事件</strong>：Q1 2026 收入 <span class="hl">$167.5M YoY +105%</span>（ALGC $254.7M 收购贡献）、backlog <span class="hl">$524M</span>、全年指引上调至 $675-685M；6/2 完成收购 Piedmont Pipe Construction（并入 Cardinal Civil Contracting 品牌）。Stifel 分析师 Brophy 目标价 <em>$41→$63、维持 Buy</em>。<br>
+      <strong>产业链/业务</strong>：核心业务是美国东南土木基建总包（管道/civil contracting），通过 ALGC/Piedmont 连续并购扩张；$524M backlog 是真实在手订单，对美国东南基建投资链是 <em>direct</em> 映射，增长由并购 + 在手订单兑现双轮驱动。
+      <span class="ki-note">CDNL +17 / 3M +103 是<em>并购整合 + backlog 扩张</em>驱动（催化 并购 + 直接映射 基建链）——ALGC/Piedmont 连续并购 + $524M backlog + Q1 收入 +105% 是真实基本面锚，Stifel 目标价 $41→$63 印证卖方上修。这只更接近<em>并购成长股</em>而非纯妖股，但 $0.8B 清单 mcap + 高弹性仍带小盘博弈属性。下一观察点是并购整合节奏 + backlog 季度兑现，<strong>估值是背景</strong>，看并购增速延续。</span>
+    </td>
+  </tr>
+  <tr data-cap="T">
+    <td class="tk">ELMT</td>
+    <td class="name">Elmet Group △<br><span style="font-family:var(--mono);font-size:9.5px;color:var(--muted)">$0.5B · T</span></td>
+    <td class="num pos">+12%</td>
+    <td class="num pos">+10%</td>
+    <td class="num">na</td>
+    <td><span class="tag t-map-s">情绪映射</span><span class="tag t-map-d">直接映射</span></td>
+    <td><strong>本周边际变化</strong>：1W <span class="hl">+12%</span>、月内 +10、3M <em>na</em>（次新标 △，印证上市未满三个月）——美国唯一垂直整合钨/钼制造商 IPO 次新，本周涨幅是去中国化关键材料叙事 + 次新流动性博弈，无可核实的本周硬 catalyst。<br>
+      <strong>财报/事件</strong>：作为次新标的，缺乏可锚定的本周季报 catalyst，<em>不为 +12 硬编精确数字</em>。叙事锚是政策：中国占全球钨精矿 <span class="hl">~80%</span>，PRC 2025/10 曾重申钨出口限制延至 2026-27、<em>11/10 又暂停一年</em>——出口政策反复是关键材料标的的情绪催化源。<br>
+      <strong>产业链/业务</strong>：核心业务是工程纯钨/纯钼材料与制品，CMC 分部维持<em>去中国化</em>原料供应链、控制从原料到成品全链；下游绑定航空航天/国防/半导体/医疗/核能(裂变+聚变)，是去中国化关键材料链的 <em>direct</em> 受益者。
+      <span class="ki-note">ELMT +12 是<em>关键材料 IPO 次新 + 去中国化叙事</em>驱动（情绪映射 次新 + 直接映射 关键材料链）——3M na 印证刚上市，本周无可核实硬 catalyst、纯叙事 + 次新流动性博弈。业务锚真实（美国唯一垂直整合钨钼厂、下游绑国防/半导体/核能），但作为次新缺季度经营验证。逻辑半政策叙事半博弈，<strong>不用估值否定</strong>，<em>也不为 +12 硬编故事</em>——观察点是首份季报 + PRC 钨出口政策是否重启。</span>
+    </td>
+  </tr>
+</tbody>
+</table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol>
+        <li><strong>真实硬 catalyst</strong>：本组多数有可锚事件——OPTU $2.50 要约 + $500M 增资、BBCP/MEC beat+raise、CDNL $524M backlog 并购，非无锚纯题材。</li>
+        <li><strong>微盘弹性放大</strong>：$0.3-0.8B 微盘 + 低流通盘把财报/事件弹性放大数倍（OPTU 单日 +80、BBCP 报后 +24）。</li>
+        <li><strong>逼空结构</strong>：小流通盘 + 筹码集中构成逼空温床（OPTU 要约溢价 280% 叠加逼空），博弈赔率高。</li>
+        <li><strong>独立 alpha</strong>：全组本周逆大盘 risk-off（SPY -3）上涨，靠各自事件 alpha 而非 beta。</li>
+        <li><strong>CNK 真基本面</strong>：唯一非妖股，5 月创纪录票房是可计量运营数据，与博弈层切开看。</li>
+      </ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol>
+        <li><strong>事件已 price in</strong>：OPTU +66 后要约溢价大幅透支，1M -21 / 3M -27 说明是深跌后事件反弹而非反转，逼空回补耗尽即收敛。</li>
+        <li><strong>盈利质量瑕疵</strong>：MEC 财报 beat 但 EBITDA 受 Commercial Vehicle 疲弱压制、CDNL 增长靠并购非内生。</li>
+        <li><strong>次新流动性陷阱</strong>：ELMT 3M na 上市时间短，无季度经营验证，失去叙事光环后流动性枯竭、波动被微盘放大。</li>
+        <li><strong>无组内对冲</strong>：6 只横跨有线/泵送/金属/基建/钨钼/院线，产业毫无映射，无法当一篮子主题配置。</li>
+        <li><strong>CNK 多空分歧</strong>：Goldman 给 Sell vs JPM Buy，票房 alpha 能否延续到暑期档待验证。</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">情绪总结 · 资金端 vs 基本面 gap</span>
+    <p>本组本质是把<em>互不相干</em>的微盘异动收口一篮子，但本周一个反直觉的结论是：<strong>多数标的有真实硬 catalyst、不是无锚纯题材</strong>——OPTU 是 $2.50 要约 + $500M 增资资本重组、BBCP/MEC 是 beat+raise、CDNL 是 $524M backlog 并购成长。妖股属性集中在<em>微盘 + 低流通盘把事件弹性放大数倍</em>这一层（OPTU 单日 +80 / 周内 +66 即此结构产物），而非"无基本面纯炒概念"。对这些标的，<strong>估值是背景不是输入</strong>——逻辑是筹码 + 逼空 + 事件弹性，不是 PE/PS。真正纯次新博弈的只有 ELMT（3M na、政策叙事 + 流动性）。<span class="hl">CNK</span> 必须从本组切开——它是票房驱动的基本面独立异动、非妖股，与博弈层零映射。本组唯一统一规则：<strong>逐只独立看，拒绝拼一条假主线，且区分"事件锚"与"纯题材"</strong>。</p>
+  </div>
+</section>
+
+
+<section class="sec" id="final-read">
+  <div class="sec-num">§10</div>
+  <h2 class="sec-title">综合判断 · <em>下周观察 + A 股映射指引</em></h2>
+  <div class="sec-sub">本周市场结构 take-away + 下周 catalyst 时间线 + A 股映射要点 + 产业拐点监控信号</div>
+
+  <div class="note-block">
+    <span class="kicker">综合判断 · 本周市场结构</span>
+    <p>本周是 <em>6/5 非农爆表触发的 risk-off 轮动周</em>，一个宏观变量（<span class="hl">+172K vs 共识 80K</span>、AHE +3.4% y/y）拨动利率+美元双开关，把整张表劈成镜像两半：长久期成长（AI 硬件 / 航天 / 量子 / 加密）与美元计价商品（金银 / 比特币 / 铀）全线 derate，价值 / 周期 / 金融 / 防御 / 政府服务逆势独涨——<span class="hl">SPY -3</span> / <span class="hl">QQQ -5</span> 对 <span class="hl">XLE +2</span> / <span class="hl">XLV +2</span> / <span class="hl">XLF +1</span>，11 个 sector 6 涨 5 跌，但 watchlist 42 涨 / 29 跌的"中位数"完全掩盖了这层极端分化结构。核心判断有三：<strong>① AI 硬件 Bull Logic 未破、但进入分化</strong>——MRVL <span class="hl">+29</span> beat+raise、HPE <span class="hl">+14</span> rev +40% 两个逆板块 β 的真财报 alpha 证明定制硅 / AI 整机产业基础未坏，资金没有无差别抛售、而是精确切割"有 beat+raise 锚"与"无个股事件"；真正的变量是 AVGO <span class="hl">-14</span> 把枢纽从"持续超预期上修"重置为"符合但不再上修"，叠加利率成为板块新的总约束，<em>分化而非破裂</em>是本周 AI 半导体的准确读数。<strong>② 航天 / 量子 / 加密是资金面拐点、不是基本面破裂</strong>——13 只航天整齐全杀（SpaceX $75B IPO 抽水 + New Glenn 爆炸 + 利率），但无一笔 backlog 被取消、多数 3M 仍正；MSTR 首次卖币击穿"永不卖"叙事是资本结构事件、不是产业证伪——这一段杀的是杠杆与久期，不是订单。<strong>③ 价值轮动是 regime 信号、储能是逆周期 alpha</strong>——工业 / 货运 / 政府服务全线上涨证明这是利率高位常态化驱动的资金再配置；FLNC <span class="hl">+21</span>（NVIDIA 点名唯一储能伙伴）则是产业刚需压过利率冲击的独立证据。本周真信号不在指数涨跌，而在<em>同一条链里资金对"有产业锚 vs 纯久期/杠杆"的精确切割</em>，下周关键看利率路径是否坐实这次轮动。</p>
+  </div>
+
+  <p style="margin-top:18px"><span class="kicker">下周（W/B 2026-06-08）关键 catalyst 时间线</span></p>
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text" style="width:12%">日期</th>
+      <th data-type="text" style="width:11%">Ticker / 事件</th>
+      <th data-type="text" style="width:29%">事件</th>
+      <th data-type="text" style="width:20%">一致预期</th>
+      <th data-type="text" style="width:28%">关注点</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="mono">6/10 周三</td>
+        <td class="tk">ORCL</td>
+        <td>Oracle FQ4'26 财报（盘后），OCI 云基建 + RPO 是 AI capex 兑现核心读数</td>
+        <td>EPS 约 <span class="hl">$1.89</span></td>
+        <td>OCI 增速 + RPO/backlog 增量——AI infra capex 在云端兑现的下一硬验证，与 AVGO 预期重置形成对照</td>
+      </tr>
+      <tr>
+        <td class="mono">6/10 周三</td>
+        <td>CPI（5 月）</td>
+        <td>5 月 CPI（8:30am），非农爆表后第一份通胀读数，FOMC 前最关键数据</td>
+        <td>核心 CPI 同比维持高位</td>
+        <td>若通胀同步走热，坐实 Warsh 鹰派路径、强化加息预期 → 长久期成长 derate 延续、价值轮动加固</td>
+      </tr>
+      <tr>
+        <td class="mono">6/10 周三</td>
+        <td class="tk">CHWY</td>
+        <td>Chewy 季度财报（盘前），消费韧性 + 必需消费电商读数</td>
+        <td>活跃客户 + EBITDA 利润率</td>
+        <td>非农隐含的就业/消费韧性能否在必需消费端验证——价值轮动的需求面佐证</td>
+      </tr>
+      <tr>
+        <td class="mono">6/11 周四</td>
+        <td class="tk">ADBE</td>
+        <td>Adobe Q2 FY26 财报（盘后），创意/文档 SaaS 的 AI（Firefly/GenAI）货币化验证</td>
+        <td>Digital Media ARR 净新增 + 指引</td>
+        <td>企业 AI 支出能否流入 SaaS 营收——本周软件"真增长留、估值故事走"二分能否在平台型龙头续证</td>
+      </tr>
+      <tr>
+        <td class="mono">6/11 周四</td>
+        <td>PPI（5 月）</td>
+        <td>5 月 PPI（CPI 次日），生产端通胀，与 CPI 合看锚定 FOMC 利率路径</td>
+        <td>核心 PPI 环比放缓</td>
+        <td>与 CPI 同向走热则利率脊椎进一步抬升、risk-off 轮动延续</td>
+      </tr>
+      <tr>
+        <td class="mono">6/16-17</td>
+        <td>FOMC</td>
+        <td><em>Warsh 任内首次决议</em>——本周脊椎的总开关，决定整段 risk-off 轮动是延续还是逆转</td>
+        <td>年内"加息"概率 <span class="hl">~70%</span></td>
+        <td>鹰派 confirm → AI/航天/加密 derate 延续 + 价值/工业相对强势加固；意外转鸽 → 资金快速回流成长、轮动 thesis 减弱</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">A 股映射指引</span>
+    <p>本周美股四条主线对 A 股有明确的 Direct / Indirect / Sentiment 映射切口：<strong>① AI 半导体分化</strong>——MRVL/AVGO 定制硅 + AAOI 光互连的"AI networking / 光模块"链对应 A 股光模块、CPO、交换芯片环节，本周美股是"定制硅 alpha vs 广义半导体 derate"的精确切割，映射时须同样区分有 hyperscaler 订单锚的 Direct 环节与纯题材 Sentiment 标的。<strong>② AI 电力 / 储能</strong>——FLNC 被 NVIDIA 点名唯一电池储能伙伴、电池时长标准从 1 小时拉到 2-3 小时，对应 A 股储能电池 / PCS / 温控的数据中心电力链 Direct 受益。<strong>③ 商业航天去杠杆</strong>——美股是资金面踩踏，A 股卫星 / 商业航天概念须区分有真实合同的 Direct 标的与纯概念 Sentiment 标的，映射时不照搬美股跌幅。<strong>④ 价值 / 周期轮动</strong>——美股利率高位驱动的工业 / 货运 / 金融轮动是 regime 信号，A 股映射须独立判断本地利率与政策环境，不机械对标。<em>以上仅为映射切口提示，Direct / Indirect / Sentiment 三类完整拆解与 ticker 验证详见独立 A 股映射工作流，不在本周报范围内展开。</em></p>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">监控信号 · 产业拐点观察变量</span>
+    <ol>
+      <li><strong>AVGO $100B AI 目标的卖方一致预期演变</strong>：核心看后续季度 AVGO 是否上调 / 维持 $100B FY27 AI 收入目标，及卖方对该目标的一致预期是维持还是下修。维持守住 = AI 半导体分化属健康轮动出清、定制硅 thesis 强化；卖方陆续下修 = derate 从枢纽向定制硅下游扩散、分化恶化。这是判断本周分化是轮动还是 thesis 转向的唯一可靠产业依据，优先级高于任何标的的单周价格行为。</li>
+      <li><strong>利率路径（FOMC 后加息预期变化）</strong>：6/16-17 FOMC 叠加 6/10 CPI / 6/11 PPI 决定年内 ~70% 加息概率是延续、抬升还是降温。利率续升 = 长久期成长（AI/航天/加密）derate 延长、价值/工业相对强势 thesis 强化；加息预期降温 = risk-off 轮动 thesis 减弱、成长盘久期溢价修复。这是本周所有主线方向的上游总约束。</li>
+      <li><strong>SpaceX IPO 定价 / 路演节奏与航天 pure-play 资金回流</strong>：$75B 募资、$1.77–1.8T 估值的发行推进密度决定二级"替代敞口"标的的抽水持续性。路演密集 / 估值坐实 = 航天 pure-play（RKLB/ASTS/PL）抽水压力延续、去杠杆 thesis 强化；IPO 推迟 / 缩量 = 抽水缓解、最受伤高 beta 资金回流弹性最大。叠加 RKLB Neutron 首飞 / ASTS BlueBird 发射如期兑现，是"基本面没坏、只是资金面在走"的产业反证。</li>
+      <li><strong>BTC 能否守住关键价位 + MSTR 折溢价拐点</strong>：BTC 能否守住 <span class="hl">$64.7K</span> 一线、及 MSTR 的 mNAV 是否从溢价转折价。守住 + mNAV 维持溢价 = crypto 叙事修复、杠杆代理 thesis 维持；BTC 续跌 / mNAV 转折价 = digital asset treasury 模式被重定价、加密去杠杆 thesis 强化。须留意 Saylor 卖币是否从"一次性付优先股息"演变为常态化净卖出——后者使"永不卖"叙事彻底失效。</li>
+      <li><strong>价值轮动持续性（是否只是 risk-off 临时避险）</strong>：工业 / 货运 / 金融的相对强势是否延续、及是否获产业数据背书（LTL tonnage 见底、Class 8 卡车 net orders 回升、IESC 数据中心 backlog 转收入）。轮动+产业数据同向 = regime shift 驱动的资金再配置 thesis 强化、从"被动轮动"升级为"景气拐点"；纯轮动而无产业数据接力 = 仅为 risk-off 临时避险、FOMC 转鸽时纯轮动标的最先回吐。</li>
+    </ol>
+  </div>
+</section>
+
+
+
+<!-- ============================================================
+     页脚（永久 footer、随期次更新右侧日期 + 统计）
+============================================================ -->
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  US EQUITY · P80-BY-TIER MOMENTUM THEME MAP · PER-STOCK LOGIC EDITION · 2026-06-05 · 71 STOCKS / 8 THEMES / 71 INDIVIDUAL LOGIC
+</div>
+
+<!-- ============================================================
+     视图切换 JS（4 档独立筛选、点击 tab 切换 body[data-view]）
+============================================================ -->
+<script>
+// 视图切换
+document.querySelectorAll('.vtab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.body.setAttribute('data-view', btn.dataset.view);
+  });
+});
+
+// 表格列点击排序（所有 table.dt 通用、thead th[data-type] 触发）
+document.querySelectorAll('table.dt').forEach(table => {
+  const ths = table.querySelectorAll('thead th');
+  ths.forEach((th, colIdx) => {
+    if (!th.dataset.type) return;
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const type = th.dataset.type;
+      // 排序方向：已 asc → desc；已 desc → asc；首次点击：num 列默认 desc（大→小最常用）、text 列默认 asc
+      let dir;
+      if (th.dataset.sortDir === 'asc') dir = 'desc';
+      else if (th.dataset.sortDir === 'desc') dir = 'asc';
+      else dir = (type === 'num') ? 'desc' : 'asc';
+      // 清掉同表其它列的箭头
+      ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
+      th.dataset.sortDir = dir;
+      rows.sort((a, b) => {
+        const aCell = a.children[colIdx];
+        const bCell = b.children[colIdx];
+        const aText = (aCell ? aCell.textContent : '').trim();
+        const bText = (bCell ? bCell.textContent : '').trim();
+        let cmp;
+        if (type === 'num') {
+          const aNum = parseFloat(aText.replace(/[^\-0-9.]/g, ''));
+          const bNum = parseFloat(bText.replace(/[^\-0-9.]/g, ''));
+          const aV = isNaN(aNum) ? -Infinity : aNum;
+          const bV = isNaN(bNum) ? -Infinity : bNum;
+          cmp = aV - bV;
+        } else {
+          cmp = aText.localeCompare(bText, 'zh-CN');
+        }
+        return dir === 'asc' ? cmp : -cmp;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+
+// 左侧固定目录 TOC（自动扫描 section[id] 生成 + scroll-spy 高亮当前章节）
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  if(!secs.length) return;
+  var nav = document.createElement('nav');
+  nav.id = 'toc-nav';
+  var head = document.createElement('div');
+  head.className = 'toc-head';
+  head.innerHTML = '<div class="t1">Contents<span id="toc-collapse" title="收起目录">&laquo;</span></div><div class="t2">本期主线导航</div>';
+  nav.appendChild(head);
+  // 特殊 section 的短标题映射（按 id）
+  var TOC_OVERRIDE = {
+    'exec-summary': 'Summary',
+    'final-read': 'Final Read',
+  };
+  secs.forEach(function(sec){
+    var numEl = sec.querySelector('.sec-num');
+    var titEl = sec.querySelector('.sec-title');
+    // 编号只取 §XX 部分（去掉 "· 主线 X" / "· Executive Summary" 等后缀）
+    var numRaw = numEl ? numEl.textContent.trim() : '';
+    var numMatch = numRaw.match(/§\d+/);
+    var num = numMatch ? numMatch[0] : numRaw;
+    // 标题：特殊节用 override、其他取 sec-title 按 ·/+/—/-/： 分隔的第 1 段
+    var tit;
+    if(TOC_OVERRIDE[sec.id]){
+      tit = TOC_OVERRIDE[sec.id];
+    } else {
+      var titRaw = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+      tit = titRaw.split(/[·•—\-：:|+]/)[0].trim();
+      if(!tit || tit.length < 2) tit = titRaw;
+    }
+    var a = document.createElement('a');
+    a.href = '#' + sec.id;
+    a.innerHTML = '<span class="n">'+num+'</span><span class="t">'+tit+'</span>';
+    nav.appendChild(a);
+  });
+  document.body.insertBefore(nav, document.body.firstChild);
+
+  // 收起 / 展开 目录
+  var reopen = document.createElement('div');
+  reopen.id = 'toc-reopen';
+  reopen.title = '展开目录';
+  reopen.textContent = '目录';
+  document.body.appendChild(reopen);
+  function setCollapsed(v){
+    document.body.classList.toggle('toc-collapsed', v);
+    try{ localStorage.setItem('wkTocCollapsed', v ? '1' : '0'); }catch(e){}
+  }
+  var cbtn = nav.querySelector('#toc-collapse');
+  if(cbtn) cbtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); setCollapsed(true); });
+  reopen.addEventListener('click', function(){ setCollapsed(false); });
+  // 还原上次状态（无动画，避免加载闪烁）
+  var saved; try{ saved = localStorage.getItem('wkTocCollapsed'); }catch(e){}
+  if(saved === '1'){
+    document.body.classList.add('toc-no-anim','toc-collapsed');
+    requestAnimationFrame(function(){ document.body.classList.remove('toc-no-anim'); });
+  }
+
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  // scroll-spy：当前章节 = 顶部已越过参考线(120px)的最后一个 section（对手动滚动与锚点跳转都稳定）
+  var curId = null;
+  function setActive(id){
+    if(id === curId) return;
+    curId = id;
+    links.forEach(function(l){ l.classList.remove('active'); });
+    var a = map[id];
+    if(!a) return;
+    a.classList.add('active');
+    if(a.offsetTop < nav.scrollTop || a.offsetTop > nav.scrollTop + nav.clientHeight - 40){
+      nav.scrollTop = a.offsetTop - nav.clientHeight/2;
+    }
+  }
+  function onScroll(){
+    var line = 120, current = secs[0].id;
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top <= line) current = secs[i].id;
+      else break;
+    }
+    // 触底时强制点亮最后一节
+    if(window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = secs[secs.length-1].id;
+    setActive(current);
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(function(){ onScroll(); ticking = false; }); }
+  }, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
