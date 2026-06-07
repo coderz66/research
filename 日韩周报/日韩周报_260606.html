@@ -271,18 +271,22 @@ body[data-view="jp"] .scard:not([data-country="jp"]){display:none}
 <script>
 document.addEventListener('click',function(e){
   var btn=e.target.closest('.scard-sort button'); if(!btn) return;
-  var bar=btn.closest('.scard-sort');
-  var wrap=bar.parentElement.querySelector('.scards'); if(!wrap) return;
   var key=btn.dataset.k;
-  var dir=(bar.dataset.k===key && bar.dataset.dir==='desc')?'asc':'desc';
-  bar.dataset.k=key; bar.dataset.dir=dir;
-  bar.querySelectorAll('button').forEach(function(b){
-    b.classList.toggle('active', b===btn);
-    b.textContent=b.textContent.replace(/[ \u25BE\u25B4]+$/,'')+(b===btn?(dir==='desc'?' \u25BE':' \u25B4'):'');
+  var prevK=document.body.dataset.sortK, prevDir=document.body.dataset.sortDir;
+  var dir=(prevK===key && prevDir==='desc')?'asc':'desc';
+  document.body.dataset.sortK=key; document.body.dataset.sortDir=dir;
+  document.querySelectorAll('.scard-sort').forEach(function(bar){
+   bar.querySelectorAll('button').forEach(function(b){
+    var on=b.dataset.k===key;
+    b.classList.toggle('active', on);
+    b.textContent=b.textContent.replace(/[ \u25BE\u25B4]+$/,'')+(on?(dir==='desc'?' \u25BE':' \u25B4'):'');
+   });
   });
-  var cards=Array.prototype.slice.call(wrap.querySelectorAll('.scard'));
-  cards.sort(function(a,b){var av=parseFloat(a.dataset[key]);var bv=parseFloat(b.dataset[key]);if(isNaN(av))av=-1e9;if(isNaN(bv))bv=-1e9;return dir==='desc'?bv-av:av-bv;});
-  cards.forEach(function(c){wrap.appendChild(c);});
+  document.querySelectorAll('.scards').forEach(function(wrap){
+   var cards=Array.prototype.slice.call(wrap.querySelectorAll('.scard'));
+   cards.sort(function(a,b){var av=parseFloat(a.dataset[key]);var bv=parseFloat(b.dataset[key]);if(isNaN(av))av=-1e9;if(isNaN(bv))bv=-1e9;return dir==='desc'?bv-av:av-bv;});
+   cards.forEach(function(c){wrap.appendChild(c);});
+  });
 });
 </script>
 </head>
