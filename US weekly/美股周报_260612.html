@@ -45,12 +45,12 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
-body{padding:0 56px 80px;max-width:1700px;margin:0 auto}  /* 260613 正文宽度 1600→1700 (+100) */
+body{padding:0 56px 52px;max-width:1700px;margin:0 auto}  /* 260613 正文宽 1700 · compact 页脚 80→52 */
 em{font-style:italic;color:var(--accent)}
 .num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
 
 /* ========== MASTHEAD (navy/amber、参考 A股映射_260516) ========== */
-.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead{background:var(--navy);color:#fff;padding:42px 60px 32px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:24px}  /* 260613 compact padding 56·44→42·32 / margin-bottom 36→24 */
 .masthead::after{content:'US MOMENTUM';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
 .h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
 .h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
@@ -63,23 +63,23 @@ em{font-style:italic;color:var(--accent)}
 .pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
 
 /* ========== SECTIONS ========== */
-.sec{margin:48px 0 0}
-.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
-.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.sec{margin:30px 0 0}  /* 260613 compact · 章节间距 48→30 */
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:4px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:10px}  /* 260613 compact */
 .sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
-.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:16px;max-width:none}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:10px;max-width:none}  /* 260613 compact 16→10 */
 
 .kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
 
-p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p{margin-bottom:7px;color:var(--ink-soft);max-width:none}  /* 260613 compact 10→7 */
 p strong{color:var(--ink);font-weight:600}
 
 /* ========== DATA TABLE ========== */
-table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.45}
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:10px 0;font-size:12.5px;line-height:1.4}  /* 260613 compact margin 14→10 · lh 1.45→1.4 */
 table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
 table.dt thead th[data-type="num"],table.dt tbody td.num{text-align:center;font-family:var(--mono);font-feature-settings:"tnum" 1}
 table.dt tbody td.num{font-size:11px}  /* 260613 涨跌幅数据格小一号 (12.5→11) */
-table.dt tbody td{padding:7px 9px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody td{padding:4px 9px;border-bottom:1px solid var(--rule-soft);vertical-align:top}  /* 260613 compact 行高 7→4（~120 行影响最大） */
 table.dt tbody tr:hover{background:var(--rule-soft)}
 table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
 table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px;line-height:1.3}
@@ -110,15 +110,19 @@ section[id^="theme-"] table.dt th:nth-child(7){width:77.3%} /* 关键产业事�
 .hl{background:var(--highlight);padding:0 2px}
 
 /* ========== ki-note (个股逻辑解读) ========== */
-.ki-note{display:block;margin-top:8px;padding:8px 11px 7px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}
+.ki-note{display:block;margin-top:5px;padding:6px 11px 5px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}  /* 260613 逻辑卡片上下间距收紧 margin8→5/padding8·7→6·5 */
 .ki-note::before{content:"逻辑 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-right:2px}
 .ki-note em{font-style:normal;font-weight:600;color:var(--ink);background:#FFF1B8;padding:0 3px;border-radius:2px}
 
 /* ========== note-block (牛熊闸门 / 分层判断 / 出场信号) ========== */
-.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:9px 14px;margin:10px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}  /* 260613 compact padding 11→9 / margin 14→10 / lh 1.55→1.5 */
 .note-block .kicker{display:block;margin-bottom:4px}
 .note-block strong{color:var(--ink)}
-#exec-summary .note-block{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
+#exec-summary .note-block{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A;margin:9px 0}  /* 260613 §3 五大信号等 exec 卡片上下间距 14→9 收紧 */
+/* §3「本周5个最重要信号·深度归因」卡片再 compact（260613 · :has(>.kicker) 精确命中含内层 kicker 的信号卡，不碰 §0.5 宏观块 / §1 take-away——它们的 kicker 在 note-block 外） */
+#exec-summary .note-block:has(> .kicker){margin:6px 0;padding:7px 13px;line-height:1.45}
+#exec-summary .note-block:has(> .kicker) > .kicker{margin-bottom:3px}
+#exec-summary .note-block:has(> .kicker) > p{margin-bottom:0}
 /* 牛熊闸门统一琥珀渐变（260530：所有 theme 的 Bull/Mixed/Bear Logic 闸门加 class="note-block gate"）*/
 .note-block.gate{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
 
@@ -132,7 +136,7 @@ section[id^="theme-"] table.dt th:nth-child(7){width:77.3%} /* 关键产业事�
 .theme-meta span.v{color:var(--ink);font-weight:600;margin-right:14px}
 
 /* ========== Bull/Bear cards 并列 ========== */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}  /* 260613 compact gap 14→12 / margin 14→10 */
 .card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
 .card.bull{border-left-color:var(--bull)}
 .card.bear{border-left-color:var(--bear)}
@@ -140,9 +144,17 @@ section[id^="theme-"] table.dt th:nth-child(7){width:77.3%} /* 关键产业事�
 .card-title em{color:var(--accent)}
 .card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
 .card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-.card-body ol li{margin-bottom:5px}
+.card-body ol{font-size:11.5px;line-height:1.45}  /* 260613 Bull/Bear 卡片内容字体小一号 + 行距收紧（FOCUS/重要公司卡片用 <p> 不受影响） */
+.card-body ol li{margin-bottom:3px}  /* 260613 段间距 5→3 */
 .card-body strong{color:var(--ink)}
 .card-body p{margin:0 0 7px}
+
+/* ========== ★ FOCUS(#focus) + ★ 重要公司(#important) 卡片紧凑（260613 · 二次再 compact · scope 仅这两节、不影响主线 Bull-Bear） ========== */
+#focus .cards,#important .cards{row-gap:8px}              /* 卡片上下间距 →8（列间距 12 由 .cards 全局 compact 提供） */
+#focus .card,#important .card{padding:8px 14px}           /* 卡片内 padding →8·14 */
+#focus .card-body,#important .card-body{line-height:1.42} /* 行间距 →1.42 */
+#focus .card-body p,#important .card-body p{margin:0 0 3px}  /* 段间距 →3 */
+#focus .card-meta,#important .card-meta{margin-bottom:5px}   /* meta 与正文间距 8→5 */
 
 /* ========== 子链小标题 sub-h（★ 重要公司 二级深读 按子链分组用） ========== */
 .sub-h{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);margin:24px 0 8px;letter-spacing:-.005em}
@@ -196,7 +208,7 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
 .beta-strip .footer strong{color:var(--ink)}
 
 /* ========== Theme Map strength bar ========== */
-.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-strength{display:inline-block;min-width:54px;white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.04em}  /* 260613 修复：固定 width:54px 致「强·反向」「中弱·反向」等长标签在盒内换两行+bar 错位 → min-width+nowrap 永不换行 */
 .theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
 
 /* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
@@ -354,9 +366,9 @@ body.toc-collapsed #toc-reopen{display:block}
     <thead><tr>
       <th data-type="num" style="width:4%">#</th>
       <th data-type="text" style="width:16.5%">主线</th>
-      <th data-type="text" style="width:9%">强度</th>
+      <th data-type="text" style="width:12%">强度</th>
       <th data-type="text" style="width:11%">本周触发</th>
-      <th data-type="text" style="width:17%">代表标的</th>
+      <th data-type="text" style="width:14%">代表标的</th>
       <th data-type="num" style="width:11%">1W 区间</th>
       <th data-type="text" style="width:31.5%">β 校准 + 下周 catalyst</th>
     </tr></thead>
