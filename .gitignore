@@ -1,0 +1,73 @@
+# ─── API credentials / private data sources ────────────────────────
+# K2Database key（live read-only token, 2026-08-10 到期）严禁提交
+# 即使 K2DB 文件不在 research 仓库下，加防御规则防止误复制后被推送
+*k2database*
+*K2DB*
+k2_live_*
+数据/
+K2DB/
+
+# FMP API key（明文存在 fmp_config.py 里）
+FMP/
+**/fmp_config.py
+*fmp_key*
+
+# 任何包含密钥模式的文件
+*.key
+*credentials*
+*secret*
+*.env
+.env.*
+*_API_KEY*
+*apikey*
+
+# ─── Python ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ─── 工具产物 / 本地缓存 ────────────────────────────────────────────
+*.log
+*.tmp
+.cache/
+.DS_Store
+Thumbs.db
+
+# ─── 个人草稿 / 不发布的研究 ────────────────────────────────────────
+_draft/
+_scratch/
+*.draft.html
+
+# ─── 美股日报 / 周报 / A 股映射 / A 股周报 fan-out 中转 ────────────────
+# v4 fragment-per-agent 工作流的中间产物，不入库
+US Daily/_fragments/
+US weekly/_fragments/
+A 股映射/_fragments/
+A股周报/_fragments/
+
+# ─── 只 push HTML（用户 260617 定铁律）────────────────────────────────
+# 公网 research repo 只发渲染好的报告 .html + index.html；
+# 脚本/数据/SOP文档/中转产物一律不上传。发布只 git add 具体 .html，绝不 git add -A。
+*.py
+*.pyc
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.json
+*.md
+*.txt
+*.bak
+*.ipynb
+*.zip
+templates/
+# 例外：index 首页依赖的 favicon 允许（站点图标，非数据/脚本）
+!favicon.svg
+
+# 内部模板/工具 html——不是对外报告，禁入仓（防被"只html白名单"放行后又被清理）
+US Daily/template_*.html
+**/template_*.html
+US Daily/_*.html
