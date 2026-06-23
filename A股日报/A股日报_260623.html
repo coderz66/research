@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>A股日报 · 2026-06-23 · 韭研主线梳理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F2ED; --paper:#FFFFFF; --ink:#1B2635; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#B8870A; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --up:#C0392B; --dn:#1F6B4A;
+  --navy:#1B2635; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Karla',-apple-system,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 44px 70px;max-width:1560px;margin:0 auto}
+em{font-style:italic;color:var(--accent)}
+.masthead{background:var(--navy);color:#fff;padding:50px 56px 36px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:30px}
+.masthead::after{content:'A-SHARE DAILY';position:absolute;bottom:-26px;right:-12px;font-family:'Cormorant Garamond',serif;font-size:140px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.mh-in{max-width:1560px;margin:0 auto;position:relative;z-index:1}
+.h-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber-light);text-transform:uppercase;margin-bottom:14px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;line-height:1.07;margin-bottom:15px;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic}
+.h-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,0.62);max-width:1080px;line-height:1.6;margin-bottom:18px}
+.h-desc strong{color:rgba(255,255,255,0.92);font-weight:600}
+.h-pills{display:flex;gap:9px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:10.5px;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.skel{background:var(--navy);color:#cfd9e6;font-family:var(--mono);font-size:11.5px;line-height:1.85;padding:16px 22px;border-radius:8px;margin:0 0 6px;white-space:pre;overflow-x:auto}
+.skel b{color:var(--amber-light)}
+.sec{margin:38px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent);font-weight:600;margin-bottom:5px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:24px;color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:4px}
+.sec-title em{font-style:italic;color:var(--accent)}
+.theme-h{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--ink);margin:20px 0 4px;padding-left:10px;border-left:3px solid var(--amber)}
+.sub-h{font-family:var(--sans);font-weight:700;font-size:12.5px;color:var(--navy);margin:13px 0 3px;letter-spacing:.02em}
+.sub-h::before{content:'▸ ';color:var(--accent)}
+.sub-h .q{font-weight:400;color:var(--muted);font-size:11px}
+.lognote{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:7px 12px;margin:3px 0 5px;font-size:12px;color:var(--ink-soft);line-height:1.5;border-radius:0 4px 4px 0}
+.lognote .kicker{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;font-weight:600;margin-right:6px}
+.lognote strong{color:var(--ink);font-weight:600}
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:3px 0 6px;font-size:12px;line-height:1.45;table-layout:fixed}
+table.dt thead th{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--accent);text-transform:uppercase;text-align:left;padding:6px 8px;border-bottom:1px solid var(--ink);background:var(--rule-soft);font-weight:600;white-space:nowrap}
+table.dt thead th.rh{text-align:center}
+table.dt tbody td{padding:6px 8px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+td.name{font-weight:700;color:var(--ink);line-height:1.25;word-break:break-all}
+td.tk{font-family:var(--mono);font-size:10px;color:var(--muted)}
+td.rr{font-family:var(--mono);font-size:11px;text-align:center;font-weight:600;color:var(--muted)}
+td.rr.up{color:var(--up)}
+td.rr.dn{color:var(--dn)}
+
+table.dt.ov tbody td{font-size:11.5px;line-height:1.5}
+.dt.ov .ov-n{font-weight:600;color:var(--ink);font-size:12px}
+.dt.ov .ov-sec{font-family:var(--mono);font-size:9px;font-weight:700;margin-right:2px}
+.dt.ov .ov-s{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);white-space:nowrap}
+.dt.ov .ov-l{color:var(--ink-soft);font-size:11px;line-height:1.5}
+
+td.logic{color:var(--ink-soft);line-height:1.5}
+b.ct{color:var(--navy);font-weight:700}
+b.ct::after{content:' — ';color:var(--muted);font-weight:400}
+td.logic strong{color:var(--up);font-weight:600}
+.lead td.name,td.name.lead{color:var(--accent)}
+col.cn{width:11.5%}col.cc{width:5%}col.cr{width:4.2%}col.cl{width:66.9%}
+table.cal td:first-child{font-family:var(--mono);white-space:nowrap;font-weight:600;color:var(--ink)}
+.mkt{font-family:var(--mono);font-size:8.5px;padding:1px 4px;border-radius:3px;background:#e7e0d0;color:#7a6a3c}
+.foot{margin-top:36px;padding-top:15px;border-top:1px solid var(--rule);font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7}
+.tagrow{margin:3px 0 10px;font-size:11px;color:var(--muted)}
+.why{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--navy);padding:12px 16px;margin:8px 0 6px;border-radius:0 0 5px 5px;font-size:12.5px;color:var(--ink-soft);line-height:1.62}
+.why .wk{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.why strong{color:var(--ink);font-weight:600}
+.why .em{color:var(--accent);font-style:italic;font-weight:600}
+th.rh{cursor:pointer;user-select:none}
+th.rh:hover{color:var(--ink);background:#e8e0cd}
+th.rh.sx::after{content:' ▾';color:var(--accent)}
+/* 全局工具条 */
+.toolbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:var(--navy);color:#fff;padding:9px 16px;border-radius:6px;margin:0 0 14px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.toolbar .tl{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--amber-light);text-transform:uppercase;margin-right:2px}
+.toolbar button{font-family:var(--mono);font-size:11px;padding:4px 11px;border:1px solid rgba(212,160,23,.45);background:rgba(255,255,255,.05);color:#fff;border-radius:5px;cursor:pointer}
+.toolbar button:hover{background:rgba(212,160,23,.25)}
+.toolbar button.on{background:var(--amber);color:var(--navy);font-weight:700;border-color:var(--amber)}
+.toolbar .sep{width:1px;height:18px;background:rgba(255,255,255,.2);margin:0 5px}
+.toolbar .tn{font-size:11px;color:rgba(255,255,255,.65);margin-left:auto;font-family:var(--mono)}
+.lbtag{font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;background:var(--up);border-radius:3px;padding:0 4px;margin-left:5px}
+.lbtag.fb{background:#B8870A}
+.jgtag{font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;background:var(--navy);border-radius:3px;padding:0 4px;margin-left:5px}
+.ptag{font-family:var(--mono);font-size:9px;font-weight:700;border-radius:3px;padding:0 4px;margin-left:5px}
+.ptag.p3{color:#fff;background:var(--dn)}
+.ptag.p2{color:#7a5b00;background:#f0d98a}
+.ptag.p1{color:#777;background:#e3ddd0}
+
+
+/* ========== 左侧固定目录 TOC（参考日韩周报·navy 侧栏+正文右移+收起记忆） ========== */
+html{scroll-behavior:smooth}
+#toc-nav{position:fixed;top:0;left:0;bottom:0;width:212px;z-index:1000;background:var(--navy);border-right:3px solid var(--amber);overflow-y:auto;padding:46px 0 30px;font-family:var(--mono);-webkit-font-smoothing:antialiased}
+#toc-nav::-webkit-scrollbar{width:6px}
+#toc-nav::-webkit-scrollbar-thumb{background:rgba(212,160,23,.35);border-radius:3px}
+#toc-nav .toc-head{position:relative;padding:4px 18px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px}
+#toc-nav .toc-head .t1{font-size:12.5px;letter-spacing:.2em;color:var(--amber-light);text-transform:uppercase;font-weight:600}
+#toc-nav .toc-head .t2{font-size:10.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.05em}
+#toc-nav a{display:flex;gap:8px;align-items:baseline;padding:6px 14px 6px 18px;text-decoration:none;border-left:2px solid transparent;line-height:1.3}
+#toc-nav a .n{font-size:11px;color:var(--amber);font-weight:600;min-width:30px;letter-spacing:.02em;flex-shrink:0}
+#toc-nav a .t{font-size:12px;color:rgba(255,255,255,.72);font-weight:500}
+#toc-nav a:hover{background:rgba(255,255,255,.05)}
+#toc-nav a:hover .t{color:#fff}
+#toc-nav a.active{background:rgba(184,135,10,.16);border-left-color:var(--amber)}
+#toc-nav a.active .t{color:#fff;font-weight:600}
+#toc-nav a.active .n{color:var(--amber-light)}
+#toc-nav a.lvl1 .t{font-weight:600}
+#toc-nav a.sub{padding:3px 10px 3px 30px;line-height:1.25}
+#toc-nav a.sub .t{font-size:10.5px;color:rgba(255,255,255,.5);font-weight:500}
+#toc-nav a.sub:hover{background:rgba(255,255,255,.04)}
+#toc-nav a.sub:hover .t{color:#fff}
+#toc-nav a.sub.active{background:rgba(184,135,10,.10);border-left-color:var(--amber-light)}
+#toc-nav a.sub.active .t{color:var(--amber-light);font-weight:600}
+#toc-nav a.lvl1.inpath .t{color:#fff}
+.theme-h{scroll-margin-top:14px}
+
+body{margin-left:212px}
+.masthead{width:calc(100vw - 212px);margin-left:-44px}
+section.sec{scroll-margin-top:18px}
+#toc-nav{transition:transform .26s ease}
+body{transition:margin-left .26s ease}
+.masthead{transition:width .26s ease,margin-left .26s ease}
+#toc-collapse{position:absolute;top:-1px;right:14px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(212,160,23,.45);border-radius:5px;color:var(--amber-light);font-size:14px;line-height:1;cursor:pointer;user-select:none}
+#toc-collapse:hover{background:rgba(184,135,10,.25);color:#fff}
+body.toc-collapsed #toc-nav{transform:translateX(-100%)}
+body.toc-collapsed{margin-left:auto}
+body.toc-collapsed .masthead{width:100vw;margin-left:calc(-50vw + 50%)}
+#toc-reopen{display:none;position:fixed;left:0;top:92px;z-index:1001;background:var(--navy);color:var(--amber-light);border:1px solid var(--amber);border-left:none;border-radius:0 8px 8px 0;padding:13px 6px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.16em;writing-mode:vertical-rl;text-orientation:upright;box-shadow:2px 2px 10px rgba(0,0,0,.28)}
+#toc-reopen:hover{background:#2a3a4f;color:#fff}
+body.toc-collapsed #toc-reopen{display:block}
+.toc-no-anim #toc-nav,.toc-no-anim.toc-collapsed,.toc-no-anim .masthead{transition:none!important}
+@media (max-width:980px){#toc-nav{display:none}#toc-reopen{display:none!important}body{margin-left:auto}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}}
+@media print{#toc-nav{display:none}#toc-reopen{display:none!important}body{margin-left:auto}}
+</style>
+<style>.dt thead th.so{cursor:pointer;user-select:none}.dt thead th.so:hover{color:var(--ink);background:#e8e0cd}.dt thead th .ar{font-size:8px;margin-left:3px;color:var(--amber);opacity:.9}</style>
+</head>
+<body>
+<nav id="toc-nav">
+  <div class="toc-head"><div class="t1">A股日报</div><div class="t2">2026-06-23 · 韭研主线</div>
+    <span id="toc-collapse" title="收起">‹</span></div>
+  <a href="#howto" class="lvl1"><span class="n">读法</span><span class="t">排序逻辑</span></a>
+  <a href="#bg" class="lvl1"><span class="n">§00</span><span class="t">市场背景</span></a>
+  <a href="#liquid" class="lvl1"><span class="n">①</span><span class="t">液冷</span></a><a href="#storage" class="lvl1"><span class="n">②</span><span class="t">存储</span></a><a href="#optic" class="lvl1"><span class="n">③</span><span class="t">光通信 / CPO / 磷化铟</span></a><a href="#metal" class="lvl1"><span class="n">④</span><span class="t">稀有 / 算力金属</span></a><a href="#pcb" class="lvl1"><span class="n">⑤</span><span class="t">PCB / CCL / 上游材料</span></a><a href="#passive" class="lvl1"><span class="n">⑥</span><span class="t">被动元件</span></a><a href="#diamond" class="lvl1"><span class="n">⑦</span><span class="t">金刚石散热 / 培育钻石</span></a><a href="#glass" class="lvl1"><span class="n">⑧</span><span class="t">玻璃基板 / 先进封装</span></a><a href="#finance" class="lvl1"><span class="n">⑨</span><span class="t">大金融</span></a>
+  <a href="#fwd" class="lvl1"><span class="n">§10</span><span class="t">催化日历</span></a>
+  <a href="#risk" class="lvl1"><span class="n">§11</span><span class="t">异动/风险</span></a>
+</nav>
+<div id="toc-reopen">目录</div>
+
+<div class="masthead"><div class="mh-in">
+  <div class="h-eyebrow">JIUYAN DAILY · A-SHARE · 20260622 收盘 + 6/23 盘前主线</div>
+  <div class="h-title">A 股日报 · <em>主线 · 催化 · 个股</em></div>
+  <div class="h-desc">韭研公社 6/23 当天 9 篇盘前纪要交叉综合（一手调研 / 盘前解读 / 盘前纪要 / 一思一记 / 题材催化剂 / 黑曼巴 / 武汉涅槃 / 戈壁淘金）。核心 = <strong>AI 硬件全产业链景气爆发 × 出口管制反制断供链 × 中报业绩兑现</strong>。9 条主线均按 <strong>Bull Logic 中段</strong> 定性，回调=链内轮动。每只个股「核心标签 + 产业逻辑（100% 源自纪要）」+ 1W/1M/3M/6M 区间涨跌幅与连板（<strong>截至 6/22 收盘 · 红涨绿跌</strong>）。</div>
+  <div class="h-pills">
+    <span class="pill">2026-06-23</span><span class="pill">来源 · 韭研 9 篇</span>
+    <span class="pill bull">Bull 中段</span><span class="pill">价格 · 20260622 收盘</span>
+    <span class="pill">零 websearch · 仅研究学习</span>
+  </div>
+</div></div>
+
+
+<div class="toolbar" id="tb">
+  <span class="tl">全表排序</span>
+  <button onclick="sortAll(0)">1W</button><button onclick="sortAll(1)">1M</button>
+  <button onclick="sortAll(2)">3M</button><button onclick="sortAll(3)">6M</button>
+  <span class="sep"></span><span class="tl">筛选</span>
+  <button class="on" data-f="all" onclick="flt('all',this)">全部</button>
+  <button data-f="lb" onclick="flt('lb',this)">连板≥2</button>
+  <span class="tn">价格层截至 6/22 收盘 · 内容源自 6/23 韭研纪要</span>
+</div>
+
+<section class="sec" id="howto">
+<div class="sec-num">读法 §0 · 排序逻辑</div>
+<div class="sec-title">9 条主线 <em>怎么排的</em> · 优先级栈</div>
+<div class="why"><span class="wk">排序口径 · 产业趋势 ＞ 情绪映射 ＞ 筹码/连板 ＞ 催化时点 ＞＞ 静态估值</span>
+不按涨停家数排，而是<strong>现读当日 9 篇纪要、按"催化兑现度 + 硬件优先 + 景气位置"</strong>排序。四条准则权重从高到低：</div>
+<table class="dt"><colgroup><col style="width:6%"><col style="width:21%"><col style="width:73%"></colgroup>
+<thead><tr><th style="text-align:center">权重</th><th>准则</th><th>作用 / 体现</th></tr></thead><tbody>
+<tr><td style="font-family:var(--mono);text-align:center;font-weight:700;color:var(--accent)">1</td><td class="name">催化新鲜度 + 兑现度</td><td class="logic">当晚最重磅、且"<strong>订单 / 涨价 / 业绩已兑现</strong>" ＞ 纯预期 → 液冷①（Rubin 100% 液冷·订单兑现型）压过一切</td></tr>
+<tr><td style="font-family:var(--mono);text-align:center;font-weight:700;color:var(--accent)">2</td><td class="name">硬件优先</td><td class="logic">A 股铁律：硬件链靠前、软件 / 金融降权 → 9 条里 8 条是 AI 硬件，大金融⑨垫底</td></tr>
+<tr><td style="font-family:var(--mono);text-align:center;font-weight:700;color:var(--accent)">3</td><td class="name">景气确定性 / 产业链位置</td><td class="logic">"上游卖铲、涨价兑现、长扩产周期"最受益（Bull 中段）→ 存储②/光通信③/金属④/PCB⑤/被动⑥ 居前</td></tr>
+<tr><td style="font-family:var(--mono);text-align:center;font-weight:700;color:var(--accent)">4</td><td class="name">连板 / 情绪热度</td><td class="logic">当日连板梯队强的主线加权 → 旭光 5 连板带金属④、宏昌 9 天 6 板带 PCB⑤、冰轮 3 连板带液冷①</td></tr>
+</tbody></table>
+<div class="lognote"><span class="kicker">兑现 vs 预期 · 切一刀</span><strong>前段 ①~⑥ = 催化已落地</strong>（液冷量产 / 美光长协 + 长川中报 / 剑桥锁料 / 反制涨价函 / 大摩 BOM / 村田涨价函）；<strong>后段 ⑦⑧ = 主题定调靠产业化预期</strong>（金刚石：英特尔 + 新闻联播定调但 0-1 阶段；玻璃基板：must have 但良率 79%、年底才小批量）；<strong>末位 ⑨ 大金融</strong> ＝ 情绪放大器、非硬件，按铁律降权。</div>
+<div class="lognote"><span class="kicker">与纪要的主动分歧</span>盘前解读自身 21 主题<strong>按涨停家数</strong>排（有色金属 9 涨停居首）；本日报<strong>未照搬</strong>——涨停数仅"情绪映射"一档、权重低于"产业趋势 + 催化兑现"，故把液冷提到第一、把有色拆进金属④按"反制断供链"重组。</div>
+</section>
+
+
+<section class="sec" id="bg">
+<div class="sec-num">背景 §00</div>
+<div class="sec-title">市场背景 · <em>6/22 收盘（上一交易日）</em></div>
+<div class="lognote"><span class="kicker">指数 · 量能</span>创业板指 <strong>+2.52%</strong> 再创历史新高、沪指 +1.78% 突破 4200，成交 <strong>3.74 万亿</strong>（历史第二·放量 4271 亿）；<strong>132 涨停 / 3 跌停</strong>，但上涨个股超 2900 只、涨跌中位数仅 +0.24%——<strong>赚指数不赚个股</strong>，权重与高标分化。收盘价创新高 95 家（集中半导体 / PCB / 光通信）。</div>
+<div class="lognote"><span class="kicker">板块 · 结构</span>大金融板块爆发、有色·锆概念延续强势，培育钻石 / 化工活跃，半导体设备震荡回落。轮动主线 = <strong>涨价 + 上游材料 + 算力金属</strong>老登方向补涨。</div>
+<div class="lognote"><span class="kicker">连板梯队 6/22 收盘</span><strong>5 板</strong> 旭光电子(氮化铝/液冷) · <strong>4 板</strong> 江钨装备(钨)/艾华集团(电容) · <strong>3 板</strong> 冰轮环境(液冷) · <strong>2 板</strong> 兴业科技/东方锆业/长裕集团/博云新材/爱迪特/北自科技/共达电声/天娱数科/丰元股份/三祥新材/中瓷电子/中钨高新/黑猫股份/翔鹭钨业。焦点高标：旭光 12 天 7 板、宿迁联盛 9 天 5 板、天娱数科 11 天 6 板、宏昌电子 9 天 6 板、冰轮 9 天 5 板。</div>
+<div class="lognote"><span class="kicker">情绪 · 风格（武汉涅槃）</span>连续拉升第 5 天，证券/大金融启动后<strong>分歧转一致</strong>；主线仍是<strong>中报业绩线</strong>，少追高位、以分歧后回踩低吸为主。创指新高、上证踩所有均线，4258 前高为强压。</div>
+</section>
+
+<section class="sec" id="liquid">
+<div class="sec-num">主线 ①</div>
+<div class="sec-title">液冷 — 英伟达 Rubin 100% 液冷开启全栈转向</div>
+<div class="why"><span class="wk">最强催化 · 订单兑现型</span>6/21 英伟达官博详解即将量产的 <strong>Rubin 平台全面液冷</strong>（75% 水 + 25% 丙二醇、45°C），称"数据中心史上最重要能效突破之一"，<strong>Rubin 是全球首个 100% 液冷 AI 计算平台</strong>，秋季启动量产出货，所有云厂/数据中心运营商被迫推进液冷转型。链博会英伟达展出 MGX 生态合作伙伴，CDU/Manifold/Cold Plate/Busbar/快接各环节国内厂商参与度显著提升。<b>Bull 中段·订单兑现优先</b>。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="002837"><td class="tk">002837.SZ</td><td class="name lead">英维克</td><td class="rr up">+17.0</td><td class="rr up">+0.1</td><td class="rr dn">-5.6</td><td class="rr up">+28.0</td><td class="logic"><b class="ct">全链条液冷龙头</b>Manifold/CDU/UQD 多环节进 NV MGX 生态名单，全球 AI 算力建设深度受益，链内绝对核心。</td></tr>
+<tr data-c="000811"><td class="tk">000811.SZ</td><td class="name">冰轮环境<span class="lbtag">3板</span></td><td class="rr up">+43.6</td><td class="rr up">+25.6</td><td class="rr up">+135.1</td><td class="rr up">+156.6</td><td class="logic"><b class="ct">液冷服务器</b>6 月订单超前 5 月总和、Compute tray 液冷价值翻倍，<strong>9 天 5 板</strong>链内连板领先。</td></tr>
+<tr data-c="002824"><td class="tk">002824.SZ</td><td class="name lead">和胜股份</td><td class="rr up">+37.6</td><td class="rr up">+63.1</td><td class="rr up">+102.4</td><td class="rr up">+118.3</td><td class="logic"><b class="ct">Rubin Busbar 国内独供</b>经富士康供 NV 北美，<strong>单柜价值 1900 美金</strong>、7 月新线投产；同步配冷板/分水器/光模块 Cage，目标市值 300-400 亿，26Q1 营收 +36.82%。</td></tr>
+<tr data-c="003018"><td class="tk">003018.SZ</td><td class="name">金富科技</td><td class="rr up">+12.3</td><td class="rr dn">-1.6</td><td class="rr up">+140.9</td><td class="rr up">+245.7</td><td class="logic"><b class="ct">NV 液冷波纹管核心供应商</b>与奇宏(AVC)共研、<strong>奇宏一供份额 50-60%+</strong>，经 NV 推荐与富士康达成合作即将批量供应；27 年液冷利润看 10 亿、股价看翻倍。</td></tr>
+<tr data-c="301086"><td class="tk">301086.SZ</td><td class="name">鸿富瀚</td><td class="rr up">+34.7</td><td class="rr up">+30.4</td><td class="rr up">+148.3</td><td class="rr up">+212.0</td><td class="logic"><b class="ct">进 NV manifold 名单 A 股第二</b>仅次英维克，已拿下国内 A/ZJ、海外 NV/M/AMD；预期 27 年利润 10-15 亿、市值看 400-500 亿。</td></tr>
+<tr data-c="002975"><td class="tk">002975.SZ</td><td class="name">博杰股份<span class="lbtag fb">首板</span></td><td class="rr up">+24.0</td><td class="rr up">+36.2</td><td class="rr up">+164.0</td><td class="rr up">+153.7</td><td class="logic"><b class="ct">Rubin 全液冷机柜核心检测设备</b>供应商，被动元件+液冷双卡位，<strong>5T2B</strong>。</td></tr>
+<tr data-c="301018"><td class="tk">301018.SZ</td><td class="name">申菱环境</td><td class="rr up">+11.9</td><td class="rr dn">-0.2</td><td class="rr up">+56.4</td><td class="rr up">+172.6</td><td class="logic"><b class="ct">数据中心温控</b>服务器液冷+光模块液冷布局，Rubin 下半年出货催化。</td></tr>
+<tr data-c="002418"><td class="tk">002418.SZ</td><td class="name">康盛股份<span class="lbtag fb">首板</span></td><td class="rr up">+12.3</td><td class="rr dn">-13.7</td><td class="rr dn">-1.3</td><td class="rr ">0.0</td><td class="logic"><b class="ct">液冷管路</b>盘前纪要点名液冷方向，跟随主升。</td></tr>
+<tr data-c="603757"><td class="tk">603757.SH</td><td class="name">大元泵业<span class="lbtag fb">首板</span></td><td class="rr up">+31.5</td><td class="rr up">+3.4</td><td class="rr up">+27.1</td><td class="rr up">+64.5</td><td class="logic"><b class="ct">液冷泵</b>循环泵环节，多家纪要点名。</td></tr>
+</tbody></table></section><section class="sec" id="storage">
+<div class="sec-num">主线 ②</div>
+<div class="sec-title">存储 — 美光×Anthropic 长协 + 中报预喜 + DDR2 涨价</div>
+<div class="why"><span class="wk">业绩+周期双驱</span>美光与 Anthropic 签<strong>多年期存储供应协议</strong>（HBM/DRAM/SSD，挂钩 Claude 训练与部署的长期算力扩张），美光 12 个月<strong>累涨超 800%</strong> 续创新高、盘后发 Q3 财报；TrendForce：DDR2 Q2 合约价<strong>涨 55-60%</strong>、Q3 再涨 35-40%，消费 DRAM 缺货沿世代下传至 DDR2；长川科技放出半导体首份中报预喜。全球存储周期共振、海外首选板块。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="603986"><td class="tk">603986.SH</td><td class="name lead">兆易创新</td><td class="rr up">+43.2</td><td class="rr up">+59.9</td><td class="rr up">+121.9</td><td class="rr up">+227.4</td><td class="logic"><b class="ct">利基存储+MCU龙头</b>紫阳东路 6/18 买入 11.18 亿，DDR/NOR 涨价直接受益，存储链旗手。</td></tr>
+<tr data-c="300475"><td class="tk">300475.SZ</td><td class="name">香农芯创</td><td class="rr up">+53.5</td><td class="rr up">+61.9</td><td class="rr up">+69.3</td><td class="rr up">+97.3</td><td class="logic"><b class="ct">存储分销+模组</b>绑定海力士，HBM/DDR 涨价弹性标的。</td></tr>
+<tr data-c="688525"><td class="tk">688525.SH</td><td class="name">佰维存储</td><td class="rr up">+24.0</td><td class="rr up">+35.1</td><td class="rr up">+57.5</td><td class="rr up">+252.7</td><td class="logic"><b class="ct">存储模组封测</b>嵌入式+企业级 SSD，涨价顺价直接兑现。</td></tr>
+<tr data-c="301308"><td class="tk">301308.SZ</td><td class="name">江波龙</td><td class="rr up">+19.7</td><td class="rr up">+14.5</td><td class="rr up">+71.8</td><td class="rr up">+128.3</td><td class="logic"><b class="ct">存储模组</b>消费+企业级，DDR2/NAND 涨价受益。</td></tr>
+<tr data-c="001309"><td class="tk">001309.SZ</td><td class="name">德明利</td><td class="rr up">+19.4</td><td class="rr up">+12.3</td><td class="rr up">+97.3</td><td class="rr up">+231.3</td><td class="logic"><b class="ct">主控+模组</b>存储涨价高弹性次新。</td></tr>
+<tr data-c="300223"><td class="tk">300223.SZ</td><td class="name">北京君正</td><td class="rr up">+32.4</td><td class="rr up">+47.5</td><td class="rr up">+47.7</td><td class="rr up">+98.8</td><td class="logic"><b class="ct">车规存储+计算芯片</b>Q1 计算芯片增长近 50%、Q2 预计继续增长，DRAM 涨价受益。</td></tr>
+<tr data-c="688766"><td class="tk">688766.SH</td><td class="name">普冉股份</td><td class="rr up">+71.6</td><td class="rr up">+73.1</td><td class="rr up">+141.0</td><td class="rr up">+391.5</td><td class="logic"><b class="ct">NOR+EEPROM</b>利基存储涨价小盘弹性。</td></tr>
+</tbody></table></section><section class="sec" id="optic">
+<div class="sec-num">主线 ③</div>
+<div class="sec-title">光通信 / CPO / 磷化铟 — 上游锁料 + 国产闭环</div>
+<div class="why"><span class="wk">景气兑现+管制催化</span>剑桥科技周末双利好：<strong>2500 万美金包下 AXT 磷化铟(InP)衬底、锁明年 1/4 产量</strong>，跳过中间光芯片厂直锁上游核基材；同时官宣 200mW ELSFP 备料、专供 CPO，标志 <strong>CPO 从巨头垂直自研迈过社会化分工量产拐点</strong>。标准单模光纤短期<strong>涨幅达 400%</strong>，MPO 随高速光模块需求激增；藤仓/古河上调全年指引（北美 AI 光纤订单爆满）；Rubin NVL576/1152 全光网 OE 比 1:40；铟出口审查升级倒逼硅光国产闭环。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="603083"><td class="tk">603083.SH</td><td class="name lead">剑桥科技<span class="lbtag fb">首板</span></td><td class="rr up">+29.0</td><td class="rr up">+31.7</td><td class="rr up">+110.0</td><td class="rr up">+96.7</td><td class="logic"><b class="ct">CPO 量产+InP 锁料双护城河</b>募资 20 亿锁上游最充沛一家，硅光锁定鼎芯/镭芯/源杰/联亚/仕佳五大 CW 光源，算力光模块自主供应链核心标的重估，<strong>5T2B</strong>。</td></tr>
+<tr data-c="300308"><td class="tk">300308.SZ</td><td class="name lead">中际旭创</td><td class="rr up">+20.3</td><td class="rr up">+39.2</td><td class="rr up">+138.6</td><td class="rr up">+128.4</td><td class="logic"><b class="ct">光模块全球龙头</b>戈壁淘金目标市值上修至 <strong>2.5-3 万亿</strong>（基于 27 年 1200-1300 亿利润），1.6T 放量。</td></tr>
+<tr data-c="300502"><td class="tk">300502.SZ</td><td class="name">新易盛</td><td class="rr up">+14.5</td><td class="rr up">+43.6</td><td class="rr up">+88.7</td><td class="rr up">+94.0</td><td class="logic"><b class="ct">高速光模块</b>北美 CSP 光模块订单饱满，800G/1.6T 弹性主力。</td></tr>
+<tr data-c="601869"><td class="tk">601869.SH</td><td class="name">长飞光纤<span class="lbtag fb">首板</span></td><td class="rr up">+18.8</td><td class="rr up">+38.0</td><td class="rr up">+132.7</td><td class="rr up">+479.7</td><td class="logic"><b class="ct">光纤光缆龙头</b>标准单模涨价 400%、G.654 特种光纤价值量提升数倍，Q2 业绩预增超 1 倍。</td></tr>
+<tr data-c="000070"><td class="tk">000070.SZ</td><td class="name">特发信息<span class="lbtag fb">首板</span></td><td class="rr up">+33.3</td><td class="rr up">+26.7</td><td class="rr up">+43.5</td><td class="rr up">+68.9</td><td class="logic"><b class="ct">光纤光缆</b>AI 光纤涨价直接受益，<strong>5T2B</strong>。</td></tr>
+<tr data-c="688498"><td class="tk">688498.SH</td><td class="name">源杰科技</td><td class="rr up">+33.8</td><td class="rr up">+80.5</td><td class="rr up">+205.4</td><td class="rr up">+301.9</td><td class="logic"><b class="ct">光芯片</b>剑桥锁定 CW 光源供应商之一，硅光国产闭环。</td></tr>
+<tr data-c="688313"><td class="tk">688313.SH</td><td class="name">仕佳光子</td><td class="rr up">+22.5</td><td class="rr up">+9.0</td><td class="rr up">+134.9</td><td class="rr up">+94.4</td><td class="logic"><b class="ct">光芯片/无源器件</b>剑桥五大 CW 光源供应商，MPO/AWG 受益。</td></tr>
+<tr data-c="002674"><td class="tk">002674.SZ</td><td class="name">兴业科技<span class="lbtag">2板</span></td><td class="rr up">+23.1</td><td class="rr up">+34.2</td><td class="rr up">+46.7</td><td class="rr up">+42.9</td><td class="logic"><b class="ct">跨界磷化铟</b>拟 5500 万收购青岛立昂 InP 衬底业务跨界半导体材料，磷化铟涨停潮龙头，<strong>2 板</strong>。</td></tr>
+<tr data-c="002428"><td class="tk">002428.SZ</td><td class="name">云南锗业<span class="lbtag fb">首板</span></td><td class="rr up">+19.7</td><td class="rr up">+31.8</td><td class="rr up">+171.1</td><td class="rr up">+298.4</td><td class="logic"><b class="ct">锗+磷化铟</b>磷化铟核心原料，铟/锗稀有金属管制共振，<strong>7T3B</strong>。</td></tr>
+<tr data-c="600141"><td class="tk">600141.SH</td><td class="name">兴发集团<span class="lbtag fb">首板</span></td><td class="rr up">+24.5</td><td class="rr up">+35.5</td><td class="rr up">+22.5</td><td class="rr up">+32.4</td><td class="logic"><b class="ct">工业级磷化铟工艺</b>戈壁淘金：已掌握工业级磷化铟、攻关电子级红磷，有望打破海外垄断；磷矿+磷化工一体。</td></tr>
+</tbody></table></section><section class="sec" id="metal">
+<div class="sec-num">主线 ④</div>
+<div class="sec-title">稀有 / 算力金属 — 出口管制反制链（锆·钨·铟·氮化铝·氦）</div>
+<div class="why"><span class="wk">上游卖铲·主升中段</span>6/22 中国两箭齐发反制美国（10 家实体列入管控 + 46 家政府采购限制）。四条断供链共振：<strong>锆</strong>（日本东曹氧化锆断供、氧化钇对日出口 -97.67%）、<strong>钨</strong>（六氟化钨日本关东电化 7 月关线、PCB 钨棒住友停产，半年暴涨超 100%）、<strong>铟</strong>（出口审查收紧、年内 +60%）、<strong>氦气</strong>（日本酸素 7 月涨超 30%）。国产头部"份额↑+涨价"双红利，复制六氟化钨路径，链内连板与持续度居首。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="600353"><td class="tk">600353.SH</td><td class="name lead">旭光电子<span class="lbtag">5板</span></td><td class="rr up">+61.1</td><td class="rr up">+113.7</td><td class="rr up">+193.5</td><td class="rr up">+196.5</td><td class="logic"><b class="ct">氮化铝粉体</b>AI 服务器陶瓷基板/氮化铝硬缺口，<strong>5 连板 / 12 天 7 板</strong>全场最高标，AI 硬件总龙头。</td></tr>
+<tr data-c="000657"><td class="tk">000657.SZ</td><td class="name lead">中钨高新<span class="lbtag">2板</span></td><td class="rr up">+37.1</td><td class="rr up">+91.0</td><td class="rr up">+99.0</td><td class="rr up">+336.8</td><td class="logic"><b class="ct">钨全产业链+高端钻针龙头</b>3 座矿山注入资源倍增 + 棒材国产替代，目标市值看 3000 亿，<strong>5T3B</strong>。</td></tr>
+<tr data-c="600549"><td class="tk">600549.SH</td><td class="name">厦门钨业<span class="lbtag fb">首板</span></td><td class="rr up">+45.8</td><td class="rr up">+89.6</td><td class="rr up">+59.2</td><td class="rr up">+158.9</td><td class="logic"><b class="ct">钨容量大票</b>覆盖 PCB 钻针棒材 + MLCC 钛酸钡 + 六氟化钨核心钨粉，目标市值 2400 亿+，<strong>5T3B</strong>。</td></tr>
+<tr data-c="002297"><td class="tk">002297.SZ</td><td class="name lead">博云新材<span class="lbtag">2板</span></td><td class="rr up">+39.0</td><td class="rr up">+26.3</td><td class="rr up">+168.5</td><td class="rr up">+204.1</td><td class="logic"><b class="ct">0.2μm 纳米晶钨棒材</b>PCB 微钻稀缺卡位、核心钻针厂验证中，纳米晶棒材市值先看 400 亿，机构净买 4.36 亿居首，<strong>2 板</strong>。</td></tr>
+<tr data-c="600397"><td class="tk">600397.SH</td><td class="name">江钨装备<span class="lbtag">4板</span></td><td class="rr up">+51.0</td><td class="rr up">+74.0</td><td class="rr up">+27.0</td><td class="rr up">+228.7</td><td class="logic"><b class="ct">钨装备</b>钨链强势分支，<strong>4 连板</strong>。</td></tr>
+<tr data-c="002842"><td class="tk">002842.SZ</td><td class="name">翔鹭钨业<span class="lbtag">2板</span></td><td class="rr up">+32.7</td><td class="rr up">+64.6</td><td class="rr up">+53.7</td><td class="rr up">+352.0</td><td class="logic"><b class="ct">钨粉/硬质合金</b>钨涨价+国产替代，机构净买 3.83 亿，<strong>2 板</strong>。</td></tr>
+<tr data-c="603663"><td class="tk">603663.SH</td><td class="name lead">三祥新材<span class="lbtag">2板</span></td><td class="rr up">+32.6</td><td class="rr up">+109.7</td><td class="rr up">+108.5</td><td class="rr up">+188.2</td><td class="logic"><b class="ct">电熔氧化锆全球龙头+氧化铪第二曲线</b>受益东曹断供，锆铪分离 8 月投产、氧化铪切 45nm 以下 High-K（5N 海外价 3000-5000 万/吨），目标 800 亿+，<strong>2 板</strong>。</td></tr>
+<tr data-c="002167"><td class="tk">002167.SZ</td><td class="name">东方锆业<span class="lbtag">2板</span></td><td class="rr up">+24.9</td><td class="rr up">+48.3</td><td class="rr up">+31.4</td><td class="rr up">+47.2</td><td class="logic"><b class="ct">氧化锆</b>6/18 起上调锆产品价格，固态电池+齿科陶瓷国产替代，<strong>2 板</strong>。</td></tr>
+<tr data-c="603407"><td class="tk">603407.SH</td><td class="name">长裕集团<span class="lbtag">2板</span></td><td class="rr up">+44.1</td><td class="rr up">+12.6</td><td class="rr">—</td><td class="rr">—</td><td class="logic"><b class="ct">氧氯化锆</b>锆链强势分支，<strong>5T4B</strong>。</td></tr>
+<tr data-c="600552"><td class="tk">600552.SH</td><td class="name">凯盛科技<span class="lbtag fb">首板</span></td><td class="rr up">+35.4</td><td class="rr up">+40.5</td><td class="rr up">+96.0</td><td class="rr up">+126.2</td><td class="logic"><b class="ct">氧化锆+玻璃基板+钛酸钡</b>电熔氧化锆 2 万吨+、纳米锆 400-500 吨（接近三祥），多卡位，<strong>3T2B</strong>。</td></tr>
+<tr data-c="300285"><td class="tk">300285.SZ</td><td class="name lead">国瓷材料</td><td class="rr up">+75.6</td><td class="rr up">+138.6</td><td class="rr up">+172.6</td><td class="rr up">+323.5</td><td class="logic"><b class="ct">氧化锆+MLCC 粉体国产替代核心</b>戈壁淘金：6000 吨氧化锆产能受益东曹断供，AI 级 MLCC 粉单吨利润约 8 万元。</td></tr>
+<tr data-c="000960"><td class="tk">000960.SZ</td><td class="name">锡业股份<span class="lbtag fb">首板</span></td><td class="rr up">+21.9</td><td class="rr up">+26.5</td><td class="rr up">+32.0</td><td class="rr up">+83.4</td><td class="logic"><b class="ct">锡+铟</b>"算力金属"锡半年 +40%、铟为磷化铟核心原料，机构净买 4.11 亿，<strong>5T2B</strong>。</td></tr>
+<tr data-c="000751"><td class="tk">000751.SZ</td><td class="name">锌业股份<span class="lbtag fb">首板</span></td><td class="rr up">+11.4</td><td class="rr up">+8.4</td><td class="rr dn">-3.5</td><td class="rr up">+44.9</td><td class="logic"><b class="ct">铟</b>铟出口收紧、"一寸光铟一寸金"年内 +60%。</td></tr>
+<tr data-c="688268"><td class="tk">688268.SH</td><td class="name">华特气体</td><td class="rr up">+16.2</td><td class="rr up">+38.0</td><td class="rr up">+207.5</td><td class="rr up">+285.8</td><td class="logic"><b class="ct">电子特气</b>日本酸素 7 月氦气涨超 30%，半导体前段晶圆冷却用氦受益。</td></tr>
+<tr data-c="688106"><td class="tk">688106.SH</td><td class="name">金宏气体</td><td class="rr up">+16.5</td><td class="rr up">+14.4</td><td class="rr up">+26.8</td><td class="rr up">+76.3</td><td class="logic"><b class="ct">工业+电子气体</b>氦气涨价链，半导体气体国产替代。</td></tr>
+</tbody></table></section><section class="sec" id="pcb">
+<div class="sec-num">主线 ⑤</div>
+<div class="sec-title">PCB / CCL / 上游材料 — 涨价 + 扩产 + Rubin BOM 重估</div>
+<div class="why"><span class="wk">盈利向上游材料集中</span>大摩拆 Rubin BOM：<strong>PCB 价值较 GB300 大涨 233%</strong>，增幅居下游零部件之首。涨价兑现密集：电子布年内 5 轮涨价、<strong>7628 较年初涨超 70%</strong>，全球 70% PPE 树脂供应中断；HVLP 算力铜箔长单<strong>排至 2027 年</strong>；木林森全线 PCB 先 +20% 再 +10%、建滔 FR-4 +15%；M9 板材自供单张成本 97 vs 外购 174。紧缺延续至 2027 中、主升核心。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="603002"><td class="tk">603002.SH</td><td class="name lead">宏昌电子<span class="lbtag fb">首板</span></td><td class="rr up">+48.8</td><td class="rr up">+71.7</td><td class="rr up">+141.7</td><td class="rr up">+247.0</td><td class="logic"><b class="ct">环氧树脂(CCL 上游)</b>电子布/树脂涨价直接受益，<strong>9 天 6 板</strong>PCB 链最高标。</td></tr>
+<tr data-c="000823"><td class="tk">000823.SZ</td><td class="name lead">超声电子<span class="lbtag fb">首板</span></td><td class="rr up">+30.1</td><td class="rr up">+56.0</td><td class="rr up">+47.3</td><td class="rr up">+50.6</td><td class="logic"><b class="ct">mSAP-PCB</b>LX 光模块 mSAP 核心供应商、泰国厂进厂，<strong>市值仅 141 亿对应 PE 不到 20X，最便宜 mSAP 标的</strong>，<strong>5T3B</strong>。</td></tr>
+<tr data-c="300522"><td class="tk">300522.SZ</td><td class="name lead">世名科技<span class="lbtag">3板</span></td><td class="rr up">+100.3</td><td class="rr up">+80.1</td><td class="rr up">+90.4</td><td class="rr up">+81.3</td><td class="logic"><b class="ct">碳氢树脂(AI 高频)</b>M9 已跑通、日客户验证中，M6-8 进生益/台光/联茂供应链，明年 AI 放量看 5.5 亿利润，<strong>2 板</strong>。</td></tr>
+<tr data-c="001359"><td class="tk">001359.SZ</td><td class="name">平安电工<span class="lbtag fb">首板</span></td><td class="rr up">+35.7</td><td class="rr up">+46.8</td><td class="rr up">+92.3</td><td class="rr up">+147.7</td><td class="logic"><b class="ct">云母+覆铜板材料</b>高频高速材料涨价链，<strong>6T3B</strong>。</td></tr>
+<tr data-c="688183"><td class="tk">688183.SH</td><td class="name">生益电子</td><td class="rr up">+8.7</td><td class="rr up">+36.0</td><td class="rr up">+68.9</td><td class="rr up">+27.9</td><td class="logic"><b class="ct">高多层算力 PCB</b>吉安高多层算力板项目 6 月末试产、东莞 AI 计算 HDI 基地开工，扩产兑现。</td></tr>
+<tr data-c="001389"><td class="tk">001389.SZ</td><td class="name">广合科技</td><td class="rr up">+7.7</td><td class="rr up">+7.4</td><td class="rr up">+60.5</td><td class="rr up">+157.3</td><td class="logic"><b class="ct">高端 PCB</b>拟投 60 亿建东莞智造总部提升高端 PCB 产能。</td></tr>
+<tr data-c="603386"><td class="tk">603386.SH</td><td class="name">骏亚科技</td><td class="rr up">+4.6</td><td class="rr up">+15.9</td><td class="rr up">+24.2</td><td class="rr dn">-10.5</td><td class="logic"><b class="ct">HDI/高多层</b>拟投 15.57 亿建年产 60 万平米高多层、HDI 项目。</td></tr>
+<tr data-c="601208"><td class="tk">601208.SH</td><td class="name">东材科技</td><td class="rr up">+30.7</td><td class="rr up">+67.4</td><td class="rr up">+151.2</td><td class="rr up">+284.5</td><td class="logic"><b class="ct">碳氢树脂/PPO 扩产</b>戈壁淘金：AI 高级树脂需求 26-28 年从 2 万吨翻倍至 4 万吨，加速扩产。</td></tr>
+<tr data-c="605589"><td class="tk">605589.SH</td><td class="name">圣泉集团</td><td class="rr up">+26.1</td><td class="rr up">+69.0</td><td class="rr up">+128.7</td><td class="rr up">+175.4</td><td class="logic"><b class="ct">PPO/碳氢树脂</b>戈壁淘金：高级树脂供需缺口扩大、扩产核心。</td></tr>
+</tbody></table></section><section class="sec" id="passive">
+<div class="sec-num">主线 ⑥</div>
+<div class="sec-title">被动元件 — MLCC / 铝电解涨价函密集</div>
+<div class="why"><span class="wk">景气确定性最高</span>村田 7/1 起 <strong>AI 服务器/高端车规 MLCC 全面涨价 10-40%</strong>；日本尼吉康铝电解全线调涨；TrendForce 预测 ASIC 平台放量、MLCC 需求进入高峰。AI 牛角电容外溢大陆，涨价函密集、量价齐升。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="603989"><td class="tk">603989.SH</td><td class="name lead">艾华集团<span class="lbtag">4板</span></td><td class="rr up">+58.7</td><td class="rr up">+76.7</td><td class="rr up">+151.5</td><td class="rr up">+171.4</td><td class="logic"><b class="ct">铝电解电容龙二</b>对标江海，牛角 3000 万支/月、客户含台达/光宝/华为/浪潮，主业 100 亿+超容 200 亿增量看 300 亿翻倍，<strong>4 连板</strong>。</td></tr>
+<tr data-c="002484"><td class="tk">002484.SZ</td><td class="name lead">江海股份</td><td class="rr up">+29.2</td><td class="rr up">+89.9</td><td class="rr up">+253.0</td><td class="rr up">+277.0</td><td class="logic"><b class="ct">铝电解+超容龙头</b>EDLC 此前按 30 元估、实际 ASP 可达 100 元，超容板块旗手。</td></tr>
+<tr data-c="600206"><td class="tk">600206.SH</td><td class="name">有研新材<span class="lbtag fb">首板</span></td><td class="rr up">+41.7</td><td class="rr up">+62.3</td><td class="rr up">+118.5</td><td class="rr up">+133.4</td><td class="logic"><b class="ct">靶材+稀有金属材料</b>同花顺/东财双热榜，<strong>8T3B</strong>。</td></tr>
+<tr data-c="002068"><td class="tk">002068.SZ</td><td class="name">黑猫股份<span class="lbtag">2板</span></td><td class="rr up">+14.1</td><td class="rr up">+14.7</td><td class="rr up">+19.7</td><td class="rr up">+23.4</td><td class="logic"><b class="ct">导电炭黑(MLCC 用)</b>被动元件材料涨价链，<strong>2 板</strong>。</td></tr>
+<tr data-c="000962"><td class="tk">000962.SZ</td><td class="name">东方钽业<span class="lbtag fb">首板</span></td><td class="rr up">+21.0</td><td class="rr up">+22.5</td><td class="rr up">+43.3</td><td class="rr up">+152.6</td><td class="logic"><b class="ct">钽电容</b>钽金属"算力金属"+钽电容双逻辑。</td></tr>
+<tr data-c="300408"><td class="tk">300408.SZ</td><td class="name">三环集团</td><td class="rr up">+23.4</td><td class="rr up">+58.5</td><td class="rr up">+179.7</td><td class="rr up">+251.1</td><td class="logic"><b class="ct">MLCC 龙头</b>戈壁淘金：电子 Q2 业绩预增明确方向，MLCC 量价齐升。</td></tr>
+<tr data-c="001696"><td class="tk">001696.SZ</td><td class="name">宗申动力</td><td class="rr up">+5.2</td><td class="rr up">+51.4</td><td class="rr up">+17.2</td><td class="rr up">+13.8</td><td class="logic"><b class="ct">超级电容柜+电池柜</b>±400V/800V 架构超容标配，EDLC 大容量 ASP 上修至 100 元，电池柜替代 UPS；展望 28 年 800V 上量市值看 950 亿。</td></tr>
+</tbody></table></section><section class="sec" id="diamond">
+<div class="sec-num">主线 ⑦</div>
+<div class="sec-title">金刚石散热 / 培育钻石 — 官方定调 + AI 重新定价</div>
+<div class="why"><span class="wk">0-1 商业化拐点</span>英特尔 CEO 陈立武明确战略投资金刚石企业 Diamond Foundry、<strong>将金刚石划为未来十年核心半导体新材料</strong>；6/20 新闻联播专题报道金刚石攻克高端算力散热，<strong>官方战略级背书</strong>。金刚石热导率 2200 W/m·K（铜 5 倍），机构测 2030 年服务器液冷市场 535 亿美元、金刚石散热占 10% 即 54 亿美元。年初至今板块 +106%，远期千亿赛道。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="002046"><td class="tk">002046.SZ</td><td class="name lead">国机精工</td><td class="rr up">+16.4</td><td class="rr up">+37.8</td><td class="rr up">+43.5</td><td class="rr up">+90.8</td><td class="logic"><b class="ct">金刚石铜商用+H 深度合作</b>纪要"首推"，MPCVD/金刚石铜复合冷板进实测，AI 散热确定性核心。</td></tr>
+<tr data-c="300179"><td class="tk">300179.SZ</td><td class="name lead">四方达<span class="lbtag fb">首板</span></td><td class="rr up">+44.7</td><td class="rr up">+114.3</td><td class="rr up">+156.6</td><td class="rr up">+231.8</td><td class="logic"><b class="ct">海外验证+小批量</b>纪要核心标的，金刚石散热+微钻双线。</td></tr>
+<tr data-c="688028"><td class="tk">688028.SH</td><td class="name">沃尔德</td><td class="rr up">+24.6</td><td class="rr up">+13.0</td><td class="rr up">+30.0</td><td class="rr up">+85.8</td><td class="logic"><b class="ct">散热+微钻推进验证</b>金刚石散热与 PCB 微钻双布局。</td></tr>
+<tr data-c="605580"><td class="tk">605580.SH</td><td class="name">恒盛能源<span class="lbtag fb">首板</span></td><td class="rr up">+2.2</td><td class="rr up">+33.0</td><td class="rr up">+21.4</td><td class="rr dn">-27.3</td><td class="logic"><b class="ct">H 合作+自有热电+低位</b>纪要核心，低电价区域产能。</td></tr>
+<tr data-c="301071"><td class="tk">301071.SZ</td><td class="name">力量钻石<span class="lbtag fb">首板</span></td><td class="rr up">+36.8</td><td class="rr up">+54.8</td><td class="rr up">+101.6</td><td class="rr up">+142.2</td><td class="logic"><b class="ct">培育钻石+MPCVD</b>拓展 MPCVD 算力散热，创业板弹性。</td></tr>
+<tr data-c="600172"><td class="tk">600172.SH</td><td class="name">黄河旋风<span class="lbtag fb">首板</span></td><td class="rr up">+30.3</td><td class="rr up">+54.3</td><td class="rr up">+69.7</td><td class="rr up">+119.8</td><td class="logic"><b class="ct">MPCVD 金刚石</b>拟向莲熠钻石划转资产增资，热榜活跃，新闻联播催化。</td></tr>
+<tr data-c="000519"><td class="tk">000519.SZ</td><td class="name">中兵红箭<span class="lbtag fb">首板</span></td><td class="rr up">+17.1</td><td class="rr up">+33.0</td><td class="rr up">+27.0</td><td class="rr up">+23.7</td><td class="logic"><b class="ct">超硬材料龙头</b>培育钻石+工业金刚石，央企平台。</td></tr>
+<tr data-c="002655"><td class="tk">002655.SZ</td><td class="name">共达电声<span class="lbtag">2板</span></td><td class="rr up">+41.2</td><td class="rr up">+36.4</td><td class="rr up">+159.6</td><td class="rr up">+261.6</td><td class="logic"><b class="ct">金刚石微钻+声学</b>金刚石微钻分支，<strong>2 板</strong>。</td></tr>
+</tbody></table></section><section class="sec" id="glass">
+<div class="sec-num">主线 ⑧</div>
+<div class="sec-title">玻璃基板 / 先进封装 — must have + 央视调研</div>
+<div class="why"><span class="wk">技术节点切换·持续发酵</span>郭明錤称<strong>市场低估玻璃芯载板、对台积电是 must have</strong>（CoPoS 翘曲可用性问题、客户愿付溢价）；央视聚焦并<strong>专项调研蓝思科技</strong>（激光诱导刻蚀已敲定最优工艺、规划 3 万平专用厂房年底投产）；韩系 IDM 玻璃中介层<strong>良率已达 79%</strong>、年底小批量商用、预计 28 年 20-30% 渗透；台积电 CoPoS 设备进采钰试产线。央视称玻璃基板成"芯"高地、万亿新赛道。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="300604"><td class="tk">300604.SZ</td><td class="name lead">长川科技</td><td class="rr up">+20.3</td><td class="rr up">+14.4</td><td class="rr up">+108.8</td><td class="rr up">+208.3</td><td class="logic"><b class="ct">半导体设备+玻璃基板/TCB</b>中报预喜净利 9-10 亿(+111~134%)，收购新加坡公司布局板级封装/TCB，量检测 AOI 对标 Onto/Camtek，目标看 2000 亿，半导体设备核心。</td></tr>
+<tr data-c="301188"><td class="tk">301188.SZ</td><td class="name lead">力诺药包</td><td class="rr up">+30.0</td><td class="rr up">+57.8</td><td class="rr up">+279.4</td><td class="rr up">+292.5</td><td class="logic"><b class="ct">玻璃原片</b>深耕硼硅玻璃窑炉、压延出板路线，6/1 首条中试窑炉点火；测算 2030 玻璃原片市场 500 亿，体系化工艺壁垒。</td></tr>
+<tr data-c="600552"><td class="tk">600552.SH</td><td class="name">凯盛科技<span class="lbtag fb">首板</span></td><td class="rr up">+35.4</td><td class="rr up">+40.5</td><td class="rr up">+96.0</td><td class="rr up">+126.2</td><td class="logic"><b class="ct">玻璃基板+氧化锆</b>玻璃基板+锆+钛酸钡多卡位，<strong>3T2B</strong>。</td></tr>
+<tr data-c="603976"><td class="tk">603976.SH</td><td class="name">正川股份<span class="lbtag fb">首板</span></td><td class="rr up">+3.4</td><td class="rr up">+29.5</td><td class="rr up">+40.2</td><td class="rr up">+40.7</td><td class="logic"><b class="ct">玻璃原片/药用玻璃</b>玻璃基板概念强势分支，<strong>3T2B</strong>。</td></tr>
+<tr data-c="300433"><td class="tk">300433.SZ</td><td class="name lead">蓝思科技</td><td class="rr up">+30.8</td><td class="rr up">+47.4</td><td class="rr up">+75.7</td><td class="rr up">+83.9</td><td class="logic"><b class="ct">央视调研对象</b>激光诱导刻蚀工艺敲定、3 万平专用厂房年底投产，玻璃基板+消费电子+液冷 Cage。</td></tr>
+<tr data-c="603773"><td class="tk">603773.SH</td><td class="name">沃格光电</td><td class="rr up">+32.5</td><td class="rr up">+112.3</td><td class="rr up">+339.6</td><td class="rr up">+440.9</td><td class="logic"><b class="ct">TGV 玻璃</b>玻璃精加工/TGV 环节，先进封装载板。</td></tr>
+<tr data-c="300776"><td class="tk">300776.SZ</td><td class="name">帝尔激光</td><td class="rr up">+32.7</td><td class="rr up">+21.0</td><td class="rr up">+127.6</td><td class="rr up">+202.0</td><td class="logic"><b class="ct">TGV 钻孔设备</b>玻璃基板 TGV 激光钻孔核心设备商。</td></tr>
+<tr data-c="600584"><td class="tk">600584.SH</td><td class="name">长电科技<span class="lbtag fb">首板</span></td><td class="rr up">+32.5</td><td class="rr up">+36.6</td><td class="rr up">+99.5</td><td class="rr up">+147.5</td><td class="logic"><b class="ct">封测龙头</b>先进封装 2026 全球 581 亿美元市场，3D 堆叠/HBM 受益。</td></tr>
+</tbody></table></section><section class="sec" id="finance">
+<div class="sec-num">主线 ⑨</div>
+<div class="sec-title">大金融 — 券商爆发，"买券商就是买科技"</div>
+<div class="why"><span class="wk">分歧转一致·情绪放大器</span>财政部 1-5 月证券交易印花税收入 <strong>1262 亿、同比 +88.8%</strong>，43 家上市券商 Q1 净利 +16.34%；市场逻辑"买券商就是买科技"（两创 IPO 券商跟投、中报改善）；证监会丰富投资工具、引导养老金/险资加大股权投资，三部门《利用外资固稳促优行动方案》。连涨第 5 天券商带动分歧转一致。</div>
+<table class="dt"><colgroup><col style="width:9%"><col style="width:11%"><col class="cr"><col class="cr"><col class="cr"><col class="cr"><col style="width:56%"></colgroup>
+<thead><tr><th>代码</th><th>名称</th><th class="rh so" data-k="0">1W<span class="ar"></span></th><th class="rh so" data-k="1">1M<span class="ar"></span></th><th class="rh so" data-k="2">3M<span class="ar"></span></th><th class="rh so" data-k="3">6M<span class="ar"></span></th><th>逻辑（源自 6/23 纪要）</th></tr></thead><tbody>
+<tr data-c="000776"><td class="tk">000776.SZ</td><td class="name lead">广发证券<span class="lbtag fb">首板</span></td><td class="rr up">+13.0</td><td class="rr up">+17.5</td><td class="rr up">+16.6</td><td class="rr up">+7.3</td><td class="logic"><b class="ct">头部券商</b>印花税高景气+并购重组主题，金融板块旗手。</td></tr>
+<tr data-c="601066"><td class="tk">601066.SH</td><td class="name">中信建投<span class="lbtag fb">首板</span></td><td class="rr up">+7.6</td><td class="rr up">+20.8</td><td class="rr up">+18.5</td><td class="rr up">+5.8</td><td class="logic"><b class="ct">投行龙头</b>两创 IPO 跟投核心受益，业绩弹性。</td></tr>
+<tr data-c="000783"><td class="tk">000783.SZ</td><td class="name">长江证券<span class="lbtag fb">首板</span></td><td class="rr up">+16.2</td><td class="rr up">+6.9</td><td class="rr up">+20.6</td><td class="rr up">+9.7</td><td class="logic"><b class="ct">券商</b>印花税 +88.8% 直接受益。</td></tr>
+<tr data-c="601108"><td class="tk">601108.SH</td><td class="name">财通证券<span class="lbtag fb">首板</span></td><td class="rr up">+7.5</td><td class="rr up">+2.9</td><td class="rr dn">-0.4</td><td class="rr dn">-1.2</td><td class="logic"><b class="ct">区域券商</b>券商补涨分支。</td></tr>
+<tr data-c="601336"><td class="tk">601336.SH</td><td class="name">新华保险<span class="lbtag fb">首板</span></td><td class="rr up">+3.0</td><td class="rr up">+7.0</td><td class="rr dn">-12.7</td><td class="rr dn">-4.7</td><td class="logic"><b class="ct">保险</b>险资入市+股权投资放量，大金融共振涨停。</td></tr>
+<tr data-c="002657"><td class="tk">002657.SZ</td><td class="name">中科金财<span class="lbtag fb">首板</span></td><td class="rr up">+1.2</td><td class="rr up">+12.3</td><td class="rr dn">-11.6</td><td class="rr dn">-19.9</td><td class="logic"><b class="ct">金融科技</b>金融 IT+AI 应用双概念，同花顺热榜。</td></tr>
+<tr data-c="300059"><td class="tk">300059.SZ</td><td class="name">东方财富</td><td class="rr up">+16.5</td><td class="rr up">+5.0</td><td class="rr dn">-2.0</td><td class="rr dn">-9.5</td><td class="logic"><b class="ct">互联网券商</b>东财热榜居首，交投活跃直接弹性。</td></tr>
+</tbody></table></section>
+
+<section class="sec" id="fwd">
+<div class="sec-num">前瞻 §10</div>
+<div class="sec-title">今日 / 本周 <em>催化日历</em>（6/23–6/26）</div>
+<table class="dt cal"><colgroup><col style="width:13%"><col style="width:25%"><col style="width:62%"></colgroup>
+<thead><tr><th>时点</th><th>事件</th><th>受益方向</th></tr></thead><tbody>
+<tr><td>6/23 上午</td><td>火山引擎 Force 原动力大会新品发布</td><td class="logic">AI 应用 / 算力；港股智谱盘中 +42% 破万亿市值（全球大模型第一股）→ 国产算力链情绪</td></tr>
+<tr><td>6/23 15:00</td><td>国新办全链条扩大汽车消费发布会</td><td class="logic">汽车消费（赛力斯 / 比亚迪 / 江淮汽车）；商务+工信+文旅多部门</td></tr>
+<tr><td>6/23</td><td>华为智能光伏战略与新品发布会</td><td class="logic">智能光伏 / 储能（上能电气 / 伊戈尔）；全球首台 5MW 全碳超容试验成功</td></tr>
+<tr><td>6/24–26</td><td>MWC 上海世界移动通信大会</td><td class="logic">6G / 5G-A / 具身智能 / 空天地一体（中兴通讯 / 烽火通信 / 信科移动）</td></tr>
+<tr><td>6/23</td><td>特朗普签量子计算行政令（2028 前建成）</td><td class="logic">量子科技（国盾量子 / 科大国创）</td></tr>
+<tr><td>前瞻</td><td>美伊缓和 + 霍尔木兹解封，WTI −2.3%</td><td class="logic">深海油气超级周期（博迈科·新签订单或翻倍）；中东重建（北方国际 / 中工国际）；油价回落利好下游化工</td></tr>
+<tr><td>前瞻</td><td>商业航天：千帆星座一周三发 / SpaceX 隔夜 −16%</td><td class="logic">卫星互联网（上海瀚讯 / 中国卫通 / 信科移动）</td></tr>
+</tbody></table>
+</section>
+
+
+<section class="sec" id="risk">
+<div class="sec-num">异动 §11</div>
+<div class="sec-title">异动 · <em>降温 / 监管 / 减持</em></div>
+<div class="lognote"><span class="kicker">互动易降温（重要）</span><strong>麦捷科技</strong>：与英伟达合作仅研发小批量试产、电感涨价仅对单位毛利有限修复 · <strong>晶升股份</strong>：AIDC/先进封装需求对业绩影响存不确定性 · <strong>裕太微</strong>：无面向数据中心的 DSP 芯片产品——蹭概念证伪，谨防情绪股回踩。</div>
+<div class="lognote"><span class="kicker">停牌 / 监管</span><strong>中船特气</strong>：5/11–6/22 累涨 388.77% 停牌核查 · <strong>新赛股份</strong>：信披违法证监会立案 · <strong>博云新材澄清</strong>：26 年至今未向中钨高新子公司供应高端钻针母材、未向日本佑能出口（卡位逻辑需以验证进度为准）。</div>
+<div class="lognote"><span class="kicker">减持地雷</span>华勤技术 / 睿昂基因 / 友车科技 / 光电股份 / 兄弟科技 / 卓郎智能等股东拟减持；北大荒补缴税款及滞纳金 14 亿。</div>
+</section>
+
+
+<div class="foot">
+A 股日报 · 主线 · 催化 · 个股 · 2026-06-23<br>
+内容来源：韭研公社 2026-06-23 当天 9 篇盘前纪要（一手调研 / 盘前解读 / 盘前纪要 / 一思一记 / 题材催化剂 / 黑曼巴不黑 / 武汉涅槃 / 戈壁淘金）交叉验证综合 · <strong>产业逻辑 100% 源自纪要、零外部搜索</strong><br>
+价格层（1W/1M/3M/6M 区间涨跌幅 + 连板）= Wind 后复权日线·截至 20260622 收盘核验 · A 股红涨绿跌<br>
+仅用于研究学习、提高市场认知，不构成投资建议。
+</div>
+
+<script>
+const LB={"000070": 1, "000519": 1, "000657": 2, "000751": 1, "000776": 1, "000783": 1, "000811": 3, "000823": 1, "000960": 1, "000962": 1, "001359": 1, "002068": 2, "002167": 2, "002297": 2, "002418": 1, "002428": 1, "002655": 2, "002657": 1, "002674": 2, "002842": 2, "002975": 1, "300179": 1, "300522": 3, "301071": 1, "600141": 1, "600172": 1, "600206": 1, "600353": 5, "600397": 4, "600549": 1, "600552": 1, "600584": 1, "601066": 1, "601108": 1, "601336": 1, "601869": 1, "603002": 1, "603083": 1, "603407": 2, "603663": 2, "603757": 1, "603976": 1, "603989": 4, "605580": 1};
+function sortAll(idx){
+  document.querySelectorAll('table.dt').forEach(tbl=>{
+    const tb=tbl.querySelector('tbody'); if(!tb)return;
+    const rows=[...tb.querySelectorAll('tr')]; if(!rows.length||!rows[0].querySelectorAll('td.rr').length)return;
+    rows.sort((a,b)=>{
+      const ca=a.querySelectorAll('td.rr')[idx],cb=b.querySelectorAll('td.rr')[idx];
+      let va=ca?parseFloat(ca.textContent):NaN,vb=cb?parseFloat(cb.textContent):NaN;
+      const na=isNaN(va),nb=isNaN(vb); if(na&&nb)return 0; if(na)return 1; if(nb)return -1; return vb-va;
+    });
+    rows.forEach(r=>tb.appendChild(r));
+  });
+}
+function flt(mode,btn){
+  document.querySelectorAll('#tb button[data-f]').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.querySelectorAll('tr[data-c]').forEach(tr=>{
+    const c=tr.dataset.c;
+    tr.style.display=(mode==='all'||(mode==='lb'&&LB[c]>=2))?'':'none';
+  });
+  document.querySelectorAll('section.sec').forEach(sec=>{
+    const tbl=sec.querySelector('table.dt'); if(!tbl||!tbl.querySelector('tr[data-c]'))return;
+    const vis=[...sec.querySelectorAll('tr[data-c]')].some(r=>r.style.display!=='none');
+    sec.style.display=vis?'':'none';
+  });
+}
+// 每表收益率列表头点击排序：首次点击降序(大→小)，再点切升序，缺失值沉底
+document.querySelectorAll('table.dt').forEach(tbl=>{
+  const tb=tbl.querySelector('tbody'); if(!tb)return;
+  const ths=[...tbl.querySelectorAll('thead th.so')]; if(!ths.length)return;
+  let st={};
+  ths.forEach(th=>{
+    th.addEventListener('click',()=>{
+      const k=+th.dataset.k;
+      const want = st[k]==='desc' ? 'asc' : 'desc';
+      st={}; st[k]=want;
+      ths.forEach(x=>{const a=x.querySelector('.ar'); if(a)a.textContent='';});
+      const ar=th.querySelector('.ar'); if(ar)ar.textContent = want==='desc'?'▼':'▲';
+      const rows=[...tb.querySelectorAll('tr')];
+      rows.sort((a,b)=>{
+        const ca=a.querySelectorAll('td.rr')[k], cb=b.querySelectorAll('td.rr')[k];
+        let va=ca?parseFloat(ca.textContent):NaN, vb=cb?parseFloat(cb.textContent):NaN;
+        const na=isNaN(va),nb=isNaN(vb); if(na&&nb)return 0; if(na)return 1; if(nb)return -1;
+        return want==='desc' ? vb-va : va-vb;
+      });
+      rows.forEach(r=>tb.appendChild(r));
+    });
+  });
+});
+// TOC 折叠 + active
+(function(){
+  const c=document.getElementById('toc-collapse'),r=document.getElementById('toc-reopen');
+  if(c)c.onclick=()=>document.body.classList.add('toc-collapsed');
+  if(r)r.onclick=()=>document.body.classList.remove('toc-collapsed');
+  const links=[...document.querySelectorAll('#toc-nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+    links.forEach(a=>a.classList.remove('active'));
+    const a=links.find(x=>x.getAttribute('href')==='#'+e.target.id); if(a)a.classList.add('active');
+  }});},{rootMargin:'-10% 0px -80% 0px'});
+  secs.forEach(s=>io.observe(s));
+})();
+</script>
+</body>
+</html>
