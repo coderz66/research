@@ -187,7 +187,7 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
 
 <!-- VIEW TABS · 5 档 mcap_tier -->
 <nav class="view-tabs">
-  <span class="vlabel">VIEW</span>
+  <span class="vlabel">VIEW · 可多选</span>
   <button class="vtab active" data-view="all">全部</button>
   <button class="vtab" data-view="L1">L1 大盘 ≥$100B</button>
   <button class="vtab" data-view="L2">L2 中盘 $30-100B</button>
@@ -2503,13 +2503,26 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
       if (cls) tr.setAttribute('data-tier', cls.toUpperCase());
     }
   });
+  // 多选: active 为空 = 全部; 否则只显示 tier 在集合内的行(取并集)
+  var active = new Set();
+  function apply(){
+    document.querySelectorAll('table.dt tbody tr[data-tier]').forEach(function(tr){
+      tr.style.display = (active.size === 0 || active.has(tr.getAttribute('data-tier'))) ? '' : 'none';
+    });
+    document.querySelectorAll('.vtab').forEach(function(b){
+      if (b.dataset.view === 'all') b.classList.toggle('active', active.size === 0);
+      else b.classList.toggle('active', active.has(b.dataset.view));
+    });
+  }
   document.querySelectorAll('.vtab').forEach(function(btn){
     btn.addEventListener('click', function(){
-      document.querySelectorAll('.vtab').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      document.body.setAttribute('data-view', btn.dataset.view);
+      var v = btn.dataset.view;
+      if (v === 'all') active.clear();
+      else if (active.has(v)) active.delete(v); else active.add(v);
+      apply();
     });
   });
+  apply();
 })();
 </script>
 
