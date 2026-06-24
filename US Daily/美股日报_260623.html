@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>美股盘后跟踪 · 2026年6月23日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1680px;margin:0 auto}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+em{font-style:italic;color:var(--accent)}
+.serif{font-family:var(--serif)}
+.mono{font-family:var(--mono);font-feature-settings:"tnum" 1}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'US DAILY';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1180px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* SECTION HEADERS */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-8px;margin-bottom:18px}
+
+/* SUB SECTION */
+.sub-h{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);margin:24px 0 8px;letter-spacing:-.005em}
+.sub-h em{font-style:italic;color:var(--accent)}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+/* PROSE */
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* DATA GRID */
+.grid{display:grid;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:14px 0}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+.grid .cell{padding:11px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule-soft)}
+.grid .cell:last-child{border-right:none}
+.grid .cell .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:3px}
+.grid .cell .val{font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600;line-height:1.1}
+.grid .cell .note{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* PROFILE CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.card-body strong{color:var(--ink)}
+
+/* TABLES */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.35}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;cursor:pointer;user-select:none;position:relative;white-space:nowrap}
+table.dt thead th:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th::after{content:" ⇅";font-size:9px;color:var(--hairline);font-family:var(--mono)}
+table.dt thead th.asc::after{content:" ▲";color:var(--accent)}
+table.dt thead th.desc::after{content:" ▼";color:var(--accent)}
+table.dt thead th.num,table.dt tbody td.num{text-align:right;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink)}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+.tag.t-macro{background:#E5EBF2;color:var(--ink)}
+.tag.t-geo{background:#F2E5E5;color:var(--bear)}
+/* TIER TAGS（L1 Mega / L2 Large / L3 Mid / L4 Small）— 用于 theme 表格 L 列 */
+.tag.l1{background:#1B2635;color:#D4A017;font-weight:600}
+.tag.l2{background:#2D3D52;color:#fff}
+.tag.l3{background:#8B6F35;color:#fff}
+.tag.l4{background:#D9D2C2;color:#1B2635}
+.hl{background:var(--highlight);padding:0 2px}
+/* §01-C 板块 β 涨跌原因归因表 — 内容紧凑（信息密度高、字号调小） */
+#beta-attr-tbl{font-size:11px;line-height:1.3}
+#beta-attr-tbl thead th{font-size:9px;padding:6px 8px}
+#beta-attr-tbl tbody td{padding:5px 8px}
+#beta-attr-tbl tbody td.name{font-size:11px}
+
+/* THEME ROW IN OVERVIEW */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* SIGNAL TABLE */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* FOOTNOTE */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12px;color:var(--ink-soft);line-height:1.5}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block.geo{background:#FFF5E6;border-left-color:var(--bear)}
+
+/* MARKET BETA STRIP */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:flex;flex-wrap:nowrap;gap:1px;background:var(--rule);overflow-x:auto}
+.beta-item{flex:1 1 0;min-width:0;padding:7px 6px;background:var(--paper);display:flex;flex-direction:column;gap:1px;line-height:1.1;text-align:center;align-items:center}
+.beta-item .bn{font-family:var(--mono);font-size:9.5px;color:var(--accent);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.beta-item .bv{font-family:var(--mono);font-size:12.5px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.beta-item .bd{font-size:9px;color:var(--muted);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* KI-NOTE: editorial commentary on key info points */
+.ki-note{display:block;margin-top:6px;padding-top:5px;border-top:1px dotted var(--rule);font-family:var(--serif);font-style:italic;font-size:12.5px;font-weight:400;color:var(--ink-soft);line-height:1.5;letter-spacing:.005em}
+.ki-note::before{content:"解读 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:600;margin-right:1px}
+.ki-note em{font-style:italic;font-weight:600;color:var(--ink)}
+
+
+/* 视图 tabs (5 档 mcap_tier) */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+body[data-view="L1"] table.dt tbody tr:not([data-tier="L1"]){display:none}
+body[data-view="L2"] table.dt tbody tr:not([data-tier="L2"]){display:none}
+body[data-view="L3"] table.dt tbody tr:not([data-tier="L3"]){display:none}
+body[data-view="L4"] table.dt tbody tr:not([data-tier="L4"]){display:none}
+body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
+.tag.l5{background:#EDE8DB;color:#6B7B8C;font-weight:600}
+@media print{.view-tabs{display:none}}
+
+@media print{body{padding:24px}.masthead{padding:24px 30px}}
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标 -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<div class="masthead">
+  <div class="h-eyebrow">US Equity Daily · Issue No. 19 · 2026-06-23 (周二) · n=412 异动 · 半导体暴力 unwind</div>
+  <h1 class="h-title">AI 硬件<em>暴力 unwind</em>：<em>SOX −7.9</em> 全链血洗（6/22 +2.4 的 48 小时镜像反转）<br>钱轮入<em>防御 + 软件</em>——flows 主导非基本面，<em>unwind ≠ 产业拐点</em></h1>
+  <div class="h-desc">仅隔一个交易日，<strong>6/22 的半导体主升浪被暴力反转</strong>：<strong>SOXX −7.9%</strong> 是当日最差 β、AI 硬件全链血洗（6/22 +2.4% → 6/23 −7.9%，<em>同一批名 48 小时巨震 = flows/仓位主导而非基本面</em>）。<strong>QQQ −3.3 / XLK −4.1 / SPY −1.5</strong>，但 <strong>DIA 仅 −0.1（道指几乎平）</strong>——这不是系统性崩盘、是<strong>科技内部 + 风格轮动</strong>。触发三合一：① <strong>Warsh 鹰派重定价</strong>（市场加息预期从 25bp 升至 50bp，债务融资的 AI capex 折现率假设被重算）+ AI capex 可持续性质疑（hyperscaler 以债务而非 FCF 驱动）；② <strong>SK Hynix 传放缓 AI 内存扩产</strong> → KOSPI −10%、海力士/三星各 −12%，外溢全球存储链；③ <strong>MU 6/24 财报前 de-risk</strong>（年内最佳表现股之一、巨量浮盈了结）。6/22 的赢家全成今日最大输家：<strong>PRIM +7→−21.6 / VRT +7.5→−11.1 / TE +11.2→−11.2 / AXTI +9.3→−15.7 / TSEM +10.5→−10.8 / ON +8.2→−11.0</strong>。<strong>钱去三处</strong>：<strong>防御</strong>（XLP +1.9/XLV +1.4/XLRE +1.4/XLU +0.8 全绿·T/PM/VZ +3）+ <strong>软件逆势</strong>（VRNS +7.1 PE 收购意向 / IBM +5.0 JPM 升级 / NOW +3.1·与 6/22 软件被杀完全反向）+ <strong>量子妖股反转</strong>（Trump 量子行政令 ARQQ +35.6/BTQ +32.2 + BLZE +43.6 CoreWeave $335M 存储合同）。<em>关键纪律：AI 硬件中期产业上行段未变（无龙头指引下修/无合同价见顶/无库存累积的产业信号），本日是 unwind/获利了结 ≠ 产业拐点——按 Bull Logic 回调=机会。唯一例外 PRIM −21.6 是自身暴雷（指引腰斩+COO 离任），不能混入 unwind 叙事。</em></div>
+  <div class="h-pills">
+    <span class="pill bear">AI 硬件暴力 unwind · SOX −7.9 全链血洗 · 6/22 赢家全反转（PRIM/VRT/TE/AXTI/TSEM/ON）· flows 主导非基本面</span>
+    <span class="pill bear">触发 · Warsh 鹰派(25→50bp) + AI capex 债务可持续性质疑 + SK Hynix 减产传闻(KOSPI −10%) + MU 财报前 de-risk</span>
+    <span class="pill bull">钱轮入防御 · XLP +1.9/XLV +1.4/XLRE +1.4/XLU +0.8 全绿 · 道指 −0.1 几乎平 · 非系统性崩盘</span>
+    <span class="pill bull">软件逆势 + 量子反转 · VRNS +7.1(PE收购)/IBM +5.0 · BLZE +43.6(CoreWeave $335M)/ARQQ +35.6(量子行政令)</span>
+    <span class="pill bear">独立暴雷剔除 · PRIM −21.6 是自身利空（FY26 指引腰斩+COO 离任+6 项目超支）· t-guide-cut 非 AI EPC unwind</span>
+  </div>
+</div>
+
+<!-- VIEW TABS · 5 档 mcap_tier -->
+<nav class="view-tabs">
+  <span class="vlabel">VIEW</span>
+  <button class="vtab active" data-view="all">全部</button>
+  <button class="vtab" data-view="L1">L1 大盘 ≥$100B</button>
+  <button class="vtab" data-view="L2">L2 中盘 $30-100B</button>
+  <button class="vtab" data-view="L3">L3 小盘 $5-30B</button>
+  <button class="vtab" data-view="L4">L4 小盘 $1-5B</button>
+  <button class="vtab" data-view="L5">L5 微盘 &lt;$1B</button>
+</nav>
+
+<section class="sec">
+  <div class="sec-num">§ 00 — Today's β</div>
+  <h2 class="sec-title">板块 <em>β 全景</em>：AI 硬件链暴力 unwind · 防御全线轮入</h2>
+
+  <div class="beta-strip">
+    <span class="kicker">当日 <em>板块 β 全景</em> · 板块极差 11.8pp（XLP +1.9% → SOX −7.9%）· 11 个 SPDR <em>7 涨 / 4 跌</em>（不含宽基指数）</span>
+    <div class="beta-grid">
+      <div class="beta-item up"><span class="bn">XLP</span><span class="bv">+1.9%</span><span class="bd">必需消费</span></div>
+      <div class="beta-item up"><span class="bn">XLV</span><span class="bv">+1.4%</span><span class="bd">医疗健康</span></div>
+      <div class="beta-item up"><span class="bn">XLRE</span><span class="bv">+1.4%</span><span class="bd">房地产</span></div>
+      <div class="beta-item up"><span class="bn">XLU</span><span class="bv">+0.8%</span><span class="bd">公用事业</span></div>
+      <div class="beta-item up"><span class="bn">XLE</span><span class="bv">+0.7%</span><span class="bd">能源</span></div>
+      <div class="beta-item up"><span class="bn">XLC</span><span class="bv">+0.4%</span><span class="bd">通信服务</span></div>
+      <div class="beta-item up"><span class="bn">XLF</span><span class="bv">+0.3%</span><span class="bd">金融</span></div>
+      <div class="beta-item up"><span class="bn">UUP</span><span class="bv">+0.3%</span><span class="bd">美元指数</span></div>
+      <div class="beta-item up"><span class="bn">TLT</span><span class="bv">+0.1%</span><span class="bd">长债 20Y+</span></div>
+      <div class="beta-item flat"><span class="bn">HYG</span><span class="bv">−0.1%</span><span class="bd">高收益债</span></div>
+      <div class="beta-item flat"><span class="bn">DIA</span><span class="bv">−0.1%</span><span class="bd">道指</span></div>
+      <div class="beta-item dn"><span class="bn">IWM</span><span class="bv">−1.0%</span><span class="bd">罗素 2000</span></div>
+      <div class="beta-item dn"><span class="bn">XLY</span><span class="bv">−1.0%</span><span class="bd">可选消费</span></div>
+      <div class="beta-item dn"><span class="bn">SPY</span><span class="bv">−1.5%</span><span class="bd">标普 500</span></div>
+      <div class="beta-item dn"><span class="bn">XLB</span><span class="bv">−1.5%</span><span class="bd">材料</span></div>
+      <div class="beta-item dn"><span class="bn">GLD</span><span class="bv">−1.9%</span><span class="bd">黄金</span></div>
+      <div class="beta-item dn"><span class="bn">XLI</span><span class="bv">−2.0%</span><span class="bd">工业</span></div>
+      <div class="beta-item dn"><span class="bn">URA</span><span class="bv">−2.6%</span><span class="bd">铀矿</span></div>
+      <div class="beta-item dn"><span class="bn">IBIT</span><span class="bv">−3.3%</span><span class="bd">比特币</span></div>
+      <div class="beta-item dn"><span class="bn">QQQ</span><span class="bv">−3.3%</span><span class="bd">纳指 100</span></div>
+      <div class="beta-item dn"><span class="bn">XLK</span><span class="bv">−4.1%</span><span class="bd">科技</span></div>
+      <div class="beta-item dn"><span class="bn">GDX</span><span class="bv">−4.6%</span><span class="bd">金矿 ETF</span></div>
+      <div class="beta-item dn"><span class="bn">GDXJ</span><span class="bv">−5.2%</span><span class="bd">小金矿</span></div>
+      <div class="beta-item dn"><span class="bn">SLV</span><span class="bv">−5.4%</span><span class="bd">白银</span></div>
+      <div class="beta-item dn"><span class="bn">SOX</span><span class="bv">−7.9%</span><span class="bd">费城半导体</span></div>
+    </div>
+    <div class="footer">
+      <strong>结构性观察</strong>·板块极差 11.8pp（XLP +1.9% → SOX −7.9%），最典型的 risk-off 轮动结构：防御（XLP/XLV/XLRE/XLU）全绿而 AI 硬件链（SOX −7.9% / XLK −4.1% / QQQ −3.3%）血洗，道指仅 −0.1% 显示伤害高度集中在科技/半导体；SOX vs SPY 裂口 −6.4pp，今年以来 SOX 第二大单日跌幅；市场广度 106 涨/306 跌，但防御 7 个 SPDR 正收益遮掩了宽基负表现，<strong>反叙事</strong>·① XLU +0.8%、XLRE +1.4%——前者通常被解读为受益 AI 数据中心电力需求，今日却以 risk-off 避险属性胜出，AI 叙事暂时让位于流动性轮动（narrative overridden by flows）；② 道指 −0.1% 几乎平盘，金融（XLF +0.3%）正收益，说明本轮杀伤对象是 AI 链仓位，而非系统性去杠杆。
+    </div>
+  </div>
+  <div class="note-block">
+    <span class="kicker">⚠ 数据层 vs 归因层</span>
+    本节是"<em>本日 β 全貌</em>"——只看数字事实。<strong>"为什么板块这样涨/跌"的归因放在 §01 Macro Drivers</strong>，<em>不要在本节硬编宏观故事</em>。
+  </div>
+</section>
+
+
+
+
+<section class="sec">
+  <div class="sec-num">§ 01 — Macro Drivers</div>
+  <h2 class="sec-title">本日<em>宏观与板块 β 归因</em>：AI capex 可持续性质疑 + Warsh 加息重定价，双线叠压半导体 unwind</h2>
+  <div class="sec-sub">本节是"<em>为什么市场是这个样子</em>"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件 / 地缘事件 / 政策动作。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
+
+  
+  <h3 class="sub-h">A · <em>本日宏观事件</em></h3>
+
+  <table class="dt" id="macro-tbl">
+  <thead><tr>
+    <th data-type="text">事件 / 数据</th>
+    <th data-type="text">类型</th>
+    <th data-type="num">实际值</th>
+    <th data-type="num">预期值</th>
+    <th data-type="text">影响渠道</th>
+    <th data-type="text">资产价格反应</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="name">Fed Warsh 加息预期重定价——市场开始 price in 12 月第二次加息</td>
+      <td><span class="tag t-macro">货币政策</span></td>
+      <td class="num">50bp 年内加息</td>
+      <td class="num">25bp（两周前）</td>
+      <td>LSEG 数据：traders 押注 12 月前再加 25bp，Warsh 鹰派立场持续发酵，债务融资 AI capex 的贴现率假设被重算；高估值科技（尤其半导体）久期最长，受冲击最大</td>
+      <td class="num"><strong>TLT +0.1%（飞向安全）/ UUP +0.3%</strong></td>
+    </tr>
+    <tr>
+      <td class="name">债务融资 AI capex 可持续性质疑——hyperscaler 资本支出来源受审视</td>
+      <td><span class="tag t-macro">估值重定价</span></td>
+      <td class="num">叙事转向</td>
+      <td class="num">—</td>
+      <td>投资者质疑主要云厂商以债务而非自由现金流驱动 AI infra capex 的持续性，叠加 Warsh 加息重定价使借贷成本上升预期，市场对 AI 硬件订单 backlog 的 duration 风险重新定价</td>
+      <td>QQQ −3.3% / XLK −4.1% / SOX −7.9%；semis 中 memory 最惨（MU −13.2%、SNDK −13%）</td>
+    </tr>
+    <tr>
+      <td class="name">MU 6/24 Q3 财报前 de-risk——机构主动减持避开不确定性</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td class="num">MU −13.2%</td>
+      <td class="num">—</td>
+      <td>MU 今年 S&amp;P 500 最佳表现股之一（与 SNDK），巨量浮盈叠加 6/24 财报不确定性，机构集中 de-risk；MU 下跌触发整个 HBM / memory 链共振卖压（SNDK −13%）</td>
+      <td>memory 子链最大杀伤；整体 SOX 拖累约 2-3pp 源自 MU/SNDK 双杀</td>
+    </tr>
+    <tr>
+      <td class="name">6/22 AI 硬件 melt-up 的次日暴力 unwind（PRIM +7→−21.6 / VRT +7.5→−11.1）</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td class="num">仓位主导</td>
+      <td class="num">—</td>
+      <td>6/22 同批 AI 硬件名（PRIM/VRT/AXTI/TSEM/ON/TE）单日大涨后次日即血洗，48 小时内 +7% → −21%，说明本轮波动由仓位/flows 主导，而非基本面发生系统性变化；典型的 momentum unwind</td>
+      <td>SOX −7.9%（6/22 基准约 +2.4%，两日净亏 −5.5%）；道指 −0.1% 印证非系统性</td>
+    </tr>
+    <tr>
+      <td class="name">美债收益率 / TLT 反应——risk-off 买盘推升长债</td>
+      <td><span class="tag t-macro">收益率</span></td>
+      <td class="num">TLT +0.1%</td>
+      <td class="num">—</td>
+      <td>长端美债在股市 risk-off 中获得买盘，但幅度克制（+0.1%），说明市场对 Warsh 加息预期抬升长端利率的担忧与 risk-off 买盘形成对冲；实际利率预期上移是压制黄金的核心逻辑</td>
+      <td>TLT +0.1% / HYG −0.1%（高收益信用跟随股权 risk-off）</td>
+    </tr>
+  </tbody>
+  </table>
+
+  
+  <h3 class="sub-h">B · <em>地缘事件</em></h3>
+
+  <div class="note-block geo">
+    <span class="kicker">本日地缘要点</span>
+    <strong>本日无新增显著地缘扰动。</strong>背景：伊朗/霍尔木兹局势持续影响油价中枢（参见上周 Warsh 声明），但 6/23 当天无新增升级信号。XLE +0.7% 属于 risk-off 资源轮入 + 油价韧性的结合，非新地缘催化。
+  </div>
+
+  
+  <h3 class="sub-h">C · <em>板块 β 涨跌原因归因</em>（把 §00 的每个板块挂到具体事件链）</h3>
+
+  <table class="dt" id="beta-attr-tbl">
+  <thead><tr>
+    <th data-type="text">板块 / 指数</th>
+    <th data-type="num">当日</th>
+    <th data-type="text">方向</th>
+    <th data-type="text">驱动事件（来自 A/B 子节）</th>
+    <th data-type="text">传导链路</th>
+    <th data-type="text">反叙事？</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="name">XLP 必需消费</td>
+      <td class="num pos">+1.9%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·risk-off 轮动</td>
+      <td>AI 硬件 unwind → 防御轮入；XLP 低 beta、高股息，是 risk-off 首选停泊地</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLV 医疗健康</td>
+      <td class="num pos">+1.4%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·risk-off 轮动</td>
+      <td>防御轮入；XLV 与宏观利率和 AI capex 关联度低，资金承接 AI 链卖盘</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLRE 房地产</td>
+      <td class="num pos">+1.4%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·risk-off 轮动 / TLT 小涨</td>
+      <td>TLT +0.1% 带来微弱利率宽松预期，叠加 risk-off 防御属性；REIT 在 AI 硬件 unwind 日反向走强</td>
+      <td><strong>是</strong> · XLRE 本应受利率上行（Warsh 加息预期）压制，但今日以 risk-off 停泊属性胜出——narrative overridden by flows</td>
+    </tr>
+    <tr>
+      <td class="name">XLU 公用事业</td>
+      <td class="num pos">+0.8%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·risk-off 轮动</td>
+      <td>防御轮入；XLU 在 AI 硬件 unwind 日获资金承接</td>
+      <td><strong>是</strong> · XLU 通常同时被"AI 数据中心电力需求"叙事加持，今日这一叙事随 AI 链普跌被压制；纯 risk-off 属性主导，AI 电力叙事暂退（narrative overridden by flows）</td>
+    </tr>
+    <tr>
+      <td class="name">XLE 能源</td>
+      <td class="num pos">+0.7%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·risk-off 资源轮入 / 油价韧性</td>
+      <td>霍尔木兹背景下油价维持高位，XLE 受益；同时部分 risk-off 资金流入实物资产</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLC 通信服务</td>
+      <td class="num pos">+0.4%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·结构性分化</td>
+      <td>Alphabet −1.2% 拖累但整体 XLC 正收益，说明电信/媒体类权重对冲了 Google 卖盘；通信类 AI 链敞口低于 XLK</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLF 金融</td>
+      <td class="num pos">+0.3%</td>
+      <td><span class="pos">↑ 上行</span></td>
+      <td>A·Warsh 加息预期</td>
+      <td>加息预期上升 → 银行净息差扩张预期 → XLF 小幅受益；道指平盘印证金融/工业类受 AI 链卖盘波及有限</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">DIA 道指</td>
+      <td class="num">−0.1%</td>
+      <td><span class="signal-flat">→ 持平</span></td>
+      <td>A·结构性隔离</td>
+      <td>道指权重以金融/工业/医疗为主，AI 链权重低；SOX −7.9% 对道指几乎无传导，说明本轮伤害高度集中于 AI 硬件仓位</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLY 可选消费</td>
+      <td class="num neg">−1.0%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·科技关联 + 估值压缩</td>
+      <td>Tesla/Amazon 权重拖累；科技关联度较高的可选消费随 QQQ 承压</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">IWM 罗素 2000</td>
+      <td class="num neg">−1.0%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·加息预期 + 小盘信用收紧</td>
+      <td>小盘股对利率敏感度高于大盘；Warsh 加息重定价 → 小盘融资成本预期上升 → IWM 弱于 SPY</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLB 材料</td>
+      <td class="num neg">−1.5%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·金属价格联动</td>
+      <td>GLD −1.9%、SLV −5.4% 拖累贵金属矿业权重；美元走强压制商品价格</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">SPY 标普 500</td>
+      <td class="num neg">−1.5%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·AI 链权重拖累</td>
+      <td>XLK 权重约 30%，SOX 相关成分拖累指数；防御板块 +0.3%~+1.9% 虽正贡献，但无法抵消科技/半导体杀伤</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">GLD 黄金</td>
+      <td class="num neg">−1.9%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·Warsh 加息重定价 → 美元走强 + 实际利率上行</td>
+      <td>加息预期推升 UUP +0.3%；实际利率上行 → 黄金贴现率上升 → GLD −1.9%；CNBC：gold slips 2%+ as dollar holds firm on Fed rate-hike expectations</td>
+      <td><strong>是</strong> · 当日为 risk-off 日，黄金理应受避险买盘支撑，但 Fed 加息重定价的实际利率效应完全压制了避险需求——narrative overridden by rates</td>
+    </tr>
+    <tr>
+      <td class="name">XLI 工业</td>
+      <td class="num neg">−2.0%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·AI capex 关联 + 估值压缩</td>
+      <td>VRT（数据中心冷却）等 AI infra 工业股是 XLI 内伤害最重的子集（VRT 6/22 +7.5 → 今日 −11.1%）；整体 XLI 跌幅反映 AI infra 工业链暴力 unwind</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">QQQ 纳指 100</td>
+      <td class="num neg">−3.3%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·AI 硬件 + Warsh 叠压</td>
+      <td>高科技权重指数，SOX 成分拖累 + 长久期科技股贴现率重算；QQQ vs DIA −3.2pp 裂口 = AI 链独立冲击</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">XLK 科技</td>
+      <td class="num neg">−4.1%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·半导体 unwind + AI capex 质疑</td>
+      <td>半导体是 XLK 核心权重；AI capex 可持续性质疑 + Warsh 加息 → 高 PE 科技估值重定价，XLK −4.1% vs XLP +1.9% = 6.0pp 内部分化</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">GDX / GDXJ 金矿</td>
+      <td class="num neg">−4.6% / −5.2%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·GLD −1.9% × 矿商杠杆</td>
+      <td>金矿股对金价有 2-3 倍杠杆；GLD −1.9% 驱动 GDX −4.6%（约 2.4× 杠杆）、GDXJ −5.2%（约 2.7× 杠杆，小矿成本结构更脆弱）；根因同 GLD：Warsh 加息重定价 → 美元走强 + 实际利率上行</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">SLV 白银</td>
+      <td class="num neg">−5.4%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·Fed 重定价 + 工业金属联动</td>
+      <td>白银兼具货币属性（随黄金跌）和工业属性（AI/半导体砸盘 → 工业需求预期走弱），双重压制；InvestorIdeas：Silver leads precious-metals selloff as Fed rate-hike bets firm</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td class="name">SOX 费城半导体</td>
+      <td class="num neg">−7.9%</td>
+      <td><span class="neg">↓ 下行</span></td>
+      <td>A·三重叠压（MU 财报 de-risk + AI capex 质疑 + Warsh 加息 + 6/22 melt-up unwind）</td>
+      <td>① MU/SNDK 共贡献约 2-3pp SOX 跌幅（MU −13.2%，今年最佳表现股之一，巨量浮盈 de-risk）；② hyperscaler 债务融资 AI capex 可持续性质疑 → 整链估值重定价；③ Warsh 50bp 加息 price-in → 长久期半导体贴现率上移；④ 6/22 涨幅作为仓位充分条件，MU/VRT/PRIM 等 6/22 最强标的今日跌幅最惨</td>
+      <td><strong>是</strong> · 48 小时镜像反转（6/22 SOX ~+2.4% → 6/23 SOX −7.9%），同批 AI 硬件名涨完即砸，说明 flows/仓位主导而非基本面系统性恶化；SOX −7.9% vs DIA −0.1% = 7.8pp 裂口，道指隔离确认非系统性 de-risking</td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">⚠ 反叙事汇总</span>
+    本日两条关键反叙事值得记录：
+    <strong>① AI 电力叙事被 flows 盖过</strong>——XLU +0.8%、XLRE +1.4% 在 AI 链血洗日反向走强，防御属性暂时压制了"AI 数据中心电力需求"加持，narrative overridden by risk-off flows。
+    <strong>② 黄金避险失灵</strong>——risk-off 日黄金理应受避险买盘，但 GLD −1.9%，实际利率上行（Warsh 加息重定价）完全压制了避险需求，narrative overridden by rates（Fed repricing lifts USD and real yields）。
+    <strong>③ 48 小时镜像印证仓位主导</strong>——SOX 6/22 +2.4% → 6/23 −7.9%，同批名单完全反转，基本面无系统性变化，是仓位/momentum unwind 而非产业拐点信号。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 02 — Executive Summary</div>
+  <h2 class="sec-title"><em>本日一句话总结</em>：6/22 半导体主升浪的<strong>暴力 unwind</strong>（SOX −7.9·48 小时镜像反转）+ risk-off 轮入<strong>防御/软件/量子</strong>；这是 flows 主导的仓位再平衡、<em>unwind ≠ 产业拐点</em>，但 PRIM −21.6 是真暴雷要单独剔除</h2>
+
+  <p><strong>本日核心 = 6/22 melt-up 的暴力 unwind，不是系统性崩盘。</strong>仅隔一个交易日，<strong>SOXX 从 6/22 +2.4% 反转到 6/23 −7.9%</strong>（当日最差 β），AI 硬件全链血洗——<em>同一批名 48 小时内 +2.4 → −7.9，这种巨震只可能是 flows/仓位主导、不是基本面变化</em>。<strong>QQQ −3.3 / XLK −4.1 / SPY −1.5</strong>，但 <strong>DIA 仅 −0.1（道指几乎收平）、IWM −1.0</strong>——跌的高度集中在半导体/AI 硬件，这是<strong>科技内部去杠杆 + 风格轮动</strong>，不是无差别 risk-off。6/22 的赢家精确成为今日最大输家：<strong>PRIM +7.0→−21.6 / VRT +7.5→−11.1 / TE +11.2→−11.2 / AXTI +9.3→−15.7 / TSEM +10.5→−10.8 / ON +8.2→−11.0 / INIO +9.8→−6.9</strong>——这种对称反转是仓位再平衡的指纹。</p>
+
+  <p><strong>触发是三合一的 AI capex 折现率 scare。</strong>① <strong>Warsh 鹰派重定价</strong>：市场对年内加息的定价从 25bp 升至 50bp，<em>抬高了债务融资的 AI capex 的折现率假设</em>，叠加"hyperscaler 以债务而非自由现金流驱动 AI infra 支出"的可持续性质疑——拥挤的 AI 硬件估值首当其冲；② <strong>SK Hynix 传出可能放缓 AI 内存扩产、转回常规 DRAM</strong> → KOSPI 收跌 ~10%、SK Hynix/三星各跌逾 12%、两度熔断，外溢全球存储链（MU/SNDK/WDC）；③ <strong>MU 6/24 盘后 FQ3 财报前的 de-risk</strong>（MU 是年内 S&P 最佳表现股之一、巨量浮盈，机构财报前集中了结）。三者共同点 = 都在质疑"AI capex/存储超级周期的确定性溢价"，而这正是 6/22 主升浪 price in 的核心。<strong>关键：这些是估值/仓位层面的重定价，不是产业级证伪</strong>——无龙头指引下修、无合同价见顶、无库存累积的产业拐点信号。</p>
+
+  <p><strong>钱去了三处——risk-off 的资金去向（6/22 的镜像）。</strong>① <strong>防御轮入</strong>：<strong>XLP +1.9 / XLV +1.4 / XLRE +1.4 / XLU +0.8 全绿</strong>（T/PM/VZ/WCN +3~4），低 AI 敞口、现金流稳的避风港；② <strong>软件逆势</strong>：<strong>VRNS +7.1</strong>（Bloomberg 报 PE 收购意向 Blackstone/Thoma Bravo/Vista）/ <strong>IBM +5.0</strong>（JPM 升 OW·PT $291）/ NOW +3.1 / NTSK +6.5——<em>与 6/22 软件被杀完全反向</em>，市场在"AI capex 重资产 vs 软件轻资产"间切换偏好；③ <strong>量子妖股反转</strong>：<strong>ARQQ +35.6 / BTQ +32.2</strong>（Trump 6/22-23 签量子计算行政令 + PQC 迁移强制令）/ <strong>BLZE +43.6</strong>（CoreWeave 五年 $335M 云存储硬合同）。</p>
+
+  <p><strong>关键认知校准 + 独立暴雷剔除。</strong>本日 watchlist 流动性异动股按 3% 门槛 <span class="num">412</span> 只（106 涨 / 306 跌），双轴动态阈值入选 <span class="num">147</span> 只（45 涨 / 102 跌）。<strong>头号纪律 = PRIM −21.6 必须单独剔除、不能混入 AI EPC unwind</strong>：6/22 PRIM 发 8-K 业务更新，<em>FY26 EPS 指引从 $4.05-4.25 腰斩至 $1.30-1.85、调整后 EBITDA $480-500M→$275-325M、COO Jeremy Kinch 即时离任、6 个 Renewables 项目成本超支（第四次连续下修）</em>——这是 t-guide-cut 自身暴雷（驱动是可再生工程成本超支、与 AI 数据中心 EPC backlog 是两条不同的链），恰好撞上 SOX unwind 当天被放大。<strong>第二条独立 = 金银矿崩</strong>（SLV −5.4/GDX −4.6/GDXJ −5.2·矿商运营杠杆放大 + GLD −1.9）。本日 7 主线：<strong>§04</strong> 半导体设备/代工/封测（↓·纯 β unwind）/ <strong>§05</strong> 算力/连接芯片（↓·龙头抗跌 vs 高 β 中小盘跌狠）/ <strong>§06</strong> 存储/模拟/分立（↓·MU/SNDK·SK Hynix 外溢）/ <strong>§07</strong> 光通信（↓·AAOI 拥挤回吐）/ <strong>§08</strong> AI 电力/EPC（↓·VRT 反转 + PRIM 真暴雷）/ <strong>§09</strong> 防御轮入+软件逆势（↑·资金去向）/ <strong>§10</strong> 贵金属矿/量子/妖股（↕·量子行政令反转）。<strong>★ FOCUS</strong> 深读 6 家（MU/PRIM/AMAT 空 + 防御/VRNS/BLZE 多）。<strong>头号 forward = MU 6/24 财报</strong>（验证存储超级周期 vs 证伪、决定 unwind 是一日还是趋势）。</p>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 03 — Theme Map</div>
+  <h2 class="sec-title">本日交易主线总览 · 7 条主线（AI 硬件暴力 unwind 日·5 跌 / 2 涨·SOX −7.9 全链血洗）</h2>
+  <div class="sec-sub">本期 <span class="num">147</span> 只入选异动股（45 涨 / 102 跌·按当日关注度分到 7 主线）。<em>核心叙事 = 6/22 半导体主升浪的暴力 unwind</em>：§04-§07 是 AI 硬件全链被去杠杆的四个切面（设备/算力/存储/光通信），§08 是 AI 电力 EPC 反转（含 PRIM 真暴雷需剔除），§09 是 risk-off 的资金去向（防御+软件逆势·6/22 镜像），§10 收纳贵金属矿崩 + 量子行政令反转 + 妖股。</div>
+
+  <table class="dt" id="theme-tbl">
+  <thead><tr>
+    <th data-type="num">#</th>
+    <th data-type="text">主线</th>
+    <th data-type="text">方向</th>
+    <th data-type="text">强度</th>
+    <th data-type="num">涨跌幅区间</th>
+    <th data-type="text">代表标的</th>
+    <th data-type="text">本日核心信号</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td class="name">半导体 · 设备/代工/封测/材料</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:54px"></span><span class="theme-strength">极强</span></td><td class="num">−15.7% ~ −5.6%</td><td class="mono">AMAT·LRCX·KLAC·ASML·TSM·AXTI</td><td>SOX −7.9 全链 unwind·WFE 设备是 capex 高杠杆下游、被放大甩出 SOX 以上 β；纯仓位去杠杆无个股利空（AMAT FQ2 创纪录·见 FOCUS）；AXTI −15.7/CAMT −13.4 跌最深=高 β+重 China 敞口放大、非新利空；unwind ≠ WFE 周期拐点</td></tr>
+    <tr><td class="num">2</td><td class="name">算力 / 逻辑 / 连接 / 网络芯片</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:50px"></span><span class="theme-strength">极强</span></td><td class="num">−10.1% ~ −4.1%</td><td class="mono">NVDA·AMD·ARM·MRVL·ALAB·CRDO</td><td>β 分层清晰：大盘龙头抗跌（NVDA −4.1/AMD −5.8/APH −4.4）vs 高 β 中小盘跌狠（ARM −10.1/CRDO −10.1/ALAB −9.7/MRVL −9.4）=先砍最拥挤的高 β 仓位；MRVL 叠 S&P 500 纳入兑现；ARM 叠 6/18 New Street 降级</td></tr>
+    <tr><td class="num">3</td><td class="name">存储 / 模拟 / 分立 / 传感</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:48px"></span><span class="theme-strength">强</span></td><td class="num">−13.6% ~ −5.1%</td><td class="mono">MU·SNDK·WDC·ON·TXN·ADI</td><td>SK Hynix 传放缓 AI 内存扩产→KOSPI −10%/海力士三星 −12% 外溢；MU −13.2 是 6/24 财报前 de-risk（非财报·见 FOCUS）；SNDK −13.6 叠 MS 估值警示（P/E 79）；模拟/功率（ON/TXN/ADI）是板块轮动错杀非 AI direct；存储超级周期待 MU 6/24 验证</td></tr>
+    <tr><td class="num">4</td><td class="name">光通信 / 光模块</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:44px"></span><span class="theme-strength">强</span></td><td class="num">−13.9% ~ −5.1%</td><td class="mono">AAOI·POET·COHR·LITE·GLW·NOK</td><td>6/22 暴涨的 unwind 回吐·AAOI −13.9 跌最深=12M +600% 最拥挤动量名按 β 放大、非自身利空；direct 光引擎（COHR/LITE/POET/AAOI）跌幅 > indirect（GLW/NOK）；底层 CPO 量产时点争论（SemiAnalysis vs NVDA）是未决变量但非本日新信息</td></tr>
+    <tr><td class="num">5</td><td class="name">AI 电力 · 数据中心 EPC · 储能</td><td><span class="neg">↓ 下行</span></td><td><span class="theme-bar" style="width:52px"></span><span class="theme-strength">极强</span></td><td class="num">−21.6% ~ +6.0%</td><td class="mono">PRIM·VRT·FLNC·TE·EOSE·GEV</td><td>6/22 链内赢家（VRT +7.5/TE +11.2/INIO +9.8）本日跌幅与前日涨幅对称=仓位再平衡；<strong>PRIM −21.6 是真暴雷必剔除</strong>（FY26 指引腰斩+COO 离任+6 项目超支·t-guide-cut·见 FOCUS，与 AI EPC unwind 是两条链）；VRT 叠微流控直冷竞争威胁；ENLT +6.0 逆势=IPP 业主属性不吃 EPC 超支</td></tr>
+    <tr><td class="num">6</td><td class="name">防御轮入 + 软件逆势（资金去向）</td><td><span class="pos">↑ 上行</span></td><td><span class="theme-bar" style="width:46px"></span><span class="theme-strength">强</span></td><td class="num">−5.7% ~ +7.1%</td><td class="mono">VRNS·IBM·NOW·T·PM·VZ</td><td>risk-off 资金去向·6/22 镜像（硬件杀→软件/防御买）；VRNS +7.1=PE 收购意向（Blackstone/Thoma Bravo·见 FOCUS）/IBM +5.0=JPM 升 OW PT$291；防御（XLP/XLV +1~2）低 AI 敞口避风港；ORCL −5.7 是唯一例外（OCI 云随 AI 硬件跌=软件内部分化）</td></tr>
+    <tr><td class="num">7</td><td class="name">贵金属矿 / 量子 / 妖股 census</td><td><span class="neg">↕ 混合</span></td><td><span class="theme-bar" style="width:42px"></span><span class="theme-strength">中强</span></td><td class="num">−24.6% ~ +43.6%</td><td class="mono">BLZE·ARQQ·BTQ·AMC·GDX·MU矿</td><td>三块：① 量子反转（ARQQ +35.6/BTQ +32.2=Trump 量子行政令+PQC 强制令·BLZE +43.6=CoreWeave $335M 存储合同·见 FOCUS）② 贵金属矿崩（SLV −5.4/GDX −4.6·矿商杠杆·UAMY −10.1 锑/HBM −9.1 铜独立）③ 妖股（AMC −24.6 二次增发稀释/HQ −13.0 量子回吐）</td></tr>
+  </tbody>
+  </table>
+  <div class="note-block">
+    <span class="kicker">⚠ 本日主线归类要点</span>
+    本日是 <strong>6/22 半导体主升浪的暴力 unwind 日</strong>。<strong>关键纪律</strong>：① <em>unwind ≠ 产业拐点</em>——SOX −7.9 是 flows/仓位主导的去杠杆（6/22 +2.4 的 48 小时镜像反转），AI 硬件中期产业上行段未变（无龙头指引下修/无合同价见顶/无库存累积的产业信号），按 Bull Logic 回调=机会、不用价格行为出场；② <strong>PRIM −21.6 是真暴雷、必须单独剔除</strong>——FY26 指引腰斩 + COO 离任 + 6 个 Renewables 项目超支（t-guide-cut），驱动是可再生工程成本、与 AI 数据中心 EPC backlog 是两条不同的链，<em>把 −21.6 归到"AI EPC unwind"是错误归因</em>（single-name 利空恰撞 unwind 当天）；③ <em>β 分层</em>——大盘龙头（NVDA −4.1/TSM −6.7）抗跌、高 β 中小盘（ARM/CRDO/ALAB −10）跌狠，先砍最拥挤仓位；④ <em>存储待验证</em>——MU/SNDK 跌是 SK Hynix 外溢 + 财报前 de-risk，存储超级周期基本面待 6/24 MU 财报验证、当日跌非证伪。<strong>反叙事标记</strong>：① SOX −7.9 vs 防御 +1~2 完全反向（risk-off rotation flows）；② DIA 仅 −0.1 道指几乎平=非系统性崩盘、是科技内部去杠杆；③ 软件逆势涨完全反转 6/22（硬件买软件卖→硬件卖软件买）；④ GLD −1.9 避险失效（实际利率+美元主导、黄金未起避险作用）。
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">★ FOCUS — 本日重点事件深读</div>
+  <h2 class="sec-title"><em>核心事件深读</em>：3 空（unwind 核心 · MU 存储/SK Hynix 外溢 / PRIM 真暴雷 / AMAT 纯 β）+ 3 多（资金去向 · 防御轮入 / VRNS PE 收购 / BLZE+ARQQ 量子反转）</h2>
+  <div class="sec-sub">本节对当日「<em>决定 regime 的少数核心事件</em>」做<strong>深度差异化分析</strong>——不等权对待 147 只异动。6 家串起当日核心矛盾 = <em>AI 硬件 unwind 的卖出侧 vs 资金去向侧</em>：空头侧三种不同跌因（MU=SK Hynix 外溢+财报前 de-risk / <strong>PRIM=自身暴雷必剔除</strong> / AMAT=纯 β unwind 无利空），多头侧三条资金去向（防御避风港 / VRNS PE 收购 M&A / 量子行政令+CoreWeave 合同）。<strong>核心纪律 = 区分"unwind β / 自身暴雷 / 避险轮动 / 独立催化"四种机制——绝不用一个故事套所有。</strong></div>
+
+<div class="cards">
+  <div class="card bear">
+    <div class="card-title">① <em>MU</em> · 美光科技 · <span class="num neg">−13.2%</span> <span class="tag l1">L1</span></div>
+    <div class="card-meta">财报前 de-risk（FQ3 6/24 盘后）+ SK Hynix「放缓 AI 内存扩产」报道 + SOX 全链 unwind</div>
+    <div class="card-body">
+      <p><span class="kicker">驱动事件性质 / 预期差</span>·今日不是财报日——FQ3 业绩 6/24 盘后才出，今日 −13.2 是财报前 de-risk 与产业级利空叠加。真正点燃的是当日 SK Hynix 传出「可能放缓 AI 内存扩产、把重心转回常规 DRAM」的报道，韩股 KOSPI 收跌约 10%、SK Hynix / 三星各跌逾 12%、当日两度触发熔断。市场对 MU 的预期本就极满：whisper 收入约 $35B、EPS 约 $20+、毛利率守 81%、HBM 2026 与 2027 上半年产能已被客户订满。问题不在「这次会不会 beat」——共识方向是 beat；问题在 SK Hynix 这条报道把「HBM 是否仍是结构性供不应求」这个被 price in 的核心假设打了个问号，而 MU 偏偏在财报前一天、估值拉到历史高位时撞上。</p>
+      <p><span class="kicker">市场 price in 了什么</span>·6/22 半导体主升浪（SOX +2.4）price in 的是「HBM 超级周期线性外推 + 毛利率破 80% 站稳 + HBM4 放量翻倍」。今日 unwind 重定价的不是 MU 自身基本面（财报未出），而是 SK Hynix 报道注入的一个边际信号：龙头之一在考虑把 capex 从 AI 内存往常规 DRAM 挪——这撼动的是「HBM 供给方集体克制、定价权牢固」这一最拥挤的共识。把存储链从「无脑多」拉回到「要看 6/24 美光怎么说扩产与定价」的状态。</p>
+      <p><span class="kicker">产业逻辑 / read-through · 因果链与弹性差异</span>·存储是这轮 AI 内存周期的 direct 弹性核心：MU / SK Hynix / 三星三家寡头的供给纪律决定 HBM 现货与合约价，价格又直接传导到 DRAM/NAND 报价。SK Hynix 若真把产能往常规 DRAM 倾斜，短期是 HBM 供给纪律的边际松动信号，中期反而可能压常规 DRAM 现货价——两条链方向相反，不能一锅烩。read-through 到 SNDK（NAND，direct）、以及把 HBM 当增量叙事的 GPU / 封装链（indirect）。但要把话说死：今天是龙头一条「可能放缓」的报道 + 财报前去杠杆，不是合约价见顶、不是库存累积、不是某家正式下修 capex 指引——unwind ≠ 存储超级周期结束。真正的产业拐点信号要等 6/24 美光自己的 HBM 扩产口径与 FQ4 毛利率指引来证伪或证实。</p>
+      <p><span class="kicker">验证点</span>·头号验证点就是 6/24 盘后 FQ3 财报：① FQ4 收入 / 毛利率指引 vs whisper（守不守 80% 毛利率、有没有 raise）；② 管理层对 HBM4 向 Vera Rubin 平台的产能分配口径，是否回应 SK Hynix「转常规 DRAM」的市场担忧；③ 后续 1-2 周 DRAM / HBM 现货合约价是否真的松动。三者出来前，今日跌幅是定价产业疑问，不是确认拐点。</p>
+    </div>
+  </div>
+  <div class="card bear">
+    <div class="card-title">② <em>PRIM</em> · Primoris Services · <span class="num neg">−21.6%</span> <span class="tag l3">L3</span></div>
+    <div class="card-meta">自身硬利空（6/22 8-K 业务更新：2026 指引腰斩 + COO 离任）当日继续重定价 · 非 AI EPC unwind</div>
+    <div class="card-body">
+      <p><span class="kicker">驱动事件性质 / 预期差</span>·当日最大跌幅 −21.6，但这不是 AI EPC 链的 β unwind——是公司自身的硬利空在继续重定价。6/22 Primoris 发 8-K 业务更新：把 2026 全年 EPS 指引从 $4.05–4.25 直接砍到 $1.30–1.85（腰斩还不止），调整后 EBITDA 从 $480–500M 砍到 $275–325M；同日宣布 COO 即日离任——这是数周内 Renewables 板块第二位高管出走（此前该部门总裁已离任）。根因是 Renewables 业务在六个此前已披露项目上的成本超支与延期，经第三方行业专家评估后再度扩大。KeyBanc 同步把评级从 Overweight 下调到 Sector Weight。这是执行层面的项目亏损暴雷 + 治理问题，预期差是「市场以为五月那次下修已经出清，结果是又一次、且更深」。</p>
+      <p><span class="kicker">市场 price in 了什么</span>·Primoris 被部分资金贴了「AI 数据中心 EPC / 电力基建」标签，享受了产业 β 的估值溢价。今日的 −21.6 重定价的是两件事：一是 2026 盈利能力本身的崩塌（EPS 指引腰斩意味着此前 price in 的盈利完全落空）；二是治理与披露可信度——五月已下修一次、HBSS 已就披露是否充分发起调查，6/22 再砍一刀坐实了「管理层对自家项目成本的掌控力存疑」。AI EPC 标签带来的溢价正在被「这其实是个 Renewables 执行出问题的工程公司」的现实抹掉。</p>
+      <p><span class="kicker">产业逻辑 / read-through · 因果链与弹性差异</span>·关键纪律：别把 PRIM 当成 AI 数据中心 EPC backlog 弹性的代表来 read-through——它今天的暴跌驱动是 Renewables（光伏 / 新能源）工程的成本超支，与 AI 算力 capex backlog 是两条不同的链。真正纯粹的 AI 数据中心 EPC / 电力 EPC 弹性应看 backlog 兑现节奏与新签订单，而 PRIM 暴露的是固定价 EPC 合同在执行端吃成本超支的尾部风险——这是工程总包商的结构性脆弱点，对其它有大额固定价 Renewables / 复杂 EPC 敞口的同行是个治理与项目质量的警示，但对 AI 算力订单驱动的纯 backlog 名（数据中心电力 EPC）read-through 很弱。把 −21.6 归到「AI EPC unwind」是错的归因——这是 single-name 的自身利空，恰好撞上 SOX unwind 当天放大了情绪，但因果上独立。</p>
+      <p><span class="kicker">验证点</span>·① 后续季度 Renewables 那六个问题项目的实际完工成本 vs 已计提，是否还有第三轮下修（成本超支项目最怕「挤牙膏式」披露）；② Renewables 板块管理层补位与重组进展（连续两位高管出走后的稳定性）；③ HBSS 等的披露调查进展。这些是判断「项目亏损是否见底」的产业 / 治理级变量，与 AI capex 周期无关。</p>
+    </div>
+  </div>
+</div>
+<div class="cards">
+  <div class="card bear">
+    <div class="card-title">③ <em>AMAT</em> · 应用材料 · <span class="num neg">−8.5%</span> <span class="tag l1">L1</span></div>
+    <div class="card-meta">WFE 设备链 β unwind（无公司自身利空）· 韩股内存暴跌传导 · SOX −7.9 代表</div>
+    <div class="card-body">
+      <p><span class="kicker">驱动事件性质 / 预期差</span>·AMAT −8.5 是纯 WFE（晶圆制造设备）链的 β unwind，当日无任何公司自身利空——没有新的对华出口管制、没有 WFE 订单消息、没有指引修正。驱动来自上游：韩股 KOSPI 当日崩约 10%、SK Hynix / 三星各跌逾 12%（SK Hynix「可能放缓 AI 内存扩产」报道），内存设备投资的最大客户群体被重定价，设备链顺着 β 一起被甩。再叠加全球 risk-off、临近历史高位的获利了结与内部人减持压力。基本面与这次跌没关系：AMAT FQ2 刚创纪录收入 $2.81B、EPS $3.51，并把 2026 半导体设备增速指引上调到 30% 以上。预期差是「设备链基本面没坏，但被当成最纯的 capex β 标的，在内存 capex 疑问出现时第一个被卖」。</p>
+      <p><span class="kicker">市场 price in 了什么</span>·6/22 主升浪 price in 的是「AI 驱动 WFE 超级周期 + 内存厂军备竞赛式扩产 + AMAT 设备增速 30%+ 线性外推」。今日 unwind 重定价的是：内存厂 capex 节奏被打问号（SK Hynix 转常规 DRAM 报道 = 内存设备投资强度可能边际放缓）。WFE 设备是 capex 的高杠杆下游——客户 capex 强度的任何边际松动，在设备股上被放大成更大的弹性，这就是为什么 SOX −7.9 当天 AMAT 能跌 −8.5、跑出比指数更陡的 β。</p>
+      <p><span class="kicker">产业逻辑 / read-through · 因果链与弹性差异</span>·WFE 设备对 capex 是 indirect 但高杠杆：内存 / 逻辑厂的 capex → 设备订单 → AMAT 收入，链条上游一动，下游设备弹性放大。AMAT 的暴露结构里 China 占两大核心板块约 24% 收入（上季 27%），出口管制是悬顶的结构性风险——但今天不是这个触发，今天是内存 capex 疑问。read-through：LRCX（刻蚀，direct 同业）、KLAC（量检测）会同步被 WFE β 拖累；但要区分——AMAT 的 driver 是内存设备投资强度，而非自身订单恶化。最关键的纪律：unwind ≠ WFE 周期拐点。真正的设备拐点信号是龙头内存厂正式下修 capex 指引、设备订单 backlog 环比转负、或对华管制实质收紧——今天一个都没发生，只是一条「可能放缓」的客户端报道 + 估值高位的获利了结沿 β 链传导。AMAT 自己的指引方向（上调到 30%+）甚至与今天的跌相反。</p>
+      <p><span class="kicker">验证点</span>·① SK Hynix / 三星 / 美光后续是否把这条「转常规 DRAM」落成正式的 2026/27 capex 下修（设备订单的真实先行指标）；② AMAT 下季 WFE 增速指引是否维持 30%+，以及内存设备占比口径；③ 对华出口管制是否有新动作（24% 收入敞口的尾部变量）。这三者是 WFE 周期的产业级观察点，在它们之前，今日 −8.5 是 β unwind 与获利了结，不是设备超级周期见顶。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card bull">
+  <div class="card-title">④ <em>防御轮入 XLP·XLV</em> · <span class="num pos">+1.9%</span> <span class="tag l1">Sector</span></div>
+  <div class="card-meta">纯 risk-off 轮动 · AI 硬件 unwind 的资金避风港 · 无个股催化</div>
+  <div class="card-body">
+    <p><span class="kicker">驱动事件性质 / 资金逻辑</span>·这不是基本面驱动，是一次教科书式的 de-risking 轮动。6/22 SOX −7.9 的半导体主升浪暴力 unwind 把资金从拥挤 AI 硬件挤出，今天四大防御 sector 全绿做接盘：XLP +1.9 / XLV +1.4 / XLRE +1.4 / XLU +0.8，板内代表 T +3.2 / PM +3.2 / VZ +3.0 / WCN +3.9。共同特征只有一条——对 AI capex 周期零敞口：消费必需、医药、电信、固废都是稳定现金流 + 高股息 + 与 AI 叙事低相关。涨幅本身（个位数板块级、低单位数代表股）也印证这是仓位再平衡而非估值重估——没有任何一只防御股出现财报/订单/指引催化，纯粹是流出 AI 硬件的钱需要落脚点。</p>
+    <p><span class="kicker">市场 price in 了什么 · 6/22 镜像</span>·6/22 市场 price in 的是「AI capex 永续上行 → 半导体定价权无上限」，今天重定价的恰是反面：当拥挤的 AI 硬件叙事被怀疑（capex 可持续性、估值过高），资金不是离场而是切到「现金流确定性」。这是 6/22 的精确镜像——6/22 防御板块被当作机会成本（持有防御 = 踏空 AI），今天防御板块被当作避险载体（持有 AI 硬件 = 暴露在 unwind 里）。同一批 beta 资金，方向掉头。注意防御涨幅（XLP +1.9 为最强）远小于半导体跌幅（SOX −7.9），说明这是温和的轮动 tilt，不是恐慌性全面 risk-off。</p>
+    <p><span class="kicker">产业逻辑 / read-through · 资金去向</span>·核心 read-through 是「AI 硬件 unwind 的钱去哪了」三条腿里的第一条——防御板块是最低 β、最大容量的避风港。它能容纳半导体流出的体量（XLP/XLV/XLU 合计权重远大于个别量子妖股），所以是主资金的去向；而软件逆势（卡⑤）和量子暴涨（卡⑥）是同一批资金里更激进的尾巴。对组合的信号是：这一天市场广度的「绿」集中在防御 + 软件 + 投机题材，AI 硬件链普跌——典型的 sector rotation 而非系统性下杀。防御走强本身不构成「经济转弱」结论，它只反映 AI 硬件拥挤度被动出清时资金的临时停泊。</p>
+    <p><span class="kicker">验证点</span>·看三件事：① 未来 1-2 个交易日 SOX 是否企稳——若半导体止跌反弹，防御板块大概率回吐今日涨幅（确认纯轮动）；② XLU/XLP 的资金流入是否持续超过一周（持续 = 实质 de-risking，单日 = 仓位再平衡噪音）；③ 防御股股息率 vs 10Y 利率的相对吸引力，叠加 6/27 PCE 通胀数据是否强化 Fed 宽松预期（宽松 = 防御现金流贴现走高的真实支撑）。</p>
+  </div>
+</div>
+
+<div class="card bull">
+  <div class="card-title">⑤ <em>VRNS·软件逆势</em> · <span class="num pos">+7.1%</span> <span class="tag l4">L4</span></div>
+  <div class="card-meta">独立催化（M&A）+ risk-off 轮入双驱动 · 与 6/22 软件被杀完全反向</div>
+  <div class="card-body">
+    <p><span class="kicker">驱动事件性质 / 资金逻辑</span>·领头的 VRNS +7.1 不是纯避险——它有一个硬独立催化：Bloomberg 报道 Varonis 在收到私募收购意向后正与顾问探索出售，潜在买方包括 Blackstone、Thoma Bravo、Vista Equity，盘中一度冲到 +14% 后收 +7.1。这把「网络安全 SaaS 是 PE 并购标的」的主题点燃，带动整条逆势软件：NTSK（Netskope）+6.5 / RPD（Rapid7）+6.2 / IBM +5.0 / NOW +3.1。RPD 同期本就在 Jana Partners 维权 + Advent/Bain/EQT 收购意向的并购传闻里，VRNS 消息等于给整个 mid-cap 网络安全板块的并购溢价做了再确认。所以这张卡是「独立 M&A 催化 + risk-off 轮入」的叠加，不是单一避险。</p>
+    <p><span class="kicker">市场 price in 了什么 · 6/22 镜像</span>·这是与 6/22 最干净的反向 read。6/22 软件被无差别杀（AI 硬件主升浪虹吸 + 软件被当成「AI 用电者而非卖铲者」），今天软件逆势收复，价格在重定价两件事：① 低 AI capex 敞口 = 在硬件 unwind 里的相对安全（SaaS 是轻资产、订阅现金流稳，不背重资产 capex 风险）；② 网络安全板块被低估到触发 PE 接管——VRNS/RPD 估值跌到让 Blackstone/Thoma Bravo 觉得便宜。市场从「软件踏空 AI」掉头到「软件是 AI 拥挤里的现金流避风港 + 并购价值洼地」。</p>
+    <p><span class="kicker">产业逻辑 / read-through · 资金去向</span>·这是 AI 硬件 unwind 资金去向的第二条腿，也是最有产业含义的一条——它揭示一次「重资产 vs 轻资产」的相对吸引力切换。AI 硬件（半导体、server、光模块）是重 capex、强周期、定价权随景气波动；软件 SaaS 是轻资产、订阅黏性、现金流可预测。当 capex 可持续性被怀疑，资金从「卖铲者」切到「不背 capex 的稳定现金流」。read-through：① 网络安全板块进入 PE 并购窗口，VRNS 一旦成交将为 RPD/TENB/QLYS 等 mid-cap 标的设定估值锚；② NOW/IBM 这类大盘软件是同链避险载体，弹性低于 mid-cap 但容量大。注意这不等于这些公司基本面突变——VRNS 的 ARR 增长是旧事，今天涨是并购溢价 + 轮动，不是业绩超预期。</p>
+    <p><span class="kicker">验证点</span>·看三件事：① VRNS 出售传闻是否在数日内被公司证实/否认或出现具体报价区间——证实则板块并购溢价坐实，否认则今日涨幅大概率回吐；② RPD 与 Jana 的董事会和解是否如传闻在本周落地，叠加 Advent/Bain/EQT 是否提交正式要约；③ 整条网络安全 SaaS 在 SOX 企稳后能否守住涨幅——守住 = M&A 主题独立成立，跟跌 = 仅是 risk-off 轮动的临时停泊。</p>
+  </div>
+</div>
+
+<div class="card bull">
+  <div class="card-title">⑥ <em>BLZE·ARQQ 量子/存储</em> · <span class="num pos">+43.6%</span> <span class="tag l5">L5</span></div>
+  <div class="card-meta">BLZE=CoreWeave 硬合同 / ARQQ·BTQ=量子政策催化 · 两套不同逻辑</div>
+  <div class="card-body">
+    <p><span class="kicker">驱动事件性质 / 资金逻辑</span>·这张卡里三只 L5 暴涨股是两套截然不同的逻辑，不能混谈。BLZE +43.6（Backblaze，云存储不是量子）有一个最硬的催化：与 CoreWeave 签五年、多 exabyte、约 $335M 总合同的数据存储协议——Backblaze 提供 HDD 存储层接入 CoreWeave AI Object Storage，协议还嵌入给 CoreWeave 的认股权证（最多 419 万股 @ $7.60）。这是真实的大订单，把一个 micro-cap 云存储公司直接绑进 AI infra 链。ARQQ +35.6（Arqit 量子加密）/ BTQ +32.2（BTQ 后量子安全）则是政策催化：Trump 6/22 签署两道量子行政令，其中 Cryptographic Mandate 要求联邦机构在 2030（密钥）/2031（数字签名）前迁移到后量子密码（PQC），直接利好量子安全 pure-play。</p>
+    <p><span class="kicker">市场 price in 了什么 · 6/22 镜像</span>·BLZE 在 price in「AI infra 存储层的需求外溢到二线玩家」——CoreWeave 服务 top-10 AI 模型商里的九家，它的存储外包等于给 Backblaze 盖了 AI 需求确认章。ARQQ/BTQ 在 price in「后量子密码迁移从概念变成联邦强制时间表」——行政令把 PQC 从远期叙事拉到 2030 deadline。与 6/22 的镜像在于：6/22 高 β 投机资金全押 AI 硬件，今天这批资金在硬件 unwind 后没有撤离风险，而是横向轮动到「下一个高弹性题材」——量子 + AI 存储是接棒载体。同一批投机筹码，从拥挤的硬件切到尚未拥挤的量子/存储。</p>
+    <p><span class="kicker">产业逻辑 / read-through · 资金去向</span>·这是 unwind 资金去向的第三条腿——高 β 投机资金的横向轮动，弹性最大、持续性最差。三只票要分层看：BLZE 有硬合同支撑（$335M / 5 年），read-through 到 AI 存储二线玩家（其它独立云存储、对象存储标的可能被重估为「AI infra 隐性环节」），含金量最高；ARQQ/BTQ 是政策驱动的题材弹性，行政令是真事件但落地到收入要数年，属于「叙事先行、基本面滞后」的 pure sentiment 弹性，和 IONQ/RGTI/QBTS 等同步被 Trump 量子行政令 + Nvidia 量子表态点燃。资金逻辑：硬件拥挤度被动出清后，投机筹码不离场而是找下一个未拥挤的高弹性叙事，量子/存储是这天的接棒。注意 ARQQ/BTQ 的暴涨是政策题材 + 题材轮动博弈，不是公司基本面突变——这两家收入体量极小，估值在妖股逻辑下是背景不是输入。</p>
+    <p><span class="kicker">验证点</span>·分两条看：① BLZE——CoreWeave 合同的实际 ramp 节奏（多 exabyte 的存储部署是否按季确认收入），以及是否触发其它 AI infra 客户跟进签约（验证 Backblaze 进入 AI 存储链的可持续性，而非一次性订单）；② ARQQ/BTQ——量子行政令的后续落地（PQC 迁移的联邦采购预算是否拨付、是否有量子安全公司拿到实际合同），叠加整个量子板块（IONQ/RGTI/QBTS）在政策 catalyst 透支后能否守住——题材轮动的资金一旦切走，无硬合同的纯题材股回撤最快。</p>
+  </div>
+</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">★ 重要公司 — 二级深读</div>
+  <h2 class="sec-title"><em>次级重要催化</em> · 4 子链：半导体设备/代工 · 算力/连接 · 存储/AI 电力（unwind）+ 资金去向（防御/软件）</h2>
+  <div class="sec-sub">FOCUS 之下、census 之上的中间层——深化 unwind 各子链的次级重要名（FOCUS 已收 MU/PRIM/AMAT + 防御/VRNS/BLZE）+ 资金去向侧代表。每张明标「<em>独立 vs unwind/避险 β</em>」+ direct/indirect。<strong>关键 read</strong>：LRCX/KLAC 同幅跌（纯 WFE 高 β 篮子解仓·无个股利空）；NVDA −4.1 相对抗跌（仓位向核心收缩）；VRT 6/22 +7.5→今日 −11.1 近 19pp 暴力反转（flows 主导·backlog $12B 基本面未变）；IBM +5.0 是真 alpha（JPM 升 OW PT$291 + 防御属性双驱动）；NOW/T 纯 risk-off 避险轮入非基本面突变。</div>
+
+<h3 class="sub-h">A · <em>设备 / 代工</em></h3>
+  <div class="cards">
+    <div class="card bear">
+      <div class="card-title"><em>LRCX</em> · Lam Research · <span class="num neg">-9.3%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：无独立利空 · 子链：WFE 刻蚀/沉积设备</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·当日无 LRCX 自身利空——无评级下调、无指引修正、无订单取消。-9.3% 是 6/22 半导体主升浪暴力 unwind 的高 β 放大：WFE 设备此前作为 AI capex 杠杆名领涨，今日同方向被甩出。这是 SOX (-7.9) β unwind 而非 LRCX alpha，属拥挤交易的反向解仓。</p>
+        <p><span class="kicker">read-through / 弹性</span>·LRCX 对代工/存储 capex 周期是 direct 高 β 暴露，涨跌两端弹性都被放大。本轮回撤是仓位拥挤的反向 unwind、非 WFE 产业拐点——产业级真信号要看后续代工龙头 capex 指引与设备订单 backlog，目前未见下修迹象。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>KLAC</em> · KLA Corp · <span class="num neg">-9.2%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：无独立利空 · 子链：量检测设备</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·与 LRCX 几乎同幅 (-9.2%)，无 KLAC 个股催化。量检测设备与刻蚀/沉积同属 WFE 高 β 篮子，今日被作为一个整体仓位解仓。差异化归因为零——纯 unwind β、非公司治理或基本面事件。</p>
+        <p><span class="kicker">read-through / 弹性</span>·KLAC 在先进制程量检测环节近乎垄断，是 AI 制程节点升级的 direct 受益名；正因前期 re-rating 充分，今日 unwind 同步。链内定位与 LRCX 同篮，观察点同样落在代工 capex 与设备 backlog 边际，而非价格行为。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>TSM</em> · 台积电 ADR · <span class="num neg">-6.7%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：无独立利空 · 子链：晶圆代工</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·TSM -6.7%，跌幅小于设备链 (-9%档)——代工龙头作为 AI 链锚定资产，unwind 中相对设备名更抗跌。当日无台积电自身利空，月营收/产能指引未变，纯属半导体主升浪解仓的 β 传导。</p>
+        <p><span class="kicker">read-through / 弹性</span>·TSM 是整条 AI 半导体链的产业锚，β 暴露广但弹性低于纯设备/连接名。它今日相对抗跌反向印证：越靠近现金流确定性的环节，unwind 幅度越小。产业级观察点是月营收同比与先进制程 utilization，目前无拐点证据。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-h">B · <em>算力 · 连接</em></h3>
+  <div class="cards">
+    <div class="card bear">
+      <div class="card-title"><em>NVDA</em> · 英伟达 · <span class="num neg">-4.1%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：相对抗跌 · 子链：AI GPU</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·NVDA -4.1%，显著小于链内其它 L1 名 (-8~10%)——作为 AI 算力的最终锚定资产，在 unwind 中被当作"避险型 AI 暴露"相对抗跌。无个股利空，纯 β。今日的相对强弱本身是信号：资金从设备/连接外围向核心 GPU 收缩。</p>
+        <p><span class="kicker">read-through / 弹性</span>·NVDA 是全链 direct 核心，但其 -4.1% vs 链 -8~10% 的 spread 说明这是仓位再平衡而非产业转向——外围杠杆名先被解仓，核心资产后承压。产业级观察点是 NVDA 自身数据中心收入与 hyperscaler capex 指引，未见下修。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>AMD</em> · 超威半导体 · <span class="num neg">-5.8%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：无独立利空 · 子链：AI GPU/CPU</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·AMD -5.8%，介于 NVDA (-4.1) 与设备/连接名 (-9%档) 之间。无个股催化，跟随 GPU 链 unwind。跌幅大于 NVDA 反映其在 AI 算力中是第二供应商、确定性溢价低于 NVDA，故 unwind 中承压更多。</p>
+        <p><span class="kicker">read-through / 弹性</span>·AMD 是 AI GPU 的 direct 第二玩家，β 弹性高于 NVDA 而低于设备/连接外围。链内定位决定其 unwind 幅度排在中游。观察点是 MI 系列订单与数据中心收入兑现，本日无任何边际恶化信号。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>MRVL</em> · Marvell · <span class="num neg">-9.4%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：S&P 500 纳入后获利了结 · 子链：AI 连接/光通信</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·MRVL -9.4%，链内跌幅最深。6/22 刚获纳入 S&P 500（"buy the rumor"已兑现），叠加光通信链整体重挫——Coherent、Credo、MaxLinear 同步跌 8%+。这是指数纳入兑现 + AI 连接 unwind 的叠加，非个股运营利空，是拥挤交易的反向解仓。</p>
+        <p><span class="kicker">read-through / 弹性</span>·MRVL 是 AI 网络/光互联的 direct 高 β 名，前期被 Jensen 点名"下一个万亿"后 re-rating 充分，今日弹性两端最大。链内它是光通信 unwind 的代表标的，read-through 直接传导至整条光模块/连接链。观察点是定制 ASIC 与光 DSP 订单节奏。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>ANET</em> · Arista Networks · <span class="num neg">-7.1%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：无独立利空 · 子链：AI 数据中心网络</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·ANET -7.1%，随 AI 网络/连接链 unwind。无个股催化、无指引变动。作为 hyperscaler 高速交换机主供应商，与 MRVL 同属 AI 连接篮子，今日被一并解仓。纯 β unwind 而非订单或客户层面的产业事件。</p>
+        <p><span class="kicker">read-through / 弹性</span>·ANET 对数据中心 400G/800G 交换是 direct 暴露，客户高度集中于头部 hyperscaler，β 弹性高。链内与 MRVL 形成"交换机 + 光互联"组合，read-through 联动紧密。产业级观察点是 hyperscaler 网络 capex 与 ANET 自身 backlog，本日无下修。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-h">C · <em>存储 · AI 电力</em></h3>
+  <div class="cards">
+    <div class="card bear">
+      <div class="card-title"><em>SNDK</em> · SanDisk · <span class="num neg">-13.6%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：估值警示 + MU 财报前避险 · 子链：NAND 存储</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·SNDK -13.6%，全节最深。2025 分拆以来累涨数倍、P/E 逾 79，Morgan Stanley 近期发出估值过热警示；叠加韩国存储设备股暴跌的全球传导，以及 MU 6/24 财报前的避险情绪。这是估值 unwind + 财报前 de-risk 的叠加，非 NAND 产业拐点。</p>
+        <p><span class="kicker">read-through / 弹性</span>·SNDK 纯 NAND 暴露、商品周期 direct 弹性极大，是存储链中最高 β 的名。今日 -13.6% 反映"高估值 + 商品属性"双重放大。产业级观察点直接落在 MU 6/24 的 Q3 业绩与 NAND/DRAM 价格指引——那才是存储链方向的真信号，而非今日价格行为。</p>
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title"><em>VRT</em> · Vertiv · <span class="num neg">-11.1%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：6/22 +7.5 反转 · 子链：数据中心电气/散热</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·VRT 6/22 刚 +7.5%（AI 电力叙事重燃 + ThermoKey 并购落地），今日急转 -11.1%——单日反转幅度近 19pp。无新增个股利空，是前一日反弹被 risk-off 完全抹去的 β 反转：~38x forward EBITDA 的高估值在板块解仓中无支撑。这是估值 unwind 而非订单/backlog 恶化。</p>
+        <p><span class="kicker">read-through / 弹性</span>·VRT 是 AI 数据中心电气/散热的 direct 纯玩家，backlog 逾 $12B、Q1 有机增速 23%，基本面未变。6/22→6/23 的暴力反转纯属 flows 主导、与产业无关。链内它是 AI 电力弹性的标尺，观察点是 backlog 环比与 hyperscaler 电气化订单，目前无下修。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-h">D · <em>资金去向 · 防御软件</em></h3>
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title"><em>IBM</em> · IBM · <span class="num pos">+5.0%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：JPMorgan 上调 OW + 防御属性 · 子链：逆势避险</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·IBM +5.0%，是当日少数 alpha 名。JPMorgan 上调评级至 Overweight、PT 升至 $291（自 $270），理由是软件占收入 ~45% 却贡献 ~2/3 利润、应享更高倍数。这是独立催化 alpha 叠加 risk-off 中的防御轮入——历史上 IBM 在 2008、2022 回撤中跌幅均小于大盘。</p>
+        <p><span class="kicker">read-through / 弹性</span>·IBM 当日的上涨一半来自评级 alpha、一半来自避险轮动，非基本面突变。在半导体 unwind 日，资金从高 β AI 链流向低波动、现金流确定的软件/防御名。链外定位：它是"AI 受益但低 β"的资金避风港代表，read-through 指向同类防御软件的相对抗跌。</p>
+      </div>
+    </div>
+    <div class="card bull">
+      <div class="card-title"><em>NOW</em> · ServiceNow · <span class="num pos">+3.1%</span> <span class="tag l2">L2</span></div>
+      <div class="card-meta">催化：SaaS 逆势避险轮入 · 子链：防御软件</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·NOW +3.1%，无个股新催化。在半导体高 β 暴跌日，资金轮入订阅制现金流稳定的大盘 SaaS——NOW 作为企业软件龙头是首选避风港之一。这是避险轮动而非基本面突变，是 risk-off regime 下"卖硬件买软件"的资金侧代表。</p>
+        <p><span class="kicker">read-through / 弹性</span>·NOW 是企业 SaaS 的低 β 防御名，AI Agent 叙事提供长期 indirect 上行而当日逆势更多靠 flows。链外定位：与 IBM 同属"AI 受益 + 低波动"避险篮子。产业级观察点仍是订阅 RPO 与 AI 产品 ACV 渗透，非当日价格。</p>
+      </div>
+    </div>
+    <div class="card bull">
+      <div class="card-title"><em>T</em> · AT&T · <span class="num pos">+3.2%</span> <span class="tag l1">L1</span></div>
+      <div class="card-meta">催化：防御电信轮入 · 子链：低 β 防御</div>
+      <div class="card-body">
+        <p><span class="kicker">催化 / 性质</span>·T +3.2%，无个股催化。作为高股息、低 β 的防御电信，在 risk-off 日成为资金从 AI 高 β 链撤出的典型去向。这是纯避险轮动而非基本面突变——电信现金流与半导体周期低相关，是组合避险配置的代表名。</p>
+        <p><span class="kicker">read-through / 弹性</span>·T 与 AI 产业链关系极弱，本日上涨是大盘内部 sector rotation 的镜像信号：防御板块（电信/公用/必需消费）在半导体 unwind 中接住外流资金。链外定位纯防御，read-through 指向整个低 β 防御篮子的相对走强，与产业基本面无关。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 04 — Theme #1</div>
+  <h2 class="sec-title">主线一 · <em>半导体设备·代工·封测·材料</em>：6/22 主升浪的<em>暴力 unwind</em>——SOX −7.9 当日最差 β，AI 硬件全链血洗</h2>
+  <div class="sec-sub">本主线属 AI 硬件链、行业中期上行段（WFE / 代工 capex 周期向上），本日是<strong>获利了结 + risk-off 的全链 unwind</strong>，不是产业拐点——判断逻辑仍是 <em>Bull Logic</em>。6/22 涨最猛的名（设备 / 检测 / OSAT）今日跌最深，是 β 放大的镜像，不是基本面恶化。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic（行业中期上行段）</strong>——WFE 与先进封装 capex 上行、代工产能利用率高位、AI 后段（CoWoS / HBM 检测 / 测试）订单饱满，这些产业证据本日<em>无一变化</em>：无龙头设备指引下修、无 WFE 订单取消、无现货 / backlog 见顶信号。本日 SOX −7.9 是 6/22 主升浪后的<strong>价格层 unwind</strong>（获利了结 + 风险偏好收缩），<em>6/22 涨、6/23 跌都是 price action，产业基本面这两天没动</em>。<br>
+    Bull Logic 下回调 = 机会而非出场；unwind ≠ 产业拐点——只有龙头指引下修 / 合同价见顶 / 库存累积才是产业级拐点信号，本日均未出现。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·本主线<strong>无任何当日财报、无龙头指引、无订单取消</strong>——22 只标的清一色 SOX β unwind 跟跌（SOX −7.9 / XLK −4.1 / NDX −3.3）。跌幅最深的 AXTI −15.7 / CAMT −13.4 / TSEM −10.8 均为<strong>高 β + 重 China 敞口</strong>名，6/22 涨最猛、今日 unwind 放大，<em>非当日新增独立利空</em>（AXTI 上一次独立利空是 6/16 −11.5、CAMT 是 5/12 财报、6 月初反获 $105M AI 检测订单）。</p>
+
+  <table class="dt" id="theme1-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">AXTI</td>
+      <td class="name">AXT Inc</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-15.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>全链最深跌幅 · 高 β + 重 China 敞口 unwind 放大，无当日独立利空</strong><em class="ki-note">砷化镓 / 磷化铟 / 锗衬底材料商，营收高度依赖中国。本日 −15.7 是 22 只里最深，但<em>非当日新增事件</em>——上一次独立利空是 6/16 −11.5（InP 出口许可 / China 需求疲软结构性 overhang）。今日属高 β 小盘在 SOX −7.9 里被流动性 unwind 放大：6/22 跟涨最猛 → 6/23 跌最狠，价格行为镜像。China 出口许可 overhang 是已知存量风险、本日未恶化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CAMT</td>
+      <td class="name">Camtek</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-13.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>次深跌幅 · 高估值 + China 敞口高 β unwind，6 月初订单利好仍在</strong><em class="ki-note">先进封装检测 / 量测设备，AI HPC + 先进封装是其增长引擎。−13.4 同属高 β unwind 放大、<em>无当日利空</em>：上一独立事件是 5/12 财报后 −15（Q1 beat 但 Q2 指引偏弱、226x 估值容错低），而 6 月初刚获 $105M+ AI 检测订单（利好未变）。今日是估值高 + China 敞口名在 risk-off 里被优先卖出，产业逻辑（AI 后段检测需求）未动。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TSEM</td>
+      <td class="name">Tower Semiconductor</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-10.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>特种代工 · 高 β 跟跌，无当日催化</strong><em class="ki-note">RF / 电源 / SiGe 特种工艺代工，本日 −10.8 跑输 SOX −7.9，属 unwind 中跌幅居前的中盘代工。无当日财报 / 指引，纯板块 β 放大。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NVMI</td>
+      <td class="name">Nova</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>量测设备 · 跟跌 SOX β</strong><em class="ki-note">OCD / X-ray 量测设备商，6/22 主升浪获利了结回吐。无独立事件，WFE 上行逻辑未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LRCX</td>
+      <td class="name">Lam Research</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-9.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>蚀刻 / 沉积龙头 · WFE 三巨头同步 unwind</strong><em class="ki-note">刻蚀 + 薄膜沉积全球龙头，HBM / 先进逻辑 capex 直接受益方。L1 大盘 −9.3 跑输 SOX，是设备链 unwind 的核心。无指引下修——产业级拐点信号缺席，回调非拐点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">UCTT</td>
+      <td class="name">Ultra Clean Holdings</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>设备零部件 · 高 β 跟跌</strong><em class="ki-note">WFE 设备子系统 / 零部件，弹性跟随 LRCX/AMAT 订单。小盘高 β，unwind 中放大下跌，无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KLAC</td>
+      <td class="name">KLA Corp</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-9.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>量检测龙头 · 设备链核心 unwind</strong><em class="ki-note">工艺控制 / 缺陷检测寡头，先进节点放量直接受益。L1 −9.2 与 LRCX 同步回吐，无财报 / 指引，纯 β。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ONTO</td>
+      <td class="name">Onto Innovation</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>先进封装检测 · 跟跌</strong><em class="ki-note">先进封装 / HBM 检测量测，AI 后段直接受益名。−9.2 属高弹性回吐，产业逻辑未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FORM</td>
+      <td class="name">FormFactor</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>探针卡 / 测试 · 跟跌 SOX β</strong><em class="ki-note">晶圆测试探针卡龙头，HBM 测试需求受益方。无当日事件，板块 unwind 跟跌。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ASX</td>
+      <td class="name">ASE Technology</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-8.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>OSAT 封测龙头 · 跟跌</strong><em class="ki-note">全球最大封测代工，CoWoS / 先进封装受益。L2 −8.8 跑输 SOX，封测环节 unwind 同步，无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ENTG</td>
+      <td class="name">Entegris</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>半导体材料 / 耗材 · 跟跌</strong><em class="ki-note">特种化学品 / 过滤 / 材料耗材，与晶圆产出量挂钩。−8.6 属材料环节 β 回吐，无事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMAT</td>
+      <td class="name">Applied Materials</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>WFE 第一大设备商 · 链核心 unwind</strong><em class="ki-note">沉积 / 刻蚀 / CMP / 离子注入全工艺设备龙头，WFE 上行最大受益。L1 −8.5 与 LRCX/KLAC 三巨头同步，无指引下修——产业拐点信号缺席。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AEHR</td>
+      <td class="name">Aehr Test Systems</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-9.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>晶圆级老化测试 · 小盘高 β 放大</strong><em class="ki-note">wafer-level burn-in 测试设备，小盘高弹性。−9.7 属流动性 unwind 放大，无当日事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TER</td>
+      <td class="name">Teradyne</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-8.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>ATE 自动测试龙头 · 跟跌</strong><em class="ki-note">SoC / 存储自动测试设备龙头，AI 芯片测试需求受益。L2 −8.1，无财报 / 指引，板块 β。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">COHU</td>
+      <td class="name">Cohu</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-8.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>测试 handler / 接口 · 跟跌</strong><em class="ki-note">半导体测试 handler / contactor，与测试设备景气挂钩。小盘高 β 回吐，无事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">Q</td>
+      <td class="name">Qnity Electronics</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-8.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>电子材料 · 跟跌</strong><em class="ki-note">半导体电子材料商，与晶圆产出 / 先进封装材料用量挂钩。−8.2 属材料环节 β 回吐，无当日独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ASML</td>
+      <td class="name">ASML Holding</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-7.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>EUV 光刻独占 · 链最上游 unwind</strong><em class="ki-note">EUV 光刻机全球唯一供应商，先进节点 capex 的咽喉。L1 −7.8 略好于 SOX −7.9，最上游设备同步回吐。无订单取消 / 指引下修，垄断地位与 backlog 未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MKSI</td>
+      <td class="name">MKS Instruments</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-7.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>设备子系统 / 真空 · 跟跌</strong><em class="ki-note">真空 / 气体 / 光学子系统供应商，跟随 WFE 设备订单。−7.5 板块 β，无事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMKR</td>
+      <td class="name">Amkor Technology</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-7.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>OSAT 封测 · 跟跌</strong><em class="ki-note">美系封测代工龙头，先进封装 / 系统级封装受益。−7.3 与 ASX 同步，封测环节 unwind，无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GFS</td>
+      <td class="name">GlobalFoundries</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-7.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>成熟制程代工 · 跟跌</strong><em class="ki-note">特色 / 成熟节点代工，弹性低于先进逻辑链。L2 −7.0 贴近 SOX，纯板块 β 回吐，无事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TSM</td>
+      <td class="name">Taiwan Semiconductor</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-6.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>代工绝对龙头 · 链锚定 unwind</strong><em class="ki-note">先进节点 + CoWoS 产能的全球锚，AI 算力链总开关。L1 −6.7 是本主线跌幅最浅之一（防御性相对强）。无月度营收 / capex 下修信号，产业地位未动——回调非拐点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KEYS</td>
+      <td class="name">Keysight Technologies</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-5.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>测试测量 · 跌幅最浅</strong><em class="ki-note">电子测试测量仪器，业务更分散、半导体纯度低，故 −5.6 是本主线最抗跌名。低 β 属性在 unwind 中体现防御，无独立事件。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>产业上行段证据本日未变</em></div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>WFE / 代工 capex 周期向上</strong>：先进逻辑 + HBM + 先进封装 capex 上行，AMAT / LRCX / KLA 三巨头订单环境未现拐点<br>
+        ② <strong>无龙头指引下修</strong>：本日 0 财报 / 0 指引调整，产业级拐点信号全部缺席<br>
+        ③ <strong>AI 后段需求饱满</strong>：CoWoS / HBM 检测（ONTO / NVMI / CAMT）+ 测试（TER / FORM）订单未取消，CAMT 6 月初反获 $105M+ AI 检测订单<br>
+        ④ <strong>price action ≠ 基本面</strong>：6/22 涨 6/23 跌均为价格层 unwind，产业链订单 / 价格 / 库存 / capex 四维本日无一恶化
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>catalyst window，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① TSMC 月度营收同比增速斜率（每月 10 日左右披露）——验证代工景气是否维持上行<br>
+        ② AMAT / LRCX / KLA 下季 WFE 订单 intake 与 capex 指引方向（下一财报季）<br>
+        ③ 先进封装 / HBM 检测订单边际（ONTO / CAMT / NVMI backlog）——AI 后段需求温度计<br>
+        ④ China 半导体设备出口管制边际变化——AXTI / CAMT / TSEM 等高 China 敞口名的存量 overhang 是否加压
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 05 — Theme #2</div>
+  <h2 class="sec-title">主线二 · <em>算力 / 逻辑 / 连接 / 网络芯片</em>：半导体主升浪的暴力 unwind，<em>非产业拐点</em></h2>
+  <div class="sec-sub">本日 AI 硬件链全面回吐——SOX −7.9、16 只标的全数收跌 −4% ~ −10%。这是 risk-off 去杠杆 / 获利了结主导的 unwind，产业基本面未变；判断仍是 Bull Logic，本日属仓位行为而非产业信号。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic（行业中期上行段）· 本日 unwind ≠ 产业拐点。</strong>AI 算力/连接链处于产业上行中段：超大规模厂商 capex 上修周期未结束、ASIC / 网络 / 内存的订单与 backlog 未见拐头。本日 −8% 量级的链式回撤，是 6/22 AVGO 指引"sell-the-news"引发的半导体主升浪去杠杆延续——属<em>价格行为 / 拥挤仓位的 unwind</em>，不是订单、价格、库存、capex 任一产业维度的边际恶化。Bull Logic 下，回调本身不构成产业信号；本主线的方向判断只看龙头 capex 指引 / ASIC 与网络订单 / 内存现货价，本日这些均无新增负面变化。<br>
+    <strong>β 分层是本日 unwind 的核心结构特征</strong>：大盘龙头相对抗跌（NVDA −4.1 / AMD −5.8 / APH −4.4，跌幅<em>小于</em>链平均 −8），高 β 中小盘跌更狠（ARM −10.1 / CRDO −10.1 / ALAB −9.7 / MRVL −9.4）——典型的 risk-off 中"先砍贝塔最高的拥挤仓位"，与个股基本面无关。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·链内<strong>无个股层级的产业利空</strong>——无财报暴雷、无订单取消、无指引下修。唯一带个股色彩的是 <strong>ARM</strong>：6/18 New Street 由 Buy 下调至 Neutral（trailing P/E 490x+ 估值担忧）+ 5、6 月 CCO / CAO 高管 open-market 减持披露，叠加链式 unwind 放大至 −10.1。其余 15 只均为<em>板块 β / read-through 跟跌</em>，归因为 unwind 去杠杆，非个股事件。宽基锚：SOX −7.9 / NDX −3.3 / XLK −4.1——半导体显著弱于大盘科技（裂口 ~3.8pp），说明本日抛压高度集中在 AI 硬件这一最拥挤的赛道。</p>
+
+  <table class="dt" id="theme2-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">NVDA</td>
+      <td class="name">NVIDIA</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-4.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>链内龙头·跌幅仅链平均一半，相对抗跌</strong><em class="ki-note">GPU 龙头在 SOX −7.9 的 unwind 里只回吐 −4.1，跑赢链平均 −8 近 4pp——资金 risk-off 时先砍高 β 中小盘、留核心龙头。无个股催化，纯板块去杠杆 read-through。数据中心 GPU 订单与 capex 拉动逻辑本日无任何新增负面边际。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMD</td>
+      <td class="name">AMD</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-5.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>GPU 第二极·跌幅居龙头区间，弱于 NVDA 强于链平均</strong><em class="ki-note">MI 系列加速卡的 AI 算力第二供应商，本日 −5.8 介于 NVDA（−4.1）与高 β 中小盘之间，仍属龙头抗跌层。无财报、无指引、无订单变化，纯跟随半导体 unwind。MI400 路线图与 hyperscaler 采用进度本日无新增信息。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ARM</td>
+      <td class="name">Arm Holdings</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-10.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化剂</span></td>
+      <td><strong>链内最深跌·估值下调+高管减持叠加 unwind 放大至 −10</strong><em class="ki-note">CPU IP 龙头，本日 −10.1 居链内跌幅之首。6/18 New Street Buy→Neutral（trailing P/E 490x+ 估值担忧）+ 5/6 月 CCO、CAO open-market 减持，叠加高 β 拥挤仓位 unwind 三重放大。2026 YTD 仍 +235%——是涨幅最大、贝塔最高的拥挤多头，去杠杆时首当其冲。royalty 商业模式与产业 take rate 趋势本日无产业层级利空。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MRVL</td>
+      <td class="name">Marvell</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-9.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>定制 ASIC 龙头·高 β 跟跌 −9.4</strong><em class="ki-note">AI 定制 ASIC（XPU）+ 光 DSP 龙头，本日 −9.4 居高 β 中小盘第二梯队。custom silicon 是 AI 算力链最受 hyperscaler 内化驱动的环节，估值与 backlog 预期打得最满，故 unwind 时弹性最大。无订单、无指引变化，纯仓位去杠杆。下一观察看 hyperscaler ASIC tape-out 节奏与 backlog。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ALAB</td>
+      <td class="name">Astera Labs</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-9.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>连接 IC（retimer/CXL）·高 β 跟跌 −9.7</strong><em class="ki-note">PCIe retimer / CXL 内存扩展连接芯片纯 AI 弹性标的，无消费业务对冲，是估值最贵、贝塔最高的连接环节之一。本日 −9.7 与 ARM/CRDO 同处最深跌幅区。无个股催化，纯 unwind。Scorpio fabric switch 放量与机柜内连接渗透是产业级观察点，本日无新增负面。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CRDO</td>
+      <td class="name">Credo Technology</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-10.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>AEC 有源铜缆·并列链内最深跌 −10.1</strong><em class="ki-note">AEC（有源电缆）连接芯片龙头，机柜内 GPU 互联的高弹性 read-through 标的，本日 −10.1 与 ARM 并列链内最深。小盘+纯 AI 暴露+高估值=贝塔最高的拥挤多头，unwind 里跌最狠。AEC 在 scale-up 互联的份额与出货量是产业级变量，本日无订单或客户层级利空。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ANET</td>
+      <td class="name">Arista Networks</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-7.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>AI 网络交换机·跌幅接近链平均 −7.1</strong><em class="ki-note">数据中心以太网交换龙头，AI 集群 scale-out 网络的核心硬件供应商。本日 −7.1 接近链平均、弱于 GPU 龙头——大市值但 AI 网络弹性高，故跌幅介于龙头与中小盘之间。无财报、无 hyperscaler 订单变化，纯板块 unwind。800G/1.6T 交换端口放量节奏是产业观察点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">APH</td>
+      <td class="name">Amphenol</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-4.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>连接器·链内最抗跌之一 −4.4</strong><em class="ki-note">高速连接器/线缆龙头，AI 服务器与机柜互联的隐性受益者，但业务多元化（汽车/工业/通信）对冲了纯 AI 贝塔，本日仅 −4.4，与 NVDA 同属最抗跌层。这正是 β 分层的体现：多元业务+大市值=低弹性，unwind 时跌得最少。AI 相关连接器订单占比与增速是产业观察点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">QCOM</td>
+      <td class="name">Qualcomm</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>移动 SoC·跟跌 −8.0 居链平均</strong><em class="ki-note">手机/边缘 AI SoC 龙头，本日 −8.0 与链平均一致。叠加背景：2026 全球智能手机出货创纪录下滑（预测 −13%）的需求担忧为 unwind 提供了情绪燃料，但本日无 QCOM 个股层级新增利空。数据中心 CPU 与边缘 AI 推理的新增长曲线进度是产业级观察点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MPWR</td>
+      <td class="name">Monolithic Power</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-7.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>AI 电源管理·跟跌 −7.4</strong><em class="ki-note">GPU 供电的电源管理 IC（PMIC/VRM）核心供应商，AI 算力链的隐性 direct 环节。本日 −7.4 居链平均附近，纯板块 unwind 跟跌。无财报、无份额变化。NVDA 下一代平台供电方案的份额（48V 架构渗透）是产业级 read-through 变量，本日无新增信息。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CLS</td>
+      <td class="name">Celestica</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-6.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>AI 服务器 EMS/ODM·跟跌 −6.8</strong><em class="ki-note">AI 服务器与网络硬件代工（EMS）受益标的，hyperscaler 整机/交换组装的直接 read-through。本日 −6.8 略弱于链平均，纯 unwind。CCS（连接云解决方案）分部的 hyperscaler 订单与营收占比是产业观察点，本日无客户层级利空。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INTC</td>
+      <td class="name">Intel</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-6.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>x86 + 代工·跟跌 −6.1</strong><em class="ki-note">x86 CPU + foundry 转型标的，本日 −6.1 略弱于链平均。AI 算力暴露相对低（无主力 GPU），故 unwind 中跌幅未及高 β 加速卡/连接名。纯板块去杠杆，无个股催化。18A 良率爬坡与外部代工客户进展是其独立产业变量，与本日 AI 链 unwind 无关。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SMTC</td>
+      <td class="name">Semtech</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>连接/光模块组件·跟跌 −6.5</strong><em class="ki-note">CopperEdge（机柜内有源铜缆）+ 光模块 driver/TIA 组件供应商，AI 连接链 indirect 弹性标的。本日 −6.5 略优于链平均，纯 unwind 跟跌。CopperEdge 在 hyperscaler scale-up 互联的设计导入进度是产业观察点，本日无订单层级变化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MXL</td>
+      <td class="name">MaxLinear</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-7.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>连接/光 PHY·跟跌 −7.6</strong><em class="ki-note">数据中心光模块 PHY + 连接 IC 供应商，AI 网络链 indirect 受益。本日 −7.6 居链平均附近，纯板块 unwind。小盘连接名在 risk-off 中弹性偏大但本日未达 ALAB/CRDO 极端跌幅。光 DSP/PHY 在 800G 升级的份额是产业级变量。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LSCC</td>
+      <td class="name">Lattice Semi</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.9%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>低功耗 FPGA·跟跌 −6.9</strong><em class="ki-note">小尺寸 FPGA 龙头，AI 服务器板内控制/管理的 indirect read-through。本日 −6.9 居链平均附近，纯 unwind。服务器/通信终端市场的库存去化与订单回补是其独立产业变量，本日无新增信息，跟跌为板块情绪传导。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">SYNA</td>
+      <td class="name">Synaptics</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>边缘 AI/IoT SoC·跟跌 −6.5</strong><em class="ki-note">边缘 AI / IoT 连接 SoC 供应商，AI 链最间接的 sentiment 弹性名。本日 −6.5 居链平均附近，纯板块 unwind。边缘 AI 推理 SoC 的设计导入与 IoT 终端复苏是其独立产业变量，与本日核心 AI 算力 unwind 关联弱，跟跌主要是半导体板块情绪传导。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull · <em>产业基本面未变，unwind 是仓位行为</em></div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>无产业利空</strong>：本日 16 只全跌，但<em>无一来自订单取消 / 财报暴雷 / 指引下修</em>——纯 risk-off 去杠杆<br>
+        ② <strong>β 分层确认拥挤而非恶化</strong>：龙头 NVDA −4.1 / APH −4.4 抗跌，高 β ARM/CRDO −10 跌狠 = 先砍贝塔，非基本面分化<br>
+        ③ <strong>capex 周期未拐头</strong>：hyperscaler AI 资本开支上修周期本日无新增负面信号<br>
+        ④ <strong>ARM 个股噪音</strong>：估值下调+高管减持是个股事件，2026 YTD 仍 +235%，不改链条产业方向
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>catalyst window，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① hyperscaler（MSFT/GOOGL/META/AMZN）下季 capex / order intake 指引方向——是否仍维持上修斜率<br>
+        ② 定制 ASIC（MRVL）与连接芯片（ALAB/CRDO）的 backlog 与 tape-out 节奏边际变化<br>
+        ③ AI 网络 800G/1.6T 交换端口（ANET）出货放量进度<br>
+        ④ 内存现货价 / 智能手机出货数据——验证"需求 tsunami"是噪音还是真实需求侧拐点（本日仅为 unwind 情绪燃料）
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 06 — Theme #3</div>
+  <h2 class="sec-title">主线三 · <em>存储 · 模拟 · 分立 · 传感芯片</em>：HBM 超级周期叙事在 MU 财报前夜遭板块 unwind 错杀</h2>
+  <div class="sec-sub">这是 6/22 半导体主升浪暴力 unwind（SOX −7.9）中跌幅最深的子链——存储（MU/SNDK/WDC/STX）+ 模拟/功率/分立（ON/NXPI/ADI/TXN/MCHP/STM）整片 −7%~14%。本主线走 <strong>Bull Logic</strong>：当日的暴跌是 risk-off 板块去杠杆 + MU 6/24 财报前 de-risk，<em>不是产业拐点</em>，存储超级周期的基本面证伪与否要等 6/24 美光财报盘后验证。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic（行业上行 → 全攻势）。</strong>存储链处于 HBM/DRAM 超级周期上行段：MU 已指引 HBM 产能售罄至 2026 全年、HBM4 爬坡速度约为 HBM3E 的两倍；NAND（SNDK/WDC）与 HDD（STX/WDC）同受 AI 数据中心容量需求拉动、现货价上行。本日 −13% 量级的暴跌由两条非产业线索驱动：① 韩国存储双雄（SK 海力士 / 三星）单日 −12%、Kospi −10% 的亚洲存储抛售直接传导；② MU 6/24 盘后财报前的获利了结 de-risk（连续创新高后估值担忧 + 财报不确定性）。<strong>这两者都是 flows / 情绪驱动的回调，非产业景气拐点</strong>。
+    <br>暴力 unwind ≠ 趋势反转，回调在 Bull Logic 下是趋势确认而非风险信号。<strong>真正的产业方向判定要等 6/24 MU 财报兑现检验</strong>——DRAM/HBM 定价、毛利率是否破 80%、下季指引方向，才是确认超级周期延续 or 见顶的硬证据（详见 §N+2 Forward Watchlist + ★ FOCUS MU 深读）。当日下跌不构成对存储基本面的任何证伪。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>MU −13.2%</strong>：6/24 盘后 Q3 FY26 财报前最重要的 de-risk，市场对 ~$33.5B 收入 / 81.6% 毛利率 / &gt;$19 EPS 的高预期获利兑现；连续 4 季 beat（平均超预期 21.7%）后估值担忧主导（已另列 ★ FOCUS 深读）。② <strong>SNDK −13.6% / WDC −8.4% / STX −5.1%</strong>：NAND/HDD 同链跟跌，SNDK 创新高后估值杀 + 韩国存储崩盘外溢叠加。③ <strong>韩国存储双雄 −12% 传导</strong>：SK 海力士 / 三星暴跌是本日存储链 risk-off 的外部触发源，非美国公司基本面事件。④ <strong>模拟/功率/分立片（ON/NXPI/ADI/TXN/MCHP/STM −7%~11%）</strong>：非 AI 直接受益但被半导体板块 β 整体拖累的板块轮动错杀，无个股层级催化。</p>
+
+  <table class="dt" id="theme6-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">SNDK</td>
+      <td class="name">Sandisk</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-13.6%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>NAND 纯标的，本日存储链跌幅之最——创新高后估值杀 + 韩国存储崩盘外溢</strong><em class="ki-note">SNDK 是分拆后的独立 NAND 纯玩家、AI 数据中心 eSSD 容量需求直接受益方。本日 −13.6% 由两条非基本面线索叠加：连续创历史新高后的估值担忧获利了结 + 韩国 SK 海力士/三星 −12% 的亚洲存储抛售外溢。<em>无任何公司层级利空事件</em>，属 risk-off unwind 错杀；NAND 现货价与 eSSD 订单的产业上行趋势未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MU</td>
+      <td class="name">美光科技</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-13.2%</td>
+      <td><span class="tag t-cat">催化剂</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>6/24 盘后财报前 de-risk · 当日最重要存储名（已列 ★ FOCUS 深读）</strong><em class="ki-note">本日 −13.2% 是 HBM/DRAM 超级周期龙头在 6/24 财报前夜的获利兑现 de-risk——市场对 Q3 ~$33.5B 收入 / 毛利率破 80% / &gt;$19 EPS 的极高一致预期，连续 4 季 beat 后估值担忧叠加韩国存储崩盘。<em>下跌 ≠ 基本面证伪</em>，HBM 产能已售罄至 2026 全年、HBM4 爬坡 2× HBM3E。超级周期真伪的检验点 = 6/24 盘后财报，详见 ★ FOCUS。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MRAM</td>
+      <td class="name">Everspin</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num neg">-11.7%</td>
+      <td><span class="tag t-map-s">sentiment</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>微盘 MRAM 利基存储，高 β 跟跌、纯情绪放大</strong><em class="ki-note">Everspin 是 MRAM（磁阻存储）微盘利基玩家，与 DRAM/NAND 超级周期关联薄弱、本日跌幅被存储板块 risk-off 情绪放大。微盘流通盘小、β 高，板块 unwind 时弹性最大；无公司层级催化，属 sentiment 跟跌。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ON</td>
+      <td class="name">安森美半导体</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-11.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>功率/分立片龙头，非 AI 直接受益却被半导体 β 整体拖累</strong><em class="ki-note">ON 主营功率半导体（汽车/工业 SiC、分立器件），并非 AI 存储链直接标的，本日 −11% 是半导体板块 SOX −7.9 整体 unwind 的板块轮动错杀。汽车/工业终端需求与存储超级周期是两条独立产业线，本日下跌纯属板块 β 拖累、无个股催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMBQ</td>
+      <td class="name">Ambiq Micro</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-9.9%</td>
+      <td><span class="tag t-map-s">sentiment</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>低功耗 MCU/AI 边缘芯片，小盘高 β 跟跌</strong><em class="ki-note">Ambiq 主营超低功耗 MCU、边缘 AI 推理芯片，小盘标的、流通结构使其在半导体板块 unwind 中弹性放大。本日 −9.9% 无公司层级催化，属板块 risk-off 的 sentiment 跟跌；与存储超级周期无直接业务关联。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ALGM</td>
+      <td class="name">Allegro MicroSystems</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>磁传感/汽车模拟片，板块 β 错杀</strong><em class="ki-note">Allegro 主营磁传感器与汽车功率模拟芯片，终端是汽车/工业而非 AI 存储链。本日 −9.8% 是半导体板块整体 unwind 的板块轮动，无个股催化；产业链定位与本主线核心的存储超级周期无关，纯板块 β 拖累。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HIMX</td>
+      <td class="name">奇景光电 Himax</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-9.6%</td>
+      <td><span class="tag t-map-s">sentiment</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>显示驱动 IC，小盘跟跌、台系链情绪外溢</strong><em class="ki-note">Himax 主营显示驱动 IC（DDIC）、WLO 光学，台系小盘半导体；本日 −9.6% 受亚洲半导体 risk-off（韩国/台湾链）情绪外溢 + 半导体板块 β 拖累。无个股催化，属 sentiment 跟跌；与存储超级周期无业务关联。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">STM</td>
+      <td class="name">意法半导体</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-9.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>欧系 MCU/模拟/功率片，板块 unwind 错杀</strong><em class="ki-note">STMicro 主营 MCU、模拟、功率分立器件，终端汽车/工业，非 AI 存储直接链。本日 −9.4% 是半导体板块整体 risk-off 的板块轮动；ADR 还叠加欧洲半导体跟随亚洲崩盘情绪。无个股催化，板块 β 拖累。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">MCHP</td>
+      <td class="name">微芯科技</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-9.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>MCU/模拟片，工业周期标的被半导体 β 拖累</strong><em class="ki-note">Microchip 主营 MCU、模拟、FPGA，终端工业/汽车，处于自身工业去库存周期、与 AI 存储超级周期是两条独立线。本日 −9.2% 是半导体板块 unwind 的板块轮动错杀，无个股催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AOSL</td>
+      <td class="name">万代半导体</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-8.7%</td>
+      <td><span class="tag t-map-s">sentiment</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>功率分立器件小盘，高 β 跟跌</strong><em class="ki-note">Alpha &amp; Omega 主营 MOSFET/功率分立器件，小盘标的；本日 −8.7% 是功率半导体 + 半导体板块 risk-off 的板块轮动，小盘弹性放大。无个股催化，sentiment 跟跌；非存储链。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RMBS</td>
+      <td class="name">Rambus</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.7%</td>
+      <td><span class="tag t-map-d">direct map</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>内存接口 IP，存储链直接映射、随 MU 财报前 de-risk 跟跌</strong><em class="ki-note">Rambus 是 DRAM/HBM 内存接口芯片与 IP 直接受益方（DDR5 RCD、HBM 物理层），与 MU 是 direct 映射关系。本日 −8.7% 随 MU 财报前 de-risk + 存储链 risk-off 同步回调，无个股催化；内存超级周期的 read-through 对 RMBS 的 IP 授权收入正向、产业趋势未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ADI</td>
+      <td class="name">亚德诺半导体</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>高端模拟龙头，板块 β 拖累</strong><em class="ki-note">Analog Devices 是高端模拟/信号链龙头，终端工业/汽车/通信，非 AI 存储直接链。本日 −8.6% 是半导体板块整体 unwind 的板块轮动错杀，无个股催化；模拟周期与存储超级周期独立。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TXN</td>
+      <td class="name">德州仪器</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>模拟/嵌入式片龙头，半导体 β 整体回调</strong><em class="ki-note">TI 是模拟 + 嵌入式处理龙头，终端工业/汽车/个人电子，非 AI 存储链。本日 −8.4% 是半导体板块 SOX −7.9 整体 unwind 的板块轮动；大盘模拟龙头跌幅与板块 β 接近，属典型板块贝塔、无个股 alpha 或利空。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">WDC</td>
+      <td class="name">西部数据</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.4%</td>
+      <td><span class="tag t-map-d">direct map</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>HDD（分拆后）+ 数据中心容量直接受益方，随存储链 de-risk 跟跌</strong><em class="ki-note">WDC 分拆 SNDK 后聚焦 HDD（近线大容量盘），AI 数据中心冷数据存储容量需求直接受益方。本日 −8.4% 随存储链 risk-off + MU 财报前 de-risk 同步回调，无个股催化；HDD 容量需求与现货价上行趋势未受当日下跌影响。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">VSH</td>
+      <td class="name">Vishay</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>分立器件/被动元件，工业周期标的被板块 β 拖累</strong><em class="ki-note">Vishay 主营分立半导体 + 被动元件，终端工业/汽车，处于自身周期、非 AI 链。本日 −8.3% 是半导体板块 unwind 的板块轮动错杀，无个股催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">VICR</td>
+      <td class="name">Vicor</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.1%</td>
+      <td><span class="tag t-map-i">indirect map</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>电源模块，AI 服务器供电间接映射、板块 β 跟跌</strong><em class="ki-note">Vicor 主营高密度电源转换模块，AI 服务器/数据中心供电链 indirect 受益方。本日 −8.1% 是半导体板块 risk-off 的板块轮动 + AI 硬件链整体 unwind 跟跌，无个股催化；AI 算力 capex 拉动的电源需求趋势未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NXPI</td>
+      <td class="name">恩智浦</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-7.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>汽车/工业 MCU 龙头，板块 β 整体回调</strong><em class="ki-note">NXP 是汽车 + 工业 MCU/模拟龙头，非 AI 存储链。本日 −7.2% 是半导体板块整体 unwind 的板块轮动，跌幅与板块 β 接近、属板块贝塔而非个股事件；汽车/工业周期与存储超级周期独立。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">STX</td>
+      <td class="name">希捷科技</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-5.1%</td>
+      <td><span class="tag t-map-d">direct map</span> <span class="tag t-rot">板块轮动</span></td>
+      <td><strong>HDD 双雄，跌幅最浅——数据中心容量逻辑相对独立于 HBM 估值杀</strong><em class="ki-note">Seagate 是 HDD（近线大容量盘）双雄之一，AI 数据中心冷数据容量需求直接受益方。本日 −5.1% 为本主线跌幅最浅——HDD 容量逻辑相对独立于 HBM/DRAM 的估值杀与 MU 财报前 de-risk，受存储链 risk-off 传导但弹性较小；产业容量需求趋势未变。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">存储超级周期产业上行的硬证据 · <em>当日下跌未证伪</em></div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>HBM 产能售罄</strong>：MU 已指引 HBM 产能售罄至 2026 全年，定价权强、供给紧张<br>
+        ② <strong>HBM4 加速爬坡</strong>：HBM4 爬坡速度约为 HBM3E 的 2×，压缩新品到放量的周期<br>
+        ③ <strong>MU 一致预期</strong>：Q3 FY26 ~$33.5B 收入 / 毛利率有望破 80% / &gt;$19 EPS，连续 4 季 beat（均超预期 21.7%）<br>
+        ④ <strong>NAND/HDD 容量需求</strong>：SNDK eSSD、WDC/STX 近线 HDD 受 AI 数据中心容量拉动、现货价上行
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>catalyst window，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① <strong>MU 6/24 盘后财报</strong>：DRAM/HBM 实际定价、毛利率是否破 80%、下季指引方向——存储超级周期延续 or 见顶的最硬检验点<br>
+        ② <strong>HBM/DRAM 现货与合约价</strong>：财报后 DRAMeXchange 月度价格的边际斜率，验证供给紧张是否持续<br>
+        ③ <strong>韩国存储双雄（SK 海力士/三星）</strong>：亚洲存储龙头后续走势是企稳还是趋势性见顶，是本日 risk-off 的源头链<br>
+        ④ <strong>NAND/HDD 容量价格</strong>：eSSD 与近线 HDD 现货价、数据中心 capex order intake 的边际方向
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 07 — Theme #4</div>
+  <h2 class="sec-title">主线四 · <em>光通信 / 光模块崩</em>：6/22 暴涨的 unwind，非产业拐点</h2>
+  <div class="sec-sub">本日全链回吐——这是 6/22 光通信暴涨（VIAV +12 / COHR +9）的暴力 unwind，叠加韩国半导体领跌的 SOX −7.9% 全市场 risk-off，高 β 拥挤名首当其冲。Bull Logic 框架——产业拐点未现，仅 flows 主导的仓位再定价。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>Bull Logic（行业上行 → 全攻势）</strong>。AI 数据中心光互连是 capex direct 链，1.6T 光模块放量 + CPO（co-packaged optics）渗透的产业上行斜率本日无任何下修证据。本日全链 −5%~−14% 的回吐是两层 flows 叠加：① 6/22 单日暴涨（VIAV +12 / COHR +9）的获利了结 unwind；② 韩国半导体领跌引发的 SOX −7.9% / NDX −3.3% 全市场 risk-off，高 β 拥挤名按 β 放大下行。<em>底层结构性悬而未决项</em>：6/9 SemiAnalysis 抛出"CPO 量产或推迟至 2028-29、NVDA 800VDC 延后"报告引发首轮 rout，NVDA 的 Gilad Shainer 在 Computex 当场反驳"无延迟、2H 放量"——这场 SemiAnalysis vs NVDA 的产业级争论仍是链上叙事的真实变量，但本日下跌并非该争论的新增信息，纯属仓位 β。Bull Logic 下回调 = 机会、拥挤 = 趋势确认；判断本主线延续 or 拐点只能用产业信号（CPO 量产时点、1.6T 出货指引、超大厂光互连 capex），不用价格行为。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·<strong>无任一标的发布公司层级新利空</strong>——AAOI −13.9% 跌最深，是 12 个月 +600% 的最拥挤动量名按 β 放大回吐，非 AAOI 自身催化（无新财报、无指引下修、无 CPO 相关公司公告）。direct 光引擎链（COHR/LITE/POET/AAOI EML+激光+光引擎）弹性显著大于 indirect 链（GLW 康宁光纤 −7.5 / NOK 诺基亚 −5.1，业务关系一层外）。SemiAnalysis CPO-delay 报告与 NVDA "2H 放量" 反驳的产业争论仍未收敛，是后续真实观察变量。</p>
+
+  <table class="dt" id="theme4-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">AAOI</td>
+      <td class="name">Applied Optoelectronics</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-13.9%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>无公司层级新利空 · 12M +600% 最拥挤动量名按 β 放大回吐</strong><em class="ki-note">本日跌幅居全链之首，但<em>无新财报 / 无指引下修 / 无 AAOI 专属催化</em>——纯属 6/22 暴涨 unwind + SOX −7.9% risk-off 的高 β 放大（12 个月 +600%、年内 +390%，最拥挤的光模块动量名，回吐弹性最大）。direct 光模块龙头，AI 数据中心光互连 capex 直接受益方。产业拐点未现，6/9 SemiAnalysis CPO-delay 报告的争论仍未收敛但本日非新增信息。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">POET</td>
+      <td class="name">POET Technologies</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-11.2%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>POET 光引擎 · 小盘高 β、CPO 叙事核心名跟跌</strong><em class="ki-note">L4 小盘 + 光引擎 / optical interface 平台，是 CPO（co-packaged optics）渗透叙事的纯弹性标的，本日按 β 放大跟跌。direct 链定位，无公司层级新催化——下跌是 SemiAnalysis CPO-delay 争论的情绪余波 + 全市场 risk-off 叠加，非 POET 业务面变化。小盘高 β 在 risk-off 日跌幅天然大于中大盘光器件名。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">COHR</td>
+      <td class="name">Coherent</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-10.4%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>6/22 +9% 的镜像回吐 · EML / 激光器 direct 龙头</strong><em class="ki-note">前一日 +9% 暴涨本日几乎等幅 unwind，是典型的 t-1 暴涨次日反向、flows 主导。EML（光模块发射芯片）+ 激光器 direct 供应商，年内 +107%。无新财报 / 无指引修正——下跌是仓位再定价，非基本面。direct 链定位决定其弹性大于 indirect 的康宁 / 诺基亚。CPO 量产路径是其中长期产业变量，本日未出现新信息。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">IPGP</td>
+      <td class="name">IPG Photonics</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-8.8%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-i">indirect map</span></td>
+      <td><strong>光纤激光 · 与 AI 互连关系偏弱却跟跌，板块情绪 spillover</strong><em class="ki-note">IPG 主业是工业 / 材料加工光纤激光，与 AI 数据中心光互连关系比 COHR/LITE 弱一层（indirect），本日跟跌主要是"optical / photonics"标签下的板块情绪 spillover + risk-off β，而非 IPGP 自身受 CPO 叙事直接驱动。无公司层级催化。indirect 定位本应弹性较小，本日 −8.8% 偏大反映 risk-off 日不分 direct/indirect 一并抛售的 flows 特征。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GLW</td>
+      <td class="name">Corning</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-7.5%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-i">indirect map</span></td>
+      <td><strong>康宁光纤 · L1 大盘 indirect、跌幅显著小于 direct 光引擎链</strong><em class="ki-note">康宁是 AI 数据中心光纤 / 光缆供应商，indirect 链（供应物理介质而非光引擎 / 光芯片），且 L1 mega-cap 多元化业务（显示玻璃 / Gorilla Glass）稀释了光通信单一暴露。−7.5% 跌幅小于 direct 链的 AAOI/COHR，正是 direct vs indirect 弹性差序的印证。无公司层级新利空，纯板块 β 拖累 + risk-off。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LITE</td>
+      <td class="name">Lumentum</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-7.4%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>光器件 direct 龙头 · 跌幅相对克制（无前一日暴涨包袱）</strong><em class="ki-note">激光器 / 光器件 direct 供应商，年内 +138%。−7.4% 在 direct 链中跌幅相对克制——因前一日未跟 COHR 同等暴涨、unwind 包袱较轻，本日更多是单纯 SOX −7.9% risk-off 的 β 拖累而非"暴涨次日反向"。无新财报 / 无指引修正 / 无公司催化。direct 链定位，AI 光互连放量长逻辑本日无任何下修证据。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NOK</td>
+      <td class="name">Nokia</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-5.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-i">indirect map</span></td>
+      <td><strong>诺基亚 · indirect 网络设备、跌最浅（弹性差序末端）</strong><em class="ki-note">诺基亚是光 / 网络系统设备商，离 AI 光互连"光引擎 / 光芯片"核心环节最远（indirect），本日 −5.1% 是全链跌最浅的，正是 direct（COHR/LITE/POET/AAOI）→ indirect（GLW/NOK）弹性递减序列的尾端印证。业务多元（移动网络 / 固网），AI 光互连暴露占比低，board-level 价格反应被稀释。无公司层级催化，纯板块情绪 spillover。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>产业上行斜率未现下修，本日纯 flows 回吐</em></div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>无任一标的公司层级新利空</strong>：7 只全链 −5%~−14% 无新财报 / 无指引下修 / 无公司公告，纯 6/22 暴涨 unwind + SOX −7.9% risk-off β<br>
+        ② <strong>NVDA 反驳 CPO 延迟</strong>：Gilad Shainer 在 Computex 明确"CPO 无延迟、2H 放量"，对冲 6/9 SemiAnalysis "量产推迟 2028-29" 报告<br>
+        ③ <strong>1.6T 光模块 + CPO 渗透产业路径完好</strong>：AI 数据中心光互连 capex direct 链，超大厂 capex 上行斜率本日无任何证据反转<br>
+        ④ <strong>direct/indirect 弹性差序清晰</strong>：direct 光引擎（AAOI/COHR −10%~−14%）跌幅显著大于 indirect（GLW/NOK −5%~−7.5%），结构未乱、属健康 β 排序
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>catalyst window，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① CPO 量产时点之争收敛方向——SemiAnalysis "2028-29 推迟" vs NVDA "2H 放量" 哪方被后续 NVDA / 超大厂官方时间表证实（未来 1-2 个季度）<br>
+        ② 1.6T 光模块出货 / 订单指引——COHR / LITE 下季 earnings call 对 1.6T ramp 节奏的量化指引方向<br>
+        ③ 超大厂 AI 光互连 capex——MSFT / GOOGL / META / AMZN 数据中心网络 capex 的边际增减（季度财报披露）<br>
+        ④ 链内龙头光引擎 / EML 产能与 backlog 边际变化——验证本主线是产业"中段放量"而非"兑现尾段"的关键数据点
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 08 — Theme #5</div>
+  <h2 class="sec-title">主线五 · <em>AI 电力·数据中心 EPC·电气·储能</em>：6/22 赢家全反转、SOX −7.9 带崩实物侧</h2>
+  <div class="sec-sub">本日跌幅最深的一条主线——6/22 VRT +7.5 / STRL +8.2 / INIO +9.8 的大涨被一日打平甚至倒挂（VRT +7.5→−11.1）。判断逻辑：AI 用电刚需中期未变，本日是过度拥挤后的获利了结 / unwind，<strong>非产业拐点</strong>——但 PRIM 是真实业绩暴雷、不能混入 unwind 叙事。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>行业 Bull Logic 不变（AI 数据中心电力刚需中期向上），本日是 unwind 而非拐点。</strong>触发因素是 SOX −7.9 带崩 AI 基建实物侧 + 前日 EPC / 电气 / 储能 spec 名拥挤度过高后的集中获利了结：6/22 的当日赢家几乎悉数反转，跌幅与前日涨幅高度对称，属价格行为驱动的仓位再平衡，无任一产业级利空（订单 / 现货价 / capex 指引）出现下修。<br>
+    <strong>两个例外必须单列、不能塞进 unwind 框架。</strong>① PRIM −21.6 = 自身业绩暴雷：FY26 EPS 指引从 $4.05–4.25 腰斩至 $1.30–1.85、调整后 EBITDA 从 $480–500M 砍到 $275–325M、COO 即时离任，Renewables 六个项目成本超支，第四次连续下修——这是个股 alpha 崩塌、与板块 unwind 无关。② VRT −11.1 除 unwind 外叠加真实利空：超大规模厂商自研微流控芯片散热测试成功的中期竞争威胁被重新定价。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>PRIM 盘中一度 −37%、收盘 −21.6</strong>，Renewables 成本超支 + COO Jeremy Kinch 即时离任 + 第四次连续指引下修，卖方称"已 tough to defend"。② <strong>SOX −7.9</strong> 拖累全链实物侧情绪，XLI −2.0；XLU 板块整体 +0.8 但这批 spec 个股逆势深跌 = 公用事业板块内分化、与传统利率敏感公用事业反向。③ 储能电池（FLNC −15.8 / EOSE −11.6 / ENVX −10.2 / AMPX −9.8）领跌、beta 最高，前期涨幅透支最重。④ ENLT +6.0 是全表唯一逆势——IPP / 项目业主属性、不吃 EPC 成本超支 read-through。</p>
+
+  <table class="dt" id="theme5-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="tk">PRIM</td>
+      <td class="name">Primoris Services</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-21.6%</td>
+      <td><span class="tag t-guide-cut">指引下调</span></td>
+      <td><strong>非 unwind — 自身业绩暴雷：FY26 EPS 指引 $4.05–4.25 腰斩至 $1.30–1.85、调整后 EBITDA $480–500M → $275–325M、COO 即时离任</strong><em class="ki-note">盘中一度 −37%、收盘仍 −21.6，跌幅远超链平均。根因是 Renewables 六个项目成本超支 + 第三方专家重估，Renewables 收入指引 $3B→$2.1B；CEO 临时兼任 COO 职责。卖方点名"第四次连续下修、tough to defend"。这是个股 alpha 崩塌，与板块 unwind 性质完全不同——不要归入 AI 电力 unwind 叙事。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FLNC</td>
+      <td class="name">Fluence Energy</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-15.8%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>储能电池 beta 最高、领跌全链——前期涨幅透支最重的 unwind 重灾区</strong><em class="ki-note">无当日个股利空，纯前日拥挤获利了结叠加 SOX −7.9 拖累。储能 spec 名波动率最高、做多筹码最集中，因此在仓位再平衡日跌幅放大至 −15.8。本日属价格行为驱动、非订单 / backlog 下修；中期 AI 数据中心配储逻辑未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">EOSE</td>
+      <td class="name">Eos Energy</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-11.6%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>锌电储能小盘、高 beta unwind 跟跌</strong><em class="ki-note">长时储能题材妖股属性，无独立催化，随储能板块集中卖出。前期连日大涨后的获利了结，跌幅对称于涨幅。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TE</td>
+      <td class="name">T1 Energy</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-11.2%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>光伏 spec 高 beta 跟跌、可再生侧 unwind</strong><em class="ki-note">无当日个股事件，随太阳能 / 可再生小盘一起回吐前期涨幅。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">VRT</td>
+      <td class="name">Vertiv Holdings</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-11.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-cat">催化剂</span></td>
+      <td><strong>6/22 +7.5 → 本日 −11.1 完全反转 · unwind 叠加真实利空：超大规模厂商自研微流控芯片散热</strong><em class="ki-note">数据中心电气 / 散热龙头，是本链 unwind 的 anchor——前日赢家、本日跌最深之一。除拥挤 unwind 外有一条真实产业利空：某超大规模厂商微流控芯片直冷测试成功被重新定价为第三方散热供应商的中期竞争威胁，对 VRT 估值是 derate 渠道而非单纯仓位。YTD 仍 +100%+，前期涨幅厚。这条利空是本表唯一带产业含义的下行驱动，需与纯 unwind 名区分。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FCEL</td>
+      <td class="name">FuelCell Energy</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num neg">-10.5%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>燃料电池妖股、无独立催化随链回吐</strong><em class="ki-note">市值最小档（micro），分布式发电 / AI 现场供电题材的纯情绪名，beta 最高、unwind 中跟跌。估值在妖股里是背景而非输入，本日跌幅是题材拥挤的反向。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BW</td>
+      <td class="name">Babcock &amp; Wilcox</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-10.5%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>电力设备小盘 unwind 跟跌</strong><em class="ki-note">能源装备 / 锅炉妖股，无当日事件，随 AI 电力实物侧情绪一起回吐。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ENVX</td>
+      <td class="name">Enovix</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-10.2%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>硅负极电池 spec、高 beta 储能跟跌</strong><em class="ki-note">无独立催化，随储能电池板块集中卖出，前期涨幅透支后的对称回吐。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AMPX</td>
+      <td class="name">Amprius Technologies</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-9.8%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>硅负极电池妖股、储能 unwind 跟跌</strong><em class="ki-note">高 beta 小盘，无当日事件，随电池板块回吐。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FRVO</td>
+      <td class="name">Fervo Energy</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.3%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>地热 / AI 现场供电题材 unwind 跟跌</strong><em class="ki-note">可再生供电 spec 名，无独立催化，随 AI 电力题材一起回吐前期涨幅。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NVT</td>
+      <td class="name">nVent Electric</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.7%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>数据中心电气连接 / 配电 direct 名、跟随 VRT 链 unwind</strong><em class="ki-note">电气保护 / 配电柜直接受益 AI 数据中心电力 capex，前日同涨、本日同跌。无个股利空，属电气子链拥挤后的 direct 跟跌。中期订单逻辑未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GEV</td>
+      <td class="name">GE Vernova</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-8.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>燃机 / 电网龙头、AI 电力 anchor 大盘跟跌</strong><em class="ki-note">L1 大盘、燃气轮机 + 电网设备核心，无当日利空，随 AI 电力主线 unwind 回吐。GEV 是中期 AI 用电叙事最硬的实物侧标的之一，本日下跌纯属仓位再平衡、非订单或 capex 下修。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CSIQ</td>
+      <td class="name">Canadian Solar</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-8.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>光伏组件、可再生侧 unwind 跟跌</strong><em class="ki-note">太阳能板块随链回吐，无个股事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LGN</td>
+      <td class="name">Legence</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-8.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>电气 / EPC 施工 spec 名 unwind 跟跌</strong><em class="ki-note">无独立催化，随电气施工子链回吐前期涨幅。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">FIX</td>
+      <td class="name">Comfort Systems USA</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-7.7%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>数据中心机电 EPC direct 名、跟随 EPC 链 unwind</strong><em class="ki-note">机电安装 / HVAC 直接承接数据中心建设，是 AI 电力实物侧最 direct 的施工名之一。无个股利空，前日同涨、本日 direct 跟跌。订单 backlog 逻辑中期未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GNRC</td>
+      <td class="name">Generac Holdings</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-7.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>发电机 / 备用电源、AI 现场供电题材跟跌</strong><em class="ki-note">无当日事件，随分布式电源 / AI 供电叙事 unwind 回吐。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AYI</td>
+      <td class="name">Acuity Brands</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-7.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-i">indirect map</span></td>
+      <td><strong>照明 / 楼宇电气 indirect 名、跟随电气链 unwind</strong><em class="ki-note">楼宇照明 + 智能空间，对数据中心电气是 indirect 映射，弹性中等，随链回吐。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ETN</td>
+      <td class="name">Eaton Corp</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-7.0%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>电力管理 / 配电龙头、AI 电力 direct anchor 大盘跟跌</strong><em class="ki-note">L1 大盘，数据中心电力管理 / 配电核心供应商，direct 受益 AI 用电 capex。无个股利空，随主线 unwind 回吐。ETN 是中期 AI 电力最硬的大盘 direct 名，本日下跌属仓位再平衡、非订单下修。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BE</td>
+      <td class="name">Bloom Energy</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-6.9%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>固体氧化物燃料电池、AI 现场供电题材跟跌</strong><em class="ki-note">数据中心现场供电 / 燃料电池龙头，题材拥挤后随链回吐，无当日个股事件。中期 AI 现场供电逻辑未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INIO</td>
+      <td class="name">INNIO</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.9%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>6/22 +9.8 → 本日 −6.9 反转、EPC spec 名 unwind</strong><em class="ki-note">前日链内涨幅最大的标的之一，本日完全反转。无独立利空，纯前日拥挤获利了结。涨跌对称是 unwind 的典型特征。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AGX</td>
+      <td class="name">Argan Inc</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.7%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>发电厂 EPC direct 名、跟随工程链 unwind</strong><em class="ki-note">燃气电厂 / 数据中心电力 EPC 总包，direct 受益 AI 用电建设。无个股利空，随 EPC 链回吐。订单 backlog 逻辑中期未变。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NXT</td>
+      <td class="name">Nextracker</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.5%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-s">sentiment</span></td>
+      <td><strong>光伏跟踪支架、可再生侧 unwind 跟跌</strong><em class="ki-note">太阳能跟踪系统龙头，随可再生板块回吐，无当日事件。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PWR</td>
+      <td class="name">Quanta Services</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-5.1%</td>
+      <td><span class="tag t-rot">板块轮动</span> <span class="tag t-map-d">direct map</span></td>
+      <td><strong>电网 / 输电 EPC 龙头、跌幅最浅的大盘 direct 名</strong><em class="ki-note">L1 大盘，电网建设 + 数据中心送电 direct 核心，本日 −5.1 为全表跌幅最浅——大盘质地 + direct 订单可见度高，在 unwind 中防御性最强。无个股利空，属主线 unwind 中的相对抗跌。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ENLT</td>
+      <td class="name">Enlight Renewable</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+6.0%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>全表唯一逆势 — IPP / 项目业主属性、不吃 EPC 成本超支 read-through</strong><em class="ki-note">可再生项目开发 / 持有运营商（IPP），与 PRIM 那类承接成本风险的 EPC 总包性质相反——业主端不直接背项目成本超支，因此在 EPC / 工程链暴雷日逆势走强。前一周已 −8%，本日属低位的方向分化反弹；YTD 仍 +70%，无当日新增正面催化，是 unwind 日里少数被资金重新定价为"风险敞口不同"的名。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 信号 · <em>unwind 非拐点、中期 AI 用电刚需未变</em></div>
+      <div class="card-meta">KEY DRIVER · INDUSTRY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>涨跌对称</strong>：6/22 链内赢家（VRT +7.5 / INIO +9.8）本日跌幅与前日涨幅高度对称 = 仓位再平衡而非基本面恶化<br>
+        ② <strong>无产业级利空</strong>：除 PRIM 自身暴雷外，全链无任一订单 / backlog / 现货价 / capex 指引下修<br>
+        ③ <strong>大盘 direct 防御性</strong>：PWR −5.1 / ETN −7.0 跌幅显著浅于储能 spec（FLNC −15.8），订单可见度高的 direct 名抗跌<br>
+        ④ <strong>触发是外生</strong>：SOX −7.9 带崩半导体实物侧情绪，是跨链 risk-off 而非 AI 电力链内部恶化
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>catalyst window，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① PRIM Renewables 六个超支项目的后续完工进度 + 第三方专家最终评估结论（验证是一次性还是结构性、是否波及在手 backlog）<br>
+        ② VRT 散热竞争威胁是否扩散——超大规模厂商自研微流控直冷的量产 / 部署时间表、是否有更多 hyperscaler 跟进自研<br>
+        ③ 大盘 direct 名（ETN / PWR / GEV）下季 order intake 与 backlog 边际方向，验证 AI 电力 capex 是否仍在上行斜率<br>
+        ④ 储能子链（FLNC / EOSE）新签订单与电池现货价边际变化，区分本日是纯 unwind 还是配储需求拐点
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="theme-defsoft">
+  <div class="sec-num">§ 09 — Theme #6</div>
+  <h2 class="sec-title">防御轮入 + 软件逆势：<em>6/22 镜像·资金从 AI 硬件撤出的去向</em></h2>
+  <div class="sec-sub">6/22 软件被卖、硬件被买；6/23 完全反向——SOX −7.9% 暴力 unwind 后，资金轮入电信/烟草/公用等防御板块（XLP +1.9 / XLV +1.4），同时网络安全与 SaaS 软件逆势上涨。定性 = risk-off 避风港，不是这些公司基本面突然变好。唯一例外：ORCL −5.7%，AI 云随硬件一起被杀，印证 SaaS 避险与 AI 云之间的内部分化。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门</span>
+    <strong>本节所有上涨标的 = Bear Logic 语境下的防御/避险轮动</strong>，不是行业上行的产业 Bull Logic。行业方向：电信/烟草/废物管理本身无产业加速信号，软件 SaaS 整体方向亦未明确翻多——今日涨幅的来源是"从拥挤 AI 硬件流出的资金寻找低波动出口"，不是基本面驱动的上行趋势。<br>
+    应观察的拐点变量是 AI 硬件链的 unwind 是否结束（SOX 企稳 / 半导体订单数据）——只有 risk-off 轮动结束，防御超额才会收敛。<strong>ORCL 是分化警示</strong>：同为软件但有 AI 云 capex 依赖，跟随硬件杀跌 −5.7%，验证"避险溢价只属于与 AI capex 无关的纯 SaaS"。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·SOX 单日 −7.9%、XLK −4.1%，为 2024 年以来最大单日半导体跌幅之一，引发同级别的 risk-off 轮动——XLP +1.9%、XLV +1.4%、XLRE +1.4%、XLU +0.8% 齐涨；软件逆势：VRNS +7.1%、GWRE +6.8%、WAY +6.3%、NTSK +6.5%、RPD +6.2%、IBM +5.0%，与前日同类型软件股被杀方向完全反向。ORCL 作为唯一例外 −5.7%，暴露 AI 云基础设施依赖的结构性风险——OCI 收入增长建立在 AI 大客户 capex 之上，与 SaaS 型软件在 risk-off 日分化显著。</p>
+
+  <table class="dt" id="t09-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    
+    <tr>
+      <td class="tk">T</td>
+      <td class="name">AT&amp;T</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+3.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>电信防御龙头·高股息 + 低 AI 敞口 = risk-off 首选目的地</strong><em class="ki-note">AT&T 是本轮轮动最典型的"避风港"——股息收益率约 5.1%、业务与 AI capex 零相关、自由现金流稳定（FY25 FCF 指引 $16B+）。SOX −7.9% 当日，资金从半导体流入电信防御，T 超额 SPY 约 4.7pp。无独立基本面催化，纯粹是持仓再平衡驱动的 beta 轮动。同日 VZ 同向验证（+3.0%），双龙头共振增强信号可靠性。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PM</td>
+      <td class="name">菲利普莫里斯</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+3.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>全球烟草防御·Zyn 无烟气动能 + 低 beta 在 risk-off 日溢价</strong><em class="ki-note">PM 的低市场 beta（约 0.55）在 risk-off 日形成天然溢价。Zyn 口含烟北美份额持续扩张（Q1 2026 出货量 +38% YoY）提供独立增长叙事，但今日涨幅主因是资产配置层面的"从科技转防御"，而非 Zyn 当日有新数据。与 BTI +3.1% 共振，烟草板块作为一个整体被买入，机构层面的板块再平衡特征明显。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BTI</td>
+      <td class="name">英美烟草</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+3.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>烟草防御映射·高股息 ADR + risk-off 避险流入</strong><em class="ki-note">BTI 以高股息（约 8% 收益率）和低科技敞口，在 risk-off 日吸收从 XLK 流出的资金。基本面无当日催化，次新烟草品类（Vuse/Velo）增长放缓压力未变，但作为短期避险工具被买入。涨幅与 PM 高度同步（均 +3.1/+3.2%），印证这是板块级别的流入而非个股选择。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">VZ</td>
+      <td class="name">Verizon</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+3.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>电信双龙头·T 同向验证·5G 网络稳定现金流 = 避险标配</strong><em class="ki-note">VZ 与 T 同日同向上涨（+3.0% vs +3.2%），双龙头共振确认这是系统性板块流入而非个股事件。VZ 固网宽带业务 FiOS 持续净增用户（Q1 +339K 净增），FCF 稳健，股息收益率约 6.1%。高利率环境下电信股通常受压，但 risk-off 日"低 beta + 高股息"属性压倒利率敏感性，形成短暂超额收益。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">WCN</td>
+      <td class="name">废物连接公司</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+3.9%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>废物管理防御·定价能力强 + AI 敞口为零·XLP 轮动锚点</strong><em class="ki-note">WCN 是废物管理行业的优质标的，定价能力驱动 EBITDA margin 持续扩张，与 AI 产业链零关联。+3.9% 超过电信龙头涨幅，反映废物管理在 XLP 轮动中更优的价格行为——可能与基金层面的再平衡叠加个股"被低配"有关。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CHTR</td>
+      <td class="name">特许通信</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+5.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>有线电视防御·+5.0% 领涨电信板块·宽带固网收入可预期</strong><em class="ki-note">CHTR 今日显著跑赢 T/VZ，一方面是 XLC 电信媒体板块 +0.4% 的小幅上涨中的优秀个股，另一方面 CHTR 估值较低（EV/EBITDA 约 7x）且近期宽带网络建设进程受关注。无独立当日催化，涨幅领先电信龙头可能有超跌修复叠加。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">VRNS</td>
+      <td class="name">Varonis Systems</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+7.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>数据安全 SaaS 逆势领涨·与 6/22 软件被杀完全反向·ARR 增长可见性强</strong><em class="ki-note">VRNS 今日 +7.1% 为本节最高涨幅之一，是 risk-off 下软件逆势的代表性标的。公司主营数据安全（DSPM），与 AI 硬件 capex 无直接关联，ARR 增长模式（SaaS 转型中）提供稳定收入可见性。6/22 VRNS 被卖（随软件板块），6/23 随 AI 硬件 unwind 被回补——这是两日之间的筹码再平衡，不是基本面变化。无当日独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NTSK</td>
+      <td class="name">Netskope</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+6.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>SASE/零信任网络·中小盘网络安全·risk-off 日软件逆势高弹性</strong><em class="ki-note">NTSK 作为 SASE 领域的纯软件订阅公司，在 risk-off 日获得防御性资金青睐，+6.5% 体现中小盘软件的高弹性特征。无当日独立催化，归因为网络安全软件板块整体的轮动流入。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RPD</td>
+      <td class="name">Rapid7</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+6.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>漏洞管理/CTEM·网络安全 SaaS 逆势·无 AI capex 敞口</strong><em class="ki-note">RPD 聚焦漏洞管理和暴露面管理（CTEM），近期有传出被私有化谈判的市场传言（未证实），今日涨幅可能混合了轮动 + 并购预期两个因素，但主因仍判断为板块轮动。无官方独立催化披露。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RBRK</td>
+      <td class="name">Rubrik</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+5.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>数据保护 SaaS·网络安全板块流入·ARR 增长加速</strong><em class="ki-note">RBRK 是网络安全数据保护领域的高增长标的，ARR 增速 40%+ 级别，近期上市后估值区间较高。今日 +5.3% 与同板块的 VRNS/RPD 方向一致，属于网络安全 SaaS 板块级轮动流入，无独立当日催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">GWRE</td>
+      <td class="name">Guidewire Software</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+6.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>保险核心系统 SaaS·高可见性 ARR·与 AI capex 脱钩 = risk-off 溢价</strong><em class="ki-note">GWRE 专注保险行业核心系统云化，客户粘性极高（更换成本极大）、ARR 增长 20%+ 且合同周期长。今日 +6.8% 领涨企业软件板块，无独立催化。其上涨逻辑是"与 AI capex 完全脱钩的稳定 SaaS 现金流"——在 AI 硬件 unwind 日获得溢价定价，是最纯粹的"无 AI 敞口 SaaS"轮动受益标的。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">WAY</td>
+      <td class="name">Waystar</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+6.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>医疗支付 SaaS·高防御属性·XLV 轮动叠加软件逆势双重受益</strong><em class="ki-note">WAY 专注医疗支付 Revenue Cycle Management，客户为医院和医疗系统，收入与 AI 产业链无关。今日 +6.3% 同时受益于 XLV +1.4%（医疗板块轮动）和软件板块逆势两个流入来源，属于少数双重受益标的。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NOW</td>
+      <td class="name">ServiceNow</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+3.1%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>企业工作流 SaaS 龙头·L1 大盘 +3.1% 稳健·AI 附加值叙事 vs 今日 AI 硬件被杀</strong><em class="ki-note">NOW 是企业 SaaS 龙头（市值 $230B+），以 AI 赋能工作流自动化为核心叙事，年度合同价值（ACV）增速 20%+ 且客户留存率 99%+。今日 +3.1% 属于稳健轮动流入——涨幅低于 GWRE/WAY 是因为 NOW 本身有 AI 叙事敞口，在纯 risk-off 日相对于"零 AI 敞口"的 SaaS 吸引力略低。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">IBM</td>
+      <td class="name">IBM</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num pos">+5.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>老牌企业 IT 防御·混合云 + AI 咨询轻 capex 依赖·+5.0% 领涨 L1 软件</strong><em class="ki-note">IBM 今日 +5.0% 是 L1 软件中最强涨幅，揭示一个有趣的分化：IBM 的 AI 商业化路径是"AI 咨询服务 + 混合云"，而非直接依赖 AI 数据中心 capex（与 ORCL 的 OCI 路径不同）。在 AI 硬件 unwind 日，IBM 被视为"AI 受益但 capex 不依赖"的稳健标的，吸引从 NVDA/AMD 等高 beta AI 硬件撤出的资金。Watson X 平台签约进展是下一个独立催化观察点。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">OTEX</td>
+      <td class="name">OpenText</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+5.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>企业内容管理 SaaS·高 FCF + 低 AI 敞口·risk-off 日中盘软件弹性</strong><em class="ki-note">OTEX 以企业内容管理和信息管理 SaaS 为主，与 AI 基础设施 capex 几乎无关联，FCF 稳健。+5.8% 属于 risk-off 日中盘软件轮动的标准反应，弹性高于大盘 NOW/IBM 是因为流动性较低、轮动资金冲击更大。无当日独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CDW</td>
+      <td class="name">CDW Corporation</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>IT 分销解决方案·政府+企业稳定需求·软件/硬件混合但非 AI 硬件直接敞口</strong><em class="ki-note">CDW 是 IT 硬件、软件和服务的分销商，客户为政府机构和企业，收入稳定性高。与 NVDA/AMD 等 AI 芯片不同，CDW 分销的硬件不依赖 AI capex 超级周期，今日被视为稳健的 IT 防御标的。+5.2% 属于板块轮动流入，无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TDC</td>
+      <td class="name">Teradata</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.0%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>数据仓库传统 SaaS·云迁移进程中·risk-off 日防御性定价</strong><em class="ki-note">TDC 是传统数据仓库厂商向云转型的代表，增速较低但客户粘性强，估值压缩至较低水平。今日 +5.0% 属于价值型软件标的的 risk-off 轮动，在技术成长股被卖出时，低估值稳定型软件获得相对溢价。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ACIW</td>
+      <td class="name">ACI Worldwide</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>支付软件基础设施·银行/金融支付后台·低 AI capex 敞口</strong><em class="ki-note">ACIW 专注银行支付基础设施软件，客户为全球大型银行，收入可预期性高。今日 +5.2% 属于支付软件在 risk-off 日的防御性流入，与 XLF 金融板块（今日未见明显异动）的关联弱，更多是"软件+稳定收入"属性驱动。无独立催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">ZETA</td>
+      <td class="name">Zeta Global</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>AI 营销数据平台·广告科技逆势·与半导体 AI capex 脱钩</strong><em class="ki-note">ZETA 的 AI 应用在营销数据和受众定向，不依赖 GPU 数据中心 capex，在 AI 硬件被杀日属于"AI 应用软件"而非"AI 基础设施"，因此获得差异化定价。+5.6% 属于广告科技板块的整体流入，无独立当日催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TBLA</td>
+      <td class="name">Taboola</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>原生广告推荐·内容分发平台·广告科技中小盘轮动弹性</strong><em class="ki-note">TBLA 主营内容推荐广告，业务与 AI 硬件 capex 无直接关联。今日涨幅属于广告科技板块的小盘标的轮动弹性，与 ZETA 方向一致。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">STGW</td>
+      <td class="name">Stagwell</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.7%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>数字营销服务·广告代理科技化·risk-off 日小盘软件弹性</strong><em class="ki-note">STGW 是数字营销和广告技术公司，今日 +5.7% 与同板块的广告科技流入一致，属于 risk-off 轮动中小盘软件高弹性的体现。无独立催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">AXON</td>
+      <td class="name">Axon Enterprise</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+5.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>执法科技 SaaS·Taser + 云软件双驱动·防御属性 + 政府合同稳定性</strong><em class="ki-note">AXON 的收入来自执法设备（Taser）和云软件平台（Evidence.com），政府客户为主，与 AI 半导体 capex 周期无关。今日 +5.6% 受益于两个流入：XLV/公共安全类防御属性 + 企业软件逆势。近期有无人机和 AI 执法工具新签合同的持续消息，但今日涨幅主因仍判定为板块轮动而非独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KFY</td>
+      <td class="name">Korn Ferry</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>人力资本咨询·专业服务·低科技 beta 防御</strong><em class="ki-note">KFY 是专业猎头和人才管理咨询公司，与 AI 硬件 capex 零关联，今日属于"非科技类专业服务"的防御性轮动流入，涨幅 +5.8% 属于小盘防御标的的弹性体现。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HURN</td>
+      <td class="name">Huron Consulting</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.6%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>管理咨询·医疗+教育客户·低 beta 专业服务防御</strong><em class="ki-note">HURN 专注医疗和高等教育机构的管理咨询，收入稳定，与 AI 产业链无关。今日 +5.6% 是专业服务板块在 risk-off 日的防御性小盘轮动，与 KFY 方向一致。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TRI</td>
+      <td class="name">汤森路透</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num pos">+5.4%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>专业信息服务·法律/税务/财经数据订阅·高可见性 ARR·risk-off 防御首选</strong><em class="ki-note">TRI 是典型的"无聊但稳定"防御型订阅业务，法律研究（Westlaw）和税务数据（Checkpoint）的订阅续约率 99%+，ARR 增速稳定在 7-9%。今日 +5.4% 是专业信息服务在 risk-off 日的溢价定价——稳定的订阅收入在高波动环境下被系统性高估，资金从半导体转出后的天然停靠点之一。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PRCH</td>
+      <td class="name">Porch Group</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>家居垂直 SaaS·房地产科技·小盘软件轮动弹性</strong><em class="ki-note">PRCH 是房屋检测和保险领域的垂直 SaaS 平台，今日 +5.2% 属于小盘垂直 SaaS 的轮动弹性体现，无独立催化。近期房市触底预期叠加 XLRE +1.4% 的房地产防御流入，可能提供了额外的板块支撑。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">OCTV</td>
+      <td class="name">OcuSoft</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>小盘软件/科技·低流动性轮动弹性</strong><em class="ki-note">OCTV 今日 +5.2% 属于小盘标的在 risk-off 日的高弹性轮动体现，流动性低使得相对少量资金即可形成较大百分比涨幅。无独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PAYP</td>
+      <td class="name">Paypay (美股)</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+6.5%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>金融科技支付·风险资产 vs 防御分类边界标的·+6.5% 逆势</strong><em class="ki-note">PAYP 今日 +6.5% 的强势在金融科技中较为突出，支付业务的稳定收入属性在 risk-off 日获得一定防御溢价。无独立当日催化，归因为金融科技支付类标的的轮动流入。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RXT</td>
+      <td class="name">Rackspace Technology</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+6.3%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>托管云服务·混合云运维·与 hyperscaler AI capex 非直接依赖</strong><em class="ki-note">RXT 是托管云和混合云服务提供商，今日 +6.3% 的上涨在技术上与 ORCL 分化——RXT 的业务是云管理服务，不直接依赖 AI GPU 产能扩张，属于 risk-off 日"非 AI capex 依赖的云相关标的"的轮动受益。无独立催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">ORCL</td>
+      <td class="name">甲骨文</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">−5.7%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>⚠ 本节唯一逆势跌·AI 云随硬件杀·OCI 敞口致 SaaS 内部分化</strong><em class="ki-note">ORCL 是本节 30 只标的中唯一下跌，−5.7% 与同日软件逆势上涨的方向完全相反，精准揭示 SaaS 内部分化的机制：ORCL 的核心增长叙事建立在 Oracle Cloud Infrastructure (OCI) AI 大客户（含 OpenAI、xAI 等）的 capex 扩张之上，OCI 收入是近两年 ORCL 估值重评的核心来源。SOX −7.9% 当日，市场担忧 AI 大客户 capex 减速将直接冲击 OCI 增长斜率，因此 ORCL 跟随 AI 硬件下跌而非跟随 SaaS 防御上涨。下一观察点：FY27Q1 OCI 收入增速（预计 8 月披露）及 AI 大客户续约/扩容情况。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Risk-off 轮动的结构证据 · <em>防御 + SaaS 双线同向</em></div>
+      <div class="card-meta">SECTOR ROTATION · DEFENSIVE FLOWS · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>ETF 校准：XLP +1.9% / XLV +1.4% / XLRE +1.4% / XLU +0.8%</strong>：防御板块四个 SPDR 同日上涨，与 SOX −7.9% 的半导体 unwind 形成完美镜像，是系统性板块再平衡的明确信号。<br>
+        ② <strong>软件板块内部：XLK −4.1% 但 SaaS 普涨（VRNS +7.1% / GWRE +6.8% / IBM +5.0%）</strong>：XLK 整体下跌（因 AI 硬件权重大），但其中的纯 SaaS 标的逆势上涨，印证资金在 XLK 内部也在从硬件转向软件。<br>
+        ③ <strong>6/22 vs 6/23 镜像完整性</strong>：6/22 软件被杀（资金轮入 AI 硬件），6/23 软件逆势（资金从 AI 硬件撤出），两日 mirror 结构确认这是系统性的 risk-on / risk-off 摆动，不是个股基本面驱动。<br>
+        ④ <strong>ORCL −5.7% 是反身性验证</strong>：同为软件但有 AI capex 依赖，ORCL 今日跟随 AI 硬件下跌——与纯 SaaS 的分化完美验证"AI capex 依赖度"是今日资金分类的核心变量。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">产业级关键观察点 · <em>轮动延续性的决定变量，非出场信号</em></div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY</div>
+      <div class="card-body">
+        ① <strong>SOX 企稳信号</strong>：若 SOX 在 6/24 继续 unwind 或加速下跌，防御轮动和 SaaS 逆势可能延续；若 SOX 反弹确认，资金有可能重回 AI 硬件，防御超额回撤。关键观察：SOX 日线是否形成止跌信号。<br>
+        ② <strong>ORCL FY27Q1 OCI 收入增速（预计 2026 年 8 月）</strong>：若 OCI 增速低于市场预期的 40%+ YoY，验证 AI 大客户 capex 减速已传导至云收入，则 AI 云与纯 SaaS 分化将进一步扩大；反之若维持增速，ORCL 当日 −5.7% 将被判定为过度定价。<br>
+        ③ <strong>下周 Fed 政策信号 / 宏观数据</strong>：若 CPI 或 PCE 数据继续偏热，收益率上行将压缩防御板块的避险溢价（尤其是电信/公用），risk-off 轮动的持续时间将被缩短。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="theme-misc">
+  <div class="sec-num">§ 10 — Theme #7</div>
+  <h2 class="sec-title">Census 层：<em>贵金属矿崩 + Crypto 跌</em> · 量子叙事剧烈反转（ARQQ/BTQ/BLZE 暴涨）· 妖股双向</h2>
+  <div class="sec-sub">本节混合方向收纳四个子板块，与当日 AI 硬件 unwind + risk-off 主线逻辑高度呼应：A 贵金属矿（GLD −1.9 / SLV −5.4 / GDX −4.6 / GDXJ −5.2 — 金银现货回调 → 矿商杠杆放大）/ B Crypto（IBIT −3.3，risk-off 压制比特币代理标的）/ C 量子/科技妖股（ARQQ +35.6 / BTQ +32.2 / BLZE +43.6 三只暴涨·各有独立催化·与6/22量子分化走向完全反转）/ D 混合妖股与独立事件（AMC −24.6 增发稀释 / VELO −15.0 回吐 / HQ −13.0 量子前期获利了结 / 及其余）。</div>
+
+  <div class="note-block">
+    <span class="kicker">牛熊逻辑闸门 · 2026-06-23</span>
+    <strong>本节四子板块各自适用不同逻辑框架，不混用。</strong>①<em>贵金属矿</em>：Bear Logic 短期激活——金价 $4,165（距 1 月 ATH $5,589 已回调 25%）、银价 $70 区域，GLD −1.9% 是今日系统性压力来源；矿商（B/KGC/CDE/AG）属 GLD/SLV β 的杠杆放大版，UAMY/HBM 跌幅更深需分辨自身 vs 商品 β。②<em>Crypto 代理</em>：Bear Logic 短期——risk-off 日 IBIT −3.3% 是宽基 IWM −1.0% 的 3× 放大，比特币本身无独立利空，属宏观情绪传导；MSTR 更激进（−5.1%）体现杠杆叠加。③<em>量子叙事</em>：本日是 6/22 量子板块内部分化后的叙事再聚焦——Trump 签署量子安全行政令是整组板块共同催化，BLZE 额外有 CoreWeave $335M 合同独立催化；BTQ/ARQQ 均为微盘妖股，不用估值否定。④<em>妖股/独立事件</em>：AMC 是 t-cat 增发稀释（与 AMC 经营基本面无关）；VELO 是 6/22 暴涨后情绪回吐；HQ 是量子前期涨幅获利了结，与 ARQQ/BTQ 本日反向分化；其余小盘各有独立逻辑。
+  </div>
+
+  <p><span class="kicker">本日关键变化</span>·① <strong>BLZE +43.6% — 最大涨幅：Backblaze 宣布与 CoreWeave 签署五年期 $335M 云存储合同</strong>（B2 平台 + CoreWeave 数据中心托管存储双轨），规模相对 BLZE 当前年化收入超 100%，属 AI 基础设施大合同，非量子催化；② <strong>Trump 6/23 签署两项量子计算行政令</strong>：加速量子计算机研发 + 推动联邦机构切换至后量子密码体系，BTQ（+32.2%，量子安全）和 ARQQ（+35.6%，量子密钥）受直接政策叙事驱动，BTQ 同日宣布任命美国战略顾问 Brandt Pasco 强化政府关系；③ <strong>GLD −1.9% / SLV −5.4% / GDX −4.6%</strong> 系统性回调，矿商按金银 β 及个股杠杆线性放大，UAMY −10.1% / HBM −9.1% 为本组跌幅最深——UAMY 品种为锑而非金银，是本日独立利空还是误操作需辨别；④ <strong>AMC −24.6% 是本日最大单股跌幅</strong>：公司宣布 9525 万股 /$2.10 定向增发（较前收盘价折价 24%），这是 12 天内第二次大规模增发（上次 $150M / 6/11），稀释效应叠加前期因 Toy Story 5 热映而积累的高位筹码，构成致命组合；⑤ <strong>ELVR +5.6%</strong> 逆贵金属矿板块上涨，需确认催化来自锂矿独立逻辑而非金银。</p>
+
+  <table class="dt" id="theme10-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">L</th>
+    <th data-type="num">日涨跌幅</th>
+    <th data-type="text">归因</th>
+    <th data-type="text">关键信息点</th>
+  </tr></thead>
+  <tbody>
+    
+    <tr>
+      <td class="tk">BLZE</td>
+      <td class="name">Backblaze</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+43.6%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本日最大涨幅 · CoreWeave 五年期 $335M 云存储大合同 · 非量子，是 AI 基础设施存储</strong><em class="ki-note">Backblaze（B2 云存储）宣布与 CoreWeave 签署五年、多 EB 级存储协议，价值 $335M，涵盖 B2 平台对象存储 + CoreWeave 数据中心内的托管存储解决方案。合同金额远超 BLZE 当前年营收规模，属 AI 基础设施存储需求的直接验证。市场将其定价为"AI 算力扩张→存储需求成比例增长"的 read-through。归因为 t-cat（大合同催化），而非量子叙事，需与 ARQQ/BTQ 的政策驱动逻辑明确区分。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ARQQ</td>
+      <td class="name">Arqit Quantum</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+35.6%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>Trump 量子安全行政令直接利好 · 量子密钥分发技术平台 · 微盘高弹性</strong><em class="ki-note">Trump 6/23 签署行政令要求联邦机构切换至后量子密码（PQC）体系，ARQQ 作为卫星量子密钥分发（QKD）技术提供商直接受益政策叙事。微盘（流通市值极小）叠加政策 catalyst 产生极大单日弹性。需注意：行政令是叙事催化，不是即时合同收入；ARQQ 尚无大规模商业部署，股价运动以政策情绪为主导。不适用估值框架否定。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">BTQ</td>
+      <td class="name">BTQ Technologies</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+32.2%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>Trump 量子行政令 + 同日宣布任命美国战略顾问 Brandt Pasco · 双催化驱动</strong><em class="ki-note">BTQ（温哥华量子安全公司，后量子密码产品）在行政令背景下同日提交 SEC 文件，宣布任命 Brandt Pasco 为美国战略顾问，专职对接政府机构/国家安全/研究机构。CEO 在 6/23 SEC 文件中明确：量子正从研究优先级上升为国家基础设施优先级。双催化（政策叙事 + 人员任命）使 BTQ 成为本日量子板块涨幅最具叙事密度的标的。成交量超 1300 万股，显著放量。不用估值否定。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">INFQ</td>
+      <td class="name">Infleqtion</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+12.3%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>量子行政令情绪映射 · 量子传感/计算小盘股跟涨</strong><em class="ki-note">量子传感与计算平台，随 Trump 行政令量子板块普涨情绪共振。+12.3% 相比 ARQQ/BTQ 弱，属情绪跟涨（indirect sentiment），自身无独立政策合同公告。微盘逻辑：政策叙事推高整组量子板块的定价预期，市值小→弹性大。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LAES</td>
+      <td class="name">SEALSQ Corp</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+7.7%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>后量子密码半导体 · 量子板块情绪跟涨 · 弹性低于 ARQQ/BTQ</strong><em class="ki-note">SEALSQ 专注于后量子密码 RISC-V 处理器和安全芯片，理论上与 Trump PQC 行政令最直接相关（硬件层实现），但本日涨幅（+7.7%）反而低于纯叙事标的 ARQQ/BTQ，可能原因：流通市值相对更大 + 与 WISeKey 母公司关联结构复杂 + 市场对硬件路径的渗透时间线不如叙事路径明确。属 t-map-s 情绪跟涨，而非独立催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AIAI</td>
+      <td class="name">AI/Tech Ticker</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+7.9%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>小盘 AI/科技妖股 · 无独立明确催化 · 情绪博弈</strong><em class="ki-note">当日 risk-off 大盘背景下逆涨 +7.9%，属小盘情绪博弈，无法锁定独立催化。流通盘小、叙事标签（AI）使其在 AI/量子叙事活跃日获得资金关注，但逻辑薄弱，弹性来自博弈而非基本面。无明确催化写无明确催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">AMC</td>
+      <td class="name">AMC Entertainment</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-24.6%</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本日最大跌幅 · $200M 定向增发（24% 折价）· 12 天内第二次大规模稀释</strong><em class="ki-note">AMC 宣布向机构投资者以 $2.10/股定向增发 9525 万股（折价前收盘 $2.76 约 24%），募集约 $200M 主要用于赎回 $125.5M 6.125% 优先次级债（2027 到期）。这是 6/11 完成 $150M ATM 增发（~1.053 亿股）后 12 天内的第二次大规模摊薄。股价此前已因 Toy Story 5 破纪录开画周末（$311M 三天）冲至 2026 年高位，增发公告打散了获利筹码+稀释预期双重打压。债务偿还是正面动作，但市场看穿连续稀释模式，单日 −24.6% 是 AMC 近三年最差单日表现。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HQ</td>
+      <td class="name">HQ Sustainable Maritime</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-13.0%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>量子概念前期涨幅获利了结 · 与 ARQQ/BTQ 本日走向完全反向分化</strong><em class="ki-note">HQ 本日 −13.0% 与量子板块 ARQQ/BTQ 同日大涨形成鲜明反差，表明 HQ 前期量子情绪涨幅（6/22 前）已充分，筹码在今日 Trump 行政令行情中率先离场而非继续追高。这是量子板块内部资金分配的结构性信号：前期强势妖股（HQ）承接获利了结，新热点（ARQQ/BTQ）吸纳资金。HQ 本身业务与后量子密码无直接关联，是纯情绪标的获利了结。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">VELO</td>
+      <td class="name">Velo3D</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num neg">-15.0%</td>
+      <td><span class="tag t-map-s">sentiment</span></td>
+      <td><strong>6/22 暴涨 +35% 后次日情绪回吐 · 3D 打印航空制造微盘股</strong><em class="ki-note">VELO 6/22 已暴涨 ~35%（受益于 Aurelia Technologies 战略合作 + 投资者大会），6/23 −15% 是高位资金获利了结的典型日内回摆。3D 打印金属增材制造，客户以航空航天和国防为主，属小盘制造技术股。技术催化（Aurelia 合作）仍有效，但短期高弹性运动后的震荡属正常博弈。无新增利空，属 t-map-s 情绪退潮。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">LILA</td>
+      <td class="name">Liberty Latin America</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+12.7%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>拉美电信小盘股逆市大涨 · 无明确催化</strong><em class="ki-note">Liberty Latin America 经营加勒比 + 中南美洲有线/宽带/电话业务，在 risk-off 日逆涨 +12.7% 属罕见强势，但搜索范围内无法定位明确当日公告或合同。可能由：小盘流动性博弈 / 短空回补 / 区域性私有化传言驱动，但均为推测，归因为无明确催化，不脑补故事。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ADV</td>
+      <td class="name">Advantage Solutions</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+11.1%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>零售/品牌营销服务外包 · risk-off 日逆涨 · 无明确催化</strong><em class="ki-note">品牌营销和零售外包服务商，小盘。在宏观 risk-off 日逆势 +11.1%，无法在公开信息中锁定明确当日催化。属 census 层小盘情绪博弈，不排除短空回补成分，归因为无明确催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">PLTK</td>
+      <td class="name">Playtika</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+11.0%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>手游平台（以色列），risk-off 日逆涨 · 无明确催化</strong><em class="ki-note">以色列手机博彩游戏平台，主要产品覆盖社交赌场类游戏。+11.0% 在 risk-off 日显著，无法锁定明确当日公告。手游板块估值低迷已久，不排除收购传言或做空回补成分。归因无明确催化，不强行构建叙事。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">EVC</td>
+      <td class="name">Entravision Communications</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+9.8%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>西语裔媒体广告平台 · 微盘逆涨 · 无明确催化</strong><em class="ki-note">针对美国西语裔受众的数字/电视/广播媒体及数字营销平台。微盘，历史波动极大。无当日明确公告，属 census 层情绪博弈，不排除短空回补或流动性缺口导致价格跳动。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">NSP</td>
+      <td class="name">Insperity</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+8.6%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>HR 外包服务（PEO）· 逆市反弹 · 无明确催化</strong><em class="ki-note">中小企业 HR 外包（PEO 模式），提供薪资/福利/合规一体化外包服务。在 risk-off 日逆涨 +8.6%，无明确当日催化。属 census 层，可能源于前期超跌 + 短空回补，不构成新趋势确认信号。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">OPTU</td>
+      <td class="name">Optum / UHG Sub</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num pos">+8.0%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>医疗健康子板块 · 防御属性逆市上涨 · 无独立催化</strong><em class="ki-note">医疗服务/健康管理属性在 risk-off 日具有防御价值，+8.0% 属中型防御性标的在宏观下行日的相对强势。无独立公告催化，属防御性轮入，不额外标 t-rot（轮入而非轮出方向）。归因无明确催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CBZ</td>
+      <td class="name">CBIZ</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+6.1%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>专业服务（会计/税务/保险）· 防御类逆涨 · 无明确催化</strong><em class="ki-note">面向中小企业提供会计、税务咨询和保险福利服务，收入高度可预测，与宏观周期相关性低。+6.1% 在 risk-off 日属防御性 census 层上涨，无独立公告，归因无明确催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">GNK</td>
+      <td class="name">Genco Shipping</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num pos">+5.4%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>散货船运营商 · 逆市小涨 · 无明确催化</strong><em class="ki-note">干散货船（主要运输铁矿石、谷物、煤炭），运费与全球大宗商品贸易量相关。risk-off 日伴随贵金属下跌却涨 +5.4%，不符合大宗周期通常逻辑，更可能是短空回补或流动性博弈，归因无明确催化。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">MSTR</td>
+      <td class="name">MicroStrategy</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-5.1%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>比特币杠杆代理 · risk-off 日放大 IBIT 跌幅 · 杠杆持仓结构决定超跌</strong><em class="ki-note">MSTR 持有大量比特币（借债购买）且股价溢价于 BTC NAV，risk-off 日同时承受 BTC 下行 + 杠杆溢价收缩双重压力，−5.1% 显著深于 IBIT −3.3%。本日无 MSTR 独立 BTC 增持公告，属纯 direct map（BTC β 杠杆放大），不作为独立 thesis。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CRWV</td>
+      <td class="name">CoreWeave</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-5.0%</td>
+      <td><span class="tag t-map-i">indirect map</span></td>
+      <td><strong>AI 算力云 · risk-off + AI 硬件 unwind 双重压制 · 与 BLZE 合同关系提供读穿</strong><em class="ki-note">CoreWeave 本日 −5.0% 受 AI 硬件 unwind + risk-off 双重压力，与 BLZE 的 $335M 合同（CRWV 是买方）反向体现：存储需求旺盛但资本市场对 AI capex 扩张的估值定价在 risk-off 日收缩。CRWV 是 BLZE 合同的对手方，间接说明 CoreWeave 数据中心扩张计划如期推进，只是短期股价被宏观情绪主导。indirect map（AI 基础设施主线下行 β）。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">B</td>
+      <td class="name">Barrick Gold</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-4.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>全球黄金龙头 · GLD −1.9% 的杠杆放大约 2.6× · 无个股独立利空</strong><em class="ki-note">Barrick 产量稳定、成本结构已知，本日 −4.9% 相对 GLD −1.9% 放大约 2.6×，属正常矿商对金价的 NAV 杠杆系数（通常 2-3×）。无当日独立基本面利空，本日全部跌幅来自金价回调传导。L2 大盘流动性使其成为资金退出黄金矿商的优先出口。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KGC</td>
+      <td class="name">Kinross Gold</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-4.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>黄金矿商 · 金价 β 放大约 2.6× · 与 B 跌幅同等，无个股差异</strong><em class="ki-note">Kinross 多国矿山布局（美国/俄罗斯/西非/美洲），本日跌幅与 Barrick 完全一致（−4.9%），说明两者均为纯金价 β 传导，无个股间分化。当日无 KGC 独立公告催化，属 direct map 标的。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">CDE</td>
+      <td class="name">Coeur Mining</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.6%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>银金混采矿商 · 银价 SLV −5.4% 贡献更大杠杆 · 跌幅深于纯金矿</strong><em class="ki-note">Coeur 收入中银矿占比约 40-50%，在 GLD −1.9% 之外还承受 SLV −5.4% 的双重冲击，解释了 −6.6% 跌幅深于纯金矿（B/KGC −4.9%）的原因。金银混采矿商在银价波动日受到更大幅度的 NAV 波动放大，属结构性特征，非个股独立利空。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">AG</td>
+      <td class="name">First Majestic Silver</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-6.9%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>纯银矿商 · SLV −5.4% 的最直接杠杆暴露 · 本日跌幅最大的大型矿商之一</strong><em class="ki-note">First Majestic 以银为主要产品（收入占比 ~70-75%），SLV 单日 −5.4% 是本组矿商跌幅最大的驱动因素。−6.9% 相对 SLV −5.4% 放大约 1.3×（矿商杠杆相对银价略低于黄金矿商 vs 金价的系数，因银矿成本结构更重）。无个股独立利空，纯 direct map。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">UAMY</td>
+      <td class="name">US Antimony</td>
+      <td><span class="tag l4">L4</span></td>
+      <td class="num neg">-10.1%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>本日矿商组最大跌幅 · 锑矿而非金银 · 需辨别：是锑价独立压力还是矿股板块 β 过放大</strong><em class="ki-note">UAMY 主营锑（阻燃剂/半导体/军工原材料）和黄金，与 GLD/SLV 不完全对应，理论上锑价不跟随今日金银回调。−10.1% 深于所有金银矿商，可能来源：① 锑自身存在独立利空（价格/需求/政策）② 矿股板块情绪杀伤延伸至小市值锑矿商 ③ 流动性缺口放大（微盘特征）。无法在当日公开信息中锁定锑独立利空，暂归 direct map（矿股板块映射），但需在下季度盈利时观察锑现货价是否同步下行。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">HBM</td>
+      <td class="name">Hudbay Minerals</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num neg">-9.1%</td>
+      <td><span class="tag t-map-d">direct map</span></td>
+      <td><strong>铜/金矿商 · 跌幅仅次于 UAMY · 铜价 + 金价双重 β 叠加</strong><em class="ki-note">Hudbay 收入结构以铜（约 60%）和黄金（约 30%）为主，本日铜价在 risk-off 全球需求担忧背景下同步承压，叠加金价回调，双重 β 压力解释了 −9.1% 跌幅（深于纯金矿商 −4.9%）。无当日独立 Hudbay 公告，纯大宗商品传导。铜价是产业 Bear/Bull 信号的关键：若铜价持续跌破 $4.5/lb 并维持，意味着全球制造需求收缩预期强化，届时 HBM 进一步承压。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">ELVR</td>
+      <td class="name">Eleva Resources</td>
+      <td><span class="tag l3">L3</span></td>
+      <td class="num pos">+5.6%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>锂矿相关 · 逆贵金属矿板块上涨 · 无明确催化</strong><em class="ki-note">ELVR 涉及锂矿勘探/开发，与金银矿商板块的相关性较低，本日逆涨 +5.6% 可能源于：电动车/储能锂需求叙事独立运行（与金银无关）/ 个股特定消息 / 小盘流动性博弈。无法锁定具体当日催化，归因无明确催化，不将其纳入贵金属矿回调逻辑。</em></td>
+    </tr>
+    
+    <tr>
+      <td class="tk">RMIX</td>
+      <td class="name">US Concrete / RMIX</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num neg">-11.7%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>建材/混凝土 · risk-off 工业品承压 · 无明确独立催化</strong><em class="ki-note">建材制造/混凝土供应商，与基础设施投资和建筑活动强相关。−11.7% 在 risk-off 日超跌，无当日公告。可能源于：建筑需求放缓预期 + 小盘流动性缺口放大。归因无明确催化，不强行构建叙事。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">RKLB</td>
+      <td class="name">Rocket Lab</td>
+      <td><span class="tag l2">L2</span></td>
+      <td class="num neg">-5.2%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>小型火箭发射 / 太空基础设施 · AI 硬件 unwind 日的高 beta 标的承压 · 无独立利空</strong><em class="ki-note">Rocket Lab 以 Electron 小型火箭和 Neutron 开发为核心，并有卫星组件业务。在 AI 硬件 unwind + risk-off 日，作为高 beta 成长股受到系统性资金轮出，−5.2% 与大盘 IWM −1.0% 放大约 5×。无当日独立利空，属 t-rot 轮出标的。观察点：Neutron 首飞时间线（预计 2026 年底）是独立 alpha 催化。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">TSLA</td>
+      <td class="name">Tesla</td>
+      <td><span class="tag l1">L1</span></td>
+      <td class="num neg">-5.8%</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>EV/AI/机器人龙头 · AI 硬件 unwind 日高 beta 承压 · 无独立基本面利空</strong><em class="ki-note">TSLA 兼具 EV + AI（FSD/Dojo）+ 机器人（Optimus）叙事，在 AI 硬件 unwind 日受到高 beta 系统性压力，−5.8% 显著深于 IWM −1.0%，放大约 6×。无当日独立财报/订单/政策利空，属 t-rot 轮出。TSLA 估值极高（P/S 约 12-14×）使其在 risk-off 日成为资金优先减持的流动性出口，与 Elon Musk 政治风险关联无关（本日无新事件）。</em></td>
+    </tr>
+    <tr>
+      <td class="tk">KOPN</td>
+      <td class="name">Kopin Corp</td>
+      <td><span class="tag l5">L5</span></td>
+      <td class="num neg">-11.4%</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>国防级微显示器 / AR 头显芯片 · 微盘超跌 · 无明确催化</strong><em class="ki-note">Kopin 专注于军用 AR/VR 微显示器（头盔显示、武器瞄准系统）和商业 AR 显示芯片。−11.4% 在 risk-off 日属微盘超跌，无当日独立公告。国防类小盘在 AI unwind 情绪下也被连带承压，归因无明确催化，不排除流动性缺口放大。</em></td>
+    </tr>
+  </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">量子叙事 + BLZE 合同：<em>两个逻辑须分开读</em></div>
+      <div class="card-meta">STRUCTURAL READ · QUANTUM POLICY + AI STORAGE CONTRACT · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>BLZE +43.6% 的逻辑是 AI 基础设施存储验证，不是量子</strong>：CoreWeave $335M / 五年合同是 AI 算力扩张对存储需求拉动的直接体现，对同类云存储（Wasabi/Cloudflare R2）有 indirect read-through，说明 AI 工作负载的存储需求正从 S3 主导切换向多元 B2/第三方存储分流。BLZE 年营收 ~$100M 左右，$335M 合同代表 3 年以上的倍增，但需观察合同实际执行节奏（多 EB 级分年确认）。<br>
+        ② <strong>BTQ/ARQQ +30%+ 的逻辑是政策叙事催化，不是盈利兑现</strong>：Trump 量子行政令是 PQC 路线图加速的信号，联邦机构采购后量子密码方案将带来实际合同收入——但时间线是 2-3 年，不是本季度。BTQ 新任命的战略顾问（政府关系）是在争取进入政府采购体系的资格，而非已签合同。短期股价运动由叙事驱动，长期需看 NIST PQC 标准落地后的政府采购落单。<br>
+        ③ <strong>量子 vs 6/22 的分化逻辑</strong>：6/22 量子板块内部分化（部分标的反转，部分获利），6/23 行政令催化使新热点（ARQQ/BTQ）集中受益，而前期强势妖股（HQ −13%）同日遭遇获利了结。这是板块资金从"老量子妖股"轮换至"政策直接受益标的"的结构性动作。<br>
+        ④ <strong>GLD −1.9% 是节点信号</strong>：金价距 1 月 ATH $5,589 已回调约 $1,424（−25.5%），贵金属矿商的 Bull Logic 是否维持取决于：金价是否还在产业 Bull 趋势内（即 central bank buying / 美元走弱 / 避险需求）。若金价无法在 $4,000-$4,200 区域企稳，矿商 NAV 将面临进一步重估压力。
+      </div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Census 层<em>三个核心观察点</em>：AMC 稀释 · 贵金属矿方向 · 量子叙事持续性</div>
+      <div class="card-meta">CATALYST WATCH · INDUSTRY METRICS ONLY · 2026-06-23</div>
+      <div class="card-body">
+        ① <strong>AMC 连续增发模式的边界</strong>：12 天两次增发（$150M + $200M = $350M，合计约 2 亿股新增）是在消耗 Toy Story 5 带来的股价高位换取资产负债表修复。观察点：$125.5M 优先债赎回完成后，AMC 剩余债务结构（2026 年底还有多少到期债）；若再次增发，每次稀释的边际市场容忍度将更低。<br>
+        ② <strong>贵金属矿 Bear Logic 的产业级阈值</strong>：GLD 日内 −1.9% 是金价回调而非拐点信号，但若金价持续下穿 $4,000（即 ATH 的 −28.5%），矿商盈亏平衡线（约 $1,200-$1,800/oz 全维持成本）与市价差收窄，矿商估值重评将系统性下调。HBM 的铜暴露还需单独跟踪铜价是否持续跌破 $4.5/lb。<br>
+        ③ <strong>量子叙事的真实催化锚</strong>：行政令落地后，关键观察时间节点是 NIST PQC 标准全套 (FIPS 203/204/205) 的强制实施期限（预计 2028-2030 年联邦采购全面切换）。在此之前的政策叙事行情主要是小盘情绪博弈；真实的收入催化出现在：BTQ/ARQQ 签署有量的政府合同或 CMMC 合规认证落地。用估值框架看这些标的是错误的，观察点是合同签署而非 P/E 或 P/S。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 11 — Earnings Today</div>
+  <h2 class="sec-title">本日<em>财报快查</em>：unwind 日驱动来自 guidance/事件——PRIM 业绩暴雷 + VRNS 收购 + BLZE 合同，头号 forward = MU 6/24</h2>
+  <div class="sec-sub">6/23 由 unwind/flows 主导、无密集财报。本节列驱动个股的少数硬事件 + 严格 t-1≠t（半导体集体跌是 SK Hynix 外溢 + 仓位去杠杆·非当日财报）。<strong>头号 forward = MU 6/24 盘后 FQ3</strong>（HBM 超级周期兑现 vs 证伪·决定 unwind 是一日还是趋势）。</div>
+
+  <table class="dt" id="er-tbl">
+  <thead><tr>
+    <th data-type="text">Ticker</th>
+    <th data-type="text">名称</th>
+    <th data-type="text">时点</th>
+    <th data-type="num">业绩 / 事件</th>
+    <th data-type="text">关键</th>
+    <th data-type="num">反应</th>
+    <th data-type="text">归因纪律</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="tk">PRIM</td><td class="name">Primoris Services</td><td>6/22 8-K 业务更新</td><td class="num">FY26 EPS 指引 <span class="neg">腰斩</span> $4.05-4.25→$1.30-1.85 · COO 离任</td><td>6 个 Renewables 项目成本超支（第四次连续下修）·EBITDA $480-500M→$275-325M·驱动是可再生工程、非 AI EPC</td><td class="num neg">−21.6%</td><td><strong>自身暴雷·必剔除</strong>（t-guide-cut · 非 AI EPC unwind · 见 FOCUS）</td></tr>
+    <tr><td class="tk">MU</td><td class="name">Micron</td><td>6/24 盘后（财报前）</td><td class="num">FQ3 whisper rev ~$35B / EPS ~$20+ / GM ~81%</td><td>今日 −13.2 是财报前 de-risk + SK Hynix 减产传闻外溢·HBM 2026-27H1 已订满·明日才是基本面检验</td><td class="num neg">−13.2%</td><td><strong>财报前 de-risk（t-1≠t）</strong>（t-rot/t-cat · 非当日财报 · 见 FOCUS）</td></tr>
+    <tr><td class="tk">VRNS</td><td class="name">Varonis</td><td>6/23 M&A 传闻</td><td class="num">Bloomberg 报 PE 收购意向（Blackstone/Thoma Bravo/Vista）</td><td>盘中冲 +14% 收 +7.1·带动 NTSK/RPD/IBM 软件逆势·risk-off 避险轮入双驱动</td><td class="num pos">+7.1%</td><td><strong>M&A 收购意向</strong>（t-cat · 见 FOCUS）</td></tr>
+    <tr><td class="tk">BLZE</td><td class="name">Backblaze</td><td>6/23 合同</td><td class="num">CoreWeave 五年 $335M 云存储合同（认股权证≤419 万股@$7.60）</td><td>多 exabyte HDD 存储·AI 基础设施存储需求验证·云存储非量子（含金量最高的独立 alpha）</td><td class="num pos">+43.6%</td><td><strong>AI 存储硬合同</strong>（t-cat · 见 FOCUS · §10）</td></tr>
+    <tr><td class="tk">AMC</td><td class="name">AMC Entertainment</td><td>6/23 增发</td><td class="num">9525 万股 @$2.10 定向增发（24% 折价）</td><td>12 天内二次增发·稀释即时定价·risk-off 日流动性出口</td><td class="num neg">−24.6%</td><td><strong>增发稀释</strong>（t-cat · 见 §10）</td></tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">⚠ 财报归因纪律（daily t-1≠t + 事件驱动）</span>
+    本日<strong>由 unwind/flows 主导、无密集财报</strong>，驱动来自 guidance/事件/M&A。<strong>关键纪律</strong>：① <em>半导体集体跌不是"当日财报"</em>——是 SK Hynix 减产传闻外溢（KOSPI −10%）+ Warsh 鹰派折现率 scare + 6/22 melt-up 的仓位去杠杆；MU −13.2 是 6/24 财报前 de-risk（明日盘后才出·t-1≠t）；② <strong>PRIM −21.6 是真暴雷</strong>（6/22 8-K：FY26 指引腰斩 + COO 离任 + 6 个 Renewables 项目超支·t-guide-cut），驱动是可再生工程成本、<em>与 AI 数据中心 EPC 是两条不同的链</em>，必须从 §08 的 unwind 叙事里单独剔除；③ <em>涨的多是独立催化</em>——VRNS PE 收购意向（M&A）、BLZE CoreWeave $335M 合同、ARQQ/BTQ Trump 量子行政令。<em>头号 forward：MU 6/24 盘后 FQ3（HBM/DRAM 定价 + 扩产口径 + 指引）——验证存储超级周期 vs 证伪，决定本日 unwind 是一日脉冲还是趋势反转。</em>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 12 — Forward Watchlist</div>
+  <h2 class="sec-title">未来 1–5 个交易日<em>关键检验点</em></h2>
+  <div class="sec-sub">头号变量 = MU 6/24 盘后财报（决定 AI 硬件 unwind 是一日脉冲还是趋势反转）+ 半导体能否企稳 + SK Hynix/韩国存储链 + Warsh 鹰派利率路径。</div>
+
+  <table class="dt" id="watch-tbl">
+  <thead><tr>
+    <th data-type="text">观察变量</th>
+    <th data-type="text">为什么重要</th>
+    <th data-type="text">触发时间</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="name">MU 财报 6/24 盘后（存储超级周期 兑现 vs 证伪）</td><td>本日 unwind 的头号检验点。MU 是 §04-§06 半导体链的基本面锚——FQ3 收入/GM/HBM4 量产口径/DRAM-NAND 定价/扩产指引，将直接回答"6/23 的暴跌是估值 unwind 还是基本面证伪"。若 MU beat + 指引强（HBM 售罄、定价权在），坐实本日是仓位去杠杆、AI 硬件超跌；若 miss 或指引转弱（呼应 SK Hynix 减产），unwind 升级为趋势。叠加 SK Hynix 减产传闻的对照</td><td>6/24 盘后</td></tr>
+    <tr><td class="name">半导体能否企稳（unwind 一日 or 趋势）</td><td>SOX −7.9 后次日方向决定性质。若 AI 硬件（§04-§08）次日企稳/反弹，确认本日是 6/22 melt-up 的 48 小时 flows 巨震、超跌；若续跌则 Warsh 鹰派折现率 scare + AI capex 可持续性质疑成为主导叙事。看大盘龙头（NVDA/TSM/AMAT）vs 高 β 中小盘（ARM/CRDO/ALAB）的相对修复</td><td>1-3 个交易日</td></tr>
+    <tr><td class="name">SK Hynix / 韩国存储链 + AI capex 债务可持续性叙事</td><td>本日触发之一 = SK Hynix 传放缓 AI 内存扩产（KOSPI −10%）+ "hyperscaler 以债务驱动 AI capex"的质疑。看 ① SK Hynix/三星官方是否澄清扩产计划 ② hyperscaler（MSFT/GOOGL/AMZN/META）capex 指引与融资结构的后续表态——这是 AI capex 确定性叙事的核心，read-through 到整个 AI 硬件链</td><td>1-5 个交易日</td></tr>
+    <tr><td class="name">PRIM 业绩暴雷的 read-through（是否扩散到 EPC 链）</td><td>PRIM −21.6 是自身可再生工程成本超支（非 AI EPC）。需观察 ① 是否扩散到其它 EPC（STRL/MYRG/IESC）的项目执行担忧 ② AI 数据中心 EPC backlog（与可再生不同链）是否被错杀超跌带来修复机会。区分"可再生工程超支"vs"AI 数据中心 EPC 景气"两条链</td><td>1-5 个交易日</td></tr>
+    <tr><td class="name">Warsh 鹰派利率路径（25bp vs 50bp 加息定价）</td><td>本日 unwind 触发之一 = 市场加息预期从 25bp 升至 50bp，抬高债务融资 AI capex 的折现率。看后续 Fed speak / 通胀数据是否延续鹰派——若加息预期续升，长久期 AI 硬件估值二次承压；若回落则折现率 scare 缓解、AI 硬件反弹。这是连接 unwind 与宏观的核心锚</td><td>持续</td></tr>
+    <tr><td class="name">量子行政令 + 软件 M&A 的持续性</td><td>本日资金去向侧（§09/§10）：Trump 量子行政令（ARQQ/BTQ 暴涨）+ VRNS PE 收购意向（带动软件逆势）。看 ① 量子行政令是政策叙事脉冲还是有实际合同跟进（题材 vs 基本面）② VRNS 收购是否成真 + 是否引发更多软件 PE 并购（Bear-market 软件估值吸引 PE）</td><td>1-5 个交易日</td></tr>
+  </tbody>
+  </table>
+
+  <div class="note-block">
+    <span class="kicker">⚠ 主线 catalyst window 汇总（产业级、非价格信号——研究报告不写出场信号/仓位）</span>
+    <strong>§04 半导体设备</strong>：MU 6/24 / WFE 订单（LRCX/AMAT）/ 对华出口管制 / 半导体能否企稳。<br>
+    <strong>§05 算力/连接</strong>：MU 6/24 / 大盘龙头 vs 高 β 中小盘修复 / AI capex 订单（NVDA/MRVL）。<br>
+    <strong>§06 存储</strong>：MU 6/24 HBM/DRAM 定价 + 扩产口径 / SK Hynix 减产传闻证实与否 / 存储现货价。<br>
+    <strong>§07 光通信</strong>：CPO 量产时点（SemiAnalysis vs NVDA 争论）/ hyperscaler 光互连 capex / 800V 路线。<br>
+    <strong>§08 AI 电力/EPC</strong>：PRIM read-through（可再生 vs AI EPC 两条链）/ VRT 微流控竞争 / 数据中心电力。<br>
+    <strong>§09/§10 资金去向</strong>：VRNS 收购进展 / 量子行政令合同跟进 / 防御轮动持续性 / SOX 企稳。<br>
+    <strong>宏观</strong>：Warsh 鹰派利率路径（25 vs 50bp）+ AI capex 债务可持续性叙事 + MU 6/24 决定 unwind 性质。
+  </div>
+</section>
+
+<section class="sec" style="margin-top:48px">
+  <div class="sec-num">END OF REPORT</div>
+  <div style="border-top:3px solid var(--ink);padding-top:20px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7">
+    <div><strong style="color:var(--ink)">数据范围</strong> · 2026 年 6 月 23 日（交易日 周二）· <span class="num">412</span> 只当日流动性异动标的（Gate 1 流动性 + Gate 2 |ret_1D|&gt;3% · 双轴动态阈值 v5.7 选股入选 147 · 45 涨 / 102 跌 · 7 主线人工归类）</div>
+    <div><strong style="color:var(--ink)">数据来源</strong> · 个股 EOD price 全复权日线 · ETF / 指数行情 · 静态字段元数据库 · 财报数据 8-K / 10-Q / IR · 行业事件 SK Hynix / KOSPI / 公司公告 · 宏观数据 BLS / Fed · 财经新闻 CNBC / Reuters / Bloomberg / Yahoo Finance</div>
+    <div><strong style="color:var(--ink)">归因方法</strong> · 板块 β 归因到 AI 硬件 unwind + Warsh 鹰派折现率 scare（§01）· 个股归因到 unwind β / 自身暴雷 / 避险轮动 / 独立催化（§04+）· 区分 unwind β vs 自身利空（PRIM）· 区分财报前 de-risk vs 财报（MU·t-1≠t）· 不硬编故事</div>
+    <div style="margin-top:8px;color:var(--accent)">提示 · 表格列均可点击表头排序 ⇅</div>
+  </div>
+</section>
+
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  US EQUITY · DAILY THEME MAP · ATTRIBUTION EDITION · 2026-06-23 · 412 STOCKS / 7 THEMES
+</div>
+
+<!-- JS: TABLE SORTING (v2 · num 列首次点击 desc / text 列首次 asc · 加载时按"日涨跌幅"列降序初始化) -->
+<script>
+(function(){
+  function getCellValue(tr, idx, type){
+    var cell = tr.children[idx];
+    if(!cell) return type==='num' ? -Infinity : '';
+    // 优先读 data-sort-value（处理单位混用 / HTML 装饰）
+    if(cell.dataset && cell.dataset.sortValue !== undefined){
+      var dv = parseFloat(cell.dataset.sortValue);
+      if(!isNaN(dv)) return dv;
+    }
+    var txt = cell.textContent.trim();
+    if(type==='num'){
+      // 把 Unicode 负号 U+2212 / U+FF0D 等替换为 ASCII '-'，再过滤
+      var clean = txt.replace(/[−－–—]/g, '-').replace(/[^\d.\-+]/g,'');
+      var n = parseFloat(clean);
+      return isNaN(n) ? -Infinity : n;
+    }
+    return txt.toLowerCase();
+  }
+  function comparer(idx, asc, type){
+    return function(a, b){
+      var v1 = getCellValue(asc ? a : b, idx, type);
+      var v2 = getCellValue(asc ? b : a, idx, type);
+      if(type==='num'){ return v1 - v2; }
+      return v1.localeCompare(v2);
+    };
+  }
+  function sortTable(table, th, forceAsc){
+    var tbody = table.querySelector('tbody');
+    var headerRow = th.parentNode;
+    var idx = Array.from(headerRow.children).indexOf(th);
+    var type = th.getAttribute('data-type') || 'text';
+    var asc;
+    if(forceAsc !== undefined){
+      asc = forceAsc;
+    } else {
+      // 首次点击：num 列默认 desc / text 列默认 asc
+      // 后续点击：切换方向
+      var hasAsc = th.classList.contains('asc');
+      var hasDesc = th.classList.contains('desc');
+      if(!hasAsc && !hasDesc){
+        asc = (type !== 'num');  // num 首次 desc(=false), text 首次 asc(=true)
+      } else {
+        asc = !hasAsc;
+      }
+    }
+    headerRow.querySelectorAll('th').forEach(function(h){ h.classList.remove('asc'); h.classList.remove('desc'); });
+    th.classList.add(asc ? 'asc' : 'desc');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(comparer(idx, asc, type));
+    rows.forEach(function(tr){ tbody.appendChild(tr); });
+  }
+  // 绑定 click
+  document.querySelectorAll('table.dt thead th').forEach(function(th){
+    th.addEventListener('click', function(){ sortTable(th.closest('table'), th); });
+  });
+  // 加载时按"日涨跌幅"列自动降序排序（仅 5 个主线 theme 表）
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('table[id^="theme"]').forEach(function(table){
+      var ths = table.querySelectorAll('thead th');
+      for(var i=0; i<ths.length; i++){
+        var label = ths[i].textContent.trim();
+        if(label === '日涨跌幅' || label === '日涨跌'){
+          sortTable(table, ths[i], false);  // forceAsc=false → 降序
+          break;
+        }
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('table.dt tbody tr').forEach(function(tr){
+    var tierTag = tr.querySelector('.tag.l1, .tag.l2, .tag.l3, .tag.l4, .tag.l5');
+    if (tierTag) {
+      var cls = Array.from(tierTag.classList).find(function(c){ return /^l[1-5]$/.test(c); });
+      if (cls) tr.setAttribute('data-tier', cls.toUpperCase());
+    }
+  });
+  document.querySelectorAll('.vtab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.vtab').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.body.setAttribute('data-view', btn.dataset.view);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
