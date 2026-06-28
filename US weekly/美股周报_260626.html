@@ -166,10 +166,12 @@ section[id^="theme-"] table.dt th:nth-child(7){width:77.3%} /* 关键产业事�
 .view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
 .view-tabs .vtab:hover{background:var(--rule-soft)}
 .view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-body[data-view="large"] table.dt tbody tr:not([data-cap="L"]){display:none}
-body[data-view="midsmall"] table.dt tbody tr:not([data-cap="M"]){display:none}
-body[data-view="small"] table.dt tbody tr:not([data-cap="S"]){display:none}
-body[data-view="micro"] table.dt tbody tr:not([data-cap="T"]){display:none}
+/* 260628 多选：过滤由 JS 直接 toggle 行 display（CSS 单值做不了多选 OR）；下列为无 JS 时的单选 fallback */
+body[data-view="L1"] table.dt tbody tr[data-tier]:not([data-tier="L1"]){display:none}
+body[data-view="L2"] table.dt tbody tr[data-tier]:not([data-tier="L2"]){display:none}
+body[data-view="L3"] table.dt tbody tr[data-tier]:not([data-tier="L3"]){display:none}
+body[data-view="L4"] table.dt tbody tr[data-tier]:not([data-tier="L4"]){display:none}
+body[data-view="L5"] table.dt tbody tr[data-tier]:not([data-tier="L5"]){display:none}
 
 /* ========== 归因 tag（表格"归因"列用，260516 引入） ========== */
 table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap;margin-right:3px}.tag.l1{background:#1B2635;color:#D4A017;font-weight:600}.tag.l2{background:#2D3D52;color:#fff}.tag.l3{background:#8B6F35;color:#fff}.tag.l4{background:#D9D2C2;color:#1B2635}.tag.l5{background:#EDE8DB;color:#6B7B8C;font-weight:600}.mcapc{white-space:nowrap}.mcv{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
@@ -301,12 +303,13 @@ body.toc-collapsed #toc-reopen{display:block}
   </div>
 </header>
 <nav class="view-tabs">
-  <span class="vlabel">视图</span>
+  <span class="vlabel">视图 · 可多选</span>
   <button class="vtab active" data-view="all">全部</button>
-  <button class="vtab" data-view="large">大盘 ≥$100B</button>
-  <button class="vtab" data-view="midsmall">中盘 $30-100B</button>
-  <button class="vtab" data-view="small">小盘 $10-30B</button>
-  <button class="vtab" data-view="micro">微盘 &lt;$10B</button>
+  <button class="vtab" data-view="L1">L1 大盘 ≥$100B</button>
+  <button class="vtab" data-view="L2">L2 中盘 $30-100B</button>
+  <button class="vtab" data-view="L3">L3 小盘 $5-30B</button>
+  <button class="vtab" data-view="L4">L4 小盘 $1-5B</button>
+  <button class="vtab" data-view="L5">L5 微盘 &lt;$1B</button>
 </nav>
 
 
@@ -2685,14 +2688,35 @@ body.toc-collapsed #toc-reopen{display:block}
      视图切换 JS（4 档独立筛选、点击 tab 切换 body[data-view]）
 ============================================================ -->
 <script>
-// 视图切换
-document.querySelectorAll('.vtab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.body.setAttribute('data-view', btn.dataset.view);
+// 视图切换（260628 多选 · 移植自日报 · 从 .tag.lN pill 派生 data-tier、active Set 多选 OR）
+(function(){
+  document.querySelectorAll('table.dt tbody tr').forEach(function(tr){
+    var tierTag = tr.querySelector('.tag.l1, .tag.l2, .tag.l3, .tag.l4, .tag.l5');
+    if (tierTag) {
+      var cls = Array.from(tierTag.classList).find(function(c){ return /^l[1-5]$/.test(c); });
+      if (cls) tr.setAttribute('data-tier', cls.toUpperCase());
+    }
   });
-});
+  var active = new Set();
+  function apply(){
+    document.querySelectorAll('table.dt tbody tr[data-tier]').forEach(function(tr){
+      tr.style.display = (active.size === 0 || active.has(tr.getAttribute('data-tier'))) ? '' : 'none';
+    });
+    document.querySelectorAll('.vtab').forEach(function(b){
+      if (b.dataset.view === 'all') b.classList.toggle('active', active.size === 0);
+      else b.classList.toggle('active', active.has(b.dataset.view));
+    });
+  }
+  document.querySelectorAll('.vtab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var v = btn.dataset.view;
+      if (v === 'all') active.clear();
+      else if (active.has(v)) active.delete(v); else active.add(v);
+      apply();
+    });
+  });
+  apply();
+})();
 
 // 表格列点击排序（所有 table.dt 通用、thead th[data-type] 触发）
 document.querySelectorAll('table.dt').forEach(table => {
