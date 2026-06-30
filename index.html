@@ -463,6 +463,56 @@
   .featured-card:hover .featured-cta {
     background: var(--amber); color: #fff;
   }
+
+  /* ── MOBILE (≤820px) ── */
+  @media (max-width: 820px) {
+    body { font-size: 14px; }
+
+    .wrap { padding: 0 18px; }
+    .masthead { padding: 30px 0 26px; }
+    .masthead h1 { font-size: 32px; }
+    .masthead p { font-size: 12.5px; }
+    .masthead::after { font-size: 92px; bottom: -16px; right: -6px; }
+
+    /* 双栏 → 纵向堆叠 */
+    .page-layout {
+      flex-direction: column;
+      padding: 0 16px 50px;
+      gap: 18px;
+    }
+    .sidebar {
+      width: 100%;
+      position: static;
+      top: auto;
+      padding-top: 18px;
+      gap: 14px;
+    }
+    /* 手机上隐藏「最近发布」长列表（与下方卡片重复，避免把正文挤到很下面） */
+    .sidebar .sb-card:last-child { display: none; }
+
+    .main { padding-top: 2px; }
+
+    /* 网格强制单列，去掉 380px min 防横向溢出 */
+    .report-columns { grid-template-columns: 1fr; gap: 24px; }
+
+    /* 报告卡片收紧 */
+    .card-body { padding: 14px 16px; gap: 12px; }
+    .card-title { font-size: 17px; }
+    .card-desc  { font-size: 11px; }
+
+    /* featured 卡片竖排 */
+    .featured-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+    }
+    .featured-cta { margin-right: 0; }
+    .featured-card::after { font-size: 22px; top: 8px; right: 10px; }
+
+    /* auth 弹窗收窄适配窄屏 */
+    .auth-card { width: 90vw; max-width: 360px; padding: 36px 28px 30px; }
+  }
 </style>
 </head>
 <body>
@@ -544,7 +594,7 @@
       <div class="sb-stats">
         <div class="sb-stat">
           <span class="sb-stat-label">Total Reports</span>
-          <span class="sb-stat-num" id="total-count">55</span>
+          <span class="sb-stat-num" id="total-count">56</span>
         </div>
         <div class="sb-stat">
           <span class="sb-stat-label">Markets</span>
@@ -598,6 +648,10 @@
     <div class="sb-card">
       <div class="sb-label">最近发布</div>
       <div class="sb-recent">
+        <div class="sb-recent-item">
+          <a href="US Daily/美股日报_260629.html" class="sb-recent-title">美股日报 — 2026-06-29</a>
+          <span class="sb-recent-meta">2026-06-29 · Iran 降级 risk-on · AI/半导体领涨（SOX +4.1）· 卫星整合（RKLB-IRDM $80亿）+ Dow 重构（GOOGL 入/VZ 出·首破 52,000）</span>
+        </div>
         <div class="sb-recent-item">
           <a href="US weekly/美股周报_260626.html" class="sb-recent-title">美股周报 — 2026-06-26</a>
           <span class="sb-recent-meta">2026-06-26 · 大轮动周 · AI/半导体 unwind vs 防御+航空轮入（XLV +7 / 油价崩）</span>
@@ -748,6 +802,18 @@
           日报
         </div>
         <div class="report-grid">
+
+          <a href="US Daily/美股日报_260629.html" class="report-card" data-category="us-daily">
+            <div class="card-accent us-daily"></div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-type">US Daily · 美股日报</div>
+                <div class="card-title">美股日报 — 2026-06-29</div>
+                <div class="card-desc">Iran 降级点燃 risk-on 普涨（周末美伊缓和、Trump 称周二恢复和谈→油价续跌→收益率下行）。领涨高度集中在 mega-cap/AI：SOX +4.1 / NDX +2.5 &gt; SPX +1.6 &gt; DJI +0.8、IWM &minus;0.3 小盘落后=非广度。两大结构性事件：道指首破 52,000、GOOGL 入 Dow 取代 VZ（GOOGL +4.8 首日 / VZ &minus;5.2）；RKLB $80 亿全交易收购 Iridium（$54/股）引爆卫星整合（IRDM +25.4/VSAT +23.8/ASTS +21.4）。AI 硬件全链强反弹：CBRS +19.0（超跌反弹·MS OW$250 thesis）/ AMAT +10.8（DRAM 封装 Master Class + PT 上调潮）/ WDC +11.2 AI 存储 / GLW +15.7 光互连 / FCEL +24.2（Jefferies 升 Buy + Fit Energy 380MW）。防御/电信/商品/矿被弃（XLU/XLP &minus;0.4 / XLB &minus;1.8 / GLD &minus;1.4 / crypto miner 逆 BTC 跌）= risk-on 轮动，非 Fed 转鸽（PCE +4.1 / Warsh 鹰派 price in 3 次加息）。8 主线 / 132 入选。</div>
+              </div>
+              <span class="card-arrow">&rarr;</span>
+            </div>
+          </a>
 
           <a href="US Daily/美股日报_260626.html" class="report-card" data-category="us-daily">
             <div class="card-accent us-daily"></div>
