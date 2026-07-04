@@ -104,7 +104,7 @@ tr:hover td.miss-cell{background:rgba(178,58,72,0.16)}
   <div class="wrap">
     <div class="eyebrow" id="eyebrow">EARNINGS CALENDAR · 加载中…</div>
     <h1 class="title">财报 <em>日历</em></h1>
-    <p class="desc" id="desc">FMP earnings calendar — 按周、日期、规模、结果筛选已报财报的 EPS / 收入超预期情况。</p>
+    <p class="desc" id="desc">Earnings Calendar — 按周、日期、规模、结果筛选已报财报的 EPS / 收入超预期情况。</p>
     <div class="pills" id="summary-pills">
       <span class="pill" id="pill-total">加载中…</span>
       <span class="pill beat" id="pill-beat">—</span>
@@ -246,7 +246,7 @@ if (EMBED) {
       loadWeek(weeks[0].week);
     })
     .catch(() => {
-      document.getElementById('tbody').innerHTML = '<tr><td colspan="15" style="text-align:center;padding:40px;color:var(--muted)">数据加载失败：请通过本地 server 打开，或重跑 fetch_earnings.py 重新生成内联数据</td></tr>';
+      document.getElementById('tbody').innerHTML = '<tr><td colspan="15" style="text-align:center;padding:40px;color:var(--muted)">数据加载失败：请通过本地 server 打开，或重新生成内联数据</td></tr>';
     });
 }
 
@@ -281,7 +281,7 @@ function applyWeek(d) {
 
 function updateHeader(d) {
   document.getElementById('eyebrow').textContent = `EARNINGS CALENDAR · ${d.week} · ${d.from} – ${d.to}`;
-  document.getElementById('desc').textContent = `FMP earnings calendar — ${d.count} 家本周已报财报（含 EPS 实际值）。按日期、规模、结果筛选。`;
+  document.getElementById('desc').textContent = `Earnings Calendar — ${d.count} 家本周已报财报（含 EPS 实际值）。按日期、规模、结果筛选。`;
 }
 
 function buildDateButtons(from, to) {
