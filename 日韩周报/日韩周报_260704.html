@@ -1,32 +1,4 @@
 <!DOCTYPE html>
-<!--
-========================================================================
-  日韩周报 · HTML Shell（v1 fragment-per-agent · 260525 首版）
-  ------------------------------------------------------------------
-  来源：从 us_weekly_shell.html 派生
-  关键差异：
-    • 没有 beta ETF 基准（KR/JP sector ETF 体系不完整）→ §01 改为"两国大盘 + 行业热度透视"
-    • 单一 HTML 按主题混编 KR+JP（用户决定）
-    • 视图切换 3 档：全部 / 韩股 / 日股（data-country）替代 mcap_tier 四档
-    • watermark：KR · JP MOMENTUM
-  ------------------------------------------------------------------
-  用法：本 shell 不直接渲染——agent fan-out 写 fragment 后由主 Claude
-       Read shell → glob fragments 升序拼接 → 替换 FRAGMENTS_INSERT_HERE
-       → Write D:\claude\research\日韩周报\日韩周报_YYMMDD.html
-  ------------------------------------------------------------------
-  视图切换（三类，由 masthead fragment 中的 view-tabs 控制）：
-    all      · 全部
-    kr       · 仅韩股
-    jp       · 仅日股
-  ------------------------------------------------------------------
-  章节顺序（推荐 13 段、按本期实际可缩到 8-10）：
-    §00 · masthead                            (Sonnet · 结构性)
-    §01 · Executive Summary 一页速览           (Opus · 含两国大盘 + 行业热度 + 核心信号)
-    §02-§11 · 10 主线（KR/JP 混编）            (Opus · 内容撰写)
-    §12 · 跨市场映射信号 (KR↔JP 上下游联动)    (Opus · 日韩独有)
-    §13 · Final Read 综合判断 + 下周观察       (Opus)
-========================================================================
--->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -306,18 +278,6 @@ document.addEventListener('click',function(e){
 <!-- 左上返回 index 浮标 -->
 <a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
 
-<!-- ============================================================
-     FRAGMENTS INSERT POINT · 日韩周报 v1 fragment-per-agent
-     ------------------------------------------------------------
-     拼接源：D:\claude\research\日韩周报\_fragments\YYMMDD\*.html
-     拼接顺序：文件名升序
-       00_masthead.html        ← <header> masthead + view-tabs (all/kr/jp)
-       09_exec_summary.html    ← §01 一页速览（两国大盘+行业热度+核心信号）
-       10..19 themeNN_*.html   ← §02-§11 十条主线（KR/JP 混编）
-       89_cross_signals.html   ← §12 跨市场映射信号（KR↔JP 上下游联动）
-       90_final_read.html      ← §13 综合判断 + 下周观察
-     整合时：Read shell → 拼接所有 fragment → 替换标记 → Write 最终 HTML
-============================================================ -->
 <header class="masthead">
   <div class="h-eyebrow">KOREA &amp; JAPAN MOMENTUM · 2026 / 07 / 04 · Meta 算力转售冲击专题</div>
   <h1 class="h-title">一句传闻砸穿存储链：<em>Meta 转售算力</em>引发年内最大抛售<br>日股逆势跑赢，<em>机器人与建设执行</em>环节独立走强</h1>
@@ -834,7 +794,7 @@ document.addEventListener('click',function(e){
 
 <div class="note-block">
   <span class="kicker">数据口径诚实说明</span>
-  <p>本报告区间涨跌幅为 Wind 后复权日线口径（1W/1M/3M/6M/1Y），市值为美元折算（截面静态）。<strong>本池经「近 3M &amp; 6M 双正」筛选，3M 以上窗口接近全数上涨是筛选偏差、不代表市场广度</strong>；真正反映本周边际的是 1W 与 1M 两列。铠侠 1Y 涨幅含近 IPO 低基效应（2024 年 12 月上市），不作干净动量读。T10 为过滤器筛入但 AI 关联弱的 off-AI 防守名，单独成桶以免污染主线归因。无 KOSPI/TOPIX 大盘 beta 基准，所有归因基于产业链与个股催化、非 beta 校准。本周暴跌与反弹的归因均来自 WebSearch 核实的真实事件（Meta 转售算力传闻、KOSPI 熔断、美国非农数据、SK海力士 ADR 上市、韩国投资计划、经产省机器人政策、各公司财报），无法找到具体催化的标的（如三星工程本周 +11.3%、三星物产本周 −16.5%）均如实标注"无明确催化"，不做反推式脑补。</p>
+  <p>本报告区间涨跌幅为 Wind 后复权日线口径（1W/1M/3M/6M/1Y），市值为美元折算（截面静态）。<strong>本池经「近 3M &amp; 6M 双正」筛选，3M 以上窗口接近全数上涨是筛选偏差、不代表市场广度</strong>；真正反映本周边际的是 1W 与 1M 两列。铠侠 1Y 涨幅含近 IPO 低基效应（2024 年 12 月上市），不作干净动量读。T10 为过滤器筛入但 AI 关联弱的 off-AI 防守名，单独成桶以免污染主线归因。无 KOSPI/TOPIX 大盘 beta 基准，所有归因基于产业链与个股催化、非 beta 校准。本周暴跌与反弹的归因均基于可查证的公开信息核实（Meta 转售算力传闻、KOSPI 熔断、美国非农数据、SK海力士 ADR 上市、韩国投资计划、经产省机器人政策、各公司财报），无法找到具体催化的标的（如三星工程本周 +11.3%、三星物产本周 −16.5%）均如实标注&quot;无明确催化&quot;，不做反推式脑补。</p>
 </div>
 </section>
 
