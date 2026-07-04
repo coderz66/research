@@ -1,32 +1,5 @@
 <!DOCTYPE html>
-<!--
-========================================================================
-  日韩周报 · HTML Shell（v1 fragment-per-agent · 260525 首版）
-  ------------------------------------------------------------------
-  来源：从 us_weekly_shell.html 派生
-  关键差异：
-    • 没有 beta ETF 基准（KR/JP sector ETF 体系不完整）→ §01 改为"两国大盘 + 行业热度透视"
-    • 单一 HTML 按主题混编 KR+JP（用户决定）
-    • 视图切换 3 档：全部 / 韩股 / 日股（data-country）替代 mcap_tier 四档
-    • watermark：KR · JP MOMENTUM
-  ------------------------------------------------------------------
-  用法：本 shell 不直接渲染——agent fan-out 写 fragment 后由主 Claude
-       Read shell → glob fragments 升序拼接 → 替换 FRAGMENTS_INSERT_HERE
-       → Write D:\claude\research\日韩周报\日韩周报_YYMMDD.html
-  ------------------------------------------------------------------
-  视图切换（三类，由 masthead fragment 中的 view-tabs 控制）：
-    all      · 全部
-    kr       · 仅韩股
-    jp       · 仅日股
-  ------------------------------------------------------------------
-  章节顺序（推荐 13 段、按本期实际可缩到 8-10）：
-    §00 · masthead                            (Sonnet · 结构性)
-    §01 · Executive Summary 一页速览           (Opus · 含两国大盘 + 行业热度 + 核心信号)
-    §02-§11 · 10 主线（KR/JP 混编）            (Opus · 内容撰写)
-    §12 · 跨市场映射信号 (KR↔JP 上下游联动)    (Opus · 日韩独有)
-    §13 · Final Read 综合判断 + 下周观察       (Opus)
-========================================================================
--->
+
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -193,18 +166,7 @@ table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent)
 <!-- 左上返回 index 浮标 -->
 <a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
 
-<!-- ============================================================
-     FRAGMENTS INSERT POINT · 日韩周报 v1 fragment-per-agent
-     ------------------------------------------------------------
-     拼接源：D:\claude\research\日韩周报\_fragments\YYMMDD\*.html
-     拼接顺序：文件名升序
-       00_masthead.html        ← <header> masthead + view-tabs (all/kr/jp)
-       09_exec_summary.html    ← §01 一页速览（两国大盘+行业热度+核心信号）
-       10..19 themeNN_*.html   ← §02-§11 十条主线（KR/JP 混编）
-       89_cross_signals.html   ← §12 跨市场映射信号（KR↔JP 上下游联动）
-       90_final_read.html      ← §13 综合判断 + 下周观察
-     整合时：Read shell → 拼接所有 fragment → 替换标记 → Write 最终 HTML
-============================================================ -->
+
 <header class="masthead">
   <div class="h-eyebrow">KOREA &amp; JAPAN MOMENTUM · 2026 / 05 / 25 · ISSUE #01</div>
   <h1 class="h-title">日韩 momentum 全景<br>KR ＋ JP <em>主题混编</em>·近 1Y 强势池</h1>
