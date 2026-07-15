@@ -92,6 +92,21 @@ table.dt tbody td.name{font-weight:500;color:var(--ink)}
 table.dt .pos{color:var(--bull);font-weight:600}
 table.dt .neg{color:var(--bear);font-weight:600}
 table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
+/* Theme 表格列宽统一（260715 固化 · table-layout:auto 导致每张 theme 表按自身内容独立分配列宽，
+   跨主线视觉不一致——用固定百分比宽度统一所有 themeN-tbl，不影响 §00/§01/§03/§12/§13 等其它 table.dt）*/
+table.dt[id^="theme"]:not(#theme-tbl){table-layout:fixed}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(1),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:6%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(2),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:16%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(3),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(3){width:4%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(4),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(4){width:7%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(5),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:10%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(6),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:57%}
 .tag.t-er{background:#E8F0E5;color:var(--bull)}
 .tag.t-cat{background:#FBF1D8;color:var(--accent)}
 .tag.t-map-d{background:#F0E5DA;color:var(--accent)}
@@ -254,11 +269,6 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
 </section>
 
 <section class="sec">
-  <div class="sec-num">§ 01 — Macro Drivers</div>
-  <h2 class="sec-title">宏观 <em>归因层</em>：CPI 意外走软 + IBM 暴雷触发的双向资金再分配</h2>
-  <div class="sec-sub">本节是"为什么市场是这个样子"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件/产业事件。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
-
-  <section class="sec">
   <div class="sec-num">§ 01 — Macro Drivers</div>
   <h2 class="sec-title">本日<em>宏观与板块 β 归因</em>：CPI 意外降温驱动半导体反弹 + IBM 暴雷引发企业 IT 预算重定价</h2>
   <div class="sec-sub">本节是"<em>为什么市场是这个样子</em>"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件 / 公司事件。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
@@ -468,7 +478,6 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
     本节归因严格遵循"<strong>有事件挂事件、无事件写无明确催化</strong>"。XLE/XLB/XLI/XLY/XLC 本日与大盘同步窄幅波动、无独立宏观或地缘驱动，标"无明确催化、属技术性 drift"。<br>
     <em>反叙事标记</em>：XLU、XLRE 本应受益于 CPI 降温后的收益率回落，但本日双双逆势小跌，标 "<strong>narrative overridden by flows</strong>"，不为自洽强行解释。
   </div>
-</section>
 </section>
 
 <section class="sec">
