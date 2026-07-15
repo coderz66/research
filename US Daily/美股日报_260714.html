@@ -158,6 +158,22 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
 .ki-note em{font-style:italic;font-weight:600;color:var(--ink)}
 
 
+/* Theme 表格列宽统一（260715 修复 · table-layout:auto 导致每张 theme 表按自身内容独立分配列宽，
+   跨主线视觉不一致——用固定百分比宽度统一所有 themeN-tbl，不影响 §00/§01/§12/§13 等其它 table.dt）*/
+table.dt[id^="theme"]:not(#theme-tbl){table-layout:fixed}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(1),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:6%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(2),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:16%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(3),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(3){width:4%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(4),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(4){width:7%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(5),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:10%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(6),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:57%}
+
 /* 视图 tabs (5 档 mcap_tier) */
 .view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
