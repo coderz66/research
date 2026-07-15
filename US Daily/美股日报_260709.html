@@ -88,25 +88,28 @@ table.dt thead th.num,table.dt tbody td.num{text-align:right;font-family:var(--m
 table.dt tbody td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
 table.dt tbody tr:hover{background:var(--rule-soft)}
 table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
-table.dt tbody td.name{font-weight:500;color:var(--ink)}
+table.dt tbody td.name{font-weight:500;color:var(--ink);overflow-wrap:break-word;word-break:break-word}
 table.dt .pos{color:var(--bull);font-weight:600}
 table.dt .neg{color:var(--bear);font-weight:600}
 table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
-/* Theme 表格列宽统一（260715 固化 · table-layout:auto 导致每张 theme 表按自身内容独立分配列宽，
-   跨主线视觉不一致——用固定百分比宽度统一所有 themeN-tbl，不影响 §00/§01/§03/§12/§13 等其它 table.dt）*/
+/* Theme 表格列宽统一（260715 固化·260715 三次修正：Theme #1 的天然比例仅反映该表自身内容，
+   归因列若在其它表出现更长的英文标签（indirect map/direct map/sentiment 等）会溢出——
+   改用 8 张 themeN-tbl 逐列实测最大 scrollWidth + 安全边际来定宽，比单纯抄 Theme #1 更稳健；
+   同时给 .name 列加 overflow-wrap 防止个别不可断行的长单体词（如外国公司全称）溢出。
+   不影响 §00/§01/§03/§12/§13 等其它 table.dt）*/
 table.dt[id^="theme"]:not(#theme-tbl){table-layout:fixed}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(1),
-table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:6%}
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:7%}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(2),
-table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:16%}
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:10%}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(3),
 table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(3){width:4%}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(4),
 table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(4){width:7%}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(5),
-table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:10%}
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:9%}
 table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(6),
-table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:57%}
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:63%}
 .tag.t-er{background:#E8F0E5;color:var(--bull)}
 .tag.t-cat{background:#FBF1D8;color:var(--accent)}
 .tag.t-map-d{background:#F0E5DA;color:var(--accent)}
