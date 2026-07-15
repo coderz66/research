@@ -92,6 +92,21 @@ table.dt tbody td.name{font-weight:500;color:var(--ink)}
 table.dt .pos{color:var(--bull);font-weight:600}
 table.dt .neg{color:var(--bear);font-weight:600}
 table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
+/* Theme 表格列宽统一（260715 固化 · table-layout:auto 导致每张 theme 表按自身内容独立分配列宽，
+   跨主线视觉不一致——用固定百分比宽度统一所有 themeN-tbl，不影响 §00/§01/§03/§12/§13 等其它 table.dt）*/
+table.dt[id^="theme"]:not(#theme-tbl){table-layout:fixed}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(1),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:6%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(2),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:16%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(3),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(3){width:4%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(4),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(4){width:7%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(5),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:10%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(6),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:57%}
 .tag.t-er{background:#E8F0E5;color:var(--bull)}
 .tag.t-cat{background:#FBF1D8;color:var(--accent)}
 .tag.t-map-d{background:#F0E5DA;color:var(--accent)}
@@ -143,6 +158,14 @@ table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;paddi
 .beta-item.flat .bv{color:var(--muted)}
 .beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
 .beta-strip .footer strong{color:var(--ink)}
+
+/* CITATION MARK: WebSearch 增量信息引用角标（260714 起） */
+.cite-mark{font-family:var(--mono);font-size:9px;vertical-align:super;line-height:0;margin-left:1px}
+.cite-mark a{color:var(--accent);border-bottom:none}
+.cite-mark a:hover{text-decoration:underline}
+#ref-list{margin-top:10px;font-size:10.5px;color:var(--ink-soft);line-height:1.7;padding-left:18px}
+#ref-list li{margin-bottom:4px;word-break:break-all}
+#ref-list li a{color:var(--accent)}
 
 /* KI-NOTE: editorial commentary on key info points */
 .ki-note{display:block;margin-top:6px;padding-top:5px;border-top:1px dotted var(--rule);font-family:var(--serif);font-style:italic;font-size:12.5px;font-weight:400;color:var(--ink-soft);line-height:1.5;letter-spacing:.005em}
@@ -231,11 +254,6 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
 </section>
 
 <section class="sec">
-  <div class="sec-num">§ 01 — Macro Drivers</div>
-  <h2 class="sec-title">宏观 <em>归因层</em>：AI 存储交易复活 + Meta 自研芯片 + 利率回落共振 risk-on</h2>
-  <div class="sec-sub">本节是"为什么市场是这个样子"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件 / 产业事件 / 政策动作。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
-
-  <section class="sec">
   <div class="sec-num">§ 01 — Macro Drivers</div>
   <h2 class="sec-title">本日<em>宏观与板块 β 归因</em>：AI 存储/定制硅双催化叠加利率回落，risk-on 压过地缘扰动</h2>
   <div class="sec-sub">本节是"<em>为什么市场是这个样子</em>"的归因层——把 §00 的板块 β 数字挂回到具体宏观事件 / 地缘事件 / 政策动作。个股归因放后面 §04+ 主线明细，本节不讨论个股。</div>
@@ -464,7 +482,6 @@ body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
     本节归因严格遵循"<strong>有事件挂事件、无事件写无明确催化</strong>"。XLF/XLI/XLB/DIA 无独立宏观驱动，标"无明确独立催化 + risk-on beta 跟涨"，不强行编故事。<br>
     <em>反叙事标记</em>：① 贵金属（GDX/GDXJ/SLV/GLD）本日随利率回落反弹，与 7/8 地缘驱动的下跌方向相反 —— 标注为 regime 切换（地缘 → 利率），详见 §01-B。② XLU 逆 AI 电力叙事收跌，标注为 <strong>narrative overridden by flows</strong>，均不为自洽强行套用产业逻辑。
   </div>
-</section>
 </section>
 
 <section class="sec">
