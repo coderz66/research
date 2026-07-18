@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+  美股强势股主线 · HTML 模板（template）
+  ------------------------------------------------------------------
+  来源：美股强势股主线3_260519.html 抽离的结构 + 样式
+  调性：navy/amber masthead（参考 A股映射） + Fraunces/米色正文
+  用法：复制本文件 → 重命名为 美股强势股主线N_YYMMDD.html → 替换 {{...}} 占位
+  ------------------------------------------------------------------
+  分档：5 档独立 P80 → 重映射到 4 档显示（260523 修正：单位 $B、阈值对齐 stock_meta 5 档 L3=$5-30B / L4+L5 合并 <$5B）
+    L · 大盘   ≥ $100B          ← L1
+    M · 中盘   $30-100B         ← L2
+    S · 小盘   $5-30B           ← L3
+    T · 微盘   <$5B             ← L4 + L5 合并
+  ------------------------------------------------------------------
+  10 条主线骨架（按本期实际重写）：
+    01 · AI 算力·大盘半导体 + 代工 + 存储
+    02 · AI 算力·中盘卖铲人
+    03 · AI Cyber
+    04 · AI Infra·二线云 + 网络硬件 + CPaaS
+    05 · 算力托管·BTC 矿企转 AI/HPC
+    06 · 数据中心电力 / 储能 / 燃料电池 / 光伏
+    07 · 商业航天 / 国防科技
+    08 · AI 软件 / SaaS / 数据平台
+    09 · EMS / PCB / AI Server BOM
+    10 · 其他·反转 / 工业 / 妖股 / 国防小盘
+========================================================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>美股周报 · 2026-07-17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 52px;max-width:1700px;margin:0 auto}  /* 260613 正文宽 1700 · compact 页脚 80→52 */
+em{font-style:italic;color:var(--accent)}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber、参考 A股映射_260516) ========== */
+.masthead{background:var(--navy);color:#fff;padding:42px 60px 32px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:24px}  /* 260613 compact padding 56·44→42·32 / margin-bottom 36→24 */
+.masthead::after{content:'US MOMENTUM';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1080px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* ========== SECTIONS ========== */
+.sec{margin:30px 0 0}  /* 260613 compact · 章节间距 48→30 */
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:4px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:10px}  /* 260613 compact */
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-4px;margin-bottom:10px;max-width:none}  /* 260613 compact 16→10 */
+
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+p{margin-bottom:7px;color:var(--ink-soft);max-width:none}  /* 260613 compact 10→7 */
+p strong{color:var(--ink);font-weight:600}
+
+/* ========== DATA TABLE ========== */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:10px 0;font-size:12.5px;line-height:1.4}  /* 260613 compact margin 14→10 · lh 1.45→1.4 */
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;white-space:nowrap}
+table.dt thead th[data-type="num"],table.dt tbody td.num{text-align:center;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td.num{font-size:11px}  /* 260613 涨跌幅数据格小一号 (12.5→11) */
+table.dt tbody td{padding:4px 9px;border-bottom:1px solid var(--rule-soft);vertical-align:top}  /* 260613 compact 行高 7→4（~120 行影响最大） */
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink);font-size:12px;line-height:1.3}
+table.dt td.logic{font-size:12px;color:var(--ink-soft);line-height:1.4}
+table.dt td.logic strong{color:var(--ink)}
+/* 个股逻辑列默认（无 class）的 td 也用紧凑行距，避免漏 class 时行间过松 */
+table.dt tbody tr td:last-child{line-height:1.4}
+/* ki-note 内嵌段同步收紧行距（260523 user 反馈）*/
+table.dt .ki-note{line-height:1.5}
+/* 89 Industry Chain Signals 表行距紧凑（260523 user 反馈）*/
+#signals-tbl tbody td{padding:5px 8px;line-height:1.35;font-size:11.5px}
+#signals-tbl thead th{padding:7px 8px}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+/* ===== 主线个股表 7 列固定列宽 · shell 单一真相源（260530 加）=====
+   颜色/字体/卡片/渐变一向由 shell 锁定、fragment 继承不生成；列宽过去是 10 个
+   theme fragment 各写 inline、是唯一能跑偏的视觉参数。现收口到这里：theme 的
+   <th> 不再写 inline width，改列宽只动这一处即全主线生效。
+   作用域 section[id^="theme-"] 仅命中 theme-02..11 个股表，不影响
+   §2 Theme Map(#exec-summary) / §12 信号表 / §13 catalyst 表（单实例、保留 inline）。*/
+/* 260628 与日报对齐：新增第3列「市值」(L1-L5 pill)，列序后移、逻辑列吃下差额 */
+section[id^="theme-"] table.dt th:nth-child(1){width:4%}    /* Ticker */
+section[id^="theme-"] table.dt th:nth-child(2){width:9%}    /* 公司 */
+section[id^="theme-"] table.dt th:nth-child(3){width:5%}    /* 市值 · L1-L5 pill + $值 */
+section[id^="theme-"] table.dt th:nth-child(4){width:3%}    /* 1W */
+section[id^="theme-"] table.dt th:nth-child(5){width:3%}    /* 1M */
+section[id^="theme-"] table.dt th:nth-child(6){width:3%}    /* 3M */
+section[id^="theme-"] table.dt th:nth-child(7){width:7%}    /* 归因 */
+section[id^="theme-"] table.dt th:nth-child(8){width:66%}   /* 关键产业事实 + ki-note */
+.hl{background:var(--highlight);padding:0 2px}
+
+/* ========== ki-note (个股逻辑解读) ========== */
+.ki-note{display:block;margin-top:5px;padding:6px 11px 5px;border-left:2px solid var(--accent-soft);background:#FBF8EF;font-family:var(--sans);font-style:normal;font-size:12.25px;font-weight:400;color:var(--ink);line-height:1.62;letter-spacing:.002em}  /* 260613 逻辑卡片上下间距收紧 margin8→5/padding8·7→6·5 */
+.ki-note::before{content:"逻辑 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-right:2px}
+.ki-note em{font-style:normal;font-weight:600;color:var(--ink);background:#FFF1B8;padding:0 3px;border-radius:2px}
+
+/* ========== note-block (牛熊闸门 / 分层判断 / 出场信号) ========== */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:9px 14px;margin:10px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}  /* 260613 compact padding 11→9 / margin 14→10 / lh 1.55→1.5 */
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block strong{color:var(--ink)}
+#exec-summary .note-block{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A;margin:9px 0}  /* 260613 §3 五大信号等 exec 卡片上下间距 14→9 收紧 */
+/* §3「本周5个最重要信号·深度归因」卡片再 compact（260613 · :has(>.kicker) 精确命中含内层 kicker 的信号卡，不碰 §0.5 宏观块 / §1 take-away——它们的 kicker 在 note-block 外） */
+#exec-summary .note-block:has(> .kicker){margin:6px 0;padding:7px 13px;line-height:1.45}
+#exec-summary .note-block:has(> .kicker) > .kicker{margin-bottom:3px}
+#exec-summary .note-block:has(> .kicker) > p{margin-bottom:0}
+/* 牛熊闸门统一琥珀渐变（260530：所有 theme 的 Bull/Mixed/Bear Logic 闸门加 class="note-block gate"）*/
+.note-block.gate{background:linear-gradient(90deg,#FFF8E0 0,#FFFFFF 35%);border-left-color:#B8870A}
+
+/* ========== theme-card (主线标签卡) ========== */
+.theme-card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;margin:14px 0}
+.theme-card.bull{border-left-color:var(--bull)}
+.theme-card.bear{border-left-color:var(--bear)}
+.theme-card.mixed{border-left-color:var(--accent-soft)}
+.theme-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:6px}
+.theme-meta span.k{color:var(--accent);font-weight:700}
+.theme-meta span.v{color:var(--ink);font-weight:600;margin-right:14px}
+
+/* ========== Bull/Bear cards 并列 ========== */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}  /* 260613 compact gap 14→12 / margin 14→10 */
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.card-body ol{font-size:11.5px;line-height:1.45}  /* 260613 Bull/Bear 卡片内容字体小一号 + 行距收紧（FOCUS/重要公司卡片用 <p> 不受影响） */
+.card-body ol li{margin-bottom:3px}  /* 260613 段间距 5→3 */
+.card-body strong{color:var(--ink)}
+.card-body p{margin:0 0 7px}
+
+/* ========== ★ FOCUS(#focus) + ★ 重要公司(#important) 卡片紧凑（260613 · 二次再 compact · scope 仅这两节、不影响主线 Bull-Bear） ========== */
+#focus .cards,#important .cards{row-gap:8px}              /* 卡片上下间距 →8（列间距 12 由 .cards 全局 compact 提供） */
+#focus .card,#important .card{padding:8px 14px}           /* 卡片内 padding →8·14 */
+#focus .card-body,#important .card-body{line-height:1.42} /* 行间距 →1.42 */
+#focus .card-body p,#important .card-body p{margin:0 0 3px}  /* 段间距 →3 */
+#focus .card-meta,#important .card-meta{margin-bottom:5px}   /* meta 与正文间距 8→5 */
+
+/* ========== 子链小标题 sub-h（★ 重要公司 二级深读 按子链分组用） ========== */
+.sub-h{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);margin:24px 0 8px;letter-spacing:-.005em}
+.sub-h em{font-style:italic;color:var(--accent)}
+
+/* ========== 视图 tabs (4 档独立筛选) ========== */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* 260628 多选：过滤由 JS 直接 toggle 行 display（CSS 单值做不了多选 OR）；下列为无 JS 时的单选 fallback */
+body[data-view="L1"] table.dt tbody tr[data-tier]:not([data-tier="L1"]){display:none}
+body[data-view="L2"] table.dt tbody tr[data-tier]:not([data-tier="L2"]){display:none}
+body[data-view="L3"] table.dt tbody tr[data-tier]:not([data-tier="L3"]){display:none}
+body[data-view="L4"] table.dt tbody tr[data-tier]:not([data-tier="L4"]){display:none}
+body[data-view="L5"] table.dt tbody tr[data-tier]:not([data-tier="L5"]){display:none}
+
+/* ========== 归因 tag（表格"归因"列用，260516 引入） ========== */
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap;margin-right:3px}
+/* 市值档 pill（260628 与日报对齐 · 独立市值列 + L1-L5 彩色 · 无 scope 故表格/FOCUS卡都生效） */
+.tag.l1{background:#1B2635;color:#D4A017;font-weight:600}
+.tag.l2{background:#2D3D52;color:#fff}
+.tag.l3{background:#8B6F35;color:#fff}
+.tag.l4{background:#D9D2C2;color:#1B2635}
+.tag.l5{background:#EDE8DB;color:#6B7B8C;font-weight:600}
+.mcapc{white-space:nowrap}
+.mcv{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+
+/* ========== Signal table 方向标记（Industry Chain Signals §) ========== */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* ========== Beta strip (本周板块 β 全景 · grid of small cards) ========== */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:1px;background:var(--rule)}
+.beta-item{padding:7px 8px;background:var(--paper);display:flex;flex-direction:column;gap:2px;line-height:1.15;min-width:0}
+.beta-item .bn{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.02em}
+.beta-item .bv{font-family:var(--mono);font-size:13px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.beta-item .bd{font-size:9.5px;color:var(--muted);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+/* highlight: 重要的行业 β 数据用琥珀金外框 + 加粗强调 */
+.beta-item.hl{background:#FFF8E0;outline:1.5px solid var(--accent);outline-offset:-1.5px;position:relative;z-index:1}
+.beta-item.hl .bn{color:var(--ink)}
+.beta-item.hl .bv{font-size:14px}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* ========== Theme Map strength bar ========== */
+.theme-strength{display:inline-block;min-width:54px;white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.04em}  /* 260613 修复：固定 width:54px 致「强·反向」「中弱·反向」等长标签在盒内换两行+bar 错位 → min-width+nowrap 永不换行 */
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* ========== Sortable columns (click thead th[data-type] to sort tbody) ========== */
+table.dt thead th[data-type]{cursor:pointer;user-select:none;position:relative;padding-right:18px}
+table.dt thead th[data-type]:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th[data-type]::after{content:"⇅";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--rule);opacity:.6}
+table.dt thead th[data-sort-dir="asc"]::after{content:"▲";color:var(--accent);opacity:1}
+table.dt thead th[data-sort-dir="desc"]::after{content:"▼";color:var(--accent);opacity:1}
+
+/* ========== 左侧固定目录 TOC（260530 加 · JS 自动扫描 section[id] 生成） ========== */
+html{scroll-behavior:smooth}
+#toc-nav{position:fixed;top:0;left:0;bottom:0;width:212px;z-index:1000;background:var(--navy);
+  border-right:3px solid var(--amber);overflow-y:auto;padding:54px 0 30px;
+  font-family:var(--mono);-webkit-font-smoothing:antialiased}
+#toc-nav::-webkit-scrollbar{width:6px}
+#toc-nav::-webkit-scrollbar-thumb{background:rgba(212,160,23,.35);border-radius:3px}
+#toc-nav .toc-head{position:relative;padding:4px 18px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px}
+#toc-nav .toc-head .t1{font-size:11px;letter-spacing:.2em;color:var(--amber-light);text-transform:uppercase;font-weight:600}
+#toc-nav .toc-head .t2{font-size:9.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.05em}
+#toc-nav a{display:flex;gap:8px;align-items:baseline;padding:6px 14px 6px 18px;text-decoration:none;
+  border-left:2px solid transparent;line-height:1.3}
+#toc-nav a .n{font-size:9.5px;color:var(--amber);font-weight:600;min-width:24px;letter-spacing:.02em;flex-shrink:0}
+#toc-nav a .t{font-size:10.5px;color:rgba(255,255,255,.7);font-weight:500;letter-spacing:.01em}
+#toc-nav a:hover{background:rgba(255,255,255,.05)}
+#toc-nav a:hover .t{color:#fff}
+#toc-nav a.active{background:rgba(184,135,10,.16);border-left-color:var(--amber)}
+#toc-nav a.active .t{color:#fff;font-weight:600}
+#toc-nav a.active .n{color:var(--amber-light)}
+/* 正文整体右移让出目录宽度（仅 margin-left / masthead 宽度被覆盖，其余继承原样） */
+body{margin-left:212px}
+.masthead{width:calc(100vw - 212px);margin-left:-56px}
+section[id]{scroll-margin-top:64px}
+/* ---- 收起/展开 目录 ---- */
+#toc-nav{transition:transform .26s ease}
+body{transition:margin-left .26s ease}
+.masthead{transition:width .26s ease,margin-left .26s ease}
+#toc-collapse{position:absolute;top:-1px;right:14px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1px solid rgba(212,160,23,.45);border-radius:5px;color:var(--amber-light);
+  font-size:14px;line-height:1;cursor:pointer;user-select:none}
+#toc-collapse:hover{background:rgba(184,135,10,.25);color:#fff}
+body.toc-collapsed #toc-nav{transform:translateX(-100%)}
+body.toc-collapsed{margin-left:auto}
+body.toc-collapsed .masthead{width:100vw;margin-left:calc(-50vw + 50%)}
+#toc-reopen{display:none;position:fixed;left:0;top:92px;z-index:1001;
+  background:var(--navy);color:var(--amber-light);border:1px solid var(--amber);border-left:none;
+  border-radius:0 8px 8px 0;padding:13px 6px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;writing-mode:vertical-rl;text-orientation:upright;
+  box-shadow:2px 2px 10px rgba(0,0,0,.28)}
+#toc-reopen:hover{background:var(--navy-light);color:#fff}
+body.toc-collapsed #toc-reopen{display:block}
+.toc-no-anim #toc-nav,.toc-no-anim.toc-collapsed,.toc-no-anim .masthead{transition:none!important}
+/* 窄屏 / 打印：收起目录，正文复位 */
+@media (max-width:980px){#toc-nav{display:none}#toc-reopen{display:none!important}body{margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}}
+@media print{#toc-nav{display:none}body{padding:24px;margin-left:0}.masthead{width:100vw;margin-left:calc(-50vw + 50%)}.view-tabs{display:none}}
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标（HTML 站点结构需要保留） -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<!-- ============================================================
+     FRAGMENTS INSERT POINT · weekly v4 fragment-per-agent
+     ------------------------------------------------------------
+     拼接源：D:\claude\research\US weekly\_fragments\YYMMDD\*.html
+     拼接顺序：文件名升序
+       00_masthead.html        ← <header> masthead + view-tabs nav
+       09_exec_summary.html    ← §01 Executive Summary
+       10..49 themeNN_*.html   ← §02-§11 十条主线
+       90_final_read.html      ← §12 Final Read 综合判断+A股映射指引
+     独立产物（不进 fragments）：A股映射_YYMMDD.html → 直接写到 US weekly\\ 根目录
+     整合时：Read shell → 把下方标记替换为所有 fragment 内容拼接 → Write 最终 HTML
+============================================================ -->
+<header class="masthead">
+  <div class="h-eyebrow">US EQUITY WEEKLY · W/E 2026-07-17 · 73 MOVERS / 10 THEMES</div>
+  <h1 class="h-title">AI 硬件遭遇<em>资本效率重估</em>：SOXX −10.24，资金轮向 <em>招聘 / 安全 / 能源</em></h1>
+  <p class="h-desc">本周不是系统性 risk-off：SPY −1.54、IWM −0.66、HYG −0.08，而 SOXX 独跌 −10.24。TSMC 基本面全面上修却因 capex 从 $52–56B 提至 $60–64B 引发 overbuild 担忧；IBM −26.04 进一步确认企业预算被服务器、存储和内存挤占。对手盘是 MAN +35.21 / RHI +29.01 的招聘盈利拐点、PANW/CRWD/SAIL 的安全预算承接、VG +12.75 的霍尔木兹 LNG 溢价，以及运输与大盘质量轮入。</p>
+  <div class="h-pills">
+    <span class="pill bear">SOXX −10.24 · AI 硬件专属去杠杆</span>
+    <span class="pill bear">IBM −26.04 · 预算迁往服务器/存储/内存</span>
+    <span class="pill bull">MAN +35.21 · Q3 指引高于预期</span>
+    <span class="pill bull">RHI +29.01 · 招聘链 read-through</span>
+    <span class="pill bull">XLE +4.72 · VG +12.75</span>
+    <span class="pill bull">PANW +10.05 · CRWD +8.49 · SAIL +14.37</span>
+    <span class="pill bear">GDXJ −6.76 · URA −9.87 · 避险叙事失效</span>
+    <span class="pill">73 只：45 涨 / 28 跌 · 中位 +6.25</span>
+  </div>
+</header>
+<nav class="view-tabs">
+  <span class="vlabel">视图 · 可多选</span>
+  <button class="vtab active" data-view="all">全部</button>
+  <button class="vtab" data-view="L1">L1 大盘 ≥$100B</button>
+  <button class="vtab" data-view="L2">L2 中盘 $30-100B</button>
+  <button class="vtab" data-view="L3">L3 小盘 $10-30B</button>
+  <button class="vtab" data-view="L4">L4 小盘 $1-10B</button>
+  <button class="vtab" data-view="L5">L5 微盘 &lt;$1B</button>
+</nav>
+
+<section class="sec" id="exec-summary">
+  <div class="sec-num">§01</div>
+  <h2 class="sec-title">本周 <em>核心结论</em> · 一页速览</h2>
+  <div class="sec-sub">AI 硬件专属去杠杆，不是系统性 risk-off；资金轮向招聘、软件、能源与防守质量</div>
+
+  <div class="beta-strip">
+    <span class="kicker">§0 · 本周板块 β 全景 · XLE +4.72 领涨 / SOXX −10.24 垫底 · SPY −1.54 / QQQ −4.16 / IWM −0.66</span>
+    <div class="beta-grid">
+      <div class="beta-item up hl"><span class="bn">XLE</span><span class="bv">+5%</span><span class="bd">Energy</span></div>
+      <div class="beta-item up hl"><span class="bn">XLRE</span><span class="bv">+2%</span><span class="bd">Real Estate</span></div>
+      <div class="beta-item up hl"><span class="bn">XLP</span><span class="bv">+1%</span><span class="bd">Consumer Staples</span></div>
+      <div class="beta-item up"><span class="bn">XLF</span><span class="bv">+1%</span><span class="bd">Financial</span></div>
+      <div class="beta-item up"><span class="bn">IBIT</span><span class="bv">0%</span><span class="bd">Bitcoin Trust</span></div>
+      <div class="beta-item flat"><span class="bn">XLV</span><span class="bv">0%</span><span class="bd">Health Care</span></div>
+      <div class="beta-item flat"><span class="bn">TLT</span><span class="bv">0%</span><span class="bd">20Y+ Treasury</span></div>
+      <div class="beta-item flat"><span class="bn">HYG</span><span class="bv">0%</span><span class="bd">HY Corp Bond</span></div>
+      <div class="beta-item dn"><span class="bn">UUP</span><span class="bv">0%</span><span class="bd">US Dollar Bullish</span></div>
+      <div class="beta-item dn"><span class="bn">XLU</span><span class="bv">−1%</span><span class="bd">Utilities</span></div>
+      <div class="beta-item dn"><span class="bn">IWM</span><span class="bv">−1%</span><span class="bd">Russell 2000</span></div>
+      <div class="beta-item dn"><span class="bn">XLB</span><span class="bv">−1%</span><span class="bd">Materials</span></div>
+      <div class="beta-item dn"><span class="bn">XLC</span><span class="bv">−1%</span><span class="bd">Communication Services</span></div>
+      <div class="beta-item dn"><span class="bn">DIA</span><span class="bv">−1%</span><span class="bd">Dow Jones</span></div>
+      <div class="beta-item dn"><span class="bn">XLI</span><span class="bv">−1%</span><span class="bd">Industrial</span></div>
+      <div class="beta-item dn"><span class="bn">SPY</span><span class="bv">−2%</span><span class="bd">S&amp;P 500</span></div>
+      <div class="beta-item dn"><span class="bn">XLY</span><span class="bv">−2%</span><span class="bd">Consumer Discretionary</span></div>
+      <div class="beta-item dn"><span class="bn">GLD</span><span class="bv">−2%</span><span class="bd">Gold</span></div>
+      <div class="beta-item dn"><span class="bn">QQQ</span><span class="bv">−4%</span><span class="bd">Nasdaq 100</span></div>
+      <div class="beta-item dn"><span class="bn">XLK</span><span class="bv">−5%</span><span class="bd">Technology</span></div>
+      <div class="beta-item dn"><span class="bn">GDX</span><span class="bv">−6%</span><span class="bd">Gold Miners</span></div>
+      <div class="beta-item dn"><span class="bn">SLV</span><span class="bv">−6%</span><span class="bd">Silver</span></div>
+      <div class="beta-item dn hl"><span class="bn">GDXJ</span><span class="bv">−7%</span><span class="bd">Junior Gold Miners</span></div>
+      <div class="beta-item dn hl"><span class="bn">URA</span><span class="bv">−10%</span><span class="bd">Uranium</span></div>
+      <div class="beta-item dn hl"><span class="bn">SOXX</span><span class="bv">−10%</span><span class="bd">PHLX Semiconductor</span></div>
+    </div>
+    <div class="footer"><strong>结构观察</strong>：① SOXX −10.24 与 SPY −1.54 的 8.7 个百分点差，证明风险集中在半导体与 AI 硬件；② HYG −0.08、TLT +0.06、IWM −0.66，信用、利率与小盘均未出现系统压力；③ XLE +4.72、XLRE +2.18、XLP +1.27、XLF +0.99，资金明确轮向能源、防守与现金流；④ GDX/GDXJ/URA 同步大跌，地缘避险叙事被资金去杠杆覆盖。</div>
+  </div>
+
+  <p><span class="kicker">§0.5 · 宏观 + 地缘事件 · 四件大事</span> · 决定本周结构的不是单一宏观数字，而是资本效率、企业预算迁移、地缘能源溢价与拥挤交易同时作用。</p>
+  <div class="note-block">
+    <p><strong>① TSMC 财报把市场定价从“奖励扩张”切换为“惩罚扩张”</strong>：二季度营收约 402 亿美元、全年收入增长目标上修至 40% 以上、3nm 稼动率高位、CoWoS 仍紧，产业需求读数全面偏强；但 2026 capex 从 520–560 亿美元上修至 600–640 亿美元后，市场把更高资本强度解读为 overbuild 与回报时差，SOXX 在 7 月 16 日再跌约 4.5%。</p>
+    <p><strong>② IBM 公开确认企业预算被 AI 基础设施挤占</strong>：公司 7 月 14 日披露二季度初步收入 172 亿美元、软件 +5%、基础设施 −7%，称客户在 6 月末把季度 capex 转向服务器、存储和内存以锁定紧缺供给，多个大单延期。IBM −26.04 是公司预警，但它对存储/服务器需求本身是反向正证据。</p>
+    <p><strong>③ ManpowerGroup 把招聘服务从纯轮动升级为盈利拐点</strong>：7 月 16 日二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元，三季度 EPS 指引 0.96–1.06 美元；MAN +35.21 带动 RHI +29.01 以及商业服务全链，成为本周最强非 AI 真 alpha。</p>
+    <p><strong>④ 霍尔木兹风险只在油气兑现，没有扩散到广义避险</strong>：XLE +4.72，Venture Global +12.75，且二季度平均液化费环比 +69%；但 GLD −2.28、GDX −5.57、GDXJ −6.76、URA −9.87。市场购买的是能源现金流与供应中断溢价，不是无差别避险资产。</p>
+  </div>
+
+  <p><span class="kicker">§1 · 本周市场结构 take-away</span> · 三个问题、一条主导叙事</p>
+  <div class="note-block">
+    <p><strong>第一问：本周是不是系统性 risk-off？答案是否定的。</strong>SPY 仅 −1.54、DIA −0.95、IWM −0.66，HYG −0.08、TLT +0.06，信用和利率没有出现压力；真正的重灾区是 SOXX −10.24、XLK −5.48 和 QQQ −4.16。73 只异动股中 45 涨、28 跌，中位数仍 +6.25，意味着异动池并非普遍下跌，而是大权重 AI 硬件和高 beta 远期成长被集中去杠杆。指数跌幅被科技权重放大，个股横截面则呈现招聘、软件、能源、运输和防守质量承接资金。</p>
+    <p><strong>第二问：AI 基本面是不是转弱？答案是需求证据仍强，资本效率折价更强。</strong>TSMC 营收与全年目标上修、先进封装仍紧，IBM 还明确说客户把预算转向服务器、存储与内存；这些都不是需求崩塌证据。市场惩罚的是 capex 上修、现金流回报延后、Meta Compute 所代表的 overbuild 叙事，以及 CXMT 对商品 DRAM 竞争的新增供给。于是 ALAB −26.48、SNDK −29.29、MRVL −19.99、CRDO −21.38 与 NBIS −19.09 同周发生。结论应写成“产业强、资本强度更强，估值容忍度下降”，而不是“AI 周期结束”。</p>
+    <p><strong>第三问：资金去了哪里？去了有盈利拐点、轻资产安全软件、能源现金流和实体服务。</strong>MAN +35.21、RHI +29.01 是招聘需求和成本纪律的真 alpha；PANW +10.05、CRWD +8.49、SAIL +14.37 显示安全预算在 IBM 预警后获得相对优先级；VG +12.75 直接承接 LNG 供应风险；DSGR +25.91、RXO +11.58、HUBG +10.87、UNP +5.15 说明物流与工业服务获得防守轮入。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 则体现大盘质量和平台消费的镜像承接。</p>
+    <p><strong>一条主导叙事：市场把“增长”拆成了需求增长与资本增长，并只奖励能快速转化为现金流的那一边。</strong>TSMC、NBIS 的上修都说明规模继续扩张，但权益市场更担忧建设先行、收入滞后；IBM 的预算迁移证明企业确实在买服务器、存储和内存，却同时挤压传统软件与主机。网络安全与应用软件之所以相对强，是它们更轻资产、回报周期更短；招聘与商业服务之所以爆发，是 MAN 把需求改善直接转成收入、利润和指引；能源之所以强，是供应中断立即抬高现金流。该叙事可以解释 SOXX −10.24 与 MAN +35.21 同周并存，也解释 GDX/URA 在地缘升级时反而下跌。</p>
+    <p><strong>反叙事监控必须保留三处。</strong>第一，TSMC 基本面全面上修却带崩半导体，是 narrative overridden by flows，但 capex 回报率若后续真恶化，资金面可转化为基本面；第二，IBM 的预警既是自身利空又是存储需求正证据，不能只选一半；第三，霍尔木兹升级却没有带动黄金、金矿和铀，说明避险故事被资金去杠杆压过。下周应以 IBM 7 月 22 日电话会、hyperscaler capex、NAND/DRAM 价格、招聘与网络安全财报、霍尔木兹通行量为验证闸门。</p>
+  </div>
+
+  <p><span class="kicker">§2 · 10 主线优先级</span> · 按产业重要性与本周异动强度</p>
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">#</th><th data-type="text">主线</th><th data-type="text">强度</th>
+      <th data-type="text">本周触发</th><th data-type="text">代表标的</th><th data-type="text">内部结构</th><th data-type="text">下周 catalyst</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="mono">02</td>
+        <td class="name"><a href="#theme-02">AI 存储与系统 · 资本开支惩罚 + 预算迁移</a></td>
+        <td><span class="theme-bar" style="width:49px"></span><span class="theme-strength">偏弱</span></td>
+        <td>需求仍强，但重资产前置投入被重新定价</td>
+        <td class="mono">SNDK · IBM · BLZE · PENG</td>
+        <td>0涨 / 5跌</td>
+        <td>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修</td>
+      </tr>
+      <tr>
+        <td class="mono">03</td>
+        <td class="name"><a href="#theme-03">AI 半导体与互连 · SOXX −10.24 的去杠杆震中</a></td>
+        <td><span class="theme-bar" style="width:42px"></span><span class="theme-strength">偏弱</span></td>
+        <td>基本面上修与估值收缩同周发生</td>
+        <td class="mono">ALAB · CRDO · MXL · AMBA</td>
+        <td>2涨 / 8跌</td>
+        <td>未来 2–4 周的关键窗口是 hyperscaler 二季度 capex、MRVL/ALAB/CRDO 的订单与毛利率评论、以及设备端对先进封装和 2nm 投资节奏的确认。若订单、backlog 与毛利率继续抬升，SOX</td>
+      </tr>
+      <tr>
+        <td class="mono">04</td>
+        <td class="name"><a href="#theme-04">算力托管 / 量子 / 矿企 · 高 beta 统一收缩</a></td>
+        <td><span class="theme-bar" style="width:47px"></span><span class="theme-strength">偏弱</span></td>
+        <td>远期容量故事遭遇资本效率检验</td>
+        <td class="mono">WYFI · GRRR · RXT · CIFR</td>
+        <td>0涨 / 9跌</td>
+        <td>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效</td>
+      </tr>
+      <tr>
+        <td class="mono">05</td>
+        <td class="name"><a href="#theme-05">网络安全与基础软件 · 预算承接的对手盘</a></td>
+        <td><span class="theme-bar" style="width:36px"></span><span class="theme-strength">偏强</span></td>
+        <td>IBM 预警后，安全预算获得相对优先级</td>
+        <td class="mono">BB · SAIL · NABL · PANW</td>
+        <td>6涨 / 1跌</td>
+        <td>未来 2–4 周要看 PANW/CRWD/SAIL 的新增 ARR、平台化大单、身份安全续约与 AI 安全产品渗透。IBM 7 月 22 日电话会若进一步确认客户因网络安全问题延迟传统项目，将强化预算承接逻辑；反之，若安</td>
+      </tr>
+      <tr>
+        <td class="mono">06</td>
+        <td class="name"><a href="#theme-06">应用软件与数字平台 · 从 infra 轮向 application</a></td>
+        <td><span class="theme-bar" style="width:35px"></span><span class="theme-strength">偏强</span></td>
+        <td>资本效率偏好推动轻资产软件修复</td>
+        <td class="mono">APPS · FIG · DJT · GWRE</td>
+        <td>7涨 / 1跌</td>
+        <td>未来 2–6 周看 ADBE/INTU/GWRE 的 AI 产品增量、续约、净留存和利润率，以及 FIG 的新增客户与协作席位扩张。若软件公司能把 AI 功能转为价格、ARPU 或续约提升，轮动可升级为盈利驱动；若企业预</td>
+      </tr>
+      <tr>
+        <td class="mono">07</td>
+        <td class="name"><a href="#theme-07">人力招聘与商业服务 · MAN 业绩上修引爆全链</a></td>
+        <td><span class="theme-bar" style="width:37px"></span><span class="theme-strength">偏强</span></td>
+        <td>改善需求与成本纪律形成真 alpha</td>
+        <td class="mono">MAN · RHI · FA · CTAS</td>
+        <td>13涨 / 0跌</td>
+        <td>未来 2–4 周的关键窗口是 RHI、ADP、PAYX、CBZ 等财报与就业数据。若临时用工、专业招聘、RPO、薪酬处理量和客户新增同步改善，MAN 的 alpha 可向同业扩散；若 MAN 的增长主要来自地区汇率、资产</td>
+      </tr>
+      <tr>
+        <td class="mono">08</td>
+        <td class="name"><a href="#theme-08">工业分销 / 运输物流 · 防守轮入与订单弹性</a></td>
+        <td><span class="theme-bar" style="width:36px"></span><span class="theme-strength">偏强</span></td>
+        <td>资金从高 beta 科技迁往实体服务</td>
+        <td class="mono">DSGR · BCO · BXC · RXO</td>
+        <td>8涨 / 0跌</td>
+        <td>未来 2–6 周关注铁路联运量、卡车现货与合同运价、港口吞吐、燃油附加费、建筑项目 backlog 和工业分销有机增长。若 UNP/HUBG/RXO 等确认货量和价格改善，主线可由资金轮入升级为盈利修复；若油价上升只推高</td>
+      </tr>
+      <tr>
+        <td class="mono">09</td>
+        <td class="name"><a href="#theme-09">能源 / 可再生 / 核材料 · 霍尔木兹溢价与反叙事</a></td>
+        <td><span class="theme-bar" style="width:38px"></span><span class="theme-strength">偏强</span></td>
+        <td>油气受益，铀与贵金属却被资金去杠杆</td>
+        <td class="mono">ASPI · VG · ENLT · ELVA</td>
+        <td>3涨 / 1跌</td>
+        <td>未来 2–4 周看霍尔木兹通航量、油气与 LNG 现货价、VG 液化费率与长期合同、以及铀现货/长期合约和核材料订单。若通航继续受限、LNG 价格维持高位，VG 的现金流受益可延续；若局势缓和、能源价格回吐，地缘溢价会下</td>
+      </tr>
+      <tr>
+        <td class="mono">10</td>
+        <td class="name"><a href="#theme-10">商业航天 / 通信 / 先进制造 · 地缘利好未兑现</a></td>
+        <td><span class="theme-bar" style="width:41px"></span><span class="theme-strength">偏弱</span></td>
+        <td>资金流压过订单与通信基础设施叙事</td>
+        <td class="mono">ASTS · VELO · FLY · FEIM</td>
+        <td>2涨 / 3跌</td>
+        <td>未来 2–6 周关注卫星发射与商业合同、ASTS 组网进度、FLY 任务执行、FEIM 的国防时频订单、VOD 的用户与网络投资。若订单和里程碑按期兑现，板块可从资金面折价中分化；若融资、任务延迟或发射失败增加，远期现金</td>
+      </tr>
+      <tr>
+        <td class="mono">11</td>
+        <td class="name"><a href="#theme-11">消费 / 中国平台 / 防守巨头 · 大盘质量轮入</a></td>
+        <td><span class="theme-bar" style="width:31px"></span><span class="theme-strength">偏强</span></td>
+        <td>AAPL 与防守现金流承接科技内部迁移</td>
+        <td class="mono">BEKE · PM · AAPL · JD</td>
+        <td>4涨 / 0跌</td>
+        <td>未来 2–6 周看 AAPL 中国 AI 功能落地、iPhone 与服务收入、中国平台消费数据、BEKE 成交与 JD 零售利润率，以及 PM 销量与无烟产品。若这些公司用收入和现金流确认资金轮入，主线可延续；若只是半导</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><span class="kicker">§3 · 本周 5 个最重要信号 · 深度归因</span></p>
+  <div class="note-block"><span class="kicker">信号 1 · 资本效率压过需求强度</span><p><strong>核心逻辑：TSMC 基本面上修却因 capex 上修引发 SOXX −10.24，说明市场当前首先定价投入回报时差，而不是需求是否存在。</strong>TSMC 营收、全年增长、3nm 和 CoWoS 都偏强，但 capex 600–640 亿美元触发 overbuild 担忧；NBIS capex 200–250 亿美元、产能到 2027 初才贡献收入，形成云侧同构验证。该信号聚焦资本效率，不等同于 AI 需求崩塌。</p></div>
+  <div class="note-block"><span class="kicker">信号 2 · 企业预算真实迁往服务器、存储和内存</span><p><strong>核心逻辑：IBM 的利润预警反向确认 AI 基础设施采购仍强，只是传统软件和主机成为预算挤占的输家。</strong>IBM 初步收入 172 亿美元、基础设施 −7%，但公司明确称客户在季度末抢购供给受限的服务器、存储和内存；因此 IBM −26.04 不能被简单外推成企业 IT 总需求萎缩，而应拆成预算份额迁移。</p></div>
+  <div class="note-block"><span class="kicker">信号 3 · 招聘服务出现可验证盈利拐点</span><p><strong>核心逻辑：MAN 的收入、利润与三季度指引同步改善，把招聘链从防守轮动升级成基本面 alpha。</strong>二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元，三季度 EPS 0.96–1.06 美元；MAN +35.21 带动 RHI +29.01、FA +14.38、CTAS +13.81。后续需用 RHI/ADP/PAYX 财报扩散验证。</p></div>
+  <div class="note-block"><span class="kicker">信号 4 · 安全预算成为企业软件内部对手盘</span><p><strong>核心逻辑：IBM 暴露传统软件项目延期的同时，网络安全问题本身提高安全支出优先级，资金因此轮入 PANW/CRWD/SAIL。</strong>PANW +10.05、CRWD +8.49、SAIL +14.37、S +9.45、RPD +9.22 形成同向承接；这不是所有软件普涨，BB −18.05 和 APPS −21.02 提醒板块内部仍需逐票验证 ARR 与续约。</p></div>
+  <div class="note-block"><span class="kicker">信号 5 · 地缘溢价只选择能源现金流</span><p><strong>核心逻辑：霍尔木兹升级推动 XLE 与 VG 上涨，却没有带动黄金、金矿和铀，说明资金只买可立即兑现的能源现金流。</strong>XLE +4.72、VG +12.75，VG 二季度液化费环比 +69%；与此同时 GDX −5.57、GDXJ −6.76、URA −9.87。旁证是 XLP/XLRE 也获防守资金，而高 beta 核材料 ASPI −22.55。</p></div>
+</section>
+
+<section class="sec" id="focus">
+  <div class="sec-num">★ FOCUS</div>
+  <h2 class="sec-title">本周 <em>6 个重点事件</em> 深读</h2>
+  <div class="sec-sub">从最大波动、最硬催化与产业 read-through 中选取</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-title">MAN · ManpowerGroup Inc. · <span class="pos">+35</span></div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.57B · 财报型</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·7 月 16 日二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元；三季度 EPS 指引 0.96–1.06 美元，需求改善与成本纪律形成真 alpha。</p><p><span class="kicker">二阶判断</span>·未来 2–4 周的关键窗口是 RHI、ADP、PAYX、CBZ 等财报与就业数据。若临时用工、专业招聘、RPO、薪酬处理量和客户新增同步改善，MAN 的 alpha 可向同业扩散；若 MAN 的增长主要来自地区汇率、资产出售或一次性成本，且同业没有订单确认，则板块涨幅将回到事件驱动而非行业拐点。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">IBM · International Business Machines Corporation · <span class="neg">-26</span></div>
+      <div class="card-meta"><span class="tag l1">L1</span> $243B · 预警型</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·7 月 14 日 IBM 披露二季度初步收入 172 亿美元、软件 +5%、基础设施 −7%、经营 EPS 2.93 美元；客户在 6 月末把 capex 转向服务器、存储和内存，多个大型交易延期。</p><p><span class="kicker">二阶判断</span>·未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价、订单却没有同步抬升，资金会继续压缩重资产链的估值容忍度。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">SNDK · Sandisk Corporation · <span class="neg">-29</span></div>
+      <div class="card-meta"><span class="tag l1">L1</span> $346B · 产业映射</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·CXMT 85 亿美元级 IPO 与新增商品 DRAM 产能重估存储竞争，叠加 TSMC capex 上修后的重资产折价；需求未被证伪，但价格权与资本效率同时被审视。</p><p><span class="kicker">二阶判断</span>·未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价、订单却没有同步抬升，资金会继续压缩重资产链的估值容忍度。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">NBIS · Nebius Group N.V. · <span class="neg">-19</span></div>
+      <div class="card-meta"><span class="tag l2">L2</span> $61.6B · 指引下修</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·capex 上修至 200–250 亿美元、而新增产能到 2027 年初才贡献收入，成为市场惩罚重资产前置投入与回报时差的同构样本。</p><p><span class="kicker">二阶判断</span>·未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 capex 继续上修而收入贡献延后、融资成本抬升，Bear Logic 将被强化。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">PANW · Palo Alto Networks, Inc. · <span class="pos">+10</span></div>
+      <div class="card-meta"><span class="tag l1">L1</span> $200B · 产业映射</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·企业 IT 预算内部从传统软件与硬件拥挤交易迁往安全平台，平台化与 AI 安全需求提供相对优先级，但仍需 ARR 与大单验证。</p><p><span class="kicker">二阶判断</span>·未来 2–4 周要看 PANW/CRWD/SAIL 的新增 ARR、平台化大单、身份安全续约与 AI 安全产品渗透。IBM 7 月 22 日电话会若进一步确认客户因网络安全问题延迟传统项目，将强化预算承接逻辑；反之，若安全支出只是一次性事件、续约或净留存走弱，板块相对强势会失去基本面支撑。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">VG · Venture Global, Inc. · <span class="pos">+13</span></div>
+      <div class="card-meta"><span class="tag l3">L3</span> $26.4B · 催化剂</div>
+      <div class="card-body"><p><span class="kicker">事件</span>·霍尔木兹供应扰动推高 LNG 定价，公司披露二季度平均液化费环比 +69%，并有欧洲长期供气合同，属于地缘能源溢价的直接受益。</p><p><span class="kicker">二阶判断</span>·未来 2–4 周看霍尔木兹通航量、油气与 LNG 现货价、VG 液化费率与长期合同、以及铀现货/长期合约和核材料订单。若通航继续受限、LNG 价格维持高位，VG 的现金流受益可延续；若局势缓和、能源价格回吐，地缘溢价会下降。ASPI 需要独立订单和融资数据，不能仅靠核能叙事。 核心不是价格追随，而是下一窗口能否用订单、指引或现金流验证。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="important-companies">
+  <div class="sec-num">★ 重要公司</div>
+  <h2 class="sec-title">跨主线 <em>20 家重要公司</em></h2>
+  <div class="sec-sub">按 |1W| 排序，保留事件与下一验证点</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-title">MAN · ManpowerGroup Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.57B · 1W <span class="pos">+35</span></div>
+      <div class="card-body">7 月 16 日二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元；三季度 EPS 指引 0.96–1.06 美元，需求改善与成本纪律形成真 alpha。 <strong>验证：</strong>未来 2–4 周的关键窗口是 RHI、ADP、PAYX、CBZ 等财报与就业数据。若临时用工、专业招聘、RPO、薪酬处理量和客户新增同步改善，MAN 的 alpha 可向同业扩散；若 MAN 的增长主要来自地区汇率、资产出售或一次性成本，且</div>
+    </div>
+    <div class="card">
+      <div class="card-title">WYFI · WhiteFiber, Inc. Ordinary Shares</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.42B · 1W <span class="neg">-35</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 c</div>
+    </div>
+    <div class="card">
+      <div class="card-title">GRRR · Gorilla Technology Group Inc.</div>
+      <div class="card-meta"><span class="tag l5">L5</span> $0.42B · 1W <span class="neg">-33</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 c</div>
+    </div>
+    <div class="card">
+      <div class="card-title">SNDK · Sandisk Corporation</div>
+      <div class="card-meta"><span class="tag l1">L1</span> $346B · 1W <span class="neg">-29</span></div>
+      <div class="card-body">CXMT 85 亿美元级 IPO 与新增商品 DRAM 产能重估存储竞争，叠加 TSMC capex 上修后的重资产折价；需求未被证伪，但价格权与资本效率同时被审视。 <strong>验证：</strong>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价</div>
+    </div>
+    <div class="card">
+      <div class="card-title">RHI · Robert Half Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $3.08B · 1W <span class="pos">+29</span></div>
+      <div class="card-body">劳动力市场触底预期与分析师上调叠加 MAN 业绩 read-through，形成招聘服务链直接映射；公司自身后续财报仍需验证永久招聘和利润率。 <strong>验证：</strong>未来 2–4 周的关键窗口是 RHI、ADP、PAYX、CBZ 等财报与就业数据。若临时用工、专业招聘、RPO、薪酬处理量和客户新增同步改善，MAN 的 alpha 可向同业扩散；若 MAN 的增长主要来自地区汇率、资产出售或一次性成本，且</div>
+    </div>
+    <div class="card">
+      <div class="card-title">ALAB · Astera Labs, Inc. Common Stock</div>
+      <div class="card-meta"><span class="tag l2">L2</span> $68.2B · 1W <span class="neg">-26</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–4 周的关键窗口是 hyperscaler 二季度 capex、MRVL/ALAB/CRDO 的订单与毛利率评论、以及设备端对先进封装和 2nm 投资节奏的确认。若订单、backlog 与毛利率继续抬升，SOXX 的大幅回撤应被归</div>
+    </div>
+    <div class="card">
+      <div class="card-title">IBM · International Business Machines Corporation</div>
+      <div class="card-meta"><span class="tag l1">L1</span> $243B · 1W <span class="neg">-26</span></div>
+      <div class="card-body">7 月 14 日 IBM 披露二季度初步收入 172 亿美元、软件 +5%、基础设施 −7%、经营 EPS 2.93 美元；客户在 6 月末把 capex 转向服务器、存储和内存，多个大型交易延期。 <strong>验证：</strong>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价</div>
+    </div>
+    <div class="card">
+      <div class="card-title">DSGR · Distribution Solutions Group, Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.26B · 1W <span class="pos">+26</span></div>
+      <div class="card-body">未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。 <strong>验证：</strong>未来 2–6 周关注铁路联运量、卡车现货与合同运价、港口吞吐、燃油附加费、建筑项目 backlog 和工业分销有机增长。若 UNP/HUBG/RXO 等确认货量和价格改善，主线可由资金轮入升级为盈利修复；若油价上升只推高成本、货量没有同步增</div>
+    </div>
+    <div class="card">
+      <div class="card-title">BLZE · Backblaze, Inc.</div>
+      <div class="card-meta"><span class="tag l5">L5</span> $0.81B · 1W <span class="neg">-25</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价</div>
+    </div>
+    <div class="card">
+      <div class="card-title">PENG · Penguin Solutions, Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $3.51B · 1W <span class="neg">-23</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价</div>
+    </div>
+    <div class="card">
+      <div class="card-title">ASPI · ASP Isotopes Inc. Common Stock</div>
+      <div class="card-meta"><span class="tag l5">L5</span> $0.53B · 1W <span class="neg">-23</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立新事件；与 URA −9.87 同向，先按核材料高 beta 去杠杆处理，不从价格反推订单或技术变化。 <strong>验证：</strong>未来 2–4 周看霍尔木兹通航量、油气与 LNG 现货价、VG 液化费率与长期合同、以及铀现货/长期合约和核材料订单。若通航继续受限、LNG 价格维持高位，VG 的现金流受益可延续；若局势缓和、能源价格回吐，地缘溢价会下降。ASPI 需要独</div>
+    </div>
+    <div class="card">
+      <div class="card-title">RXT · Rackspace Technology, Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.59B · 1W <span class="neg">-22</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 c</div>
+    </div>
+    <div class="card">
+      <div class="card-title">CRDO · Credo Technology Group Holding Ltd</div>
+      <div class="card-meta"><span class="tag l2">L2</span> $50.0B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–4 周的关键窗口是 hyperscaler 二季度 capex、MRVL/ALAB/CRDO 的订单与毛利率评论、以及设备端对先进封装和 2nm 投资节奏的确认。若订单、backlog 与毛利率继续抬升，SOXX 的大幅回撤应被归</div>
+    </div>
+    <div class="card">
+      <div class="card-title">MXL · MaxLinear, Inc.</div>
+      <div class="card-meta"><span class="tag l3">L3</span> $8.46B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–4 周的关键窗口是 hyperscaler 二季度 capex、MRVL/ALAB/CRDO 的订单与毛利率评论、以及设备端对先进封装和 2nm 投资节奏的确认。若订单、backlog 与毛利率继续抬升，SOXX 的大幅回撤应被归</div>
+    </div>
+    <div class="card">
+      <div class="card-title">ASTS · AST SpaceMobile, Inc.</div>
+      <div class="card-meta"><span class="tag l3">L3</span> $26.7B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“资金流压过订单与通信基础设施叙事”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周关注卫星发射与商业合同、ASTS 组网进度、FLY 任务执行、FEIM 的国防时频订单、VOD 的用户与网络投资。若订单和里程碑按期兑现，板块可从资金面折价中分化；若融资、任务延迟或发射失败增加，远期现金流折价会继续。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">APPS · Digital Turbine, Inc.</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $1.23B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“资本效率偏好推动轻资产软件修复”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周看 ADBE/INTU/GWRE 的 AI 产品增量、续约、净留存和利润率，以及 FIG 的新增客户与协作席位扩张。若软件公司能把 AI 功能转为价格、ARPU 或续约提升，轮动可升级为盈利驱动；若企业预算继续被服务器与内存</div>
+    </div>
+    <div class="card">
+      <div class="card-title">MRAM · Everspin Technologies, Inc.</div>
+      <div class="card-meta"><span class="tag l5">L5</span> $0.51B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价</div>
+    </div>
+    <div class="card">
+      <div class="card-title">CIFR · Cipher Mining Inc.</div>
+      <div class="card-meta"><span class="tag l3">L3</span> $10.5B · 1W <span class="neg">-21</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 c</div>
+    </div>
+    <div class="card">
+      <div class="card-title">QNT · Quantinuum Inc. Class A Common Stock</div>
+      <div class="card-meta"><span class="tag l4">L4</span> $2.25B · 1W <span class="neg">-20</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 c</div>
+    </div>
+    <div class="card">
+      <div class="card-title">VELO · Velo3D, Inc.</div>
+      <div class="card-meta"><span class="tag l5">L5</span> $0.34B · 1W <span class="neg">-20</span></div>
+      <div class="card-body">未核实到足以解释本周跌幅的独立公司事件，先按“资金流压过订单与通信基础设施叙事”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。 <strong>验证：</strong>未来 2–6 周关注卫星发射与商业合同、ASTS 组网进度、FLY 任务执行、FEIM 的国防时频订单、VOD 的用户与网络投资。若订单和里程碑按期兑现，板块可从资金面折价中分化；若融资、任务延迟或发射失败增加，远期现金流折价会继续。</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="theme-02" data-aiscope="1">
+  <div class="sec-num">§02</div>
+  <h2 class="sec-title">AI 存储与系统 · <em>资本开支惩罚 + 预算迁移</em></h2>
+  <div class="sec-sub">需求仍强，但重资产前置投入被重新定价</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍强，却也触发市场从“奖励扩张”切换到“惩罚重资产前置投入”。IBM 的预警进一步说明企业预算没有消失，而是在季度末被服务器、存储和内存抢走；这对存储介质是需求证据，对传统主机与软件则是预算挤占。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来两周的关键窗口是 7 月 22 日 IBM 正式电话会、NAND/DRAM 现货与合约价、以及大型云厂商二季度 capex 指引。若企业客户继续提前锁定存储和内存，且合约价保持强势，需求侧可验证；若 capex 上修继续只换来现金流折价、订单却没有同步抬升，资金会继续压缩重资产链的估值容忍度。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本周存储与系统链不是单一利空：SNDK、PENG、MRAM 与 BLZE 的大跌，来自 CXMT 商品 DRAM 竞争、Meta overbuild 叙事以及 TSMC capex 上修后的拥挤交易去杠杆；IBM 则是公司层面的预警。SOXX 单周 −10.24，而 SPY 仅 −1.54，说明卖压集中在 AI 硬件与资本密集度，不是信用或宏观系统性压力。IBM −26.04 的独立信息反而证明服务器、存储和内存采购仍在挤占传统 IT 预算。 从横截面看，本主题 5 只标的中 0 只上涨、5 只下跌；最大涨幅 MRAM -21，最大跌幅 SNDK -29。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·IBM 7 月 14 日披露二季度初步收入 172 亿美元、软件收入增长 5%、基础设施收入下降 7%、经营 EPS 2.93 美元；管理层称交易未能按期关闭，客户在 6 月末把 capex 转向服务器、存储和内存。SNDK/PENG/MRAM/BLZE 本周没有新的已报财务数字可作为共同驱动，因此报告不把价格下跌反推成需求崩塌；它们的验证点分别落在存储价格、服务器订单与云存储留存。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·7 月 22 日 IBM 正式电话会是第一硬时点，市场会核对全年指引、z17 节奏与分布式基础设施 37% 增长能否抵消传统业务短板；随后关注 hyperscaler 财报对 2026–2027 capex 的正式口径，以及 CXMT 7 月 27 日上市后的产能、良率与商品 DRAM 价格传导。价格企稳本身不是报告判断条件，订单、合约价、库存天数和 capex 回报率才是。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链要拆成三层：上游存储介质与先进封装，中游服务器/系统集成，下游企业与云客户。IBM 预算迁移对上游需求是正证据，对自身软件和主机是负证据；SNDK/MRAM 暴露于存储价格与竞争，PENG 暴露于服务器订单，BLZE 暴露于云存储消费。四维度中订单仍有需求证据、价格受竞争扰动、库存尚无统一恶化数据、capex 明显加速，因此结论是结构性分化而非需求终止。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="L" data-src="US Daily 2026-07-15|TSMC Q2 2026 2026-07-16">
+      <td class="tk">SNDK</td>
+      <td class="name">Sandisk Corporation</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$346B</span></td>
+      <td class="num neg">-29</td>
+      <td class="num neg">-32</td>
+      <td class="num pos">+47</td>
+      <td><span class="tag t-map-d">产业映射</span></td>
+      <td><strong>本周边际变化</strong>：Sandisk Corporation（SNDK）1W <span class="hl">-29</span>，1M -32、3M +47；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。CXMT 85 亿美元级 IPO 与新增商品 DRAM 产能重估存储竞争，叠加 TSMC capex 上修后的重资产折价；需求未被证伪，但价格权与资本效率同时被审视。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Hardware, Equipment &amp; Parts，处在“需求仍强，但重资产前置投入被重新定价”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“产业映射”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 SNDK 的收盘数据来自 FMP 2026-07-17。主题处于 AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">PENG</td>
+      <td class="name">Penguin Solutions, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$3.51B</span></td>
+      <td class="num neg">-23</td>
+      <td class="num">0</td>
+      <td class="num pos">+132</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Penguin Solutions, Inc.（PENG）1W <span class="hl">-23</span>，1M 0、3M +132；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Hardware, Equipment &amp; Parts，处在“需求仍强，但重资产前置投入被重新定价”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 PENG 的收盘数据来自 FMP 2026-07-17。主题处于 AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="IBM investor letter 2026-07-14">
+      <td class="tk">IBM</td>
+      <td class="name">International Business Machines Corporation</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$243B</span></td>
+      <td class="num neg">-26</td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-15</td>
+      <td><span class="tag t-guide-cut">预警型</span></td>
+      <td><strong>本周边际变化</strong>：International Business Machines Corporation（IBM）1W <span class="hl">-26</span>，1M -21、3M -15；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。7 月 14 日 IBM 披露二季度初步收入 172 亿美元、软件 +5%、基础设施 −7%、经营 EPS 2.93 美元；客户在 6 月末把 capex 转向服务器、存储和内存，多个大型交易延期。<br>
+          <strong>财报</strong>：7 月 14 日 IBM 披露二季度初步收入 172 亿美元、软件 +5%、基础设施 −7%、经营 EPS 2.93 美元；客户在 6 月末把 capex 转向服务器、存储和内存，多个大型交易延期。<br>
+          <strong>产业链</strong>：所属行业为 Information Technology Services，处在“需求仍强，但重资产前置投入被重新定价”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“预警型”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 IBM 的收盘数据来自 FMP 2026-07-17。主题处于 AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">MRAM</td>
+      <td class="name">Everspin Technologies, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.51B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-44</td>
+      <td class="num pos">+20</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Everspin Technologies, Inc.（MRAM）1W <span class="hl">-21</span>，1M -44、3M +20；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“需求仍强，但重资产前置投入被重新定价”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 MRAM 的收盘数据来自 FMP 2026-07-17。主题处于 AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BLZE</td>
+      <td class="name">Backblaze, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.81B</span></td>
+      <td class="num neg">-25</td>
+      <td class="num pos">+59</td>
+      <td class="num pos">+231</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Backblaze, Inc.（BLZE）1W <span class="hl">-25</span>，1M +59、3M +231；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“需求仍强，但重资产前置投入被重新定价”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“需求仍强，但重资产前置投入被重新定价”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BLZE 的收盘数据来自 FMP 2026-07-17。主题处于 AI 存储与企业系统处在需求强、资本效率被重新审视的中段分歧期。TSMC 把 2026 年资本开支从 520–560 亿美元上修至 600–640 亿美元，验证先进制程与封装需求仍 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>企业预算明确迁往服务器、存储与内存</li><li>先进制程与封装 capex 继续上修</li><li>存储价格与供应紧张仍是可验证硬数据</li><li>分布式基础设施需求强于传统主机</li><li>订单若兑现可修复资本效率担忧</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>CXMT 扩产重估商品 DRAM 定价权</li><li>capex 上修被市场读成 overbuild</li><li>传统软件与主机预算被基础设施挤占</li><li>高 beta 存储股拥挤度快速出清</li><li>现金流回报滞后会延长估值折价</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-03" data-aiscope="1">
+  <div class="sec-num">§03</div>
+  <h2 class="sec-title">AI 半导体与互连 · <em>SOXX −10.24 的去杠杆震中</em></h2>
+  <div class="sec-sub">基本面上修与估值收缩同周发生</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 capex、过度建设疑虑和前期拥挤持仓。芯片、互连、设备与材料同跌，是资金去杠杆穿透全链，而非十家公司同时出现独立基本面恶化。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–4 周的关键窗口是 hyperscaler 二季度 capex、MRVL/ALAB/CRDO 的订单与毛利率评论、以及设备端对先进封装和 2nm 投资节奏的确认。若订单、backlog 与毛利率继续抬升，SOXX 的大幅回撤应被归为资本效率折价；若云厂商削减建设、互连订单推迟或库存显著抬升，才会把本周价格信号升级为产业拐点。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·ALAB −26.48、CRDO −21.38、MXL −21.31、MRVL −19.99 等形成高度一致的负向横截面，强度远大于 QQQ −4.16，说明本周是 AI 硬件专属去杠杆。7 月 15 日 CXMT IPO 重新定价商品内存竞争，Meta Compute 的过剩算力叙事压制服务器与网络，7 月 16 日 TSMC capex 上修又让市场担忧重资产回报；三层叙事叠加，把互连、芯片和设备一起压低。AEHR +11.64 与 TSEM +5.10 是少数正向例外，证明不是行业需求全面冻结。 从横截面看，本主题 10 只标的中 2 只上涨、8 只下跌；最大涨幅 AEHR +12，最大跌幅 ALAB -26。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·TSMC 二季度财报是本周最重要的上游读数：营收约 402 亿美元、全年收入增长目标上修至 40% 以上、3nm 稼动率高位、CoWoS 仍是瓶颈，同时 capex 上修至 600–640 亿美元。AEHR 的前期财报 beat 与 AI/碳化硅测试订单提供个股反证。其余标的若无独立财报，不在本报告中虚构 beat/miss；本周归因以板块去杠杆和已核实事件为主。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·短期先看 TSMC/ASML 会议后的卖方订单修正，再看 7 月下旬至 8 月的连接芯片和设备财报。CXMT 7 月 27 日上市后的量产节奏是商品 DRAM 竞争的外生验证；云厂商 capex 则决定 overbuild 叙事是否有实际订单削减。报告只把可观测的订单、价格、库存、capex 作为闸门，不把单周跌幅当作产业结论。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·上游是晶圆制造、设备材料和先进封装，中游是 PCIe/CXL、SerDes、DSP、存储控制与模拟芯片，下游是 GPU 服务器、交换机和云数据中心。TSMC capex 与 CoWoS 紧张支撑上游订单，CXMT 冲击商品存储竞争，Meta overbuild 影响中下游预期。四维信号呈现订单未破、价格分化、库存待观察、capex 加速的组合，因此主题结论是“产业强、资本效率折价更强”。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ALAB</td>
+      <td class="name">Astera Labs, Inc. Common Stock</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$68.2B</span></td>
+      <td class="num neg">-26</td>
+      <td class="num neg">-16</td>
+      <td class="num pos">+78</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Astera Labs, Inc. Common Stock（ALAB）1W <span class="hl">-26</span>，1M -16、3M +78；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ALAB 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CRDO</td>
+      <td class="name">Credo Technology Group Holding Ltd</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$50.0B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-15</td>
+      <td class="num pos">+28</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Credo Technology Group Holding Ltd（CRDO）1W <span class="hl">-21</span>，1M -15、3M +28；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Communication Equipment，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CRDO 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">MXL</td>
+      <td class="name">MaxLinear, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$8.46B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-15</td>
+      <td class="num pos">+208</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：MaxLinear, Inc.（MXL）1W <span class="hl">-21</span>，1M -15、3M +208；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 MXL 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">AMBA</td>
+      <td class="name">Ambarella, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$2.81B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-8</td>
+      <td class="num pos">+8</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Ambarella, Inc.（AMBA）1W <span class="hl">-20</span>，1M -8、3M +8；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 AMBA 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="US Daily 2026-07-15 analyst downgrade">
+      <td class="tk">MRVL</td>
+      <td class="name">Marvell Technology, Inc.</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$246B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-32</td>
+      <td class="num pos">+41</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本周边际变化</strong>：Marvell Technology, Inc.（MRVL）1W <span class="hl">-20</span>，1M -32、3M +41；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。随 SOXX 去杠杆外，7 月 15 日还叠加定制 ASIC 竞争加剧相关评级下调；板块 beta 与个股竞争担忧共同放大跌幅。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“催化剂”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 MRVL 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">AXTI</td>
+      <td class="name">AXT, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$3.20B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-51</td>
+      <td class="num neg">-44</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：AXT, Inc.（AXTI）1W <span class="hl">-20</span>，1M -51、3M -44；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 AXTI 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">SIMO</td>
+      <td class="name">Silicon Motion Technology Corporation</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$10.9B</span></td>
+      <td class="num neg">-19</td>
+      <td class="num neg">-6</td>
+      <td class="num pos">+93</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Silicon Motion Technology Corporation（SIMO）1W <span class="hl">-19</span>，1M -6、3M +93；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 SIMO 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ACMR</td>
+      <td class="name">ACM Research, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$6.85B</span></td>
+      <td class="num neg">-19</td>
+      <td class="num neg">-8</td>
+      <td class="num pos">+75</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：ACM Research, Inc.（ACMR）1W <span class="hl">-19</span>，1M -8、3M +75；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“基本面上修与估值收缩同周发生”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ACMR 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="US Daily 2026-07-15 Q4 earnings">
+      <td class="tk">AEHR</td>
+      <td class="name">Aehr Test Systems</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$3.11B</span></td>
+      <td class="num pos">+12</td>
+      <td class="num neg">-23</td>
+      <td class="num">0</td>
+      <td><span class="tag t-er">财报型</span></td>
+      <td><strong>本周边际变化</strong>：Aehr Test Systems（AEHR）1W <span class="hl">+12</span>，1M -23、3M 0；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。前期 Q4 财报 beat 与 AI/碳化硅测试订单支撑，本周在半导体普跌中逆势上涨，是设备端需求未全面恶化的个股反证。<br>
+          <strong>财报</strong>：前期 Q4 财报 beat 与 AI/碳化硅测试订单支撑，本周在半导体普跌中逆势上涨，是设备端需求未全面恶化的个股反证。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“财报型”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 AEHR 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">TSEM</td>
+      <td class="name">Tower Semiconductor Ltd.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$30.2B</span></td>
+      <td class="num pos">+5</td>
+      <td class="num neg">-13</td>
+      <td class="num pos">+9</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Tower Semiconductor Ltd.（TSEM）1W <span class="hl">+5</span>，1M -13、3M +9；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“基本面上修与估值收缩同周发生”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“基本面上修与估值收缩同周发生”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 TSEM 的收盘数据来自 FMP 2026-07-17。主题处于 AI 半导体仍在订单与产能扩张中段，但本周进入资本强度与竞争格局的再定价阶段。TSMC 二季度营收与全年增长目标上修、先进封装依旧紧张，说明需求端没有同步转弱；市场真正惩罚的是更高 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>TSMC 营收与全年增长目标继续上修</li><li>CoWoS 与先进封装仍是供给瓶颈</li><li>互连升级随 GPU 集群规模扩大</li><li>AEHR/TSEM 逆势提供需求反证</li><li>订单若延续可证伪全面 overbuild</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>TSMC capex 上修触发回报率担忧</li><li>CXMT 扩产压制商品存储定价权</li><li>Meta Compute 强化过度建设叙事</li><li>高 beta 互连股跌幅显著放大</li><li>库存或订单推迟会把资金面变成基本面</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-04" data-aiscope="1">
+  <div class="sec-num">§04</div>
+  <h2 class="sec-title">算力托管 / 量子 / 矿企 · <em>高 beta 统一收缩</em></h2>
+  <div class="sec-sub">远期容量故事遭遇资本效率检验</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bear Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直接样本；CIFR/IREN 等矿企转型与量子标的则因远期现金流、融资需求和高 beta 属性同步收缩。这里不能用静态估值否定，而要看融资可得性、签约容量、客户预付款与投产节奏。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–6 周的关键窗口包括 NBIS 对 2027 初产能贡献的合同披露、矿企 AI/HPC 托管客户与融资结构、量子公司的政府/企业订单，以及 HYG 信用利差是否继续稳定。若新增容量由长期合同和预付款覆盖，资本效率压力可缓解；若 capex 继续上修而收入贡献延后、融资成本抬升，Bear Logic 将被强化。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·WYFI −34.68、GRRR −32.92、RXT −22.28、CIFR −20.58、QNT −20.41、NBIS −19.09、IONQ −18.85、CBRS −19.63、IREN −18.28，九只全跌且多数跌幅接近或超过 20%。与此同时 HYG 仅 −0.08、TLT +0.06，说明市场并非因信用或利率系统性恶化而抛售，而是在主动降低远期资本密集型成长暴露。该组的横截面一致性，是本周“资本效率优先于容量故事”的最清晰证据。 从横截面看，本主题 9 只标的中 0 只上涨、9 只下跌；最大涨幅 IREN -18，最大跌幅 WYFI -35。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组没有统一的当周财报催化。NBIS 的核心变量是 capex 与产能时点，RXT/BLZE 类云基础设施要看续约与现金流，CIFR/IREN 要看 AI/HPC 合同和电力成本，QNT/IONQ/CBRS 则要看订单、技术里程碑与融资。报告对未核实的单票事件统一写无明确独立催化，避免从 −20% 左右跌幅反推技术失败或订单取消。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·下周优先观察 NBIS 是否给出更具体的客户锁定和产能利用率，矿企是否披露可验证的 AI 托管合同，量子公司是否有政府拨款或商业订单。信用环境仍平稳，因此真正的二阶变量是权益融资稀释与 capex 回报时差。若 HYG 维持稳定而本组继续弱，进一步证明是主题拥挤度和资本效率折价，而非宏观 risk-off。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·该组的产业链跨越数据中心土地电力、GPU/服务器采购、云托管合同、矿企电力资产和量子硬件。共同点不是业务同质，而是先投入后收入、融资需求高、现金流久期长。订单维度缺少全面恶化证据，价格维度由算力租赁和电价决定，库存维度主要是服务器交付，capex 维度显著上升；四维组合使资金先压缩最远期的估值久期。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">WYFI</td>
+      <td class="name">WhiteFiber, Inc. Ordinary Shares</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.42B</span></td>
+      <td class="num neg">-35</td>
+      <td class="num neg">-29</td>
+      <td class="num pos">+57</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：WhiteFiber, Inc. Ordinary Shares（WYFI）1W <span class="hl">-35</span>，1M -29、3M +57；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Information Technology Services，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 WYFI 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">GRRR</td>
+      <td class="name">Gorilla Technology Group Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.42B</span></td>
+      <td class="num neg">-33</td>
+      <td class="num neg">-32</td>
+      <td class="num neg">-4</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Gorilla Technology Group Inc.（GRRR）1W <span class="hl">-33</span>，1M -32、3M -4；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 GRRR 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">RXT</td>
+      <td class="name">Rackspace Technology, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.59B</span></td>
+      <td class="num neg">-22</td>
+      <td class="num neg">-33</td>
+      <td class="num pos">+212</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Rackspace Technology, Inc.（RXT）1W <span class="hl">-22</span>，1M -33、3M +212；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 RXT 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CIFR</td>
+      <td class="name">Cipher Mining Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$10.5B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-33</td>
+      <td class="num pos">+1</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Cipher Mining Inc.（CIFR）1W <span class="hl">-21</span>，1M -33、3M +1；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Financial - Capital Markets，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CIFR 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">QNT</td>
+      <td class="name">Quantinuum Inc. Class A Common Stock</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$2.25B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num pos">+1</td>
+      <td class="num">—</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Quantinuum Inc. Class A Common Stock（QNT）1W <span class="hl">-20</span>，1M +1、3M —；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Computer Hardware，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 QNT 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="US Daily 2026-07-16 capex 20-25B">
+      <td class="tk">NBIS</td>
+      <td class="name">Nebius Group N.V.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$61.6B</span></td>
+      <td class="num neg">-19</td>
+      <td class="num neg">-33</td>
+      <td class="num pos">+7</td>
+      <td><span class="tag t-guide-cut">指引下修</span></td>
+      <td><strong>本周边际变化</strong>：Nebius Group N.V.（NBIS）1W <span class="hl">-19</span>，1M -33、3M +7；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。capex 上修至 200–250 亿美元、而新增产能到 2027 年初才贡献收入，成为市场惩罚重资产前置投入与回报时差的同构样本。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Internet Content &amp; Information，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“指引下修”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 NBIS 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">IONQ</td>
+      <td class="name">IonQ, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$18.9B</span></td>
+      <td class="num neg">-19</td>
+      <td class="num neg">-38</td>
+      <td class="num neg">-22</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：IonQ, Inc.（IONQ）1W <span class="hl">-19</span>，1M -38、3M -22；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Computer Hardware，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 IONQ 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CBRS</td>
+      <td class="name">Cerebras Systems Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$37.5B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-19</td>
+      <td class="num">—</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Cerebras Systems Inc.（CBRS）1W <span class="hl">-20</span>，1M -19、3M —；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Semiconductors，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CBRS 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">IREN</td>
+      <td class="name">IREN Limited</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$17.0B</span></td>
+      <td class="num neg">-18</td>
+      <td class="num neg">-43</td>
+      <td class="num neg">-30</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：IREN Limited（IREN）1W <span class="hl">-18</span>，1M -43、3M -30；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“远期容量故事遭遇资本效率检验”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Financial - Capital Markets，处在“远期容量故事遭遇资本效率检验”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 IREN 的收盘数据来自 FMP 2026-07-17。主题处于 算力托管、量子和矿企转型共同处在远期收入兑现前、资本支出先行的高敏感阶段。本周 NBIS capex 上修至 200–250 亿美元但产能兑现更晚，成为“重资产前置投入被惩罚”的直 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>长期合同覆盖新增容量</li><li>客户预付款降低融资压力</li><li>HYG 稳定说明信用渠道未关</li><li>电力与土地资产仍有稀缺性</li><li>政府订单可缩短量子商业化久期</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>九只标的单周全线大跌</li><li>capex 先行而收入贡献延后</li><li>权益融资稀释风险高</li><li>量子商业化现金流久期过长</li><li>算力租赁价格若回落将压缩回报</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-05">
+  <div class="sec-num">§05</div>
+  <h2 class="sec-title">网络安全与基础软件 · <em>预算承接的对手盘</em></h2>
+  <div class="sec-sub">IBM 预警后，安全预算获得相对优先级</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；PANW、CRWD、SAIL、S、RPD 同步上涨，构成企业 IT 预算内部再分配的对手盘。该主线不是所有软件普涨，而是安全与传统软件的相对强弱切换。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–4 周要看 PANW/CRWD/SAIL 的新增 ARR、平台化大单、身份安全续约与 AI 安全产品渗透。IBM 7 月 22 日电话会若进一步确认客户因网络安全问题延迟传统项目，将强化预算承接逻辑；反之，若安全支出只是一次性事件、续约或净留存走弱，板块相对强势会失去基本面支撑。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·PANW +10.05、CRWD +8.49、SAIL +14.37、S +9.45、RPD +9.22、NABL +12.77，只有 BB −18.05 逆势。资金从 AI 硬件和传统企业软件撤出时，网络安全成为少数明确承接方向。CRWD 7 月 2 日 4:1 拆股导致 1M/3M 不可比，本报告只使用干净的 1W；BB 的下跌不能被硬塞进板块多头叙事，需单独标记为反向个股或高 beta 去杠杆。 从横截面看，本主题 7 只标的中 6 只上涨、1 只下跌；最大涨幅 SAIL +14，最大跌幅 BB -18。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组当周没有一套可共同引用的财报数字，因而报告不虚构统一 beat。可核实的硬信息来自 IBM：客户在季度内被快速演化的行业级网络安全问题分散注意力，造成大型交易延期。该信息支持安全预算优先级，但不能代替各公司自身 ARR、RPO、净留存和盈利指引；后续财报必须逐一验证。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·7 月 22 日 IBM 电话会是外部验证，随后关注网络安全龙头财报与渠道调查。平台化订单、身份安全、终端防护和云安全的新增合同是产业信号；单日上涨或卖方目标价不是闸门。若 PANW/CRWD 等在订单和续约层面同步确认，主线从资金轮动升级为基本面；若只有价格上涨而 ARR 放缓，则维持谨慎。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链从身份与访问管理、终端安全、云工作负载到平台化整合。上游是算力与威胁情报，中游是安全软件平台，下游是企业与政府客户。订单维度看大单和续约，价格维度看平台化折扣与座席扩张，库存不适用但要看实施 backlog，capex 维度相对轻；因此本周在重资产折价环境里，轻资产安全软件获得资金相对偏好。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BB</td>
+      <td class="name">BlackBerry Limited</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$6.06B</span></td>
+      <td class="num neg">-18</td>
+      <td class="num neg">-2</td>
+      <td class="num pos">+92</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：BlackBerry Limited（BB）1W <span class="hl">-18</span>，1M -2、3M +92；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“IBM 预警后，安全预算获得相对优先级”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BB 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">SAIL</td>
+      <td class="name">SailPoint, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$7.20B</span></td>
+      <td class="num pos">+14</td>
+      <td class="num pos">+11</td>
+      <td class="num pos">+34</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：SailPoint, Inc.（SAIL）1W <span class="hl">+14</span>，1M +11、3M +34；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“IBM 预警后，安全预算获得相对优先级”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 SAIL 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">NABL</td>
+      <td class="name">N-able, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.60B</span></td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+50</td>
+      <td class="num neg">-7</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：N-able, Inc.（NABL）1W <span class="hl">+13</span>，1M +50、3M -7；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“IBM 预警后，安全预算获得相对优先级”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Information Technology Services，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 NABL 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="IBM investor letter 2026-07-14|US Daily 2026-07-14">
+      <td class="tk">PANW</td>
+      <td class="name">Palo Alto Networks, Inc.</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$200B</span></td>
+      <td class="num pos">+10</td>
+      <td class="num pos">+28</td>
+      <td class="num pos">+115</td>
+      <td><span class="tag t-map-d">产业映射</span></td>
+      <td><strong>本周边际变化</strong>：Palo Alto Networks, Inc.（PANW）1W <span class="hl">+10</span>，1M +28、3M +115；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。企业 IT 预算内部从传统软件与硬件拥挤交易迁往安全平台，平台化与 AI 安全需求提供相对优先级，但仍需 ARR 与大单验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“产业映射”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 PANW 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">S</td>
+      <td class="name">SentinelOne, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$5.04B</span></td>
+      <td class="num pos">+9</td>
+      <td class="num pos">+30</td>
+      <td class="num pos">+40</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：SentinelOne, Inc.（S）1W <span class="hl">+9</span>，1M +30、3M +40；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“IBM 预警后，安全预算获得相对优先级”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 S 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">RPD</td>
+      <td class="name">Rapid7, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.47B</span></td>
+      <td class="num pos">+9</td>
+      <td class="num pos">+76</td>
+      <td class="num pos">+111</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Rapid7, Inc.（RPD）1W <span class="hl">+9</span>，1M +76、3M +111；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“IBM 预警后，安全预算获得相对优先级”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 RPD 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="IBM investor letter 2026-07-14|US Daily 2026-07-14">
+      <td class="tk">CRWD</td>
+      <td class="name">CrowdStrike Holdings, Inc.</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$173B</span></td>
+      <td class="num pos">+8</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td><span class="tag t-map-d">产业映射</span></td>
+      <td><strong>本周边际变化</strong>：CrowdStrike Holdings, Inc.（CRWD）1W <span class="hl">+8</span>，1M —、3M —；相对大盘表现温和，方向主要由本主题的资金再配置决定。IBM 预警暴露企业预算从传统软件迁移、且网络安全问题影响交易节奏，资金把 CRWD 视为安全预算优先级的直接承接；仅 1W 数据可比。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Infrastructure，处在“IBM 预警后，安全预算获得相对优先级”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“产业映射”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CRWD 的收盘数据来自 FMP 2026-07-17。主题处于 网络安全处于平台化、身份安全与 AI 风险治理叠加的需求中段。本周 IBM 披露客户同时被快速演化的行业级网络安全问题分散注意力，软件与主机预算受挤占，但安全预算反而保持优先级；P 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>IBM 明确指出网络安全问题影响客户决策</li><li>安全预算相对传统软件优先级更高</li><li>PANW/CRWD/SAIL 同向上涨</li><li>平台化可提升大客户渗透与粘性</li><li>轻资产模式受资本效率偏好支持</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>BB 与板块方向相反</li><li>安全支出可能只是事件性提前采购</li><li>平台化折扣或压制短期利润率</li><li>拆股数据需剔除不可比窗口</li><li>ARR/净留存若走弱会证伪资金轮动</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-06">
+  <div class="sec-num">§06</div>
+  <h2 class="sec-title">应用软件与数字平台 · <em>从 infra 轮向 application</em></h2>
+  <div class="sec-sub">资本效率偏好推动轻资产软件修复</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 application：FIG、GWRE、ADBE、INTU 等上涨，APPS 则 −21.02 逆势。主线不能被写成普遍基本面改善，更准确的定义是资本效率偏好下的选择性修复。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–6 周看 ADBE/INTU/GWRE 的 AI 产品增量、续约、净留存和利润率，以及 FIG 的新增客户与协作席位扩张。若软件公司能把 AI 功能转为价格、ARPU 或续约提升，轮动可升级为盈利驱动；若企业预算继续被服务器与内存挤占、AI 功能只有成本没有收入，板块将再次分化。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·FIG +13.45、GWRE +10.20、ADBE +6.09、INTU +5.87、DJT +13.11、GRPN +6.83、CARS +8.12，而 APPS −21.02。该组涨方多、但业务异质性强：企业应用软件受益于从 infra 向 application 的资金轮动，DJT/GRPN/CARS 更多是平台或特殊情绪，不能共享同一个产业归因；APPS 的高 beta 下跌则说明应用软件内部仍存在广告科技和拥挤交易风险。 从横截面看，本主题 8 只标的中 7 只上涨、1 只下跌；最大涨幅 FIG +13，最大跌幅 APPS -21。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·当周没有足以覆盖全组的统一财报。应用软件验证应回到 ARR、RPO、净留存、AI 产品付费率和自由现金流；数字平台则看用户、广告或交易转化。报告把没有独立事件的上涨标记为轮动或无明确催化，不把股价上涨直接写成订单改善。APPS 的下跌同样不反推客户流失，等待公司披露。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·财报季是下一硬窗口：ADBE 的生成式 AI 商业化、INTU 的小企业与税务产品、GWRE 的云迁移 ARR、FIG 的团队协作渗透率都需要数据确认。IBM 7 月 22 日电话会也会说明预算挤占是否只影响传统主机/软件，还是扩展到应用层。若利率保持中性且资本效率继续受偏好，轻资产软件仍有相对优势。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·上游是云与模型算力，中游是设计、财税、保险、广告与协作应用，下游是企业和消费者。订单维度看订阅与续约，价格维度看 AI 功能提价，库存不适用但要看销售周期与 backlog，capex 维度轻。资金从重资产 AI 硬件撤出后，轻资产 application 获得估值相对优势，但只有收入与现金流兑现才能把短期轮动固化为产业趋势。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">APPS</td>
+      <td class="name">Digital Turbine, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.23B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-11</td>
+      <td class="num pos">+116</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Digital Turbine, Inc.（APPS）1W <span class="hl">-21</span>，1M -11、3M +116；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“资本效率偏好推动轻资产软件修复”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Application，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 APPS 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">FIG</td>
+      <td class="name">Figma, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$8.21B</span></td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+33</td>
+      <td class="num pos">+18</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Figma, Inc.（FIG）1W <span class="hl">+13</span>，1M +33、3M +18；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Application，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 FIG 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">GWRE</td>
+      <td class="name">Guidewire Software, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$9.17B</span></td>
+      <td class="num pos">+10</td>
+      <td class="num pos">+28</td>
+      <td class="num pos">+8</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Guidewire Software, Inc.（GWRE）1W <span class="hl">+10</span>，1M +28、3M +8；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Application，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 GWRE 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ADBE</td>
+      <td class="name">Adobe Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$76.9B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+14</td>
+      <td class="num neg">-4</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Adobe Inc.（ADBE）1W <span class="hl">+6</span>，1M +14、3M -4；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Application，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ADBE 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">INTU</td>
+      <td class="name">Intuit Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$69.8B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+4</td>
+      <td class="num neg">-25</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Intuit Inc.（INTU）1W <span class="hl">+6</span>，1M +4、3M -25；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Software - Application，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 INTU 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">DJT</td>
+      <td class="name">Trump Media &amp; Technology Group Corp.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.96B</span></td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+18</td>
+      <td class="num neg">-2</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Trump Media &amp; Technology Group Corp.（DJT）1W <span class="hl">+13</span>，1M +18、3M -2；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Internet Content &amp; Information，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 DJT 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">GRPN</td>
+      <td class="name">Groupon, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.87B</span></td>
+      <td class="num pos">+7</td>
+      <td class="num pos">+61</td>
+      <td class="num pos">+79</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Groupon, Inc.（GRPN）1W <span class="hl">+7</span>，1M +61、3M +79；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Internet Content &amp; Information，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 GRPN 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CARS</td>
+      <td class="name">Cars.com Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.57B</span></td>
+      <td class="num pos">+8</td>
+      <td class="num pos">+18</td>
+      <td class="num pos">+17</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Cars.com Inc.（CARS）1W <span class="hl">+8</span>，1M +18、3M +17；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资本效率偏好推动轻资产软件修复”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Internet Content &amp; Information，处在“资本效率偏好推动轻资产软件修复”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CARS 的收盘数据来自 FMP 2026-07-17。主题处于 应用软件处于 AI 功能商业化与企业预算再分配的验证期。本周 IBM 预警把“AI capex 挤占传统 IT 预算”公开化，但市场同时把资金从重资产基础设施轮向轻资产 appli 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>轻资产模式符合资本效率偏好</li><li>AI 功能具备提价与增购潜力</li><li>FIG/GWRE/ADBE/INTU 同向修复</li><li>订阅模式提供较高收入可见度</li><li>利率中性减少久期额外压力</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>IBM 预警说明软件预算被基础设施挤占</li><li>APPS 大跌暴露高 beta 风险</li><li>平台类标的缺少统一产业逻辑</li><li>AI 功能可能先增成本后增收入</li><li>续约或净留存放缓会证伪轮动</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-07">
+  <div class="sec-num">§07</div>
+  <h2 class="sec-title">人力招聘与商业服务 · <em>MAN 业绩上修引爆全链</em></h2>
+  <div class="sec-sub">改善需求与成本纪律形成真 alpha</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并给出三季度 EPS 0.96–1.06 美元；管理层明确称需求改善、Manpower 品牌强劲、Experis 与 Talent Solutions 趋势改善。该事件把此前只有轮动支持的招聘链升级为可验证的盈利拐点。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–4 周的关键窗口是 RHI、ADP、PAYX、CBZ 等财报与就业数据。若临时用工、专业招聘、RPO、薪酬处理量和客户新增同步改善，MAN 的 alpha 可向同业扩散；若 MAN 的增长主要来自地区汇率、资产出售或一次性成本，且同业没有订单确认，则板块涨幅将回到事件驱动而非行业拐点。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·MAN +35.21 为全池最大涨幅，RHI +29.01 紧随，FA +14.38、CTAS +13.81、VSTS +13.56、CBZ +12.25，招聘、背景调查、制服租赁和专业服务形成广泛共振。MAN 的硬催化是业绩与指引，RHI 叠加劳动力市场触底与分析师上调，其余多数是 direct map 或资金轮动。该组涨幅集中、但大中小市值均有响应，质量高于单一小票逼空。 从横截面看，本主题 13 只标的中 13 只上涨、0 只下跌；最大涨幅 MAN +35，最大跌幅 ADP +6。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·ManpowerGroup 7 月 16 日披露收入 48.60 亿美元、同比增长 7.5%（固定汇率 5.8%），净利润 5350 万美元、稀释 EPS 1.13 美元，调整后 EPS 0.99 美元；三季度 EPS 指引 0.96–1.06 美元。美国收入增长 6%，部分拉美与南欧市场改善。RHI 与其他同业仍需用后续财报验证，不能直接复制 MAN 的数字。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·下周及月底重点看 RHI 的专业招聘与永久安置、ADP/PAYX 的客户数和 pays per control、CBZ/FA 的咨询与背景调查需求，以及 ADP 就业和初请失业金。MAN 出售 Jefferson Wells 美国业务获得 8800 万美元净现金，需要剥离一次性因素看有机改善。若多个同业同步上修，招聘链的周期拐点可信度显著提高。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链从招聘与 RPO、背景调查、薪酬处理到专业服务和外包。订单维度是职位需求、合同工小时与 RPO 签约，价格维度是 bill/pay spread，库存等价物是未完成职位和候选人池，capex 很轻、核心是 SG&amp;A 效率。MAN 的收入增长与 SG&amp;A 下行共同扩大盈利，说明行业改善与成本纪律同向，这是本周最清晰的非 AI 真 alpha。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="T" data-src="ManpowerGroup Q2 2026 earnings 2026-07-16">
+      <td class="tk">MAN</td>
+      <td class="name">ManpowerGroup Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.57B</span></td>
+      <td class="num pos">+35</td>
+      <td class="num pos">+53</td>
+      <td class="num pos">+69</td>
+      <td><span class="tag t-er">财报型</span></td>
+      <td><strong>本周边际变化</strong>：ManpowerGroup Inc.（MAN）1W <span class="hl">+35</span>，1M +53、3M +69；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。7 月 16 日二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元；三季度 EPS 指引 0.96–1.06 美元，需求改善与成本纪律形成真 alpha。<br>
+          <strong>财报</strong>：7 月 16 日二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元；三季度 EPS 指引 0.96–1.06 美元，需求改善与成本纪律形成真 alpha。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“财报型”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 MAN 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="US Daily 2026-07-13|MAN Q2 2026 read-through">
+      <td class="tk">RHI</td>
+      <td class="name">Robert Half Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$3.08B</span></td>
+      <td class="num pos">+29</td>
+      <td class="num pos">+29</td>
+      <td class="num pos">+58</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本周边际变化</strong>：Robert Half Inc.（RHI）1W <span class="hl">+29</span>，1M +29、3M +58；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。劳动力市场触底预期与分析师上调叠加 MAN 业绩 read-through，形成招聘服务链直接映射；公司自身后续财报仍需验证永久招聘和利润率。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“催化剂”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 RHI 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">FA</td>
+      <td class="name">First Advantage Corporation</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$2.87B</span></td>
+      <td class="num pos">+14</td>
+      <td class="num pos">+34</td>
+      <td class="num pos">+85</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：First Advantage Corporation（FA）1W <span class="hl">+14</span>，1M +34、3M +85；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Specialty Business Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 FA 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CTAS</td>
+      <td class="name">Cintas Corporation</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$67.7B</span></td>
+      <td class="num pos">+14</td>
+      <td class="num pos">+16</td>
+      <td class="num pos">+15</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Cintas Corporation（CTAS）1W <span class="hl">+14</span>，1M +16、3M +15；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Specialty Business Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CTAS 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">VSTS</td>
+      <td class="name">Vestis Corporation</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.82B</span></td>
+      <td class="num pos">+14</td>
+      <td class="num pos">+25</td>
+      <td class="num pos">+74</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Vestis Corporation（VSTS）1W <span class="hl">+14</span>，1M +25、3M +74；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Rental &amp; Leasing Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 VSTS 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">CBZ</td>
+      <td class="name">CBIZ, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.63B</span></td>
+      <td class="num pos">+12</td>
+      <td class="num pos">+24</td>
+      <td class="num pos">+40</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：CBIZ, Inc.（CBZ）1W <span class="hl">+12</span>，1M +24、3M +40；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Specialty Business Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 CBZ 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BZ</td>
+      <td class="name">Kanzhun Limited</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$5.79B</span></td>
+      <td class="num pos">+8</td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+4</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Kanzhun Limited（BZ）1W <span class="hl">+8</span>，1M +13、3M +4；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BZ 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">KFRC</td>
+      <td class="name">Kforce Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.84B</span></td>
+      <td class="num pos">+7</td>
+      <td class="num pos">+22</td>
+      <td class="num pos">+89</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Kforce Inc.（KFRC）1W <span class="hl">+7</span>，1M +22、3M +89；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 KFRC 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BBSI</td>
+      <td class="name">Barrett Business Services, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.84B</span></td>
+      <td class="num pos">+7</td>
+      <td class="num pos">+21</td>
+      <td class="num pos">+36</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Barrett Business Services, Inc.（BBSI）1W <span class="hl">+7</span>，1M +21、3M +36；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BBSI 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">PAYX</td>
+      <td class="name">Paychex, Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$34.6B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+14</td>
+      <td class="num pos">+26</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Paychex, Inc.（PAYX）1W <span class="hl">+6</span>，1M +14、3M +26；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 PAYX 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ADP</td>
+      <td class="name">Automatic Data Processing, Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$86.5B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+15</td>
+      <td class="num pos">+27</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Automatic Data Processing, Inc.（ADP）1W <span class="hl">+6</span>，1M +15、3M +27；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Staffing &amp; Employment Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ADP 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ACN</td>
+      <td class="name">Accenture plc</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$77.0B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num neg">-13</td>
+      <td class="num neg">-26</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Accenture plc（ACN）1W <span class="hl">+6</span>，1M -13、3M -26；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Information Technology Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ACN 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">TRI</td>
+      <td class="name">Thomson Reuters Corporation</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$35.4B</span></td>
+      <td class="num pos">+7</td>
+      <td class="num pos">+19</td>
+      <td class="num pos">+6</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Thomson Reuters Corporation（TRI）1W <span class="hl">+7</span>，1M +19、3M +6；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“改善需求与成本纪律形成真 alpha”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Specialty Business Services，处在“改善需求与成本纪律形成真 alpha”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 TRI 的收盘数据来自 FMP 2026-07-17。主题处于 人力招聘与商业服务处在周期触底后的改善验证阶段。ManpowerGroup 二季度收入 49 亿美元、同比增长 8%，调整后 EPS 0.99 美元、同比按固定汇率增长 27%，并 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>MAN 收入 49 亿美元且同比增长 8%</li><li>调整后 EPS 固定汇率增长 27%</li><li>三季度指引高于此前市场预期</li><li>RHI/FA/CTAS 等同业广泛共振</li><li>轻资产与成本纪律提升盈利弹性</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>部分增长受汇率和地区结构影响</li><li>资产出售抬高当季 GAAP EPS</li><li>同业财报尚未全部确认</li><li>永久招聘若仍弱会压制质量</li><li>就业数据转弱会打断触底叙事</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-08">
+  <div class="sec-num">§08</div>
+  <h2 class="sec-title">工业分销 / 运输物流 · <em>防守轮入与订单弹性</em></h2>
+  <div class="sec-sub">资金从高 beta 科技迁往实体服务</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤交易轮向现金流更可见的实体服务；同时 7 月 16 日日报记录运输物流由 JBHT 财报 read-through 扩散。该组的核心不是宏观全面加速，而是相对防守与个别订单改善。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–6 周关注铁路联运量、卡车现货与合同运价、港口吞吐、燃油附加费、建筑项目 backlog 和工业分销有机增长。若 UNP/HUBG/RXO 等确认货量和价格改善，主线可由资金轮入升级为盈利修复；若油价上升只推高成本、货量没有同步增长，运输股的相对强势会被削弱。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·本组八只全部上涨，DSGR +25.91 领涨，BCO +15.23、BXC +11.61、RXO +11.58、HUBG +10.87、MATX +8.50、ROAD +10.10、UNP +5.15。相较 XLI −1.38，这些标的表现不是工业板块 beta，而是个股与子行业 alpha 的集中。霍尔木兹风险抬高能源价格，对航运和物流既有运价溢价也有成本压力，必须区分。 从横截面看，本主题 8 只标的中 8 只上涨、0 只下跌；最大涨幅 DSGR +26，最大跌幅 UNP +5。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组当周共同硬数据来自运输链 read-through，而不是每家公司同时发布财报。报告不把 DSGR/BCO 的上涨自动写成订单大增；没有独立公告时标记为轮动或同业映射。后续财报需核对货量、营收吨英里、合同运价、利用率与毛利率，特别是油价和燃油附加费的传导时滞。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·霍尔木兹局势与油价是高频变量，铁路/卡车/海运财报是基本面变量。UNP 的铁路货量、HUBG 联运、RXO 经纪业务和 MATX 航线运价将在月底财报季提供验证。建筑与分销侧则看 ROAD backlog、BXC 木材与建材价格、DSGR 有机增长。只有量价同时改善，才构成行业上行。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链覆盖工业分销、建筑材料、工程施工、卡车经纪、铁路联运与海运。订单维度看 backlog 和货量，价格维度看运价与材料价，库存维度看渠道库存与设备利用率，capex 维度看铁路和工程投入。当前四维信号以资金轮入和个别订单为主，尚不足以断言全面工业周期加速，但相对 AI 硬件的防守优势明确。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">DSGR</td>
+      <td class="name">Distribution Solutions Group, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$1.26B</span></td>
+      <td class="num pos">+26</td>
+      <td class="num pos">+25</td>
+      <td class="num pos">+28</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Distribution Solutions Group, Inc.（DSGR）1W <span class="hl">+26</span>，1M +25、3M +28；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Industrial - Distribution，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 DSGR 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BCO</td>
+      <td class="name">The Brink's Company</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$3.92B</span></td>
+      <td class="num pos">+15</td>
+      <td class="num pos">+20</td>
+      <td class="num pos">+8</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：The Brink's Company（BCO）1W <span class="hl">+15</span>，1M +20、3M +8；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Security &amp; Protection Services，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BCO 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BXC</td>
+      <td class="name">BlueLinx Holdings Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.49B</span></td>
+      <td class="num pos">+12</td>
+      <td class="num pos">+10</td>
+      <td class="num pos">+10</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：BlueLinx Holdings Inc.（BXC）1W <span class="hl">+12</span>，1M +10、3M +10；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Construction，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BXC 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">RXO</td>
+      <td class="name">RXO, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$4.44B</span></td>
+      <td class="num pos">+12</td>
+      <td class="num pos">+8</td>
+      <td class="num pos">+63</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：RXO, Inc.（RXO）1W <span class="hl">+12</span>，1M +8、3M +63；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Trucking，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 RXO 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">HUBG</td>
+      <td class="name">Hub Group, Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$2.66B</span></td>
+      <td class="num pos">+11</td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+24</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Hub Group, Inc.（HUBG）1W <span class="hl">+11</span>，1M +13、3M +24；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Integrated Freight &amp; Logistics，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 HUBG 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">MATX</td>
+      <td class="name">Matson, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$5.94B</span></td>
+      <td class="num pos">+9</td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+27</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Matson, Inc.（MATX）1W <span class="hl">+9</span>，1M +13、3M +27；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Marine Shipping，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 MATX 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ROAD</td>
+      <td class="name">Construction Partners, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$7.11B</span></td>
+      <td class="num pos">+10</td>
+      <td class="num neg">-14</td>
+      <td class="num neg">-7</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Construction Partners, Inc.（ROAD）1W <span class="hl">+10</span>，1M -14、3M -7；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Engineering &amp; Construction，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ROAD 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">UNP</td>
+      <td class="name">Union Pacific Corporation</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$159B</span></td>
+      <td class="num pos">+5</td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+20</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Union Pacific Corporation（UNP）1W <span class="hl">+5</span>，1M +13、3M +20；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资金从高 beta 科技迁往实体服务”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Railroads，处在“资金从高 beta 科技迁往实体服务”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 UNP 的收盘数据来自 FMP 2026-07-17。主题处于 工业分销与运输物流处在需求温和、资金偏好改善的阶段。DSGR +25.91、BCO +15.23、RXO/HUBG/MATX/ROAD/UNP 同向上涨，说明资金从 AI 硬件拥挤 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>八只标的全线上涨</li><li>多种运输方式形成同向 read-through</li><li>现金流可见度高于高 beta 科技</li><li>联运受益高油价下的成本比较</li><li>订单与货量若确认可形成盈利弹性</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>XLI 本周仍为负，宏观 beta 不强</li><li>油价上升也会推高运输成本</li><li>部分上涨缺少独立公司催化</li><li>货量若弱于运价会压制质量</li><li>工业分销可能只是资金轮动</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-09">
+  <div class="sec-num">§09</div>
+  <h2 class="sec-title">能源 / 可再生 / 核材料 · <em>霍尔木兹溢价与反叙事</em></h2>
+  <div class="sec-sub">油气受益，铀与贵金属却被资金去杠杆</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：能源链处在地缘风险溢价抬升但子行业资金表现分裂的阶段。XLE +4.72 是 25 个 ETF 中最强板块之一，Venture Global +12.75 直接受益 LNG 供应扰动；但 URA −9.87、ASPI −22.55，贵金属与铀同步下跌，说明避险与能源安全叙事没有均匀传导。必须标注 narrative overridden by flows，而不是用地缘逻辑解释所有方向。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–4 周看霍尔木兹通航量、油气与 LNG 现货价、VG 液化费率与长期合同、以及铀现货/长期合约和核材料订单。若通航继续受限、LNG 价格维持高位，VG 的现金流受益可延续；若局势缓和、能源价格回吐，地缘溢价会下降。ASPI 需要独立订单和融资数据，不能仅靠核能叙事。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·VG +12.75、ENLT +10.46、ELVA +9.98，与 ASPI −22.55 形成明显分裂。XLE +4.72 支持油气强势，而 URA −9.87、GLD −2.28、GDX −5.57 说明资金同时撤出铀和贵金属。VG 此前披露二季度平均液化费环比上升 69%，并受霍尔木兹供应扰动支持；ASPI 的下跌更接近高 beta 核材料去杠杆，未发现足以覆盖跌幅的独立新催化。 从横截面看，本主题 4 只标的中 3 只上涨、1 只下跌；最大涨幅 VG +13，最大跌幅 ASPI -23。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·VG 的已核实经营读数是二季度平均液化费环比增长 69%，公司还签有欧洲 LNG 合同；本周股价继续反映地缘供应溢价。ENLT/ELVA 的上涨缺少统一财报催化，报告不把它们直接写成订单改善。ASPI 若无新增公告，只标记无明确独立催化，等待合同、产能与融资披露。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·高频看霍尔木兹船舶通行、原油和亚洲 LNG 价格；公司层看 VG 合同兑现和液化设施利用率，ENLT/ELVA 项目投产与订单，ASPI 同位素产能与客户协议。URA 的持续弱势是核链资金面反证。若地缘继续升级但铀/贵金属仍跌，说明资金只选择油气现金流，不选择广义避险。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·上游是油气、铀与材料，中游是 LNG 液化、可再生发电和电池设备，下游是欧洲与亚洲能源买家。订单维度以 LNG 长约和项目 PPA 为主，价格维度由油气/电力/铀价决定，库存维度看能源储备，capex 维度看液化与发电项目。当前油气量价信号最强，核材料资金面最弱，可再生设备更多是个股轮动。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="T" data-src="FMP 2026-07-17|URA weekly beta">
+      <td class="tk">ASPI</td>
+      <td class="name">ASP Isotopes Inc. Common Stock</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.53B</span></td>
+      <td class="num neg">-23</td>
+      <td class="num neg">-40</td>
+      <td class="num neg">-24</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：ASP Isotopes Inc. Common Stock（ASPI）1W <span class="hl">-23</span>，1M -40、3M -24；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立新事件；与 URA −9.87 同向，先按核材料高 beta 去杠杆处理，不从价格反推订单或技术变化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Chemicals，处在“油气受益，铀与贵金属却被资金去杠杆”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ASPI 的收盘数据来自 FMP 2026-07-17。主题处于 能源链处在地缘风险溢价抬升但子行业资金表现分裂的阶段。XLE +4.72 是 25 个 ETF 中最强板块之一，Venture Global +12.75 直接受益 LNG 供应扰 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="Reuters 2026-07-08|US Daily 2026-07-13">
+      <td class="tk">VG</td>
+      <td class="name">Venture Global, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$26.4B</span></td>
+      <td class="num pos">+13</td>
+      <td class="num pos">+24</td>
+      <td class="num pos">+9</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本周边际变化</strong>：Venture Global, Inc.（VG）1W <span class="hl">+13</span>，1M +24、3M +9；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。霍尔木兹供应扰动推高 LNG 定价，公司披露二季度平均液化费环比 +69%，并有欧洲长期供气合同，属于地缘能源溢价的直接受益。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Oil &amp; Gas Midstream，处在“油气受益，铀与贵金属却被资金去杠杆”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“催化剂”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 VG 的收盘数据来自 FMP 2026-07-17。主题处于 能源链处在地缘风险溢价抬升但子行业资金表现分裂的阶段。XLE +4.72 是 25 个 ETF 中最强板块之一，Venture Global +12.75 直接受益 LNG 供应扰 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ENLT</td>
+      <td class="name">Enlight Renewable Energy Ltd</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$12.3B</span></td>
+      <td class="num pos">+10</td>
+      <td class="num pos">+3</td>
+      <td class="num pos">+14</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Enlight Renewable Energy Ltd（ENLT）1W <span class="hl">+10</span>，1M +3、3M +14；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“油气受益，铀与贵金属却被资金去杠杆”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Renewable Utilities，处在“油气受益，铀与贵金属却被资金去杠杆”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ENLT 的收盘数据来自 FMP 2026-07-17。主题处于 能源链处在地缘风险溢价抬升但子行业资金表现分裂的阶段。XLE +4.72 是 25 个 ETF 中最强板块之一，Venture Global +12.75 直接受益 LNG 供应扰 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ELVA</td>
+      <td class="name">Electrovaya Inc</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.38B</span></td>
+      <td class="num pos">+10</td>
+      <td class="num neg">-1</td>
+      <td class="num neg">-1</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Electrovaya Inc（ELVA）1W <span class="hl">+10</span>，1M -1、3M -1；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“油气受益，铀与贵金属却被资金去杠杆”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Electrical Equipment &amp; Parts，处在“油气受益，铀与贵金属却被资金去杠杆”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ELVA 的收盘数据来自 FMP 2026-07-17。主题处于 能源链处在地缘风险溢价抬升但子行业资金表现分裂的阶段。XLE +4.72 是 25 个 ETF 中最强板块之一，Venture Global +12.75 直接受益 LNG 供应扰 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>XLE +4.72 明确反映能源溢价</li><li>VG 液化费率环比增长 69%</li><li>霍尔木兹通行风险支持 LNG 替代需求</li><li>长期合同提高现金流可见度</li><li>ENLT/ELVA 获得防守资金承接</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>URA −9.87 与核叙事反向</li><li>ASPI 单周 −22.55 高 beta 去杠杆</li><li>局势缓和会快速压缩能源溢价</li><li>可再生上涨缺少统一硬催化</li><li>能源价格上行也会抬高通胀与成本</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-10">
+  <div class="sec-num">§10</div>
+  <h2 class="sec-title">商业航天 / 通信 / 先进制造 · <em>地缘利好未兑现</em></h2>
+  <div class="sec-sub">资金流压过订单与通信基础设施叙事</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Mixed Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93 分化。霍尔木兹冲突理论上提高国防与卫星通信关注，但板块并未获得统一避险买盘，说明地缘叙事被 AI 高 beta 去杠杆与此前 SpaceX 资金虹吸覆盖。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–6 周关注卫星发射与商业合同、ASTS 组网进度、FLY 任务执行、FEIM 的国防时频订单、VOD 的用户与网络投资。若订单和里程碑按期兑现，板块可从资金面折价中分化；若融资、任务延迟或发射失败增加，远期现金流折价会继续。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·ASTS/VELO/FLY 约 −20%，FEIM +14.95、VOD +6.93。该组业务不同，但共同暴露于长期项目、融资与执行风险。FEIM 的时频设备更接近国防电子，VOD 是电信现金流，因而相对抗跌；ASTS/FLY/VELO 属高 beta 远期成长，资金在 AI 与太空拥挤交易降杠杆时优先撤出。 从横截面看，本主题 5 只标的中 2 只上涨、3 只下跌；最大涨幅 FEIM +15，最大跌幅 ASTS -21。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组没有统一的当周财报事件。报告不把 ASTS/FLY 的跌幅反推成任务失败，也不把 FEIM 的上涨直接写成大额订单，除非有已核实公告。后续财报与公司更新应核对发射时间、在轨卫星、客户预付款、合同 backlog、设备毛利率和现金消耗。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·ASTS 组网和商业服务里程碑、FLY 后续任务与合同、FEIM 国防/航天订单、VOD 财报和资本开支是下一验证点。霍尔木兹局势若继续升级但航天仍弱，将继续证明地缘叙事没有形成资金流；若实际国防采购或通信合同落地，才会改变方向。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链从发射、卫星、时频与通信设备到电信运营商。订单维度看政府和商业合同，价格维度看发射/服务单价，库存维度看制造进度与在轨资产，capex 维度高。当前订单信息不充分、capex 与融资压力大，资金因此对远期成长要求更高；FEIM/VOD 的现金流或短周期订单提供相对防守。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">ASTS</td>
+      <td class="name">AST SpaceMobile, Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$26.7B</span></td>
+      <td class="num neg">-21</td>
+      <td class="num neg">-30</td>
+      <td class="num neg">-36</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：AST SpaceMobile, Inc.（ASTS）1W <span class="hl">-21</span>，1M -30、3M -36；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“资金流压过订单与通信基础设施叙事”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Communication Equipment，处在“资金流压过订单与通信基础设施叙事”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 ASTS 的收盘数据来自 FMP 2026-07-17。主题处于 商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93  后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">VELO</td>
+      <td class="name">Velo3D, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.34B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-58</td>
+      <td class="num neg">-8</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Velo3D, Inc.（VELO）1W <span class="hl">-20</span>，1M -58、3M -8；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“资金流压过订单与通信基础设施叙事”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Industrial - Machinery，处在“资金流压过订单与通信基础设施叙事”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 VELO 的收盘数据来自 FMP 2026-07-17。主题处于 商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93  后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">FLY</td>
+      <td class="name">Firefly Aerospace Inc.</td>
+      <td class="mcapc"><span class="tag l4">L4</span><span class="mcv">$4.04B</span></td>
+      <td class="num neg">-20</td>
+      <td class="num neg">-38</td>
+      <td class="num neg">-56</td>
+      <td><span class="tag t-none">无明确催化</span></td>
+      <td><strong>本周边际变化</strong>：Firefly Aerospace Inc.（FLY）1W <span class="hl">-20</span>，1M -38、3M -56；跌幅显著深于 SPY −1.54，属于主题拥挤度与个股久期被主动压缩。未核实到足以解释本周跌幅的独立公司事件，先按“资金流压过订单与通信基础设施叙事”下的板块去杠杆或 sympathy 处理，严禁从价格反推经营恶化。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Aerospace &amp; Defense，处在“资金流压过订单与通信基础设施叙事”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“无明确催化”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 FLY 的收盘数据来自 FMP 2026-07-17。主题处于 商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93  后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="T" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">FEIM</td>
+      <td class="name">Frequency Electronics, Inc.</td>
+      <td class="mcapc"><span class="tag l5">L5</span><span class="mcv">$0.62B</span></td>
+      <td class="num pos">+15</td>
+      <td class="num neg">-6</td>
+      <td class="num pos">+12</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Frequency Electronics, Inc.（FEIM）1W <span class="hl">+15</span>，1M -6、3M +12；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“资金流压过订单与通信基础设施叙事”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Communication Equipment，处在“资金流压过订单与通信基础设施叙事”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 FEIM 的收盘数据来自 FMP 2026-07-17。主题处于 商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93  后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">VOD</td>
+      <td class="name">Vodafone Group Public Limited Company</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$31.9B</span></td>
+      <td class="num pos">+7</td>
+      <td class="num pos">+6</td>
+      <td class="num">0</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Vodafone Group Public Limited Company（VOD）1W <span class="hl">+7</span>，1M +6、3M 0；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“资金流压过订单与通信基础设施叙事”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Telecommunications Services，处在“资金流压过订单与通信基础设施叙事”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 VOD 的收盘数据来自 FMP 2026-07-17。主题处于 商业航天、卫星通信与先进制造处在订单存在但资金偏好不足的阶段。ASTS −21.17、FLY −20.01、VELO −20.02 与 FEIM +14.95、VOD +6.93  后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>卫星通信与国防电子存在长期需求</li><li>实际政府合同可形成强验证</li><li>FEIM/VOD 提供现金流型对照</li><li>组网里程碑可缩短收入久期</li><li>地缘风险可能提高通信韧性需求</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>ASTS/FLY/VELO 同步约 −20%</li><li>融资和执行风险高</li><li>地缘利好未转化为买盘</li><li>项目延期会放大现金消耗</li><li>SpaceX 资金虹吸仍可能持续</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="theme-11">
+  <div class="sec-num">§11</div>
+  <h2 class="sec-title">消费 / 中国平台 / 防守巨头 · <em>大盘质量轮入</em></h2>
+  <div class="sec-sub">AAPL 与防守现金流承接科技内部迁移</div>
+
+  <div class="note-block gate">
+    <span class="kicker">Bull Logic · 产业阶段与验证闸门</span>
+    <p><strong>1. 行业阶段定位</strong>：消费、中国平台与防守巨头处在资金从高 beta AI 硬件轮向大盘质量和低 beta 现金流的阶段。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 与 SOXX −10.24 形成镜像。AAPL 同时有中国市场 AI 上线审批与长期芯片供应合作等公司事件，BEKE/JD 则反映中国平台与消费的选择性修复，PM 提供必需消费防守。 订单维度看新增合同、backlog 与客户预算，价格维度看产品/服务单价和折扣，库存维度看在手项目、服务器或渠道周转，capex 维度看投入强度与回报时差。当前不能只凭 1W 价格下结论；本周最重要的制度变化是市场把资本效率放在容量故事之前，轻资产和现金流可见的方向获得相对溢价。</p>
+    <p><strong>2. 关键 catalyst window</strong>：未来 2–6 周看 AAPL 中国 AI 功能落地、iPhone 与服务收入、中国平台消费数据、BEKE 成交与 JD 零售利润率，以及 PM 销量与无烟产品。若这些公司用收入和现金流确认资金轮入，主线可延续；若只是半导体撤资后的短暂避险，AI 硬件企稳时资金可能回流。 任何主题强化或减弱都必须落到订单、价格、库存、capex 四个可验证变量；单周上涨不等于产业上行、单周下跌也不等于需求崩塌。报告不提供仓位或出场信号，只给下周可复核的产业闸门。</p>
+  </div>
+
+  <p><span class="kicker">本周关键变化</span>·四只全部上涨，BEKE +11.75 领涨，AAPL +5.84、PM +6.25、JD +5.04。相较 QQQ −4.16、XLK −5.48，这组表现说明科技内部不是全面撤退，而是从资本密集硬件转向平台、消费与防守现金流。AAPL 的独立催化提高上涨质量；BEKE/JD/PM 若无当周硬事件，主要归为资金轮入和宏观防守。 从横截面看，本主题 4 只标的中 4 只上涨、0 只下跌；最大涨幅 BEKE +12，最大跌幅 JD +5。与 SPY −1.54、QQQ −4.16 和 SOXX −10.24 对照后，必须把系统 beta、主题 beta 与个股 alpha 分开，不能把同向价格当成同一事实催化。</p>
+
+  <p><span class="kicker">财报季分析</span>·本组当周没有统一财报。AAPL 的硬事件来自中国 AI 上线审批与供应链合作，后续仍需产品落地和收入验证。BEKE/JD 看成交、GMV、利润率与回购，PM 看销量与无烟产品。报告不把一周上涨等同于消费全面复苏，也不把平台估值修复写成长期基本面结论。 财报分析只引用已核实的公司公告或当周日报事实，不使用训练记忆里的旧价和旧市值。表内市值、1W/1M/3M 均以 FMP 数据为准；CRWD 的 1M/3M 因 4:1 拆股置空，QNT/CBRS 的 3M 因次新历史不足置空。对无独立财报的标的，报告明确写“无明确独立催化”，把验证责任留给下次财报、订单与指引，而不是用合理故事填空。</p>
+
+  <p><span class="kicker">时间催化</span>·AAPL 中国 AI 功能的上线节奏和合作伙伴商业化是首要时点，随后是大盘科技财报；中国平台看宏观消费和政策数据，PM 看财报与定价。若 AAPL/PM 继续相对强而 SOXX 仍弱，说明质量轮入延续；若硬件企稳而本组回落，则本周主要是资金对手盘。 时间窗口分为高频与低频：高频包括 ETF beta、商品/运价、渠道价格和地缘变化；低频包括财报、capex 指引、合同、项目投产和监管。只有事件发生并改变硬数据，才会调整主题判断。若事件未发生、价格先波动，则先记录资金面，不把它包装成产业事实。</p>
+
+  <p><span class="kicker">订单与产业链</span>·产业链从芯片与终端设备到平台服务、房地产交易、零售和必需消费。订单维度分别对应设备销量、成交、GMV 与销量，价格维度看产品 ASP 和服务费率，库存维度看渠道与房源，capex 相对轻。该组共同点不是行业同质，而是现金流质量和大盘流动性，在高 beta 去杠杆周获得相对优势。 对本主题的四维扫描结论是：订单要看可验证合同或收入，价格要区分行业定价与股价，库存要看实物/在手项目而不是市场持仓，capex 要看投入和回报之间的时差。主题内部按 alpha 纯度分三层：有公司公告的直接催化、由同业硬数据支持的产业映射、以及无明确独立催化的纯轮动；表格归因标签按这三层呈现。</p>
+
+  <table class="dt">
+    <thead><tr>
+      <th data-type="text">Ticker</th>
+      <th data-type="text">公司</th>
+      <th data-type="text">市值</th>
+      <th data-type="num">1W</th>
+      <th data-type="num">1M</th>
+      <th data-type="num">3M</th>
+      <th data-type="text">归因</th>
+      <th data-type="text">关键产业事实 + 个股逻辑</th>
+    </tr></thead>
+    <tbody>
+    <tr data-cap="S" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">BEKE</td>
+      <td class="name">KE Holdings Inc.</td>
+      <td class="mcapc"><span class="tag l3">L3</span><span class="mcv">$15.9B</span></td>
+      <td class="num pos">+12</td>
+      <td class="num pos">+8</td>
+      <td class="num pos">+8</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：KE Holdings Inc.（BEKE）1W <span class="hl">+12</span>，1M +8、3M +8；涨幅显著跑赢 SPY −1.54，具备板块轮动之外的相对 alpha。未核实到当周独立公司事件，先按“AAPL 与防守现金流承接科技内部迁移”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Real Estate - Services，处在“AAPL 与防守现金流承接科技内部迁移”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 BEKE 的收盘数据来自 FMP 2026-07-17。主题处于 消费、中国平台与防守巨头处在资金从高 beta AI 硬件轮向大盘质量和低 beta 现金流的阶段。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="M" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">JD</td>
+      <td class="name">JD.com, Inc.</td>
+      <td class="mcapc"><span class="tag l2">L2</span><span class="mcv">$34.0B</span></td>
+      <td class="num pos">+5</td>
+      <td class="num pos">+4</td>
+      <td class="num neg">-5</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：JD.com, Inc.（JD）1W <span class="hl">+5</span>，1M +4、3M -5；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“AAPL 与防守现金流承接科技内部迁移”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Specialty Retail，处在“AAPL 与防守现金流承接科技内部迁移”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 JD 的收盘数据来自 FMP 2026-07-17。主题处于 消费、中国平台与防守巨头处在资金从高 beta AI 硬件轮向大盘质量和低 beta 现金流的阶段。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="US Daily 2026-07-15|alphapie 2026-07-13">
+      <td class="tk">AAPL</td>
+      <td class="name">Apple Inc.</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$4.04T</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+12</td>
+      <td class="num pos">+27</td>
+      <td><span class="tag t-cat">催化剂</span></td>
+      <td><strong>本周边际变化</strong>：Apple Inc.（AAPL）1W <span class="hl">+6</span>，1M +12、3M +27；相对大盘表现温和，方向主要由本主题的资金再配置决定。中国监管批准 Apple Intelligence 在华上线、由 Alibaba/Baidu 提供本地合作，叠加与 Broadcom 的多年芯片供应合作，提高大盘质量轮入的事件含金量。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Consumer Electronics，处在“AAPL 与防守现金流承接科技内部迁移”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“催化剂”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 AAPL 的收盘数据来自 FMP 2026-07-17。主题处于 消费、中国平台与防守巨头处在资金从高 beta AI 硬件轮向大盘质量和低 beta 现金流的阶段。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    <tr data-cap="L" data-src="FMP 2026-07-17|US Daily 2026-07-13~16">
+      <td class="tk">PM</td>
+      <td class="name">Philip Morris International Inc.</td>
+      <td class="mcapc"><span class="tag l1">L1</span><span class="mcv">$279B</span></td>
+      <td class="num pos">+6</td>
+      <td class="num pos">+5</td>
+      <td class="num pos">+24</td>
+      <td><span class="tag t-rot">板块轮动</span></td>
+      <td><strong>本周边际变化</strong>：Philip Morris International Inc.（PM）1W <span class="hl">+6</span>，1M +5、3M +24；相对大盘表现温和，方向主要由本主题的资金再配置决定。未核实到当周独立公司事件，先按“AAPL 与防守现金流承接科技内部迁移”的同业映射或资金轮动处理；后续仍需用订单、财报和现金流验证。<br>
+          <strong>财报</strong>：本周未核实到可作为独立归因的新财报数字；不把价格变化倒推为 beat、miss 或指引变化。下一次财报需核对收入、利润率、现金流与管理层对订单/客户预算的明确口径。<br>
+          <strong>产业链</strong>：所属行业为 Tobacco，处在“AAPL 与防守现金流承接科技内部迁移”链条中；需要同时观察上游供给与价格、中游订单和交付、下游客户预算，以及 capex 回报时差。与同主题标的的同向表现可作为资金/产业 read-through，但不能替代公司自身公告。<span class="ki-note">归因标签为“板块轮动”。当前判断优先级是：已核实事件 &gt; 订单/财报硬数据 &gt; 板块映射 &gt; 纯价格；本周 PM 的收盘数据来自 FMP 2026-07-17。主题处于 消费、中国平台与防守巨头处在资金从高 beta AI 硬件轮向大盘质量和低 beta 现金流的阶段。AAPL +5.84、PM +6.25、BEKE +11.75、JD +5.04 后续若订单、价格、库存和 capex 四维数据与价格同向，thesis 才被强化；若价格反向但硬数据未变，标记为 narrative overridden by flows，不写交易动作。</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="cards">
+    <div class="card bull">
+      <div class="card-title">Bull 在买什么</div>
+      <div class="card-body"><ol><li>四只标的全部上涨</li><li>AAPL 有中国 AI 落地独立催化</li><li>PM 提供必需消费防守现金流</li><li>BEKE/JD 反映中国平台修复</li><li>轻资本与大盘流动性更受偏好</li></ol></div>
+    </div>
+    <div class="card bear">
+      <div class="card-title">Bear 在担心什么</div>
+      <div class="card-body"><ol><li>业务异质，不能共享单一产业叙事</li><li>中国消费数据仍需验证</li><li>AAPL 事件需转化为真实收入</li><li>防守轮入可能随硬件企稳反转</li><li>平台上涨不等于长期基本面拐点</li></ol></div>
+    </div>
+  </div>
+
+  <div class="note-block">
+    <span class="kicker">反叙事检查</span>
+    <p>本主题若出现价格方向与订单、财报或产业逻辑相反，统一标记 <strong>narrative overridden by flows</strong>；这只是说明资金定价暂时压过基本面，不等于基本面自动正确。后续必须用主题所列的订单、价格、库存与 capex 窗口复核。</p>
+  </div>
+</section>
+
+<section class="sec" id="industry-signals">
+  <div class="sec-num">§12</div>
+  <h2 class="sec-title">本周 <em>产业链景气信号</em> 汇总</h2>
+  <div class="sec-sub">订单 / 价格 / 库存 / capex 四维度的可验证信号</div>
+  <table class="dt">
+    <thead><tr><th data-type="text">产业链</th><th data-type="text">信号类型</th><th data-type="text">方向</th><th data-type="text">强度</th><th data-type="text">数据点与解读</th></tr></thead>
+    <tbody>
+      <tr><td class="name">AI 半导体</td><td>capex / 估值</td><td><span class="signal-down">↓↓ 资金面走弱</span></td><td class="mono">极强</td><td>TSMC 基本面上修但 capex 600–640 亿美元触发回报率担忧；SOXX −10.24。需求未破，资本效率折价显著上升。</td></tr>
+      <tr><td class="name">存储 / 服务器</td><td>预算迁移</td><td><span class="signal-up">↑ 需求证据</span></td><td class="mono">强</td><td>IBM 称客户在 6 月末把 capex 转向服务器、存储和内存，以锁定供给受限的基础设施；对 IBM 自身是利空，对硬件需求是正证据。</td></tr>
+      <tr><td class="name">企业软件 / 主机</td><td>订单延期</td><td><span class="signal-down">↓ 走弱</span></td><td class="mono">强</td><td>IBM 二季度软件 +5%、基础设施 −7%，多个大型交易未按期关闭，预算被 AI 基础设施挤占。</td></tr>
+      <tr><td class="name">网络安全</td><td>预算优先级</td><td><span class="signal-up">↑ 改善</span></td><td class="mono">强</td><td>PANW/CRWD/SAIL/S/RPD 同涨；IBM 同时指出行业级网络安全问题影响客户决策，安全预算成为传统软件的对手盘。</td></tr>
+      <tr><td class="name">招聘 / RPO</td><td>收入 / 指引</td><td><span class="signal-up">↑↑ 大幅改善</span></td><td class="mono">极强</td><td>MAN 二季度收入 48.60 亿美元、同比 +7.5%，调整后 EPS 0.99 美元，三季度 EPS 指引 0.96–1.06 美元；全链 read-through。</td></tr>
+      <tr><td class="name">运输物流</td><td>货量 / 轮动</td><td><span class="signal-up">↑ 改善</span></td><td class="mono">中强</td><td>DSGR/BCO/RXO/HUBG/MATX/ROAD/UNP 全涨，相对 XLI −1.38 显示子行业 alpha；需财报验证货量、运价和燃油传导。</td></tr>
+      <tr><td class="name">LNG / 油气</td><td>价格 / 地缘</td><td><span class="signal-up">↑↑ 改善</span></td><td class="mono">强</td><td>XLE +4.72、VG +12.75；VG 二季度平均液化费环比 +69%，霍尔木兹通行风险支持 LNG 供应溢价。</td></tr>
+      <tr><td class="name">铀 / 核材料</td><td>资金面</td><td><span class="signal-down">↓↓ 走弱</span></td><td class="mono">强</td><td>URA −9.87、ASPI −22.55，与能源安全叙事反向；未核实独立新利空，先标记 narrative overridden by flows。</td></tr>
+      <tr><td class="name">贵金属 / 避险</td><td>资金流</td><td><span class="signal-down">↓ 走弱</span></td><td class="mono">强</td><td>GLD −2.28、SLV −5.88、GDX −5.57、GDXJ −6.76，地缘升级未形成广义避险买盘。</td></tr>
+      <tr><td class="name">大盘质量 / 防守</td><td>资金轮入</td><td><span class="signal-up">↑ 改善</span></td><td class="mono">中</td><td>XLRE +2.18、XLP +1.27、XLF +0.99；AAPL/PM/BEKE/JD 全涨，承接高 beta 科技撤资。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="final-read">
+  <div class="sec-num">§13</div>
+  <h2 class="sec-title">综合判断 · <em>下周观察</em></h2>
+  <div class="sec-sub">结论、验证窗口与三条不要做</div>
+  <p><strong>本周的核心不是 AI 需求崩塌，而是资本效率成为估值第一优先级。</strong>TSMC 基本面上修、IBM 明确企业预算迁往服务器/存储/内存，说明需求仍在；SOXX −10.24、ALAB/SNDK/NBIS 等大跌，说明市场不再无条件奖励 capex 扩张。招聘、网络安全、能源和物流的强势共同指向同一个资金偏好：收入、指引和现金流越快兑现，越能承接高 beta 硬件撤资。</p>
+  <p><strong>下周最重要的五个验证点</strong>：IBM 7 月 22 日正式电话会；hyperscaler 二季度 capex；NAND/DRAM 现货与合约价；RHI/ADP/PAYX 等招聘链扩散；霍尔木兹通行与 LNG 价格。若订单和收入确认而 capex 回报率改善，AI 硬件可从资金去杠杆中分化；若 capex 继续上修、收入贡献后移，则资本效率折价会延长。</p>
+  <table class="dt">
+    <thead><tr><th data-type="text">时间</th><th data-type="text">事件</th><th data-type="text">当前事实</th><th data-type="text">强化条件</th><th data-type="text">减弱条件</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">7/22</td><td>IBM Q2 正式电话会</td><td>初步收入 172 亿美元、基础设施 −7%、预算迁往服务器/存储/内存</td><td>分布式基础设施 37% 增长和 backlog 延续</td><td>全年指引进一步下修或软件交易继续延期</td></tr>
+      <tr><td class="tk">7月底</td><td>Hyperscaler 财报</td><td>TSMC capex 600–640 亿美元已触发 overbuild 担忧</td><td>订单与利用率跟上 capex</td><td>云厂商削减建设或延后交付</td></tr>
+      <tr><td class="tk">持续</td><td>NAND/DRAM 价格</td><td>CXMT IPO 重估商品内存竞争</td><td>合约价稳定、库存未累积</td><td>价格拐头且库存上升</td></tr>
+      <tr><td class="tk">7月底</td><td>招聘链财报</td><td>MAN 收入 +7.5%、调整后 EPS 0.99 美元、Q3 指引 0.96–1.06</td><td>RHI/ADP/PAYX 同向确认</td><td>MAN 改善只是一家公司或一次性因素</td></tr>
+      <tr><td class="tk">持续</td><td>霍尔木兹 / LNG</td><td>XLE +4.72、VG +12.75、液化费环比 +69%</td><td>通航受限与 LNG 高价延续</td><td>局势缓和、能源价格回吐</td></tr>
+    </tbody>
+  </table>
+  <div class="note-block">
+    <span class="kicker">三条“不要做”</span>
+    <ol>
+      <li><strong>不要把 SOXX −10.24 写成 AI 需求崩塌。</strong>TSMC 与 IBM 都提供了需求仍强的反证；应写资本效率折价。</li>
+      <li><strong>不要把所有招聘、软件、能源上涨都归为同一轮动。</strong>MAN/VG 有硬催化，其他标的需区分 direct map、板块轮动与无明确独立催化。</li>
+      <li><strong>不要用地缘逻辑强行解释贵金属与铀。</strong>GLD/GDX/URA 明确下跌，必须标记 narrative overridden by flows。</li>
+    </ol>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     页脚（永久 footer、随期次更新右侧日期 + 统计）
+============================================================ -->
+<div style="margin-top:48px;padding:18px 0;border-top:1px solid var(--rule);text-align:center;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em">
+  US EQUITY · P80-BY-TIER MOMENTUM THEME MAP · PER-STOCK LOGIC EDITION · 2026-07-17 · 73 STOCKS / 10 THEMES / 73 INDIVIDUAL LOGIC
+</div>
+
+<!-- ============================================================
+     视图切换 JS（260628 多选 · 移植自日报 · 从 .tag.lN pill 派生 data-tier、active Set 多选 OR）
+============================================================ -->
+<script>
+(function(){
+  document.querySelectorAll('table.dt tbody tr').forEach(function(tr){
+    var tierTag = tr.querySelector('.tag.l1, .tag.l2, .tag.l3, .tag.l4, .tag.l5');
+    if (tierTag) {
+      var cls = Array.from(tierTag.classList).find(function(c){ return /^l[1-5]$/.test(c); });
+      if (cls) tr.setAttribute('data-tier', cls.toUpperCase());
+    }
+  });
+  var active = new Set();
+  function apply(){
+    document.querySelectorAll('table.dt tbody tr[data-tier]').forEach(function(tr){
+      tr.style.display = (active.size === 0 || active.has(tr.getAttribute('data-tier'))) ? '' : 'none';
+    });
+    document.querySelectorAll('.vtab').forEach(function(b){
+      if (b.dataset.view === 'all') b.classList.toggle('active', active.size === 0);
+      else b.classList.toggle('active', active.has(b.dataset.view));
+    });
+  }
+  document.querySelectorAll('.vtab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var v = btn.dataset.view;
+      if (v === 'all') active.clear();
+      else if (active.has(v)) active.delete(v); else active.add(v);
+      apply();
+    });
+  });
+  apply();
+})();
+
+// 表格列点击排序（所有 table.dt 通用、thead th[data-type] 触发）
+document.querySelectorAll('table.dt').forEach(table => {
+  const ths = table.querySelectorAll('thead th');
+  ths.forEach((th, colIdx) => {
+    if (!th.dataset.type) return;
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const type = th.dataset.type;
+      // 排序方向：已 asc → desc；已 desc → asc；首次点击：num 列默认 desc（大→小最常用）、text 列默认 asc
+      let dir;
+      if (th.dataset.sortDir === 'asc') dir = 'desc';
+      else if (th.dataset.sortDir === 'desc') dir = 'asc';
+      else dir = (type === 'num') ? 'desc' : 'asc';
+      // 清掉同表其它列的箭头
+      ths.forEach(o => { if (o !== th) delete o.dataset.sortDir; });
+      th.dataset.sortDir = dir;
+      rows.sort((a, b) => {
+        const aCell = a.children[colIdx];
+        const bCell = b.children[colIdx];
+        const aText = (aCell ? aCell.textContent : '').trim();
+        const bText = (bCell ? bCell.textContent : '').trim();
+        let cmp;
+        if (type === 'num') {
+          const aNum = parseFloat(aText.replace(/[^\-0-9.]/g, ''));
+          const bNum = parseFloat(bText.replace(/[^\-0-9.]/g, ''));
+          const aV = isNaN(aNum) ? -Infinity : aNum;
+          const bV = isNaN(bNum) ? -Infinity : bNum;
+          cmp = aV - bV;
+        } else {
+          cmp = aText.localeCompare(bText, 'zh-CN');
+        }
+        return dir === 'asc' ? cmp : -cmp;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+
+// 左侧固定目录 TOC（自动扫描 section[id] 生成 + scroll-spy 高亮当前章节）
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  if(!secs.length) return;
+  var nav = document.createElement('nav');
+  nav.id = 'toc-nav';
+  var head = document.createElement('div');
+  head.className = 'toc-head';
+  head.innerHTML = '<div class="t1">Contents<span id="toc-collapse" title="收起目录">&laquo;</span></div><div class="t2">本期主线导航</div>';
+  nav.appendChild(head);
+  // 特殊 section 的短标题映射（按 id）
+  var TOC_OVERRIDE = {
+    'exec-summary': 'Summary',
+    'final-read': 'Final Read',
+  };
+  secs.forEach(function(sec){
+    var numEl = sec.querySelector('.sec-num');
+    var titEl = sec.querySelector('.sec-title');
+    // 编号只取 §XX 部分（去掉 "· 主线 X" / "· Executive Summary" 等后缀）
+    var numRaw = numEl ? numEl.textContent.trim() : '';
+    var numMatch = numRaw.match(/§\d+/);
+    var num = numMatch ? numMatch[0] : numRaw;
+    // 标题：特殊节用 override、其他取 sec-title 按 ·/+/—/-/： 分隔的第 1 段
+    var tit;
+    if(TOC_OVERRIDE[sec.id]){
+      tit = TOC_OVERRIDE[sec.id];
+    } else {
+      var titRaw = titEl ? titEl.textContent.replace(/\s+/g,' ').trim() : sec.id;
+      tit = titRaw.split(/[·•—\-：:|+]/)[0].trim();
+      if(!tit || tit.length < 2) tit = titRaw;
+    }
+    var a = document.createElement('a');
+    a.href = '#' + sec.id;
+    a.innerHTML = '<span class="n">'+num+'</span><span class="t">'+tit+'</span>';
+    nav.appendChild(a);
+  });
+  document.body.insertBefore(nav, document.body.firstChild);
+
+  // 收起 / 展开 目录
+  var reopen = document.createElement('div');
+  reopen.id = 'toc-reopen';
+  reopen.title = '展开目录';
+  reopen.textContent = '目录';
+  document.body.appendChild(reopen);
+  function setCollapsed(v){
+    document.body.classList.toggle('toc-collapsed', v);
+    try{ localStorage.setItem('wkTocCollapsed', v ? '1' : '0'); }catch(e){}
+  }
+  var cbtn = nav.querySelector('#toc-collapse');
+  if(cbtn) cbtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); setCollapsed(true); });
+  reopen.addEventListener('click', function(){ setCollapsed(false); });
+  // 还原上次状态（无动画，避免加载闪烁）
+  var saved; try{ saved = localStorage.getItem('wkTocCollapsed'); }catch(e){}
+  if(saved === '1'){
+    document.body.classList.add('toc-no-anim','toc-collapsed');
+    requestAnimationFrame(function(){ document.body.classList.remove('toc-no-anim'); });
+  }
+
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  // scroll-spy：当前章节 = 顶部已越过参考线(120px)的最后一个 section（对手动滚动与锚点跳转都稳定）
+  var curId = null;
+  function setActive(id){
+    if(id === curId) return;
+    curId = id;
+    links.forEach(function(l){ l.classList.remove('active'); });
+    var a = map[id];
+    if(!a) return;
+    a.classList.add('active');
+    if(a.offsetTop < nav.scrollTop || a.offsetTop > nav.scrollTop + nav.clientHeight - 40){
+      nav.scrollTop = a.offsetTop - nav.clientHeight/2;
+    }
+  }
+  function onScroll(){
+    var line = 120, current = secs[0].id;
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].getBoundingClientRect().top <= line) current = secs[i].id;
+      else break;
+    }
+    // 触底时强制点亮最后一节
+    if(window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = secs[secs.length-1].id;
+    setActive(current);
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(function(){ onScroll(); ticking = false; }); }
+  }, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
