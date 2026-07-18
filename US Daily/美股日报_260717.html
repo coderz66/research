@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>美股盘后跟踪 · 2026年7月17日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Karla:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F6; --paper:#FFFFFF; --ink:#0E2A47; --ink-soft:#36506F; --muted:#6B7B8C;
+  --accent:#8B6F35; --accent-soft:#B89460; --rule:#D9D2C2; --rule-soft:#EDE8DB;
+  --bull:#1F6B4A; --bear:#A8331F; --highlight:#FFF1B8; --hairline:#C9C0AC;
+  --navy:#1B2635; --navy-light:#2D3D52; --amber:#B8870A; --amber-light:#D4A017;
+  --serif:'Fraunces',Georgia,serif; --sans:'Source Sans 3',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding:0 56px 80px;max-width:1680px;margin:0 auto}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+em{font-style:italic;color:var(--accent)}
+.serif{font-family:var(--serif)}
+.mono{font-family:var(--mono);font-feature-settings:"tnum" 1}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
+
+/* ========== MASTHEAD (navy/amber) ========== */
+.masthead{background:var(--navy);color:#fff;padding:56px 60px 44px 60px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden;width:100vw;margin-left:calc(-50vw + 50%);margin-bottom:36px}
+.masthead::after{content:'US DAILY';position:absolute;bottom:-22px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:150px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;pointer-events:none;white-space:nowrap}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--amber-light);text-transform:uppercase;font-weight:500;margin-bottom:16px}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-0.01em;color:#fff}
+.h-title em{color:var(--amber-light);font-style:italic;font-weight:700}
+.h-desc{font-size:14.5px;font-weight:300;color:rgba(255,255,255,0.6);max-width:1180px;line-height:1.55;margin-bottom:24px;font-family:'Karla',-apple-system,sans-serif}
+.h-desc em{color:var(--amber-light);font-style:italic;font-weight:500}
+.h-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.05em;padding:5px 12px;border:1px solid rgba(212,160,23,0.4);color:rgba(255,255,255,0.85);border-radius:999px;background:rgba(255,255,255,0.03)}
+.pill.bull{color:#6FD4A1;border-color:rgba(31,107,74,0.5)}
+.pill.bear{color:#E89884;border-color:rgba(168,51,31,0.5)}
+
+/* SECTION HEADERS */
+.sec{margin:48px 0 0}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-title em{font-weight:500;font-style:italic;color:var(--accent)}
+.sec-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:-8px;margin-bottom:18px}
+
+/* SUB SECTION */
+.sub-h{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink);margin:24px 0 8px;letter-spacing:-.005em}
+.sub-h em{font-style:italic;color:var(--accent)}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:600}
+
+/* PROSE */
+p{margin-bottom:10px;color:var(--ink-soft);max-width:none}
+p strong{color:var(--ink);font-weight:600}
+
+/* DATA GRID */
+.grid{display:grid;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:14px 0}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+.grid .cell{padding:11px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule-soft)}
+.grid .cell:last-child{border-right:none}
+.grid .cell .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:3px}
+.grid .cell .val{font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600;line-height:1.1}
+.grid .cell .note{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* PROFILE CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card.bull{border-left-color:var(--bull)}
+.card.bear{border-left-color:var(--bear)}
+.card-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.card-title em{color:var(--accent)}
+.card-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.card-body{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.card-body strong{color:var(--ink)}
+
+/* TABLES */
+table.dt{width:100%;border-collapse:collapse;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);margin:14px 0;font-size:12.5px;line-height:1.35}
+table.dt thead th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--ink);background:var(--bg);font-weight:600;cursor:pointer;user-select:none;position:relative;white-space:nowrap}
+table.dt thead th:hover{color:var(--ink);background:var(--rule-soft)}
+table.dt thead th::after{content:" ⇅";font-size:9px;color:var(--hairline);font-family:var(--mono)}
+table.dt thead th.asc::after{content:" ▲";color:var(--accent)}
+table.dt thead th.desc::after{content:" ▼";color:var(--accent)}
+table.dt thead th.num,table.dt tbody td.num{text-align:right;font-family:var(--mono);font-feature-settings:"tnum" 1}
+table.dt tbody td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.dt tbody tr:hover{background:var(--rule-soft)}
+table.dt tbody td.tk{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+table.dt tbody td.name{font-weight:500;color:var(--ink);overflow-wrap:break-word;word-break:break-word}
+table.dt .pos{color:var(--bull);font-weight:600}
+table.dt .neg{color:var(--bear);font-weight:600}
+table.dt .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:2px;letter-spacing:.04em;font-weight:500;white-space:nowrap}
+/* Theme 表格列宽统一（260715 固化·260715 三次修正：Theme #1 的天然比例仅反映该表自身内容，
+   归因列若在其它表出现更长的英文标签（indirect map/direct map/sentiment 等）会溢出——
+   改用 8 张 themeN-tbl 逐列实测最大 scrollWidth + 安全边际来定宽，比单纯抄 Theme #1 更稳健；
+   同时给 .name 列加 overflow-wrap 防止个别不可断行的长单体词（如外国公司全称）溢出。
+   不影响 §00/§01/§03/§12/§13 等其它 table.dt）*/
+table.dt[id^="theme"]:not(#theme-tbl){table-layout:fixed}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(1),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(1){width:7%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(2),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(2){width:10%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(3),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(3){width:4%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(4),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(4){width:7%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(5),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(5){width:9%}
+table.dt[id^="theme"]:not(#theme-tbl) th:nth-child(6),
+table.dt[id^="theme"]:not(#theme-tbl) td:nth-child(6){width:63%}
+.tag.t-er{background:#E8F0E5;color:var(--bull)}
+.tag.t-cat{background:#FBF1D8;color:var(--accent)}
+.tag.t-map-d{background:#F0E5DA;color:var(--accent)}
+.tag.t-map-i{background:#F5EDDF;color:var(--accent-soft)}
+.tag.t-map-s{background:#EDE8DB;color:var(--muted)}
+.tag.t-none{background:#EAEAE5;color:var(--muted)}
+.tag.t-er-miss{background:#F4DCD3;color:var(--bear)}
+.tag.t-guide-cut{background:#F4DCD3;color:var(--bear)}
+.tag.t-rot{background:#EDE8DB;color:var(--ink-soft)}
+.tag.t-macro{background:#E5EBF2;color:var(--ink)}
+.tag.t-geo{background:#F2E5E5;color:var(--bear)}
+/* TIER TAGS（L1 Mega / L2 Large / L3 Mid / L4 Small）— 用于 theme 表格 L 列 */
+.tag.l1{background:#1B2635;color:#D4A017;font-weight:600}
+.tag.l2{background:#2D3D52;color:#fff}
+.tag.l3{background:#8B6F35;color:#fff}
+.tag.l4{background:#D9D2C2;color:#1B2635}
+.hl{background:var(--highlight);padding:0 2px}
+/* §01-C 板块 β 涨跌原因归因表 — 内容紧凑（信息密度高、字号调小） */
+#beta-attr-tbl{font-size:11px;line-height:1.3}
+#beta-attr-tbl thead th{font-size:9px;padding:6px 8px}
+#beta-attr-tbl tbody td{padding:5px 8px}
+#beta-attr-tbl tbody td.name{font-size:11px}
+
+/* THEME ROW IN OVERVIEW */
+.theme-strength{display:inline-block;width:54px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.theme-bar{display:inline-block;height:8px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* SIGNAL TABLE */
+.signal-up{color:var(--bull);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-down{color:var(--bear);font-weight:600;font-family:var(--mono);font-size:12px}
+.signal-flat{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:12px}
+
+/* FOOTNOTE */
+.note-block{background:var(--rule-soft);border-left:3px solid var(--accent);padding:11px 14px;margin:14px 0;font-size:12px;color:var(--ink-soft);line-height:1.5}
+.note-block .kicker{display:block;margin-bottom:4px}
+.note-block.geo{background:#FFF5E6;border-left-color:var(--bear)}
+
+/* MARKET BETA STRIP */
+.beta-strip{margin:18px 0 8px;border:1px solid var(--rule);background:var(--paper);padding:14px 16px 12px}
+.beta-strip .kicker{display:block;margin-bottom:10px}
+.beta-strip .kicker em{color:var(--ink);font-style:normal;font-weight:600}
+.beta-grid{display:flex;flex-wrap:nowrap;gap:1px;background:var(--rule);overflow-x:auto}
+.beta-item{flex:1 1 0;min-width:0;padding:7px 6px;background:var(--paper);display:flex;flex-direction:column;gap:1px;line-height:1.1;text-align:center;align-items:center}
+.beta-item .bn{font-family:var(--mono);font-size:9.5px;color:var(--accent);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.beta-item .bv{font-family:var(--mono);font-size:12.5px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.beta-item .bd{font-size:9px;color:var(--muted);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.beta-item.up .bv{color:var(--bull)}
+.beta-item.dn .bv{color:var(--bear)}
+.beta-item.flat .bv{color:var(--muted)}
+.beta-strip .footer{margin-top:10px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.beta-strip .footer strong{color:var(--ink)}
+
+/* CITATION MARK: 外部信息来源引用角标（260714 起） */
+.cite-mark{font-family:var(--mono);font-size:9px;vertical-align:super;line-height:0;margin-left:1px}
+.cite-mark a{color:var(--accent);border-bottom:none}
+.cite-mark a:hover{text-decoration:underline}
+#ref-list{margin-top:10px;font-size:10.5px;color:var(--ink-soft);line-height:1.7;padding-left:18px}
+#ref-list li{margin-bottom:4px;word-break:break-all}
+#ref-list li a{color:var(--accent)}
+
+/* KI-NOTE: editorial commentary on key info points */
+.ki-note{display:block;margin-top:6px;padding-top:5px;border-top:1px dotted var(--rule);font-family:var(--serif);font-style:italic;font-size:12.5px;font-weight:400;color:var(--ink-soft);line-height:1.5;letter-spacing:.005em}
+.ki-note::before{content:"解读 · ";font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--accent);font-weight:600;margin-right:1px}
+.ki-note em{font-style:italic;font-weight:600;color:var(--ink)}
+
+
+/* 视图 tabs (5 档市值分档) */
+.view-tabs{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--rule);margin-bottom:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.view-tabs .vlabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.view-tabs .vtab{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);cursor:pointer;letter-spacing:.04em;font-weight:600}
+.view-tabs .vtab:hover{background:var(--rule-soft)}
+.view-tabs .vtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+body[data-view="L1"] table.dt tbody tr:not([data-tier="L1"]){display:none}
+body[data-view="L2"] table.dt tbody tr:not([data-tier="L2"]){display:none}
+body[data-view="L3"] table.dt tbody tr:not([data-tier="L3"]){display:none}
+body[data-view="L4"] table.dt tbody tr:not([data-tier="L4"]){display:none}
+body[data-view="L5"] table.dt tbody tr:not([data-tier="L5"]){display:none}
+.tag.l5{background:#EDE8DB;color:#6B7B8C;font-weight:600}
+@media print{.view-tabs{display:none}}
+
+@media print{body{padding:24px}.masthead{padding:24px 30px}}
+
+/* 260717 additions */
+html,body{overflow-x:hidden}
+.focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.focus-card{border:1px solid var(--rule);border-top:3px solid var(--accent);padding:18px;background:var(--paper)}
+.focus-card h3{font-family:var(--serif);font-size:20px;line-height:1.15;margin:6px 0 12px;color:var(--ink)}
+.focus-card p{font-size:12.5px;line-height:1.65;margin:0 0 9px}
+.focus-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--accent);font-weight:700}
+.refs ol{columns:2;column-gap:32px;padding-left:22px}
+.refs li{break-inside:avoid;margin-bottom:8px;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+@media(max-width:900px){body{padding:0 18px 50px}.masthead{padding:42px 24px 34px}.focus-grid{grid-template-columns:1fr}.refs ol{columns:1}.beta-item{min-width:84px}.beta-grid{flex-wrap:wrap}}
+
+</style>
+</head>
+<body data-view="all">
+
+<!-- 左上返回 index 浮标 -->
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;background:#1B2635;color:#D4A017;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:7px 16px;border-radius:20px;text-decoration:none;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.25);">← Index</a>
+
+<nav class="view-tabs">
+  <span class="vlabel">VIEW · 可多选</span>
+  <button class="vtab active" data-view="all">全部</button>
+  <button class="vtab" data-view="L1">L1 大盘 ≥$100B</button>
+  <button class="vtab" data-view="L2">L2 中盘 $30-100B</button>
+  <button class="vtab" data-view="L3">L3 小盘 $5-30B</button>
+  <button class="vtab" data-view="L4">L4 小盘 $1-5B</button>
+  <button class="vtab" data-view="L5">L5 微盘 &lt;$1B</button>
+</nav>
+
+<div class="masthead">
+  <div class="h-eyebrow">US Equity Daily · Issue No. 34 · 2026-07-17（周五）· n=50 异动 · breadth@3%=52 涨/151 跌 · EDA 开源冲击叠加 AI 去杠杆 · XLE 唯一板块上涨</div>
+  <h1 class="h-title"><em>第三日去杠杆</em>出现新震中：<br>Kimi K3 冲击 EDA 护城河，Netflix 指引把 <em>XLC 压至 −1.8%</em></h1>
+  <div class="h-desc">周五不是周四行情的简单延长。<strong>AI winners 的抛售继续</strong>，但边际信息从“capex 太多”切换到“软件护城河会不会被开源 AI 绕过”：Kimi K3 宣称不用 Cadence/Synopsys 专有软件、仅用开源 EDA 在 48 小时内完成端到端芯片设计流程，直接打击 <strong>CDNS −9.5 / SNPS −7.8 / SVCO −11.5</strong>。与此同时，<strong>NFLX −7.3</strong> 以略低于预期的收入与较温和 Q3 增速指引，把 XLC 压到 11 个 SPDR 板块最弱的 −1.8%。指数层面 SPY −1.0%、QQQ −1.5%、SOXX −1.6%，而 IWM 仅 −0.5%，说明压力仍集中在大盘成长与 AI 权重。唯一上涨板块是 <strong>XLE +1.2%</strong>：Brent 因美伊冲突再涨 4.6%，VG +8.9 成为最直接受益者。上涨端真正的公司级 alpha 只有两处：<strong>DCBO +9.9</strong> 来自 $70M 要约回购，<strong>FEIM +17.4</strong> 则是市场越过短期财报 miss、转向 $111M backlog 与三年利润目标。</div>
+  <div class="h-pills">
+    <span class="pill bear">EDA 新震中 · CDNS −9.5 / SNPS −7.8 / SVCO −11.5 · Kimi K3 开源流程挑战专有工具接口</span>
+    <span class="pill bear">Netflix −7.3 · Q2 收入 $12.56B 略低于预期 · Q3 +11.7% 指引低于市场约 +13% · XLC −1.8</span>
+    <span class="pill bull">能源独强 · XLE +1.2 · Brent +4.6 · VG +8.9 · 航空 RYAAY −5.7 形成成本对手盘</span>
+    <span class="pill bull">真 alpha · DCBO +9.9（$70M 要约回购）· FEIM +17.4（$111M backlog / 三年目标）</span>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="sec-num">§ 00 — Today's β</div>
+  <h2 class="sec-title">板块 <em>β 全景</em>：XLE 是唯一上涨板块，XLC/消费/科技领跌；大盘成长继续跑输小盘</h2>
+  <div class="beta-strip">
+    <span class="kicker">当日板块 β · 11 个 SPDR 板块 1 涨 / 10 跌 · 板块极差 2.9pp · breadth@3%=52 涨 / 151 跌</span>
+    <div class="beta-grid"><div class="beta-item up"><span class="bn">XLE</span><span class="bv">+1.2%</span><span class="bd">能源</span></div><div class="beta-item dn"><span class="bn">XLRE</span><span class="bv">−0.1%</span><span class="bd">房地产</span></div><div class="beta-item dn"><span class="bn">XLI</span><span class="bv">−0.4%</span><span class="bd">工业</span></div><div class="beta-item dn"><span class="bn">XLV</span><span class="bv">−0.4%</span><span class="bd">医疗</span></div><div class="beta-item dn"><span class="bn">IWM</span><span class="bv">−0.5%</span><span class="bd">罗素 2000</span></div><div class="beta-item dn"><span class="bn">XLU</span><span class="bv">−0.7%</span><span class="bd">公用事业</span></div><div class="beta-item dn"><span class="bn">XLB</span><span class="bv">−0.7%</span><span class="bd">材料</span></div><div class="beta-item dn"><span class="bn">XLP</span><span class="bv">−0.7%</span><span class="bd">必需消费</span></div><div class="beta-item dn"><span class="bn">DIA</span><span class="bv">−0.8%</span><span class="bd">道指</span></div><div class="beta-item dn"><span class="bn">XLF</span><span class="bv">−0.9%</span><span class="bd">金融</span></div><div class="beta-item dn"><span class="bn">SPY</span><span class="bv">−1.0%</span><span class="bd">标普 500</span></div><div class="beta-item dn"><span class="bn">XLK</span><span class="bv">−1.1%</span><span class="bd">科技</span></div><div class="beta-item dn"><span class="bn">QQQ</span><span class="bv">−1.5%</span><span class="bd">纳指 100</span></div><div class="beta-item dn"><span class="bn">XLY</span><span class="bv">−1.6%</span><span class="bd">可选消费</span></div><div class="beta-item dn"><span class="bn">SOXX</span><span class="bv">−1.6%</span><span class="bd">费城半导体</span></div><div class="beta-item dn"><span class="bn">XLC</span><span class="bv">−1.8%</span><span class="bd">通信服务</span></div></div>
+    <div class="footer"><strong>结构性观察</strong> · ① XLE +1.2% → XLC −1.8%，板块极差 <strong>2.9pp</strong>；② QQQ −1.5% 相对 IWM −0.5% 跑输约 <strong>1.0pp</strong>，压力集中于权重成长而非小盘流动性；③ SOXX −1.6% 相对 SPY −1.0% 再跑输 0.6pp，但周五新增震中转向 EDA 软件；④ 全市场 |涨跌|&gt;3% 为 <strong>52 涨 / 151 跌</strong>，本报动态阈值池 50 只（24 涨 / 26 跌）。</div>
+  </div>
+  <div class="note-block"><span class="kicker">数据纪律</span>本节只陈列 FMP/本地数据库收益率；指数点位与市场叙事在 §01 单独挂来源，不用网页报价覆盖数据库。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 01 — Macro Drivers</div>
+  <h2 class="sec-title">本日<em>宏观与板块归因</em>：AI winners 连续去杠杆，EDA 开源冲击成为新变量；油价把能源与航空劈成两端</h2>
+  <div class="sec-sub">AP 收盘确认：S&amp;P 500 −1.0%、Dow −0.8%、Nasdaq Composite −1.4%，Brent +4.6%，美债收益率回落。<sup class="cite-mark"><a href="#ref-1" target="_blank" rel="noopener">[1]</a></sup></div>
+  <table class="dt" id="macro-tbl">
+    <thead><tr><th data-type="text">驱动</th><th data-type="text">硬事实</th><th data-type="text">传导链</th><th data-type="text">边界</th></tr></thead>
+    <tbody>
+      <tr><td class="name">AI winners 第三日去杠杆</td><td>全球 AI 高涨幅资产继续下跌，NVDA/芯片仍是指数重压。<sup class="cite-mark"><a href="#ref-1" target="_blank" rel="noopener">[1]</a></sup></td><td>SOXX −1.6 → QQQ −1.5 → SPY −1.0；IWM 仅 −0.5。</td><td>不是系统性 credit risk：HYG −0.2、TLT +0.4。</td></tr>
+      <tr><td class="name">Kimi K3 / 开源 EDA</td><td>Moonshot AI 宣称 Kimi K3 在 48 小时内、无需专有 EDA 完成芯片设计流程。<sup class="cite-mark"><a href="#ref-6" target="_blank" rel="noopener">[6]</a></sup></td><td>CDNS −9.5 / SNPS −7.8 / SVCO −11.5，EDA 商业接口遭遇“DeepSeek 式”压力测试。</td><td>演示不等于 production tape-out；签核、验证与责任链仍待独立复现。</td></tr>
+      <tr><td class="name">Netflix Q2</td><td>收入 $12.56B 略低于 $12.58B；Q3 收入 $12.86B、增速 11.7%。<sup class="cite-mark"><a href="#ref-2" target="_blank" rel="noopener">[2]</a></sup><sup class="cite-mark"><a href="#ref-3" target="_blank" rel="noopener">[3]</a></sup></td><td>NFLX −7.3 → XLC −1.8，通信服务成为最弱 SPDR 板块。</td><td>Q2 EPS $0.80 略超预期，2026 收入/利润率全年目标未下调。</td></tr>
+      <tr><td class="name">美伊冲突 / 油价</td><td>Brent 再涨 4.6%，市场担忧战争升级。<sup class="cite-mark"><a href="#ref-1" target="_blank" rel="noopener">[1]</a></sup></td><td>XLE +1.2 / VG +8.9；航空 RYAAY −5.7 形成成本端对手盘。</td><td>地缘溢价不是 LNG 长约或公司新增订单，需与基本面分开。</td></tr>
+    </tbody>
+  </table>
+  <div class="note-block geo"><span class="kicker">地缘链路</span><strong>唯一清晰的跨资产链是油价</strong>：能源股受益、航空成本受损、债券受益于风险规避；贵金属仅温和上涨（GLD +0.9 / SLV +0.8），没有出现全面避险失控。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 02 — Executive Summary</div>
+  <h2 class="sec-title"><em>本日一句话</em>：AI 去杠杆没有结束，但周五从“重资产 capex”扩展到“专有软件护城河”；能源与少数公司事件成为稀缺对手盘</h2>
+  <p><strong>第一层是指数权重，而不是全市场流动性。</strong>SPY −1.0%、QQQ −1.5%、SOXX −1.6%，IWM 仅 −0.5%；52 涨 / 151 跌虽是普遍下跌，但信用与长债并未失序。市场继续削减 AI winners 风险敞口，周五新增的 EDA 冲击让软件也不再是天然避风港。</p>
+  <p><strong>第二层是两个独立事件。</strong>Netflix 的季度本身并不差：收入 +13%、EPS +11%、全年收入范围收窄至 $51.0–51.4B、全年 operating margin 仍为 31.5%；真正触发点是 Q3 增速 11.7% 低于市场约 13%，以及增长透明度边际下降。<sup class="cite-mark"><a href="#ref-2" target="_blank" rel="noopener">[2]</a></sup><sup class="cite-mark"><a href="#ref-3" target="_blank" rel="noopener">[3]</a></sup> EDA 则相反：不是财报，而是 Kimi K3 的开源工作流改变了市场对接口价值的尾部假设。</p>
+  <p><strong>第三层是可验证的对手盘。</strong>XLE 是唯一上涨板块，VG +8.9 对应 Brent +4.6；DCBO +9.9 有明确回购价格与规模；FEIM +17.4 有 backlog/长期利润目标。其余大量小盘上涨没有独立公告，只能写“无明确催化”，不能从单日价格硬编产业故事。<strong>watchlist 中位数不代表市场广度</strong>：本报动态阈值池恰好 24 涨 / 26 跌，但全市场 3% 宽度是 52 / 151。</p>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 03 — Theme Map</div>
+  <h2 class="sec-title">本日 50 只异动股 · <em>6 条主线全覆盖</em></h2>
+  <div class="sec-sub">主线按催化相关性分组，不把“同涨/同跌”误写成同一原因；每只股票只出现一次。</div>
+  <table class="dt" id="theme-tbl">
+    <thead><tr><th data-type="num">#</th><th data-type="text">主线</th><th data-type="text">方向</th><th data-type="num">n</th><th data-type="num">涨跌区间</th><th data-type="text">代表标的</th><th data-type="text">本日信号</th></tr></thead>
+    <tbody><tr><td class="num">1</td><td class="name">EDA / 半导体 / 存储</td><td><span class="neg">↓ 下行</span></td><td class="num">12</td><td class="num">−11.5% ~ +17.4%</td><td class="mono">FEIM·STX·LASR·LITE</td><td>4 涨 / 8 跌；Kimi K3 的开源 EDA 叙事把软件护城河与 AI capex 去杠杆叠在同一天：CDNS/SNPS/SVCO 成为新震中；STX/LITE 等仅出现局部逆向修复，板块尚未形成一致止跌证据。</td></tr><tr><td class="num">2</td><td class="name">AI 算力 / Neocloud / Crypto</td><td><span class="neg">↓ 下行</span></td><td class="num">6</td><td class="num">−7.9% ~ +6.6%</td><td class="mono">HQ·NBIS·CBRS·HOOD</td><td>2 涨 / 4 跌；AI 基建高 beta 仍在收缩，但并非单边：NBIS +3.5% 对前一日 capex 冲击做价格修正，CBRS −4.2% 延续算力资产折价；IBIT 仅 −0.1%，却未能托住 MARA/HOOD/GEMI。</td></tr><tr><td class="num">3</td><td class="name">航天 / 防务 / 专网通信</td><td><span class="">↕ 分化</span></td><td class="num">8</td><td class="num">−9.3% ~ +7.0%</td><td class="mono">SATL·ATEX·ASTS·VSAT</td><td>4 涨 / 4 跌；通信与航天内部二分：SATL/ASTS/VSAT 上涨，而 SPCX/AXON/AVEX/FBYD 下跌。没有统一订单事件，更多是前几日融资、并购与高估值风险重新分配后的横截面。</td></tr><tr><td class="num">4</td><td class="name">能源 / AI 电力 / 材料</td><td><span class="pos">↑ 上行</span></td><td class="num">8</td><td class="num">−6.1% ~ +8.9%</td><td class="mono">VG·FCEL·FRVO·EROC</td><td>7 涨 / 1 跌；XLE +1.2% 是 11 个 SPDR 板块中唯一上涨者，Brent +4.6% 的地缘溢价直接支撑 VG；FCEL/FRVO/BE 则兼具能源与 AI 电力属性。AA 的财报 miss 与下调 alumina 产量展望使其逆板块下跌。</td></tr><tr><td class="num">5</td><td class="name">互联网 / 软件 / 消费平台</td><td><span class="neg">↓ 下行</span></td><td class="num">7</td><td class="num">−8.7% ~ +9.9%</td><td class="mono">DCBO·SONO·RBLX·CVNA</td><td>2 涨 / 5 跌；DCBO 的要约回购形成独立 alpha；NFLX 财报后的 −7.3% 把 XLC 压到 −1.8%、成为最弱 SPDR 板块。其余平台股大多随成长与可选消费去风险，并无共同经营催化。</td></tr><tr><td class="num">6</td><td class="name">工业 / 医疗 / 特殊情形</td><td><span class="">↕ 分化</span></td><td class="num">9</td><td class="num">−7.1% ~ +26.6%</td><td class="mono">PHOE·WNC·OUST·RAL</td><td>5 涨 / 4 跌；这一档缺少统一宏观解释：PHOE +26.6% 是低流动性微盘，WNC/OUST/RAL 逆势，ARWR 与 ALNY 分化；RYAAY 受油价上行压制更符合成本传导。必须逐股处理，不能硬归为一条产业主线。</td></tr></tbody>
+  </table>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 04 — EDA / 半导体 / 存储</div>
+  <h2 class="sec-title">EDA / 半导体 / 存储 · <em>12 只全覆盖</em></h2>
+  <div class="sec-sub">Kimi K3 的开源 EDA 叙事把软件护城河与 AI capex 去杠杆叠在同一天：CDNS/SNPS/SVCO 成为新震中；STX/LITE 等仅出现局部逆向修复，板块尚未形成一致止跌证据。</div>
+  <table class="dt" id="theme1-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L5" data-src="https://ebs.publicnow.com/view/A200470C96208AD5E2248914C22E03EAFF55281D"><td class="tk">FEIM</td><td class="name">Frequency Electronics, Inc.</td><td><span class="tag l5">L5</span></td><td class="num">$620M</td><td class="num pos" data-sort-value="17.4100">+17.4%</td><td>7/15 FY2026 结果后的二次定价：Q4 收入 $15.4M、短期亏损，但 funded backlog 达 $111M，管理层维持三年收入至少 $150M 及 50% gross margin / 30% operating margin 目标。<sup class="cite-mark"><a href="#ref-5" target="_blank" rel="noopener">[5]</a></sup><span class="ki-note">3D +11.8% · 1W +14.9% · 成交额约 $37.3M</span></td></tr><tr data-tier="L1" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">STX</td><td class="name">Seagate Technology Holdings plc</td><td><span class="tag l1">L1</span></td><td class="num">$229.9B</td><td class="num pos" data-sort-value="5.6600">+5.7%</td><td>存储链在 3D −10.3%、1W −13.5% 后出现单日反向；没有新增供需证据，不定义为产业拐点。<span class="ki-note">3D −10.3% · 1W −13.5% · 成交额约 $5523.9M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">LASR</td><td class="name">nLIGHT, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$3.5B</td><td class="num pos" data-sort-value="5.4200">+5.4%</td><td>高功率激光/防务交叉属性逆势；无同日独立公告。<span class="ki-note">3D −3.1% · 1W −3.9% · 成交额约 $59.4M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">LITE</td><td class="name">Lumentum Holdings Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$67.1B</td><td class="num pos" data-sort-value="3.7700">+3.8%</td><td>光通信链在 3D −10.1% 后局部反向；没有新增订单信息。<span class="ki-note">3D −10.1% · 1W −8.6% · 成交额约 $3620.3M</span></td></tr><tr data-tier="L1" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">SNDK</td><td class="name">Sandisk Corporation</td><td><span class="tag l1">L1</span></td><td class="num">$345.8B</td><td class="num neg" data-sort-value="-3.9900">−4.0%</td><td>CXMT 供给叙事与存储链去杠杆延续；1W −29.3%，周五仍未出现独立需求反证。<span class="ki-note">3D −22.9% · 1W −29.3% · 成交额约 $26840.1M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">UMC</td><td class="name">United Microelectronics Corporation</td><td><span class="tag l2">L2</span></td><td class="num">$69.2B</td><td class="num neg" data-sort-value="-4.6700">−4.7%</td><td>晶圆代工随 SOXX −1.6% 下跌，叠加本周 AI/半导体资本效率重估。<span class="ki-note">3D −10.9% · 1W −12.7% · 成交额约 $441.4M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">ALAB</td><td class="name">Astera Labs, Inc. Common Stock</td><td><span class="tag l2">L2</span></td><td class="num">$68.2B</td><td class="num neg" data-sort-value="-5.0400">−5.0%</td><td>AI 互连高 beta 延续去杠杆，3D −16.1%、1W −26.5%；无同日经营恶化证据。<span class="ki-note">3D −16.1% · 1W −26.5% · 成交额约 $2196.9M</span></td></tr><tr data-tier="L1" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">AMAT</td><td class="name">Applied Materials, Inc.</td><td><span class="tag l1">L1</span></td><td class="num">$530.4B</td><td class="num neg" data-sort-value="-5.5700">−5.6%</td><td>WFE 权重股随半导体估值压缩，3D −11.1%；无同日订单下修证据。<span class="ki-note">3D −11.1% · 1W −12.1% · 成交额约 $5469.5M</span></td></tr><tr data-tier="L2" data-src="https://www.investing.com/news/stock-market-news/cadence--synopsys-slide-as-kimi-k3-designs-chip-in-48h-using-no-proprietary-eda-4798775"><td class="tk">SNPS</td><td class="name">Synopsys, Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$87.1B</td><td class="num neg" data-sort-value="-7.8500">−7.8%</td><td>Kimi K3 宣称用开源 EDA 工具、无需专有软件，在 48 小时内完成端到端芯片设计流程，市场重估 EDA 接口与护城河。<sup class="cite-mark"><a href="#ref-6" target="_blank" rel="noopener">[6]</a></sup><span class="ki-note">3D −9.8% · 1W −13.7% · 成交额约 $1936.5M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">PENG</td><td class="name">Penguin Solutions, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$3.5B</td><td class="num neg" data-sort-value="-8.4300">−8.4%</td><td>AI 服务器/基础设施小盘延续资本效率重估，3D −22.4%；无同日新增经营事件。<span class="ki-note">3D −22.4% · 1W −22.9% · 成交额约 $249.6M</span></td></tr><tr data-tier="L1" data-src="https://www.investing.com/news/stock-market-news/cadence--synopsys-slide-as-kimi-k3-designs-chip-in-48h-using-no-proprietary-eda-4798775"><td class="tk">CDNS</td><td class="name">Cadence Design Systems, Inc.</td><td><span class="tag l1">L1</span></td><td class="num">$101.6B</td><td class="num neg" data-sort-value="-9.4700">−9.5%</td><td>Kimi K3 的开源 EDA 48 小时芯片设计演示触发商业 EDA 商业模式压力测试；CDNS 是最直接的权重震中。<sup class="cite-mark"><a href="#ref-6" target="_blank" rel="noopener">[6]</a></sup><span class="ki-note">3D −12.4% · 1W −14.1% · 成交额约 $1712.6M</span></td></tr><tr data-tier="L5" data-src="https://www.investing.com/news/stock-market-news/cadence--synopsys-slide-as-kimi-k3-designs-chip-in-48h-using-no-proprietary-eda-4798775"><td class="tk">SVCO</td><td class="name">Silvaco Group, Inc. Common Stock</td><td><span class="tag l5">L5</span></td><td class="num">$390M</td><td class="num neg" data-sort-value="-11.4800">−11.5%</td><td>小盘 EDA 工具商被同一 Kimi K3 叙事放大冲击；低流动性使跌幅高于 CDNS/SNPS。<sup class="cite-mark"><a href="#ref-6" target="_blank" rel="noopener">[6]</a></sup><span class="ki-note">3D −22.3% · 1W −26.9% · 成交额约 $5.1M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：Kimi K3 结果能否被独立复现、商业 EDA 是否仍是签核/验证不可替代环节；反证点：CDNS/SNPS 管理层或客户明确证明开源流程未进入 production tape-out。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 05 — AI 算力 / Neocloud / Crypto</div>
+  <h2 class="sec-title">AI 算力 / Neocloud / Crypto · <em>6 只全覆盖</em></h2>
+  <div class="sec-sub">AI 基建高 beta 仍在收缩，但并非单边：NBIS +3.5% 对前一日 capex 冲击做价格修正，CBRS −4.2% 延续算力资产折价；IBIT 仅 −0.1%，却未能托住 MARA/HOOD/GEMI。</div>
+  <table class="dt" id="theme2-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">HQ</td><td class="name">Horizon Quantum Holdings Ltd. Class A Ordinary Shares</td><td><span class="tag l4">L4</span></td><td class="num">$1.3B</td><td class="num pos" data-sort-value="6.5900">+6.6%</td><td>量子计算小盘股逆势；未核实到同日独立公告。<span class="ki-note">3D +5.3% · 1W −3.0% · 成交额约 $12.7M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">NBIS</td><td class="name">Nebius Group N.V.</td><td><span class="tag l2">L2</span></td><td class="num">$61.6B</td><td class="num pos" data-sort-value="3.4600">+3.5%</td><td>capex $20–25B 与收入兑现期错配引发前一日重估后，周五出现部分反向；1W 仍 −19.1%。<span class="ki-note">3D −8.4% · 1W −19.1% · 成交额约 $4427.1M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">CBRS</td><td class="name">Cerebras Systems Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$37.5B</td><td class="num neg" data-sort-value="-4.2100">−4.2%</td><td>AI 加速器权益继续去杠杆；无同日独立公告，3D −15.2%。<span class="ki-note">3D −15.2% · 1W −19.6% · 成交额约 $912.4M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">HOOD</td><td class="name">Robinhood Markets, Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$84.2B</td><td class="num neg" data-sort-value="-5.7200">−5.7%</td><td>IBIT 仅 −0.1%，但高 beta 交易平台显著下跌，说明是权益风险溢价而非币价单因子。<span class="ki-note">3D −11.9% · 1W −10.7% · 成交额约 $2759.8M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">MARA</td><td class="name">Marathon Digital Holdings, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$5.3B</td><td class="num neg" data-sort-value="-6.3900">−6.4%</td><td>IBIT 近乎平盘而矿商 −6.4%，矿商权益杠杆/融资属性主导。<span class="ki-note">3D −12.1% · 1W −15.2% · 成交额约 $466.9M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">GEMI</td><td class="name">Gemini Space Station, Inc.</td><td><span class="tag l5">L5</span></td><td class="num">$480M</td><td class="num neg" data-sort-value="-7.9100">−7.9%</td><td>Crypto 交易平台/小盘权益去风险；IBIT −0.1% 不能解释 −7.9%，无同日公司硬催化。<span class="ki-note">3D −3.5% · 1W −2.8% · 成交额约 $5.0M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：下周 hyperscaler 资本开支与租赁合同能否提供收入兑现期；反证点：矿商/经纪平台继续显著跑输近乎平盘的 IBIT，说明风险来自权益杠杆而非币价。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 06 — 航天 / 防务 / 专网通信</div>
+  <h2 class="sec-title">航天 / 防务 / 专网通信 · <em>8 只全覆盖</em></h2>
+  <div class="sec-sub">通信与航天内部二分：SATL/ASTS/VSAT 上涨，而 SPCX/AXON/AVEX/FBYD 下跌。没有统一订单事件，更多是前几日融资、并购与高估值风险重新分配后的横截面。</div>
+  <table class="dt" id="theme3-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">SATL</td><td class="name">Satellogic Inc.</td><td><span class="tag l5">L5</span></td><td class="num">$550M</td><td class="num pos" data-sort-value="7.0000">+7.0%</td><td>商业遥感/卫星通信相对强；未核实到同日新增合同或发射事件。<span class="ki-note">3D −11.4% · 1W −15.9% · 成交额约 $25.0M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">ATEX</td><td class="name">Anterix Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$1.5B</td><td class="num pos" data-sort-value="6.7900">+6.8%</td><td>专网频谱资产逆势上涨；未核实到同日独立公司事件。<span class="ki-note">3D −5.1% · 1W −0.6% · 成交额约 $37.0M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">ASTS</td><td class="name">AST SpaceMobile, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$26.7B</td><td class="num pos" data-sort-value="5.0700">+5.1%</td><td>前一日融资/并购相关抛压后的部分反向，3D 仍 −16.0%；无同日新合同。<span class="ki-note">3D −16.0% · 1W −21.2% · 成交额约 $1755.8M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">VSAT</td><td class="name">Viasat, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$8.2B</td><td class="num pos" data-sort-value="4.0300">+4.0%</td><td>卫星通信逆势；未核实到同日独立公告。<span class="ki-note">3D +2.4% · 1W −2.8% · 成交额约 $260.9M</span></td></tr><tr data-tier="L1" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">SPCX</td><td class="name">Space Exploration Technologies Corp.</td><td><span class="tag l1">L1</span></td><td class="num">$2.00T</td><td class="num neg" data-sort-value="-5.4300">−5.4%</td><td>商业航天高估值权益继续收缩；无同日可核验新增公司事件。<span class="ki-note">3D −8.9% · 1W −14.7% · 成交额约 $10378.7M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">AXON</td><td class="name">Axon Enterprise, Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$35.9B</td><td class="num neg" data-sort-value="-5.8100">−5.8%</td><td>高估值防务/公共安全成长股去风险；未核实到同日基本面恶化。<span class="ki-note">3D −6.8% · 1W −9.8% · 成交额约 $436.2M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">AVEX</td><td class="name">Aevex Corp.</td><td><span class="tag l5">L5</span></td><td class="num">$780M</td><td class="num neg" data-sort-value="-8.3400">−8.3%</td><td>无人系统/防务微盘去风险；未核实到同日独立公告。<span class="ki-note">3D −12.7% · 1W −11.9% · 成交额约 $121.4M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">FBYD</td><td class="name">Falcon&#x27;s Beyond Global, Inc. Class A Common Stock</td><td><span class="tag l5">L5</span></td><td class="num">$660M</td><td class="num neg" data-sort-value="-9.3100">−9.3%</td><td>体验娱乐微盘大幅回撤；成交额约 $3.2M，未核实到同日独立公告。<span class="ki-note">3D +3.5% · 1W −24.6% · 成交额约 $3.2M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：订单、发射、频谱与政府合同披露；反证点：若只有价格反向、没有 backlog/合同变化，不把一天涨跌升级成产业趋势。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 07 — 能源 / AI 电力 / 材料</div>
+  <h2 class="sec-title">能源 / AI 电力 / 材料 · <em>8 只全覆盖</em></h2>
+  <div class="sec-sub">XLE +1.2% 是 11 个 SPDR 板块中唯一上涨者，Brent +4.6% 的地缘溢价直接支撑 VG；FCEL/FRVO/BE 则兼具能源与 AI 电力属性。AA 的财报 miss 与下调 alumina 产量展望使其逆板块下跌。</div>
+  <table class="dt" id="theme4-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L3" data-src="https://apnews.com/article/wall-street-stocks-dow-nasdaq-5e44034ea86fa8d9c73184f3559e74a2"><td class="tk">VG</td><td class="name">Venture Global, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$26.4B</td><td class="num pos" data-sort-value="8.9200">+8.9%</td><td>Brent 当日再涨 4.6%，美伊冲突抬升油气/LNG 风险溢价；未发现同日公司级新增公告。<sup class="cite-mark"><a href="#ref-1" target="_blank" rel="noopener">[1]</a></sup><span class="ki-note">3D +4.3% · 1W +12.8% · 成交额约 $299.9M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">FCEL</td><td class="name">FuelCell Energy, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$1.0B</td><td class="num pos" data-sort-value="7.1800">+7.2%</td><td>AI 电力与能源 beta 的局部修复；无同日可核验独立公司催化，且 3D 仍为 −13.4%。<span class="ki-note">3D −13.3% · 1W −12.0% · 成交额约 $236.0M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">FRVO</td><td class="name">Fervo Energy Co.</td><td><span class="tag l3">L3</span></td><td class="num">$6.6B</td><td class="num pos" data-sort-value="6.6600">+6.7%</td><td>XLE 唯一板块上涨背景下的地热/电力 beta；无同日公司级硬催化。<span class="ki-note">3D −1.5% · 1W −9.1% · 成交额约 $64.2M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">EROC</td><td class="name">ERock, Inc.</td><td><span class="tag l5">L5</span></td><td class="num">$710M</td><td class="num pos" data-sort-value="6.5000">+6.5%</td><td>能源服务小盘跟随油气风险溢价；无同日公司级硬催化。<span class="ki-note">3D −12.8% · 1W −19.0% · 成交额约 $24.7M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">LEU</td><td class="name">Centrus Energy Corp.</td><td><span class="tag l4">L4</span></td><td class="num">$3.2B</td><td class="num pos" data-sort-value="6.1100">+6.1%</td><td>核燃料股逆势上涨而 URA −1.0%，显示个股 alpha；未核实到同日新增合同。<span class="ki-note">3D −2.1% · 1W −8.8% · 成交额约 $147.1M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">SQM</td><td class="name">Sociedad Química y Minera de Chile S.A.</td><td><span class="tag l3">L3</span></td><td class="num">$20.9B</td><td class="num pos" data-sort-value="5.2500">+5.2%</td><td>锂资源股逆 XLB −0.7% 上涨；未核实到同日独立公司事件。<span class="ki-note">3D −4.3% · 1W −4.6% · 成交额约 $136.3M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">BE</td><td class="name">Bloom Energy Corporation</td><td><span class="tag l2">L2</span></td><td class="num">$87.9B</td><td class="num pos" data-sort-value="3.9800">+4.0%</td><td>前一日 AI 电力融资利好被抛售后出现部分反向，3D 仍 −11.7%；周五无新增公司事件。<span class="ki-note">3D −11.7% · 1W −12.1% · 成交额约 $3668.7M</span></td></tr><tr data-tier="L3" data-src="https://news.alcoa.com/press-releases/press-release-details/2026/Alcoa-Corporation-Reports-Second-Quarter-2026-Results/default.aspx"><td class="tk">AA</td><td class="name">Alcoa Corporation</td><td><span class="tag l3">L3</span></td><td class="num">$14.0B</td><td class="num neg" data-sort-value="-6.1300">−6.1%</td><td>Q2 adjusted EPS $2.12 低于市场预期，且因 Pinjarra 运营扰动下调 2026 alumina 产量展望，压过 record revenue。<sup class="cite-mark"><a href="#ref-7" target="_blank" rel="noopener">[7]</a></sup><span class="ki-note">3D −10.3% · 1W −9.7% · 成交额约 $513.7M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：油价、LNG 船运与公司订单；反证点：若 Brent 回吐而 VG/电力股失去相对强度，周五涨幅主要是地缘溢价而非新增基本面。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 08 — 互联网 / 软件 / 消费平台</div>
+  <h2 class="sec-title">互联网 / 软件 / 消费平台 · <em>7 只全覆盖</em></h2>
+  <div class="sec-sub">DCBO 的要约回购形成独立 alpha；NFLX 财报后的 −7.3% 把 XLC 压到 −1.8%、成为最弱 SPDR 板块。其余平台股大多随成长与可选消费去风险，并无共同经营催化。</div>
+  <table class="dt" id="theme5-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L5" data-src="https://www.stocktitan.net/sec-filings/DCBO/6-k-docebo-inc-current-report-foreign-issuer-c9db02b99f2d.html"><td class="tk">DCBO</td><td class="name">Docebo Inc.</td><td><span class="tag l5">L5</span></td><td class="num">$430M</td><td class="num pos" data-sort-value="9.9200">+9.9%</td><td>董事会批准最高 $70M、每股 $20.40 的要约回购，约覆盖 13.8% 流通股，并同步给出初步 Q2 与更新展望。<sup class="cite-mark"><a href="#ref-4" target="_blank" rel="noopener">[4]</a></sup><span class="ki-note">3D +11.6% · 1W +8.3% · 成交额约 $5.2M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">SONO</td><td class="name">Sonos, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$1.6B</td><td class="num pos" data-sort-value="5.8900">+5.9%</td><td>消费硬件逆 XLY 下跌而上涨；未核实到同日独立公告。<span class="ki-note">3D −0.7% · 1W +4.2% · 成交额约 $57.6M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">RBLX</td><td class="name">Roblox Corporation</td><td><span class="tag l2">L2</span></td><td class="num">$33.2B</td><td class="num neg" data-sort-value="-4.3100">−4.3%</td><td>成长型互联网随 XLC/XLY 下跌；未核实到同日公司级催化。<span class="ki-note">3D −5.1% · 1W −6.6% · 成交额约 $382.6M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">CVNA</td><td class="name">Carvana Co.</td><td><span class="tag l2">L2</span></td><td class="num">$72.6B</td><td class="num neg" data-sort-value="-4.7000">−4.7%</td><td>XLY −1.6% 与高估值消费平台去风险；无同日独立公司事件。<span class="ki-note">3D −4.3% · 1W +2.3% · 成交额约 $540.9M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">BIDU</td><td class="name">Baidu, Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$35.4B</td><td class="num neg" data-sort-value="-4.9500">−5.0%</td><td>中概 AI 平台随成长风险偏好收缩；无同日独立公司事件。<span class="ki-note">3D −2.3% · 1W −8.8% · 成交额约 $260.5M</span></td></tr><tr data-tier="L1" data-src="https://ir.netflix.net/files/doc_financials/2026/q2/FINAL-Q2-26-Shareholder-Letter.pdf"><td class="tk">NFLX</td><td class="name">Netflix, Inc.</td><td><span class="tag l1">L1</span></td><td class="num">$298.6B</td><td class="num neg" data-sort-value="-7.2600">−7.3%</td><td>Q2 EPS $0.80 略超预期、收入 $12.56B 略低于 $12.58B；Q3 收入指引 $12.86B / +11.7%，低于市场约 +13% 的增速预期。<sup class="cite-mark"><a href="#ref-2" target="_blank" rel="noopener">[2]</a></sup><sup class="cite-mark"><a href="#ref-3" target="_blank" rel="noopener">[3]</a></sup><span class="ki-note">3D −6.2% · 1W −6.0% · 成交额约 $9792.9M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">MNTN</td><td class="name">MNTN, Inc Class A</td><td><span class="tag l5">L5</span></td><td class="num">$620M</td><td class="num neg" data-sort-value="-8.6800">−8.7%</td><td>广告科技/消费互联网去风险；未核实到同日独立公告。<span class="ki-note">3D −11.8% · 1W −14.9% · 成交额约 $7.8M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：回购执行比例、NFLX Q3 会员/广告兑现与 UCAN 增速；反证点：若 engagement 继续增长且 Q3 实际收入回到 13% 增速，市场对增长降档的惩罚将被证伪。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 09 — 工业 / 医疗 / 特殊情形</div>
+  <h2 class="sec-title">工业 / 医疗 / 特殊情形 · <em>9 只全覆盖</em></h2>
+  <div class="sec-sub">这一档缺少统一宏观解释：PHOE +26.6% 是低流动性微盘，WNC/OUST/RAL 逆势，ARWR 与 ALNY 分化；RYAAY 受油价上行压制更符合成本传导。必须逐股处理，不能硬归为一条产业主线。</div>
+  <table class="dt" id="theme6-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">公司</th><th data-type="text">Tier</th><th data-type="num">市值</th><th data-type="num">日涨跌幅</th><th data-type="text">催化 / 归因</th></tr></thead>
+    <tbody><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">PHOE</td><td class="name">Phoenix Asia Holdings Limited Ordinary Shares</td><td><span class="tag l5">L5</span></td><td class="num">$390M</td><td class="num pos" data-sort-value="26.5500">+26.6%</td><td>未核实到足以解释涨幅的独立公告；成交额仅约 $3.7M，按低流动性微盘事件处理，不从价格反推经营变化。<span class="ki-note">3D +20.7% · 1W +45.0% · 成交额约 $3.7M</span></td></tr><tr data-tier="L5" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">WNC</td><td class="name">Wabash National Corporation</td><td><span class="tag l5">L5</span></td><td class="num">$570M</td><td class="num pos" data-sort-value="7.1800">+7.2%</td><td>运输设备股逆势上涨；未核实到同日独立公告，保留为个股 alpha。<span class="ki-note">3D +0.1% · 1W +4.2% · 成交额约 $17.8M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">OUST</td><td class="name">Ouster, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$2.7B</td><td class="num pos" data-sort-value="5.4100">+5.4%</td><td>LiDAR 小盘逆势；无同日独立公告，1W 仍 −14.4%。<span class="ki-note">3D −11.8% · 1W −14.4% · 成交额约 $169.0M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">RAL</td><td class="name">Ralliant Corp</td><td><span class="tag l3">L3</span></td><td class="num">$8.2B</td><td class="num pos" data-sort-value="4.8600">+4.9%</td><td>工业仪器新拆分公司逆势；未核实到同日独立公告。<span class="ki-note">3D +3.9% · 1W +1.3% · 成交额约 $142.6M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">ARWR</td><td class="name">Arrowhead Pharmaceuticals, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$11.2B</td><td class="num pos" data-sort-value="4.0900">+4.1%</td><td>生物科技个股 alpha；未核实到同日临床/监管节点。<span class="ki-note">3D +3.3% · 1W −2.8% · 成交额约 $280.5M</span></td></tr><tr data-tier="L2" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">ALNY</td><td class="name">Alnylam Pharmaceuticals, Inc.</td><td><span class="tag l2">L2</span></td><td class="num">$39.1B</td><td class="num neg" data-sort-value="-5.5400">−5.5%</td><td>生物科技个股回撤；未核实到同日临床或监管硬催化。<span class="ki-note">3D −4.9% · 1W −10.5% · 成交额约 $368.7M</span></td></tr><tr data-tier="L2" data-src="https://apnews.com/article/wall-street-stocks-dow-nasdaq-5e44034ea86fa8d9c73184f3559e74a2"><td class="tk">RYAAY</td><td class="name">Ryanair Holdings plc</td><td><span class="tag l2">L2</span></td><td class="num">$33.4B</td><td class="num neg" data-sort-value="-5.7100">−5.7%</td><td>Brent +4.6% 提升航空燃油成本预期，方向与能源板块相反。<sup class="cite-mark"><a href="#ref-1" target="_blank" rel="noopener">[1]</a></sup><span class="ki-note">3D −2.7% · 1W −3.2% · 成交额约 $86.1M</span></td></tr><tr data-tier="L3" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">QXO</td><td class="name">QXO, Inc.</td><td><span class="tag l3">L3</span></td><td class="num">$13.1B</td><td class="num neg" data-sort-value="-6.6100">−6.6%</td><td>建材分销平台回撤；未核实到同日独立公司事件。<span class="ki-note">3D −0.4% · 1W −3.9% · 成交额约 $277.6M</span></td></tr><tr data-tier="L4" data-src="FMP 2026-07-17; no independent catalyst verified"><td class="tk">CSW</td><td class="name">CSW Industrials, Inc.</td><td><span class="tag l4">L4</span></td><td class="num">$4.7B</td><td class="num neg" data-sort-value="-7.1200">−7.1%</td><td>工业品公司回撤；未核实到同日独立公司事件。<span class="ki-note">3D −4.6% · 1W −0.6% · 成交额约 $87.7M</span></td></tr></tbody>
+  </table>
+  <div class="note-block"><span class="kicker">Bull / Bear 闸门</span>验证点：公司公告、订单、临床节点与航空燃油成本；反证点：没有可核验事件的微盘大幅波动不得写成经营拐点。</div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">★ FOCUS — 深读</div>
+  <h2 class="sec-title">5 家 × 3 段 · <em>只深挖最具验证价值的分歧</em></h2>
+  <div class="focus-grid"><article class="focus-card"><div class="focus-kicker">★ NFLX · −7.3%</div><h3>增长没坏，但“低于抬高后的门槛”</h3><p><strong>事实：</strong>Q2 收入 $12.56B、同比 +13.4%，operating margin 33.4%，EPS $0.80；Q3 收入指引 $12.86B、增速 11.7%。<sup class="cite-mark"><a href="#ref-2" target="_blank" rel="noopener">[2]</a></sup></p><p><strong>市场为什么卖：</strong>收入略低于 $12.58B 共识，Q3 增速低于市场约 13%，且增长从 Q1 +16.2% → Q2 +13.4% → Q3 +11.7%。<sup class="cite-mark"><a href="#ref-3" target="_blank" rel="noopener">[3]</a></sup></p><p><strong>验证：</strong>广告收入全年约 $3B、UCAN 提价与 H2 内容摊销节奏能否把增长重新拉回；若只守住利润率而收入继续降档，估值锚会继续从 growth 转向 cash flow。</p></article><article class="focus-card"><div class="focus-kicker">★ DCBO · +9.9%</div><h3>$70M 要约回购是价格锚，不是免费午餐</h3><p><strong>事实：</strong>拟以每股 $20.40 回购注销最高 $70M，约 13.8% 已发行股份；控股股东计划按比例参与以维持持股。<sup class="cite-mark"><a href="#ref-4" target="_blank" rel="noopener">[4]</a></sup></p><p><strong>市场为什么买：</strong>明确的固定价格与高占比形成短期现金锚，且同步披露初步 Q2/更新展望，信息密度高于一般授权回购。</p><p><strong>验证：</strong>约 $60M 预计来自扩大后的信贷额度；要看最终 tender 比例、净杠杆与利息负担，不能把“回购注销”直接等同于每股价值无条件提升。</p></article><article class="focus-card"><div class="focus-kicker">★ FEIM · +17.4%</div><h3>短期 miss 与长期 backlog 的二次定价</h3><p><strong>事实：</strong>Q4 收入 $15.4M、同比下降，报表含重组与前置投入；funded backlog 创纪录至 $111M。<sup class="cite-mark"><a href="#ref-5" target="_blank" rel="noopener">[5]</a></sup></p><p><strong>市场为什么买：</strong>管理层给出三年收入至少 $150M、gross margin 50%、operating margin 30% 的目标，市场越过 FY2026 的“消化年”定价 FY2027–29。</p><p><strong>验证：</strong>backlog 转收入的季度节奏与现金转换；目标很强，但在收入纪录真正出现前，它仍是 forward claim 而不是已兑现利润。</p></article><article class="focus-card"><div class="focus-kicker">★ CDNS · −9.5%</div><h3>EDA 的 DeepSeek 时刻？先区分演示与签核</h3><p><strong>事实：</strong>Kimi K3 被报道在 48 小时内、仅用开源 EDA 完成端到端芯片设计流程，CDNS −9.5、SNPS −7.8。<sup class="cite-mark"><a href="#ref-6" target="_blank" rel="noopener">[6]</a></sup></p><p><strong>市场为什么卖：</strong>如果 AI 成为设计入口、开源工具承接更多前端工作，专有 EDA 的 seat/usage 定价权与用户锁定可能下移。</p><p><strong>验证：</strong>最关键不是“能画出设计”，而是能否通过 foundry sign-off、验证、物理实现与责任链。任何独立复现失败或商业工具仍不可替代，都会削弱周五的尾部假设。</p></article><article class="focus-card"><div class="focus-kicker">★ STX · +5.7%</div><h3>单日 +5.7% 不是存储拐点的证据</h3><p><strong>事实：</strong>STX 周五 +5.7%，但 3D −10.3%、1W −13.5%；SNDK 同日仍 −4.0、1W −29.3%。</p><p><strong>为什么重要：</strong>它说明 AI/存储抛售内部开始出现分化，资金愿意在大盘现金流资产与高 beta 存储之间重新挑选。</p><p><strong>验证：</strong>NAND/DRAM 现货、订单与 CXMT 达产信息；没有供需读数之前，只能称横截面修正，不能称存储价格权恢复。</p></article></div>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 10 — Earnings Today</div>
+  <h2 class="sec-title">财报与硬事件快查：<em>NFLX / AA / FEIM / DCBO</em></h2>
+  <table class="dt" id="er-tbl">
+    <thead><tr><th data-type="text">Ticker</th><th data-type="text">时间</th><th data-type="text">核心数字</th><th data-type="text">指引 / 资本动作</th><th data-type="num">股价</th><th data-type="text">判读</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">NFLX</td><td>7/16 AH</td><td>收入 $12.56B；EPS $0.80；OM 33.4%</td><td>Q3 收入 $12.86B / +11.7%；FY 收入 $51.0–51.4B、OM 31.5%</td><td class="num neg">−7.3%</td><td>利润不差、增长门槛 miss；XLC 传导最强。<sup class="cite-mark"><a href="#ref-2" target="_blank" rel="noopener">[2]</a></sup><sup class="cite-mark"><a href="#ref-3" target="_blank" rel="noopener">[3]</a></sup></td></tr>
+      <tr><td class="tk">AA</td><td>7/16 AH</td><td>record revenue；adj. EPS $2.12 低于预期</td><td>下调 FY2026 alumina production outlook</td><td class="num neg">−6.1%</td><td>收入纪录被盈利 miss 与 Pinjarra 运营扰动压过。<sup class="cite-mark"><a href="#ref-7" target="_blank" rel="noopener">[7]</a></sup></td></tr>
+      <tr><td class="tk">FEIM</td><td>7/15 AH / 7/17 二次定价</td><td>Q4 收入 $15.4M；funded backlog $111M</td><td>三年收入 ≥$150M；GM 50%；OM 30%</td><td class="num pos">+17.4%</td><td>市场定价远期 backlog 转化，而非当期报表。<sup class="cite-mark"><a href="#ref-5" target="_blank" rel="noopener">[5]</a></sup></td></tr>
+      <tr><td class="tk">DCBO</td><td>7/17</td><td>初步 Q2 + 更新展望</td><td>$70M tender at $20.40；约 13.8% 股份</td><td class="num pos">+9.9%</td><td>明确价格锚，但信用额度融资带来杠杆约束。<sup class="cite-mark"><a href="#ref-4" target="_blank" rel="noopener">[4]</a></sup></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec">
+  <div class="sec-num">§ 11 — Forward Watchlist</div>
+  <h2 class="sec-title">未来 1–5 个交易日 · <em>可证伪检查点</em></h2>
+  <table class="dt" id="watch-tbl">
+    <thead><tr><th data-type="text">检查点</th><th data-type="text">时间</th><th data-type="text">裁决什么</th><th data-type="text">对应标的</th></tr></thead>
+    <tbody>
+      <tr><td class="name">Kimi K3 芯片设计结果的独立复现 / EDA 厂商回应</td><td>下周起</td><td>开源流程是演示性前端自动化，还是能进入 foundry sign-off 的商业替代。</td><td>CDNS / SNPS / SVCO</td></tr>
+      <tr><td class="name">Alphabet / Tesla / GE Vernova 等 Q2 财报</td><td>7/20 当周</td><td>AI capex、应用变现与电力设备订单能否终止“扩张受罚”范式。<sup class="cite-mark"><a href="#ref-9" target="_blank" rel="noopener">[9]</a></sup></td><td>ALAB / AMAT / NBIS / BE / FRVO</td></tr>
+      <tr><td class="name">Intel Q2</td><td>7/23 AH</td><td>foundry/产品路线与 capex 纪律；官方已确认 7/23 盘后。<sup class="cite-mark"><a href="#ref-8" target="_blank" rel="noopener">[8]</a></sup></td><td>UMC / AMAT / SOXX</td></tr>
+      <tr><td class="name">ECB 决议 + 美国初请</td><td>7/23</td><td>油价冲击下的全球利率路径；美国数据周相对清淡。<sup class="cite-mark"><a href="#ref-9" target="_blank" rel="noopener">[9]</a></sup></td><td>TLT / UUP / 成长估值</td></tr>
+      <tr><td class="name">Brent 与霍尔木兹航运</td><td>每日</td><td>XLE/VG 的涨幅是地缘溢价还是可持续现金流上修；同时观察航空成本。</td><td>VG / XLE / RYAAY</td></tr>
+      <tr><td class="name">下一次 FOMC</td><td>7/28–29</td><td>当前 TLT 上涨是短期避险还是政策路径变化。<sup class="cite-mark"><a href="#ref-10" target="_blank" rel="noopener">[10]</a></sup></td><td>TLT / HYG / QQQ</td></tr>
+    </tbody>
+  </table>
+  <div class="note-block"><span class="kicker">周末结论</span>不要把周五定义成“AI 见底”或“EDA 被替代”。最有价值的状态是：<strong>旧风险（capex）仍在，新风险（开源 EDA）刚出现，而能源/回购/backlog 提供了少数可核验对手盘</strong>。</div>
+</section>
+
+<section class="sec refs">
+  <div class="sec-num">References</div>
+  <h2 class="sec-title">本期<em>引用与数据来源</em></h2>
+  <ol><li id="ref-1"><a href="https://apnews.com/article/wall-street-stocks-dow-nasdaq-5e44034ea86fa8d9c73184f3559e74a2" target="_blank" rel="noopener">1. AP · 7/17 市场收盘</a> — https://apnews.com/article/wall-street-stocks-dow-nasdaq-5e44034ea86fa8d9c73184f3559e74a2</li><li id="ref-2"><a href="https://ir.netflix.net/files/doc_financials/2026/q2/FINAL-Q2-26-Shareholder-Letter.pdf" target="_blank" rel="noopener">2. Netflix · Q2 2026 股东信</a> — https://ir.netflix.net/files/doc_financials/2026/q2/FINAL-Q2-26-Shareholder-Letter.pdf</li><li id="ref-3"><a href="https://apnews.com/article/netflix-earnings-results-profit-6a02a255f46c66f9f8ec512d09eaa545" target="_blank" rel="noopener">3. AP · Netflix Q2 与市场反应</a> — https://apnews.com/article/netflix-earnings-results-profit-6a02a255f46c66f9f8ec512d09eaa545</li><li id="ref-4"><a href="https://www.stocktitan.net/sec-filings/DCBO/6-k-docebo-inc-current-report-foreign-issuer-c9db02b99f2d.html" target="_blank" rel="noopener">4. Docebo · 6-K / 要约回购摘要</a> — https://www.stocktitan.net/sec-filings/DCBO/6-k-docebo-inc-current-report-foreign-issuer-c9db02b99f2d.html</li><li id="ref-5"><a href="https://ebs.publicnow.com/view/A200470C96208AD5E2248914C22E03EAFF55281D" target="_blank" rel="noopener">5. Frequency Electronics · FY2026 结果</a> — https://ebs.publicnow.com/view/A200470C96208AD5E2248914C22E03EAFF55281D</li><li id="ref-6"><a href="https://www.investing.com/news/stock-market-news/cadence--synopsys-slide-as-kimi-k3-designs-chip-in-48h-using-no-proprietary-eda-4798775" target="_blank" rel="noopener">6. Investing.com · Kimi K3 / EDA 冲击</a> — https://www.investing.com/news/stock-market-news/cadence--synopsys-slide-as-kimi-k3-designs-chip-in-48h-using-no-proprietary-eda-4798775</li><li id="ref-7"><a href="https://news.alcoa.com/press-releases/press-release-details/2026/Alcoa-Corporation-Reports-Second-Quarter-2026-Results/default.aspx" target="_blank" rel="noopener">7. Alcoa · Q2 2026 官方结果</a> — https://news.alcoa.com/press-releases/press-release-details/2026/Alcoa-Corporation-Reports-Second-Quarter-2026-Results/default.aspx</li><li id="ref-8"><a href="https://newsroom.intel.com/corporate/intel-to-report-second-quarter-2026-financial-results" target="_blank" rel="noopener">8. Intel · Q2 财报日期公告</a> — https://newsroom.intel.com/corporate/intel-to-report-second-quarter-2026-financial-results</li><li id="ref-9"><a href="https://tradingeconomics.com/calendar?article=29362&amp;g=top&amp;importance=2&amp;startdate=2026-07-17" target="_blank" rel="noopener">9. Trading Economics · 7/20 周前瞻</a> — https://tradingeconomics.com/calendar?article=29362&amp;g=top&amp;importance=2&amp;startdate=2026-07-17</li><li id="ref-10"><a href="https://www.federalreserve.gov/newsevents/2026-july.htm" target="_blank" rel="noopener">10. Federal Reserve · 2026 年 7 月日历</a> — https://www.federalreserve.gov/newsevents/2026-july.htm</li></ol>
+</section>
+
+<!-- JS: TABLE SORTING (v2 · num 列首次点击 desc / text 列首次 asc · 加载时按"日涨跌幅"列降序初始化) -->
+<script>
+(function(){
+  function getCellValue(tr, idx, type){
+    var cell = tr.children[idx];
+    if(!cell) return type==='num' ? -Infinity : '';
+    // 优先读 data-sort-value（处理单位混用 / HTML 装饰）
+    if(cell.dataset && cell.dataset.sortValue !== undefined){
+      var dv = parseFloat(cell.dataset.sortValue);
+      if(!isNaN(dv)) return dv;
+    }
+    var txt = cell.textContent.trim();
+    if(type==='num'){
+      // 把 Unicode 负号 U+2212 / U+FF0D 等替换为 ASCII '-'，再过滤
+      var clean = txt.replace(/[−－–—]/g, '-').replace(/[^\d.\-+]/g,'');
+      var n = parseFloat(clean);
+      return isNaN(n) ? -Infinity : n;
+    }
+    return txt.toLowerCase();
+  }
+  function comparer(idx, asc, type){
+    return function(a, b){
+      var v1 = getCellValue(asc ? a : b, idx, type);
+      var v2 = getCellValue(asc ? b : a, idx, type);
+      if(type==='num'){ return v1 - v2; }
+      return v1.localeCompare(v2);
+    };
+  }
+  function sortTable(table, th, forceAsc){
+    var tbody = table.querySelector('tbody');
+    var headerRow = th.parentNode;
+    var idx = Array.from(headerRow.children).indexOf(th);
+    var type = th.getAttribute('data-type') || 'text';
+    var asc;
+    if(forceAsc !== undefined){
+      asc = forceAsc;
+    } else {
+      // 首次点击：num 列默认 desc / text 列默认 asc
+      // 后续点击：切换方向
+      var hasAsc = th.classList.contains('asc');
+      var hasDesc = th.classList.contains('desc');
+      if(!hasAsc && !hasDesc){
+        asc = (type !== 'num');  // num 首次 desc(=false), text 首次 asc(=true)
+      } else {
+        asc = !hasAsc;
+      }
+    }
+    headerRow.querySelectorAll('th').forEach(function(h){ h.classList.remove('asc'); h.classList.remove('desc'); });
+    th.classList.add(asc ? 'asc' : 'desc');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(comparer(idx, asc, type));
+    rows.forEach(function(tr){ tbody.appendChild(tr); });
+  }
+  // 绑定 click
+  document.querySelectorAll('table.dt thead th').forEach(function(th){
+    th.addEventListener('click', function(){ sortTable(th.closest('table'), th); });
+  });
+  // 加载时按"日涨跌幅"列自动降序排序（仅 5 个主线 theme 表）
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('table[id^="theme"]').forEach(function(table){
+      var ths = table.querySelectorAll('thead th');
+      for(var i=0; i<ths.length; i++){
+        var label = ths[i].textContent.trim();
+        if(label === '日涨跌幅' || label === '日涨跌'){
+          sortTable(table, ths[i], false);  // forceAsc=false → 降序
+          break;
+        }
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('table.dt tbody tr').forEach(function(tr){
+    var tierTag = tr.querySelector('.tag.l1, .tag.l2, .tag.l3, .tag.l4, .tag.l5');
+    if (tierTag) {
+      var cls = Array.from(tierTag.classList).find(function(c){ return /^l[1-5]$/.test(c); });
+      if (cls) tr.setAttribute('data-tier', cls.toUpperCase());
+    }
+  });
+  var active = new Set();
+  function apply(){
+    document.querySelectorAll('table.dt tbody tr[data-tier]').forEach(function(tr){
+      tr.style.display = (active.size === 0 || active.has(tr.getAttribute('data-tier'))) ? '' : 'none';
+    });
+    document.querySelectorAll('.vtab').forEach(function(b){
+      if (b.dataset.view === 'all') b.classList.toggle('active', active.size === 0);
+      else b.classList.toggle('active', active.has(b.dataset.view));
+    });
+  }
+  document.querySelectorAll('.vtab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var v = btn.dataset.view;
+      if (v === 'all') active.clear();
+      else if (active.has(v)) active.delete(v); else active.add(v);
+      apply();
+    });
+  });
+  apply();
+})();
+</script>
+
+</body>
+</html>
