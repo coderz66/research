@@ -1968,6 +1968,50 @@
 </div><!-- .page-layout -->
 
 <script>
+  // Keep the three home-page columns self-correcting as new cards are added.
+  // Report type comes from the visible title, while dated report columns are
+  // always rendered newest first.
+  const dailyGrid   = document.querySelector('#col-daily .report-grid');
+  const weeklyGrid  = document.querySelector('#col-weekly .report-grid');
+  const researchGrid = document.querySelector('#col-research .report-grid');
+
+  const getCardTitle = card =>
+    card.querySelector('.card-title')?.textContent.trim() || '';
+
+  const getReportDate = element => {
+    const match = element.textContent.match(/\b20\d{2}-\d{2}-\d{2}\b/);
+    return match ? Date.parse(match[0] + 'T00:00:00Z') : Number.NEGATIVE_INFINITY;
+  };
+
+  const datedColumnCards = [
+    ...dailyGrid.querySelectorAll('.report-card'),
+    ...weeklyGrid.querySelectorAll('.report-card')
+  ];
+
+  datedColumnCards.forEach(card => {
+    const title = getCardTitle(card);
+    if (title.includes('日报')) {
+      dailyGrid.appendChild(card);
+    } else if (title.includes('周报')) {
+      weeklyGrid.appendChild(card);
+    } else {
+      researchGrid.appendChild(card);
+    }
+  });
+
+  [dailyGrid, weeklyGrid].forEach(grid => {
+    [...grid.querySelectorAll('.report-card')]
+      .sort((a, b) => getReportDate(b) - getReportDate(a))
+      .forEach(card => grid.appendChild(card));
+  });
+
+  // The sidebar follows the same newest-to-oldest rule.
+  const recentList = document.querySelector('.sb-recent');
+  recentList.querySelectorAll('.sb-divider').forEach(divider => divider.remove());
+  [...recentList.querySelectorAll('.sb-recent-item')]
+    .sort((a, b) => getReportDate(b) - getReportDate(a))
+    .forEach(item => recentList.appendChild(item));
+
   const navItems = document.querySelectorAll('.sb-nav-item');
   const cards    = document.querySelectorAll('.report-card');
   const counter  = document.getElementById('total-count');
